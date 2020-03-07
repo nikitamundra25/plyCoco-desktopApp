@@ -1,9 +1,10 @@
 import * as Yup from 'yup';
 import {
   ICaregiverValidationFormValue,
-  ICareinstituionValidationFormValue
+  ICareinstituionValidationFormValue,
+  ITimeResponse
 } from '../../interfaces';
-import { languageTranslation } from '../../helpers';
+import { languageTranslation, timeValidator } from '../../helpers';
 import { NumberWithCommaRegex } from '../../config';
 
 export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -59,6 +60,24 @@ export const CareInstitutionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   ICareinstituionValidationFormValue
 >> = Yup.object().shape<ICareinstituionValidationFormValue>({
-  startTime: Yup.string().required(languageTranslation('START_TIME_REQUIRED')),
-  endTime: Yup.string().required(languageTranslation('END_TIME_REQUIRED'))
+  startTime: Yup.string()
+    .required(languageTranslation('START_TIME_REQUIRED'))
+    .test({
+      name: 'validate-time',
+      test: function(val) {
+        const { path, createError } = this;
+        const { isValid, message }: ITimeResponse = timeValidator(val);
+        return !val || isValid || createError({ path, message });
+      }
+    }),
+  endTime: Yup.string()
+    .required(languageTranslation('END_TIME_REQUIRED'))
+    .test({
+      name: 'validate-time',
+      test: function(val) {
+        const { path, createError } = this;
+        const { isValid, message }: ITimeResponse = timeValidator(val);
+        return !val || isValid || createError({ path, message });
+      }
+    })
 });

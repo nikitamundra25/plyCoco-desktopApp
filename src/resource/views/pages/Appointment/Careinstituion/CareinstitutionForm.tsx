@@ -33,6 +33,7 @@ import { FormikProps, Field } from 'formik';
 import moment from 'moment';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import classnames from 'classnames';
+import { any } from 'prop-types';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -80,9 +81,19 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     setcareInstituionShift,
     addCareinstitutionRes,
     selctedRequirement,
-    secondStarCanstitution
+    secondStarCanstitution,
+    handleQualification,
+    onhandleDelete,
+    careInstitutionListArr,
+    handleSelectUserList
   } = props;
 
+  let d = moment().format('L');
+  let dtStart: any = new Date(d + ' ' + startTime);
+  let dtEnd: any = new Date(d + ' ' + endTime);
+  let difference = dtEnd - dtStart;
+
+  const [starMark, setstarMark] = useState<boolean>(false);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
@@ -94,16 +105,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     }
   };
 
-  let appintmentId: any = null;
-  if (addCareinstitutionRes && addCareinstitutionRes.id) {
-    appintmentId = addCareinstitutionRes.id;
-  } else if (selctedRequirement && selctedRequirement.id) {
-    appintmentId = selctedRequirement.id;
-  }
-
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false;
+  console.log('selctedRequirement', selctedRequirement);
 
   if (selctedRequirement) {
     if (selctedRequirement.status === 'requirement') {
@@ -114,7 +119,16 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       isContract = true;
     }
   }
-  console.log('appointmentId', appointmentId);
+
+  const handleUserList = (id: string, name: string) => {
+    let data: any = careInstitutionListArr;
+    setstarMark(!starMark);
+    if (id && !starMark) {
+      data = careInstitutionListArr.filter((x: any) => x.id === id);
+    }
+    handleSelectUserList(data, name);
+  };
+
   return (
     <>
       <div className='form-section '>
@@ -130,28 +144,28 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             {languageTranslation('MENU_INSTITUTION')}
           </h5>
           <Row>
-            <Col lg={'12'}>
-              <FormGroup>                                                                                                                                           
-                <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('APPOINTMENT_ID')}
-                    </Label>
-                  </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
-                      <Input
-                        type='text'
-                        name={'id'}
-                        disabled
-                        value={appointmentId ? appointmentId : null}
-                        placeholder={languageTranslation('APPOINTMENT_ID')}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
+            {appointmentId ? (
+              <Col lg={'12'}>
+                <FormGroup>
+                  <Row>
+                    <Col sm='5'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('APPOINTMENT_ID')}
+                      </Label>
+                    </Col>
+                    <Col sm='7'>
+                      <div className='required-input'>
+                        <Input
+                          value={appointmentId}
+                          disabled
+                          placeholder={languageTranslation('APPOINTMENT_ID')}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </FormGroup>
+              </Col>
+            ) : null}
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
@@ -165,14 +179,29 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <InputGroup>
                         <Input
                           type='text'
-                          name={'id'}
+                          name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
                           value={name ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
-                            <i className='fa fa-star' aria-hidden='true'></i>
+                            <i
+                              className={
+                                starMark
+                                  ? 'fa fa-star theme-text'
+                                  : 'fa fa-star'
+                              }
+                              aria-hidden='true'
+                              onClick={() =>
+                                handleUserList(
+                                  selectedCareinstitution
+                                    ? selectedCareinstitution.id
+                                    : '',
+                                  'careinstitution'
+                                )
+                              }
+                            ></i>
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -221,7 +250,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             ? careInstitutionTimesOptions
                             : ShiftTime
                         }
-                        value={shift}
+                        value={shift ? shift : undefined}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         onChange={(value: any) => handleSelect(value, 'shift')}
@@ -303,11 +332,18 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             />
                           )}
                         />
-                        {errors.endTime && touched.endTime && (
+                        {errors.endTime ? (
+                          errors.endTime &&
+                          touched.endTime && (
+                            <div className='required-tooltip'>
+                              {errors.endTime}
+                            </div>
+                          )
+                        ) : touched.endTime && difference <= 0 ? (
                           <div className='required-tooltip'>
-                            {errors.endTime}
+                            {languageTranslation('VALID_TIME_RANGE')}
                           </div>
-                        )}
+                        ) : null}
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>Uhr</InputGroupText>
                         </InputGroupAddon>
@@ -327,18 +363,35 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   </Col>
                   <Col sm='7'>
                     <div className='postion-relative'>
-                      <Button className='add-new-btn arrow-btn' color=''>
+                      <Button
+                        className={
+                          qualificationId && qualificationId.length
+                            ? 'add-new-btn arrow-btn'
+                            : 'add-new-btn arrow-btn disabled-class'
+                        }
+                        color=''
+                        onClick={
+                          qualificationId && qualificationId.length
+                            ? () => handleQualification(qualificationId)
+                            : ''
+                        }
+                      >
                         <i className='fa fa-arrow-up' aria-hidden='true' />
                       </Button>
+
                       <div className='custom-select-checkbox'>
                         <ReactMultiSelectCheckboxes
                           options={qualificationList}
                           placeholder='Select Qualifications'
                           className={'custom-reactselect '}
                           classNamePrefix='custom-inner-reactselect'
-                          // value={qualificationId}
                           onChange={(value: any) =>
                             handleSelect(value, 'qualificationId')
+                          }
+                          value={
+                            qualificationId && qualificationId.length
+                              ? qualificationId
+                              : []
                           }
                         />
                         {/* <Select
@@ -402,7 +455,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         onChange={(value: any) =>
                           handleSelect(value, 'department')
                         }
-                        value={department ? department : undefined}
+                        value={
+                          department && department.value
+                            ? department
+                            : { label: 'Select Department', value: '' }
+                        }
                       />
                     </div>
                   </Col>
@@ -544,7 +601,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         <div className=' checkbox-custom mb-0'>
                           <input
                             type='checkbox'
-                            id='check1'
+                            id='isWorkingProof'
                             name={'isWorkingProof'}
                             className=''
                             checked={isWorkingProof}
@@ -557,7 +614,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               setFieldValue('isWorkingProof', checked);
                             }}
                           />
-                          <Label for='check1'></Label>
+                          <Label for='isWorkingProof'></Label>
                         </div>
                       </FormGroup>
                     </div>
@@ -642,7 +699,14 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             </Col>
             <Col lg={'12'}>
               <div className='d-flex align-items-center justify-content-between'>
-                <Button className='btn-save' color='danger'>
+                <Button
+                  className={'btn-save'}
+                  color='danger'
+                  onClick={() =>
+                    onhandleDelete('careinstitution', appointmentId)
+                  }
+                  disabled={!appointmentId}
+                >
                   {languageTranslation('DELETE')}
                 </Button>
                 <Button
@@ -656,7 +720,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   ) : (
                     ''
                   )}
-                  {languageTranslation('SAVE_BUTTON')}
+                  {appointmentId
+                    ? languageTranslation('UPDATE_BUTTON')
+                    : languageTranslation('SAVE_BUTTON')}
                 </Button>
               </div>
             </Col>

@@ -13,7 +13,8 @@ import {
 import {
   CareGiverQueries,
   EmailTemplateQueries,
-  ProfileQueries
+  ProfileQueries,
+  AppointmentsQueries
 } from '../../../../graphql/queries';
 import { BulkEmailCareGivers } from '../../../../graphql/Mutations';
 import {
@@ -37,10 +38,11 @@ const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 const [BULK_EMAILS] = BulkEmailCareGivers;
 const [VIEW_PROFILE] = ProfileQueries;
+const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 
 let toastId: any = null;
 
-const BulkEmailCaregiver: FunctionComponent = () => {
+const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const history = useHistory();
 
@@ -64,6 +66,34 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
     fetchPolicy: 'no-cache'
   });
+
+  // To fetch caregivers by qualification id
+  const [
+    fetchCaregiverList,
+    {
+      data: careGiversList,
+      loading: caregiverLoading,
+      refetch: caregiverQulliRefetch
+    }
+  ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
+    fetchPolicy: 'no-cache'
+  });
+
+  // To fetch users according to qualification selected
+  useEffect(() => {
+    let temp: any = [];
+    props.qualification.map((key: any, index: number) => {
+      temp.push(parseInt(key.value));
+    });
+    // get careGivers list
+    fetchCaregiverList({
+      variables: {
+        qualificationId: temp ? temp : [],
+        attributeId: [],
+        userRole: 'caregiver'
+      }
+    });
+  }, [props.qualification]);
 
   // To get all the types of email template
   // const { data: typeList } = useQuery(GET_EMAIL_TEMPLATE_TYEPS);

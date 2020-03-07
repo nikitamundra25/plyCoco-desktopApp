@@ -5,8 +5,6 @@ const ADD_CAREGIVER_AVABILITY = gql`
     $careGiverAvabilityInput: [CareGiverAvabilityInput]
   ) {
     addCareGiverAvability(careGiverAvabilityInput: $careGiverAvabilityInput) {
-      userId
-      id
       f
       s
       n
@@ -78,9 +76,27 @@ const UPDATE_INSTITUTION_REQUIREMENT = gql`
   }
 `;
 
+const DELETE_CAREGIVER_AVABILITY = gql`
+  mutation DeleteCareGiverAvability($id: ID!) {
+    deleteCareGiverAvability(id: $id) {
+      id
+    }
+  }
+`;
+
+const DELETE_CAREINSTITUTION_REQUIREMENT = gql`
+  mutation DeleteCareInstitutionRequirement($id: ID!) {
+    deleteCareInstitutionRequirement(id: $id) {
+      id
+    }
+  }
+`;
+
 export const AppointmentMutations = [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
   UPDATE_CAREGIVER_AVABILITY,
-  UPDATE_INSTITUTION_REQUIREMENT
+  UPDATE_INSTITUTION_REQUIREMENT,
+  DELETE_CAREINSTITUTION_REQUIREMENT,
+  DELETE_CAREGIVER_AVABILITY
 ];

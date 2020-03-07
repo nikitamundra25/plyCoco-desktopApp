@@ -93,7 +93,7 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
                       className={"cursor-pointer list-item text-capitalize"}
                     >
                       <div className="list-item-text">
-                        {item && item.firstName + " " + item.lastName}
+                        {item && item.lastName + " " + item.firstName}
                       </div>
                       <div className="list-item-icon">
                         <span

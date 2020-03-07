@@ -36,17 +36,25 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
   setRemarksDetail: any;
   remarksDetail: any;
   caregiverAttrOpt: IAttributeOptions[] | undefined;
+  attributeLoading?: boolean;
 }> = (
   props: FormikProps<ICareGiverValues> & {
     setRemarksDetail: any;
     remarksDetail: any;
     caregiverAttrOpt: IAttributeOptions[] | undefined;
+    attributeLoading?: boolean;
   }
 ) => {
-  const { values, setRemarksDetail, remarksDetail, caregiverAttrOpt } = props;
+  const {
+    values,
+    setRemarksDetail,
+    remarksDetail,
+    caregiverAttrOpt,
+    attributeLoading
+  } = props;
   const handleField = (e: any) => {
     const value = {
-      createdBy: `${values.firstName} ${values.lastName}`,
+      createdBy: `${values.lastName} ${values.firstName}`,
       description: e.target.value
     };
     props.setFieldValue('remarks', [value]);
@@ -119,7 +127,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
     careGivers.getCaregivers.result.forEach(
       ({ id, firstName, lastName }: any) =>
         careGiverOpt.push({
-          label: `${firstName}${' '}${lastName}`,
+          label: `${lastName}${' '}${firstName}`,
           value: id
         })
     );
@@ -151,6 +159,8 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
             countriesOpt={countriesOpt}
             statesOpt={statesOpt}
             getStatesByCountry={getStatesByCountry}
+            attributeLoading={attributeLoading}
+
           />
         </Col>
         <Col lg={'4'} className='px-lg-0'>

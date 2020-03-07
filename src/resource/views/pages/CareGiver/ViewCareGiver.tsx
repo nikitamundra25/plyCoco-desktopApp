@@ -111,7 +111,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         // To check null values
         attributes = attributes ? attributes : [];
         careGiverOpt.push({
-          label: `${firstName}${' '}${lastName}`,
+          label: `${lastName}${' '}${firstName}`,
           value: id,
           color: !isActive
             ? deactivatedListColor

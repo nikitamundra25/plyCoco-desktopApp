@@ -276,8 +276,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             }
                           >
                             {!list.newRow
-                              ? `${list.firstName ? list.firstName : ''} ${
-                                  list.lastName ? list.lastName : ''
+                              ? `${list.lastName ? list.lastName : ""} ${
+                                  list.firstName ? list.firstName : ""
                                 }`
                               : ''}
                           </div>

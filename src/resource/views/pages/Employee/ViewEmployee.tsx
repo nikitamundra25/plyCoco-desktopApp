@@ -172,12 +172,12 @@ const ViewEmployee: FunctionComponent = () => {
                             </span>
                             <span className='text-value  d-flex align-items-center'>
                               <span className='text-capitalize'>
-                                {employee && employee.firstName
-                                  ? employee.firstName
-                                  : 'N/A'}
-                                &nbsp;
                                 {employee && employee.lastName
                                   ? employee.lastName
+                                  : 'N/A'}
+                                  &nbsp;
+                                  {employee && employee.firstName
+                                  ? employee.firstName
                                   : 'N/A'}
                               </span>
                               {/* <Badge color="" className="degination"> FreeLancer</Badge> */}

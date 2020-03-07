@@ -72,7 +72,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
                               )
                             }
                           >
-                            {item.user.firstName} {item.user.lastName}
+                            {item.user.lastName} {item.user.firstName}
                           </div>
                         </td>
                         <td className="doctype-column">

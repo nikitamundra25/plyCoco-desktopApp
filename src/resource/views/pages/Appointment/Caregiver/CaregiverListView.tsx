@@ -224,8 +224,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                           // }
                         >
                           {!list.newRow
-                            ? `${list.firstName ? list.firstName : ''} ${
-                                list.lastName ? list.lastName : ''
+                            ? `${list.lastName ? list.lastName : ""} ${
+                                list.firstName ? list.firstName : ""
                               }`
                             : ''}
                         </div>

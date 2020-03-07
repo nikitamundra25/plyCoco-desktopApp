@@ -119,9 +119,7 @@ export const DocumentFormComponent: FunctionComponent<{
       target: { files }
     } = e;
     if (files && files.length) {
-      console.log(files);
       const fileType = files && files[0].type ? files[0].type.split('/') : '';
-      console.log('fileType', fileType[1]);
       if (
         fileType[1] !== 'jpeg' &&
         fileType[1] !== 'jpg' &&
@@ -135,7 +133,6 @@ export const DocumentFormComponent: FunctionComponent<{
       ) {
         setFiletypeError(languageTranslation('UNSUPPORTED_FILE_FORMAT'));
       } else {
-        console.log('inside else');
         for (let index = 0; index < files.length; index++) {
           let reader = new FileReader();
           let file = files[index];

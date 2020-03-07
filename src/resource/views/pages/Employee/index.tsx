@@ -466,7 +466,7 @@ const Employee: FunctionComponent = () => {
                       ":id": id,
                       ":userName": userName
                     };
-                    var elements = [firstName, lastName];
+                    var elements = [lastName,firstName];
 
                     return (
                       <tr key={index}>

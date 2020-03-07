@@ -852,6 +852,8 @@
   "OK": "Ok",
   "DELETE_PRESET": "Delete Preset",
   "PRESET_ADDED_SUCCESS": "Preset Added Successfully",
+  "ENTER_VALID_DATE":"Please enter a valid date",
+  "ENTER_VALID_MONTH":"Please enter a valid month",
   "CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG": "Caregiver appointment added successfully",
   "CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG": "Caregiver appointment updated successfully",
   "CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG": "Careinstitution requirement added successfully",

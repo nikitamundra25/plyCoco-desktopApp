@@ -138,7 +138,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                           <label className=''></label>
                         </span>
                       </td>
-                      <td>{`${careGivers.firstName} ${careGivers.lastName}`}</td>
+                      <td>{`${careGivers.lastName} ${careGivers.firstName}`}</td>
                       <td>{careGivers.email}</td>
                     </tr>
                   );

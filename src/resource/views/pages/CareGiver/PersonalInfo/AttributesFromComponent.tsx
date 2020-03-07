@@ -5,23 +5,27 @@ import { FormikProps } from 'formik';
 import {
   IReactSelectInterface,
   ICareGiverValues,
-  IAttributeOptions,
+  IAttributeOptions
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
+import Loader from '../../../containers/Loader/Loader';
 
 const AttributeFormComponent: FunctionComponent<FormikProps<
   ICareGiverValues
 > & {
   caregiverAttrOpt?: IAttributeOptions[] | undefined;
+  loading?: boolean;
 }> = (
   props: FormikProps<ICareGiverValues> & {
     caregiverAttrOpt?: IAttributeOptions[] | undefined;
-  },
+    loading?: boolean;
+  }
 ) => {
   const {
     values: { attributeId },
     setFieldValue,
     caregiverAttrOpt,
+    loading
   } = props;
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -33,11 +37,9 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
         ...styles,
         backgroundColor: data.color,
         color:
-          data.color === '#6a0dad' || data.color === '#000000'
-            ? '#fff'
-            : '#000',
+          data.color === '#6a0dad' || data.color === '#000000' ? '#fff' : '#000'
       };
-    },
+    }
   };
 
   return (
@@ -55,45 +57,51 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
           </div>
           <div className='common-list-body custom-scrollbar'>
             <ul className='common-list list-unstyled mb-0'>
-              {attributeId
-                ? attributeId.map(
-                    ({ label, color }: IAttributeOptions, index: number) => {
-                      return (
-                        <li
-                          key={index}
-                          style={{
-                            backgroundColor: color ? color : '',
-                            color:
-                              color === '#6a0dad' || color === '#000000'
-                                ? '#fff'
-                                : '#000',
-                          }}
-                          className='text-capitalize'
-                        >
-                          {label}
-                        </li>
-                      );
-                    },
-                  )
-                : null}
+              {loading ? (
+                <Loader />
+              ) : attributeId ? (
+                attributeId.map(
+                  ({ label, color }: IAttributeOptions, index: number) => {
+                    return (
+                      <li
+                        key={index}
+                        style={{
+                          backgroundColor: color ? color : '',
+                          color:
+                            color === '#6a0dad' || color === '#000000'
+                              ? '#fff'
+                              : '#000'
+                        }}
+                        className='text-capitalize'
+                      >
+                        {label}
+                      </li>
+                    );
+                  }
+                )
+              ) : null}
             </ul>
           </div>
-          <div className='common-list-footer  '>
-            <FormGroup className='mb-0'>
-              <Select
-                placeholder={languageTranslation('ATTRIBUTE_PLACEHOLDER')}
-                value={attributeId ? attributeId : undefined}
-                onChange={(value: any) => handleSelect(value, 'attributeId')}
-                isMulti
-                options={caregiverAttrOpt}
-                menuPlacement={'top'}
-                className='attribute-select'
-                classNamePrefix='attribute-inner-select'
-                // components={{ Option: CustomOption }}
-                styles={colourStyles}
-              />
-            </FormGroup>
-          </div>
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className='common-list-footer  '>
+              <FormGroup className='mb-0'>
+                <Select
+                  placeholder={languageTranslation('ATTRIBUTE_PLACEHOLDER')}
+                  value={attributeId ? attributeId : undefined}
+                  onChange={(value: any) => handleSelect(value, 'attributeId')}
+                  isMulti
+                  options={caregiverAttrOpt}
+                  menuPlacement={'top'}
+                  className='attribute-select'
+                  classNamePrefix='attribute-inner-select'
+                  // components={{ Option: CustomOption }}
+                  styles={colourStyles}
+                />
+              </FormGroup>
+            </div>
+          )}
         </div>
       </div>
     </>

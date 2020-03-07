@@ -124,7 +124,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                   </span>
                   <span>
                     <i className='fa fa-user mr-2'></i>
-                    {[firstName, lastName].join(' ')}
+                    {[lastName, firstName].join(' ')}
                   </span>
                   <div className='remark-action-btn'>
                     <div
@@ -137,7 +137,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
                           temp.unshift({
                             data: remarkData,
                             createdAt: moment().toISOString(),
-                            createdBy: [firstName, lastName].join(' ')
+                            createdBy: [lastName, firstName].join(' ')
                           });
                           if (setRemarksDetail) {
                             setRemarksDetail(temp);

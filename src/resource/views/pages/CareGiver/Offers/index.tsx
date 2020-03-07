@@ -19,6 +19,11 @@ import { ApolloError } from "apollo-client";
 import { ConfirmBox } from "../../../components/ConfirmBox";
 import NegativeList from "./NegativeList";
 import WorkedList from "./WorkedList";
+import {
+  deactivatedListColor,
+  leasingListColor,
+  selfEmployesListColor,
+} from '../../../../../config';
 let toastId: any = "";
 
 const Offer: FunctionComponent<RouteComponentProps> = () => {
@@ -127,12 +132,27 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
         companyName: languageTranslation("COMPANY_NAME")
       });
       careInstituition.getCareInstitutions.careInstitutionData.forEach(
-        ({ id, firstName, lastName, canstitution }: any) =>
+        ({ id, firstName, lastName, canstitution, isActive }: any) => {
+          let attributes: any = [];
+          if (canstitution) {
+            attributes = canstitution.attributes;
+            if (!attributes) {
+              attributes = [];
+            }
+          }
           temp.push({
-            label: `${firstName}${" "}${lastName}`,
+            label: `${lastName}${" "}${firstName}`,
             value: id,
+            color: !isActive
+              ? deactivatedListColor
+              : attributes.includes('TIMyoCY')
+                ? leasingListColor
+                : attributes.includes('Plycoco')
+                  ? selfEmployesListColor
+                  : '',
             companyName: canstitution && canstitution.companyName
           })
+        }
       );
       setCareInstOptions(temp);
     }
@@ -277,7 +297,6 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   };
 
   const onSearch = async () => {
-    console.log('ssssssss ');
 
     await fetchCareInstitutionList({
       variables: {

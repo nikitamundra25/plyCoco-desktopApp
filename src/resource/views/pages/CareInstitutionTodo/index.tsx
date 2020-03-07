@@ -327,8 +327,6 @@ const CareInstitutionTodo: FunctionComponent = () => {
     priority,
     futureOnly
   };
-  console.log('values', values);
-
   return (
     <>
       <div>
@@ -424,7 +422,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                               onClick={() => handleUserRedirect(list.userId)}
                             >
                               {list.user
-                                ? `${list.user.firstName} ${list.user.lastName}`
+                                ? `${list.user.lastName} ${list.user.firstName}`
                                 : '-'}
                             </span>
                           </td>
@@ -432,8 +430,8 @@ const CareInstitutionTodo: FunctionComponent = () => {
                             <td className='contact-th-column'>
                               <span className=' word-wrap'>
                                 {list.contact
-                                  ? `${list.contact.firstName} ${
-                                      list.contact.surName
+                                  ? `${list.contact.surName} ${
+                                      list.contact.firstName
                                     }  ${
                                       list.contact.contact_type
                                         ? `(${list.contact.contact_type.contactType})`
@@ -555,7 +553,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
           handleClose={() => setShowToDo(false)}
           name={
             selectUser && selectUser.user
-              ? `${selectUser.user.firstName} ${selectUser.user.lastName}`
+              ? `${selectUser.user.lastName} ${selectUser.user.firstName}`
               : null
           }
           editToDo={true}

@@ -64,7 +64,7 @@ const GroupedBelow: FunctionComponent = () => {
                         )
                       }
                     >
-                      {[firstName, lastName].join(' ')}
+                      {[lastName,firstName].join(' ')}
                     </td>
                   </tr>
                 );

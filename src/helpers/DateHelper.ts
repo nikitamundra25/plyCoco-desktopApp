@@ -1,5 +1,5 @@
-import { defaultDateFormat } from "../config/constant";
-import { IDateValidatorOptions } from "../interfaces/DateFunction";
+import { defaultDateFormat } from "./../config/constant";
+import { IDateValidatorOptions } from "./../interfaces/DateFunction";
 import { IDateResponse } from "../interfaces";
 import moment from "moment";
 import { languageTranslation } from "./LangauageTranslation";
@@ -25,7 +25,7 @@ export const dateValidator = (
   if (month > 12 || month === 0) {
     return {
       isValid: false,
-      message: "Please enter a valid month"
+      message: languageTranslation("ENTER_VALID_MONTH")
     };
   }
   const maxTimestamp = moment(options.maxDate || "").unix();
@@ -78,7 +78,7 @@ export const dateValidator = (
       monthLength[1] = 29;
     return {
       isValid: day > 0 && day <= monthLength[month - 1],
-      message: "Please enter a valid date"
+      message: languageTranslation("ENTER_VALID_DATE")
     };
   } else {
     return {

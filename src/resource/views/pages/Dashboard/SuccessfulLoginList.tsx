@@ -26,12 +26,16 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
           <Table hover className="mb-0">
             <thead className="thead-bg">
               <tr>
-                <th className="thead-sticky">{languageTranslation("DATE")}</th>
-                <th className="thead-sticky">{languageTranslation("NAME")}</th>
-                <th className="thead-sticky">
+                <th className="thead-sticky date-column">
+                  {languageTranslation("DATE")}
+                </th>
+                <th className="thead-sticky name-column">
+                  {languageTranslation("NAME")}
+                </th>
+                <th className="thead-sticky username-column">
                   {languageTranslation("USERNAME")}
                 </th>
-                <th className="thead-sticky">
+                <th className="thead-sticky ipaddress-column">
                   {languageTranslation("IP_ADDRESS")}
                 </th>
               </tr>
@@ -49,15 +53,15 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
                   (item: any, index: number) => {
                     return (
                       <tr className="table-success" key={index}>
-                        <td>
+                        <td className="date-column">
                           {" "}
                           {moment(item.createdAt).format(
                             defaultDateTimeFormatForDashboard
                           )}
                         </td>
-                        <td>
+                        <td className="name-column">
                           <div
-                            className="text-capitalize view-more-link word-wrap"
+                            className="text-capitalize view-more-link word-wrap one-line-text "
                             onClick={() =>
                               history.push(
                                 item.user.userRole === "caregiver"
@@ -72,11 +76,13 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
                               )
                             }
                           >
-                            {item.user.firstName} {item.user.lastName}
+                            {item.user.lastName} {item.user.firstName}
                           </div>
                         </td>
-                        <td>{item.user.userName}</td>
-                        <td>
+                        <td className="username-column word-wrap one-line-text  ">
+                          {item.user.userName}
+                        </td>
+                        <td className="ipaddress-column">
                           {item.loggedInIP
                             ? item.loggedInIP.replace("::ffff:", "")
                             : "-"}

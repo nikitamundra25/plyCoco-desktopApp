@@ -24,9 +24,14 @@ const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
           <Table hover className="mb-0">
             <thead className="thead-bg">
               <tr>
-                <th className="thead-sticky"> {languageTranslation("DATE")}</th>
-                <th className="thead-sticky">{languageTranslation("NAME")}</th>
-                <th className="thead-sticky">
+                <th className="thead-sticky date-column">
+                  {" "}
+                  {languageTranslation("DATE")}
+                </th>
+                <th className="thead-sticky name-column">
+                  {languageTranslation("NAME")}
+                </th>
+                <th className="thead-sticky date-column">
                   {" "}
                   {languageTranslation("BOOKING_DATE")}
                 </th>
@@ -34,14 +39,14 @@ const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
             </thead>
             <tbody>
               <tr>
-                <td>28.02.2020</td>
-                <td>John Doe</td>
-                <td>02.03.2020</td>
+                <td className="date-column">28.02.2020</td>
+                <td className="name-column">John Doe</td>
+                <td className="date-column">02.03.2020</td>
               </tr>
               <tr>
-                <td>28.02.2020</td>
-                <td>Justin Nicole</td>
-                <td>02.03.2020</td>
+                <td className="date-column">28.02.2020</td>
+                <td className="name-column">Anna Strong</td>
+                <td className="date-column">02.03.2020</td>
               </tr>
             </tbody>
           </Table>

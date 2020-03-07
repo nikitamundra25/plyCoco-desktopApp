@@ -121,7 +121,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
       const { careInstitutionData } = getCareInstitutions;
       careInstitutionData.map((data: any, index: any) => {
         CareInstitutionList.push({
-          label: `${data.firstName}${" "}${data.lastName}`,
+          label: `${data.lastName}${" "}${data.firstName}`,
           value: data.id
         });
         return true;

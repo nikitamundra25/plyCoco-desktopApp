@@ -10,7 +10,7 @@ import filter from '../../../assets/img/filter.svg';
 import caregiver from '../../../assets/img/caregiver.svg';
 import careinstitution from '../../../assets/img/careinstitution.svg';
 import './index.scss';
-import { IAppointmentNav } from '../../../../interfaces';
+import { IAppointmentNav, IReactSelectInterface } from '../../../../interfaces';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
@@ -29,13 +29,37 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     careInstitutionList,
     handleDayClick,
     handleToday,
-    qualification
+    qualification,
+    handleSelectUserList,
+    careGiversListArr,
+    careInstitutionListArr
   } = props;
 
   const { month = '', year = '' } = daysData ? daysData : {};
 
   const [attributeSearch, setShowAttribute] = useState<boolean>(false);
   const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
+
+  const handleUserList = (
+    selectedOption: IReactSelectInterface,
+    name: string
+  ) => {
+    let data: any =
+      name === 'caregiver' ? careGiversListArr : careInstitutionListArr;
+    if (selectedOption && selectedOption.value) {
+      if (name === 'caregiver') {
+        data = careGiversListArr.filter(
+          (x: any) => x.id === selectedOption.value
+        );
+      } else {
+        data = careInstitutionListArr.filter(
+          (x: any) => x.id === selectedOption.value
+        );
+      }
+    }
+    handleSelectUserList(data, name);
+  };
+
   return (
     <>
       <div className='sticky-common-header'>
@@ -128,6 +152,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               className={'custom-reactselect custom-reactselect-menu-width'}
               placeholder='Select Caregiver'
               options={careGiversList}
+              onChange={(value: any) => handleUserList(value, 'caregiver')}
               isClearable={true}
             />
           </div>
@@ -156,6 +181,9 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               className={'custom-reactselect custom-reactselect-menu-width'}
               placeholder='Select Care Institution'
               options={careInstitutionList}
+              onChange={(value: any) =>
+                handleUserList(value, 'careinstitution')
+              }
               isClearable={true}
             />
           </div>

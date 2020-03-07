@@ -104,8 +104,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
   const onSelectFinish = (selectedCells: any[]) => {
-    console.log('fdhgfh');
-
     const selected: any = [];
     let list: any = [];
 
@@ -125,19 +123,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     ) {
       selctedAvailability = list.careinstitution_requirements.filter(
         (avabilityData: any, index: number) => {
-          console.log('avabilityData', avabilityData, index);
-          console.log(
-            'dateee',
-            moment(selected[0].isoString).format('DD.MM.YYYY'),
-            moment(avabilityData.date).format('DD.MM.YYYY')
-          );
-
           return (
             moment(selected[0].isoString).format(dbAcceptableFormat) ===
               moment(avabilityData.date).format(dbAcceptableFormat) &&
-            (avabilityData.f === 'f' ||
-              avabilityData.s === 's' ||
-              avabilityData.n === 'n')
+            (avabilityData.f === avabilityData.f ||
+              avabilityData.s === avabilityData.s ||
+              avabilityData.n === avabilityData.n)
           );
         }
       );

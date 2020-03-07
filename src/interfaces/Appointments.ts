@@ -4,6 +4,7 @@ export interface IDaysArray {
   date: string;
   day: string;
   isoString: string;
+  dateString?: string;
   isWeekend: boolean;
 }
 
@@ -33,13 +34,13 @@ export interface IAppointmentCareGiverList {
   onAddingRow: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string,
-    index: number
+    index: number,
   ) => void | undefined;
   handleSelectedUser: (
     value: object,
     date: IDaysArray[] | null,
     name: string,
-    handleSelectedAvailability: any
+    handleSelectedAvailability: any,
   ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
   handleReset: (name: string) => void;
@@ -52,12 +53,12 @@ export interface IAppointmentCareInstitutionList {
   onAddingRow: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string,
-    index: number
+    index: number,
   ) => void | undefined;
   handleSelectedUser: (
     value: object,
     date: IDaysArray[] | null,
-    name: string
+    name: string,
   ) => void;
   onhandleSecondStarCanstitution: (list: any) => void;
   handleFirstStarCanstitution: (id: string) => void;

@@ -4,7 +4,8 @@ import {
   appointmentDateFormat,
   appointmentDayFormat,
   appointmentMonthFormat,
-  appointmentYearFormat
+  appointmentYearFormat,
+  dbAcceptableFormat,
 } from '../config';
 import { IDaysArray, IGetDaysArrayByMonthRes } from '../interfaces';
 
@@ -13,7 +14,7 @@ moment.locale('de');
 
 export const getDaysArrayByMonth = (
   month: number = moment().month(),
-  year: number = moment().year()
+  year: number = moment().year(),
 ): IGetDaysArrayByMonthRes => {
   let daysInMonth = moment()
     .month(month)
@@ -29,8 +30,9 @@ export const getDaysArrayByMonth = (
       date: moment(current).format(appointmentDateFormat),
       day: moment(current).format(appointmentDayFormat),
       isoString: moment(current).toISOString(),
+      dateString: moment(current).format(dbAcceptableFormat),
       isWeekend:
-        [0, 6].indexOf(new Date(moment(current).format()).getDay()) != -1 // To check whether the given date is weekend or not
+        [0, 6].indexOf(new Date(moment(current).format()).getDay()) != -1, // To check whether the given date is weekend or not
     });
     daysInMonth--;
   }
@@ -41,6 +43,6 @@ export const getDaysArrayByMonth = (
       .format(appointmentMonthFormat),
     year: moment()
       .year(year)
-      .format(appointmentYearFormat)
+      .format(appointmentYearFormat),
   };
 };

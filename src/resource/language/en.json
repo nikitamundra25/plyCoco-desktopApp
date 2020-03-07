@@ -863,5 +863,7 @@
   "START_TIME_REQUIRED": "Starttime is required",
   "END_TIME_REQUIRED": "Endtime is required",
   "SAVE_BOTH": "Save Both",
-  "LINK": "Link"
+  "LINK": "Link",
+  "BOOKING_DETAILS":"Booking details",
+  "PRICE_AND_WORKING":"Price & working hours"
 }

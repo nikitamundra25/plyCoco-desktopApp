@@ -61,55 +61,72 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   const onSelectFinish = (selectedCells: any[]) => {
     const selected: any = [];
     let list: any = [];
-    for (let i = 0; i < selectedCells.length; i++) {
-      const { props: cellProps } = selectedCells[i];
-      selected.push(cellProps.day);
-      if (selectedCells[0].props.list) {
-        list = selectedCells[0].props.list;
+    if (selectedCells.length) {
+      for (let i = 0; i < selectedCells.length; i++) {
+        const { props: cellProps } = selectedCells[i];
+        console.log(selectedCells, 'cellProps');
+        const { item } = cellProps;
+        selected.push({
+          dateString: cellProps.day ? cellProps.day.dateString : '',
+          item
+        });
+        if (selectedCells[0].props.list) {
+          list = selectedCells[0].props.list;
+        }
+        setSelectedDays(selected);
       }
-      setSelectedDays(selected);
-    }
-    let selctedAvailability: any = [];
-    if (
-      list &&
-      list.caregiver_avabilities &&
-      list.caregiver_avabilities.length
-    ) {
-      if (selected && selected.length) {
-        for (let index = 0; index < selected.length; index++) {
-          const element = selected[index];
-          const availability = list.caregiver_avabilities.filter(
-            (avabilityData: any, index: number) => {
-              return (
-                moment(element.isoString).format('DD.MM.YYYY') ===
-                  moment(avabilityData.date).format('DD.MM.YYYY') &&
-                (avabilityData.f === 'available' ||
-                  avabilityData.s === 'available' ||
-                  avabilityData.n === 'available')
+      let selctedAvailability: any = {};
+      if (
+        list &&
+        list.caregiver_avabilities &&
+        list.caregiver_avabilities.length
+      ) {
+        if (selected && selected.length) {
+          for (let index = 0; index < selected.length; index++) {
+            const { dateString, item } = selected[index];
+            if (item && item.length) {
+              let temp = item.filter(
+                (avabilityData: any, index: number) =>
+                  moment(avabilityData.date).format('DD.MM.YYYY') ===
+                  moment(dateString).format('DD.MM.YYYY')
               );
+
+              selctedAvailability = temp && temp.length ? temp : {};
             }
-          );
-          if (availability && availability.length) {
-            selctedAvailability.push(availability[0]);
-          } else {
+
+            // const availability = list.caregiver_avabilities.filter(
+            //   (avabilityData: any, index: number) => {
+            //     return (
+            //       moment(element.isoString).format('DD.MM.YYYY') ===
+            //         moment(avabilityData.date).format('DD.MM.YYYY') &&
+            //       (avabilityData.f === 'available' ||
+            //         avabilityData.s === 'available' ||
+            //         avabilityData.n === 'available')
+            //     );
+            //   },
+            // );
+            // if (availability && availability.length) {
+            //   selctedAvailability.push(availability[0]);
+            // } else {
+            // }
           }
         }
       }
+      handleSelectedUser(
+        list,
+        selected,
+        'caregiver',
+        selctedAvailability && selctedAvailability.length
+          ? selctedAvailability[0]
+          : {}
+      );
     }
-
-    handleSelectedUser(
-      list,
-      selected,
-      'caregiver',
-      selctedAvailability && selctedAvailability.length
-        ? selctedAvailability[0]
-        : {}
-    );
   };
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
   const [showList, setShowList] = useState<boolean>(false);
+
   return (
     <>
       <SelectableGroup
@@ -229,65 +246,68 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                 </tr>
               ) : careGiversList && careGiversList.length ? (
                 careGiversList.map((list: any, index: number) => {
-                  return (
-                    <tr key={`${list.id}-${index}`}>
-                      <th className='name-col custom-appointment-col thead-sticky'>
-                        <div
-                          className='text-capitalize view-more-link one-line-text'
-                          // onClick={() =>
-                          //   handleSelectedUser(list, null, 'caregiver')
-                          // }
-                        >
-                          {!list.newRow
-                            ? `${list.lastName ? list.lastName : ''} ${
-                                list.firstName ? list.firstName : ''
-                              }`
-                            : ''}
-                        </div>
-                      </th>
-                      <td className='h-col custom-appointment-col text-center'></td>
-                      <td
-                        className='s-col custom-appointment-col text-center'
-                        onClick={() =>
-                          onhandleSecondStar(list, index, 'caregiver')
-                        }
-                      >
-                        {starMark ? (
+                  return list.availabilityData && list.availabilityData.length
+                    ? list.availabilityData.map((item: any, row: number) => (
+                        <tr key={`${list.id}-${index}-${row}`}>
+                          <th className='name-col custom-appointment-col thead-sticky'>
+                            <div
+                              className='text-capitalize view-more-link one-line-text'
+                              // onClick={() =>
+                              //   handleSelectedUser(list, null, 'caregiver')
+                              // }
+                            >
+                              {row === 0
+                                ? `${list.lastName ? list.lastName : ''} ${
+                                    list.firstName ? list.firstName : ''
+                                  }`
+                                : ''}
+                            </div>
+                          </th>
+                          <td className='h-col custom-appointment-col text-center'></td>
+                          <td
+                            className='s-col custom-appointment-col text-center'
+                            onClick={() =>
+                              onhandleSecondStar(list, index, 'caregiver')
+                            }
+                          >
+                            {starMark ? (
                           <i className='fa fa-star theme-text' />
                         ) : (
                           <i className='fa fa-star-o' />
                         )}
-                      </td>
-                      <td
-                        className='u-col custom-appointment-col text-center'
-                        onClick={() =>
-                          onhandleSecondStar(list, index, 'caregiver')
-                        }
-                      >
-                        {starMark ? (
+                          </td>
+                          <td
+                            className='u-col custom-appointment-col text-center'
+                            onClick={() =>
+                              onhandleSecondStar(list, index, 'caregiver')
+                            }
+                          >
+                            {starMark ? (
                           <i className='fa fa-star theme-text' />
                         ) : (
                           <i className='fa fa-star-o' />
                         )}
-                      </td>
-                      <td
-                        className='v-col custom-appointment-col text-center'
-                        onClick={e => onAddingRow(e, 'caregiver', index)}
-                      >
-                        <i className='fa fa-arrow-down' />
-                      </td>
-                      {daysArr.map((key: any, i: number) => {
-                        return (
-                          <Cell
-                            key={`${key}-${i}`}
-                            day={key}
-                            list={list}
-                            handleSelectedAvailability
-                          />
-                        );
-                      })}
-                    </tr>
-                  );
+                          </td>
+                          <td
+                            className='v-col custom-appointment-col text-center'
+                            onClick={e => onAddingRow(e, 'caregiver', index)}
+                          >
+                            <i className='fa fa-arrow-down' />
+                          </td>
+                          {daysArr.map((key: any, i: number) => {
+                            return (
+                              <Cell
+                                key={`${key}-${i}`}
+                                day={key}
+                                list={list}
+                                item={item}
+                                handleSelectedAvailability
+                              />
+                            );
+                          })}
+                        </tr>
+                      ))
+                    : null;
                 })
               ) : (
                 <tr className={'text-center no-hover-row'}>

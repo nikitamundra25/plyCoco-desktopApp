@@ -1,7 +1,7 @@
-import React, { useState, FunctionComponent, Suspense, useEffect } from "react";
-import { useMutation, useQuery } from "@apollo/react-hooks";
-import { useHistory, useParams } from "react-router";
-import { toast } from "react-toastify";
+import React, { useState, FunctionComponent, Suspense, useEffect } from 'react';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useHistory, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   CareGiverValues,
   ICareGiverInput,
@@ -32,6 +32,9 @@ const [ADD_CAREGIVER] = CareGiverMutations;
 
 export const CareGiverForm: FunctionComponent = (props: any) => {
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
+  const [caregiverAttributeOptions, setCaregiverAttributeOptions] = useState<
+    IAttributeOptions[] | undefined
+  >([]);
   let history = useHistory();
   // Fetch attribute list from db
   const { data: attributeData, loading } = useQuery<{
@@ -41,6 +44,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
   useEffect(() => {
     if (attributeData && attributeData.getCaregiverAtrribute) {
+      console.log('in attr iffffffff');
       attributeData.getCaregiverAtrribute.forEach(
         ({ id, name, color }: IAttributeValues) =>
           caregiverAttrOpt.push({
@@ -49,13 +53,15 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
             color
           })
       );
+      setCaregiverAttributeOptions(caregiverAttrOpt);
     }
+    console.log('caregiverAttrOpt', caregiverAttrOpt);
   }, [attributeData]);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -66,9 +72,9 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     );
     if (buttonDiv) {
       if (scrollPositionY >= 12) {
-        buttonDiv.classList.add("sticky-save-btn");
+        buttonDiv.classList.add('sticky-save-btn');
       } else {
-        buttonDiv.classList.remove("sticky-save-btn");
+        buttonDiv.classList.remove('sticky-save-btn');
       }
     }
   };
@@ -160,9 +166,9 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     } = values;
     try {
       let careGiverInput: any = {
-        salutation: salutation && salutation.label ? salutation.label : "",
-        firstName: firstName ? firstName.trim() : "",
-        lastName: lastName ? lastName.trim() : "",
+        salutation: salutation && salutation.label ? salutation.label : '',
+        firstName: firstName ? firstName.trim() : '',
+        lastName: lastName ? lastName.trim() : '',
         address1,
         address2,
         street,
@@ -172,17 +178,17 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         regionId:
           regionId && regionId.value ? parseInt(regionId.value) : undefined,
         zipCode: postalCode,
-        email: email ? email.trim() : "",
+        email: email ? email.trim() : '',
         IBAN,
         employed,
         dateOfBirth,
         bankName,
-        gender: gender && gender.value ? gender.value : "",
+        gender: gender && gender.value ? gender.value : '',
         phoneNumber,
         fax,
         comments,
         mobileNumber,
-        userName: userName ? userName.trim() : "",
+        userName: userName ? userName.trim() : '',
         qualificationId:
           qualifications && qualifications.length
             ? qualifications.map((qualification: IReactSelectInterface) =>
@@ -198,7 +204,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         driverLicenseNumber,
         driversLicense: driversLicense,
         vehicleAvailable: vehicleAvailable,
-        legalForm: legalForm && legalForm.value ? legalForm.value : "",
+        legalForm: legalForm && legalForm.value ? legalForm.value : '',
         companyName,
         belongTo: belongTo && belongTo.value ? parseInt(belongTo.value) : null,
         registrationNumber,
@@ -208,12 +214,12 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         executiveDirector,
         socialSecurityContribution,
         taxNumber,
-        fee: fee ? parseFloat(fee.replace(/,/g, ".")) : null,
+        fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
         weekendAllowance: weekendAllowance
-          ? parseFloat(weekendAllowance.replace(/,/g, "."))
+          ? parseFloat(weekendAllowance.replace(/,/g, '.'))
           : null,
-        holiday: holiday ? parseFloat(holiday.replace(/,/g, ".")) : null,
-        night: night ? parseFloat(night.replace(/,/g, ".")) : null,
+        holiday: holiday ? parseFloat(holiday.replace(/,/g, '.')) : null,
+        night: night ? parseFloat(night.replace(/,/g, '.')) : null,
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.value : null,
         invoiceInterval:
@@ -239,7 +245,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
           const data: any = cache.readQuery({
             query: GET_CAREGIVERS,
             variables: {
-              searchBy: "",
+              searchBy: '',
               sortBy: 0,
               limit: PAGE_LIMIT,
               page: 0,
@@ -255,16 +261,16 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
           });
         }
       });
-      toast.success(languageTranslation("CAREGIVER_ADD_SUCCESS_MSG"));
+      toast.success(languageTranslation('CAREGIVER_ADD_SUCCESS_MSG'));
 
       if (props.refetch) {
         props.refetch();
       }
     } catch (error) {
       const message = error.message
-        .replace("SequelizeValidationError: ", "")
-        .replace("Validation error: ", "")
-        .replace("GraphQL error: ", "");
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
       // setFieldError('email', message);
       toast.error(message);
       if (
@@ -280,32 +286,32 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
 
   const {
     salutation = undefined,
-    firstName = "",
-    lastName = "",
-    address1 = "",
-    address2 = "",
-    street = "",
-    city = "",
+    firstName = '',
+    lastName = '',
+    address1 = '',
+    address2 = '',
+    street = '',
+    city = '',
     stateId = undefined,
     countryId = undefined,
-    postalCode = "",
-    email = "",
-    dateOfBirth = "",
-    phoneNumber = "",
-    fax = "",
-    mobileNumber = "",
-    userName = "",
+    postalCode = '',
+    email = '',
+    dateOfBirth = '',
+    phoneNumber = '',
+    fax = '',
+    mobileNumber = '',
+    userName = '',
     qualifications = [],
-    driverLicenseNumber = "",
+    driverLicenseNumber = '',
     driversLicense = undefined,
     vehicleAvailable = undefined,
     legalForm = undefined,
-    companyName = "",
-    registrationNumber = "",
-    registerCourt = "",
-    executiveDirector = "",
+    companyName = '',
+    registrationNumber = '',
+    registerCourt = '',
+    executiveDirector = '',
     socialSecurityContribution = false,
-    taxNumber = "",
+    taxNumber = '',
     workZones = undefined,
     status = ''
   } = caregiverData ? caregiverData : {};
@@ -344,19 +350,19 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   return (
     <>
       <div>
-        <div className="common-detail-page">
-          <div className="common-detail-section">
+        <div className='common-detail-page'>
+          <div className='common-detail-section'>
             <Suspense fallback={<Loader />}>
-              <div className="sticky-common-header">
-                <div className="common-topheader d-flex align-items-center ">
-                  <div className="common-title">Add New Caregiver</div>
+              <div className='sticky-common-header'>
+                <div className='common-topheader d-flex align-items-center '>
+                  <div className='common-title'>Add New Caregiver</div>
 
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={reminder} alt="" />
+                  <div className='header-nav-item'>
+                    <span className='header-nav-icon'>
+                      <img src={reminder} alt='' />
                     </span>
                     <span
-                      className="header-nav-text"
+                      className='header-nav-text'
                       // onClick={() => {
                       //   this.setState({ show: true });
                       // }}
@@ -364,25 +370,25 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
                       Create Todo/Reminder
                     </span>
                   </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={password} alt="" />
+                  <div className='header-nav-item'>
+                    <span className='header-nav-icon'>
+                      <img src={password} alt='' />
                     </span>
-                    <span className="header-nav-text">New Password</span>
+                    <span className='header-nav-text'>New Password</span>
                   </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={appointment} alt="" />
+                  <div className='header-nav-item'>
+                    <span className='header-nav-icon'>
+                      <img src={appointment} alt='' />
                     </span>
-                    <span className="header-nav-text">
+                    <span className='header-nav-text'>
                       Display Appointments
                     </span>
                   </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={clear} alt="" />
+                  <div className='header-nav-item'>
+                    <span className='header-nav-icon'>
+                      <img src={clear} alt='' />
                     </span>
-                    <span className="header-nav-text">Clear</span>
+                    <span className='header-nav-text'>Clear</span>
                   </div>
                 </div>
                 <CareGiverSidebar
@@ -391,8 +397,8 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
                 />
               </div>
             </Suspense>
-            <Suspense fallback={""}>
-              <div className="common-content flex-grow-1">
+            <Suspense fallback={''}>
+              <div className='common-content flex-grow-1'>
                 {activeTab === 0 ? (
                   <Formik
                     initialValues={initialValues}
@@ -404,7 +410,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
                           {...props}
                           setRemarksDetail={setRemarksDetail}
                           remarksDetail={remarksDetail}
-                          caregiverAttrOpt={caregiverAttrOpt}
+                          caregiverAttributeOptions={caregiverAttributeOptions}
                           attributeLoading={loading}
                         />
                       );

@@ -15,7 +15,7 @@ import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 import moment from 'moment';
-import DetaillistCareinstitutionPopup from '../DetailListCareinstitution';
+import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
 import { dbAcceptableFormat } from '../../../../../config';
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
@@ -276,8 +276,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             }
                           >
                             {!list.newRow
-                              ? `${list.lastName ? list.lastName : ""} ${
-                                  list.firstName ? list.firstName : ""
+                              ? `${list.lastName ? list.lastName : ''} ${
+                                  list.firstName ? list.firstName : ''
                                 }`
                               : ''}
                           </div>

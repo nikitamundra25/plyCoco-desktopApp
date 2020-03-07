@@ -54,9 +54,9 @@ export const EmailPreview: FunctionComponent<IEmailPreviewProps> = ({
                     {userRole === 'canstitution' ? (
                       <div className='email-date-time-block'>
                         {emailData.contact
-                          ? `${emailData.contact.firstName} ${
+                          ? `${
                               emailData.contact.surName
-                            } ${
+                            } ${emailData.contact.firstName} ${
                               emailData.contact.contact_type
                                 ? `(${emailData.contact.contact_type.contactType})`
                                 : ''

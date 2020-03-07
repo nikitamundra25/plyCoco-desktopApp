@@ -10,6 +10,64 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
       userName
       userRole
       id
+      caregiver {
+        nightAllowance
+        weekendAllowance
+        fee
+        holiday
+        night
+      }
+      caregiver_avabilities{
+        id
+        status
+        f
+        s
+        n
+        date
+        fee
+        weekendAllowance
+        holidayAllowance
+        nightFee
+        nightAllowance
+        workingProofRecieved
+        distanceInKM
+        feePerKM
+        otherExpenses
+        remarksCareGiver
+        remarksInternal
+      }
+      canstitution {
+        city
+        zipCode
+        companyName
+        shortName
+        street
+        countryId
+        stateId
+        remarks
+        title
+        fax
+        linkedTo
+        doctorCommission
+        leasingPriceListId
+        isArchive
+        careGiverCommission
+        anonymousName
+        anonymousName2
+        mobileNumber
+        remarksViewable
+        defaultQualification
+        invoiceType
+        emailInvoice
+        addressInvoice
+        interval
+        website
+        attributes
+      }
+      qualifications {
+        id
+        name
+      }
     }
   }
 `;

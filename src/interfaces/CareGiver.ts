@@ -399,9 +399,9 @@ export interface IAttributeValues {
 }
 
 export interface IAttributeOptions {
-  label: string;
-  value: string;
-  color: string;
+  label: any;
+  value: any;
+  color: any;
 }
 
 export interface IToDoFormValues {

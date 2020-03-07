@@ -78,7 +78,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   }
 
   // Fetch attribute list from db
-  const { data: attributeData } = useQuery<{
+  const { data: attributeData,loading } = useQuery<{
     getCaregiverAtrribute: IAttributeValues[];
   }>(GET_CAREGIVER_ATTRIBUTES);
 
@@ -227,7 +227,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         street,
         attributes:
           attributeId && attributeId.length
-            ? attributeId.map(({ label }: IAttributeOptions) => label)
+            ? attributeId.map(({ value }: IAttributeOptions) => parseInt(value))
             : [],
         city,
         zipCode: postalCode,
@@ -404,10 +404,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   let selectedAttributes: IAttributeOptions[] = [];
   if (attributes && attributes.length) {
-    attributes.map((attData: string) => {
-      const data = caregiverAttrOpt.filter(
-        (attr: any) => attr.label === attData
-      )[0];
+    attributes.map((attData: number) => {
+      const data = caregiverAttrOpt.filter((attr: any) => {
+        return parseInt(attr.value) === attData;
+      })[0];
       selectedAttributes.push({
         label: data ? data.label : attData,
         value: data ? data.value : attData,
@@ -573,6 +573,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                     <AttributeFormComponent
                       {...props}
                       caregiverAttrOpt={caregiverAttrOpt}
+                      loading={loading}
                     />
                   </div>
                 </div>

@@ -198,6 +198,10 @@ const GET_CAREGIVER_BY_ID = gql`
         bankName
         IBAN
       }
+      attributes{
+        id
+        name
+      }
     }
   }
 `;
@@ -335,5 +339,5 @@ export const CareGiverQueries = [
   GET_BELONGS_TO,
   GET_CAREGIVER_ATTRIBUTES,
   GET_CAREGIVERS_FOR_BULK_EMAIL,
-  GET_NEGATIVE_USERS_LIST,
+  GET_NEGATIVE_USERS_LIST
 ];

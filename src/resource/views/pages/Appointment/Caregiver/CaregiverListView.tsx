@@ -107,22 +107,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
 
               selctedAvailability = temp && temp.length ? temp : {};
             }
-
-            // const availability = list.caregiver_avabilities.filter(
-            //   (avabilityData: any, index: number) => {
-            //     return (
-            //       moment(element.isoString).format('DD.MM.YYYY') ===
-            //         moment(avabilityData.date).format('DD.MM.YYYY') &&
-            //       (avabilityData.f === 'available' ||
-            //         avabilityData.s === 'available' ||
-            //         avabilityData.n === 'available')
-            //     );
-            //   },
-            // );
-            // if (availability && availability.length) {
-            //   selctedAvailability.push(availability[0]);
-            // } else {
-            // }
           }
         }
       }

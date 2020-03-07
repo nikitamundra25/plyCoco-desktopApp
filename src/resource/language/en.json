@@ -872,10 +872,11 @@
   "END_TIME_REQUIRED": "Endtime is required",
   "SAVE_BOTH": "Save Both",
   "LINK": "Link",
-  "BOOKING_DETAILS":"Booking details",
-  "PRICE_AND_WORKING":"Price & working hours",
+  "BOOKING_DETAILS": "Booking details",
+  "PRICE_AND_WORKING": "Price & working hours",
   "CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT": "This careinstitution requirement will be deleted.",
-  "DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS": "This careinstitution requirement will be deleted successfully",
+  "DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS": "This careinstitution requirement has been deleted successfully",
   "CONFIRM_DELETE_CAREGIVER_AVABILITY": "This caregiver avability will be deleted.",
-  "DELETE_CAREGIVER_AVABILITY_SUCCESS": "This caregiver avability will be deleted successfully"
+  "DELETE_CAREGIVER_AVABILITY_SUCCESS": "This caregiver avability has been deleted successfully",
+  "NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST": "Currently there are no department added for this careinstitution."
 }

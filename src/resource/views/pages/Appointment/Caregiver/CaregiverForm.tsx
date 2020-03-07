@@ -89,6 +89,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  console.log('selctedAvailability', selctedAvailability);
 
   let isAvailability: boolean = false,
     isMatching: boolean = false,
@@ -102,6 +103,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       isContract = true;
     }
   }
+  console.log('isAvailability', isAvailability);
 
   let appointmentid: any = null;
   if (addCaregiverRes && addCaregiverRes[0].id) {
@@ -180,9 +182,13 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           type='text'
                           disabled={true}
                           placeholder={languageTranslation('NAME')}
-                          value={`${lastName ? lastName : ''} ${
-                            firstName ? firstName : ''
-                          }`}
+                          value={
+                            firstName
+                              ? `${lastName ? lastName : ''} ${
+                                  firstName ? firstName : ''
+                                }`
+                              : ''
+                          }
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -249,7 +255,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-1'>
                           <input
                             type='checkbox'
-                            id='1'
+                            id='early'
                             className=''
                             name={'f'}
                             checked={f ? true : false}
@@ -262,7 +268,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               setFieldValue('f', checked);
                             }}
                           />
-                          <Label for='check'>
+                          <Label for='early'>
                             {languageTranslation('EARLY')}
                           </Label>
                         </div>
@@ -271,7 +277,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-1'>
                           <input
                             type='checkbox'
-                            id='check1'
+                            id='late'
                             className=''
                             name={'s'}
                             checked={s}
@@ -284,7 +290,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               setFieldValue('s', checked);
                             }}
                           />
-                          <Label for='check1'>
+                          <Label for='late'>
                             {languageTranslation('LATE')}
                           </Label>
                         </div>
@@ -293,7 +299,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-1'>
                           <input
                             type='checkbox'
-                            id='check2'
+                            id='night'
                             className=''
                             name={'n'}
                             checked={n}
@@ -306,7 +312,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               setFieldValue('n', checked);
                             }}
                           />
-                          <Label for='check2'>
+                          <Label for='night'>
                             {languageTranslation('NIGHT')}
                           </Label>
                         </div>
@@ -804,7 +810,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-0'>
                           <input
                             type='checkbox'
-                            id='check'
+                            id='workingProofRecieved'
                             className=''
                             name={'workingProofRecieved'}
                             checked={workingProofRecieved}
@@ -817,7 +823,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               setFieldValue('workingProofRecieved', checked);
                             }}
                           />
-                          <Label for='check1'></Label>
+                          <Label for='workingProofRecieved'></Label>
                         </div>
                       </FormGroup>
                     </div>
@@ -880,6 +886,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   className='btn-save'
                   color='danger'
                   onClick={() => onhandleDelete('caregiver', appointmentId)}
+                  disabled={!appointmentId}
                 >
                   {languageTranslation('DELETE')}
                 </Button>

@@ -115,6 +115,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         email
         remark
         id
+        attributes
         attribute_management {
           id
           name
@@ -169,7 +170,7 @@ const GET_CONTACT_LIST_BY_ID = gql`
       firstName
       surName
       contactTypeId
-      attribute_management{
+      attribute_management {
         id
         name
       }

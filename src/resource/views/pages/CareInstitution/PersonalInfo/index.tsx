@@ -142,12 +142,37 @@ const PersonalInformation: any = (props: any) => {
   useEffect(() => {
     // Fetch details by care institution id
     if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
+      const { getCareInstitution = {} } = careInstituionDetails
+        ? careInstituionDetails
+        : {};
+      const { contact = [] } = getCareInstitution ? getCareInstitution : {};
+      console.log(careInstitutionAttrOpt, 'careInstitutionAttrOpt');
+
+      contact.forEach((element: any) => {
+        const { attributes } = element;
+        console.log(attributes, element, 'attributes in foreach');
+
+        if (attributes && attributes.length) {
+          let attr_value = careInstitutionAttrOpt.filter(
+            (attrOpt: IAttributeOptions) =>
+              attributes.includes(parseInt(attrOpt.value))
+          );
+          console.log(attr_value, 'attr_value++++');
+
+          element.attributes = attr_value;
+        }
+      });
+      console.log(contact, 'updated contact');
+
       logger(
         careInstituionDetails.getCareInstitution,
         'careInstituionDetails****'
       );
-      const contactsData: any[] =
-        careInstituionDetails.getCareInstitution.contact;
+      console.log(careInstitutionAttrOpt, 'careInstitutionAttrOpt useEffect');
+
+      const contactsData: any[] = [
+        ...careInstituionDetails.getCareInstitution.contact
+      ];
       if (contactsData && !contactsData.length) {
         contactsData.push({
           email: '',

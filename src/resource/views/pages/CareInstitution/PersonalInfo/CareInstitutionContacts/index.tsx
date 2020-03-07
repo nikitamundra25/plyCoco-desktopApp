@@ -55,7 +55,12 @@ const [
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const CareInstitutionContacts: any = (props: any) => {
-  const { contacts, careInstId, ContactFromAdd } = props;
+  const {
+    contacts,
+    careInstId,
+    ContactFromAdd,
+    careInstitutionAttrOpt
+  } = props;
   const [activeContact, setActiveContact] = useState<number>(0);
   const [selectedAttributes, setSelectedAttributes] = useState<
     IReactSelectInterface[]
@@ -332,7 +337,7 @@ const CareInstitutionContacts: any = (props: any) => {
     stateId = undefined,
     countryId = undefined
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
-
+  console.log('contacts[activeContact]', contacts[activeContact]);
   let countryData: Number;
   countryData = countryId ? countryId : '';
   let userSelectedCountry: IReactSelectInterface | undefined = undefined;
@@ -358,13 +363,16 @@ const CareInstitutionContacts: any = (props: any) => {
     }
   }
 
+  console.log('attributes in contact', attributes);
   useEffect(() => {
     let attributesData: IReactSelectInterface[] = [];
     if (attributes && attributes.length) {
-      attributes.map((attData: string) => {
+      attributes.map((attData: any) => {
+        console.log('attData in cont', attData);
         attributesData.push({
-          label: attData,
-          value: attData
+          label: attData.name,
+          value: attData.id,
+          color: attData.color
         });
       });
       setSelectedAttributes(attributesData);
@@ -415,7 +423,7 @@ const CareInstitutionContacts: any = (props: any) => {
     country: userSelectedCountry,
     state: userSelectedState,
     remark,
-    attributeId: selectedAttributes
+    attributeId: attributes
   };
 
   const onDelete = async (id: string) => {
@@ -444,10 +452,10 @@ const CareInstitutionContacts: any = (props: any) => {
   >([]);
 
   useEffect(() => {
-    if (props.careInstitutionAttrOpt && props.careInstitutionAttrOpt.length) {
-      setcontactAttributeOpt(props.careInstitutionAttrOpt);
+    if (careInstitutionAttrOpt && careInstitutionAttrOpt.length) {
+      setcontactAttributeOpt(careInstitutionAttrOpt);
     }
-  }, [props]);
+  }, [careInstitutionAttrOpt]);
 
   return (
     <>

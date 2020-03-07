@@ -348,7 +348,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           onChange={(value: any) =>
                             handleSelect(value, 'qualificationId')
                           }
-
+                          value={
+                            qualificationId && qualificationId.length
+                              ? qualificationId
+                              : []
+                          }
                         />
                         {/* <Select
                         placeholder='Select Qualifications'

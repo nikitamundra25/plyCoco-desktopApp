@@ -464,7 +464,26 @@ const Appointment: FunctionComponent = () => {
         // Fetch values in case of edit by default it will be null or undefined
         setselectedCareinstitution(list);
         if (selctedAvailability && selctedAvailability.name) {
-          console.log('hereeeee');
+          let qualification: any = [],
+            departmentData: any = [];
+          if (
+            data &&
+            data.getQualifications &&
+            selctedAvailability.qualificationId
+          ) {
+            let quali = data.getQualifications.find(val =>
+              selctedAvailability.qualificationId.includes(val.id)
+            );
+            qualification.push(quali);
+          }
+          console.log('qualification', qualification);
+
+          // if (careInstitutionDepartment && careInstitutionDepartment.length) {
+          //   const { getDivision } = departmentList;
+          //   departmentData = careInstitutionDepartment.filter(
+          //     (dept: any) => dept.id === selctedAvailability.divisionId
+          //   );
+          // }
 
           setselctedRequirement(selctedAvailability);
           const selectedData: any = {
@@ -504,7 +523,6 @@ const Appointment: FunctionComponent = () => {
           };
           setvaluesForCareinstitution(selectedData);
         } else {
-          console.log('secondddd');
           setselctedRequirement({});
           const selectedData: any = {
             appointmentId: null,

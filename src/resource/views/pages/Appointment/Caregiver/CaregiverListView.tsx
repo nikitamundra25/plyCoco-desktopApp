@@ -17,7 +17,7 @@ import "../index.scss";
 import { SelectableGroup, SelectAll, DeselectAll } from "react-selectable-fast";
 import Cell from "./Cell";
 import moment from "moment";
-import DetaillistCaregiverPopup from "../DetailListCaregiver";
+import DetaillistCaregiverPopup from "../DetailedList/DetailListCaregiver";
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList & any
 ) => {

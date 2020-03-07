@@ -15,7 +15,7 @@ import Loader from "../../../containers/Loader/Loader";
 import { SelectableGroup, SelectAll, DeselectAll } from "react-selectable-fast";
 import CellCareinstitution from "./Cell";
 import moment from "moment";
-import DetaillistCareinstitutionPopup from "../DetailListCareinstitution";
+import DetaillistCareinstitutionPopup from "../DetailedList/DetailListCareinstitution";
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
   const {

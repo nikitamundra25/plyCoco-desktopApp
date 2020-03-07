@@ -34,6 +34,7 @@ import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
 import invoice from '../../../../assets/img/dropdown/invoice.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 import classnames from 'classnames';
+import { languageTranslation } from '../../../../../helpers';
 
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
@@ -87,16 +88,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   window.addEventListener('click', function(e) {
     const rightMenuOption: any = document.getElementById('clickbox');
-    console.log('onEnterMenu', onEnterMenu);
-
     if (onEnterMenu && toggleMenuButton) {
       if (rightMenuOption.contains(e.target)) {
         // Clicked in box
-        console.log('inside');
-      } else{
+      } else {
         setonEnterMenu(false);
         handleRightMenuToggle();
-        console.log('outside');
       }
     }
   });
@@ -537,7 +534,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           <i className='icon-ban' />
                         </div>
                         <h4 className='mb-1'>
-                          Currently there are no CareGiver added.{' '}
+                          Currently there are no CareInstitution added.{' '}
                         </h4>
                       </div>
                     </td>
@@ -614,8 +611,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         <i className='icon-ban' />
                       </div>
                       <h4 className='mb-1'>
-                        Currently there are no Department added for this care
-                        institution.{' '}
+                        {languageTranslation(
+                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST'
+                        )}
                       </h4>
                     </div>
                   </td>

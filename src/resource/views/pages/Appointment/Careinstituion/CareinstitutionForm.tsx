@@ -601,7 +601,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         <div className=' checkbox-custom mb-0'>
                           <input
                             type='checkbox'
-                            id='check1'
+                            id='isWorkingProof'
                             name={'isWorkingProof'}
                             className=''
                             checked={isWorkingProof}
@@ -614,7 +614,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               setFieldValue('isWorkingProof', checked);
                             }}
                           />
-                          <Label for='check1'></Label>
+                          <Label for='isWorkingProof'></Label>
                         </div>
                       </FormGroup>
                     </div>
@@ -700,11 +700,12 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             <Col lg={'12'}>
               <div className='d-flex align-items-center justify-content-between'>
                 <Button
-                  className='btn-save'
+                  className={'btn-save'}
                   color='danger'
                   onClick={() =>
                     onhandleDelete('careinstitution', appointmentId)
                   }
+                  disabled={!appointmentId}
                 >
                   {languageTranslation('DELETE')}
                 </Button>

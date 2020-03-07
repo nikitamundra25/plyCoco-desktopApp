@@ -10,9 +10,11 @@ const CellCareinstitution = ({
   isSelecting,
   day,
   list,
+  key,
   handleSelectedUser
 }: any) => (
   <td
+    key={key}
     className={classnames({
       'calender-col': true,
       'text-center': true,

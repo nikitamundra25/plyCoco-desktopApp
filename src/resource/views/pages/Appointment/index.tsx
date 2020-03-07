@@ -196,8 +196,9 @@ const Appointment: FunctionComponent = () => {
     { id: number }
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted() {
+      setselctedAvailability({});
       setactiveDateCaregiver([]);
-      // valuesForCaregiver = null
+      setselectedCareGiver({});
     }
   });
   // To get caregiver list from db
@@ -662,7 +663,7 @@ const Appointment: FunctionComponent = () => {
           setselctedRequirement({});
           const selectedData: any = {
             appointmentId: null,
-            name: list ? `${list.firstName} ${' '} ${list.lastName}` : '',
+            name: list ? `${list.lastName} ${' '} ${list.firstName}` : '',
             date: '',
             shift: undefined,
             endTime: '',
@@ -684,7 +685,7 @@ const Appointment: FunctionComponent = () => {
       } else {
         temp = {
           ...valuesForCareinstitution,
-          name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
+          name: `${selectedCareinstitution.lastName} ${selectedCareinstitution.firstName}`
         };
         setvaluesForCareinstitution(temp);
       }

@@ -8,7 +8,7 @@ import {
   AppRoutes
 } from "../../../../config";
 import moment from "moment";
-
+import incorrect from "../../../assets/img/incorrect.svg";
 const IncorrectLoginList: FunctionComponent<RouteComponentProps> = (
   props: any
 ) => {
@@ -18,7 +18,15 @@ const IncorrectLoginList: FunctionComponent<RouteComponentProps> = (
   return (
     <Card>
       <CardHeader>
-        <CardTitle> {languageTranslation("INCORRECT_LOGIN")}</CardTitle>
+        <CardTitle>
+          {" "}
+          <span className="align-middle mr-2">
+            <img src={incorrect} alt="" width="20px" />
+          </span>
+          <span className="align-middle">
+            {languageTranslation("INCORRECT_LOGIN")}
+          </span>{" "}
+        </CardTitle>
       </CardHeader>
 
       <CardBody className="custom-scrollbar">

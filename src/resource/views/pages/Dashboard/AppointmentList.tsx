@@ -3,6 +3,7 @@ import { Card, CardHeader, CardBody, CardTitle, Table } from "reactstrap";
 import { languageTranslation } from "../../../../helpers";
 import Loader from "../../containers/Loader/Loader";
 import { RouteComponentProps } from "react-router-dom";
+import new_appointment from "../../../assets/img/new_booking.svg";
 
 const AppointmentList: FunctionComponent<RouteComponentProps> = (
   props: any
@@ -12,7 +13,14 @@ const AppointmentList: FunctionComponent<RouteComponentProps> = (
   return (
     <Card>
       <CardHeader>
-        <CardTitle> {languageTranslation("NEW_APPOINTMENTS")}</CardTitle>
+        <CardTitle>
+          <span className="align-middle mr-2">
+            <img src={new_appointment} alt="" width="20px" />
+          </span>
+          <span className="align-middle">
+            {languageTranslation("NEW_APPOINTMENTS")}
+          </span>
+        </CardTitle>
       </CardHeader>
       {appointmentListLoading ? (
         <div>

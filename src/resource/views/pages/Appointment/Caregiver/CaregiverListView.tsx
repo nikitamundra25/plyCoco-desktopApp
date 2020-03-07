@@ -61,13 +61,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     if (selectedCells.length) {
       for (let i = 0; i < selectedCells.length; i++) {
         const { props: cellProps } = selectedCells[i];
-        selected.push(cellProps.day);
+        console.log(selectedCells, 'cellProps');
+        const { item } = cellProps;
+        selected.push({
+          dateString: cellProps.day ? cellProps.day.dateString : '',
+          item,
+        });
         if (selectedCells[0].props.list) {
           list = selectedCells[0].props.list;
         }
         setSelectedDays(selected);
       }
-      let selctedAvailability: any = [];
+      let selctedAvailability: any = {};
       if (
         list &&
         list.caregiver_avabilities &&
@@ -75,22 +80,32 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       ) {
         if (selected && selected.length) {
           for (let index = 0; index < selected.length; index++) {
-            const element = selected[index];
-            const availability = list.caregiver_avabilities.filter(
-              (avabilityData: any, index: number) => {
-                return (
-                  moment(element.isoString).format('DD.MM.YYYY') ===
-                    moment(avabilityData.date).format('DD.MM.YYYY') &&
-                  (avabilityData.f === 'available' ||
-                    avabilityData.s === 'available' ||
-                    avabilityData.n === 'available')
-                );
-              }
-            );
-            if (availability && availability.length) {
-              selctedAvailability.push(availability[0]);
-            } else {
+            const { dateString, item } = selected[index];
+            if (item && item.length) {
+              let temp = item.filter(
+                (avabilityData: any, index: number) =>
+                  moment(avabilityData.date).format('DD.MM.YYYY') ===
+                  moment(dateString).format('DD.MM.YYYY'),
+              );
+
+              selctedAvailability = temp && temp.length ? temp : {};
             }
+
+            // const availability = list.caregiver_avabilities.filter(
+            //   (avabilityData: any, index: number) => {
+            //     return (
+            //       moment(element.isoString).format('DD.MM.YYYY') ===
+            //         moment(avabilityData.date).format('DD.MM.YYYY') &&
+            //       (avabilityData.f === 'available' ||
+            //         avabilityData.s === 'available' ||
+            //         avabilityData.n === 'available')
+            //     );
+            //   },
+            // );
+            // if (availability && availability.length) {
+            //   selctedAvailability.push(availability[0]);
+            // } else {
+            // }
           }
         }
       }
@@ -258,9 +273,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                           <th className='name-col custom-appointment-col thead-sticky'>
                             <div
                               className='text-capitalize view-more-link one-line-text'
-                              onClick={() =>
-                                handleSelectedUser(list, null, 'caregiver')
-                              }
+                              // onClick={() =>
+                              //   handleSelectedUser(list, null, 'caregiver')
+                              // }
                             >
                               {row === 0
                                 ? `${list.firstName ? list.firstName : ''} ${

@@ -22,6 +22,12 @@ export const dateValidator = (
   const day: number = Number(parts[0]);
   const month: number = Number(parts[1]);
   const year: number = Number(parts[2]);
+  if (!dateString) {
+    return {
+      isValid: false,
+      message: languageTranslation("ENTER_DATE")
+    };
+  }
   if (month > 12 || month === 0) {
     return {
       isValid: false,

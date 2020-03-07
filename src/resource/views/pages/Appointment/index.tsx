@@ -209,10 +209,21 @@ const Appointment: FunctionComponent = () => {
   // To fetch caregivers by qualification id
   const [
     fetchCaregiverList,
-    { data: careGiversList, loading: caregiverLoading, refetch }
+    {
+      data: careGiversList,
+      loading: caregiverLoading,
+      refetch: fetchingCareGiverData
+    }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache'
   });
+
+  //use Effect for care giver availibility added
+  useEffect(() => {
+    if (fetchingCareGiverData) {
+      fetchingCareGiverData();
+    }
+  }, [addCaregiverRes]);
 
   // To fetch careinstitution by qualification id
   const [
@@ -489,7 +500,6 @@ const Appointment: FunctionComponent = () => {
               id: parseInt(id)
             }
           });
-          refetch();
         }
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
@@ -584,6 +594,8 @@ const Appointment: FunctionComponent = () => {
       setselectedCareGiver(list);
       setselctedAvailability(selctedAvailability);
       if (date) {
+        console.log('date', date);
+
         setactiveDateCaregiver(date);
       }
     } else {
@@ -799,7 +811,7 @@ const Appointment: FunctionComponent = () => {
           userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
           date:
             activeDateCaregiver && activeDateCaregiver.length
-              ? activeDateCaregiver[0].isoString
+              ? activeDateCaregiver[0].dateString
               : '',
           fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
           weekendAllowance: weekendAllowance
@@ -851,7 +863,6 @@ const Appointment: FunctionComponent = () => {
             );
           }
         }
-        refetch();
       } else {
         setTimeSlotError(languageTranslation('CAREGIVER_TIME_SLOT_ERROR_MSG'));
         return;

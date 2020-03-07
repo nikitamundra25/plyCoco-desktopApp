@@ -85,21 +85,21 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   const [onEnterMenu, setonEnterMenu] = useState(false);
 
-  window.addEventListener('click', function(e) {
-    const rightMenuOption: any = document.getElementById('clickbox');
-    console.log('onEnterMenu', onEnterMenu);
+  // window.addEventListener('click', function(e) {
+  //   const rightMenuOption: any = document.getElementById('clickbox');
+  //   console.log('onEnterMenu', onEnterMenu);
 
-    if (onEnterMenu && toggleMenuButton) {
-      if (rightMenuOption.contains(e.target)) {
-        // Clicked in box
-        console.log('inside');
-      } else{
-        setonEnterMenu(false);
-        handleRightMenuToggle();
-        console.log('outside');
-      }
-    }
-  });
+  //   if (onEnterMenu && toggleMenuButton) {
+  //     if (rightMenuOption.contains(e.target)) {
+  //       // Clicked in box
+  //       console.log('inside');
+  //     } else{
+  //       setonEnterMenu(false);
+  //       handleRightMenuToggle();
+  //       console.log('outside');
+  //     }
+  //   }
+  // });
 
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);

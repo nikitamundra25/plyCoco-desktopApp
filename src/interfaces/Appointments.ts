@@ -83,10 +83,11 @@ export interface IAppointmentCareGiverForm {
 }
 
 export interface IDate {
-  date: any;
-  day: string;
-  isWeekend: boolean;
-  isoString: any;
+  date?: any;
+  day?: string;
+  isWeekend?: boolean;
+  isoString?: any;
+  dateString?: string;
 }
 
 export interface IStarInterface {

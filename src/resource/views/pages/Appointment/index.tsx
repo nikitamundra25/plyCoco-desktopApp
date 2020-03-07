@@ -453,94 +453,82 @@ const Appointment: FunctionComponent = () => {
       }
     } else {
       let temp: ICareinstitutionFormValue;
-      setselctedRequirement(selctedAvailability);
-      if (selctedAvailability !== null) {
-        if (!starCanstitution.isStar) {
-          setselectedCareinstitution(list);
-          temp = {
-            ...valuesForCareinstitution,
-            appointmentId: '',
-            name: `${list.firstName} ${list.lastName}`
-          };
-        } else {
-          temp = {
-            ...valuesForCareinstitution,
-            name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
-          };
-        }
-        setvaluesForCareinstitution(temp);
-      }
       if (date) {
         setactiveDateCareinstitution(date);
       }
+      if (!starCanstitution.isStar) {
+        // Fetch values in case of edit by default it will be null or undefined
+        setselectedCareinstitution(list);
+        if (selctedAvailability && selctedAvailability.name) {
+          setselctedRequirement(selctedAvailability);
+          const selectedData: any = {
+            appointmentId: selctedAvailability ? selctedAvailability.id : '',
+            name: selctedAvailability ? selctedAvailability.name : '',
+            date: selctedAvailability ? selctedAvailability.date : '',
+            shift: undefined,
+            endTime: selctedAvailability ? selctedAvailability.endTime : '',
+            startTime: selctedAvailability ? selctedAvailability.startTime : '',
+            qualificationId: selctedAvailability
+              ? selctedAvailability.qualificationId
+              : undefined,
+            department: undefined,
+            address: selctedAvailability ? selctedAvailability.address : '',
+            contactPerson: selctedAvailability
+              ? selctedAvailability.contactPerson
+              : '',
+            departmentOfferRemarks: selctedAvailability
+              ? selctedAvailability.departmentOfferRemarks
+              : '',
+            departmentBookingRemarks: selctedAvailability
+              ? selctedAvailability.departmentBookingRemarks
+              : '',
+            departmentRemarks: selctedAvailability
+              ? selctedAvailability.departmentRemarks
+              : '',
+            isWorkingProof: selctedAvailability
+              ? selctedAvailability.isWorkingProof
+              : false,
+            offerRemarks: selctedAvailability
+              ? selctedAvailability.offerRemarks
+              : '',
+            bookingRemarks: selctedAvailability
+              ? selctedAvailability.bookingRemarks
+              : '',
+            comments: selctedAvailability ? selctedAvailability.comments : ''
+          };
+          setvaluesForCareinstitution(selectedData);
+        } else {
+          setselctedRequirement({});
+          const selectedData: any = {
+            appointmentId: null,
+            name: list ? `${list.firstName} ${' '} ${list.lastName}` : '',
+            date: '',
+            shift: undefined,
+            endTime: '',
+            startTime: '',
+            qualificationId: undefined,
+            department: undefined,
+            address: '',
+            contactPerson: '',
+            departmentOfferRemarks: '',
+            departmentBookingRemarks: '',
+            departmentRemarks: '',
+            isWorkingProof: false,
+            offerRemarks: '',
+            bookingRemarks: '',
+            comments: ''
+          };
+          setvaluesForCareinstitution(selectedData);
+        }
+      } else {
+        temp = {
+          ...valuesForCareinstitution,
+          name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
+        };
+        setvaluesForCareinstitution(temp);
+      }
     }
   };
-
-  // To edit careinstitution data when select particular cell
-  useEffect(() => {
-    const {
-      Id = selctedRequirement ? selctedRequirement.id : null,
-      address = null,
-      bookingRemarks = null,
-      comments = null,
-      contactPerson = null,
-      date = null,
-      departmentBookingRemarks = null,
-      departmentOfferRemarks = null,
-      departmentRemarks = null,
-      divisionId = null,
-      startTime = null,
-      endTime = null,
-      isWorkingProof = null,
-      // f = null ,
-      // n = null ,
-      // s = null ,
-      name = null,
-      offerRemarks = null,
-      qualificationId = null
-    } = selctedRequirement ? selctedRequirement : {};
-    let qualification: any = [];
-    if (data && data.getQualifications && qualificationId) {
-      qualification = data.getQualifications.find(val =>
-        qualificationId.includes(val.id)
-      );
-      console.log('qualification', qualification);
-    }
-
-    if (careInstitutionDepartment && careInstitutionDepartment.length) {
-      const { getDivision } = departmentList;
-      let departmentData = careInstitutionDepartment.filter(
-        (dept: any) => dept.id === divisionId
-      );
-    }
-    console.log('selectedCareinstitution', selectedCareinstitution);
-
-    setvaluesForCareinstitution({
-      appointmentId: Id,
-      address,
-      bookingRemarks,
-      comments,
-      contactPerson,
-      date,
-      departmentBookingRemarks,
-      departmentOfferRemarks,
-      departmentRemarks,
-      // department,
-      startTime,
-      endTime,
-      isWorkingProof,
-      // f ,
-      // n ,
-      // s ,
-      name: name
-        ? name
-        : selectedCareinstitution && selectedCareinstitution.firstName
-        ? `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
-        : '',
-      offerRemarks,
-      qualificationId
-    });
-  }, [selctedRequirement]);
 
   //  call department list query with every selection of care institution
   useEffect(() => {

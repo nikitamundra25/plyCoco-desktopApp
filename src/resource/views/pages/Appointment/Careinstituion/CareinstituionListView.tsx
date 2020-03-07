@@ -34,35 +34,37 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     secondStarCanstitution
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
-  const [starMarkIndex, setstarMarkIndex] = useState<number>(-1);
 
-  const handleFirstStar = (list: object, index: number, name: string) => {
-    if (starMarkIndex !== index) {
-      setstarMarkIndex(index);
-      handleSelectedUser(list, null, name);
-    } else {
-      setstarMarkIndex(-1);
-    }
-  };
+  // const handleFirstStar = (list: object, index: number, name: string) => {
+  //   if (starMarkIndex !== index) {
+  //     setstarMarkIndex(index);
+  //     handleSelectedUser(list, null, name);
+  //   } else {
+  //     setstarMarkIndex(-1);
+  //   }
+  // };
 
-  const onhandleSecondStar = (list: object, index: number, name: string) => {
-    if (!starMark) {
-      if (starMarkIndex === index) {
-        setstarMark(!starMark);
-        handleSecondStar(list, index, name);
-      }
-    } else {
-      setstarMark(!starMark);
-      handleReset(name);
-    }
-  };
+  // const onhandleSecondStar = (list: object, index: number, name: string) => {
+  //   if (!starMark) {
+  //     if (starMarkIndex === index) {
+  //       setstarMark(!starMark);
+  //       handleSecondStar(list, index, name);
+  //     }
+  //   } else {
+  //     setstarMark(!starMark);
+  //     handleReset(name);
+  //   }
+  // };
   const { daysArr = [] } = daysData ? daysData : {};
 
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
   const onSelectFinish = (selectedCells: any[]) => {
+    console.log('fdhgfh');
+
     const selected: any = [];
     let list: any = [];
+
     for (let i = 0; i < selectedCells.length; i++) {
       const { props: cellProps } = selectedCells[i];
       selected.push(cellProps.day);
@@ -99,6 +101,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         : {}
     );
   };
+
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
@@ -287,9 +290,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         </td>
                         <td
                           className='u-col custom-appointment-col text-center'
-                          onClick={() =>
-                            onhandleSecondStar(list, index, 'careinstitution')
-                          }
+                          // onClick={() =>
+                          //   onhandleSecondStar(list, index, 'careinstitution')
+                          // }
                         >
                           {secondStarCanstitution ? (
                             <i className='fa fa-star theme-text' />

@@ -96,13 +96,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     }
   };
 
-  let appintmentId: any = null;
-  if (addCareinstitutionRes && addCareinstitutionRes.id) {
-    appintmentId = addCareinstitutionRes.id;
-  } else if (selctedRequirement && selctedRequirement.id) {
-    appintmentId = selctedRequirement.id;
-  }
-
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false;
@@ -116,7 +109,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       isContract = true;
     }
   }
-
   return (
     <>
       <div className='form-section '>
@@ -132,28 +124,28 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             {languageTranslation('MENU_INSTITUTION')}
           </h5>
           <Row>
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('APPOINTMENT_ID')}
-                    </Label>
-                  </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
-                      <Input
-                        type='text'
-                        name={'id'}
-                        disabled
-                        value={appointmentId ? appointmentId : null}
-                        placeholder={languageTranslation('APPOINTMENT_ID')}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
+            {appointmentId ? (
+              <Col lg={'12'}>
+                <FormGroup>
+                  <Row>
+                    <Col sm='5'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('APPOINTMENT_ID')}
+                      </Label>
+                    </Col>
+                    <Col sm='7'>
+                      <div className='required-input'>
+                        <Input
+                          value={appointmentId}
+                          disabled
+                          placeholder={languageTranslation('APPOINTMENT_ID')}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </FormGroup>
+              </Col>
+            ) : null}
             <Col lg={'12'}>
               <FormGroup>
                 <Row>

@@ -435,6 +435,9 @@ const Appointment: FunctionComponent = () => {
     setvaluesForCareinstitution(temp);
   }, [careInstituionShift]);
 
+  // Select current Date
+  let selectedDate: any;
+
   // select careGiver or careinstitution
   const handleSelectedUser = (
     list: any,
@@ -450,24 +453,14 @@ const Appointment: FunctionComponent = () => {
       }
     } else {
       let temp: ICareinstitutionFormValue;
-      setselctedRequirement(selctedAvailability);
       if (date) {
+        console.log('date', date);
+        selectedDate = date;
         setactiveDateCareinstitution(date);
       }
       if (!starCanstitution.isStar) {
         // Fetch values in case of edit by default it will be null or undefined
-        setselectedCareinstitution(list);
-        setselectedCareinstitution(list);
-        temp = {
-          ...valuesForCareinstitution,
-          name: name ? name : `${list.firstName} ${list.lastName}`
-        };
       } else {
-        temp = {
-          ...valuesForCareinstitution,
-          name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
-        };
-        setvaluesForCareinstitution(temp);
       }
     }
   };
@@ -475,7 +468,6 @@ const Appointment: FunctionComponent = () => {
   // To edit careinstitution data when select particular cell
   useEffect(() => {
     console.log('yarnnnnn', selctedRequirement);
-
     const {
       Id = null,
       address = null,
@@ -497,6 +489,7 @@ const Appointment: FunctionComponent = () => {
       offerRemarks = null,
       qualificationId = null
     } = selctedRequirement ? selctedRequirement : {};
+
     let qualification: any = [];
     if (data && data.getQualifications && qualificationId) {
       qualification = data.getQualifications.find(val =>
@@ -511,7 +504,7 @@ const Appointment: FunctionComponent = () => {
         (dept: any) => dept.id === divisionId
       );
     }
-    console.log('selectedCareinstitution', selectedCareinstitution);
+    console.log('selctedRequirement', selctedRequirement);
 
     setvaluesForCareinstitution({
       appointmentId:

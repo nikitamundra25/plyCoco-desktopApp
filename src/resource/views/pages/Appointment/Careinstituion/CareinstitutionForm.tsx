@@ -95,10 +95,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   };
 
   let appintmentId: any = null;
-  if (addCareinstitutionRes && addCareinstitutionRes.id) {
-    appintmentId = addCareinstitutionRes.id;
-  } else if (selctedRequirement && selctedRequirement.id) {
-    appintmentId = selctedRequirement.id;
+  if (appointmentId) {
+    appintmentId = appointmentId;
+  } else {
+    appintmentId = null;
   }
 
   let isRequirment: boolean = false,
@@ -114,7 +114,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       isContract = true;
     }
   }
-  console.log('appointmentId', appointmentId);
   return (
     <>
       <div className='form-section '>
@@ -131,7 +130,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
           </h5>
           <Row>
             <Col lg={'12'}>
-              <FormGroup>                                                                                                                                           
+              <FormGroup>
                 <Row>
                   <Col sm='5'>
                     <Label className='form-label col-form-label'>
@@ -144,7 +143,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='text'
                         name={'id'}
                         disabled
-                        value={appointmentId ? appointmentId : null}
+                        value={
+                          appintmentId 
+                            ? appintmentId
+                            : null
+                        }
                         placeholder={languageTranslation('APPOINTMENT_ID')}
                       />
                     </div>

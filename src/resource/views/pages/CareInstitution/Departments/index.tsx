@@ -31,21 +31,24 @@ import Select from 'react-select';
 import { LockedOptions } from '../../../../../config';
 
 const [
-  GET_CARE_INSTITUTION_LIST,
-  GET_CARE_INSTITUION_BY_ID,
+  ,
+  ,
   GET_DEPARTMENT_LIST,
-  GET_CAREINSTITUTION_ATTRIBUTES
+  GET_CAREINSTITUTION_ATTRIBUTES,
+  ,
+  ,
+  GET_DIVISION_DETAILS_BY_ID
 ] = CareInstitutionQueries;
 
 const [
-  UPDATE_CARE_INSTITUTION,
-  UPDATE_CARE_INSTITUTION_STATUS,
+  ,
+  ,
   UPDATE_DEPARTMENT_CARE_INSTITUTION,
-  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
-  DELETE_CARE_INSTITUTION,
-  ADD_CARE_INSTITUTION,
-  ADD_NEW_CONTACT_CARE_INSTITUTION,
-  ADD_NEW_CARE_INTITUTION,
+  ,
+  ,
+  ,
+  ,
+  ,
   ADD_DEPARTMENT_CARE_INSTITUTION,
   DELETE_DEPARTMENT
 ] = CareInstitutionMutation;
@@ -58,7 +61,9 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   let [qualifications, setQualifications] = useState<any>([]);
   let [attributes, setAttributes] = useState<any>([]);
   let [userId, setUserId] = useState<string>('');
-
+  const [departmentDetails, setDepartmentDetails] = useState<any>();
+  const [isActive, setIsActive] = useState<any>();
+  const [filterValue, setFilterValue] = useState<any>(null);
   let { id } = useParams();
   const Id: any | undefined = id;
 
@@ -81,10 +86,38 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     { data: departmentList, refetch, loading }
   ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
 
-  const [departmentDetails, setDepartmentDetails] = useState<any>();
-  const [isActive, setIsActive] = useState<any>();
+  // To get caregiver list from db
+  const [getDepartmentById, { data: departmentById }] = useLazyQuery<any>(
+    GET_DIVISION_DETAILS_BY_ID,
+    {
+      onCompleted({ getDivisionsDetails }) {
+        console.log(
+          'getDivisionsDetails.attributes',
+          getDivisionsDetails.division_attributes
+        );
+        const temp: any = [];
+        if (
+          getDivisionsDetails &&
+          getDivisionsDetails.division_attributes &&
+          getDivisionsDetails.division_attributes.length
+        ) {
+          getDivisionsDetails.division_attributes.map((attr: any) => {
+            return temp.push({
+              label: attr.name,
+              value: attr.id,
+              color: attr ? attr.color : ''
 
-  const [filterValue, setFilterValue] = useState<any>(null);
+            });
+          });
+        }
+        setIsActive(getDivisionsDetails.id);
+        setDepartmentDetails(getDivisionsDetails);
+        setTimesData(getDivisionsDetails.times);
+        setQualifications(getDivisionsDetails.qualifications);
+        setAttributes(temp);
+      }
+    }
+  );
 
   // To fecth qualification attributes list
   const { data: qualificationData } = useQuery<IQualifications>(
@@ -131,14 +164,15 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   if (userId && userId !== Id) {
     setUserId(Id);
-    getDepartmentList({
+  }
+  const onDepartmentClick = (item: any) => {
+    setIsActive(item);
+    getDepartmentById({
       variables: {
-        userId: parseInt(Id),
-        locked: filterValue
+        id: parseInt(item.id)
       }
     });
-  }
-
+  };
   const handleSubmit = async (
     values: IAddDepartmentFormValues,
     { setSubmitting, resetForm }: FormikHelpers<IAddDepartmentFormValues>
@@ -161,7 +195,12 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         locked: values.locked,
         times: timesData,
         qualifications: qualifications,
-        attributes: attributes
+        attributes:
+          attributes && attributes.length
+            ? attributes.map(({ value }: IReactSelectInterface) =>
+                parseInt(value)
+              )
+            : []
       };
 
       if (isActive > -1) {
@@ -207,7 +246,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   };
 
   let values: IAddDepartmentFormValues;
-
   if (departmentDetails) {
     values = {
       id: departmentDetails.id,
@@ -459,11 +497,12 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                                 >
                                   <span
                                     onClick={() => {
-                                      setDepartmentDetails(item);
-                                      setTimesData(item.times);
-                                      setQualifications(item.qualifications);
-                                      setAttributes(item.attributes);
-                                      setIsActive(index);
+                                      // setDepartmentDetails(item);
+                                      // setTimesData(item.times);
+                                      // setQualifications(item.qualifications);
+                                      // setAttributes(item.attributes);
+                                      // setIsActive(index);
+                                      onDepartmentClick(item);
                                     }}
                                     className='list-item-text'
                                   >
@@ -517,7 +556,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
               )}
               validationSchema={AddTimeValidationSchema}
             />
-
+            {console.log('attributes+++++++++++', attributes)}
             <QuallificationAttribute
               {...props}
               qualificationList={qualificationList}

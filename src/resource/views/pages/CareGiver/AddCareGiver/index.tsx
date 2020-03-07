@@ -10,21 +10,21 @@ import {
   ICareGiverValues,
   IAttributeValues,
   IAttributeOptions
-} from "../../../../../interfaces";
-import { FormikHelpers, Formik, FormikProps } from "formik";
-import CareGiverFormComponent from "./CareGiverFormComponent";
-import { CareGiverValidationSchema } from "../../../../validations/CareGiverValidationSchema";
-import { languageTranslation } from "../../../../../helpers";
-import { AppRoutes, PAGE_LIMIT } from "../../../../../config";
-import CareGiverSidebar from "../Sidebar/SidebarLayout/CareGiverLayout";
-import { careGiverRoutes } from "../Sidebar/SidebarRoutes/CareGiverRoutes";
-import Loader from "../../../containers/Loader/Loader";
-import reminder from "../../../../assets/img/reminder.svg";
-import password from "../../../../assets/img/password.svg";
-import appointment from "../../../../assets/img/appointment.svg";
-import clear from "../../../../assets/img/clear.svg";
-import { CareGiverMutations } from "../../../../../graphql/Mutations";
-import { CareGiverQueries } from "../../../../../graphql/queries";
+} from '../../../../../interfaces';
+import { FormikHelpers, Formik, FormikProps } from 'formik';
+import CareGiverFormComponent from './CareGiverFormComponent';
+import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
+import { languageTranslation } from '../../../../../helpers';
+import { AppRoutes, PAGE_LIMIT } from '../../../../../config';
+import CareGiverSidebar from '../Sidebar/SidebarLayout/CareGiverLayout';
+import { careGiverRoutes } from '../Sidebar/SidebarRoutes/CareGiverRoutes';
+import Loader from '../../../containers/Loader/Loader';
+import reminder from '../../../../assets/img/reminder.svg';
+import password from '../../../../assets/img/password.svg';
+import appointment from '../../../../assets/img/appointment.svg';
+import clear from '../../../../assets/img/clear.svg';
+import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { CareGiverQueries } from '../../../../../graphql/queries';
 
 const CareGiverRoutesTabs = careGiverRoutes;
 const [GET_CAREGIVERS, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
@@ -45,7 +45,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         ({ id, name, color }: IAttributeValues) =>
           caregiverAttrOpt.push({
             label: name,
-            value: id ? id.toString() : "",
+            value: id ? id.toString() : '',
             color
           })
       );
@@ -62,7 +62,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      "caregiver-add-btn"
+      'caregiver-add-btn'
     );
     if (buttonDiv) {
       if (scrollPositionY >= 12) {
@@ -95,8 +95,8 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       const Data: any = data;
       history.push(
         AppRoutes.CARE_GIVER_VIEW.replace(
-          ":id",
-          Data.addCareGiver ? Data.addCareGiver.id : "null"
+          ':id',
+          Data.addCareGiver ? Data.addCareGiver.id : 'null'
         )
       );
     }
@@ -158,7 +158,6 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       holiday,
       postalCode
     } = values;
-
     try {
       let careGiverInput: any = {
         salutation: salutation && salutation.label ? salutation.label : "",
@@ -192,7 +191,9 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
             : null,
         attributes:
           attributeId && attributeId.length
-            ? attributeId.map(({ label }: IReactSelectInterface) => label)
+            ? attributeId.map(({ value }: IReactSelectInterface) =>
+                parseInt(value)
+              )
             : [],
         driverLicenseNumber,
         driversLicense: driversLicense,
@@ -306,7 +307,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     socialSecurityContribution = false,
     taxNumber = "",
     workZones = undefined,
-    status = ""
+    status = ''
   } = caregiverData ? caregiverData : {};
 
   const initialValues: ICareGiverValues = {
@@ -404,6 +405,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
                           setRemarksDetail={setRemarksDetail}
                           remarksDetail={remarksDetail}
                           caregiverAttrOpt={caregiverAttrOpt}
+                          attributeLoading={loading}
                         />
                       );
                     }}

@@ -133,10 +133,12 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
           </Row>
         </div>
         {attachments && attachments.length ? (
-          <AttachmentList
-            attachment={attachments}
-            onDelteDocument={onDelteDocument}
-          />
+          <div className="document-list custom-scrollbar">
+            <AttachmentList
+              attachment={attachments}
+              onDelteDocument={onDelteDocument}
+            />
+          </div>
         ) : null}
       </div>
     </Col>

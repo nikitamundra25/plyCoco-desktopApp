@@ -8,7 +8,7 @@ import {
   AppRoutes
 } from "../../../../config";
 import moment from "moment";
-
+import users from "../../../assets/img/users.svg";
 const RegistrationList: FunctionComponent<RouteComponentProps> = (
   props: any
 ) => {
@@ -18,7 +18,15 @@ const RegistrationList: FunctionComponent<RouteComponentProps> = (
   return (
     <Card>
       <CardHeader>
-        <CardTitle> {languageTranslation("NEW_REGISTRATION")}</CardTitle>
+        <CardTitle>
+          {" "}
+          <span className="align-middle mr-2">
+            <img src={users} alt="" width="20px" />
+          </span>
+          <span className="align-middle">
+            {languageTranslation("NEW_REGISTRATION")}
+          </span>
+        </CardTitle>
       </CardHeader>
       {/* {registrationListLoading ? (
         <div>
@@ -80,7 +88,7 @@ const RegistrationList: FunctionComponent<RouteComponentProps> = (
                               )
                             }
                           >
-                            {item.firstName} {item.lastName}
+                            {item.lastName} {item.firstName}
                           </div>
                         </td>
                         <td className="username-column word-wrap one-line-text">

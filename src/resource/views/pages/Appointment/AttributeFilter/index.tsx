@@ -233,8 +233,6 @@ const AttributeFilter = (props: IAttributeFilter) => {
 
   // on saving the current preset
   const onSavingPreset = async () => {
-    console.log('inside save preset');
-
     await addPreset({
       variables: {
         presetAttributeInput: {

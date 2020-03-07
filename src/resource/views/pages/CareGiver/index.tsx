@@ -378,7 +378,7 @@ const CareGiver: FunctionComponent = () => {
                                       )
                                     }
                                   >
-                                    {`${careGiverData.salutation} ${careGiverData.firstName} ${careGiverData.lastName}`}
+                                    {`${careGiverData.salutation} ${careGiverData.lastName} ${careGiverData.firstName}`}
                                   </div>
                                   <p className="description-text">
                                     <i className="fa fa-user mr-2"></i>

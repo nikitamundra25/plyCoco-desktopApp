@@ -228,10 +228,10 @@ const CareInstitutionContacts: any = (props: any) => {
     values: ICareInstitutionContact,
     { setSubmitting }: FormikHelpers<ICareInstitutionContact>
   ) => {
-    let AttributeData: string[] = [];
+    let AttributeData: any = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(attribute.label)
+        AttributeData.push(parseInt(attribute.value))
       );
     }
     try {
@@ -353,7 +353,7 @@ const CareInstitutionContacts: any = (props: any) => {
     if (userState && userState.length) {
       userSelectedState = {
         label: userState[0].name,
-        value: userState[0].id,
+        value: userState[0].id
       };
     }
   }
@@ -377,8 +377,8 @@ const CareInstitutionContacts: any = (props: any) => {
       setActiveContact(0);
       getStatesByCountry({
         variables: {
-          countryid: userSelectedCountry ? userSelectedCountry.value : '',
-        },
+          countryid: userSelectedCountry ? userSelectedCountry.value : ''
+        }
       });
     }
   }, [contacts]);
@@ -401,15 +401,15 @@ const CareInstitutionContacts: any = (props: any) => {
     contactType: selecContactType,
     gender: gender
       ? {
-        label: gender,
-        value: gender
-      }
+          label: gender,
+          value: gender
+        }
       : undefined,
     salutation: salutation
       ? {
-        label: salutation,
-        value: salutation
-      }
+          label: salutation,
+          value: salutation
+        }
       : undefined,
     id,
     country: userSelectedCountry,
@@ -454,17 +454,17 @@ const CareInstitutionContacts: any = (props: any) => {
       {contacttypeOpt && contacttypeOpt.length <= 0 ? (
         <Loader />
       ) : (
-          <div className={'form-section position-relative flex-grow-1'}>
-            <div className='d-flex align-items-center justify-content-between  '>
-              <Nav tabs className='contact-tabs pr-120'>
-                {contacts && contacts.length
-                  ? contacts.map((contact: any, index: number) => {
+        <div className={'form-section position-relative flex-grow-1'}>
+          <div className='d-flex align-items-center justify-content-between  '>
+            <Nav tabs className='contact-tabs pr-120'>
+              {contacts && contacts.length
+                ? contacts.map((contact: any, index: number) => {
                     const contactTypeData:
                       | IReactSelectInterface
                       | undefined = contacttypeOpt.filter(
-                        (element: IReactSelectInterface) =>
-                          element.value === contact.contactTypeId
-                      )[0];
+                      (element: IReactSelectInterface) =>
+                        element.value === contact.contactTypeId
+                    )[0];
 
                     return (
                       <NavItem className='text-capitalize mb-2' key={index}>
@@ -473,7 +473,7 @@ const CareInstitutionContacts: any = (props: any) => {
                             contact && contact.contactTypeId
                               ? 'contact-right'
                               : 'new-contact'
-                            }  ${index === activeContact ? 'active' : ''}`}
+                          }  ${index === activeContact ? 'active' : ''}`}
                           onClick={() => setActiveContact(index)}
                         >
                           {contact && contact.contactTypeId ? (
@@ -481,13 +481,13 @@ const CareInstitutionContacts: any = (props: any) => {
                               contactTypeData.label
                             ) : null
                           ) : (
-                              <>
-                                <span className='align-middle'>
-                                  <i className='fa fa-plus mr-1'></i>
-                                </span>
-                                <span className='align-middle'>New contact</span>
-                              </>
-                            )}{' '}
+                            <>
+                              <span className='align-middle'>
+                                <i className='fa fa-plus mr-1'></i>
+                              </span>
+                              <span className='align-middle'>New contact</span>
+                            </>
+                          )}{' '}
                         </NavLink>
                         {contact && contact.contactTypeId ? (
                           <span
@@ -502,11 +502,11 @@ const CareInstitutionContacts: any = (props: any) => {
                       </NavItem>
                     );
                   })
-                  : null}
-              </Nav>
-            </div>
+                : null}
+            </Nav>
           </div>
-        )}
+        </div>
+      )}
       <Formik
         enableReinitialize={true}
         initialValues={contactFormValues}

@@ -345,10 +345,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           placeholder='Select Qualifications'
                           className={'custom-reactselect '}
                           classNamePrefix='custom-inner-reactselect'
-                          // value={qualificationId}
                           onChange={(value: any) =>
                             handleSelect(value, 'qualificationId')
                           }
+
                         />
                         {/* <Select
                         placeholder='Select Qualifications'
@@ -401,6 +401,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
+                    {console.log('department', department)}
                     <div className='required-input'>
                       <Select
                         placeholder='Select Department'
@@ -411,7 +412,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         onChange={(value: any) =>
                           handleSelect(value, 'department')
                         }
-                        value={department ? department : undefined}
+                        value={
+                          department && department.value
+                            ? department
+                            : { label: 'Select Department', value: '' }
+                        }
                       />
                     </div>
                   </Col>

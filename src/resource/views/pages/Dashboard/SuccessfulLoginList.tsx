@@ -8,7 +8,7 @@ import {
   AppRoutes
 } from "../../../../config";
 import moment from "moment";
-
+import correct from "../../../assets/img/correct.svg";
 const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
   props: any
 ) => {
@@ -18,7 +18,15 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
   return (
     <Card>
       <CardHeader>
-        <CardTitle> {languageTranslation("SUCCESSFUL_LOGIN")}</CardTitle>
+        <CardTitle>
+          {" "}
+          <span className="align-middle mr-2">
+            <img src={correct} alt="" width="20px" />
+          </span>
+          <span className="align-middle">
+            {languageTranslation("SUCCESSFUL_LOGIN")}
+          </span>
+        </CardTitle>
       </CardHeader>
 
       <CardBody className="custom-scrollbar">
@@ -76,7 +84,7 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
                               )
                             }
                           >
-                            {item.user.firstName} {item.user.lastName}
+                            {item.user.lastName} {item.user.firstName}
                           </div>
                         </td>
                         <td className="username-column word-wrap one-line-text  ">

@@ -81,7 +81,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
             }
           }
           temp.push({
-            label: `${firstName}${" "}${lastName}`,
+            label: `${lastName}${" "}${firstName}`,
             value: id,
             color: !isActive
               ? deactivatedListColor

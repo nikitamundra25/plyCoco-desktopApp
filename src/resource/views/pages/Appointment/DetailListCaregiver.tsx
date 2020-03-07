@@ -72,18 +72,44 @@ const DetailListCaregiver = (props: any) => {
                   <Table bordered hover responsive>
                     <thead className="thead-bg">
                       <tr>
-                        <th> {languageTranslation("ID")}</th>
-                        <th> {languageTranslation("MENU_CAREGIVER")}</th>
-                        <th> {languageTranslation("MENU_INSTITUTION")}</th>
-                        <th> {languageTranslation("QUALIFICATION")}</th>
-                        <th>{languageTranslation("DATE")}</th>
-                        <th>{languageTranslation("BEGIN")}</th>
-                        <th>{languageTranslation("END")}</th>
-                        <th>{languageTranslation("DEPARTMENT")}</th>
+                        <th className="whitespace-nowrap">
+                          {" "}
+                          {languageTranslation("ID")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {" "}
+                          {languageTranslation("MENU_CAREGIVER")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {" "}
+                          {languageTranslation("MENU_INSTITUTION")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {" "}
+                          {languageTranslation("QUALIFICATION")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("DATE")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("BEGIN")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("END")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("DEPARTMENT")}
+                        </th>
 
-                        <th>{languageTranslation("DLN_REQUIRED")}</th>
-                        <th>{languageTranslation("DLN_AVAILABLE")}</th>
-                        <th>{languageTranslation("REMARKS")}</th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("DLN_REQUIRED")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("DLN_AVAILABLE")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("REMARKS")}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -91,10 +117,11 @@ const DetailListCaregiver = (props: any) => {
                         <td> 3143156</td>
                         <td> Joh Doe</td>
                         <td> Testwerk</td>
-                        <td> 03.03.2020</td>
+
                         <td> Altenpfleger, Hauskrankenpflege</td>
-                        <td>Tue, 03.03.2020 06:00</td>
-                        <td>Tue, 03.03.2020 14:00</td>
+                        <td> 03.03.2020</td>
+                        <td>06:00</td>
+                        <td>14:00</td>
                         <td>Station2</td>
                         <td>
                           <span className="checkbox-custom ">
@@ -117,39 +144,73 @@ const DetailListCaregiver = (props: any) => {
                   <Table bordered hover responsive>
                     <thead className="thead-bg">
                       <tr>
-                        <th> {languageTranslation("ID")}</th>
-                        <th> {languageTranslation("MENU_CAREGIVER")}</th>
-                        <th> {languageTranslation("MENU_INSTITUTION")}</th>
-                        <th> {languageTranslation("DATE")}</th>
-                        <th>{languageTranslation("FEE")}</th>
-                        <th>{languageTranslation("NIGHT_FEE")}</th>
-                        <th>{languageTranslation("WEEKEND_FEE")}</th>
-                        <th>{languageTranslation("HOLIDAY_FEE")}</th>
-                        <th>
+                        <th className="whitespace-nowrap">
+                          {" "}
+                          {languageTranslation("ID")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {" "}
+                          {languageTranslation("MENU_CAREGIVER")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {" "}
+                          {languageTranslation("MENU_INSTITUTION")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {" "}
+                          {languageTranslation("DATE")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("FEE")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("NIGHT_FEE")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("WEEKEND_FEE")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("HOLIDAY_FEE")}
+                        </th>
+                        <th className="whitespace-nowrap">
                           {languageTranslation("WORKING_HOURS")}{" "}
                           {languageTranslation("BEGIN")}
                         </th>
-                        <th>
+                        <th className="whitespace-nowrap">
                           {languageTranslation("WORKING_HOURS")}{" "}
                           {languageTranslation("END")}
                         </th>
-                        <th>
+                        <th className="whitespace-nowrap">
                           {languageTranslation("BREAK")}{" "}
                           {languageTranslation("BEGIN")}
                         </th>
-                        <th>
+                        <th className="whitespace-nowrap">
                           {languageTranslation("BREAK")}{" "}
                           {languageTranslation("END")}
                         </th>
 
-                        <th>{languageTranslation("KILOMETER")}</th>
-                        <th>{languageTranslation("FEE_PER_KM")}</th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("KILOMETER")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("FEE_PER_KM")}
+                        </th>
 
-                        <th>{languageTranslation("DLN_REQUIRED")}</th>
-                        <th>{languageTranslation("DLN_AVAILABLE")}</th>
-                        <th>{languageTranslation("NIGHT_ALLOWANCE")}</th>
-                        <th>Factoring Contracts</th>
-                        <th>{languageTranslation("FACTORING")}</th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("DLN_REQUIRED")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("DLN_AVAILABLE")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("NIGHT_ALLOWANCE")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("FACTORING_CONTRACTS")}
+                        </th>
+                        <th className="whitespace-nowrap">
+                          {languageTranslation("FACTORING")}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -157,7 +218,7 @@ const DetailListCaregiver = (props: any) => {
                         <td> 3143156</td>
                         <td> Joh Doe</td>
                         <td> Testwerk</td>
-                        <td> 03.03.2020</td>
+                        <td>Tue 03.03.2020</td>
                         <td> 12 </td>
                         <td> 12 </td>
                         <td> 12 </td>
@@ -166,8 +227,8 @@ const DetailListCaregiver = (props: any) => {
                         <td>Tue, 03.03.2020 14:00</td>
                         <td>Tue, 03.03.2020 06:00</td>
                         <td>Tue, 03.03.2020 14:00</td>
-                        <td>120km</td>
-                        <td>1300</td>
+                        <td>120</td>
+                        <td>30</td>
                         <td>
                           <span className="checkbox-custom ">
                             <input type="checkbox" id="checkAll" className="" />

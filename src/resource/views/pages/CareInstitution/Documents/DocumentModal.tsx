@@ -197,7 +197,6 @@ const DocumentUploadModal = (props: any) => {
                           options={documentTypeList ? documentTypeList : ""}
                           // placeholder={'Select type'}
                           onChange={(type: any) => {
-                            console.log("type", type);
                             setDocumentType(type);
                           }}
                           classNamePrefix="custom-inner-reactselect"
@@ -297,7 +296,6 @@ const DocumentUploadModal = (props: any) => {
           <Button
             color="primary"
             onClick={() => {
-              console.log("inside save");
               handleSaveDocument();
             }}
             disabled={addDocumentLoading || updateDocumentLoading}

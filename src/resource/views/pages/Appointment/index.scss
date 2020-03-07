@@ -1,4 +1,4 @@
-@import "../../../assets/scss/variables";
+@import '../../../assets/scss/variables';
 
 .common-header-input {
   .form-control {
@@ -239,7 +239,7 @@
       text-align: left;
       display: block;
       padding: 0px;
-      font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+      font-family: 'FrutigerNeueLTPro-Bold', sans-serif;
     }
   }
   .arrow-btn {
@@ -304,6 +304,9 @@ body {
     }
     .cell-available {
       background-color: $available_color;
+    }
+    .cell-block {
+      background-color: $red;
     }
     .selecting-cell {
       background-color: $selecting_color;

@@ -15,12 +15,12 @@ import Loader from "../../../containers/Loader/Loader";
 import { SelectableGroup, SelectAll, DeselectAll } from "react-selectable-fast";
 import CellCareinstitution from "./Cell";
 import moment from "moment";
-import DetaillistCareinstitutionPopup from "../DetailListCareinstitution";
+import DetaillistCareinstitutionPopup from "../DetailedList/DetailListCareinstitution";
 import new_appointment from "../../../../assets/img/dropdown/new_appointment.svg";
-import reserve from "../../../../assets/img/dropdown/block.svg";
+
 import delete_appointment from "../../../../assets/img/dropdown/delete.svg";
 import detail_list from "../../../../assets/img/dropdown/detail_list.svg";
-import filter from "../../../../assets/img/filter.svg";
+
 import offer_sent from "../../../../assets/img/dropdown/offer_sent.svg";
 import connect from "../../../../assets/img/dropdown/connect.svg";
 import disconnect from "../../../../assets/img/dropdown/disconnect.svg";
@@ -44,7 +44,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     careInstituionDeptData,
     starCanstitution,
     deptLoading,
-    onhandleSecondStarCanstitution
+    onhandleSecondStarCanstitution,
+    secondStarCanstitution
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
   const [starMarkIndex, setstarMarkIndex] = useState<number>(-1);
@@ -87,10 +88,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     let selctedAvailability: any;
     if (
       list &&
-      list.caregiver_avabilities &&
-      list.caregiver_avabilities.length
+      list.careinstitution_requirements &&
+      list.careinstitution_requirements.length
     ) {
-      selctedAvailability = list.caregiver_avabilities.filter(
+      selctedAvailability = list.careinstitution_requirements.filter(
         (avabilityData: any, index: number) => {
           return (
             moment(selected[0].isoString).format("DD.MM.YYYY") ===
@@ -102,6 +103,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
       );
     }
+
     handleSelectedUser(
       list,
       selected,
@@ -121,7 +123,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         allowClickWithoutSelected
         className="custom-row-selector"
         clickClassName="tick"
-        // resetOnStart
+        resetOnStart={true}
         onSelectionFinish={onSelectFinish}
         onSelectionClear={onSelectionClear}
         ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}

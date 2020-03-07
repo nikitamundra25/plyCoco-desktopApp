@@ -6,7 +6,7 @@ import {
   Col,
   Row,
   Button,
-  UncontrolledTooltip
+  UncontrolledTooltip,
 } from 'reactstrap';
 import Select from 'react-select';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
@@ -20,7 +20,7 @@ import {
   IStates,
   ICountry,
   IState,
-  IAttributeOptions
+  IAttributeOptions,
 } from '../../../../../../interfaces';
 import { CountryQueries } from '../../../../../../graphql/queries';
 
@@ -32,29 +32,29 @@ const colourStyles = {
       ...styles,
       backgroundColor: data.color,
       color:
-        data.color === '#6a0dad' || data.color === '#000000' ? '#fff' : '#000'
+        data.color === '#6a0dad' || data.color === '#000000' ? '#fff' : '#000',
     };
-  }
+  },
 };
 
 const CotactFormComponent: any = (
-  props: FormikProps<ICareInstitutionContact> & any
+  props: FormikProps<ICareInstitutionContact> & any,
 ) => {
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY
+    GET_STATES_BY_COUNTRY,
   );
 
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id })
+      countriesOpt.push({ label: name, value: id }),
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id })
+      statesOpt.push({ label: name, value: id }),
     );
   }
   // const [AttOpt, setAttOpt] = useState<any>([]);
@@ -70,7 +70,7 @@ const CotactFormComponent: any = (
   const handleSelect = (
     selectOption: IReactSelectInterface | any,
     name: string,
-    type: string
+    type: string,
   ) => {
     if (type === 'newAttribute' && name === 'attributeId') {
       // To check if it's already exist on options or not
@@ -80,21 +80,30 @@ const CotactFormComponent: any = (
             attribute.label.toLowerCase() ===
             selectOption[selectOption.length - 1].label.toLowerCase()
           );
-        }
+        },
       );
-      if (index < 0) {
+      // To check if someone tries to add already added attribute
+      const alreadyAdded: number = careInstitutionAttrOpt.filter(
+        (attribute: IReactSelectInterface) =>
+          attribute.label.toLowerCase() ===
+          selectOption[selectOption.length - 1].label.toLowerCase(),
+      )[0];
+      if (index < 0 && !alreadyAdded) {
         setFieldValue(name, selectOption);
         props.addAttribute(
           newAttributeValue && newAttributeValue.value
             ? newAttributeValue.value
-            : ''
+            : '',
         );
+      } else {
+        selectOption[selectOption.length - 1] = alreadyAdded;
+        setFieldValue(name, selectOption);
       }
     } else if (name === 'country') {
       setFieldValue(name, selectOption);
       setFieldValue('state', undefined);
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '' } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '' }, // default code is for germany
       });
       logger(statesData, 'sdsdsdsd');
     } else {
@@ -124,7 +133,7 @@ const CotactFormComponent: any = (
       faxNumber,
       id,
       createdAt,
-      attributeId
+      attributeId,
     },
     touched,
     errors,
@@ -137,13 +146,18 @@ const CotactFormComponent: any = (
     contacttypeOpt,
     setFieldTouched,
     addingtype,
-    userSelectedCountry
+    userSelectedCountry,
   } = props;
+  console.log(
+    careInstitutionAttrOpt,
+    'careInstitutionAttrOpt on form comp',
+    attributeId,
+  );
 
   useEffect(() => {
     if (contacttypeOpt && contacttypeOpt.length) {
       const contactTypeValue = contacttypeOpt.filter(
-        (element: IReactSelectInterface) => element.label === contactType.label
+        (element: IReactSelectInterface) => element.label === contactType.label,
       )[0];
       if (contactTypeValue) {
         setFieldValue('contactType', contactTypeValue);
@@ -152,22 +166,40 @@ const CotactFormComponent: any = (
   }, [contacttypeOpt]);
 
   useEffect(() => {
+    if (careInstitutionAttrOpt && careInstitutionAttrOpt.length) {
+      // TO change newly added custom aatribute value
+      const index = attributeId.findIndex(
+        (element: IReactSelectInterface) => element.label === element.value,
+      );
+      const temp = [...attributeId];
+      if (index > -1) {
+        temp[index] = careInstitutionAttrOpt.filter(
+          (attrOpt: IAttributeOptions) => attrOpt.label === temp[index].label,
+        )[0];
+        if (temp[index]) {
+          setFieldValue('attributeId', temp);
+        }
+      }
+    }
+  }, [careInstitutionAttrOpt]);
+
+  useEffect(() => {
     if (userSelectedCountry && userSelectedCountry.value) {
       getStatesByCountry({
-        variables: { countryid: userSelectedCountry.value }
+        variables: { countryid: userSelectedCountry.value },
       });
     }
   }, [userSelectedCountry]);
 
   const handleAttributeSelectContarct = (
     selectOption: IReactSelectInterface,
-    name: string
+    name: string,
   ) => {
     let index: number = -1;
     if (attributeId && attributeId.length) {
       index = attributeId.findIndex(
         (attribute: IReactSelectInterface) =>
-          attribute.value === selectOption.value
+          attribute.label === selectOption.label,
       );
     }
     if (index < 0) {
@@ -178,7 +210,6 @@ const CotactFormComponent: any = (
         data.push(selectOption);
       }
       setnewAttributeValue(null);
-
       setFieldValue(name, data);
     }
   };
@@ -187,7 +218,7 @@ const CotactFormComponent: any = (
     setnewValue(value);
     const Data = {
       label: newValue,
-      value: newValue
+      value: newValue,
     };
     setnewAttributeValue((newAttributeValue = Data));
   };
@@ -217,18 +248,18 @@ const CotactFormComponent: any = (
     if (contactType !== '') {
       const newContactTypeData: IReactSelectInterface = {
         label: contactType,
-        value: contactType
+        value: contactType,
       };
       // TO check if it is already exists
       const index: number = contacttypeOpt.findIndex(
-        (element: IReactSelectInterface) => element.label === contactType
+        (element: IReactSelectInterface) => element.label === contactType,
       );
       if (index > -1) {
         setFieldValue('contactType', contacttypeOpt[index]);
       } else {
         setFieldValue('contactType', newContactTypeData);
         props.addContactType({
-          variables: { contactType }
+          variables: { contactType },
         });
       }
       setnewContactType('');
@@ -484,20 +515,20 @@ const CotactFormComponent: any = (
                             disabled={newContactType === ''}
                             className={`add-new-btn d-inline-flex align-items-center justify-content-center ${
                               newContactType === '' ? 'disabled-class' : ''
-                              }`}
+                            }`}
                           >
                             {addingtype ? (
                               <i className='fa fa-spinner fa-spin' />
                             ) : (
-                                <i className={'fa fa-plus'} />
-                              )}
+                              <i className={'fa fa-plus'} />
+                            )}
                           </Button>
                           <UncontrolledTooltip
                             placement='top'
                             target='addContact'
                           >
                             {languageTranslation(
-                              'NEW_CONTACT_TYPE_TOOLTIP_MSG'
+                              'NEW_CONTACT_TYPE_TOOLTIP_MSG',
                             )}
                           </UncontrolledTooltip>
                         </div>
@@ -584,16 +615,18 @@ const CotactFormComponent: any = (
                       <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                         <Label className='form-label col-form-label'>
                           {languageTranslation('COUNTRY')}
-                          <span className="required">*</span>
+                          <span className='required'>*</span>
                         </Label>
                       </Col>
                       <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
-                        <div className={"required-input"}>
+                        <div className={'required-input'}>
                           <Select
                             placeholder={languageTranslation('COUNTRY')}
                             options={countriesOpt}
                             value={
-                              country && country.value !== '' ? country : undefined
+                              country && country.value !== ''
+                                ? country
+                                : undefined
                             }
                             onChange={(value: any) =>
                               handleSelect(value, 'country', '')
@@ -603,12 +636,12 @@ const CotactFormComponent: any = (
                             classNamePrefix='custom-inner-reactselect'
                             className={
                               touched.country && errors.country && !country
-                                ? "error custom-reactselect"
-                                : "custom-reactselect"
+                                ? 'error custom-reactselect'
+                                : 'custom-reactselect'
                             }
                           />
                           {touched.country && errors.country && !country && (
-                            <div className="required-tooltip left">
+                            <div className='required-tooltip left'>
                               {errors.country}
                             </div>
                           )}
@@ -617,28 +650,32 @@ const CotactFormComponent: any = (
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+                <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
                   <FormGroup>
-                    <Row className="align-items-center">
-                      <Col xs={"12"} sm={"5"} md={"5"} lg={"5"}>
-                        <Label className="form-label col-form-label ">
-                          {languageTranslation("STATE")}
+                    <Row className='align-items-center'>
+                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
+                        <Label className='form-label col-form-label '>
+                          {languageTranslation('STATE')}
                           <span className='required'>*</span>
                         </Label>
                       </Col>
-                      <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
+                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                         <div className={'required-input'}>
                           <Select
-                            placeholder={languageTranslation("STATE")}
+                            placeholder={languageTranslation('STATE')}
                             options={statesOpt}
                             isClearable={true}
                             menuPlacement={'top'}
                             value={state && state.value !== '' ? state : null}
-                            onChange={(value: any) => handleSelect(value, "state", "")}
+                            onChange={(value: any) =>
+                              handleSelect(value, 'state', '')
+                            }
                             noOptionsMessage={() => {
-                              return country && country.value ? 'No options' : 'Select a country first';
+                              return country && country.value
+                                ? 'No options'
+                                : 'Select a country first';
                             }}
-                            classNamePrefix="custom-inner-reactselect"
+                            classNamePrefix='custom-inner-reactselect'
                             onBlur={handleBlur}
                             className={
                               country && errors.state
@@ -848,7 +885,7 @@ const CotactFormComponent: any = (
                               placeholder={languageTranslation('REMARKS')}
                               className={`textarea-care-institution ${
                                 id ? 'with_id' : ''
-                                }`}
+                              }`}
                               rows='4'
                               maxLength={250}
                             />
@@ -873,47 +910,47 @@ const CotactFormComponent: any = (
                   <div
                     className={`common-list-body custom-scrollbar ${
                       id ? 'with_id' : ''
-                      }`}
+                    }`}
                   >
                     <ul className='common-list list-unstyled mb-0'>
                       {attributeId && attributeId.length
                         ? attributeId.map(
-                          (
-                            { label, color }: IAttributeOptions,
-                            index: number
-                          ) => {
-                            return (
-                              <li
-                                className={
-                                  'cursor-pointer list-item text-capitalize'
-                                }
-                                key={index}
-                                style={{
-                                  backgroundColor: color ? color : '',
-                                  color:
-                                    color === '#6a0dad' || color === '#000000'
-                                      ? '#fff'
-                                      : '#000'
-                                }}
-                              >
-                                <>
-                                  <span className='list-item-text'>
-                                    {label}{' '}
-                                  </span>
-                                  <span
-                                    id='delete0'
-                                    onClick={() =>
-                                      handleRemoveAttribute(index)
-                                    }
-                                    className='list-item-icon'
-                                  >
-                                    <i className='fa fa-trash'></i>
-                                  </span>
-                                </>
-                              </li>
-                            );
-                          }
-                        )
+                            (
+                              { label, color }: IAttributeOptions,
+                              index: number,
+                            ) => {
+                              return (
+                                <li
+                                  className={
+                                    'cursor-pointer list-item text-capitalize'
+                                  }
+                                  key={index}
+                                  style={{
+                                    backgroundColor: color ? color : '',
+                                    color:
+                                      color === '#6a0dad' || color === '#000000'
+                                        ? '#fff'
+                                        : '#000',
+                                  }}
+                                >
+                                  <>
+                                    <span className='list-item-text'>
+                                      {label}{' '}
+                                    </span>
+                                    <span
+                                      id='delete0'
+                                      onClick={() =>
+                                        handleRemoveAttribute(index)
+                                      }
+                                      className='list-item-icon'
+                                    >
+                                      <i className='fa fa-trash'></i>
+                                    </span>
+                                  </>
+                                </li>
+                              );
+                            },
+                          )
                         : null}
                     </ul>
                   </div>
@@ -928,10 +965,10 @@ const CotactFormComponent: any = (
                           value={
                             contactAttribute
                               ? {
-                                label:
-                                  'Please select Attribute or type to add new',
-                                value: ''
-                              }
+                                  label:
+                                    'Please select Attribute or type to add new',
+                                  value: '',
+                                }
                               : undefined
                           }
                           onChange={(value: any) => {

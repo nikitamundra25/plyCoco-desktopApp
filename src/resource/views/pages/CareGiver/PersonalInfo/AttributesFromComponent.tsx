@@ -13,20 +13,20 @@ import Loader from '../../../containers/Loader/Loader';
 const AttributeFormComponent: FunctionComponent<FormikProps<
   ICareGiverValues
 > & {
-  caregiverAttrOpt?: IAttributeOptions[] | undefined;
+  caregiverAttributeOptions?: IAttributeOptions[] | undefined;
   loading?: boolean;
 }> = (
   props: FormikProps<ICareGiverValues> & {
-    caregiverAttrOpt?: IAttributeOptions[] | undefined;
+    caregiverAttributeOptions?: IAttributeOptions[] | undefined;
     loading?: boolean;
   }
 ) => {
   const {
     values: { attributeId },
     setFieldValue,
-    caregiverAttrOpt,
+    caregiverAttributeOptions,
     loading
-  } = props;
+  } = props
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
@@ -92,7 +92,7 @@ const AttributeFormComponent: FunctionComponent<FormikProps<
                   value={attributeId ? attributeId : undefined}
                   onChange={(value: any) => handleSelect(value, 'attributeId')}
                   isMulti
-                  options={caregiverAttrOpt}
+                  options={caregiverAttributeOptions}
                   menuPlacement={'top'}
                   className='attribute-select'
                   classNamePrefix='attribute-inner-select'

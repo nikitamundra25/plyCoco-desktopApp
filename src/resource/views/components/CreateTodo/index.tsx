@@ -47,12 +47,12 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
 
   useEffect(() => {
     // Fetch contact details by care institution id
-    if (userId && userRole === "careInstitution") {
+    if (userId && userRole === "careInstitution" && show) {
       fetchContactsByUserID({
         variables: { userId: parseInt(userId) }
       });
     }
-  }, [userData]);
+  }, [show]);
 
   // To add todo details into db
   const [addToDo, { error, data }] = useMutation<{ toDoInput: any }>(ADD_TO_DO);

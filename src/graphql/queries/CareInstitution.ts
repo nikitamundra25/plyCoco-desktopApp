@@ -115,9 +115,10 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         email
         remark
         id
-        attributes{
+        attribute_management {
           id
           name
+          color
         }
         contact_type {
           contactType
@@ -141,7 +142,7 @@ const GET_DEPARTMENT_LIST = gql`
       faxNumber
       email
       commentsOffer
-      commentsCareGiver 
+      commentsCareGiver
       commentsVisibleInternally
       locked
       times
@@ -168,6 +169,10 @@ const GET_CONTACT_LIST_BY_ID = gql`
       firstName
       surName
       contactTypeId
+      attribute_management{
+        id
+        name
+      }
       contact_type {
         contactType
       }
@@ -206,6 +211,11 @@ const GET_DIVISION_DETAILS_BY_ID = gql`
       locked
       times
       attributes
+      division_attributes {
+        id
+        name
+        color
+      }
       qualifications
       createdBy
       updatedBy
@@ -215,34 +225,6 @@ const GET_DIVISION_DETAILS_BY_ID = gql`
     }
   }
 `;
-
-// query{
-//   getDivisionsDetails(id:13){
-//     id
-//     userId
-//     name
-//     anonymousName
-//     anonymousName2
-//     address
-//     contactPerson
-//     phoneNumber
-//     faxNumber
-//     email
-//     remarks
-//     commentsOffer
-//     commentsCareGiver
-//     commentsVisibleInternally
-//     locked
-//     times
-//     attributes
-//     qualifications
-//     createdBy
-//     updatedBy
-//     createdAt
-//     updatedAt
-//     deletedAt
-//   }
-//  }
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,

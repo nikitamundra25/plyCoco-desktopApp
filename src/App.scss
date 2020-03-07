@@ -317,7 +317,7 @@ body {
         width: 25px;
         height: 25px;
         padding: 0px;
-        background: transparent;
+        background: $transparent;
         border: none;
         box-shadow: none !important;
         &:hover,
@@ -3930,6 +3930,22 @@ html:not([dir="rtl"]) {
     vertical-align: top;
     &.leave-applicable {
       background-color: #22a226cc;
+    }
+    .action-btn {
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: none;
+      a {
+        font-size: $font_16;
+        margin-right: 6px;
+      }
+    }
+    &:hover {
+      .action-btn {
+        display: block;
+      }
     }
   }
   thead {

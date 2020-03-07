@@ -34,7 +34,11 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
   // check if get states are loaded
   useEffect(() => {
     if (!isLoading && states) {
-      getGlobalHolidays();
+      getGlobalHolidays({
+        variables: {
+          applicableStates: states.map((state: IState) => state.id)
+        }
+      });
       refresh(refetch);
     }
   }, [isLoading, states]);

@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 const GET_GLOBAL_HOLIDAYS = gql`
-  query GetGlobalHolidays {
-    getGlobalHolidays {
+  query GetGlobalHolidays($applicableStates: [ID!]) {
+    getGlobalHolidays(applicableStates: $applicableStates) {
       id
       date
       note

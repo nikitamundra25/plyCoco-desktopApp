@@ -4,7 +4,11 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Button,
+  Nav,
+  NavItem,
+  NavLink
 } from 'reactstrap';
 import '../index.scss';
 import {
@@ -17,6 +21,20 @@ import CellCareinstitution from './Cell';
 import moment from 'moment';
 import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
 import { dbAcceptableFormat } from '../../../../../config';
+import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
+import all_list from '../../../../assets/img/dropdown/all_list.svg';
+import delete_appointment from '../../../../assets/img/dropdown/delete.svg';
+import detail_list from '../../../../assets/img/dropdown/detail_list.svg';
+import offer_sent from '../../../../assets/img/dropdown/offer_sent.svg';
+import connect from '../../../../assets/img/dropdown/connect.svg';
+import disconnect from '../../../../assets/img/dropdown/disconnect.svg';
+import confirm_appointment from '../../../../assets/img/dropdown/confirm_appointment.svg';
+import set_confirm from '../../../../assets/img/dropdown/confirm.svg';
+import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
+import invoice from '../../../../assets/img/dropdown/invoice.svg';
+import refresh from '../../../../assets/img/refresh.svg';
+import classnames from 'classnames';
+
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
   const {
@@ -56,7 +74,32 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   //     handleReset(name);
   //   }
   // };
+
+  //use state for toggel menu item
+  const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
+
+  const handleRightMenuToggle = () => {
+    settoggleMenuButton(!toggleMenuButton);
+  };
   const { daysArr = [] } = daysData ? daysData : {};
+
+  const [onEnterMenu, setonEnterMenu] = useState(false);
+
+  window.addEventListener('click', function(e) {
+    const rightMenuOption: any = document.getElementById('clickbox');
+    console.log('onEnterMenu', onEnterMenu);
+
+    if (onEnterMenu && toggleMenuButton) {
+      if (rightMenuOption.contains(e.target)) {
+        // Clicked in box
+        console.log('inside');
+      } else{
+        setonEnterMenu(false);
+        handleRightMenuToggle();
+        console.log('outside');
+      }
+    }
+  });
 
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
@@ -125,6 +168,165 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         onSelectionClear={onSelectionClear}
         ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
       >
+        <div
+          className={classnames({
+            'rightclick-menu': true,
+            'custom-scrollbar': true,
+            'd-none': !toggleMenuButton
+          })}
+          id={'clickbox'}
+        >
+          <div
+            onMouseOver={() => {
+              console.log('Mouse hover', onEnterMenu);
+              setonEnterMenu(true);
+            }}
+          >
+            <Nav vertical>
+              <NavItem>
+                <NavLink>
+                  <img src={new_appointment} className='mr-2' alt='' />
+                  <span>New appointment</span>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={delete_appointment} className='mr-2' alt='' />
+                  <span>Delete free appointments</span>
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink>
+                  <img src={all_list} className='mr-2' alt='' />
+                  <span>Select all appointments of the caregiver</span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem className='bordernav' />
+              <NavItem>
+                <NavLink onClick={() => setShowList(true)}>
+                  <img src={detail_list} className='mr-2' alt='' />
+                  <span>Detailed List</span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem className='bordernav' />
+              <NavItem>
+                <NavLink>
+                  <img src={offer_sent} className='mr-2' alt='' />
+                  <span>
+                    Select available caregivers, offer them appointments and set
+                    them on offered (sorted by division)
+                  </span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={offer_sent} className='mr-2' alt='' />
+                  <span>
+                    Select available caregivers, offer them appointments and set
+                    them on offered (sorted by day)
+                  </span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={offer_sent} className='mr-2' alt='' />
+                  <span>
+                    Select available caregivers, offer them appointments and set
+                    them on offered (no direct booking; sorted by division)
+                  </span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={offer_sent} className='mr-2' alt='' />
+                  <span>
+                    Select available caregivers, offer them appointments and set
+                    them on offered (no direct booking; sorted by day)
+                  </span>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={set_confirm} className='mr-2' alt='' />
+                  <span>Set on offered</span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={unset_confirm} className='mr-2' alt='' />
+                  <span>Reset offered</span>
+                </NavLink>
+              </NavItem>
+              <NavItem className='bordernav' />
+              <NavItem>
+                <NavLink>
+                  <img src={connect} className='mr-2' alt='' />
+                  <span>Link appointments</span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={disconnect} className='mr-2' alt='' />
+                  <span>Unlink appointments</span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem className='bordernav' />
+              <NavItem>
+                <NavLink>
+                  <img src={offer_sent} className='mr-2' alt='' />
+                  <span>Offer caregivers (ordered by day)</span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={offer_sent} className='mr-2' alt='' />
+                  <span>Offer appointments (ordered by department)</span>
+                </NavLink>
+              </NavItem>
+              <NavItem className='bordernav' />
+              <NavItem>
+                <NavLink>
+                  <img src={confirm_appointment} className='mr-2' alt='' />
+                  <span>Confirm appointments (ordered by day) </span>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={confirm_appointment} className='mr-2' alt='' />
+                  <span>Confirm appointments (ordered by department)</span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={set_confirm} className='mr-2' alt='' />
+                  <span>Set on confirmed </span>
+                </NavLink>{' '}
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <img src={unset_confirm} className='mr-2' alt='' />
+                  <span>Reset confirmed</span>
+                </NavLink>
+              </NavItem>
+              <NavItem className='bordernav' />
+              <NavItem>
+                <NavLink>
+                  <img src={invoice} className='mr-2' alt='' />
+                  <span>Create prepayment invoice</span>
+                </NavLink>
+              </NavItem>
+              <NavItem className='bordernav' />
+              <NavItem>
+                <NavLink>
+                  <img src={refresh} className='mr-2' alt='' />
+                  <span>Refresh </span>
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </div>
+        </div>
+
         <div className='calender-section custom-scrollbar  mt-3'>
           <Table hover bordered className='mb-0 appointment-table'>
             <thead className='thead-bg'>
@@ -132,7 +334,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <th className='thead-sticky name-col custom-appointment-col '>
                   <div className='position-relative'>
                     CareInstitution
-                    <UncontrolledDropdown className='custom-dropdown options-dropdown'>
+                    <Button
+                      onClick={() => handleRightMenuToggle()}
+                      className='btn-more d-flex align-items-center justify-content-center'
+                    >
+                      <i className='icon-options-vertical' />
+                    </Button>
+                    {/* <UncontrolledDropdown className='custom-dropdown options-dropdown'>
                       <DropdownToggle
                         className={'text-capitalize btn-more'}
                         size='sm'
@@ -216,7 +424,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           <span>Refresh </span>
                         </DropdownItem>{' '}
                       </DropdownMenu>
-                    </UncontrolledDropdown>
+                    </UncontrolledDropdown> */}
                   </div>
                 </th>
                 <th className='thead-sticky h-col custom-appointment-col text-center'>

@@ -346,7 +346,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           onChange={(value: any) =>
                             handleSelect(value, 'qualificationId')
                           }
-
                         />
                         {/* <Select
                         placeholder='Select Qualifications'
@@ -399,7 +398,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    {console.log('department', department)}
                     <div className='required-input'>
                       <Select
                         placeholder='Select Department'

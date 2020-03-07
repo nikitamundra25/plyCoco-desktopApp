@@ -46,6 +46,13 @@
           position: absolute;
           top: -1px;
           right: 0px;
+          .dropdown-menu {
+            top: 25px !important;
+            max-height: 270px;
+            overflow-y: auto;
+            max-width: 404px;
+            transform: none !important;
+          }
         }
         &.name-col {
           width: 150px;
@@ -87,6 +94,9 @@
   }
 }
 
+.transform-0 {
+  transform: translate(0, 0);
+}
 // custom-color for matching
 .availability-bg {
   background: $availability_color !important;
@@ -204,6 +214,7 @@
   .modal-content {
     .modal-body {
       padding: 12px 10px 0px;
+
       .common-list-wrap {
         .common-list-body {
           height: calc(100vh - 235px);

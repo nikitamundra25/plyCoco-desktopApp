@@ -100,18 +100,6 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                 {languageTranslation("APPLY_FILTER")}
               </span>
             </div>
-
-            <div>
-              <span className=" checkbox-custom ">
-                <input
-                  type="checkbox"
-                  id="checkAll"
-                  name="checkbox"
-                  className=""
-                />
-                <label className="">{languageTranslation("SHOW_ALL")}</label>
-              </span>
-            </div>
           </div>
           <div className="common-attribute-section">
             <Row className="common-attribute-row">

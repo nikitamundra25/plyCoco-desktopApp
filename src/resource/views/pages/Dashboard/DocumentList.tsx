@@ -8,6 +8,7 @@ import {
   AppRoutes
 } from "../../../../config";
 import moment from "moment";
+import new_doc from "../../../assets/img/new_doc.svg";
 
 const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
   let history = useHistory();
@@ -16,7 +17,14 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle> {languageTranslation("NEW_DOCUMENT")}</CardTitle>
+        <CardTitle>
+          <span className="align-middle mr-2">
+            <img src={new_doc} alt="" width="20px" />
+          </span>
+          <span className="align-middle">
+            {languageTranslation("NEW_DOCUMENT")}
+          </span>
+        </CardTitle>
       </CardHeader>
 
       <CardBody className="custom-scrollbar">

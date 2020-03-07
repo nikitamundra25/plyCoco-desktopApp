@@ -117,6 +117,9 @@ const PageNotFound = React.lazy(() =>
 const GlobalCalendar = React.lazy(() =>
   import("../resource/views/pages/GlobalCalendar")
 );
+const BulkEmailCareinstitution = React.lazy(() =>
+  import("../resource/views/pages/BulkEmailCareinstitution")
+);
 const routes = [
   {
     path: AppRoutes.LOGIN,
@@ -357,6 +360,12 @@ const routes = [
     path: AppRoutes.PAGENOTFOUND,
     name: "Page 404",
     component: PageNotFound,
+    exact: true
+  },
+  {
+    path: AppRoutes.BULK_EMAIL_CAREINSTITUTION,
+    name: "Bulk Care Instituition",
+    component: BulkEmailCareinstitution,
     exact: true
   }
 ];

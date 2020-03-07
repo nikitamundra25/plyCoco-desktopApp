@@ -42,6 +42,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       handleReset(name);
     }
   };
+
+  //State for care giver bulk email
+  const [state, setstate] = useState(false)
+  // Open care giver bulk Email section
+  const handleCareGiverBulkEmail = () => {
+
+  };
+
   const { daysArr = [] } = daysData ? daysData : {};
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
@@ -138,7 +146,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         <DropdownItem>
                           <span>Filter by qualifications of caregiver</span>
                         </DropdownItem>{' '}
-                        <DropdownItem>
+                        <DropdownItem
+                          onClick={() => handleCareGiverBulkEmail()}
+                        >
                           <span>Offer all available calendar entries</span>
                         </DropdownItem>{' '}
                         <DropdownItem>
@@ -224,8 +234,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                           // }
                         >
                           {!list.newRow
-                            ? `${list.lastName ? list.lastName : ""} ${
-                                list.firstName ? list.firstName : ""
+                            ? `${list.lastName ? list.lastName : ''} ${
+                                list.firstName ? list.firstName : ''
                               }`
                             : ''}
                         </div>

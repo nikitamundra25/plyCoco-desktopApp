@@ -14,11 +14,22 @@ declare module "html-to-draftjs";
 declare module "react-multiselect-checkboxes";
 
 declare interface String {
-  truncate(n: number, decorator: string): string;
+  truncate(n: number, decorator?: string): string;
+  isNullOrWhitespace(): boolean;
+  isValidEmail(): boolean;
+  trimAllSpace(): string;
 }
 // declare module 'react-day-picker/DayPickerInput';
 function createRef<T>(): RefObject<T>;
 interface RefObject<T> {
   // immutable
   readonly current: T | null;
+}
+
+declare interface Array {
+  findInfo: (
+    keyToSearch: string,
+    searchBy?: string[] | number[],
+    keyToGet?: string
+  ) => any[];
 }

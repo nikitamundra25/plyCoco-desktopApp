@@ -8,3 +8,4 @@ export * from './TimeValidator';
 export * from './ErrorFormatter';
 export * from './GermanNumberFormat';
 export * from './GetDaysByMonth';
+export * from './TimeDifference';

@@ -3,7 +3,8 @@ import { Col, Row, Button } from 'reactstrap';
 import {
   getDaysArrayByMonth,
   germanNumberFormat,
-  languageTranslation
+  languageTranslation,
+  timeDiffernce
 } from '../../../../helpers';
 import './index.scss';
 import AppointmentNav from './AppointmentNav';
@@ -452,71 +453,23 @@ const Appointment: FunctionComponent = () => {
       }
     } else {
       let temp: ICareinstitutionFormValue;
-      console.log('selctedAvailability', selctedAvailability);
       setselctedRequirement(selctedAvailability);
-
       if (selctedAvailability !== null) {
         if (!starCanstitution.isStar) {
-          // Fetch values in case of edit by default it will be null or undefined
-          // const {
-          //   name = '',
-          //   date = '',
-          //   startTime = '',
-          //   endTime = '',
-          //   address = '',
-          //   contactPerson = '',
-          //   bookingRemarks = '',
-          //   departmentOfferRemarks = '',
-          //   departmentBookingRemarks = '',
-          //   departmentRemarks = '',
-          //   f = '',
-          //   n = '',
-          //   s = '',
-          //   isWorkingProof = false
-          // } = selectedCareinstitution ? selectedCareinstitution : {};
-
           setselectedCareinstitution(list);
           temp = {
             ...valuesForCareinstitution,
             appointmentId: '',
             name: name ? name : `${list.firstName} ${list.lastName}`
-            // date: date ? date : valuesForCareinstitution.date,
-            // startTime: startTime
-            //   ? startTime
-            //   : valuesForCareinstitution.startTime,
-            // endTime: endTime ? endTime : valuesForCareinstitution.endTime,
-            // address: address ? address : valuesForCareinstitution.address,
-            // contactPerson: contactPerson
-            //   ? contactPerson
-            //   : valuesForCareinstitution.contactPerson,
-            // bookingRemarks: bookingRemarks
-            //   ? bookingRemarks
-            //   : valuesForCareinstitution.bookingRemarks,
-            // departmentOfferRemarks: departmentOfferRemarks
-            //   ? departmentOfferRemarks
-            //   : valuesForCareinstitution.departmentOfferRemarks,
-            // departmentBookingRemarks: departmentBookingRemarks
-            //   ? departmentBookingRemarks
-            //   : valuesForCareinstitution.departmentBookingRemarks,
-            // departmentRemarks: departmentRemarks
-            //   ? departmentRemarks
-            //   : valuesForCareinstitution.departmentRemarks,
-            // isWorkingProof: isWorkingProof ? true : false,
-            // offerRemarks: '',
-            // comments: ''
           };
-          console.log('list', list);
         } else {
           temp = {
             ...valuesForCareinstitution,
             name: `${selectedCareinstitution.firstName} ${selectedCareinstitution.lastName}`
           };
-          console.log('temp', temp);
-          setvaluesForCareinstitution(temp);
         }
+        setvaluesForCareinstitution(temp);
       }
-      console.log('fgf');
-
       if (date) {
         setactiveDateCareinstitution(date);
       }
@@ -792,6 +745,11 @@ const Appointment: FunctionComponent = () => {
         quali.push(parseInt(key.value));
       });
     }
+    console.log(startTime, ' parseFloat(startTime)', parseFloat(startTime));
+    console.log(endTime, 'parseFloat(endTime)', parseFloat(endTime));
+
+    let difference: string = timeDiffernce(startTime, endTime);
+    console.log('difference', difference);
 
     try {
       let careInstitutionRequirementInput: ICareinstitutionFormSubmitValue = {
@@ -823,12 +781,12 @@ const Appointment: FunctionComponent = () => {
         comments
       };
       if (appointmentId || selctedRequirement.id) {
-        await updateCareinstitutionRequirment({
-          variables: {
-            id: parseInt(selctedRequirement.id),
-            careInstitutionRequirementInput
-          }
-        });
+        // await updateCareinstitutionRequirment({
+        //   variables: {
+        //     id: parseInt(selctedRequirement.id),
+        //     careInstitutionRequirementInput
+        //   }
+        // });
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
@@ -838,11 +796,11 @@ const Appointment: FunctionComponent = () => {
           );
         }
       } else {
-        await addCareinstitutionRequirment({
-          variables: {
-            careInstitutionRequirementInput
-          }
-        });
+        // await addCareinstitutionRequirment({
+        //   variables: {
+        //     careInstitutionRequirementInput
+        //   }
+        // });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
             languageTranslation('CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG')

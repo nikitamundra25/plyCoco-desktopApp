@@ -104,7 +104,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                 <React.Fragment key={holiday.id}>
                   <tr>
                     <th>
-                      <div className="position-relative">
+                      <div className="position-relative word-wrap">
                         {moment(holiday.date).format(defaultDateFormat)}
                         {holiday.note ? ` - ${holiday.note}` : null}
                         <div className="action-btn">

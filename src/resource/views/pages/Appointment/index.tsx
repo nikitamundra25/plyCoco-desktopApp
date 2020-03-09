@@ -931,7 +931,9 @@ const Appointment: FunctionComponent = () => {
           userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
           date:
             activeDateCaregiver && activeDateCaregiver.length
-              ? activeDateCaregiver[0].dateString
+              ? moment(activeDateCaregiver[0].dateString).format(
+                  dbAcceptableFormat
+                )
               : '',
           fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
           weekendAllowance: weekendAllowance
@@ -1064,7 +1066,7 @@ const Appointment: FunctionComponent = () => {
         name,
         date:
           activeDateCareinstitution && activeDateCareinstitution.length
-            ? moment(activeDateCareinstitution[0].isoString).format(
+            ? moment(activeDateCareinstitution[0].dateString).format(
                 dbAcceptableFormat
               )
             : '',

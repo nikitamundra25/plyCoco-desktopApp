@@ -107,7 +107,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const onSelectFinish = (selectedCells: any[]) => {
     const selected: any = [];
     let list: any = [];
-
     for (let i = 0; i < selectedCells.length; i++) {
       const { props: cellProps } = selectedCells[i];
       const { item } = cellProps;

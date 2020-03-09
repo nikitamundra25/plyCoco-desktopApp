@@ -2,13 +2,19 @@ import gql from 'graphql-tag';
 const GET_USERS_BY_QUALIFICATION_ID = gql`
   query getUserByQualifications(
     $qualificationId: [ID]
-    $attributeId: [ID]
     $userRole: String
+    $negativeAttributeId: [ID]
+    $positiveAttributeId: [ID]
+    $gte: String
+    $lte: String
   ) {
     getUserByQualifications(
       qualificationId: $qualificationId
-      attributeId: $attributeId
       userRole: $userRole
+      negativeAttributeId: $negativeAttributeId
+      positiveAttributeId: $positiveAttributeId
+      gte: $gte
+      lte: $lte
     ) {
       firstName
       lastName
@@ -101,5 +107,12 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     }
   }
 `;
+// negativeAttributeId:[ID],positiveAttributeId: [ID],gte:String, lte:String
+// qualificationId: $qualificationId
+//       userRole: $userRole
+//        negativeAttributeId: $negativeAttributeId
+//         positiveAttributeId: $positiveAttributeId
+//          gte:$gte
+//          lte:$lte
 
 export const AppointmentsQueries = [GET_USERS_BY_QUALIFICATION_ID];

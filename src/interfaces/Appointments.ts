@@ -28,6 +28,11 @@ export interface IAppointmentNav {
   qualification: IReactSelectInterface[] | undefined;
   careGiversListArr: any;
   careInstitutionListArr: any;
+  applyFilter: (
+    userRole: string | null,
+    positiveId: number[],
+    negativeId: number[],
+  ) => void;
 }
 
 export interface IAppointmentCareGiverList {

@@ -1186,8 +1186,7 @@ const Appointment: FunctionComponent = () => {
     n: n === 'available' ? true : false
   };
 
-  console.log('++++++++++++++++Get gte and lte data', gteDayData);
-  console.log('***********Get gte and lte data', lteDayData);
+
 
   return (
     <>

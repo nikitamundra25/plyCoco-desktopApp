@@ -42,6 +42,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const {
     values: {
       firstName,
+      appointmentId,
       lastName,
       fee,
       nightFee,
@@ -76,13 +77,19 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     activeDateCaregiver,
     addCaregiverRes,
     timeSlotError,
-    selctedAvailability
+    selctedAvailability,
+    onhandleDelete,
+    careGiversListArr,
+    handleSelectUserList
   } = props;
+
+  const [starMark, setstarMark] = useState<boolean>(false);
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  console.log('selctedAvailability', selctedAvailability);
 
   let isAvailability: boolean = false,
     isMatching: boolean = false,
@@ -96,17 +103,28 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       isContract = true;
     }
   }
+  console.log('isAvailability', isAvailability);
 
-  let appintmentId: any = null;
+  let appointmentid: any = null;
   if (addCaregiverRes && addCaregiverRes[0].id) {
-    appintmentId = addCaregiverRes[0].id;
+    appointmentid = addCaregiverRes[0].id;
+    // setFieldValue('appointmentid', appointmentid);
   } else if (selctedAvailability && selctedAvailability.id) {
-    appintmentId = selctedAvailability.id;
+    appointmentid = selctedAvailability.id;
   }
 
   const handleTravelAllowance = () => {
     let total = distanceInKM * feePerKM;
     setFieldValue('travelAllowance', total);
+  };
+
+  const handleUserList = (id: string, name: string) => {
+    let data: any = careGiversListArr;
+    setstarMark(!starMark);
+    if (id && !starMark) {
+      data = careGiversListArr.filter((x: any) => x.id === id);
+    }
+    handleSelectUserList(data, name);
   };
 
   return (
@@ -124,28 +142,31 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             {languageTranslation('MENU_CAREGIVER')}
           </h5>
           <Row>
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('APPOINTMENT_ID')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
-                      <Input
-                        type='text'
-                        disabled={true}
-                        value={appintmentId ? appintmentId : null}
-                        placeholder={languageTranslation('APPOINTMENT_ID')}
-                        className='width-common'
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
+            {appointmentId ? (
+              <Col lg={'12'}>
+                <FormGroup>
+                  <Row>
+                    <Col sm='4'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('APPOINTMENT_ID')}
+                      </Label>
+                    </Col>
+                    <Col sm='8'>
+                      <div className='required-input'>
+                        <Input
+                          type='text'
+                          disabled={true}
+                          name={'appointmentId'}
+                          value={appointmentId ? appointmentId : null}
+                          placeholder={languageTranslation('APPOINTMENT_ID')}
+                          className='width-common'
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </FormGroup>
+              </Col>
+            ) : null}
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
@@ -161,13 +182,30 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           type='text'
                           disabled={true}
                           placeholder={languageTranslation('NAME')}
-                          value={`${firstName ? firstName : ''} ${
-                            lastName ? lastName : ''
-                          }`}
+                          value={
+                            firstName
+                              ? `${lastName ? lastName : ''} ${
+                                  firstName ? firstName : ''
+                                }`
+                              : ''
+                          }
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
-                            <i className='fa fa-star' aria-hidden='true'></i>
+                            <i
+                              className={
+                                starMark
+                                  ? 'fa fa-star theme-text'
+                                  : 'fa fa-star'
+                              }
+                              aria-hidden='true'
+                              onClick={() =>
+                                handleUserList(
+                                  selectedCareGiver ? selectedCareGiver.id : '',
+                                  'caregiver'
+                                )
+                              }
+                            ></i>
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -200,11 +238,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             : null
                         }
                       /> */}
+                     
                     <div className='text-value mb-1'>
                       {activeDateCaregiver
                         ? moment(
                             activeDateCaregiver
-                              ? activeDateCaregiver.isoString
+                              ? activeDateCaregiver.dateString
                               : null
                           ).format('dd DD.MM.YYYY')
                         : null}
@@ -216,7 +255,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-1'>
                           <input
                             type='checkbox'
-                            id='1'
+                            id='early'
                             className=''
                             name={'f'}
                             checked={f ? true : false}
@@ -229,7 +268,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               setFieldValue('f', checked);
                             }}
                           />
-                          <Label for='check'>
+                          <Label for='early'>
                             {languageTranslation('EARLY')}
                           </Label>
                         </div>
@@ -238,7 +277,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-1'>
                           <input
                             type='checkbox'
-                            id='check1'
+                            id='late'
                             className=''
                             name={'s'}
                             checked={s}
@@ -251,7 +290,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               setFieldValue('s', checked);
                             }}
                           />
-                          <Label for='check1'>
+                          <Label for='late'>
                             {languageTranslation('LATE')}
                           </Label>
                         </div>
@@ -260,7 +299,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-1'>
                           <input
                             type='checkbox'
-                            id='check2'
+                            id='night'
                             className=''
                             name={'n'}
                             checked={n}
@@ -273,7 +312,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               setFieldValue('n', checked);
                             }}
                           />
-                          <Label for='check2'>
+                          <Label for='night'>
                             {languageTranslation('NIGHT')}
                           </Label>
                         </div>
@@ -771,7 +810,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-0'>
                           <input
                             type='checkbox'
-                            id='check'
+                            id='workingProofRecieved'
                             className=''
                             name={'workingProofRecieved'}
                             checked={workingProofRecieved}
@@ -784,7 +823,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               setFieldValue('workingProofRecieved', checked);
                             }}
                           />
-                          <Label for='check1'></Label>
+                          <Label for='workingProofRecieved'></Label>
                         </div>
                       </FormGroup>
                     </div>
@@ -843,7 +882,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             </Col>
             <Col lg={'12'}>
               <div className='d-flex align-items-center justify-content-between'>
-                <Button className='btn-save' color='danger'>
+                <Button
+                  className='btn-save'
+                  color='danger'
+                  onClick={() => onhandleDelete('caregiver', appointmentId)}
+                  disabled={!appointmentId}
+                >
                   {languageTranslation('DELETE')}
                 </Button>
                 <Button
@@ -857,7 +901,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   ) : (
                     ''
                   )}
-                  {languageTranslation('SAVE_BUTTON')}
+                  {appointmentId
+                    ? languageTranslation('UPDATE_BUTTON')
+                    : languageTranslation('SAVE_BUTTON')}
                 </Button>
               </div>
             </Col>

@@ -1,8 +1,13 @@
 import gql from 'graphql-tag';
 const GET_USERS_BY_QUALIFICATION_ID = gql`
-  query getUserByQualifications($qualificationId: [ID], $userRole: String) {
+  query getUserByQualifications(
+    $qualificationId: [ID]
+    $attributeId: [ID]
+    $userRole: String
+  ) {
     getUserByQualifications(
       qualificationId: $qualificationId
+      attributeId: $attributeId
       userRole: $userRole
     ) {
       firstName
@@ -17,7 +22,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         holiday
         night
       }
-      caregiver_avabilities{
+      caregiver_avabilities {
         id
         status
         f
@@ -26,6 +31,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         date
         fee
         weekendAllowance
+        travelAllowance
         holidayAllowance
         nightFee
         nightAllowance
@@ -35,6 +41,30 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         otherExpenses
         remarksCareGiver
         remarksInternal
+      }
+      careinstitution_requirements {
+        id
+        name
+        f
+        s
+        n
+        address
+        status
+        bookingRemarks
+        comments
+        contactPerson
+        date
+        departmentBookingRemarks
+        departmentOfferRemarks
+        departmentRemarks
+        divisionId
+        endTime
+        isWorkingProof
+        name
+        offerRemarks
+        qualificationId
+        startTime
+        userId
       }
       canstitution {
         city

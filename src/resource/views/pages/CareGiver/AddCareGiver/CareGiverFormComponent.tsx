@@ -35,13 +35,13 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
 > & {
   setRemarksDetail: any;
   remarksDetail: any;
-  caregiverAttrOpt: IAttributeOptions[] | undefined;
+  caregiverAttributeOptions: IAttributeOptions[] | undefined;
   attributeLoading?: boolean;
 }> = (
   props: FormikProps<ICareGiverValues> & {
     setRemarksDetail: any;
     remarksDetail: any;
-    caregiverAttrOpt: IAttributeOptions[] | undefined;
+    caregiverAttributeOptions: IAttributeOptions[] | undefined;
     attributeLoading?: boolean;
   }
 ) => {
@@ -49,7 +49,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
     values,
     setRemarksDetail,
     remarksDetail,
-    caregiverAttrOpt,
+    caregiverAttributeOptions,
     attributeLoading
   } = props;
   const handleField = (e: any) => {
@@ -173,7 +173,7 @@ const CareGiverFormComponent: FunctionComponent<FormikProps<
               />
               <AttributeFormComponent
                 {...props}
-                caregiverAttrOpt={caregiverAttrOpt}
+                caregiverAttributeOptions={caregiverAttributeOptions}
               />
             </div>
           </div>

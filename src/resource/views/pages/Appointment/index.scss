@@ -1,4 +1,4 @@
-@import "../../../assets/scss/variables";
+@import '../../../assets/scss/variables';
 
 .common-header-input {
   .form-control {
@@ -110,7 +110,6 @@
         width: 30px;
         min-width: 30px;
         max-width: 30px;
-
         &.name-col {
           width: 150px;
           min-width: 150px;
@@ -151,9 +150,7 @@
   }
 }
 
-.transform-0 {
-  transform: translate(0, 0);
-}
+
 // custom-color for matching
 .availability-bg {
   background: $availability_color !important;
@@ -239,7 +236,7 @@
       text-align: left;
       display: block;
       padding: 0px;
-      font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+      font-family: 'FrutigerNeueLTPro-Bold', sans-serif;
     }
   }
   .arrow-btn {
@@ -304,6 +301,9 @@ body {
     }
     .cell-available {
       background-color: $available_color;
+    }
+    .cell-block {
+      background-color: $red;
     }
     .selecting-cell {
       background-color: $selecting_color;

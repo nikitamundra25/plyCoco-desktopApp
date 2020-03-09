@@ -381,8 +381,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 
                       <div className='custom-select-checkbox'>
                         <ReactMultiSelectCheckboxes
+                          placeholderButtonLabel={languageTranslation(
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                          )}
                           options={qualificationList}
-                          placeholder='Select Qualifications'
+                          placeholder={languageTranslation(
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                          )}
                           className={'custom-reactselect '}
                           classNamePrefix='custom-inner-reactselect'
                           onChange={(value: any) =>

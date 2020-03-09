@@ -250,7 +250,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             ? careInstitutionTimesOptions
                             : ShiftTime
                         }
-                        value={shift ? shift : undefined}
+                        value={shift ? shift : ''}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         onChange={(value: any) => handleSelect(value, 'shift')}

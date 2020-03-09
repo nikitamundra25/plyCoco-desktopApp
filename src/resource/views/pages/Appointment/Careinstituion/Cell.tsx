@@ -22,7 +22,7 @@ const CellCareinstitution = ({
       'cursor-pointer': true,
       'selected-cell': isSelected,
       'selecting-cell': isSelecting,
-      'cell-available': !isSelected
+      'cell-available-careinstitution': !isSelected
         ? list &&
           list.careinstitution_requirements &&
           list.careinstitution_requirements.length

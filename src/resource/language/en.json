@@ -879,5 +879,7 @@
   "CONFIRM_DELETE_CAREGIVER_AVABILITY": "This caregiver avability will be deleted.",
   "DELETE_CAREGIVER_AVABILITY_SUCCESS": "This caregiver avability has been deleted successfully",
   "NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST": "Currently there are no department added for this careinstitution.",
-  "ENTER_DATE": "Please enter date."
+  "ENTER_DATE": "Please enter date.",
+  "SHOW_MORE": "Show More",
+  "SHOW_LESS": "Show Less"
 }

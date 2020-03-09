@@ -3,6 +3,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
   query getUserByQualifications(
     $qualificationId: [ID]
     $userRole: String
+    $page:Int
+    $limit:Int
     $negativeAttributeId: [ID]
     $positiveAttributeId: [ID]
     $gte: String
@@ -11,6 +13,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     getUserByQualifications(
       qualificationId: $qualificationId
       userRole: $userRole
+      page: $page
+      limit: $limit
       negativeAttributeId: $negativeAttributeId
       positiveAttributeId: $positiveAttributeId
       gte: $gte

@@ -72,8 +72,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     fetchCaregiverListFromQualification,
     {
       data: careGiversList,
+      called: careGiverListCalled,
       loading: caregiverLoading,
-      refetch: caregiverQulliRefetch
+      refetch: caregiverQulliRefetch,
+      fetchMore: caregiverListFetch
     }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache'
@@ -91,14 +93,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       fetchCaregiverListFromQualification({
         variables: {
           qualificationId: temp ? temp : [],
-          attributeId: [],
           positiveAttributeId: [],
           negativeAttributeId: [],
           userRole: 'caregiver',
-          sortBy: 3,
           limit: 30,
           page,
-          isActive: '',
           gte: props.gte,
           lte: props.lte
         }
@@ -174,7 +173,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     if (careGiversList) {
       console.log('careGiversList', careGiversList);
       const { getUserByQualifications } = careGiversList;
-      const result = getUserByQualifications;
+      const { result } = getUserByQualifications;
       if (result && result.length) {
         result.map((key: any) => {
           return (list = [...list, key]);
@@ -250,40 +249,77 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   const handleInfiniteScroll = () => {
     setPage(page + 1);
-    fetchMore({
-      variables: {
-        page: page + 1
-      },
-      updateQuery: (prev: any, { fetchMoreResult }: any) => {
-        if (!fetchMoreResult) return prev;
-        if (prev.getCaregivers) {
-          let list = [
-            ...careGiverData,
-            ...fetchMoreResult.getCaregivers.result
-          ];
-          setcareGiverData((prevArray: any) => [
-            ...prevArray,
-            ...fetchMoreResult.getCaregivers.result
-          ]);
-          let selectedId: any = [];
-          if (bulkcareGivers) {
-            list.forEach(caregiver => {
-              selectedId = [...selectedId, parseInt(caregiver.id)];
-            });
-            setselectedCareGiver(selectedId);
-          }
-          return Object.assign({}, prev, {
-            getCaregivers: {
-              ...prev.getCaregivers,
-              result: [
-                ...prev.getCaregivers.result,
-                ...fetchMoreResult.getCaregivers.result
-              ]
+    if (props.label !== 'appointment') {
+      fetchMore({
+        variables: {
+          page: page + 1
+        },
+        updateQuery: (prev: any, { fetchMoreResult }: any) => {
+          if (!fetchMoreResult) return prev;
+          if (prev.getCaregivers) {
+            let list = [
+              ...careGiverData,
+              ...fetchMoreResult.getCaregivers.result
+            ];
+            setcareGiverData((prevArray: any) => [
+              ...prevArray,
+              ...fetchMoreResult.getCaregivers.result
+            ]);
+            let selectedId: any = [];
+            if (bulkcareGivers) {
+              list.forEach(caregiver => {
+                selectedId = [...selectedId, parseInt(caregiver.id)];
+              });
+              setselectedCareGiver(selectedId);
             }
-          });
+            return Object.assign({}, prev, {
+              getCaregivers: {
+                ...prev.getCaregivers,
+                result: [
+                  ...prev.getCaregivers.result,
+                  ...fetchMoreResult.getCaregivers.result
+                ]
+              }
+            });
+          }
         }
-      }
-    });
+      });
+    } else {
+      caregiverListFetch({
+        variables: {
+          page: page + 1
+        },
+        updateQuery: (prev: any, { fetchMoreResult }: any) => {
+          if (!fetchMoreResult) return prev;
+          if (prev.getUserByQualifications) {
+            let list = [
+              ...careGiverData,
+              ...fetchMoreResult.getUserByQualifications.result
+            ];
+            setcareGiverData((prevArray: any) => [
+              ...prevArray,
+              ...fetchMoreResult.getUserByQualifications.result
+            ]);
+            let selectedId: any = [];
+            if (bulkcareGivers) {
+              list.forEach(caregiver => {
+                selectedId = [...selectedId, parseInt(caregiver.id)];
+              });
+              setselectedCareGiver(selectedId);
+            }
+            return Object.assign({}, prev, {
+              getUserByQualifications: {
+                ...prev.getUserByQualifications,
+                result: [
+                  ...prev.getUserByQualifications.result,
+                  ...fetchMoreResult.getUserByQualifications.result
+                ]
+              }
+            });
+          }
+        }
+      });
+    }
   };
 
   const handleSelectAll = async () => {
@@ -546,7 +582,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     props.label !== 'appointment' ? careGivers : careGiversList
                   }
                   handleSelectAll={handleSelectAll}
-                  called={called}
+                  called={
+                    props.label !== 'appointment' ? called : careGiverListCalled
+                  }
                   loading={
                     props.label !== 'appointment' ? loading : caregiverLoading
                   }

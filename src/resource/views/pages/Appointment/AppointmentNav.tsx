@@ -47,15 +47,15 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     selectedOption: IReactSelectInterface,
     name: string
   ) => {
-    let data: any =
-      name === 'caregiver' ? careGiversListArr : careInstitutionListArr;
+    const { result: caregiverArr } = careGiversListArr;
+    const { result: careinstitutionArr } = careInstitutionListArr;
+
+    let data: any = name === 'caregiver' ? caregiverArr : careinstitutionArr;
     if (selectedOption && selectedOption.value) {
       if (name === 'caregiver') {
-        data = careGiversListArr.filter(
-          (x: any) => x.id === selectedOption.value
-        );
+        data = caregiverArr.filter((x: any) => x.id === selectedOption.value);
       } else {
-        data = careInstitutionListArr.filter(
+        data = careinstitutionArr.filter(
           (x: any) => x.id === selectedOption.value
         );
       }

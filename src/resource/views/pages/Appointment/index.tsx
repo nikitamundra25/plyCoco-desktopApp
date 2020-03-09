@@ -279,7 +279,7 @@ const Appointment: FunctionComponent = () => {
             : moment()
                 .startOf('month')
                 .format(dbAcceptableFormat),
-        lt:
+        lte:
           daysData && daysData.daysArr && daysData.daysArr.length
             ? daysData.daysArr[daysData.daysArr.length - 1].dateString
             : moment()

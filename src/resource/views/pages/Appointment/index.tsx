@@ -375,6 +375,17 @@ const Appointment: FunctionComponent = () => {
     qualification.map((key: any, index: number) => {
       temp.push(parseInt(key.value));
     });
+    // Default value is start & end of month
+    let gte: string = moment()
+      .startOf('month')
+      .format(dbAcceptableFormat);
+    let lte: string = moment()
+      .endOf('month')
+      .format(dbAcceptableFormat);
+    if (daysData && daysData.daysArr && daysData.daysArr.length) {
+      gte = daysData.daysArr[0].dateString || '';
+      lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
+    }
     // get careGivers list
     fetchCaregiverList({
       variables: {
@@ -382,18 +393,8 @@ const Appointment: FunctionComponent = () => {
         userRole: 'caregiver',
         negativeAttributeId: negative,
         positiveAttributeId: positive,
-        gte:
-          daysData && daysData.daysArr && daysData.daysArr.length
-            ? daysData.daysArr[0].dateString
-            : moment()
-                .startOf('month')
-                .format(dbAcceptableFormat),
-        lte:
-          daysData && daysData.daysArr && daysData.daysArr.length
-            ? daysData.daysArr[daysData.daysArr.length - 1].dateString
-            : moment()
-                .endOf('month')
-                .format(dbAcceptableFormat),
+        gte,
+        lte,
       },
     });
     // get careInstitution list
@@ -403,8 +404,8 @@ const Appointment: FunctionComponent = () => {
         userRole: 'canstitution',
         negativeAttributeId: negative,
         positiveAttributeId: positive,
-        gte: '2020-01-01',
-        lte: '2020-03-31',
+        gte,
+        lte,
       },
     });
   };

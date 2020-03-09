@@ -107,12 +107,4 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     }
   }
 `;
-// negativeAttributeId:[ID],positiveAttributeId: [ID],gte:String, lte:String
-// qualificationId: $qualificationId
-//       userRole: $userRole
-//        negativeAttributeId: $negativeAttributeId
-//         positiveAttributeId: $positiveAttributeId
-//          gte:$gte
-//          lte:$lte
-
 export const AppointmentsQueries = [GET_USERS_BY_QUALIFICATION_ID];

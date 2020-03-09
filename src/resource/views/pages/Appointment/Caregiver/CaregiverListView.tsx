@@ -55,13 +55,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const { daysArr = [] } = daysData ? daysData : {};
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
+  const [selectedCell, setSelectedCell] = useState<any[]>([]);
   const onSelectFinish = (selectedCells: any[]) => {
     const selected: any = [];
     let list: any = [];
     if (selectedCells.length) {
       for (let i = 0; i < selectedCells.length; i++) {
         const { props: cellProps } = selectedCells[i];
-        console.log(selectedCells, 'cellProps');
+        setSelectedCell(selectedCells ? selectedCells : []);
         const { item } = cellProps;
         selected.push({
           dateString: cellProps.day ? cellProps.day.dateString : '',
@@ -351,6 +352,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       <DetaillistCaregiverPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
+        selectedCell={selectedCell}
       />
     </>
   );

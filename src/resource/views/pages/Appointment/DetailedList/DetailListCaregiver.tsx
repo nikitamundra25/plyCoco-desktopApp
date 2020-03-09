@@ -9,7 +9,7 @@ import closehover from '../../../../assets/img/cancel-hover.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 
 const DetailListCaregiver = (props: any) => {
-  const { show, handleClose } = props;
+  const { show, handleClose, selectedCell } = props;
   const [workingHourTab, setWorkingHourTab] = useState<boolean>(false);
   const externalCloseBtn = (
     <button
@@ -43,16 +43,8 @@ const DetailListCaregiver = (props: any) => {
                     <img src={refresh} alt='' />
                   </span>
                   {/* window.location.reload(); */}
-                  <span className='header-nav-text' >
-                    {languageTranslation('REFRESH')}
-                  </span>
-                </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={refresh} alt='' />
-                  </span>
                   <span className='header-nav-text'>
-                    {languageTranslation('ALWAYS_IN_BACKGROUND')}
+                    {languageTranslation('REFRESH')}
                   </span>
                 </div>
               </div>
@@ -103,37 +95,57 @@ const DetailListCaregiver = (props: any) => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td> 3143156</td>
-                          <td> Joh Doe</td>
-                          <td> Testwerk</td>
-                          <td> 03.03.2020</td>
-                          <td> Altenpfleger, Hauskrankenpflege</td>
-                          <td>Tue, 03.03.2020 06:00</td>
-                          <td>Tue, 03.03.2020 14:00</td>
-                          <td>Station2</td>
-                          <td>
-                            <span className='checkbox-custom '>
-                              <input
-                                type='checkbox'
-                                id='checkAll'
-                                className=''
-                              />
-                              <label className=''> </label>
-                            </span>
-                          </td>
-                          <td>
-                            <span className='checkbox-custom '>
-                              <input
-                                type='checkbox'
-                                id='checkAll'
-                                className=''
-                              />
-                              <label className=''> </label>
-                            </span>
-                          </td>
-                          <td></td>
-                        </tr>
+                        {selectedCell
+                          ? selectedCell.map((item: any) => {
+                              const details: any =
+                                item && item.props && item.props.list
+                                  ? item.props.list
+                                  : '';
+                              const date =
+                                item && item.props && item.props.day
+                                  ? item.props.day
+                                  : '';
+                              console.log('item', item);
+
+                              return (
+                                <tr>
+                                  <td> {details.id}</td>
+                                  <td>
+                                    {details.lastName + ' ' + details.firstName}
+                                  </td>
+                                  <td> -</td>
+                                  <td> -</td>
+                                  <td>
+                                    {date.day + ',' + ' ' + date.dateString}
+                                  </td>
+                                  <td>Tue, 03.03.2020 06:00</td>
+                                  <td>Tue, 03.03.2020 14:00</td>
+                                  <td>Station2</td>
+                                  <td>
+                                    <span className='checkbox-custom '>
+                                      <input
+                                        type='checkbox'
+                                        id='checkAll'
+                                        className=''
+                                      />
+                                      <label className=''> </label>
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className='checkbox-custom '>
+                                      <input
+                                        type='checkbox'
+                                        id='checkAll'
+                                        className=''
+                                      />
+                                      <label className=''> </label>
+                                    </span>
+                                  </td>
+                                  <td></td>
+                                </tr>
+                              );
+                            })
+                          : null}
                       </tbody>
                     </Table>
                   </div>

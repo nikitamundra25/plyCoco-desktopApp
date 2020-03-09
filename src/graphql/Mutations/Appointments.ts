@@ -6,7 +6,6 @@ const ADD_CAREGIVER_AVABILITY = gql`
   ) {
     addCareGiverAvability(careGiverAvabilityInput: $careGiverAvabilityInput) {
       userId
-      id
       f
       s
       n

@@ -100,7 +100,9 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
             </tr>
           ) : !holidaysData.length ? (
             <tr className="text-center">
-              <td colSpan={states.length || 8}>No data</td>
+              <td colSpan={states.length || 8}>
+                Currently there are no holiday Details found
+              </td>
             </tr>
           ) : (
             holidaysData.map((holiday: IHolidayData) => {

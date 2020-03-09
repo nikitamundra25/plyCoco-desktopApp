@@ -68,9 +68,8 @@ export default {
     {
       name: languageTranslation("MENU_INVOICES"),
       icon: "icon-invoice",
-      url: AppRoutes.HOME,
+      url: AppRoutes.ALLINVOICES,
       authKey: ["all", "superadmin", "basic", "invoice"]
-      // url: AppRoutes.REGION
     },
     {
       name: languageTranslation("MENU_DOCUMENT_UPLOADS"),

@@ -381,7 +381,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         handleClose={() => setShowToDo(false)}
         name={
           selectUser && selectUser.user
-            ? `${selectUser.user.firstName} ${selectUser.user.lastName}`
+            ? `${selectUser.user.lastName} ${selectUser.user.firstName}`
             : null
         }
         editToDo={true}

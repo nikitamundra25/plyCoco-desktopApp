@@ -303,7 +303,7 @@ const ArchiveEmployee: FunctionComponent = () => {
                 data.trashUserList.result.length ? (
                 data.trashUserList.result.map(
                   (trashUser: any, index: number) => {
-                    var elements = [trashUser.firstName, trashUser.lastName];
+                    var elements = [trashUser.lastName, trashUser.firstName];
                     let trashLength = data.trashUserList.result.length;
 
                     return (

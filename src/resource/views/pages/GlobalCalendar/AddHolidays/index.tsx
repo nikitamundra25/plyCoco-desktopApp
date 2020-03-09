@@ -133,7 +133,6 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
       refresh();
       // refetch the list
     } catch (error) {
-      console.log(error);
       const message = errorFormatter(error.message);
       toast.error(message);
       logger(error);

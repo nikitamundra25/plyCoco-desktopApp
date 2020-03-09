@@ -14,6 +14,7 @@ import {
   taxNumberLimit,
   NumberWithCommaRegex
 } from '../../config';
+import moment from 'moment';
 export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   ICareGiverValidationInterface
@@ -36,7 +37,14 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     name: 'validate-date',
     test: function(val) {
       const { path, createError } = this;
-      const { isValid, message }: IDateResponse = dateValidator(val);
+      const { isValid, message }: IDateResponse = dateValidator(val, {
+        maxDate: moment()
+          .subtract(13, 'years')
+          .format(),
+        minDate: moment()
+          .subtract(100, 'years')
+          .format()
+      });
       return !val || isValid || createError({ path, message });
     }
   }),
@@ -106,16 +114,13 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .nullable()
     .integer('Age must be a valid integer')
     .typeError('Age must be a number')
-    .min(18, 'You must have 18 years of age')
+    .min(13, 'You must have 13 years of age')
     .max(100, "Age can't be greater than 100 years"),
   fax: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
     value => !value || (value && !isNaN(value))
   ),
-  country: Yup.mixed()
-  .required(languageTranslation('COUNTRY_REQUIRED'))
-  ,
-  state: Yup.mixed()
-  .required(languageTranslation('STATE_REQUIRED'))
+  country: Yup.mixed().required(languageTranslation('COUNTRY_REQUIRED')),
+  state: Yup.mixed().required(languageTranslation('STATE_REQUIRED'))
 });

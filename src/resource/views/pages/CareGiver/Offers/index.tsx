@@ -141,7 +141,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
             }
           }
           temp.push({
-            label: `${firstName}${" "}${lastName}`,
+            label: `${lastName}${" "}${firstName}`,
             value: id,
             color: !isActive
               ? deactivatedListColor
@@ -297,7 +297,6 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   };
 
   const onSearch = async () => {
-    console.log('ssssssss ');
 
     await fetchCareInstitutionList({
       variables: {

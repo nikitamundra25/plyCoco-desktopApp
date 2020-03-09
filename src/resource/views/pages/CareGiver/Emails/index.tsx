@@ -74,8 +74,6 @@ const Email: FunctionComponent<{
       }
     } else {
       setEmailData('');
-      console.log('in useEffect else');
-
       fetchEmails({ variables });
     }
   }, [search, id]);

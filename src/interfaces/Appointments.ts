@@ -20,10 +20,14 @@ export interface IAppointmentNav {
   handleQualification: (value: any) => void;
   handleNext: () => void;
   handleDayClick: (selectedDay: Date) => void;
+  handleSelectUserList: (value: any, name: string) => void;
   daysData: IGetDaysArrayByMonthRes | null;
   qualificationList: IReactSelectInterface[] | undefined;
   careInstitutionList: any;
   careGiversList: any;
+  qualification: IReactSelectInterface[] | undefined;
+  careGiversListArr: any;
+  careInstitutionListArr: any;
 }
 
 export interface IAppointmentCareGiverList {
@@ -73,13 +77,17 @@ export interface IAppointmentCareGiverForm {
   activeDateCaregiver?: IDate | undefined;
   addCaregiverRes?: any;
   timeSlotError?: string;
+  onhandleDelete: (id: string) => void;
+  careGiversListArr: any;
+  handleSelectUserList: (value: any, name: string) => void;
 }
 
 export interface IDate {
-  date: any;
-  day: string;
-  isWeekend: boolean;
-  isoString: any;
+  date?: any;
+  day?: string;
+  isWeekend?: boolean;
+  isoString?: any;
+  dateString?: string;
 }
 
 export interface IStarInterface {
@@ -138,6 +146,10 @@ export interface IAppointmentCareInstitutionForm {
   careInstitutionDepartment: IReactSelectInterface[] | undefined;
   addCareinstitutionRes: any;
   secondStarCanstitution: boolean;
+  handleQualification: (value: any) => void;
+  onhandleDelete: (name: string, id: string) => void;
+  careInstitutionListArr: any;
+  handleSelectUserList: (value: any, name: string) => void;
 }
 export interface IAddCargiverAppointmentRes {
   id: string;
@@ -188,4 +200,7 @@ export interface ICareinstitutionFormSubmitValue {
   offerRemarks: string;
   bookingRemarks: string;
   comments?: string;
+  f: string;
+  s: string;
+  n: string;
 }

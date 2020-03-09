@@ -40,6 +40,8 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
       handleCheckElement(e, id);
     }
   };
+  console.log('careGivers', careGiverData);
+
   return (
     <Col lg={'5'} className='pr-lg-0'>
       <div id='scrollableDiv' className='caregiver-list custom-scroll'>
@@ -52,11 +54,13 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
           }}
           scrollableTarget='scrollableDiv'
           hasMore={
-            careGivers &&
-            careGivers.getCaregivers &&
-            careGivers.getCaregivers.totalCount
-              ? careGivers.getCaregivers.totalCount !== careGiverData.length
-                ? true
+            props.label !== 'appointment'
+              ? careGivers &&
+                careGivers.getCaregivers &&
+                careGivers.getCaregivers.totalCount
+                ? careGivers.getCaregivers.totalCount !== careGiverData.length
+                  ? true
+                  : false
                 : false
               : false
           }

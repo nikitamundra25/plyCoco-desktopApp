@@ -133,13 +133,34 @@ const Appointment: FunctionComponent = () => {
   const [addCaregiver, { error, data: addCaregiverRes }] = useMutation<
     { addCareGiverAvability: IAddCargiverAppointmentRes },
     { careGiverAvabilityInput: any }
-  >(ADD_CAREGIVER_AVABILITY);
+  >(ADD_CAREGIVER_AVABILITY, {
+    onCompleted() {
+      fetchingCareGiverData();
+    },
+  });
 
   // Mutation to update careGiver data
   const [updateCaregiver, { data: updateCaregiverRes }] = useMutation<
     { CareGiverAvability: IAddCargiverAppointmentRes },
     { id: number; careGiverAvabilityInput: any }
-  >(UPDATE_CAREGIVER_AVABILITY);
+  >(UPDATE_CAREGIVER_AVABILITY, {
+    onCompleted() {
+      fetchingCareGiverData();
+    },
+  });
+
+  // Mutation to delete caregiver
+  const [deleteCaregiverRequirement, {}] = useMutation<
+    { deleteCaregiver: any },
+    { id: number }
+  >(DELETE_CAREGIVER_AVABILITY, {
+    onCompleted() {
+      fetchingCareGiverData();
+      setselctedAvailability({});
+      setactiveDateCaregiver([]);
+      setselectedCareGiver({});
+    },
+  });
 
   // Mutation to add careinstitution data
   const [
@@ -148,24 +169,32 @@ const Appointment: FunctionComponent = () => {
   ] = useMutation<
     { addCareInstitutionRequirement: IAddCargiverAppointmentRes },
     { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue }
-  >(ADD_INSTITUTION_REQUIREMENT);
+  >(ADD_INSTITUTION_REQUIREMENT, {
+    onCompleted() {
+      canstitutionRefetch();
+    },
+  });
 
-  // updateCareinstitutionRequirment
-  // Mutation to update careGiver data
+  // update Careinstitution Requirment
   const [
     updateCareinstitutionRequirment,
     { data: updateCareinstitutionRes },
   ] = useMutation<
     { CareInstitutionRequirementType: IAddCargiverAppointmentRes },
     { id: number; careInstitutionRequirementInput: any }
-  >(UPDATE_INSTITUTION_REQUIREMENT);
+  >(UPDATE_INSTITUTION_REQUIREMENT, {
+    onCompleted() {
+      canstitutionRefetch();
+    },
+  });
 
   // Mutation to delete careinstitution
-  const [deleteCareinstitutionRequirement, {}] = useMutation<
+  const [deleteCareinstitutionRequirement] = useMutation<
     { deleteCareinstitution: any },
     { id: number }
   >(DELETE_CAREINSTITUTION_REQUIREMENT, {
     onCompleted() {
+      canstitutionRefetch();
       setvaluesForCareinstitution({
         appointmentId: '',
         name: '',
@@ -190,17 +219,6 @@ const Appointment: FunctionComponent = () => {
     },
   });
 
-  // Mutation to delete caregiver
-  const [deleteCaregiverRequirement, {}] = useMutation<
-    { deleteCaregiver: any },
-    { id: number }
-  >(DELETE_CAREGIVER_AVABILITY, {
-    onCompleted() {
-      setselctedAvailability({});
-      setactiveDateCaregiver([]);
-      setselectedCareGiver({});
-    },
-  });
   // To get caregiver list from db
   const [
     getDepartmentList,
@@ -218,13 +236,6 @@ const Appointment: FunctionComponent = () => {
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache',
   });
-
-  //use Effect for care giver availibility added
-  useEffect(() => {
-    if (fetchingCareGiverData) {
-      fetchingCareGiverData();
-    }
-  }, [addCaregiverRes]);
 
   // To fetch careinstitution by qualification id
   const [
@@ -292,9 +303,10 @@ const Appointment: FunctionComponent = () => {
   useEffect(() => {
     if (careGiversList && careGiversList.getUserByQualifications) {
       const { getUserByQualifications } = careGiversList;
+      const { result } = getUserByQualifications;
       let temp: any[] = daysData ? [...daysData.daysArr] : [];
-      if (getUserByQualifications && getUserByQualifications.length) {
-        getUserByQualifications.forEach((user: any, index: number) => {
+      if (result && result.length) {
+        result.forEach((user: any, index: number) => {
           user.availabilityData = [];
           if (user.caregiver_avabilities && user.caregiver_avabilities.length) {
             let result: any = user.caregiver_avabilities.reduce(
@@ -327,12 +339,13 @@ const Appointment: FunctionComponent = () => {
           }
         });
       }
-      setcaregiversList(getUserByQualifications);
+      setcaregiversList(result);
     }
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
       const { getUserByQualifications } = careInstitutionList;
-      if (getUserByQualifications && getUserByQualifications.length) {
-        setcareinstitutionList(getUserByQualifications);
+      const { result } = getUserByQualifications;
+      if (result && result.length) {
+        setcareinstitutionList(result);
       }
     }
   }, [careGiversList, careInstitutionList]);
@@ -412,13 +425,12 @@ const Appointment: FunctionComponent = () => {
   // To fetch users according to qualification selected
   useEffect(() => {
     if (qualification.length) {
-      console.log('in qualification use effect');
       fetchData();
     }
   }, [qualification]);
+
   // To fetch list data after month has changed
   useEffect(() => {
-    console.log('in daysData use effect');
     fetchData();
   }, [daysData]);
 
@@ -560,7 +572,7 @@ const Appointment: FunctionComponent = () => {
               id: parseInt(id),
             },
           });
-          canstitutionRefetch();
+          // canstitutionRefetch();
         } else {
           await deleteCaregiverRequirement({
             variables: {
@@ -619,9 +631,12 @@ const Appointment: FunctionComponent = () => {
           departmentOfferRemarks: departmentData[0].commentsOffer,
           departmentRemarks: departmentData[0].commentsVisibleInternally,
           departmentBookingRemarks: departmentData[0].commentsCareGiver,
-          shift: careInstitutionTimesOptions[0],
-          startTime,
-          endTime,
+          shift:
+            careInstitutionTimesOptions && careInstitutionTimesOptions.length
+              ? careInstitutionTimesOptions[0]
+              : values.shift,
+          startTime: startTime ? startTime : values.startTime,
+          endTime: endTime ? endTime : values.endTime,
         };
         setvaluesForCareinstitution(temp);
       }
@@ -896,9 +911,7 @@ const Appointment: FunctionComponent = () => {
           distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
           feePerKM: feePerKM ? parseFloat(feePerKM) : null,
           travelAllowance: travelAllowance ? parseFloat(travelAllowance) : null,
-          otherExpenses: otherExpenses
-            ? parseFloat(otherExpenses.replace(/,/g, '.'))
-            : null,
+          otherExpenses: otherExpenses ? parseFloat(otherExpenses) : null,
           remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
           remarksInternal: remarksInternal ? remarksInternal : null,
           f: f ? 'available' : 'default',
@@ -1064,7 +1077,7 @@ const Appointment: FunctionComponent = () => {
           );
         }
       }
-      canstitutionRefetch();
+      // canstitutionRefetch();
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -1077,6 +1090,27 @@ const Appointment: FunctionComponent = () => {
     }
     setSubmitting(false);
   };
+
+  //Store gte days data
+  let [gteDayData, setgteDayData] = useState<string | undefined>('');
+  //Store lte days data
+  let [lteDayData, setlteDayData] = useState<string | undefined>('');
+  useEffect(() => {
+    gteDayData =
+      daysData && daysData.daysArr && daysData.daysArr.length
+        ? daysData.daysArr[0].dateString
+        : moment()
+            .startOf('month')
+            .format(dbAcceptableFormat);
+    lteDayData =
+      daysData && daysData.daysArr && daysData.daysArr.length
+        ? daysData.daysArr[daysData.daysArr.length - 1].dateString
+        : moment()
+            .endOf('month')
+            .format(dbAcceptableFormat);
+    setlteDayData(lteDayData);
+    setgteDayData(gteDayData);
+  }, []);
 
   // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
   let firstName: string = '',
@@ -1153,6 +1187,9 @@ const Appointment: FunctionComponent = () => {
     n: n === 'available' ? true : false,
   };
 
+  console.log('++++++++++++++++Get gte and lte data', gteDayData);
+  console.log('***********Get gte and lte data', lteDayData);
+
   return (
     <>
       <div className='common-detail-page'>
@@ -1195,6 +1232,8 @@ const Appointment: FunctionComponent = () => {
                     handleSecondStar={handleSecondStar}
                     handleReset={handleReset}
                     qualification={qualification}
+                    gte={gteDayData}
+                    lte={lteDayData}
                   />
                   <CarinstituionListView
                     daysData={daysData}

@@ -150,7 +150,6 @@
   }
 }
 
-
 // custom-color for matching
 .availability-bg {
   background: $availability_color !important;
@@ -301,6 +300,9 @@ body {
     }
     .cell-available {
       background-color: $available_color;
+    }
+    .cell-available-careinstitution {
+      background-color: #ee21ff;
     }
     .cell-block {
       background-color: $red;

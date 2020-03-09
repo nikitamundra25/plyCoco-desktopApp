@@ -20,7 +20,7 @@ export interface IAddHolidaysFormValues {
 // props for add holiday
 export interface IAddHolidayProps {
   isOpen: boolean;
-  handleClose?: () => void;
+  handleClose: () => void;
   states: IState[];
   refresh: () => void;
   editInfo?: IAddHolidaysFormValues;
@@ -42,4 +42,18 @@ export interface IHolidayData {
   note?: string;
   states?: IState[];
   applicableStates?: number[];
+}
+export interface IUpdateWeekendProps {
+  isOpen: boolean;
+  handleClose: () => void;
+  states: IState[];
+  refresh: () => void;
+}
+export interface IUpdateWeekendFormValues {
+  year: number | string;
+  overwriteExisting?: boolean;
+  applicableStates?: number[];
+}
+export interface IUpdateWeekendFormProps {
+  fieldsInfo: FormikProps<IUpdateWeekendFormValues>;
 }

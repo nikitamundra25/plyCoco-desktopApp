@@ -5,7 +5,6 @@ import { FieldArray, Field } from "formik";
 import {
   IAddHolidaysFormValues,
   IReactSelectInterface,
-  IAddHolidayProps,
   IAddHolidaysFormProps,
   IState
 } from "../../../../../interfaces";
@@ -55,6 +54,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
     value: "all"
   };
   stateOptions.unshift(allOption);
+  // set selected
   const getSelectedStates = (index: number): IReactSelectInterface[] => {
     let selectedOptions: IReactSelectInterface[] = [];
     const selectedStates = values.inputs[index].states || [];
@@ -96,11 +96,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                           </Col>
                           <Col sm="8">
                             <Field name={`inputs.${index}.date`}>
-                              {({
-                                field,
-                                form: { touched, errors },
-                                meta
-                              }: any) => {
+                              {({ field, meta }: any) => {
                                 return (
                                   <>
                                     <MaskedInput
@@ -120,7 +116,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                                       {...field}
                                     />
                                     {meta.touched && meta.error && (
-                                      <div className="required-tooltip text-danger">
+                                      <div className="required-tooltip">
                                         {meta.error}
                                       </div>
                                     )}
@@ -142,11 +138,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                           </Col>
                           <Col sm="8">
                             <Field name={`inputs.${index}.note`}>
-                              {({
-                                field,
-                                form: { touched, errors },
-                                meta
-                              }: any) => (
+                              {({ field, meta }: any) => (
                                 <>
                                   <Input
                                     type="text"
@@ -164,7 +156,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                                     {...field}
                                   />
                                   {meta.touched && meta.error && (
-                                    <div className="required-tooltip text-danger">
+                                    <div className="required-tooltip">
                                       {meta.error}
                                     </div>
                                   )}

@@ -40,4 +40,5 @@ export interface IAppRoutes {
   CAREINSTITUTION_ARCHIVE: string;
   EMPLOYEE_LOGIN_HISTORY: string;
   GLOBAL_CALENDAR: string;
+  BULK_EMAIL_CAREINSTITUTION: String;
 }

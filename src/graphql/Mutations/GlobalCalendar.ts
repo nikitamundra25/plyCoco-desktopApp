@@ -29,9 +29,17 @@ const UPDATE_GLOBAL_HOLIDAY = gql`
     }
   }
 `;
+const ADD_WEEKEND = gql`
+  mutation MarkWeekend($globalCalendarInput: GlobalCalendarInput!) {
+    markWeekend(globalCalendarInput: $globalCalendarInput) {
+      id
+    }
+  }
+`;
 
 export const GlobalCalendarMutations = [
   ADD_GLOBAL_HOLIDAYS,
   DELETE_HOLIDAY,
-  UPDATE_GLOBAL_HOLIDAY
+  UPDATE_GLOBAL_HOLIDAY,
+  ADD_WEEKEND
 ];

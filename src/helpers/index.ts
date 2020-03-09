@@ -1,6 +1,6 @@
 export * from './Logger';
 export * from './LangauageTranslation';
-export * from './DateValidator';
+export * from './DateHelper';
 export * from './StripHtml';
 export * from './HtmlToDraftConverter';
 export * from './FormatFIleSize';
@@ -8,3 +8,4 @@ export * from './TimeValidator';
 export * from './ErrorFormatter';
 export * from './GermanNumberFormat';
 export * from './GetDaysByMonth';
+export * from './TimeDifference';

@@ -10,7 +10,7 @@ const Cell = ({
   list,
   item,
   key,
-  handleSelectedAvailability,
+  handleSelectedAvailability
 }: any) => {
   // Filter current date data
   const temp = item.filter((avabilityData: any, index: number) => {
@@ -43,7 +43,7 @@ const Cell = ({
                 ? true
                 : false
               : false
-            : false,
+            : false
         })}
         ref={selectableRef}
       >

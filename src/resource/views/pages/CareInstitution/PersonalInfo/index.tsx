@@ -33,6 +33,7 @@ import { errorFormatter } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
 import '../careinstitution.scss';
 import { RemarkMutations } from '../../../../../graphql/Mutations';
+import { Gender } from '../../../../../config';
 
 let toastId: any;
 
@@ -477,7 +478,11 @@ const PersonalInformation: any = (props: any) => {
       email,
       firstName,
       lastName,
-      gender: convertintoLabelValue(gender),
+      gender: gender
+        ? Gender.filter(
+            ({ value }: IReactSelectInterface) => value === gender,
+          )[0]
+        : undefined,
       userName,
       phoneNumber: phoneNumber || '',
       salutation: convertintoLabelValue(salutation),

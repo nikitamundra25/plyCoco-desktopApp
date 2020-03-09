@@ -442,6 +442,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}
         handleClose={() => handleCareGiverBulkEmail()}
+        gte={props.gte}
+        lte={props.lte}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

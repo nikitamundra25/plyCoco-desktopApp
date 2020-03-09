@@ -304,8 +304,9 @@ const Appointment: FunctionComponent = () => {
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
     if (careGiversList && careGiversList.getUserByQualifications) {
       const { getUserByQualifications } = careGiversList;
-      if (getUserByQualifications && getUserByQualifications.length) {
-        getUserByQualifications.forEach((user: any, index: number) => {
+      const { result } = getUserByQualifications;
+      if (result && result.length) {
+        result.forEach((user: any, index: number) => {
           user.availabilityData = [];
           if (user.caregiver_avabilities && user.caregiver_avabilities.length) {
             let result: any = user.caregiver_avabilities.reduce(
@@ -338,13 +339,14 @@ const Appointment: FunctionComponent = () => {
           }
         });
       }
-      setcaregiversList(getUserByQualifications);
+      setcaregiversList(result);
     }
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
       const { getUserByQualifications } = careInstitutionList;
-      if (getUserByQualifications && getUserByQualifications.length) {
+      const { result } = getUserByQualifications;
+      if (result && result.length) {
         /*  */
-        getUserByQualifications.forEach((user: any, index: number) => {
+        result.forEach((user: any, index: number) => {
           user.availabilityData = [];
           if (
             user.careinstitution_requirements &&
@@ -380,7 +382,7 @@ const Appointment: FunctionComponent = () => {
           }
         });
         /*  */
-        setcareinstitutionList(getUserByQualifications);
+        setcareinstitutionList(result);
       }
     }
   }, [careGiversList, careInstitutionList]);
@@ -460,13 +462,12 @@ const Appointment: FunctionComponent = () => {
   // To fetch users according to qualification selected
   useEffect(() => {
     if (qualification.length) {
-      console.log('in qualification use effect');
       fetchData();
     }
   }, [qualification]);
+
   // To fetch list data after month has changed
   useEffect(() => {
-    console.log('in daysData use effect');
     fetchData();
   }, [daysData]);
 
@@ -1128,6 +1129,27 @@ const Appointment: FunctionComponent = () => {
     setSubmitting(false);
   };
 
+  //Store gte days data
+  let [gteDayData, setgteDayData] = useState<string | undefined>('');
+  //Store lte days data
+  let [lteDayData, setlteDayData] = useState<string | undefined>('');
+  useEffect(() => {
+    gteDayData =
+      daysData && daysData.daysArr && daysData.daysArr.length
+        ? daysData.daysArr[0].dateString
+        : moment()
+            .startOf('month')
+            .format(dbAcceptableFormat);
+    lteDayData =
+      daysData && daysData.daysArr && daysData.daysArr.length
+        ? daysData.daysArr[daysData.daysArr.length - 1].dateString
+        : moment()
+            .endOf('month')
+            .format(dbAcceptableFormat);
+    setlteDayData(lteDayData);
+    setgteDayData(gteDayData);
+  }, []);
+
   // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
   let firstName: string = '',
     lastName: string = '',
@@ -1203,6 +1225,9 @@ const Appointment: FunctionComponent = () => {
     n: n === 'available' ? true : false
   };
 
+  console.log('++++++++++++++++Get gte and lte data', gteDayData);
+  console.log('***********Get gte and lte data', lteDayData);
+
   return (
     <>
       <div className='common-detail-page'>
@@ -1245,6 +1270,8 @@ const Appointment: FunctionComponent = () => {
                     handleSecondStar={handleSecondStar}
                     handleReset={handleReset}
                     qualification={qualification}
+                    gte={gteDayData}
+                    lte={lteDayData}
                   />
                   <CarinstituionListView
                     daysData={daysData}

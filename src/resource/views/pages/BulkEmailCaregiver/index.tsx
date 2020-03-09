@@ -69,7 +69,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   // To fetch caregivers by qualification id
   const [
-    fetchCaregiverList,
+    fetchCaregiverListFromQualification,
     {
       data: careGiversList,
       loading: caregiverLoading,
@@ -81,18 +81,25 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   // To fetch users according to qualification selected
   useEffect(() => {
-    let temp: any = [];
-    props.qualification.map((key: any, index: number) => {
-      temp.push(parseInt(key.value));
-    });
-    // get careGivers list
-    fetchCaregiverList({
-      variables: {
-        qualificationId: temp ? temp : [],
-        attributeId: [],
-        userRole: 'caregiver'
-      }
-    });
+    console.log('in use effect data');
+    if (props.label === 'appointment') {
+      let temp: any = [];
+      props.qualification.map((key: any, index: number) => {
+        temp.push(parseInt(key.value));
+      });
+      // get careGivers list
+      fetchCaregiverListFromQualification({
+        variables: {
+          qualificationId: temp ? temp : [],
+          attributeId: [],
+          userRole: 'caregiver',
+          sortBy: 3,
+          limit: 30,
+          page,
+          isActive: ''
+        }
+      });
+    }
   }, [props.qualification]);
 
   // To get all the types of email template
@@ -140,18 +147,47 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   useEffect(() => {
     // Fetch list of caregivers
-    fetchCareGiverList({
-      variables: {
-        searchBy: '',
-        sortBy: 3,
-        limit: 30,
-        page,
-        isActive: ''
-      }
-    });
+    console.log('Helooo');
+    if (props.label !== 'appointment') {
+      fetchCareGiverList({
+        variables: {
+          searchBy: '',
+          sortBy: 3,
+          limit: 30,
+          page,
+          isActive: ''
+        }
+      });
+    }
   }, []);
 
   const [careGiverData, setcareGiverData] = useState<Object[]>([]);
+
+  // get care giver list according to selected qualification in appointment section
+
+  useEffect(() => {
+    let list: any = [...careGiverData];
+    if (careGiversList) {
+      console.log('careGiversList', careGiversList);
+      const { getUserByQualifications } = careGiversList;
+      const result = getUserByQualifications;
+      if (result && result.length) {
+        result.map((key: any) => {
+          return (list = [...list, key]);
+        });
+      }
+      console.log('list', list);
+      setcareGiverData(list);
+      let selectedId: any = [];
+      if (bulkcareGivers) {
+        list.map((key: any) => {
+          return (selectedId = [...selectedId, parseInt(key.id)]);
+        });
+        setselectedCareGiver(selectedId);
+      }
+    }
+  }, [careGiversList]);
+
   useEffect(() => {
     let list: any = [...careGiverData];
     if (careGivers) {
@@ -172,6 +208,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [careGivers]);
+  console.log('props.label', props.label);
 
   // const handleInfiniteScroll = () => {
   //   setPage(page + 1);
@@ -506,7 +543,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   careGivers={careGivers}
                   handleSelectAll={handleSelectAll}
                   called={called}
-                  loading={loading}
+                  loading={
+                    props.label !== 'appointment' ? loading : caregiverLoading
+                  }
                   careGiverData={careGiverData}
                   selectedCareGiver={selectedCareGiver}
                   handleCheckElement={handleCheckElement}

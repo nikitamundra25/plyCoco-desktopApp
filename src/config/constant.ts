@@ -962,16 +962,21 @@ export const TodoFilter: IReactSelectInterface[] = [
   { value: 'completed', label: languageTranslation('HIDE_FUTURE_ONES') }
 ];
 
+export const filterUserById: IReactSelectInterface[] = [
+  { value: 'caregiver', label: languageTranslation('CAREGIVER_USERROLE') },
+  { value: 'canstitution', label: languageTranslation('CAREINST_USERROLE') }
+];
+
 export const Without_Appointments: IReactSelectInterface[] = [
   {
-    value: 'Show with appointment',
+    value: 'showWithAppointments',
     label: languageTranslation('SHOW_APPOINTMENT')
   },
   {
-    value: 'Show without appointment',
+    value: 'showWithoutAppointments',
     label: languageTranslation('SHOW_WITHOUT_APPOINTMENT')
   },
-  { value: 'Show All', label: languageTranslation('SHOW_ALL') }
+  { value: 'showAll', label: languageTranslation('SHOW_ALL') }
 ];
 
 export const TodoStatus: IReactSelectInterface[] = [

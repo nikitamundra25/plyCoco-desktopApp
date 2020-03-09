@@ -76,7 +76,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     if (selectedCells.length) {
       for (let i = 0; i < selectedCells.length; i++) {
         const { props: cellProps } = selectedCells[i];
-        console.log(selectedCells, 'cellProps');
         const { item } = cellProps;
         selected.push({
           dateString: cellProps.day ? cellProps.day.dateString : '',
@@ -102,7 +101,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                   moment(avabilityData.date).format('DD.MM.YYYY') ===
                   moment(dateString).format('DD.MM.YYYY')
               );
-
               selctedAvailability = temp && temp.length ? temp : {};
             }
           }

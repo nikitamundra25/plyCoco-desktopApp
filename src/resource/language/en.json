@@ -432,6 +432,7 @@
   "TIMES": "Times",
   "DEPARTMENTS": "Departments",
   "BLOCKED": "Blocked",
+  "BLOCK": "block",
   "END": "End",
   "STORAGE_PANEL": "Storage Panel",
   "OLD_PASSWORD": "Old Password",

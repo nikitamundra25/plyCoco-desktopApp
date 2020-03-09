@@ -37,9 +37,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     loading,
     onAddingRow,
     handleSelectedUser,
+    handleSelection,
     handleSecondStar,
     handleReset,
     onReserve,
+    onDeleteEntries,
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -73,6 +75,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   const { daysArr = [] } = daysData ? daysData : {};
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
+
   const onSelectFinish = (selectedCells: any[]) => {
     const selected: any = [];
     let list: any = [];
@@ -80,10 +83,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       for (let i = 0; i < selectedCells.length; i++) {
         const { props: cellProps } = selectedCells[i];
         console.log(selectedCells, 'cellProps');
-        const { item } = cellProps;
+        const { item, list: caregiverData } = cellProps;
         selected.push({
           dateString: cellProps.day ? cellProps.day.dateString : '',
           item,
+          list: caregiverData,
         });
         if (selectedCells[0].props.list) {
           list = selectedCells[0].props.list;
@@ -91,34 +95,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         setSelectedDays(selected);
       }
       let selctedAvailability: any = {};
-      if (
-        list &&
-        list.caregiver_avabilities &&
-        list.caregiver_avabilities.length
-      ) {
-        if (selected && selected.length) {
-          for (let index = 0; index < selected.length; index++) {
-            const { dateString, item } = selected[index];
-            if (item && item.length) {
-              let temp = item.filter(
-                (avabilityData: any, index: number) =>
-                  moment(avabilityData.date).format('DD.MM.YYYY') ===
-                  moment(dateString).format('DD.MM.YYYY'),
-              );
-
-              selctedAvailability = temp && temp.length ? temp : {};
-            }
-          }
+      let selectedRows: any[] = [];
+      // if (
+      //   list &&
+      //   list.caregiver_avabilities &&
+      //   list.caregiver_avabilities.length
+      // ) {
+      if (selected && selected.length) {
+        for (let index = 0; index < selected.length; index++) {
+          const { item, list, dateString } = selected[index];
+          selctedAvailability = item;
+          selectedRows.push({ id: list.id, item, dateString });
         }
       }
-      handleSelectedUser(
-        list,
-        selected,
-        'caregiver',
-        selctedAvailability && selctedAvailability.length
-          ? selctedAvailability[0]
-          : {},
-      );
+      // }
+      console.log(selectedRows, 'selectedRows');
+      handleSelection(selectedRows);
+      handleSelectedUser(list, selected, 'caregiver', selctedAvailability);
     }
   };
   const onSelectionClear = () => {
@@ -149,7 +142,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink onClick={onDeleteEntries}>
               <img src={delete_appointment} className='mr-2' alt='' />
               <span className='align-middle'>
                 Delete free and reserved calender entries
@@ -413,7 +406,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                   key={`${key}-${i}`}
                                   day={key}
                                   list={list}
-                                  item={item}
+                                  item={
+                                    item.filter((avabilityData: any) => {
+                                      return (
+                                        moment(key.isoString).format(
+                                          'DD.MM.YYYY',
+                                        ) ===
+                                        moment(avabilityData.date).format(
+                                          'DD.MM.YYYY',
+                                        )
+                                      );
+                                    })[0]
+                                  }
                                   handleSelectedAvailability
                                 />
                               );

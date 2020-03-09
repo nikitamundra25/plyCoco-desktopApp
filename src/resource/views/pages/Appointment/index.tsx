@@ -91,6 +91,7 @@ const Appointment: FunctionComponent = () => {
 
   //For selected Availability
   const [selctedAvailability, setselctedAvailability] = useState<any>({});
+  const [selectedCells, setSelectedCells] = useState<any[]>();
   /*  */
   //For selected Requirement
   const [selctedRequirement, setselctedRequirement] = useState<any>({});
@@ -358,7 +359,10 @@ const Appointment: FunctionComponent = () => {
       setcareinstitutionList(data);
     }
   };
-
+  const handleSelection = (selectedCells: any) => {
+    console.log('in handle selection');
+    setSelectedCells(selectedCells);
+  };
   // Reset the users list
   const handleReset = (name: string) => {
     if (name === 'caregiver') {
@@ -1092,28 +1096,91 @@ const Appointment: FunctionComponent = () => {
   };
 
   const onReserve = async () => {
-    console.log('onReserve availability');
-    console.log(selctedAvailability);
-    if (selctedAvailability && selctedAvailability.id) {
-      await updateCaregiver({
-        variables: {
-          id: parseInt(selctedAvailability.id),
-          careGiverAvabilityInput: {
-            ...selctedAvailability,
-            f: 'block',
-            s: 'block',
-            n: 'block',
-          },
-        },
+    if (selectedCells && selectedCells.length) {
+      let careGiverAvabilityInput: any = [];
+      selectedCells.forEach(async element => {
+        const { dateString, id, item } = element;
+        if (item.id) {
+          let availabilityId: number = item.id ? parseInt(item.id) : 0;
+          delete item.id;
+          delete item.__typename;
+          await updateCaregiver({
+            variables: {
+              id: availabilityId,
+              careGiverAvabilityInput: {
+                ...item,
+                f: 'block',
+                s: 'block',
+                n: 'block',
+              },
+            },
+          });
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG'),
+            );
+          }
+        } else {
+          careGiverAvabilityInput.push({
+            userId: id ? parseInt(id) : '',
+            date: dateString
+              ? moment(dateString).format(dbAcceptableFormat)
+              : '',
+            fee: null,
+            weekendAllowance: null,
+            holidayAllowance: null,
+            nightFee: null,
+            nightAllowance: null,
+            workingProofRecieved: false,
+            distanceInKM: null,
+            feePerKM: null,
+            travelAllowance: null,
+            otherExpenses: null,
+            remarksCareGiver: null,
+            remarksInternal: null,
+            f: languageTranslation('BLOCK'),
+            s: languageTranslation('BLOCK'),
+            n: languageTranslation('BLOCK'),
+            status: 'default',
+          });
+        }
       });
-    }
-    if (!toast.isActive(toastId)) {
-      toastId = toast.success(
-        languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG'),
-      );
+      if (careGiverAvabilityInput && careGiverAvabilityInput.length) {
+        await addCaregiver({
+          variables: {
+            careGiverAvabilityInput: careGiverAvabilityInput,
+          },
+        });
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG'),
+          );
+        }
+      }
     }
   };
 
+  const onDeleteEntries = () => {
+    console.log('on delete entries');
+    if (selectedCells && selectedCells.length) {
+      let availabilityIds: number[] = [];
+      selectedCells.forEach(async element => {
+        const { dateString, id, item } = element;
+        if (item && item.id) {
+          await deleteCaregiverRequirement({
+            variables: {
+              id: parseInt(item.id),
+            },
+          });
+        }
+      });
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS'),
+        );
+      }
+    }
+  };
   //Store gte days data
   let [gteDayData, setgteDayData] = useState<string | undefined>('');
   //Store lte days data
@@ -1258,6 +1325,8 @@ const Appointment: FunctionComponent = () => {
                     gte={gteDayData}
                     lte={lteDayData}
                     onReserve={onReserve}
+                    onDeleteEntries={onDeleteEntries}
+                    handleSelection={handleSelection}
                   />
                   <CarinstituionListView
                     daysData={daysData}

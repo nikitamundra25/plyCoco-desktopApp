@@ -8,6 +8,7 @@ import {
   deactivatedListColor,
   leasingListColor,
   selfEmployesListColor,
+  CaregiverTIMyoCYAttrId,
 } from '../../../../config';
 import { careGiverRoutes } from './Sidebar/SidebarRoutes/CareGiverRoutes';
 import { IReactSelectInterface } from '../../../../interfaces';
@@ -115,7 +116,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
           value: id,
           color: !isActive
             ? deactivatedListColor
-            : attributes.includes('TIMyoCY')
+            : attributes.includes(CaregiverTIMyoCYAttrId)
             ? leasingListColor
             : attributes.includes('Plycoco')
             ? selfEmployesListColor

@@ -1,23 +1,23 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Input } from 'reactstrap';
 import Select from 'react-select';
-import { languageTranslation, getDaysArrayByMonth } from '../../../../helpers';
-import { State, Without_Appointments } from '../../../../config';
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import { languageTranslation } from '../../../../helpers';
+import { Without_Appointments } from '../../../../config';
+import { IAppointmentNav, IReactSelectInterface } from '../../../../interfaces';
+import AttributeFilter from './AttributeFilter';
 import right_arrow from '../../../assets/img/rightarrow.svg';
 import left_arrow from '../../../assets/img/leftarrow.svg';
 import refresh from '../../../assets/img/refresh.svg';
 import filter from '../../../assets/img/filter.svg';
 import caregiver from '../../../assets/img/caregiver.svg';
 import careinstitution from '../../../assets/img/careinstitution.svg';
-import './index.scss';
-import { IAppointmentNav, IReactSelectInterface } from '../../../../interfaces';
-import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import AttributeFilter from './AttributeFilter';
+import './index.scss';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
-  props: IAppointmentNav
+  props: IAppointmentNav,
 ) => {
   const {
     handleNext,
@@ -32,7 +32,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     qualification,
     handleSelectUserList,
     careGiversListArr,
-    careInstitutionListArr
+    careInstitutionListArr,
   } = props;
 
   const { month = '', year = '' } = daysData ? daysData : {};
@@ -42,18 +42,18 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
 
   const handleUserList = (
     selectedOption: IReactSelectInterface,
-    name: string
+    name: string,
   ) => {
     let data: any =
       name === 'caregiver' ? careGiversListArr : careInstitutionListArr;
     if (selectedOption && selectedOption.value) {
       if (name === 'caregiver') {
         data = careGiversListArr.filter(
-          (x: any) => x.id === selectedOption.value
+          (x: any) => x.id === selectedOption.value,
         );
       } else {
         data = careInstitutionListArr.filter(
-          (x: any) => x.id === selectedOption.value
+          (x: any) => x.id === selectedOption.value,
         );
       }
     }
@@ -116,7 +116,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               <ReactMultiSelectCheckboxes
                 options={qualificationList}
                 placeholder={languageTranslation(
-                  'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                  'CAREGIVER_QUALIFICATION_PLACEHOLDER',
                 )}
                 value={qualification ? qualification : undefined}
                 className={'custom-reactselect custom-reactselect-menu-width'}

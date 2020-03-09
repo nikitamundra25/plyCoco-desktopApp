@@ -1,4 +1,8 @@
 {
+  "MALE": "Male",
+  "FEMALE": "Female",
+  "MAN": "Man",
+  "WOMAN": "Woman",
   "CAREGIVER_USERROLE": "caregiver",
   "CAREINST_USERROLE": "careinstitution",
   "REMARK_LIMIT": "Text should be minimum of 255 characters",

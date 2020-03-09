@@ -1091,6 +1091,29 @@ const Appointment: FunctionComponent = () => {
     setSubmitting(false);
   };
 
+  const onReserve = async () => {
+    console.log('onReserve availability');
+    console.log(selctedAvailability);
+    if (selctedAvailability && selctedAvailability.id) {
+      await updateCaregiver({
+        variables: {
+          id: parseInt(selctedAvailability.id),
+          careGiverAvabilityInput: {
+            ...selctedAvailability,
+            f: 'block',
+            s: 'block',
+            n: 'block',
+          },
+        },
+      });
+    }
+    if (!toast.isActive(toastId)) {
+      toastId = toast.success(
+        languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG'),
+      );
+    }
+  };
+
   //Store gte days data
   let [gteDayData, setgteDayData] = useState<string | undefined>('');
   //Store lte days data
@@ -1234,6 +1257,7 @@ const Appointment: FunctionComponent = () => {
                     qualification={qualification}
                     gte={gteDayData}
                     lte={lteDayData}
+                    onReserve={onReserve}
                   />
                   <CarinstituionListView
                     daysData={daysData}

@@ -78,10 +78,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     if (selectedCells.length) {
       for (let i = 0; i < selectedCells.length; i++) {
         const { props: cellProps } = selectedCells[i];
-        console.log(selectedCells, "cellProps");
         const { item } = cellProps;
         selected.push({
-          dateString: cellProps.day ? cellProps.day.dateString : "",
+          dateString: cellProps.day ? cellProps.day.dateString : '',
           item
         });
         if (selectedCells[0].props.list) {
@@ -101,10 +100,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             if (item && item.length) {
               let temp = item.filter(
                 (avabilityData: any, index: number) =>
-                  moment(avabilityData.date).format("DD.MM.YYYY") ===
-                  moment(dateString).format("DD.MM.YYYY")
+                  moment(avabilityData.date).format('DD.MM.YYYY') ===
+                  moment(dateString).format('DD.MM.YYYY')
               );
-
               selctedAvailability = temp && temp.length ? temp : {};
             }
           }
@@ -113,7 +111,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       handleSelectedUser(
         list,
         selected,
-        "caregiver",
+        'caregiver',
         selctedAvailability && selctedAvailability.length
           ? selctedAvailability[0]
           : {}
@@ -236,12 +234,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       </div>
       <SelectableGroup
         allowClickWithoutSelected
-        className="custom-row-selector"
-        clickClassName="tick"
+        className='custom-row-selector'
+        clickClassName='tick'
         resetOnStart={true}
         onSelectionFinish={onSelectFinish}
         onSelectionClear={onSelectionClear}
-        ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
+        ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
       >
         <div>
           <div className='calender-section custom-scrollbar'>

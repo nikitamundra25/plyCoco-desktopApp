@@ -182,7 +182,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
-                          value={name ? name : ''}
+                          value={name !== 'undefined   undefined' ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>

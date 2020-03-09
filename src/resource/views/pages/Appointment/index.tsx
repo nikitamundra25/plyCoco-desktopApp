@@ -301,9 +301,9 @@ const Appointment: FunctionComponent = () => {
 
   // To store users list into state
   useEffect(() => {
+    let temp: any[] = daysData ? [...daysData.daysArr] : [];
     if (careGiversList && careGiversList.getUserByQualifications) {
       const { getUserByQualifications } = careGiversList;
-      let temp: any[] = daysData ? [...daysData.daysArr] : [];
       if (getUserByQualifications && getUserByQualifications.length) {
         getUserByQualifications.forEach((user: any, index: number) => {
           user.availabilityData = [];
@@ -343,6 +343,43 @@ const Appointment: FunctionComponent = () => {
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
       const { getUserByQualifications } = careInstitutionList;
       if (getUserByQualifications && getUserByQualifications.length) {
+        /*  */
+        getUserByQualifications.forEach((user: any, index: number) => {
+          user.availabilityData = [];
+          if (
+            user.careinstitution_requirements &&
+            user.careinstitution_requirements.length
+          ) {
+            let result: any = user.careinstitution_requirements.reduce(
+              (acc: any, o: any) => (
+                (acc[moment(o.date).format(dbAcceptableFormat)] =
+                  (acc[moment(o.date).format(dbAcceptableFormat)] || 0) + 1),
+                acc
+              ),
+              {}
+            );
+            result = Object.values(result);
+            result = Math.max(...result);
+            // user.availabilityData = Array(result).fill([]);
+            // console.log(user.availabilityData, 'dasdsad');
+
+            for (let row = 0; row < result; row++) {
+              user.availabilityData.push([]);
+            }
+            temp.forEach((d: any, index: number) => {
+              let records = user.careinstitution_requirements.filter(
+                (available: any) =>
+                  moment(d.dateString).isSame(moment(available.date), 'day')
+              );
+              for (let i = 0; i < records.length; i++) {
+                user.availabilityData[i].push(records[i]);
+              }
+            });
+          } else {
+            user.availabilityData.push([]);
+          }
+        });
+        /*  */
         setcareinstitutionList(getUserByQualifications);
       }
     }
@@ -419,6 +456,7 @@ const Appointment: FunctionComponent = () => {
       }
     });
   };
+
   // To fetch users according to qualification selected
   useEffect(() => {
     if (qualification.length) {
@@ -537,7 +575,6 @@ const Appointment: FunctionComponent = () => {
   ) => {
     e.preventDefault();
     if (name === 'caregiver') {
-      console.log('caregiversList', caregiversList);
       let temp: any = [...caregiversList];
       temp[index].availabilityData = temp[index].availabilityData
         ? [...temp[index].availabilityData, []]
@@ -546,7 +583,10 @@ const Appointment: FunctionComponent = () => {
       setcaregiversList(temp);
     } else {
       let temp: any = [...careinstitutionList];
-      temp.splice(index + 1, 0, { ...temp[index], newRow: true });
+      temp[index].availabilityData = temp[index].availabilityData
+        ? [...temp[index].availabilityData, []]
+        : [];
+      // temp.splice(index + 1, 0, { ...temp[index], newRow: true });
       setcareinstitutionList(temp);
     }
   };
@@ -675,7 +715,6 @@ const Appointment: FunctionComponent = () => {
       setselctedAvailability(selctedAvailability);
       if (date) {
         console.log('date', date);
-
         setactiveDateCaregiver(date);
       }
     } else {

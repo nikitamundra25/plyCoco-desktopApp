@@ -5,6 +5,11 @@ export interface IAttributeFilter {
   handleClose: () => void;
   setAttributeFilter: React.Dispatch<React.SetStateAction<string | null>>;
   attributeFilter: string | null;
+  applyFilter: (
+    userRole: string | null,
+    positiveId: number[],
+    negativeId: number[]
+  ) => void;
 }
 export interface IAttributeFilterPage {
   show: any;
@@ -40,5 +45,6 @@ export interface IAttributeFilterPage {
   OnPresetClick: (id: number) => void;
   activePreset: number | null;
   addPresetLoading: boolean;
-  setActivePreset:React.Dispatch<React.SetStateAction<number | null>>
+  setActivePreset: React.Dispatch<React.SetStateAction<number | null>>;
+  // applyFilter: (userRole: string) => void;
 }

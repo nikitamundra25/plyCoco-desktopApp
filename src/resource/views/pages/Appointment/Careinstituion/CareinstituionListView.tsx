@@ -153,8 +153,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
     // Open careinstitution bulk Email section
     const handleCareInstitutionBulkEmail = () => {
-      console.log('chehhhhhhhhh');
-
       setOpenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
     };
 

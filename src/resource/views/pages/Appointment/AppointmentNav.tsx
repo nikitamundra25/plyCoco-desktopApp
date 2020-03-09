@@ -33,6 +33,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     handleSelectUserList,
     careGiversListArr,
     careInstitutionListArr,
+    applyFilter,
   } = props;
 
   const { month = '', year = '' } = daysData ? daysData : {};
@@ -136,6 +137,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             onClick={() => {
               setShowAttribute(true);
               setAttributeFilter('caregiver');
+              // applyFilter('caregiver', [], []);
             }}
           >
             <span className='header-nav-icon'>
@@ -166,6 +168,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             onClick={() => {
               setShowAttribute(true);
               setAttributeFilter('careInstitution');
+              // applyFilter('careInstitution', [], []);
             }}
           >
             <span className='header-nav-icon'>
@@ -200,6 +203,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
         }}
         setAttributeFilter={setAttributeFilter}
         attributeFilter={attributeFilter}
+        applyFilter={applyFilter}
       />
     </>
   );

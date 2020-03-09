@@ -92,11 +92,15 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         variables: {
           qualificationId: temp ? temp : [],
           attributeId: [],
+          positiveAttributeId: [],
+          negativeAttributeId: [],
           userRole: 'caregiver',
           sortBy: 3,
           limit: 30,
           page,
-          isActive: ''
+          isActive: '',
+          gte: props.gte,
+          lte: props.lte
         }
       });
     }
@@ -176,7 +180,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           return (list = [...list, key]);
         });
       }
-      console.log('list', list);
       setcareGiverData(list);
       let selectedId: any = [];
       if (bulkcareGivers) {
@@ -208,7 +211,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [careGivers]);
-  console.log('props.label', props.label);
 
   // const handleInfiniteScroll = () => {
   //   setPage(page + 1);
@@ -540,7 +542,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             <div className='bulk-email-section'>
               <Row>
                 <CareGiverListComponent
-                  careGivers={careGivers}
+                  careGivers={
+                    props.label !== 'appointment' ? careGivers : careGiversList
+                  }
                   handleSelectAll={handleSelectAll}
                   called={called}
                   loading={
@@ -551,6 +555,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   handleCheckElement={handleCheckElement}
                   handleInfiniteScroll={handleInfiniteScroll}
                   page={page}
+                  label={props.label}
                   bulkcareGivers={bulkcareGivers}
                 />
 

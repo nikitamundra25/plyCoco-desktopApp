@@ -210,10 +210,21 @@ const Appointment: FunctionComponent = () => {
   // To fetch caregivers by qualification id
   const [
     fetchCaregiverList,
-    { data: careGiversList, loading: caregiverLoading, refetch }
+    {
+      data: careGiversList,
+      loading: caregiverLoading,
+      refetch: fetchingCareGiverData
+    }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache'
   });
+
+  //use Effect for care giver availibility added
+  useEffect(() => {
+    if (fetchingCareGiverData) {
+      fetchingCareGiverData();
+    }
+  }, [addCaregiverRes]);
 
   // To fetch careinstitution by qualification id
   const [
@@ -321,8 +332,7 @@ const Appointment: FunctionComponent = () => {
     setqualification(selectedOption);
   };
 
-  // To fetch users according to qualification selected
-  useEffect(() => {
+  const fetchData = () => {
     let temp: any = [];
     qualification.map((key: any, index: number) => {
       temp.push(parseInt(key.value));
@@ -330,9 +340,20 @@ const Appointment: FunctionComponent = () => {
     // get careGivers list
     fetchCaregiverList({
       variables: {
-        qualificationId: temp ? temp : [],
-        attributeId: [],
-        userRole: 'caregiver'
+        qualificationId: temp ? temp : null,
+        userRole: 'caregiver',
+        gte:
+          daysData && daysData.daysArr && daysData.daysArr.length
+            ? daysData.daysArr[0].dateString
+            : moment()
+                .startOf('month')
+                .format(dbAcceptableFormat),
+        lt:
+          daysData && daysData.daysArr && daysData.daysArr.length
+            ? daysData.daysArr[daysData.daysArr.length - 1].dateString
+            : moment()
+                .endOf('month')
+                .format(dbAcceptableFormat)
       }
     });
     // get careInstitution list
@@ -343,7 +364,19 @@ const Appointment: FunctionComponent = () => {
         userRole: 'canstitution'
       }
     });
+  };
+  // To fetch users according to qualification selected
+  useEffect(() => {
+    if (qualification.length) {
+      console.log('in qualification use effect');
+      fetchData();
+    }
   }, [qualification]);
+  // To fetch list data after month has changed
+  useEffect(() => {
+    console.log('in daysData use effect');
+    fetchData();
+  }, [daysData]);
 
   // set careGivers list options
   const careGiversOptions: IReactSelectInterface[] | undefined = [];
@@ -403,7 +436,7 @@ const Appointment: FunctionComponent = () => {
   };
 
   // On previous month click
-  const handlePrevious = () => {
+  const handlePrevious = async () => {
     let month: number = activeMonth - 1;
     let year: number = activeYear;
 
@@ -490,7 +523,6 @@ const Appointment: FunctionComponent = () => {
               id: parseInt(id)
             }
           });
-          refetch();
         }
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
@@ -585,6 +617,8 @@ const Appointment: FunctionComponent = () => {
       setselectedCareGiver(list);
       setselctedAvailability(selctedAvailability);
       if (date) {
+        console.log('date', date);
+
         setactiveDateCaregiver(date);
       }
     } else {
@@ -800,7 +834,7 @@ const Appointment: FunctionComponent = () => {
           userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
           date:
             activeDateCaregiver && activeDateCaregiver.length
-              ? activeDateCaregiver[0].isoString
+              ? activeDateCaregiver[0].dateString
               : '',
           fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
           weekendAllowance: weekendAllowance
@@ -852,7 +886,6 @@ const Appointment: FunctionComponent = () => {
             );
           }
         }
-        refetch();
       } else {
         setTimeSlotError(languageTranslation('CAREGIVER_TIME_SLOT_ERROR_MSG'));
         return;

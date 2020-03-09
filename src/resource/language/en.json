@@ -781,6 +781,7 @@
   "MAX_DATE_VALIDATION": "Date should be greater than :date",
   "DELETED_SUCCESSFULLY": ":item deleted successfully.",
   "HOLIDAY_DELETE_CONFIRMATION": "This day will be removed from holiday. This may effect the upcoming invoices.",
+  "SAVED_SUCCESSFULLY": ":item details saved successfully.",
   "UPDATE_SUCCESSFULLY": ":item details updated successfully.",
   "SELECT_CONTACT_PLACEHOLDER": "Select Contact",
   "STREET_AND_HOUSE": "Street and House Number",
@@ -830,6 +831,13 @@
   "NEGATIVE_ATTRIBUTE": "Negative Attribute(must not have)",
   "GENERAL": "General",
   "CAREGIVERS": "Caregivers",
+  "UPDATE_WEEKENDS": "Update Weekends",
+  "CHOOSE_YEAR": "Choose Year",
+  "CHOOSE_YEAR_PLACEHOLDER": "Choose Year",
+  "OVERWRITE_EXISTING_HOLIDAYS": "Overwrite existing holidays if conflict.",
+  "CHOOSE_FIELD_REQUIRED": "Please select :item.",
+  "YEAR": "Year",
+  "WEEKENDS": "Weekends",
   "FEE_REQUIRED": "Fee is required",
   "NIGHT_FEE_REQUIRED": "Night fee required",
   "WEEKEND_ALLOWANCE_REQUIRED": "Weekend allowance required",
@@ -870,5 +878,6 @@
   "DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS": "This careinstitution requirement has been deleted successfully",
   "CONFIRM_DELETE_CAREGIVER_AVABILITY": "This caregiver avability will be deleted.",
   "DELETE_CAREGIVER_AVABILITY_SUCCESS": "This caregiver avability has been deleted successfully",
-  "NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST": "Currently there are no department added for this careinstitution."
+  "NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST": "Currently there are no department added for this careinstitution.",
+  "ENTER_DATE": "Please enter date."
 }

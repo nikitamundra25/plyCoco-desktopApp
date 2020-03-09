@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState } from "react";
 import {
   Table,
   UncontrolledDropdown,
@@ -86,17 +86,21 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   const [onEnterMenu, setonEnterMenu] = useState(false);
 
-  window.addEventListener('click', function(e) {
-    const rightMenuOption: any = document.getElementById('clickbox');
-    if (onEnterMenu && toggleMenuButton) {
-      if (rightMenuOption.contains(e.target)) {
-        // Clicked in box
-      } else {
-        setonEnterMenu(false);
-        handleRightMenuToggle();
-      }
-    }
-  });
+  // window.addEventListener('click', function(e) {
+  //   const rightMenuOption: any = document.getElementById('clickbox');
+  //   console.log('onEnterMenu', onEnterMenu);
+
+  //   if (onEnterMenu && toggleMenuButton) {
+  //     if (rightMenuOption.contains(e.target)) {
+  //       // Clicked in box
+  //       console.log('inside');
+  //     } else{
+  //       setonEnterMenu(false);
+  //       handleRightMenuToggle();
+  //       console.log('outside');
+  //     }
+  //   }
+  // });
 
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
@@ -134,7 +138,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     handleSelectedUser(
       list,
       selected,
-      'careinstitution',
+      "careinstitution",
       selctedAvailability && selctedAvailability.length
         ? selctedAvailability[0]
         : {}
@@ -149,12 +153,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     <>
       <SelectableGroup
         allowClickWithoutSelected
-        className='custom-row-selector'
-        clickClassName='tick'
+        className="custom-row-selector"
+        clickClassName="tick"
         resetOnStart={true}
         onSelectionFinish={onSelectFinish}
         onSelectionClear={onSelectionClear}
-        ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
+        ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
       >
         <div
           className={classnames({

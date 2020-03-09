@@ -238,11 +238,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             : null
                         }
                       /> */}
+                     
                     <div className='text-value mb-1'>
                       {activeDateCaregiver
                         ? moment(
                             activeDateCaregiver
-                              ? activeDateCaregiver.isoString
+                              ? activeDateCaregiver.dateString
                               : null
                           ).format('dd DD.MM.YYYY')
                         : null}

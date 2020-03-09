@@ -1,9 +1,10 @@
 import {
   IAddHolidaysFormValues,
-  IAddHolidayFormikProps
+  IAddHolidayFormikProps,
+  IUpdateWeekendFormValues
 } from "./../../interfaces/GlobalCalendar";
 import * as Yup from "yup";
-import { dateValidator } from "../../helpers";
+import { dateValidator, languageTranslation } from "../../helpers";
 import { IDateResponse } from "../../interfaces";
 import moment from "moment";
 
@@ -17,6 +18,12 @@ export const AddHolidayValidations: Yup.ObjectSchema<Yup.Shape<
         name: "validate-date",
         test: function(val) {
           const { path, createError } = this;
+          if (!val) {
+            return createError({
+              path,
+              message: languageTranslation("ENTER_DATE")
+            });
+          }
           const { isValid, message }: IDateResponse = dateValidator(val, {
             minDate: moment().format(),
             maxDate: moment()
@@ -32,4 +39,22 @@ export const AddHolidayValidations: Yup.ObjectSchema<Yup.Shape<
         .notRequired()
     })
   )
+});
+
+export const UpdateWeekendFormValidation: Yup.ObjectSchema<Yup.Shape<
+  object,
+  IUpdateWeekendFormValues
+>> = Yup.object().shape<IUpdateWeekendFormValues>({
+  year: Yup.number()
+    .required(
+      languageTranslation("CHOOSE_FIELD_REQUIRED", {
+        item: languageTranslation("YEAR")
+      })
+    )
+    .min(
+      moment().get("year"),
+      languageTranslation("CHOOSE_FIELD_REQUIRED", {
+        item: languageTranslation("YEAR")
+      })
+    )
 });

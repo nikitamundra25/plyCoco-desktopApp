@@ -248,7 +248,45 @@ const Appointment: FunctionComponent = () => {
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache'
   });
-
+  const [positive, setPositive] = useState<number[]>([]);
+  const [negative, setNegative] = useState<number[]>([]);
+  // by clicking on apply filter to get care giver and care institution list accordingly
+  const applyFilter = (
+    userRole: string | null,
+    positiveId: number[],
+    negativeId: number[]
+  ) => {
+    setPositive(positiveId), setNegative(negativeId);
+    let temp: any = [];
+    qualification.map((key: any) => {
+      temp.push(parseInt(key.value));
+    });
+    if ('caregiver') {
+      // get careGivers list
+      fetchCaregiverList({
+        variables: {
+          qualificationId: temp ? temp : null,
+          userRole: 'caregiver',
+          negativeAttributeId: negativeId,
+          positiveAttributeId: positiveId,
+          gte: '2020-01-01',
+          lte: '2020-03-31'
+        }
+      });
+    } else {
+      // get careInstitution list
+      fetchCareinstitutionList({
+        variables: {
+          qualificationId: temp ? temp : null,
+          userRole: 'canstitution',
+          negativeAttributeId: negativeId,
+          positiveAttributeId: positiveId,
+          gte: '2020-01-01',
+          lte: '2020-03-31'
+        }
+      });
+    }
+  };
   // To fetch qualification attributes list
   const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
   const qualificationList: IReactSelectInterface[] | undefined = [];
@@ -353,13 +391,15 @@ const Appointment: FunctionComponent = () => {
       variables: {
         qualificationId: temp ? temp : null,
         userRole: 'caregiver',
+        negativeAttributeId: negative,
+        positiveAttributeId: positive,
         gte:
           daysData && daysData.daysArr && daysData.daysArr.length
             ? daysData.daysArr[0].dateString
             : moment()
                 .startOf('month')
                 .format(dbAcceptableFormat),
-        lt:
+        lte:
           daysData && daysData.daysArr && daysData.daysArr.length
             ? daysData.daysArr[daysData.daysArr.length - 1].dateString
             : moment()
@@ -370,9 +410,12 @@ const Appointment: FunctionComponent = () => {
     // get careInstitution list
     fetchCareinstitutionList({
       variables: {
-        qualificationId: temp ? temp : [],
-        attributeId: [],
-        userRole: 'canstitution'
+        qualificationId: temp ? temp : null,
+        userRole: 'canstitution',
+        negativeAttributeId: negative,
+        positiveAttributeId: positive,
+        gte: '2020-01-01',
+        lte: '2020-03-31'
       }
     });
   };
@@ -1147,6 +1190,7 @@ const Appointment: FunctionComponent = () => {
                 ? careInstitutionList.getUserByQualifications
                 : []
             }
+            applyFilter={applyFilter}
           />
 
           <div className='common-content flex-grow-1'>

@@ -1221,6 +1221,10 @@ export const ShiftTime: IReactSelectInterface[] = [
   { value: '22:00-06:00', label: '22:00-06:00 Night' }
 ];
 
+export const CaregiverTIMyoCYAttrId: number = 9;
+export const CareInstTIMyoCYAttrId: number = 73;
+export const CareInstPlycocoAttrId: number = 72;
+
 export const deactivatedListColor: string = '#cacaca';
 export const leasingListColor: string = '#f7d158';
 export const selfEmployesListColor: string = '#ebebff';

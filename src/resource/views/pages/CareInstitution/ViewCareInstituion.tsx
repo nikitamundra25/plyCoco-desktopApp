@@ -9,18 +9,20 @@ import {
   AppRoutes,
   deactivatedListColor,
   leasingListColor,
-  selfEmployesListColor
+  selfEmployesListColor,
+  CareInstTIMyoCYAttrId,
+  CareInstPlycocoAttrId,
 } from '../../../../config';
 import { careInstitutionRoutes } from './Sidebar/SidebarRoutes/ConstitutionRoutes';
 import {
   ICareInstitutionFormValues,
   IHandleSubmitInterface,
   IReactSelectInterface,
-  IQualifications
+  IQualifications,
 } from '../../../../interfaces';
 import {
   CareInstitutionQueries,
-  GET_QUALIFICATION_ATTRIBUTE
+  GET_QUALIFICATION_ATTRIBUTE,
 } from '../../../../graphql/queries';
 import { CareInstitutionMutation } from '../../../../graphql/Mutations';
 import Loader from '../../containers/Loader/Loader';
@@ -43,13 +45,13 @@ const Email = React.lazy(() => import('../CareGiver/Emails'));
 // const Reminders = React.lazy(() => import('./Reminders'));
 const Reminders = React.lazy(() => import('../../components/ToDosInnerList'));
 const CreateTodo = React.lazy(() =>
-  import('../../components/CreateTodo/index')
+  import('../../components/CreateTodo/index'),
 );
 
 const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
-  GET_DEPARTMENT_LIST
+  GET_DEPARTMENT_LIST,
 ] = CareInstitutionQueries;
 
 const [
@@ -62,11 +64,11 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT
+  DELETE_DEPARTMENT,
 ] = CareInstitutionMutation;
 
 const CareInstitutionSidebar = React.lazy(() =>
-  import('./Sidebar/SidebarLayout/CareInstitutionLayout')
+  import('./Sidebar/SidebarLayout/CareInstitutionLayout'),
 );
 
 const CareInstitutionTabs = careInstitutionRoutes;
@@ -76,7 +78,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 > &
   RouteComponentProps &
   IHandleSubmitInterface> = (
-  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
+  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps,
 ) => {
   let { id } = useParams();
   const Id: any | undefined = id;
@@ -84,27 +86,27 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 
   let sortBy: IReactSelectInterface | undefined = {
     label: '3',
-    value: 'Sort by A-Z'
+    value: 'Sort by A-Z',
   };
 
   const [isnewDataUpdate, setisnewDataUpdate] = useState(false);
 
   const [
     addUser,
-    { error: addUserError, data: CareIntitutionId, loading: Loading }
+    { error: addUserError, data: CareIntitutionId, loading: Loading },
   ] = useMutation<{ addUser: any }>(ADD_NEW_CARE_INTITUTION);
 
   const [
     fetchCareInstitutionList,
-    { data: careInstituition, loading, refetch }
+    { data: careInstituition, loading, refetch },
   ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: '',
     value: '',
-    color: ''
+    color: '',
   });
 
   useEffect(() => {
@@ -117,7 +119,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn'
+      'caregiver-add-btn',
     );
     if (buttonDiv) {
       if (scrollPositionY >= 12) {
@@ -135,41 +137,40 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: ''
-      }
+        isActive: '',
+      },
     });
   }, []);
 
   let CareInstitutionList: IReactSelectInterface[] = [];
   if (careInstituition && careInstituition.getCareInstitutions) {
-    console.log('careInstituition', careInstituition);
-
     const { getCareInstitutions } = careInstituition;
     const { careInstitutionData, canstitution } = getCareInstitutions;
     CareInstitutionList.push({
       label: languageTranslation('NAME'),
       value: languageTranslation('ID'),
-      companyName: languageTranslation('COMPANY_NAME')
+      companyName: languageTranslation('COMPANY_NAME'),
     });
     careInstitutionData.map((data: any, index: any) => {
       const { canstitution } = data;
-      const { attributes = [], companyName = '' } = canstitution
+      let { attributes = [], companyName = '' } = canstitution
         ? canstitution
         : {};
+      attributes = attributes ? attributes : [];
       console.log('attributes in view', attributes);
       console.log('data in view', data);
 
       CareInstitutionList.push({
         label: `${data.lastName}${' '}${data.firstName}`,
-        value: data.id
-        // color: !data.isActive
-        //   ? deactivatedListColor
-        //   : attributes.includes('TIMyoCY')
-        //   ? leasingListColor
-        //   : attributes.includes('Plycoco')
-        //   ? selfEmployesListColor
-        //   : '',
-        // companyName,
+        value: data.id,
+        color: !data.isActive
+          ? deactivatedListColor
+          : attributes.includes(CareInstTIMyoCYAttrId)
+          ? leasingListColor
+          : attributes.includes(CareInstPlycocoAttrId)
+          ? selfEmployesListColor
+          : '',
+        companyName,
       });
       return true;
     });
@@ -182,7 +183,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     data.getQualifications.forEach((quali: any) => {
       qualificationList.push({
         label: quali.name,
-        value: quali.id
+        value: quali.id,
       });
     });
   }
@@ -196,16 +197,16 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     setactiveTab(
       query.tab
         ? CareInstitutionTabs.findIndex(
-            d => d.name === decodeURIComponent(query.tab)
+            d => d.name === decodeURIComponent(query.tab),
           )
-        : 0
+        : 0,
     );
   }, [search]);
 
   // Set selected care institution
   useEffect(() => {
     const currenCareInstitution: any = CareInstitutionList.filter(
-      (careInstitution: any) => careInstitution.value === id
+      (careInstitution: any) => careInstitution.value === id,
     )[0];
     setselectUser(currenCareInstitution);
   }, [careInstituition, pathname]);
@@ -214,8 +215,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     props.history.push(
       `${AppRoutes.CARE_INSTITUION_VIEW.replace(
         ':id',
-        Id
-      )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+        Id,
+      )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`,
     );
   };
   let [isUserChange, setisUserChange] = useState(false);
@@ -233,15 +234,15 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       const data: IReactSelectInterface = {
         label: e.label,
         value: e.value,
-        color: e.color
+        color: e.color,
       };
       setselectUser((selectUser = data));
       if (e.value !== Id) {
         props.history.push(
           `${AppRoutes.CARE_INSTITUION_VIEW.replace(
             ':id',
-            e.value
-          )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
+            e.value,
+          )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`,
         );
         setisUserChange((isUserChange = true));
       }
@@ -252,7 +253,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     if (CareIntitutionId) {
       const { addUser } = CareIntitutionId;
       props.history.push(
-        AppRoutes.ADD_CARE_INSTITUTION.replace(':id', addUser.id)
+        AppRoutes.ADD_CARE_INSTITUTION.replace(':id', addUser.id),
       );
     }
   }, [CareIntitutionId]);
@@ -261,9 +262,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     addUser({
       variables: {
         careInstInput: {
-          firstName: ''
-        }
-      }
+          firstName: '',
+        },
+      },
     });
   };
   console.log('neContactAdded', newContactAdded);
@@ -401,7 +402,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                         selectUser.value
                           ? careInstituition.getCareInstitutions.careInstitutionData.find(
                               (careInstitutionData: any) =>
-                                careInstitutionData.id === selectUser.value
+                                careInstitutionData.id === selectUser.value,
                             ).userRole
                           : ''
                       }

@@ -1109,9 +1109,9 @@ const Appointment: FunctionComponent = () => {
               id: availabilityId,
               careGiverAvabilityInput: {
                 ...item,
-                f: 'block',
-                s: 'block',
-                n: 'block',
+                f: languageTranslation('BLOCK'),
+                s: languageTranslation('BLOCK'),
+                n: languageTranslation('BLOCK'),
               },
             },
           });
@@ -1161,7 +1161,7 @@ const Appointment: FunctionComponent = () => {
   };
 
   const onDeleteEntries = () => {
-    console.log('on delete entries');
+    console.log('on delete entries',selectedCells,caregiversList);
     if (selectedCells && selectedCells.length) {
       let availabilityIds: number[] = [];
       selectedCells.forEach(async element => {
@@ -1172,6 +1172,13 @@ const Appointment: FunctionComponent = () => {
               id: parseInt(item.id),
             },
           });
+        }else{
+          let index:number = -1;
+          index=caregiversList.findIndex((caregiver:any)=> caregiver.id === id);
+          let temp: any = [...caregiversList];
+          temp[index].availabilityData = [];
+          // temp.splice(index + 1, 0, { ...temp[index], newRow: true });
+          setcaregiversList(temp);
         }
       });
       if (!toast.isActive(toastId)) {
@@ -1181,6 +1188,17 @@ const Appointment: FunctionComponent = () => {
       }
     }
   };
+
+  const onCaregiverQualificationFilter = () =>{
+    console.log('onCaregiverQualificationFilter');
+    if (selectedCells && selectedCells.length) {
+      let qualifications: number[] = [];
+      selectedCells.forEach(async element => {
+        const { dateString, id, item } = element;
+        qualifications.push()
+      });
+    }
+  }
   //Store gte days data
   let [gteDayData, setgteDayData] = useState<string | undefined>('');
   //Store lte days data
@@ -1241,8 +1259,8 @@ const Appointment: FunctionComponent = () => {
 
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
-    firstName: selectedCareGiver ? selectedCareGiver.firstName : '',
-    lastName: selectedCareGiver ? selectedCareGiver.lastName : '',
+    firstName: selectedCareGiver && selectedCareGiver.firstName ? selectedCareGiver.firstName : '',
+    lastName: selectedCareGiver && selectedCareGiver.lastName ? selectedCareGiver.lastName : '',
     fee: fee ? germanNumberFormat(fee) : '',
     nightFee: night
       ? germanNumberFormat(night)
@@ -1326,6 +1344,7 @@ const Appointment: FunctionComponent = () => {
                     lte={lteDayData}
                     onReserve={onReserve}
                     onDeleteEntries={onDeleteEntries}
+                    onCaregiverQualificationFilter={onCaregiverQualificationFilter}
                     handleSelection={handleSelection}
                   />
                   <CarinstituionListView

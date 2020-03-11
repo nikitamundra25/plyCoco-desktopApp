@@ -31,9 +31,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   // const { selectedCareGiver } = props;
   const {
     values: {
-      firstName,
+      name,
       appointmentId,
-      lastName,
       fee,
       nightFee,
       nightAllowance,
@@ -71,15 +70,14 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     onhandleDelete,
     careGiversListArr,
     handleSelectUserList,
+    handleLastTimeData,
   } = props;
-
   const [starMark, setstarMark] = useState<boolean>(false);
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
-  console.log('selctedAvailability', selctedAvailability);
 
   let isAvailability: boolean = false,
     isMatching: boolean = false,
@@ -93,7 +91,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       isContract = true;
     }
   }
-  console.log('isAvailability', isAvailability);
 
   const handleTravelAllowance = () => {
     let total = distanceInKM * feePerKM;
@@ -164,13 +161,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           type='text'
                           disabled={true}
                           placeholder={languageTranslation('NAME')}
-                          value={
-                            firstName
-                              ? `${lastName ? lastName : ''} ${
-                                  firstName ? firstName : ''
-                                }`
-                              : ''
-                          }
+                          value={name ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -342,7 +333,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           )}
                         </InputGroup>
                       </div>
-                      <span className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'>
+                      <span
+                        className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'
+                        onClick={() =>
+                          handleLastTimeData(
+                            selectedCareGiver ? selectedCareGiver.id : '',
+                            props.values,
+                          )
+                        }
+                      >
                         Last Time
                       </span>
                     </div>

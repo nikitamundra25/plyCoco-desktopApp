@@ -44,7 +44,6 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
   useEffect(() => {
     if (attributeData && attributeData.getCaregiverAtrribute) {
-      console.log('in attr iffffffff');
       attributeData.getCaregiverAtrribute.forEach(
         ({ id, name, color }: IAttributeValues) =>
           caregiverAttrOpt.push({
@@ -55,7 +54,6 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       );
       setCaregiverAttributeOptions(caregiverAttrOpt);
     }
-    console.log('caregiverAttrOpt', caregiverAttrOpt);
   }, [attributeData]);
 
   useEffect(() => {

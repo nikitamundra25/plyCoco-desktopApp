@@ -35,10 +35,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     careGiversList,
     loading,
     onAddingRow,
+    selectedCells,
     handleSelectedUser,
     handleSelection,
     handleSecondStar,
     handleReset,
+    selctedAvailability,
+    activeDateCaregiver,
     onReserve,
     onDeleteEntries,
     onCaregiverQualificationFilter,
@@ -46,7 +49,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
 
   const [starMark, setstarMark] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
-
+  const [getSelecetedCell, setSelecetdCell] = useState<any>();
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
       setstarMark(!starMark);
@@ -67,8 +70,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   );
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
-    console.log('VVVVVVVVVVVVVVV');
-
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
 
@@ -76,11 +77,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
-  const onSelectFinish = (selectedCells: any[]) => {
-    console.log(selectedCells, 'onSelectFinish');
+  const onSelectFinish = (selectedCellsData: any[]) => {
+    console.log(selectedCellsData, 'onSelectFinish');
     let selectedRows: any[] = [];
-    if (selectedCells && selectedCells.length) {
-      selectedRows = selectedCells.map((selectedCell: any) => {
+    if (selectedCellsData && selectedCellsData.length) {
+      selectedRows = selectedCellsData.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
         const { item, list: caregiverData, day } = cellProps;
         const {
@@ -90,7 +91,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           caregiver = {},
           qualificationId = [],
         } = caregiverData ? caregiverData : {};
-        console.log(caregiver, 'caregiver', day);
         return {
           id,
           firstName,
@@ -101,9 +101,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           dateString: day ? day.dateString : '',
         };
       });
-      // setstarMark(false);
-      console.log(selectedRows, 'selectedRows');
-      handleSelection(selectedRows);
+      handleSelection(selectedRows, 'caregiver');
       // for (let index = 0; index < selected.length; index++) {
       //   const { item, list, dateString } = selected[index];
       //   selctedAvailability = item;
@@ -183,6 +181,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     setSelectedDays([]);
   };
   const [showList, setShowList] = useState<boolean>(false);
+  console.log(selectedCells, 'selectedCells');
 
   return (
     <>
@@ -539,6 +538,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       <DetaillistCaregiverPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
+        selectedCells={selectedCells}
       />
     </>
   );

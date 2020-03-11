@@ -3,6 +3,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
   query getUserByQualifications(
     $qualificationId: [ID]
     $userRole: String
+    $page: Int
+    $limit: Int
     $negativeAttributeId: [ID]
     $positiveAttributeId: [ID]
     $gte: String
@@ -11,6 +13,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     getUserByQualifications(
       qualificationId: $qualificationId
       userRole: $userRole
+      page: $page
+      limit: $limit
       negativeAttributeId: $negativeAttributeId
       positiveAttributeId: $positiveAttributeId
       gte: $gte
@@ -107,6 +111,73 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     }
   }
 `;
+
+const GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID = gql`
+  query getCareGiverAvabilityLastTimeById($userId: Int!) {
+    getCareGiverAvabilityLastTimeById(userId: $userId) {
+      id
+      fee
+      nightFee
+      weekendAllowance
+      holidayAllowance
+    }
+  }
+`;
+
+const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
+  query getCareinstitutionRequirement($id: ID!) {
+    getCareinstitutionRequirement(id: $id) {
+      name
+      userId
+      id
+      date
+      startTime
+      endTime
+      address
+      contactPerson
+      offerRemarks
+      divisionId
+      departmentOfferRemarks
+      departmentBookingRemarks
+      departmentRemarks
+      isWorkingProof
+      bookingRemarks
+      comments
+      qualificationId
+    }
+  }
+`;
+
+const GET_CAREGIVER_AVABILITY_DETAILS_BY_ID = gql`
+  query getCareGiverAvabilitiesDetails($id: ID) {
+    getCareGiverAvabilitiesDetails(id: $id) {
+      id
+      userId
+      name
+      f
+      s
+      n
+      date
+      fee
+      nightFee
+      weekendAllowance
+      holidayAllowance
+      nightAllowance
+      distanceInKM
+      feePerKM
+      travelAllowance
+      otherExpenses
+      workingHoursFrom
+      workingHoursTo
+      breakFrom
+      breakTo
+      workingProofRecieved
+      remarksCareGiver
+      remarksInternal
+      status
+    }
+  }
+`;
 // negativeAttributeId:[ID],positiveAttributeId: [ID],gte:String, lte:String
 // qualificationId: $qualificationId
 //       userRole: $userRole
@@ -115,4 +186,9 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
 //          gte:$gte
 //          lte:$lte
 
-export const AppointmentsQueries = [GET_USERS_BY_QUALIFICATION_ID];
+export const AppointmentsQueries = [
+  GET_USERS_BY_QUALIFICATION_ID,
+  GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
+  GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
+  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID
+];

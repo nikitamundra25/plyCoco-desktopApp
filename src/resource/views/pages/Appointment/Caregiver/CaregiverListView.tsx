@@ -42,6 +42,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     handleReset,
     onReserve,
     onDeleteEntries,
+    onCaregiverQualificationFilter,
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -105,7 +106,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         for (let index = 0; index < selected.length; index++) {
           const { item, list, dateString } = selected[index];
           selctedAvailability = item;
-          selectedRows.push({ id: list.id, item, dateString });
+          selectedRows.push({
+            id: list.id,
+            qualificationIds: list.qualificationId,
+            item,
+            dateString,
+          });
         }
       }
       // }
@@ -157,7 +163,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem className='bordernav' />
-          <NavItem>
+          <NavItem onClick={onCaregiverQualificationFilter}>
             <NavLink>
               <img src={filter} className='mr-2' alt='' />
               <span className='align-middle'>

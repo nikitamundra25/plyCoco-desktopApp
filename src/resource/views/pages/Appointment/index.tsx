@@ -1161,7 +1161,7 @@ const Appointment: FunctionComponent = () => {
   };
 
   const onDeleteEntries = () => {
-    console.log('on delete entries',selectedCells,caregiversList);
+    console.log('on delete entries', selectedCells, caregiversList);
     if (selectedCells && selectedCells.length) {
       let availabilityIds: number[] = [];
       selectedCells.forEach(async element => {
@@ -1172,9 +1172,11 @@ const Appointment: FunctionComponent = () => {
               id: parseInt(item.id),
             },
           });
-        }else{
-          let index:number = -1;
-          index=caregiversList.findIndex((caregiver:any)=> caregiver.id === id);
+        } else {
+          let index: number = -1;
+          index = caregiversList.findIndex(
+            (caregiver: any) => caregiver.id === id,
+          );
           let temp: any = [...caregiversList];
           temp[index].availabilityData = [];
           // temp.splice(index + 1, 0, { ...temp[index], newRow: true });
@@ -1189,16 +1191,32 @@ const Appointment: FunctionComponent = () => {
     }
   };
 
-  const onCaregiverQualificationFilter = () =>{
-    console.log('onCaregiverQualificationFilter');
+  const onCaregiverQualificationFilter = () => {
+    console.log('onCaregiverQualificationFilter', selectedCells);
     if (selectedCells && selectedCells.length) {
-      let qualifications: number[] = [];
-      selectedCells.forEach(async element => {
-        const { dateString, id, item } = element;
-        qualifications.push()
-      });
+      let temp: string[] = [];
+      selectedCells.map(element => temp.push(...element.qualificationIds));
+      let qual = qualificationList.filter((qual: IReactSelectInterface) =>
+        temp.includes(qual.value),
+      );
+      console.log(qual, 'qual');
+      setqualification(qual);
+      // setqualification(
+      //   qualificationList.filter((qual: IReactSelectInterface) => {
+      //     console.log(
+      //       qual.value,
+      //       typeof qual.value,
+      //       'qual.value',
+      //       selectedCells.map(element => element.qualificationIds),
+      //       temp.includes(qual.value),
+      //     );
+
+      //     return temp.includes(qual.value);
+      //   }),
+      // );
+      fetchData();
     }
-  }
+  };
   //Store gte days data
   let [gteDayData, setgteDayData] = useState<string | undefined>('');
   //Store lte days data
@@ -1259,8 +1277,14 @@ const Appointment: FunctionComponent = () => {
 
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
-    firstName: selectedCareGiver && selectedCareGiver.firstName ? selectedCareGiver.firstName : '',
-    lastName: selectedCareGiver && selectedCareGiver.lastName ? selectedCareGiver.lastName : '',
+    firstName:
+      selectedCareGiver && selectedCareGiver.firstName
+        ? selectedCareGiver.firstName
+        : '',
+    lastName:
+      selectedCareGiver && selectedCareGiver.lastName
+        ? selectedCareGiver.lastName
+        : '',
     fee: fee ? germanNumberFormat(fee) : '',
     nightFee: night
       ? germanNumberFormat(night)
@@ -1297,6 +1321,7 @@ const Appointment: FunctionComponent = () => {
 
   console.log('++++++++++++++++Get gte and lte data', gteDayData);
   console.log('***********Get gte and lte data', lteDayData);
+  console.log('qualification above return', qualification);
 
   return (
     <>
@@ -1344,7 +1369,9 @@ const Appointment: FunctionComponent = () => {
                     lte={lteDayData}
                     onReserve={onReserve}
                     onDeleteEntries={onDeleteEntries}
-                    onCaregiverQualificationFilter={onCaregiverQualificationFilter}
+                    onCaregiverQualificationFilter={
+                      onCaregiverQualificationFilter
+                    }
                     handleSelection={handleSelection}
                   />
                   <CarinstituionListView

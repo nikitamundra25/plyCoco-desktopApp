@@ -516,11 +516,15 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           return unique;
         }, []);
 
+        for (let index = 0; index < selectedCareGiver.length; index++) {
+          const element = selectedCareGiver[index];
+          if (uniqueUser[uniqueUser.length - 1] !== element) {
+            uniqueUser.push(element);
+          }
+        }
+       
         uniqueUser.map((careGiverId: number) => {
-          careGiverIdList = [
-            ...careGiverIdList,
-            { receiverUserId: careGiverId }
-          ];
+          careGiverIdList.push({ receiverUserId: careGiverId });
         });
 
         if (subject && body && result && result.length >= 2) {

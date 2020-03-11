@@ -21,14 +21,17 @@ import {
   IReactSelectTimeInterface,
   ICareinstitutionFormSubmitValue,
   IDaysArray,
-  IStarInterface
+  IStarInterface,
+  IAttributeValues,
+  IAttributeOptions
 } from '../../../../interfaces';
 import moment from 'moment';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   AppointmentsQueries,
-  CareInstitutionQueries
+  CareInstitutionQueries,
+  CareGiverQueries
 } from '../../../../graphql/queries';
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
@@ -42,6 +45,7 @@ import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { dbAcceptableFormat } from '../../../../config';
 import { ConfirmBox } from '../../components/ConfirmBox';
 
+const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
@@ -92,6 +96,10 @@ const Appointment: FunctionComponent = () => {
     IDate[]
   >([]);
 
+  // Fetch attribute list from db
+  const { data: attributeData, loading } = useQuery<{
+    getCaregiverAtrribute: IAttributeValues[];
+  }>(GET_CAREGIVER_ATTRIBUTES);
   //For selected Availability
   const [selctedAvailability, setselctedAvailability] = useState<any>({});
   /*  */
@@ -106,6 +114,10 @@ const Appointment: FunctionComponent = () => {
     IReactSelectInterface | undefined
   >(undefined);
 
+  const [caregiverAttributeOptions, setCaregiverAttributeOptions] = useState<
+    IAttributeOptions[] | undefined
+  >([]);
+
   const [timeSlotError, setTimeSlotError] = useState<string>('');
   // maintain star mark for careinstitution
   const [starCanstitution, setstarCanstitution] = useState<IStarInterface>({
@@ -116,7 +128,6 @@ const Appointment: FunctionComponent = () => {
     false
   );
   // For careinstitution fields
-
   const [valuesForCareinstitution, setvaluesForCareinstitution] = useState<
     ICareinstitutionFormValue
   >({
@@ -171,6 +182,23 @@ const Appointment: FunctionComponent = () => {
       setselectedCareGiver({});
     }
   });
+
+  const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
+  useEffect(() => {
+    if (attributeData && attributeData.getCaregiverAtrribute) {
+      attributeData.getCaregiverAtrribute.forEach(
+        ({ id, name, color }: IAttributeValues) =>
+          caregiverAttrOpt.push({
+            label: name,
+            value: id ? id.toString() : '',
+            color
+          })
+      );
+      setCaregiverAttributeOptions(caregiverAttrOpt);
+      console.log("caregiverAttrOpt",caregiverAttrOpt);
+      
+    }
+  }, [attributeData]);
 
   // Mutation to add careinstitution data
   const [
@@ -400,6 +428,7 @@ const Appointment: FunctionComponent = () => {
       if (result && result.length) {
         result.forEach((user: any, index: number) => {
           user.availabilityData = [];
+          user.attribute = [];
           if (user.caregiver_avabilities && user.caregiver_avabilities.length) {
             let result: any = user.caregiver_avabilities.reduce(
               (acc: any, o: any) => (

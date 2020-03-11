@@ -9,7 +9,13 @@ import closehover from '../../../../assets/img/cancel-hover.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 
 const DetailListCaregiver = (props: any) => {
-  const { show, handleClose, selectedCell, allAvailabilities } = props;
+  const {
+    show,
+    handleClose,
+    selectedCell,
+    allAvailabilities,
+    activeDateCaregiver
+  } = props;
   const [workingHourTab, setWorkingHourTab] = useState<boolean>(false);
   const externalCloseBtn = (
     <button
@@ -23,13 +29,7 @@ const DetailListCaregiver = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  console.log('allAvailabilities in detailed list', allAvailabilities[0]);
-
-  allAvailabilities && allAvailabilities.length
-    ? allAvailabilities.map((item: any) => {
-        console.log('item in allllll', item);
-      })
-    : null;
+  console.log('activeDateCaregiver', activeDateCaregiver);
 
   return (
     <div>
@@ -107,6 +107,7 @@ const DetailListCaregiver = (props: any) => {
                         allAvailabilities.length &&
                         selectedCell ? (
                           selectedCell.map((item: any) => {
+                            console.log('item in cg', item);
                             const details: any =
                               item && item.props && item.props.list
                                 ? item.props.list

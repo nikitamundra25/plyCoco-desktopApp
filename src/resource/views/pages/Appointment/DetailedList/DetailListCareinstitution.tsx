@@ -23,7 +23,6 @@ const DetailListCareinstitution = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  console.log('activeDateCaregiver', activeDateCaregiver);
 
   return (
     <div>

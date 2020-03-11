@@ -4,5 +4,6 @@ export interface ImainState {
 
 export interface IRootState {
   languageReducer: any;
+  appointmentReducer: any;
   routing: any;
 }

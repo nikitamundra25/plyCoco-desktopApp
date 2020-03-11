@@ -10,13 +10,7 @@ import refresh from '../../../../assets/img/refresh.svg';
 import moment from 'moment';
 
 const DetailListCaregiver = (props: any) => {
-  const {
-    show,
-    handleClose,
-    selectedCell,
-    activeDateCaregiver,
-    getSelecetedCell
-  } = props;
+  const { show, handleClose, selectedCells } = props;
   const [workingHourTab, setWorkingHourTab] = useState<boolean>(false);
   const externalCloseBtn = (
     <button
@@ -108,8 +102,8 @@ const DetailListCaregiver = (props: any) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {getSelecetedCell ? (
-                          getSelecetedCell.map((elem: any) => {
+                        {selectedCells ? (
+                          selectedCells.map((elem: any) => {
                             return elem.item ? (
                               <tr>
                                 <td> {elem && elem.id ? elem.id : null}</td>
@@ -125,7 +119,7 @@ const DetailListCaregiver = (props: any) => {
                                 <td>
                                   {elem && elem.item && elem.item.date
                                     ? moment(elem.item.date).format(
-                                        defaultDateFormat
+                                        defaultDateFormat,
                                       )
                                     : null}
                                 </td>
@@ -183,8 +177,7 @@ const DetailListCaregiver = (props: any) => {
                                     : null}
                                 </td>
                               </tr>
-                           
-                           ) : null;
+                            ) : null;
                           })
                         ) : (
                           <p>No data found</p>
@@ -233,8 +226,8 @@ const DetailListCaregiver = (props: any) => {
                           <th>{languageTranslation('FACTORING')}</th>
                         </tr>
                       </thead>
-                      {getSelecetedCell
-                        ? getSelecetedCell.map((elem: any) => {
+                      {selectedCells
+                        ? selectedCells.map((elem: any) => {
                             return (
                               <tr>
                                 <td> {elem && elem.id ? elem.id : null}</td>
@@ -249,7 +242,7 @@ const DetailListCaregiver = (props: any) => {
                                 <td>
                                   {elem && elem.item && elem.item.date
                                     ? moment(elem.item.date).format(
-                                        defaultDateFormat
+                                        defaultDateFormat,
                                       )
                                     : null}
                                 </td>

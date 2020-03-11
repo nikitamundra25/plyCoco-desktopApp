@@ -8,12 +8,12 @@ import {
   Button,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
 } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
-  IDaysArray
+  IDaysArray,
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
@@ -57,7 +57,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     activeDateCaregiver,
     activeDateCareinstitution,
     handleSelection,
-    selectedCellsCareinstitution
+    selectedCellsCareinstitution,
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -120,7 +120,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       selected.push({
         dateString: cellProps.day ? cellProps.day.dateString : '',
         item,
-        list: careinstitutionData
+        list: careinstitutionData,
       });
 
       if (selectedCells[0].props.list) {
@@ -143,7 +143,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             id: list.id,
             qualificationIds: list.qualificationId,
             item,
-            dateString
+            dateString,
           });
         }
       }
@@ -155,7 +155,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       'careinstitution',
       selctedAvailability && selctedAvailability.length
         ? selctedAvailability[0]
-        : {}
+        : {},
     );
   };
 
@@ -175,7 +175,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       selectedCareGiver.caregiver_avabilities.map(
         (caregiver: any, index: number) => {
           caregiver.date;
-        }
+        },
       );
 
       // if (
@@ -199,7 +199,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         className={classnames({
           'rightclick-menu': true,
           'custom-scrollbar': true,
-          'd-none': !toggleMenuButton
+          'd-none': !toggleMenuButton,
         })}
         id={'clickbox'}
       >
@@ -477,7 +477,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 {daysArr.map(
                   (
                     { date, day, isoString, isWeekend }: IDaysArray,
-                    index: number
+                    index: number,
                   ) => {
                     return (
                       <th
@@ -492,7 +492,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         </div>
                       </th>
                     );
-                  }
+                  },
                 )}
               </tr>
             </thead>
@@ -510,7 +510,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   careInstitutionList.map((list: any, index: number) => {
                     return list.availabilityData && list.availabilityData.length
                       ? list.availabilityData.map((item: any, row: number) => (
-                          <tr key={index}>
+                          <tr key={`${list.id}-${index}-${row}`}>
                             <th className='thead-sticky name-col custom-appointment-col'>
                               <div
                                 className='text-capitalize view-more-link one-line-text'
@@ -575,10 +575,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                       ? item.filter((avabilityData: any) => {
                                           return (
                                             moment(key.isoString).format(
-                                              'DD.MM.YYYY'
+                                              'DD.MM.YYYY',
                                             ) ===
                                             moment(avabilityData.date).format(
-                                              'DD.MM.YYYY'
+                                              'DD.MM.YYYY',
                                             )
                                           );
                                         })[0]
@@ -678,7 +678,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                       </div>
                       <h4 className='mb-1'>
                         {languageTranslation(
-                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST'
+                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST',
                         )}
                       </h4>
                     </div>

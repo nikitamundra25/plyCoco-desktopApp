@@ -20,6 +20,9 @@ const DefaultLayout = React.lazy(() =>
   import("./resource/views/containers/DefaultLayout/DefaultLayout")
 );
 
+const ValidateAzureLogin = React.lazy(() =>
+  import("./resource/views/pages/Login/ValidateAzureLogin")
+);
 // Create browser history
 const history = createBrowserHistory({ basename: "/superadmin" });
 // Configure store
@@ -43,6 +46,11 @@ class App extends Component<any, any> {
                     exact
                     path={AppRoutes.LOGIN}
                     render={props => <Login />}
+                  />
+                  <Route
+                    exact
+                    path={AppRoutes.VALIDATE_AZURE_LOGIN}
+                    render={props => <ValidateAzureLogin />}
                   />
                   <Route
                     path={AppRoutes.MAIN}

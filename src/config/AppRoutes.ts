@@ -43,5 +43,6 @@ export const AppRoutes: IAppRoutes = {
   GLOBAL_CALENDAR: "/further/global-calendar",
   ATTRIBUTE_MANAGEMENT: "/further/attribute",
   EMAIL_TEMPLATE_MANAGEMENT: "/further/email-templates",
-  BULK_EMAIL_CAREINSTITUTION: "/bulk-email-careinstitution"
+  BULK_EMAIL_CAREINSTITUTION: "/bulk-email-careinstitution",
+  VALIDATE_AZURE_LOGIN: "/validate-redirection"
 };

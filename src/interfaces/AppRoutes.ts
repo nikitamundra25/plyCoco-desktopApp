@@ -41,4 +41,5 @@ export interface IAppRoutes {
   EMPLOYEE_LOGIN_HISTORY: string;
   GLOBAL_CALENDAR: string;
   BULK_EMAIL_CAREINSTITUTION: String;
+  VALIDATE_AZURE_LOGIN: string;
 }

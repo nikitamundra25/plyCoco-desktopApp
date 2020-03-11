@@ -83,7 +83,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   // To fetch users according to qualification selected
   useEffect(() => {
-    console.log('in use effect data');
     if (props.label === 'appointment') {
       let temp: any = [];
       props.qualification.map((key: any, index: number) => {
@@ -170,7 +169,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     let list: any = [...careGiverData];
     if (careGiversList) {
-      console.log('careGiversList', careGiversList);
       const { getUserByQualifications } = careGiversList;
       const { result } = getUserByQualifications;
       if (result && result.length) {

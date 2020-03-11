@@ -91,10 +91,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     GET_DIVISION_DETAILS_BY_ID,
     {
       onCompleted({ getDivisionsDetails }) {
-        console.log(
-          'getDivisionsDetails.attributes',
-          getDivisionsDetails.division_attributes
-        );
+      
         const temp: any = [];
         if (
           getDivisionsDetails &&
@@ -556,7 +553,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
               )}
               validationSchema={AddTimeValidationSchema}
             />
-            {console.log('attributes+++++++++++', attributes)}
             <QuallificationAttribute
               {...props}
               qualificationList={qualificationList}

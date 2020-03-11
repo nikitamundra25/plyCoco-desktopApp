@@ -37,8 +37,6 @@ const PersonalInfoFormComponent: any = (
     userSelectedCountry: any;
   },
 ) => {
-  console.log(Gender, 'Gender in');
-
   const { countriesOpt, userSelectedCountry } = props;
   // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(

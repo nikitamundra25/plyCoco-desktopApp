@@ -14,12 +14,6 @@ const CellCareinstitution = ({
   key,
   handleSelectedUser
 }: any) => {
-  const temp = item.filter((avabilityData: any, index: number) => {
-    return (
-      moment(day.isoString).format('DD.MM.YYYY') ===
-      moment(avabilityData.date).format('DD.MM.YYYY')
-    );
-  })[0];
   return (
     <td
       key={key}
@@ -31,8 +25,8 @@ const CellCareinstitution = ({
         'selected-cell': isSelected,
         'selecting-cell': isSelecting,
         'cell-available-careinstitution': !isSelected
-          ? temp
-            ? temp.f === temp.f || temp.s === temp.s || temp.n === temp.n
+          ? item
+            ? item.f === item.f || item.s === item.s || item.n === item.n
               ? true
               : false
             : false
@@ -60,11 +54,11 @@ const CellCareinstitution = ({
       ref={selectableRef}
       // onClick={() => handleSelectedUser(list, day, 'caregiver')}
     >
-      {temp ? (
+      {item ? (
         <>
-          {temp.f ? temp.f : null}
-          {temp.s ? temp.s : null}
-          {temp.n ? temp.n : null}
+          {item.f ? item.f : null}
+          {item.s ? item.s : null}
+          {item.n ? item.n : null}
         </>
       ) : null}
       {/* {list &&

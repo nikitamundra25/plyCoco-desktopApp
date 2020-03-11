@@ -35,7 +35,9 @@ import invoice from '../../../../assets/img/dropdown/invoice.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 import classnames from 'classnames';
 import { languageTranslation } from '../../../../../helpers';
+import { toast } from 'react-toastify';
 
+let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
   const {
@@ -56,7 +58,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCareinstitution,
     activeDateCaregiver,
     activeDateCareinstitution,
-    handleSelection
+    handleSelection,
+    selectedCellsCareinstitution,
+    selectedCells,
+    onLinkAppointment
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -162,7 +167,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       //   }
       // );
     }
-    console.log('selectedRows', selectedRows);
 
     handleSelection(selectedRows, 'careinstitution');
     handleSelectedUser(
@@ -179,37 +183,69 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setSelectedDays([]);
   };
   const [showList, setShowList] = useState<boolean>(false);
+  const [link, setlink] = useState<boolean>(false);
 
-  // Link appointments
-  const handleLinkAppointments = () => {
-    console.log('selectedCareGiver caregiver_avabilities', selectedCareGiver);
-    console.log('selected', selectedCareinstitution);
+  // Link or unlink appointments
+  const handleLinkAppointments = (name: string) => {
+    let selectedData: any = [],
+      checkError: boolean = false;
     if (
-      selectedCareGiver &&
-      selectedCareGiver.caregiver_avabilities.length &&
-      selectedCareinstitution &&
-      selectedCareinstitution.careinstitution_requirements
+      selectedCellsCareinstitution &&
+      selectedCellsCareinstitution.length &&
+      selectedCells &&
+      selectedCells.length
     ) {
-      selectedCareGiver.caregiver_avabilities.map(
-        (caregiver: any, index: number) => {
-          caregiver.date;
+      if (selectedCellsCareinstitution.length !== selectedCells.length) {
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error('Please select same length cells');
         }
-      );
-
-      // if (
-      //   moment(
-      //     activeDateCareinstitution
-      //       ? activeDateCareinstitution.dateString
-      //       : null
-      //   ).format('DD.MM.YYYY') ===
-      //   moment(
-      //     activeDateCaregiver ? activeDateCaregiver.dateString : null
-      //   ).format('DD.MM.YYYY')
-      // ) {
-      //   console.log('hereeeeeeeeeee');
-      // }
+      } else {
+        selectedCells.map((key: any, index: number) => {
+          const element = selectedCellsCareinstitution[index];
+          if (
+            moment(key.dateString).format(dbAcceptableFormat) !==
+            moment(element.dateString).format(dbAcceptableFormat)
+          ) {
+            checkError = true;
+            if (!toast.isActive(toastId)) {
+              toastId = toast.error(
+                'Date range between appointments & requirement mismatch.'
+              );
+            }
+            return false;
+          } else if (key.item === undefined || element.item === undefined) {
+            checkError = true;
+            if (!toast.isActive(toastId)) {
+              toastId = toast.error(
+                'Create requirement or appointment first for all selected cells.'
+              );
+            }
+            return false;
+          } else {
+            if (!checkError) {
+              if (name === 'link') {
+                selectedData.push({
+                  avabilityId: parseInt(key.item.id),
+                  requirementId: parseInt(element.item.id),
+                  date: moment(element.dateString).format(dbAcceptableFormat)
+                });
+              } else {
+                selectedData.push({
+                  avabilityId: parseInt(key.item.id),
+                  requirementId: parseInt(element.item.id)
+                });
+              }
+            }
+          }
+        });
+        if (!checkError) {
+          onLinkAppointment(selectedData, name);
+        }
+      }
     }
   };
+
+  const handleUnLinkAppointments = async () => {};
 
   return (
     <>
@@ -304,13 +340,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink onClick={handleLinkAppointments}>
+              <NavLink onClick={handleLinkAppointments('link')}>
                 <img src={connect} className='mr-2' alt='' />
                 <span>Link appointments</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink onClick={handleLinkAppointments('unlink')}>
                 <img src={disconnect} className='mr-2' alt='' />
                 <span>Unlink appointments</span>
               </NavLink>{' '}

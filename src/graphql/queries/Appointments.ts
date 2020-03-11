@@ -9,6 +9,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     $positiveAttributeId: [ID]
     $gte: String
     $lte: String
+    $showAppointments: String
   ) {
     getUserByQualifications(
       qualificationId: $qualificationId
@@ -19,6 +20,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
       positiveAttributeId: $positiveAttributeId
       gte: $gte
       lte: $lte
+      showAppointments: $showAppointments
     ) {
       totalCount
       result {

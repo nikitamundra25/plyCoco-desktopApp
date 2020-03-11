@@ -49,7 +49,9 @@ const [
   UPDATE_CAREGIVER_AVABILITY,
   UPDATE_INSTITUTION_REQUIREMENT,
   DELETE_CAREINSTITUTION_REQUIREMENT,
-  DELETE_CAREGIVER_AVABILITY
+  DELETE_CAREGIVER_AVABILITY,
+  LINK_REQUIREMENT,
+  UN_LINK_REQUIREMENT
 ] = AppointmentMutations;
 const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [
@@ -84,11 +86,13 @@ const Appointment: FunctionComponent = () => {
   const [careInstituionDept, setcareInstituionDept] = useState<
     IReactSelectInterface
   >();
+
   // set field to update formik values
   const [
     updateCanstitutionFormikValues,
     setupdateCanstitutionFormikValues
   ] = useState<any>();
+
   const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
@@ -240,6 +244,16 @@ const Appointment: FunctionComponent = () => {
     }
   });
 
+  // Mutation to linkRequirement
+  const [linkRequirement, {}] = useMutation<{ appointmentInput: any }>(
+    LINK_REQUIREMENT
+  );
+
+  // Mutation to unLink Requirement
+  const [unLinkRequirement, {}] = useMutation<{ appointmentInput: any }>(
+    UN_LINK_REQUIREMENT
+  );
+
   // To get caregiver list from db
   const [
     getDepartmentList,
@@ -343,7 +357,13 @@ const Appointment: FunctionComponent = () => {
           negativeAttributeId: negativeId,
           positiveAttributeId: positiveId,
           gte: '2020-01-01',
-          lte: '2020-03-31'
+          lte: '2020-03-31',
+          showAppointments:
+            filterByAppointments && filterByAppointments.value
+              ? filterByAppointments.value === 'showAll'
+                ? ''
+                : filterByAppointments.value
+              : null
         }
       });
     } else {
@@ -355,7 +375,13 @@ const Appointment: FunctionComponent = () => {
           negativeAttributeId: negativeId,
           positiveAttributeId: positiveId,
           gte: '2020-01-01',
-          lte: '2020-03-31'
+          lte: '2020-03-31',
+          showAppointments:
+            filterByAppointments && filterByAppointments.value
+              ? filterByAppointments.value === 'showAll'
+                ? ''
+                : filterByAppointments.value
+              : null
         }
       });
     }
@@ -743,7 +769,9 @@ const Appointment: FunctionComponent = () => {
         negativeAttributeId: negative,
         showAppointments:
           filterByAppointments && filterByAppointments.value
-            ? filterByAppointments.value
+            ? filterByAppointments.value === 'showAll'
+              ? ''
+              : filterByAppointments.value
             : null,
         positiveAttributeId: positive,
         gte,
@@ -757,7 +785,9 @@ const Appointment: FunctionComponent = () => {
         userRole: 'canstitution',
         showAppointments:
           filterByAppointments && filterByAppointments.value
-            ? filterByAppointments.value
+            ? filterByAppointments.value === 'showAll'
+              ? ''
+              : filterByAppointments.value
             : null,
         negativeAttributeId: negative,
         positiveAttributeId: positive,
@@ -1016,6 +1046,24 @@ const Appointment: FunctionComponent = () => {
     };
     setvaluesForCareinstitution(temp);
   }, [careInstituionShift]);
+
+  // On link requirement
+  const onLinkAppointment = async (selectedOption: any, name: string) => {
+    console.log('selectedOption', selectedOption);
+    if (name === 'link') {
+      await linkRequirement({
+        variables: {
+          appointmentInput: selectedOption
+        }
+      });
+    } else {
+      await unLinkRequirement({
+        variables: {
+          appointmentInput: selectedOption
+        }
+      });
+    }
+  };
 
   // select careGiver or careinstitution
   const handleSelectedUser = (
@@ -1836,6 +1884,9 @@ const Appointment: FunctionComponent = () => {
                         : undefined
                     }
                     handleSelection={handleSelection}
+                    selectedCellsCareinstitution={selectedCellsCareinstitution}
+                    selectedCells={selectedCells}
+                    onLinkAppointment={onLinkAppointment}
                   />
                 </Col>
                 <Col lg={'7'}>

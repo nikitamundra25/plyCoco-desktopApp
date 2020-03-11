@@ -92,11 +92,29 @@ const DELETE_CAREINSTITUTION_REQUIREMENT = gql`
   }
 `;
 
+const LINK_REQUIREMENT = gql`
+  mutation AddAppointment($appointmentInput: [AppointmentInput]) {
+    addAppointment(appointmentInput: $appointmentInput) {
+      status
+    }
+  }
+`;
+
+const UN_LINK_REQUIREMENT = gql`
+  mutation AddAppointment($appointmentInput: [AppointmentInput]) {
+    addAppointment(appointmentInput: $appointmentInput) {
+      status
+    }
+  }
+`;
+
 export const AppointmentMutations = [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
   UPDATE_CAREGIVER_AVABILITY,
   UPDATE_INSTITUTION_REQUIREMENT,
   DELETE_CAREINSTITUTION_REQUIREMENT,
-  DELETE_CAREGIVER_AVABILITY
+  DELETE_CAREGIVER_AVABILITY,
+  LINK_REQUIREMENT,
+  UN_LINK_REQUIREMENT
 ];

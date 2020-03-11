@@ -3,18 +3,19 @@ import { Button, Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
 import Select from 'react-select';
 import logger from 'redux-logger';
 import { languageTranslation } from '../../../../../helpers';
-import { State } from '../../../../../config';
+import { State, defaultDateFormat } from '../../../../../config';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import refresh from '../../../../assets/img/refresh.svg';
+import moment from 'moment';
 
 const DetailListCaregiver = (props: any) => {
   const {
     show,
     handleClose,
     selectedCell,
-    allAvailabilities,
-    activeDateCaregiver
+    activeDateCaregiver,
+    getSelecetedCell
   } = props;
   const [workingHourTab, setWorkingHourTab] = useState<boolean>(false);
   const externalCloseBtn = (
@@ -29,7 +30,7 @@ const DetailListCaregiver = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  console.log('activeDateCaregiver', activeDateCaregiver);
+  console.log('getSelecetedCell', getSelecetedCell);
 
   return (
     <div>
@@ -103,103 +104,55 @@ const DetailListCaregiver = (props: any) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {allAvailabilities &&
-                        allAvailabilities.length &&
-                        selectedCell ? (
-                          selectedCell.map((item: any) => {
-                            console.log('item in cg', item);
-                            const details: any =
-                              item && item.props && item.props.list
-                                ? item.props.list
-                                : '';
-                            const date =
-                              item && item.props && item.props.day
-                                ? item.props.day
-                                : '';
+                        {getSelecetedCell ? (
+                          getSelecetedCell.map((elem: any) => {
+                            console.log('elem in cg', elem);
                             return (
-                              <tr
-                                className={
-                                  item &&
-                                  item.props &&
-                                  item.props.item &&
-                                  item.props.item.length
-                                    ? item.props.item.map((item: any) => {
-                                        item.status === 'default'
-                                          ? 'approve-bg'
-                                          : 'table-danger';
-                                      })
-                                    : null
-                                }
-                              >
-                                <td> {details.id}</td>
-                                <td>
-                                  {details.lastName + ' ' + details.firstName}
-                                </td>
+                              <tr>
+                                <td> {elem.id}</td>
+                                <td>{elem.lastName + ' ' + elem.firstName}</td>
                                 <td> -</td>
                                 <td> -</td>
                                 <td>
-                                  {date.day + ',' + ' ' + date.dateString}
+                                  {elem.item && elem.item.date
+                                    ? moment(elem.item.date).format(
+                                        defaultDateFormat
+                                      )
+                                    : null}
                                 </td>
                                 <td>
-                                  {item &&
-                                  item.props &&
-                                  item.props.item &&
-                                  item.props.item.length
-                                    ? item.props.item.map((item: any) => {
-                                        console.log('item in caregiver', item);
-
-                                        return (
-                                          <>
-                                            {item.f === 'available'
-                                              ? 'f'
-                                              : null}
-                                            {item.s === 'available'
-                                              ? 's'
-                                              : null}
-                                            {item.n === 'available'
-                                              ? 'n'
-                                              : null}
-                                          </>
-                                        );
-                                      })
-                                    : null}
+                                  {elem.item.f === 'available' ? 'f' : null}
+                                  {elem.item.s === 'available' ? 's' : null}
+                                  {elem.item.n === 'available' ? 'n' : null}
                                 </td>
                                 <td>-</td>
                                 <td>-</td>
-                                {item &&
-                                item.props &&
-                                item.props.item &&
-                                item.props.item.length
-                                  ? item.props.item.map((item: any) => {
-                                      return (
-                                        <td>
-                                          <span className='checkbox-custom '>
-                                            <input
-                                              type='checkbox'
-                                              id='checkAll'
-                                              className=''
-                                              checked={
-                                                item.workingProofRecieved
-                                                  ? true
-                                                  : false
-                                              }
-                                            />
-                                            <label className=''> </label>
-                                          </span>
-                                        </td>
-                                      );
-                                    })
-                                  : null}
                                 <td>
-                                  {item &&
-                                  item.props &&
-                                  item.props.item &&
-                                  item.props.item.length
-                                    ? item.props.item.map((item: any) => {
-                                        return item.remarksCareGiver;
-                                      })
-                                    : null}
+                                  <span className='checkbox-custom '>
+                                    <input
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
+                                      checked={
+                                        elem.item.workingProofRecieved
+                                          ? true
+                                          : false
+                                      }
+                                    />
+                                    <label className=''> </label>
+                                  </span>
                                 </td>
+                                <td>
+                                  <span className='checkbox-custom '>
+                                    <input
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
+                                    />
+                                    <label className=''> </label>
+                                  </span>
+                                </td>
+                                <td>{elem.item.remarksCareGiver}</td>
                               </tr>
                             );
                           })
@@ -250,24 +203,14 @@ const DetailListCaregiver = (props: any) => {
                           <th>{languageTranslation('FACTORING')}</th>
                         </tr>
                       </thead>
-                      {selectedCell
-                        ? selectedCell.map((item: any) => {
-                            const details: any =
-                              item && item.props && item.props.list
-                                ? item.props.list
-                                : '';
-                            const date =
-                              item && item.props && item.props.day
-                                ? item.props.day
-                                : '';
+                      {getSelecetedCell
+                        ? getSelecetedCell.map((ele: any) => {
                             return (
                               <tr>
-                                <td>{details.id}</td>
-                                <td>
-                                  {details.lastName + ' ' + details.firstName}
-                                </td>
+                                <td>{ele.id}</td>
+                                <td>{ele.lastName + ' ' + ele.firstName}</td>
                                 <td> -</td>
-                                <td>
+                                {/* <td>
                                   {date.day + ',' + ' ' + date.dateString}
                                 </td>
                                 <td>
@@ -369,7 +312,7 @@ const DetailListCaregiver = (props: any) => {
                                 </td>
                                 <td>-</td>
                                 <td>-</td>
-                                <td>-</td>
+                                <td>-</td> */}{' '}
                               </tr>
                             );
                           })

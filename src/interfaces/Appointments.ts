@@ -37,6 +37,7 @@ export interface IAppointmentNav {
     selectOption: IReactSelectInterface,
     name: string
   ) => void;
+  onFilterByUserId: (userId: string, userRole: string) => void;
 }
 
 export interface IAppointmentCareGiverList {
@@ -107,8 +108,9 @@ export interface IStarInterface {
 
 export interface ICaregiverFormValue {
   appointmentId: string | null;
-  firstName: string;
-  lastName: string;
+  name?: string;
+  // firstName: string;
+  // lastName: string;
   fee?: string;
   nightAllowance?: IReactSelectInterface;
   weekendAllowance?: string;

@@ -148,8 +148,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
       }
     }
-    console.log('selectedRows', selectedRows);
-
     handleSelection(selectedRows, 'careinstitution');
     handleSelectedUser(
       list,
@@ -168,8 +166,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   // Link appointments
   const handleLinkAppointments = () => {
-    console.log('selectedCareGiver caregiver_avabilities', selectedCareGiver);
-    console.log('selected', selectedCareinstitution);
     if (
       selectedCareGiver &&
       selectedCareGiver.caregiver_avabilities.length &&
@@ -209,7 +205,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       >
         <div
           onMouseOver={() => {
-            console.log('Mouse hover', onEnterMenu);
             setonEnterMenu(true);
           }}
         >

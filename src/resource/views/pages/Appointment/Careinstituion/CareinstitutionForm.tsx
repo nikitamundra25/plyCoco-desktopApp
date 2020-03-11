@@ -108,7 +108,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false;
-  console.log('selctedRequirement', selctedRequirement);
 
   if (selctedRequirement) {
     if (selctedRequirement.status === 'requirement') {

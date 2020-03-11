@@ -25,7 +25,6 @@ const DetailListCareinstitution = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
   let positiveNamesArr: any = [];
   return (
     <div>

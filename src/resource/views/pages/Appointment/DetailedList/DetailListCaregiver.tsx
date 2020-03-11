@@ -30,12 +30,12 @@ const DetailListCaregiver = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  const noData = getSelecetedCell
-    ? getSelecetedCell.map((elem: any) => {
-        console.log(elem.item);
-        elem && elem.item && elem.item.id ? true : false;
-      })
-    : null;
+  // const noData = getSelecetedCell
+  //   ? getSelecetedCell.map((elem: any) => {
+  //       console.log(elem.item);
+  //       elem && elem.item && elem.item.id ? true : false;
+  //     })
+  //   : null;
   return (
     <div>
       <Modal
@@ -110,7 +110,6 @@ const DetailListCaregiver = (props: any) => {
                       <tbody>
                         {getSelecetedCell ? (
                           getSelecetedCell.map((elem: any) => {
-                            console.log('elem in cg', elem.item);
                             return elem.item ? (
                               <tr>
                                 <td> {elem && elem.id ? elem.id : null}</td>

@@ -299,7 +299,6 @@ const Appointment: FunctionComponent = () => {
 
   // Create new appointment or blank fields of careinstitution
   const newAppointment = () => {
-    console.log('hereee');
     setvaluesForCareinstitution({
       appointmentId: '',
       name: '',
@@ -374,7 +373,6 @@ const Appointment: FunctionComponent = () => {
 
   // Caregiver filter by Id
   useEffect(() => {
-    console.log('selectedCareGiver', selectedCareGiver);
     if (
       careGiversFilterById &&
       careGiversFilterById.getCareGiverAvabilitiesDetails
@@ -685,7 +683,6 @@ const Appointment: FunctionComponent = () => {
   };
 
   const handleSelection = (selectedCells: any, name: string) => {
-    console.log('in handle selection', selectedCells);
     if (name === 'caregiver') {
       setSelectedCells(selectedCells);
     } else {
@@ -1029,7 +1026,6 @@ const Appointment: FunctionComponent = () => {
       setselectedCareGiver(list);
       setselctedAvailability(selctedAvailability);
       if (date) {
-        console.log('date', date);
         setactiveDateCaregiver(date);
       }
     } else {
@@ -1455,7 +1451,6 @@ const Appointment: FunctionComponent = () => {
 
   // fetch last time data for caregiver
   const handleLastTimeData = (id: string, values: any) => {
-    console.log('id', id);
 
     if (id) {
       fetchCaregiverLastTimeData({
@@ -1590,7 +1585,6 @@ const Appointment: FunctionComponent = () => {
   };
 
   const onDeleteEntries = () => {
-    console.log('on delete entries', selectedCells, caregiversList);
     if (selectedCells && selectedCells.length) {
       let availabilityIds: number[] = [];
       selectedCells.forEach(async element => {
@@ -1621,7 +1615,6 @@ const Appointment: FunctionComponent = () => {
   };
 
   const onCaregiverQualificationFilter = () => {
-    console.log('onCaregiverQualificationFilter', selectedCells);
     if (selectedCells && selectedCells.length) {
       let temp: string[] = [];
       selectedCells.map(element => {
@@ -1632,7 +1625,6 @@ const Appointment: FunctionComponent = () => {
       let qual = qualificationList.filter((qual: IReactSelectInterface) =>
         temp.includes(qual.value)
       );
-      console.log(qual, 'qual');
       setqualification(qual);
       // setqualification(
       //   qualificationList.filter((qual: IReactSelectInterface) => {

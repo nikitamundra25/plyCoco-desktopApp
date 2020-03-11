@@ -114,8 +114,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             lastName = '',
             caregiver = {}
           } = caregiverData ? caregiverData : {};
-          console.log(caregiver, 'caregiver');
-
           return {
             id,
             firstName,

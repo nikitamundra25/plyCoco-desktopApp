@@ -54,6 +54,11 @@ const CareInstitutionTodoLayout = React.lazy(() =>
     "../resource/views/pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout"
   )
 );
+const AllInvoices = React.lazy(() =>
+  import(
+    "../resource/views/pages/AllInvoices"
+  )
+);
 
 const DocumentTemplateWorkingProof = React.lazy(() =>
   import("../resource/views/pages/DocumentTemplateManagement/index")
@@ -366,6 +371,12 @@ const routes = [
     path: AppRoutes.BULK_EMAIL_CAREINSTITUTION,
     name: "Bulk Care Instituition",
     component: BulkEmailCareinstitution,
+    exact: true
+  },
+  {
+    path: AppRoutes.ALLINVOICES,
+    name: "AllInvoices",
+    component: AllInvoices,
     exact: true
   }
 ];

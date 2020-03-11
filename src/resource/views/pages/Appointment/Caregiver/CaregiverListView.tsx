@@ -3,7 +3,7 @@ import { Table, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareGiverList,
-  IDaysArray
+  IDaysArray,
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import '../index.scss';
@@ -29,7 +29,7 @@ import refresh from '../../../../assets/img/refresh.svg';
 import classnames from 'classnames';
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
-  props: IAppointmentCareGiverList & any
+  props: IAppointmentCareGiverList & any,
 ) => {
   const {
     daysData,
@@ -37,11 +37,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     loading,
     onAddingRow,
     handleSelectedUser,
+    handleSelection,
     handleSecondStar,
     handleReset,
     selctedAvailability,
-    activeDateCaregiver
-
+    activeDateCaregiver,
+    onReserve,
+    onDeleteEntries,
+    onCaregiverQualificationFilter,
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -63,7 +66,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
 
   //State for care giver bulk email
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
-    false
+    false,
   );
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
@@ -82,10 +85,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       for (let i = 0; i < selectedCells.length; i++) {
         const { props: cellProps } = selectedCells[i];
         setSelectedCell(selectedCells ? selectedCells : []);
-        const { item } = cellProps;
+        console.log(selectedCells, 'cellProps');
+        const { item, list: caregiverData } = cellProps;
         selected.push({
           dateString: cellProps.day ? cellProps.day.dateString : '',
-          item
+          item,
+          list: caregiverData,
         });
         if (selectedCells[0].props.list) {
           list = selectedCells[0].props.list;
@@ -93,40 +98,28 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         setSelectedDays(selected);
       }
       let selctedAvailability: any = {};
-      if (
-        list &&
-        list.caregiver_avabilities &&
-        list.caregiver_avabilities.length
-      ) {
-        if (selected && selected.length) {
-          for (let index = 0; index < selected.length; index++) {
-            const { dateString, item } = selected[index];
-            if (item && item.length) {
-              let temp = item.filter(
-                (avabilityData: any, index: number) =>
-                  moment(avabilityData.date).format('DD.MM.YYYY') ===
-                  moment(dateString).format('DD.MM.YYYY')
-              );
-              console.log('item+++++++', item);
-              setAllAvailabilities(item);
-
-              selctedAvailability = temp && temp.length ? temp : {};
-            }
-          }
+      let selectedRows: any[] = [];
+      // if (
+      //   list &&
+      //   list.caregiver_avabilities &&
+      //   list.caregiver_avabilities.length
+      // ) {
+      if (selected && selected.length) {
+        for (let index = 0; index < selected.length; index++) {
+          const { item, list, dateString } = selected[index];
+          selctedAvailability = item;
+          selectedRows.push({
+            id: list.id,
+            qualificationIds: list.qualificationId,
+            item,
+            dateString,
+          });
         }
       }
-      const allSelectedAvailability: any = selctedAvailability;
-      console.log('selctedAvailability', selctedAvailability);
-
-      handleSelectedUser(
-        list,
-        selected,
-        'caregiver',
-        selctedAvailability && selctedAvailability.length
-          ? selctedAvailability[0]
-          : {},
-        allSelectedAvailability
-      );
+      // }
+      console.log(selectedRows, 'selectedRows');
+      handleSelection(selectedRows);
+      handleSelectedUser(list, selected, 'caregiver', selctedAvailability);
     }
   };
   const onSelectionClear = () => {
@@ -140,7 +133,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         className={classnames({
           'rightclick-menu top-open': true,
           'custom-scrollbar': true,
-          'd-none': !openToggleMenu
+          'd-none': !openToggleMenu,
         })}
       >
         <Nav vertical>
@@ -151,13 +144,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink onClick={onReserve}>
               <img src={reserve} className='mr-2' alt='' />
               <span className='align-middle'>Reserve</span>
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink onClick={onDeleteEntries}>
               <img src={delete_appointment} className='mr-2' alt='' />
               <span className='align-middle'>
                 Delete free and reserved calender entries
@@ -172,7 +165,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem className='bordernav' />
-          <NavItem>
+          <NavItem onClick={onCaregiverQualificationFilter}>
             <NavLink>
               <img src={filter} className='mr-2' alt='' />
               <span className='align-middle'>
@@ -338,7 +331,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                   {daysArr.map(
                     (
                       { date, day, isoString, isWeekend }: IDaysArray,
-                      index: number
+                      index: number,
                     ) => {
                       return (
                         <th
@@ -354,7 +347,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                           </div>
                         </th>
                       );
-                    }
+                    },
                   )}
                 </tr>
               </thead>
@@ -421,7 +414,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                   key={`${key}-${i}`}
                                   day={key}
                                   list={list}
-                                  item={item}
+                                  item={
+                                    item.filter((avabilityData: any) => {
+                                      return (
+                                        moment(key.isoString).format(
+                                          'DD.MM.YYYY',
+                                        ) ===
+                                        moment(avabilityData.date).format(
+                                          'DD.MM.YYYY',
+                                        )
+                                      );
+                                    })[0]
+                                  }
                                   handleSelectedAvailability
                                 />
                               );

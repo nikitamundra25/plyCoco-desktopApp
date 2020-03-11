@@ -182,7 +182,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
-                          value={name !== 'undefined   undefined' ? name : ''}
+                          value={name ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -370,24 +370,19 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             : 'add-new-btn arrow-btn disabled-class'
                         }
                         color=''
-                        onClick={
-                          qualificationId && qualificationId.length
-                            ? () => handleQualification(qualificationId)
-                            : ''
-                        }
+                        onClick={() => {
+                          if (qualificationId && qualificationId.length) {
+                            handleQualification(qualificationId);
+                          }
+                        }}
                       >
                         <i className='fa fa-arrow-up' aria-hidden='true' />
                       </Button>
 
                       <div className='custom-select-checkbox'>
                         <ReactMultiSelectCheckboxes
-                          placeholderButtonLabel={languageTranslation(
-                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
-                          )}
                           options={qualificationList}
-                          placeholder={languageTranslation(
-                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
-                          )}
+                          placeholder='Select Qualifications'
                           className={'custom-reactselect '}
                           classNamePrefix='custom-inner-reactselect'
                           onChange={(value: any) =>

@@ -107,6 +107,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         selectedRows = selectedCells.map((selectedCell: any) => {
           const { props: cellProps } = selectedCell;
           const { item, list: caregiverData, day } = cellProps;
+          selctedAvailability = item;
           const {
             id = '',
             firstName = '',

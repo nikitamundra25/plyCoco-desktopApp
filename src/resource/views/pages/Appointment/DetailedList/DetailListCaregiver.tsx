@@ -30,8 +30,12 @@ const DetailListCaregiver = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  console.log('getSelecetedCell', getSelecetedCell);
-
+  const noData = getSelecetedCell
+    ? getSelecetedCell.map((elem: any) => {
+        console.log(elem.item);
+        elem && elem.item && elem.item.id ? true : false;
+      })
+    : null;
   return (
     <div>
       <Modal
@@ -106,24 +110,42 @@ const DetailListCaregiver = (props: any) => {
                       <tbody>
                         {getSelecetedCell ? (
                           getSelecetedCell.map((elem: any) => {
-                            console.log('elem in cg', elem);
-                            return (
+                            console.log('elem in cg', elem.item);
+                            return elem.item ? (
                               <tr>
-                                <td> {elem.id}</td>
-                                <td>{elem.lastName + ' ' + elem.firstName}</td>
+                                <td> {elem && elem.id ? elem.id : null}</td>
+                                <td>
+                                  {elem && elem.lastName
+                                    ? elem.lastName
+                                    : null + ' ' + elem && elem.lastName
+                                    ? elem.firstName
+                                    : null}
+                                </td>
                                 <td> -</td>
                                 <td> -</td>
                                 <td>
-                                  {elem.item && elem.item.date
+                                  {elem && elem.item && elem.item.date
                                     ? moment(elem.item.date).format(
                                         defaultDateFormat
                                       )
                                     : null}
                                 </td>
                                 <td>
-                                  {elem.item.f === 'available' ? 'f' : null}
-                                  {elem.item.s === 'available' ? 's' : null}
-                                  {elem.item.n === 'available' ? 'n' : null}
+                                  {elem &&
+                                  elem.item &&
+                                  elem.item.f === 'available'
+                                    ? 'f'
+                                    : null}
+                                  {elem &&
+                                  elem.item &&
+                                  elem.item.s === 'available'
+                                    ? 's'
+                                    : null}
+                                  {elem &&
+                                  elem.item &&
+                                  elem.item.n === 'available'
+                                    ? 'n'
+                                    : null}
                                 </td>
                                 <td>-</td>
                                 <td>-</td>
@@ -134,6 +156,8 @@ const DetailListCaregiver = (props: any) => {
                                       id='checkAll'
                                       className=''
                                       checked={
+                                        elem &&
+                                        elem.item &&
                                         elem.item.workingProofRecieved
                                           ? true
                                           : false
@@ -152,9 +176,15 @@ const DetailListCaregiver = (props: any) => {
                                     <label className=''> </label>
                                   </span>
                                 </td>
-                                <td>{elem.item.remarksCareGiver}</td>
+                                <td>
+                                  {elem &&
+                                  elem.item &&
+                                  elem.item.remarksCareGiver
+                                    ? elem.item.remarksCareGiver
+                                    : null}
+                                </td>
                               </tr>
-                            );
+                            ) : null;
                           })
                         ) : (
                           <p>No data found</p>
@@ -204,53 +234,47 @@ const DetailListCaregiver = (props: any) => {
                         </tr>
                       </thead>
                       {getSelecetedCell
-                        ? getSelecetedCell.map((ele: any) => {
+                        ? getSelecetedCell.map((elem: any) => {
                             return (
                               <tr>
-                                <td>{ele.id}</td>
-                                <td>{ele.lastName + ' ' + ele.firstName}</td>
+                                <td> {elem && elem.id ? elem.id : null}</td>
+                                <td>
+                                  {elem && elem.lastName
+                                    ? elem.lastName
+                                    : null + ' ' + elem && elem.lastName
+                                    ? elem.firstName
+                                    : null}
+                                </td>
                                 <td> -</td>
-                                {/* <td>
-                                  {date.day + ',' + ' ' + date.dateString}
-                                </td>
                                 <td>
-                                  {item &&
-                                  item.props &&
-                                  item.props.item &&
-                                  item.props.item.length
-                                    ? item.props.item.map((item: any) => {
-                                        return item.fee;
-                                      })
+                                  {elem && elem.item && elem.item.date
+                                    ? moment(elem.item.date).format(
+                                        defaultDateFormat
+                                      )
                                     : null}
                                 </td>
                                 <td>
-                                  {item &&
-                                  item.props &&
-                                  item.props.item &&
-                                  item.props.item.length
-                                    ? item.props.item.map((item: any) => {
-                                        return item.nightFee;
-                                      })
+                                  {elem && elem.item && elem.item.fee
+                                    ? elem.item.fee
                                     : null}
                                 </td>
                                 <td>
-                                  {item &&
-                                  item.props &&
-                                  item.props.item &&
-                                  item.props.item.length
-                                    ? item.props.item.map((item: any) => {
-                                        return item.weekendAllowance;
-                                      })
+                                  {elem && elem.item && elem.item.nightFee
+                                    ? elem.item.nightFee
                                     : null}
                                 </td>
                                 <td>
-                                  {item &&
-                                  item.props &&
-                                  item.props.item &&
-                                  item.props.item.length
-                                    ? item.props.item.map((item: any) => {
-                                        return item.holidayAllowance;
-                                      })
+                                  {elem &&
+                                  elem.item &&
+                                  elem.item.weekendAllowance
+                                    ? elem.item.weekendAllowance
+                                    : null}
+                                </td>
+                                <td>
+                                  {elem &&
+                                  elem.item &&
+                                  elem.item.holidayAllowance
+                                    ? elem.item.holidayAllowance
                                     : null}
                                 </td>
                                 <td>-</td>
@@ -259,45 +283,25 @@ const DetailListCaregiver = (props: any) => {
                                 <td>-</td>
                                 <td>-</td>
                                 <td>
-                                  {item &&
-                                  item.props &&
-                                  item.props.item &&
-                                  item.props.item.length
-                                    ? item.props.item.map((item: any) => {
-                                        return item.distanceInKM;
-                                      })
+                                  {elem && elem.item && elem.item.feePerKM
+                                    ? elem.item.feePerKM
                                     : null}
                                 </td>
                                 <td>
                                   <span className='checkbox-custom '>
-                                    {item &&
-                                    item.props &&
-                                    item.props.item &&
-                                    item.props.item.length
-                                      ? item.props.item.map(
-                                          (item: any, index: number) => {
-                                            console.log(
-                                              'item.workingProofRecieved',
-                                              item.workingProofRecieved
-                                            );
-                                            return (
-                                              <>
-                                                <input
-                                                  type='checkbox'
-                                                  id='checkAll'
-                                                  className=''
-                                                  checked={
-                                                    item.workingProofRecieved
-                                                      ? true
-                                                      : false
-                                                  }
-                                                />
-                                                <label className=''> </label>
-                                              </>
-                                            );
-                                          }
-                                        )
-                                      : null}
+                                    <input
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
+                                      checked={
+                                        elem &&
+                                        elem.item &&
+                                        elem.item.workingProofRecieved
+                                          ? true
+                                          : false
+                                      }
+                                    />
+                                    <label className=''> </label>
                                   </span>
                                 </td>
                                 <td>
@@ -310,9 +314,13 @@ const DetailListCaregiver = (props: any) => {
                                     <label className=''> </label>
                                   </span>
                                 </td>
+                                <td>
+                                  {elem && elem.item && elem.item.nightAllowance
+                                    ? elem.item.nightAllowance
+                                    : null}
+                                </td>
                                 <td>-</td>
-                                <td>-</td>
-                                <td>-</td> */}{' '}
+                                <td>-</td>{' '}
                               </tr>
                             );
                           })

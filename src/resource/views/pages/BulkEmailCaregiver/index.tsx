@@ -83,7 +83,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   // To fetch users according to qualification selected
   useEffect(() => {
-    console.log('in use effect data');
     if (props.label === 'appointment') {
       let temp: any = [];
       props.qualification.map((key: any, index: number) => {
@@ -170,7 +169,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     let list: any = [...careGiverData];
     if (careGiversList) {
-      console.log('careGiversList', careGiversList);
       const { getUserByQualifications } = careGiversList;
       const { result } = getUserByQualifications;
       if (result && result.length) {
@@ -330,8 +328,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (email_templates && email_templates.length) {
         email_templates.map((emailData: IEmailTemplateData & any) => {
           if (props.label === 'appointment') {
+            console.log('In temp opt', props.showButton);
             if (emailData.menuEntry === 'Offers for care givers') {
-              console.log('In temp opt', emailData);
               const { subject, body, attachments } = emailData;
               const editorState = body ? HtmlToDraftConverter(body) : '';
               setSubject(subject);
@@ -359,8 +357,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [data]);
-
-  console.log('template', template);
 
   const handleSelectAll = async () => {
     if (careGiverData && careGiverData.length) {
@@ -516,11 +512,15 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           return unique;
         }, []);
 
+        for (let index = 0; index < selectedCareGiver.length; index++) {
+          const element = selectedCareGiver[index];
+          if (uniqueUser[uniqueUser.length - 1] !== element) {
+            uniqueUser.push(element);
+          }
+        }
+       
         uniqueUser.map((careGiverId: number) => {
-          careGiverIdList = [
-            ...careGiverIdList,
-            { receiverUserId: careGiverId }
-          ];
+          careGiverIdList.push({ receiverUserId: careGiverId });
         });
 
         if (subject && body && result && result.length >= 2) {

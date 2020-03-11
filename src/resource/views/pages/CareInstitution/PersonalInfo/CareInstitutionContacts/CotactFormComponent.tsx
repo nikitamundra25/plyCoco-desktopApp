@@ -148,11 +148,7 @@ const CotactFormComponent: any = (
     addingtype,
     userSelectedCountry,
   } = props;
-  console.log(
-    careInstitutionAttrOpt,
-    'careInstitutionAttrOpt on form comp',
-    attributeId,
-  );
+  
 
   useEffect(() => {
     if (contacttypeOpt && contacttypeOpt.length) {

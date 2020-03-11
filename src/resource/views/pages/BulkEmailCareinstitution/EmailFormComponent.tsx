@@ -29,7 +29,6 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
   let content = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : "";
   const result = stripHtml(content);
 
-
   return (
     <Col lg={"7"}>
       <div className="">

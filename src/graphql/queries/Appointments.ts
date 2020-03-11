@@ -33,6 +33,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           fee
           holiday
           night
+          attributes
         }
         caregiver_avabilities {
           id

@@ -328,12 +328,23 @@ const Appointment: FunctionComponent = () => {
     positiveId: number[],
     negativeId: number[]
   ) => {
+    // Default value is start & end of month
+    let gte: string = moment()
+      .startOf('month')
+      .format(dbAcceptableFormat);
+    let lte: string = moment()
+      .endOf('month')
+      .format(dbAcceptableFormat);
+    if (daysData && daysData.daysArr && daysData.daysArr.length) {
+      gte = daysData.daysArr[0].dateString || '';
+      lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
+    }
     setPositive(positiveId), setNegative(negativeId);
     let temp: any = [];
     qualification.map((key: any) => {
       temp.push(parseInt(key.value));
     });
-    if ('caregiver') {
+    if (userRole === 'caregiver') {
       // get careGivers list
       fetchCaregiverList({
         variables: {
@@ -341,8 +352,8 @@ const Appointment: FunctionComponent = () => {
           userRole: 'caregiver',
           negativeAttributeId: negativeId,
           positiveAttributeId: positiveId,
-          gte: '2020-01-01',
-          lte: '2020-03-31'
+          gte,
+          lte
         }
       });
     } else {
@@ -353,8 +364,8 @@ const Appointment: FunctionComponent = () => {
           userRole: 'canstitution',
           negativeAttributeId: negativeId,
           positiveAttributeId: positiveId,
-          gte: '2020-01-01',
-          lte: '2020-03-31'
+          gte,
+          lte
         }
       });
     }
@@ -1022,7 +1033,6 @@ const Appointment: FunctionComponent = () => {
     selctedAvailability: any
   ) => {
     if (name === 'caregiver') {
-      
       setselectedCareGiver(list);
       setselctedAvailability(selctedAvailability);
       if (date) {
@@ -1451,7 +1461,6 @@ const Appointment: FunctionComponent = () => {
 
   // fetch last time data for caregiver
   const handleLastTimeData = (id: string, values: any) => {
-
     if (id) {
       fetchCaregiverLastTimeData({
         variables: {
@@ -1702,7 +1711,6 @@ const Appointment: FunctionComponent = () => {
   } = caregiver ? caregiver : {};
 
   const valuesForCaregiver: ICaregiverFormValue = {
-    
     appointmentId: id !== null ? id : null,
     // firstName: selectedCareGiver ? selectedCareGiver.firstName : '',
     // lastName: selectedCareGiver ? selectedCareGiver.lastName : '',
@@ -1784,6 +1792,7 @@ const Appointment: FunctionComponent = () => {
                     loading={caregiverLoading}
                     careGiversList={caregiversList ? caregiversList : []}
                     onAddingRow={onAddingRow}
+                    selectedRows={selectedCells}
                     handleSelectedUser={handleSelectedUser}
                     handleSecondStar={handleSecondStar}
                     handleReset={handleReset}

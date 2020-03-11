@@ -35,6 +35,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     careGiversList,
     loading,
     onAddingRow,
+    selectedRows,
     handleSelectedUser,
     handleSelection,
     handleSecondStar,
@@ -126,7 +127,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       }
       // }
 
-      setSelecetdCell(selectedRows);
+      // setSelecetdCell(selectedRows);
       handleSelection(selectedRows, 'caregiver');
       handleSelectedUser(list, selected, 'caregiver', selctedAvailability);
     }
@@ -475,7 +476,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         selectedCell={selectedCell}
         allAvailabilities={allAvailabilities}
         activeDateCaregiver={activeDateCaregiver}
-        getSelecetedCell={getSelecetedCell}
+        getSelecetedCell={selectedRows}
       />
     </>
   );

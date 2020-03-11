@@ -52,4 +52,5 @@ export interface IBulkEmailVariables {
   status: string;
   files: any /* IEmailInputAttachmenttypes[] */;
   attachments: IEmailInputAttachmenttypes[];
+  type?: string;
 }

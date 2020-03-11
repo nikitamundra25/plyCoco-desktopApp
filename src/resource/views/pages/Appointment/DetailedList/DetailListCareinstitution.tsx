@@ -3,18 +3,20 @@ import { Button, Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
 import Select from 'react-select';
 import logger from 'redux-logger';
 import { languageTranslation } from '../../../../../helpers';
-import { State } from '../../../../../config';
+import { State, defaultDateFormat } from '../../../../../config';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import refresh from '../../../../assets/img/refresh.svg';
+import moment from 'moment';
 
 const DetailListCareinstitution = (props: any) => {
   const {
     show,
     handleClose,
-    selectedCell,
+
     qualificationList,
-    activeDateCaregiver
+
+    selectedCellsCareinstitution
   } = props;
 
   const externalCloseBtn = (
@@ -23,7 +25,8 @@ const DetailListCareinstitution = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-
+  console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
+  let positiveNamesArr: any = [];
   return (
     <div>
       <Modal
@@ -65,99 +68,71 @@ const DetailListCareinstitution = (props: any) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {selectedCell
-                        ? selectedCell.map((item: any, index: number) => {
-                            console.log('item!!!!!', item.props.list);
-                            const details: any =
-                              item && item.props && item.props.list
-                                ? item.props.list
-                                : '';
-                            const date =
-                              item && item.props && item.props.day
-                                ? item.props.day
-                                : '';
-                            return (
-                              <tr key={index}>
-                                <td> {details.id}</td>
-                                <td>
-                                  {details.lastName + ' ' + details.firstName}
-                                </td>
-                                <td> -</td>
-                                <td>Station2</td>
-                                <td>
-                                  {item &&
-                                  item.props &&
-                                  item.props.list &&
-                                  item.props.list
-                                    .careinstitution_requirements &&
-                                  item.props.list.careinstitution_requirements
-                                    .length
-                                    ? item.props.list.careinstitution_requirements.map(
-                                        (elem: any) => {
-                                          let positiveNamesArr: any = [];
-                                          qualificationList.filter(
-                                            (item: any) => {
-                                              const temp = elem.qualificationId.includes(
-                                                item.value
-                                              );
-                                              if (temp) {
-                                                positiveNamesArr.push(
-                                                  item.label
-                                                );
-                                              }
-                                            }
-                                          );
-                                          return positiveNamesArr.map(
-                                            (item: any) => {
-                                              return item + ',' + ' ';
-                                            }
-                                          );
-                                        }
-                                      )
-                                    : null}
-                                </td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>
-                                  <span
-                                    key={index}
-                                    className='checkbox-custom '
-                                  >
-                                    {item &&
-                                    item.props &&
-                                    item.props.list &&
-                                    item.props.list
-                                      .careinstitution_requirements &&
-                                    item.props.list.careinstitution_requirements
-                                      .length
-                                      ? item.props.list.careinstitution_requirements.map(
-                                          (item: any, index: number) => {
-                                            console.log('working proof', item);
-
-                                            return (
-                                              <>
-                                                <input
-                                                  type='checkbox'
-                                                  id='checkAll'
-                                                  className=''
-                                                  checked={
-                                                    item.workingProofRecieved
-                                                      ? true
-                                                      : false
-                                                  }
-                                                />
-                                                <label className=''> </label>
-                                              </>
-                                            );
-                                          }
-                                        )
+                      {selectedCellsCareinstitution
+                        ? selectedCellsCareinstitution.map(
+                            (elem: any, index: number) => {
+                              return elem.item ? (
+                                <tr key={index}>
+                                  <td> {elem && elem.id ? elem.id : null}</td>
+                                  <td>
+                                    {elem && elem.item && elem.item.name
+                                      ? elem.item.name
                                       : null}
-                                  </span>
-                                </td>
-                                <td></td>
-                              </tr>
-                            );
-                          })
+                                  </td>
+                                  <td> -</td>
+                                  <td>Station</td>
+                                  <td>
+                                    {console.log(
+                                      'elem.item.list.qualificationId',
+                                      elem &&
+                                        elem.item &&
+                                        elem.item.qualificationId
+                                    )}
+                                    {elem &&
+                                    elem.item &&
+                                    elem.item.qualificationId &&
+                                    qualificationList
+                                      ? qualificationList
+                                          .filter((qualification: any) =>
+                                            elem.item.qualificationId.includes(
+                                              qualification.value
+                                            )
+                                          )
+                                          .map((q: any) => (
+                                            <span>{q.label + ' '}</span>
+                                          ))
+                                      : null}
+                                  </td>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>
+                                    <span className='checkbox-custom '>
+                                      <input
+                                        type='checkbox'
+                                        id='checkAll'
+                                        className=''
+                                        checked={
+                                          elem &&
+                                          elem.item &&
+                                          elem.item.isWorkingProof
+                                            ? true
+                                            : false
+                                        }
+                                      />
+                                      <label className=''> </label>
+                                    </span>
+                                  </td>
+                                  <td>
+                                    {elem &&
+                                    elem.item &&
+                                    elem.item.departmentOfferRemarks
+                                      ? elem.item.departmentOfferRemarks
+                                      : null}
+                                  </td>
+                                </tr>
+                              ) : null;
+                            }
+                          )
                         : null}
                     </tbody>
                   </Table>

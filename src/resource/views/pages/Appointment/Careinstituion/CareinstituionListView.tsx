@@ -56,7 +56,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCareinstitution,
     activeDateCaregiver,
     activeDateCareinstitution,
-    handleSelection
+    handleSelection,
+    selectedCellsCareinstitution
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -137,11 +138,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       if (selected && selected.length) {
         for (let index = 0; index < selected.length; index++) {
           const { dateString, item, list } = selected[index];
-          // let temp = item.filter(
-          //   (avabilityData: any, index: number) =>
-          //     moment(avabilityData.date).format('DD.MM.YYYY') ===
-          //     moment(dateString).format('DD.MM.YYYY')
-          // );
           selctedAvailability = item;
           selectedRows.push({
             id: list.id,
@@ -151,17 +147,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           });
         }
       }
-      // selctedAvailability = list.careinstitution_requirements.filter(
-      //   (avabilityData: any, index: number) => {
-      //     return (
-      //       moment(selected[0].isoString).format(dbAcceptableFormat) ===
-      //         moment(avabilityData.date).format(dbAcceptableFormat) &&
-      //       (avabilityData.f === avabilityData.f ||
-      //         avabilityData.s === avabilityData.s ||
-      //         avabilityData.n === avabilityData.n)
-      //     );
-      //   }
-      // );
     }
     console.log('selectedRows', selectedRows);
 
@@ -716,6 +701,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         selectedCell={selectedCell}
         qualificationList={qualificationList}
         activeDateCaregiver={activeDateCaregiver}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
       />
     </>
   );

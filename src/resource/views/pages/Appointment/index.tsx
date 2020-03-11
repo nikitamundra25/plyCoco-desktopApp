@@ -1841,6 +1841,7 @@ const Appointment: FunctionComponent = () => {
                         : undefined
                     }
                     handleSelection={handleSelection}
+                    selectedCellsCareinstitution={selectedCellsCareinstitution}
                   />
                 </Col>
                 <Col lg={'7'}>

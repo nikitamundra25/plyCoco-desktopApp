@@ -184,7 +184,8 @@ const DetailListCaregiver = (props: any) => {
                                     : null}
                                 </td>
                               </tr>
-                            ) : null;
+                           
+                           ) : null;
                           })
                         ) : (
                           <p>No data found</p>

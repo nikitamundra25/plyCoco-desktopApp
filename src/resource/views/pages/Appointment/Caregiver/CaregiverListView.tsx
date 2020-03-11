@@ -1,15 +1,14 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Table, Nav, NavItem, NavLink, Button } from 'reactstrap';
-import '../index.scss';
+import moment from 'moment';
+import classnames from 'classnames';
 import {
   IAppointmentCareGiverList,
   IDaysArray,
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
-import '../index.scss';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import Cell from './Cell';
-import moment from 'moment';
 import DetaillistCaregiverPopup from '../DetailedList/DetailListCaregiver';
 import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
@@ -26,7 +25,7 @@ import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
 import leasing_contact from '../../../../assets/img/dropdown/leasing.svg';
 import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
-import classnames from 'classnames';
+import '../index.scss';
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   props: IAppointmentCareGiverList & any,

@@ -1100,7 +1100,7 @@ const Appointment: FunctionComponent = () => {
       let careGiverAvabilityInput: any = [];
       selectedCells.forEach(async element => {
         const { dateString, id, item } = element;
-        if (item.id) {
+        if (item && item.id) {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
@@ -1195,7 +1195,11 @@ const Appointment: FunctionComponent = () => {
     console.log('onCaregiverQualificationFilter', selectedCells);
     if (selectedCells && selectedCells.length) {
       let temp: string[] = [];
-      selectedCells.map(element => temp.push(...element.qualificationIds));
+      selectedCells.map(element => {
+        if (element.qualificationIds) {
+          temp.push(...element.qualificationIds);
+        }
+      });
       let qual = qualificationList.filter((qual: IReactSelectInterface) =>
         temp.includes(qual.value),
       );

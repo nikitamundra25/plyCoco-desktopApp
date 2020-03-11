@@ -150,7 +150,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   useEffect(() => {
     // Fetch list of caregivers
-    console.log('Helooo');
     if (props.label !== 'appointment') {
       fetchCareGiverList({
         variables: {
@@ -322,6 +321,47 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     }
   };
 
+  //Use Effect for email template data
+  useEffect(() => {
+    if (data && props.label === 'appointment') {
+      const {
+        getEmailtemplate: { email_templates }
+      } = data;
+      if (email_templates && email_templates.length) {
+        email_templates.map((emailData: IEmailTemplateData & any) => {
+          if (props.label === 'appointment') {
+            if (emailData.menuEntry === 'Offers for care givers') {
+              console.log('In temp opt', emailData);
+              const { subject, body, attachments } = emailData;
+              const editorState = body ? HtmlToDraftConverter(body) : '';
+              setSubject(subject);
+              setBody(editorState);
+              setAttachments(
+                attachments
+                  ? attachments.map(
+                      ({ name, id, path, size }: INewEmailAttachments) => ({
+                        fileName: name,
+                        id,
+                        path,
+                        size
+                      })
+                    )
+                  : []
+              );
+
+              setTemplate({
+                label: emailData.menuEntry,
+                value: emailData
+              });
+            }
+          }
+        });
+      }
+    }
+  }, [data]);
+
+  console.log('template', template);
+
   const handleSelectAll = async () => {
     if (careGiverData && careGiverData.length) {
       let list: any = [];
@@ -376,6 +416,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     const {
       getEmailtemplate: { email_templates }
     } = data;
+
     if (email_templates && email_templates.length) {
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
@@ -490,6 +531,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             body: body ? content : '',
             parentId: null,
             status: 'unread',
+            type: props.label === 'appointment' ? 'offer' : 'email',
             attachments:
               attachments && attachments.length
                 ? attachments.filter((attachment: any) => attachment.path)

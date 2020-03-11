@@ -182,7 +182,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
-                          value={name ? name : ''}
+                          value={name !== 'undefined   undefined' ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -223,7 +223,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       {activeDateCareinstitution
                         ? moment(
                             activeDateCareinstitution
-                              ? activeDateCareinstitution.isoString
+                              ? activeDateCareinstitution.dateString
                               : null
                           ).format('dd DD.MM.YYYY')
                         : null}
@@ -381,8 +381,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 
                       <div className='custom-select-checkbox'>
                         <ReactMultiSelectCheckboxes
+                          placeholderButtonLabel={languageTranslation(
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                          )}
                           options={qualificationList}
-                          placeholder='Select Qualifications'
+                          placeholder={languageTranslation(
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                          )}
                           className={'custom-reactselect '}
                           classNamePrefix='custom-inner-reactselect'
                           onChange={(value: any) =>

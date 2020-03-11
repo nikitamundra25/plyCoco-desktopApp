@@ -41,9 +41,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   // const { selectedCareGiver } = props;
   const {
     values: {
-      firstName,
+      name,
       appointmentId,
-      lastName,
       fee,
       nightFee,
       nightAllowance,
@@ -80,7 +79,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     selctedAvailability,
     onhandleDelete,
     careGiversListArr,
-    handleSelectUserList
+    handleSelectUserList,
+    handleLastTimeData
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -89,7 +89,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
-  console.log('selctedAvailability', selctedAvailability);
 
   let isAvailability: boolean = false,
     isMatching: boolean = false,
@@ -103,7 +102,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       isContract = true;
     }
   }
-  console.log('isAvailability', isAvailability);
 
   let appointmentid: any = null;
   if (addCaregiverRes && addCaregiverRes[0].id) {
@@ -182,13 +180,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           type='text'
                           disabled={true}
                           placeholder={languageTranslation('NAME')}
-                          value={
-                            firstName
-                              ? `${lastName ? lastName : ''} ${
-                                  firstName ? firstName : ''
-                                }`
-                              : ''
-                          }
+                          value={name ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -238,7 +230,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             : null
                         }
                       /> */}
-                     
+
                     <div className='text-value mb-1'>
                       {activeDateCaregiver
                         ? moment(
@@ -362,7 +354,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           )}
                         </InputGroup>
                       </div>
-                      <span className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'>
+                      <span
+                        className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'
+                        onClick={() =>
+                          handleLastTimeData(
+                            selectedCareGiver ? selectedCareGiver.id : '',
+                            props.values
+                          )
+                        }
+                      >
                         Last Time
                       </span>
                     </div>

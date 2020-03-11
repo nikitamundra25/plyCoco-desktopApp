@@ -67,8 +67,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   );
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
-    console.log('VVVVVVVVVVVVVVV');
-
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
 

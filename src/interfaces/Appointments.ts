@@ -28,6 +28,15 @@ export interface IAppointmentNav {
   qualification: IReactSelectInterface[] | undefined;
   careGiversListArr: any;
   careInstitutionListArr: any;
+  applyFilter: (
+    userRole: string | null,
+    positiveId: number[],
+    negativeId: number[]
+  ) => void;
+  handleSelectAppointment: (
+    selectOption: IReactSelectInterface,
+    name: string
+  ) => void;
 }
 
 export interface IAppointmentCareGiverList {
@@ -37,13 +46,13 @@ export interface IAppointmentCareGiverList {
   onAddingRow: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string,
-    index: number,
+    index: number
   ) => void | undefined;
   handleSelectedUser: (
     value: object,
     date: IDaysArray[] | null,
     name: string,
-    handleSelectedAvailability: any,
+    handleSelectedAvailability: any
   ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
   handleReset: (name: string) => void;
@@ -56,12 +65,12 @@ export interface IAppointmentCareInstitutionList {
   onAddingRow: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string,
-    index: number,
+    index: number
   ) => void | undefined;
   handleSelectedUser: (
     value: object,
     date: IDaysArray[] | null,
-    name: string,
+    name: string
   ) => void;
   onhandleSecondStarCanstitution: (list: any) => void;
   handleFirstStarCanstitution: (id: string) => void;
@@ -80,6 +89,7 @@ export interface IAppointmentCareGiverForm {
   onhandleDelete: (id: string) => void;
   careGiversListArr: any;
   handleSelectUserList: (value: any, name: string) => void;
+  handleLastTimeData: (id: string, values: ICaregiverFormValue) => void;
 }
 
 export interface IDate {
@@ -203,4 +213,5 @@ export interface ICareinstitutionFormSubmitValue {
   f: string;
   s: string;
   n: string;
+  status: string;
 }

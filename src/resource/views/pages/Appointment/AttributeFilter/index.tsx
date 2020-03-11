@@ -26,9 +26,14 @@ const AttributeFilter = (props: IAttributeFilter) => {
   const [preset, setPreset] = useState<string | null>(null);
   const [showPreset, setShowPreset] = useState<boolean>(false);
   const [presetNames, setPresetNames] = useState<any>(null);
-  const { show, handleClose, setAttributeFilter, attributeFilter } = props;
   const [activePreset, setActivePreset] = useState<number | null>(null);
-
+  const {
+    show,
+    handleClose,
+    setAttributeFilter,
+    attributeFilter,
+    applyFilter
+  } = props;
   // To get list of presets
   const [
     getPresetAttributeList,
@@ -152,8 +157,11 @@ const AttributeFilter = (props: IAttributeFilter) => {
 
   // on applying filter and getting care giver according to filter
   const onApplyingFilter = () => {
-    setIsPositive([]);
-    setIsNegative([]);
+    console.log('inside apply');
+
+    applyFilter(attributeFilter, isPositive, isNegative);
+    // setIsPositive([]);
+    // setIsNegative([]);
     handleClose();
   };
 

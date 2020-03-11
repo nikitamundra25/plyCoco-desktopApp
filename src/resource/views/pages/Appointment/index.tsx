@@ -1836,6 +1836,10 @@ const Appointment: FunctionComponent = () => {
                         : undefined
                     }
                     handleSelection={handleSelection}
+                    qualification={qualification}
+                    gte={gteDayData}
+                    lte={lteDayData}
+                    selectedCellsCareinstitution={selectedCellsCareinstitution}
                   />
                 </Col>
                 <Col lg={'7'}>

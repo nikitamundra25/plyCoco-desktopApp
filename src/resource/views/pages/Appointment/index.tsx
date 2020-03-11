@@ -98,9 +98,15 @@ const Appointment: FunctionComponent = () => {
   //For selected Availability
   const [selctedAvailability, setselctedAvailability] = useState<any>({});
   const [selectedCells, setSelectedCells] = useState<any[]>();
+
   /*  */
-  //For selected Requirement
+  //For selected Requirement setSelectedCellsCareinstitution
   const [selctedRequirement, setselctedRequirement] = useState<any>({});
+  const [
+    selectedCellsCareinstitution,
+    setselectedCellsCareinstitution
+  ] = useState<any[]>();
+
   /*  */
   // store the previous entered value in state
   const [caregiverLastTimeValues, setcaregiverLastTimeValues] = useState<any>();
@@ -677,10 +683,16 @@ const Appointment: FunctionComponent = () => {
       setcareinstitutionList(data);
     }
   };
-  const handleSelection = (selectedCells: any) => {
-    console.log('in handle selection');
-    setSelectedCells(selectedCells);
+
+  const handleSelection = (selectedCells: any, name: string) => {
+    console.log('in handle selection', selectedCells);
+    if (name === 'caregiver') {
+      setSelectedCells(selectedCells);
+    } else {
+      setselectedCellsCareinstitution(selectedCells);
+    }
   };
+
   // Reset the users list
   const handleReset = (name: string) => {
     if (name === 'caregiver') {
@@ -1696,7 +1708,6 @@ const Appointment: FunctionComponent = () => {
     s = null,
     n = null
   } = caregiver ? caregiver : {};
-  console.log('name', selectedCareGiver);
 
   const valuesForCaregiver: ICaregiverFormValue = {
     
@@ -1816,7 +1827,20 @@ const Appointment: FunctionComponent = () => {
                       onhandleSecondStarCanstitution
                     }
                     qualificationList={qualificationList}
-                    activeDateCaregiver={activeDateCaregiver}
+                    selectedCareGiver={selectedCareGiver}
+                    selectedCareinstitution={selectedCareinstitution}
+                    activeDateCaregiver={
+                      activeDateCaregiver && activeDateCaregiver.length
+                        ? activeDateCaregiver[0]
+                        : undefined
+                    }
+                    activeDateCareinstitution={
+                      activeDateCareinstitution &&
+                      activeDateCareinstitution.length
+                        ? activeDateCareinstitution[0]
+                        : undefined
+                    }
+                    handleSelection={handleSelection}
                   />
                 </Col>
                 <Col lg={'7'}>

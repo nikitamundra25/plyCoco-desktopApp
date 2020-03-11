@@ -80,6 +80,11 @@ export interface IAppointmentCareInstitutionList {
   starCanstitution: IStarInterface;
   secondStarCanstitution: boolean;
   deptLoading: boolean;
+  selectedCareGiver: any;
+  selectedCareinstitution: any;
+  activeDateCaregiver: IDate | undefined;
+  activeDateCareinstitution: IDate | undefined;
+  handleSelection: (value: any, name: string) => void;
 }
 
 export interface IAppointmentCareGiverForm {

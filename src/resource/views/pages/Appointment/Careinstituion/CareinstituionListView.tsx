@@ -52,7 +52,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     deptLoading,
     onhandleSecondStarCanstitution,
     secondStarCanstitution,
-    activeDateCaregiver
+    selectedCareGiver,
+    selectedCareinstitution,
+    activeDateCaregiver,
+    activeDateCareinstitution,
+    handleSelection
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -111,12 +115,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     let list: any = [];
     for (let i = 0; i < selectedCells.length; i++) {
       const { props: cellProps } = selectedCells[i];
-      setSelectedCell(selectedCells ? selectedCells : []);
-      selected.push(cellProps.day);
-      const { item } = cellProps;
+      const { item, list: careinstitutionData } = cellProps;
       selected.push({
         dateString: cellProps.day ? cellProps.day.dateString : '',
-        item
+        item,
+        list: careinstitutionData
       });
 
       if (selectedCells[0].props.list) {
@@ -125,6 +128,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       setSelectedDays(selected);
     }
     let selctedAvailability: any;
+    let selectedRows: any[] = [];
     if (
       list &&
       list.careinstitution_requirements &&
@@ -132,13 +136,19 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     ) {
       if (selected && selected.length) {
         for (let index = 0; index < selected.length; index++) {
-          const { dateString, item } = selected[index];
-          let temp = item.filter(
-            (avabilityData: any, index: number) =>
-              moment(avabilityData.date).format('DD.MM.YYYY') ===
-              moment(dateString).format('DD.MM.YYYY')
-          );
-          selctedAvailability = temp && temp.length ? temp : {};
+          const { dateString, item, list } = selected[index];
+          // let temp = item.filter(
+          //   (avabilityData: any, index: number) =>
+          //     moment(avabilityData.date).format('DD.MM.YYYY') ===
+          //     moment(dateString).format('DD.MM.YYYY')
+          // );
+          selctedAvailability = item;
+          selectedRows.push({
+            id: list.id,
+            qualificationIds: list.qualificationId,
+            item,
+            dateString
+          });
         }
       }
       // selctedAvailability = list.careinstitution_requirements.filter(
@@ -153,7 +163,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       //   }
       // );
     }
+    console.log('selectedRows', selectedRows);
 
+    handleSelection(selectedRows, 'careinstitution');
     handleSelectedUser(
       list,
       selected,
@@ -167,10 +179,39 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
+  const [showList, setShowList] = useState<boolean>(false);
 
   // Link appointments
-  const handleLinkAppointments = () => {};
-  const [showList, setShowList] = useState<boolean>(false);
+  const handleLinkAppointments = () => {
+    console.log('selectedCareGiver caregiver_avabilities', selectedCareGiver);
+    console.log('selected', selectedCareinstitution);
+    if (
+      selectedCareGiver &&
+      selectedCareGiver.caregiver_avabilities.length &&
+      selectedCareinstitution &&
+      selectedCareinstitution.careinstitution_requirements
+    ) {
+      selectedCareGiver.caregiver_avabilities.map(
+        (caregiver: any, index: number) => {
+          caregiver.date;
+        }
+      );
+
+      // if (
+      //   moment(
+      //     activeDateCareinstitution
+      //       ? activeDateCareinstitution.dateString
+      //       : null
+      //   ).format('DD.MM.YYYY') ===
+      //   moment(
+      //     activeDateCaregiver ? activeDateCaregiver.dateString : null
+      //   ).format('DD.MM.YYYY')
+      // ) {
+      //   console.log('hereeeeeeeeeee');
+      // }
+    }
+  };
+
   return (
     <>
       <div
@@ -265,7 +306,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink>
+              <NavLink onClick={handleLinkAppointments}>
                 <img src={connect} className='mr-2' alt='' />
                 <span>Link appointments</span>
               </NavLink>{' '}
@@ -331,7 +372,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           </Nav>
         </div>
       </div>
-
       <SelectableGroup
         allowClickWithoutSelected
         className='custom-row-selector'
@@ -550,7 +590,20 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                   key={`${key}-${i}`}
                                   day={key}
                                   list={list}
-                                  item={item}
+                                  item={
+                                    item
+                                      ? item.filter((avabilityData: any) => {
+                                          return (
+                                            moment(key.isoString).format(
+                                              'DD.MM.YYYY'
+                                            ) ===
+                                            moment(avabilityData.date).format(
+                                              'DD.MM.YYYY'
+                                            )
+                                          );
+                                        })[0]
+                                      : ''
+                                  }
                                   handleSelectedAvailability
                                 />
                               );

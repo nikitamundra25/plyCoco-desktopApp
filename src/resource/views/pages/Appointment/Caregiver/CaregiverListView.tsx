@@ -128,8 +128,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       }
       // }
 
-      handleSelection(selectedRows);
-      setSelecetdCell(selectedRows);
+setSelecetdCell(selectedRows);      
+handleSelection(selectedRows, 'caregiver');
       handleSelectedUser(list, selected, 'caregiver', selctedAvailability);
     }
   };

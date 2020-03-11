@@ -2357,6 +2357,7 @@ html:not([dir="rtl"]) {
     //     color: $white;
     //   }
     // }
+    
     .action-btn {
       display: flex;
       align-items: center;
@@ -2382,6 +2383,7 @@ html:not([dir="rtl"]) {
           border-color: $btn_hover_gray;
         }
       }
+    
     }
   }
 }
@@ -3636,6 +3638,9 @@ html:not([dir="rtl"]) {
       background-color: #f9f9f9;
       padding: 25px;
       border-bottom: 1px solid #ebedf2;
+      &.holiday-body-wrap{
+        background-color: #f0f3f4;
+      }
     }
     .modal-footer {
       border: 1px solid $white;
@@ -3880,11 +3885,18 @@ html:not([dir="rtl"]) {
   }
 }
 /* add holiday block css starts here */
+.holiday-section-body{
+  padding: 0px 20px;
+    // overflow: auto;
+    // max-height: 500px;
+    margin-bottom: 5px;
+}
 .holiday-add-block {
-  border: 1px solid;
+  border: 1px solid #ddd;
   margin-bottom: 15px;
   padding: 10px;
   position: relative;
+  background-color: #fff;
   a.remove-icon {
     position: absolute;
     top: -10px;
@@ -3903,7 +3915,11 @@ html:not([dir="rtl"]) {
     }
   }
 }
-
+.holiday-section-wrap{
+  .modal-body{
+    background-color: #f0f3f5;
+  }
+}
 // sticky first col and header table css starts here
 .sticky-table {
   position: relative;
@@ -3940,6 +3956,9 @@ html:not([dir="rtl"]) {
       a {
         font-size: $font_16;
         margin-right: 6px;
+      }
+      &.dark-action-btn{
+       a{ color:#ba790c;}
       }
     }
     &:hover {

@@ -41,9 +41,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   // const { selectedCareGiver } = props;
   const {
     values: {
-      firstName,
+      name,
       appointmentId,
-      lastName,
       fee,
       nightFee,
       nightAllowance,
@@ -181,13 +180,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           type='text'
                           disabled={true}
                           placeholder={languageTranslation('NAME')}
-                          value={
-                            firstName
-                              ? `${lastName ? lastName : ''} ${
-                                  firstName ? firstName : ''
-                                }`
-                              : ''
-                          }
+                          value={name ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>

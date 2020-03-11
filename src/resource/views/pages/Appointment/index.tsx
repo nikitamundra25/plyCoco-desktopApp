@@ -22,6 +22,7 @@ import {
   ICareinstitutionFormSubmitValue,
   IDaysArray,
   IStarInterface,
+  IRootState,
 } from '../../../../interfaces';
 import moment from 'moment';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -41,6 +42,9 @@ import { toast } from 'react-toastify';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { dbAcceptableFormat } from '../../../../config';
 import { ConfirmBox } from '../../components/ConfirmBox';
+import { addAvailabilityRequest } from '../../../../store/actions';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 
 const [
   ADD_CAREGIVER_AVABILITY,
@@ -55,7 +59,7 @@ const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 
 let toastId: any = null;
 
-const Appointment: FunctionComponent = () => {
+const Appointment: FunctionComponent = (props: any) => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null,
   );
@@ -132,8 +136,12 @@ const Appointment: FunctionComponent = () => {
 
   // Mutation to add careGiver data
   const [addCaregiver, { error, data: addCaregiverRes }] = useMutation<
-    { addCareGiverAvability: IAddCargiverAppointmentRes },
-    { careGiverAvabilityInput: any }
+    {
+      addCareGiverAvability: IAddCargiverAppointmentRes;
+    },
+    {
+      careGiverAvabilityInput: any;
+    }
   >(ADD_CAREGIVER_AVABILITY, {
     onCompleted() {
       fetchingCareGiverData();
@@ -142,8 +150,13 @@ const Appointment: FunctionComponent = () => {
 
   // Mutation to update careGiver data
   const [updateCaregiver, { data: updateCaregiverRes }] = useMutation<
-    { CareGiverAvability: IAddCargiverAppointmentRes },
-    { id: number; careGiverAvabilityInput: any }
+    {
+      CareGiverAvability: IAddCargiverAppointmentRes;
+    },
+    {
+      id: number;
+      careGiverAvabilityInput: any;
+    }
   >(UPDATE_CAREGIVER_AVABILITY, {
     onCompleted() {
       fetchingCareGiverData();
@@ -152,7 +165,9 @@ const Appointment: FunctionComponent = () => {
 
   // Mutation to delete caregiver
   const [deleteCaregiverRequirement, {}] = useMutation<
-    { deleteCaregiver: any },
+    {
+      deleteCaregiver: any;
+    },
     { id: number }
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted() {
@@ -168,8 +183,12 @@ const Appointment: FunctionComponent = () => {
     addCareinstitutionRequirment,
     { data: addCareinstitutionRes },
   ] = useMutation<
-    { addCareInstitutionRequirement: IAddCargiverAppointmentRes },
-    { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue }
+    {
+      addCareInstitutionRequirement: IAddCargiverAppointmentRes;
+    },
+    {
+      careInstitutionRequirementInput: ICareinstitutionFormSubmitValue;
+    }
   >(ADD_INSTITUTION_REQUIREMENT, {
     onCompleted() {
       canstitutionRefetch();
@@ -181,8 +200,13 @@ const Appointment: FunctionComponent = () => {
     updateCareinstitutionRequirment,
     { data: updateCareinstitutionRes },
   ] = useMutation<
-    { CareInstitutionRequirementType: IAddCargiverAppointmentRes },
-    { id: number; careInstitutionRequirementInput: any }
+    {
+      CareInstitutionRequirementType: IAddCargiverAppointmentRes;
+    },
+    {
+      id: number;
+      careInstitutionRequirementInput: any;
+    }
   >(UPDATE_INSTITUTION_REQUIREMENT, {
     onCompleted() {
       canstitutionRefetch();
@@ -191,7 +215,9 @@ const Appointment: FunctionComponent = () => {
 
   // Mutation to delete careinstitution
   const [deleteCareinstitutionRequirement] = useMutation<
-    { deleteCareinstitution: any },
+    {
+      deleteCareinstitution: any;
+    },
     { id: number }
   >(DELETE_CAREINSTITUTION_REQUIREMENT, {
     onCompleted() {
@@ -340,6 +366,8 @@ const Appointment: FunctionComponent = () => {
           }
         });
       }
+      // dispatch action to save data in redux store
+      // props.addAvailability(result);
       setcaregiversList(result);
     }
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
@@ -552,7 +580,10 @@ const Appointment: FunctionComponent = () => {
       setcaregiversList(temp);
     } else {
       let temp: any = [...careinstitutionList];
-      temp.splice(index + 1, 0, { ...temp[index], newRow: true });
+      temp.splice(index + 1, 0, {
+        ...temp[index],
+        newRow: true,
+      });
       setcareinstitutionList(temp);
     }
   };
@@ -850,7 +881,10 @@ const Appointment: FunctionComponent = () => {
     let data: any = [];
     data.push(dept);
     setcareInstituionDeptData(data);
-    setcareInstituionDept({ label: dept.name, value: dept.id });
+    setcareInstituionDept({
+      label: dept.name,
+      value: dept.id,
+    });
   };
 
   // Select single user from list and hide the rest
@@ -893,12 +927,18 @@ const Appointment: FunctionComponent = () => {
     try {
       if (f || s || n) {
         setTimeSlotError('');
+        const { id = '', dateString = '' } =
+          selectedCells && selectedCells.length && selectedCells[0]
+            ? selectedCells[0]
+            : {};
         let CareGiverAvabilityInput: any = {
-          userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
-          date:
-            activeDateCaregiver && activeDateCaregiver.length
-              ? activeDateCaregiver[0].dateString
-              : '',
+          userId: id ? parseInt(id) : '',
+          date: dateString,
+          // userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
+          // date:
+          //   activeDateCaregiver && activeDateCaregiver.length
+          //     ? activeDateCaregiver[0].dateString
+          //     : '',
           fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
           weekendAllowance: weekendAllowance
             ? parseFloat(weekendAllowance.replace(/,/g, '.'))
@@ -938,7 +978,11 @@ const Appointment: FunctionComponent = () => {
         } else {
           await addCaregiver({
             variables: {
-              careGiverAvabilityInput: [{ ...CareGiverAvabilityInput }],
+              careGiverAvabilityInput: [
+                {
+                  ...CareGiverAvabilityInput,
+                },
+              ],
             },
           });
           if (!toast.isActive(toastId)) {
@@ -1242,21 +1286,105 @@ const Appointment: FunctionComponent = () => {
     setgteDayData(gteDayData);
   }, []);
 
-  // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
-  let firstName: string = '',
-    lastName: string = '',
-    caregiver: any = {};
+  // // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
+  // let firstName: string = '',
+  //   lastName: string = '',
+  //   caregiver: any = {};
 
-  if (selctedAvailability && selctedAvailability.id) {
-    caregiver = selctedAvailability ? selctedAvailability : {};
-  } else {
-    (firstName = selectedCareGiver ? selectedCareGiver.firstName : ''),
-      (lastName = selectedCareGiver ? selectedCareGiver.lastName : ''),
-      (caregiver =
-        selectedCareGiver && selectedCareGiver.caregiver
-          ? selectedCareGiver.caregiver
-          : {});
-  }
+  // if (selctedAvailability && selctedAvailability.id) {
+  //   caregiver = selctedAvailability ? selctedAvailability : {};
+  // } else {
+  //   (firstName = selectedCareGiver ? selectedCareGiver.firstName : ''),
+  //     (lastName = selectedCareGiver ? selectedCareGiver.lastName : ''),
+  //     (caregiver =
+  //       selectedCareGiver && selectedCareGiver.caregiver
+  //         ? selectedCareGiver.caregiver
+  //         : {});
+  // }
+  // // end
+  // const {
+  //   id = null,
+  //   fee = null,
+  //   night = null,
+  //   nightFee = null,
+  //   nightAllowance = undefined,
+  //   holiday = null,
+  //   holidayAllowance = null,
+  //   weekendAllowance = null,
+  //   distanceInKM = null,
+  //   feePerKM = null,
+  //   travelAllowance = null,
+  //   otherExpenses = null,
+  //   workingProofRecieved = false,
+  //   remarksCareGiver = null,
+  //   remarksInternal = null,
+  //   f = null,
+  //   s = null,
+  //   n = null,
+  // } = caregiver ? caregiver : {};
+
+  // const valuesForCaregiver: ICaregiverFormValue = {
+  //   appointmentId: id !== null ? id : null,
+  //   firstName:
+  //     selectedCareGiver && selectedCareGiver.firstName
+  //       ? selectedCareGiver.firstName
+  //       : '',
+  //   lastName:
+  //     selectedCareGiver && selectedCareGiver.lastName
+  //       ? selectedCareGiver.lastName
+  //       : '',
+  //   fee: fee ? germanNumberFormat(fee) : '',
+  //   nightFee: night
+  //     ? germanNumberFormat(night)
+  //     : nightFee
+  //     ? germanNumberFormat(nightFee)
+  //     : '',
+  //   nightAllowance:
+  //     caregiver && nightAllowance
+  //       ? { value: nightAllowance, label: nightAllowance }
+  //       : undefined,
+  //   holidayAllowance: holidayAllowance
+  //     ? germanNumberFormat(holidayAllowance)
+  //     : holiday
+  //     ? germanNumberFormat(holiday)
+  //     : '',
+  //   weekendAllowance: weekendAllowance
+  //     ? germanNumberFormat(weekendAllowance)
+  //     : '',
+  //   workingProofRecieved: workingProofRecieved ? true : false,
+  //   distanceInKM: distanceInKM ? distanceInKM : '',
+  //   feePerKM: feePerKM ? feePerKM : '',
+  //   travelAllowance: travelAllowance ? travelAllowance : '',
+  //   otherExpenses: otherExpenses ? otherExpenses : '',
+  //   workingHoursFrom: '',
+  //   workingHoursTo: '',
+  //   breakFrom: '',
+  //   breakTo: '',
+  //   remarksCareGiver: caregiver && remarksCareGiver ? remarksCareGiver : '',
+  //   remarksInternal: caregiver && remarksInternal ? remarksInternal : '',
+  //   f: f === 'available' ? true : false,
+  //   s: s === 'available' ? true : false,
+  //   n: n === 'available' ? true : false,
+  // };
+
+  // console.log('++++++++++++++++Get gte and lte data', gteDayData);
+  // console.log('***********Get gte and lte data', lteDayData);
+  // console.log('qualification above return', qualification);
+
+  // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
+  const {
+    firstName = '',
+    lastName = '',
+    dateString = '',
+    caregiver = undefined,
+    item = undefined,
+  } =
+    selectedCells && selectedCells.length && selectedCells[0]
+      ? selectedCells[0]
+      : {};
+
+  console.log(item, caregiver, 'dateString');
+
   // end
   const {
     id = null,
@@ -1277,18 +1405,13 @@ const Appointment: FunctionComponent = () => {
     f = null,
     s = null,
     n = null,
-  } = caregiver ? caregiver : {};
+  } = item ? item : caregiver ? caregiver : {};
+  console.log(fee, 'feeee');
 
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
-    firstName:
-      selectedCareGiver && selectedCareGiver.firstName
-        ? selectedCareGiver.firstName
-        : '',
-    lastName:
-      selectedCareGiver && selectedCareGiver.lastName
-        ? selectedCareGiver.lastName
-        : '',
+    firstName,
+    lastName,
     fee: fee ? germanNumberFormat(fee) : '',
     nightFee: night
       ? germanNumberFormat(night)
@@ -1297,7 +1420,10 @@ const Appointment: FunctionComponent = () => {
       : '',
     nightAllowance:
       caregiver && nightAllowance
-        ? { value: nightAllowance, label: nightAllowance }
+        ? {
+            value: nightAllowance,
+            label: nightAllowance,
+          }
         : undefined,
     holidayAllowance: holidayAllowance
       ? germanNumberFormat(holidayAllowance)
@@ -1322,10 +1448,6 @@ const Appointment: FunctionComponent = () => {
     s: s === 'available' ? true : false,
     n: n === 'available' ? true : false,
   };
-
-  console.log('++++++++++++++++Get gte and lte data', gteDayData);
-  console.log('***********Get gte and lte data', lteDayData);
-  console.log('qualification above return', qualification);
 
   return (
     <>
@@ -1412,10 +1534,11 @@ const Appointment: FunctionComponent = () => {
                               {...props}
                               selectedCareGiver={selectedCareGiver}
                               activeDateCaregiver={
-                                activeDateCaregiver &&
-                                activeDateCaregiver.length
-                                  ? activeDateCaregiver[0]
-                                  : undefined
+                                { dateString }
+                                // activeDateCaregiver &&
+                                // activeDateCaregiver.length
+                                //   ? activeDateCaregiver[0]
+                                //   : undefined
                               }
                               addCaregiverRes={
                                 addCaregiverRes &&
@@ -1424,7 +1547,8 @@ const Appointment: FunctionComponent = () => {
                                   : ''
                               }
                               timeSlotError={timeSlotError}
-                              selctedAvailability={selctedAvailability}
+                              selctedAvailability={item}
+                              // selctedAvailability}
                               onhandleDelete={onhandleDelete}
                               handleSelectUserList={handleSelectUserList}
                               careGiversListArr={
@@ -1528,4 +1652,17 @@ const Appointment: FunctionComponent = () => {
   );
 };
 
-export default Appointment;
+// const mapStateToProps: any = (state: IRootState) => ({
+//   appointmentReducer: state.appointmentReducer,
+// });
+
+// const mapDispatchToProps = (dispatch: Dispatch) => {
+//   return {
+//     addAvailability: (data: any) => {
+//       dispatch(addAvailabilityRequest(data));
+//     },
+//   };
+// };
+
+export default // connect(mapStateToProps, mapDispatchToProps)
+Appointment;

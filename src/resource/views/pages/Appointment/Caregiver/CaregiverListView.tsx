@@ -77,47 +77,107 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCells: any[]) => {
-    const selected: any = [];
-    let list: any = [];
-    if (selectedCells.length) {
-      for (let i = 0; i < selectedCells.length; i++) {
-        const { props: cellProps } = selectedCells[i];
-        console.log(selectedCells, 'cellProps');
-        const { item, list: caregiverData } = cellProps;
-        selected.push({
-          dateString: cellProps.day ? cellProps.day.dateString : '',
+    console.log(selectedCells, 'onSelectFinish');
+    let selectedRows: any[] = [];
+    if (selectedCells && selectedCells.length) {
+      selectedRows = selectedCells.map((selectedCell: any) => {
+        const { props: cellProps } = selectedCell;
+        const { item, list: caregiverData, day } = cellProps;
+        const {
+          id = '',
+          firstName = '',
+          lastName = '',
+          caregiver = {},
+          qualificationId = [],
+        } = caregiverData ? caregiverData : {};
+        console.log(caregiver, 'caregiver', day);
+        return {
+          id,
+          firstName,
+          lastName,
+          caregiver,
           item,
-          list: caregiverData,
-        });
-        if (selectedCells[0].props.list) {
-          list = selectedCells[0].props.list;
-        }
-        setSelectedDays(selected);
-      }
-      let selctedAvailability: any = {};
-      let selectedRows: any[] = [];
-      // if (
-      //   list &&
-      //   list.caregiver_avabilities &&
-      //   list.caregiver_avabilities.length
-      // ) {
-      if (selected && selected.length) {
-        for (let index = 0; index < selected.length; index++) {
-          const { item, list, dateString } = selected[index];
-          selctedAvailability = item;
-          selectedRows.push({
-            id: list.id,
-            qualificationIds: list.qualificationId,
-            item,
-            dateString,
-          });
-        }
-      }
-      // }
+          qualificationIds: qualificationId,
+          dateString: day ? day.dateString : '',
+        };
+      });
+      // setstarMark(false);
       console.log(selectedRows, 'selectedRows');
       handleSelection(selectedRows);
-      handleSelectedUser(list, selected, 'caregiver', selctedAvailability);
+      // for (let index = 0; index < selected.length; index++) {
+      //   const { item, list, dateString } = selected[index];
+      //   selctedAvailability = item;
+      //   selectedRows.push({
+      //     id: list.id,
+      //     qualificationIds: list.qualificationId,
+      //     item,
+      //     dateString,
+      //   });
+      // }
     }
+    // if (selectedCells.length) {
+    //   console.log('onSelectFinish iffffff');
+
+    //   for (let i = 0; i < selectedCells.length; i++) {
+    //     const { props: cellProps } = selectedCells[i];
+    //     console.log(selectedCells, 'cellProps');
+    //     const { item, list: caregiverData } = cellProps;
+    //     selected.push({
+    //       dateString: cellProps.day ? cellProps.day.dateString : '',
+    //       item,
+    //       list: caregiverData,
+    //     });
+    //     if (selectedCells[0].props.list) {
+    //       list = selectedCells[0].props.list;
+    //     }
+    //     setSelectedDays(selected);
+    //   }
+    //   let selctedAvailability: any = {};
+    //   let selectedRows: any[] = [];
+    //   // if (
+    //   //   list &&
+    //   //   list.caregiver_avabilities &&
+    //   //   list.caregiver_avabilities.length
+    //   // ) {
+    //   if (selected && selected.length) {
+    //     selectedRows = selectedCells.map((selectedCell: any) => {
+    //       const { props: cellProps } = selectedCell;
+    //       const { item, list: caregiverData, day } = cellProps;
+    //       const {
+    //         id = '',
+    //         firstName = '',
+    //         lastName = '',
+    //         caregiver = {},
+    //         qualificationId = [],
+    //       } = caregiverData ? caregiverData : {};
+    //       console.log(caregiver, 'caregiver');
+
+    //       return {
+    //         id,
+    //         firstName,
+    //         lastName,
+    //         caregiver,
+    //         item,
+    //         qualificationIds: qualificationId,
+    //         dateString: day ? day.dateString : '',
+    //       };
+    //     });
+    //     // for (let index = 0; index < selected.length; index++) {
+    //     //   const { item, list, dateString } = selected[index];
+    //     //   selctedAvailability = item;
+    //     //   selectedRows.push({
+    //     //     id: list.id,
+    //     //     qualificationIds: list.qualificationId,
+    //     //     item,
+    //     //     dateString,
+    //     //   });
+    //     // }
+    //   }
+    //   // }
+    //   console.log(selectedRows, 'selectedRows');
+    //   // handleSelection(selectedRows);
+    //   // handleSelectedUser(list, selected, 'caregiver', selctedAvailability);
+    // }
   };
   const onSelectionClear = () => {
     setSelectedDays([]);
@@ -141,13 +201,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink onClick={onReserve}>
+            <NavLink
+              onClick={() => {
+                setopenToggleMenu(false);
+                onReserve();
+              }}
+            >
               <img src={reserve} className='mr-2' alt='' />
               <span className='align-middle'>Reserve</span>
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink onClick={onDeleteEntries}>
+            <NavLink
+              onClick={() => {
+                setopenToggleMenu(false);
+                onDeleteEntries();
+              }}
+            >
               <img src={delete_appointment} className='mr-2' alt='' />
               <span className='align-middle'>
                 Delete free and reserved calender entries
@@ -162,7 +232,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem className='bordernav' />
-          <NavItem onClick={onCaregiverQualificationFilter}>
+          <NavItem
+            onClick={() => {
+              setopenToggleMenu(false);
+              onCaregiverQualificationFilter();
+            }}
+          >
             <NavLink>
               <img src={filter} className='mr-2' alt='' />
               <span className='align-middle'>
@@ -180,7 +255,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           </NavItem>
           <NavItem className='bordernav' />
           <NavItem>
-            <NavLink>
+            <NavLink
+              onClick={() => {
+                setopenToggleMenu(false);
+              }}
+            >
               <img src={connect} className='mr-2' alt='' />
               <span className='align-middle'>Connect availabilities</span>
             </NavLink>{' '}
@@ -238,6 +317,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         className='custom-row-selector'
         clickClassName='tick'
         resetOnStart={true}
+        duringSelection={(data: any) => console.log(data, 'duringSelection')}
         onSelectionFinish={onSelectFinish}
         onSelectionClear={onSelectionClear}
         ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
@@ -423,7 +503,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                       );
                                     })[0]
                                   }
-                                  handleSelectedAvailability
                                 />
                               );
                             })}

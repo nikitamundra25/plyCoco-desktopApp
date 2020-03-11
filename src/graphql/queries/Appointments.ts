@@ -102,10 +102,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           website
           attributes
         }
-        qualifications {
-          id
-          name
-        }
+        qualificationId
       }
     }
   }

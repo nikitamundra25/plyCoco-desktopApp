@@ -330,8 +330,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (email_templates && email_templates.length) {
         email_templates.map((emailData: IEmailTemplateData & any) => {
           if (props.label === 'appointment') {
+            console.log('In temp opt', props.showButton);
             if (emailData.menuEntry === 'Offers for care givers') {
-              console.log('In temp opt', emailData);
               const { subject, body, attachments } = emailData;
               const editorState = body ? HtmlToDraftConverter(body) : '';
               setSubject(subject);
@@ -359,8 +359,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [data]);
-
-  console.log('template', template);
 
   const handleSelectAll = async () => {
     if (careGiverData && careGiverData.length) {

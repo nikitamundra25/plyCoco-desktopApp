@@ -182,9 +182,10 @@ const Appointment: FunctionComponent = () => {
     { data: addCareinstitutionRes }
   ] = useMutation<
     { addCareInstitutionRequirement: IAddCargiverAppointmentRes },
-    { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue }
+    { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue[] }
   >(ADD_INSTITUTION_REQUIREMENT, {
     onCompleted() {
+      newAppointment();
       canstitutionRefetch();
     }
   });
@@ -289,6 +290,30 @@ const Appointment: FunctionComponent = () => {
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache'
   });
+
+  // Create new appointment or blank fields of careinstitution
+  const newAppointment = () => {
+    console.log('hereee');
+    setvaluesForCareinstitution({
+      appointmentId: '',
+      name: '',
+      date: '',
+      shift: undefined,
+      endTime: '',
+      startTime: '',
+      qualificationId: undefined,
+      department: undefined,
+      address: '',
+      contactPerson: '',
+      departmentOfferRemarks: '',
+      departmentBookingRemarks: '',
+      departmentRemarks: '',
+      isWorkingProof: false,
+      offerRemarks: '',
+      bookingRemarks: '',
+      comments: ''
+    });
+  };
 
   const [positive, setPositive] = useState<number[]>([]);
   const [negative, setNegative] = useState<number[]>([]);
@@ -661,15 +686,17 @@ const Appointment: FunctionComponent = () => {
     if (name === 'caregiver') {
       if (careGiversList && careGiversList.getUserByQualifications) {
         const { getUserByQualifications } = careGiversList;
-        if (getUserByQualifications && getUserByQualifications.length) {
-          setcaregiversList(getUserByQualifications);
+        const { result } = getUserByQualifications;
+        if (result && result.length) {
+          setcaregiversList(result);
         }
       }
     } else {
       if (careInstitutionList && careInstitutionList.getUserByQualifications) {
         const { getUserByQualifications } = careInstitutionList;
-        if (getUserByQualifications && getUserByQualifications.length) {
-          setcareinstitutionList(getUserByQualifications);
+        const { result } = getUserByQualifications;
+        if (result && result.length) {
+          setcareinstitutionList(result);
         }
       }
     }
@@ -983,12 +1010,10 @@ const Appointment: FunctionComponent = () => {
     list: any,
     date: any,
     name: string,
-    selctedAvailability: any,
-    allSelectedAvailability: any
+    selctedAvailability: any
   ) => {
     if (name === 'caregiver') {
-      console.log('allSelectedAvailability', allSelectedAvailability);
-
+      
       setselectedCareGiver(list);
       setselctedAvailability(selctedAvailability);
       if (date) {
@@ -1393,7 +1418,7 @@ const Appointment: FunctionComponent = () => {
       } else {
         await addCareinstitutionRequirment({
           variables: {
-            careInstitutionRequirementInput
+            careInstitutionRequirementInput: [careInstitutionRequirementInput]
           }
         });
         if (!toast.isActive(toastId)) {
@@ -1418,6 +1443,8 @@ const Appointment: FunctionComponent = () => {
 
   // fetch last time data for caregiver
   const handleLastTimeData = (id: string, values: any) => {
+    console.log('id', id);
+
     if (id) {
       fetchCaregiverLastTimeData({
         variables: {
@@ -1437,8 +1464,8 @@ const Appointment: FunctionComponent = () => {
     if (userRole === 'caregiver') {
       let userIncludes: any,
         userData: any = {};
-      if (careInstitutionList && careInstitutionList.getUserByQualifications) {
-        const { getUserByQualifications } = careInstitutionList;
+      if (careGiversList && careGiversList.getUserByQualifications) {
+        const { getUserByQualifications } = careGiversList;
         const { result } = getUserByQualifications;
         result.map((key: any, index: number) => {
           if (key.caregiver_avabilities && key.caregiver_avabilities.length) {
@@ -1451,8 +1478,6 @@ const Appointment: FunctionComponent = () => {
           }
         });
       }
-      console.log('userData', userData);
-
       setselectedCareGiver(userData ? userData : {});
       fetchCareGiversFilterById({
         variables: {
@@ -1492,7 +1517,7 @@ const Appointment: FunctionComponent = () => {
       let careGiverAvabilityInput: any = [];
       selectedCells.forEach(async element => {
         const { dateString, id, item } = element;
-        if (item.id) {
+        if (item && item.id) {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
@@ -1503,13 +1528,13 @@ const Appointment: FunctionComponent = () => {
                 ...item,
                 f: languageTranslation('BLOCK'),
                 s: languageTranslation('BLOCK'),
-                n: languageTranslation('BLOCK'),
-              },
-            },
+                n: languageTranslation('BLOCK')
+              }
+            }
           });
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
-              languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG'),
+              languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG')
             );
           }
         } else {
@@ -1533,19 +1558,19 @@ const Appointment: FunctionComponent = () => {
             f: languageTranslation('BLOCK'),
             s: languageTranslation('BLOCK'),
             n: languageTranslation('BLOCK'),
-            status: 'default',
+            status: 'default'
           });
         }
       });
       if (careGiverAvabilityInput && careGiverAvabilityInput.length) {
         await addCaregiver({
           variables: {
-            careGiverAvabilityInput: careGiverAvabilityInput,
-          },
+            careGiverAvabilityInput: careGiverAvabilityInput
+          }
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG'),
+            languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
           );
         }
       }
@@ -1561,13 +1586,13 @@ const Appointment: FunctionComponent = () => {
         if (item && item.id) {
           await deleteCaregiverRequirement({
             variables: {
-              id: parseInt(item.id),
-            },
+              id: parseInt(item.id)
+            }
           });
         } else {
           let index: number = -1;
           index = caregiversList.findIndex(
-            (caregiver: any) => caregiver.id === id,
+            (caregiver: any) => caregiver.id === id
           );
           let temp: any = [...caregiversList];
           temp[index].availabilityData = [];
@@ -1577,7 +1602,7 @@ const Appointment: FunctionComponent = () => {
       });
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS'),
+          languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
         );
       }
     }
@@ -1587,9 +1612,13 @@ const Appointment: FunctionComponent = () => {
     console.log('onCaregiverQualificationFilter', selectedCells);
     if (selectedCells && selectedCells.length) {
       let temp: string[] = [];
-      selectedCells.map(element => temp.push(...element.qualificationIds));
+      selectedCells.map(element => {
+        if (element.qualificationIds) {
+          temp.push(...element.qualificationIds);
+        }
+      });
       let qual = qualificationList.filter((qual: IReactSelectInterface) =>
-        temp.includes(qual.value),
+        temp.includes(qual.value)
       );
       console.log(qual, 'qual');
       setqualification(qual);
@@ -1670,6 +1699,7 @@ const Appointment: FunctionComponent = () => {
   console.log('name', selectedCareGiver);
 
   const valuesForCaregiver: ICaregiverFormValue = {
+    
     appointmentId: id !== null ? id : null,
     // firstName: selectedCareGiver ? selectedCareGiver.firstName : '',
     // lastName: selectedCareGiver ? selectedCareGiver.lastName : '',

@@ -9,32 +9,32 @@ import {
   Nav,
   NavItem,
   NavLink
-} from "reactstrap";
-import "../index.scss";
+} from 'reactstrap';
+import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
   IDaysArray
-} from "../../../../../interfaces";
-import Loader from "../../../containers/Loader/Loader";
-import { SelectableGroup, SelectAll, DeselectAll } from "react-selectable-fast";
-import CellCareinstitution from "./Cell";
-import moment from "moment";
-import DetaillistCareinstitutionPopup from "../DetailedList/DetailListCareinstitution";
-import { dbAcceptableFormat } from "../../../../../config";
-import new_appointment from "../../../../assets/img/dropdown/new_appointment.svg";
-import all_list from "../../../../assets/img/dropdown/all_list.svg";
-import delete_appointment from "../../../../assets/img/dropdown/delete.svg";
-import detail_list from "../../../../assets/img/dropdown/detail_list.svg";
-import offer_sent from "../../../../assets/img/dropdown/offer_sent.svg";
-import connect from "../../../../assets/img/dropdown/connect.svg";
-import disconnect from "../../../../assets/img/dropdown/disconnect.svg";
-import confirm_appointment from "../../../../assets/img/dropdown/confirm_appointment.svg";
-import set_confirm from "../../../../assets/img/dropdown/confirm.svg";
-import unset_confirm from "../../../../assets/img/dropdown/not_confirm.svg";
-import invoice from "../../../../assets/img/dropdown/invoice.svg";
-import refresh from "../../../../assets/img/refresh.svg";
-import classnames from "classnames";
-import { languageTranslation } from "../../../../../helpers";
+} from '../../../../../interfaces';
+import Loader from '../../../containers/Loader/Loader';
+import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
+import CellCareinstitution from './Cell';
+import moment from 'moment';
+import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
+import { dbAcceptableFormat } from '../../../../../config';
+import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
+import all_list from '../../../../assets/img/dropdown/all_list.svg';
+import delete_appointment from '../../../../assets/img/dropdown/delete.svg';
+import detail_list from '../../../../assets/img/dropdown/detail_list.svg';
+import offer_sent from '../../../../assets/img/dropdown/offer_sent.svg';
+import connect from '../../../../assets/img/dropdown/connect.svg';
+import disconnect from '../../../../assets/img/dropdown/disconnect.svg';
+import confirm_appointment from '../../../../assets/img/dropdown/confirm_appointment.svg';
+import set_confirm from '../../../../assets/img/dropdown/confirm.svg';
+import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
+import invoice from '../../../../assets/img/dropdown/invoice.svg';
+import refresh from '../../../../assets/img/refresh.svg';
+import classnames from 'classnames';
+import { languageTranslation } from '../../../../../helpers';
 
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
@@ -167,6 +167,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
+
+  // Link appointments
+  const handleLinkAppointments = () => {};
   const [showList, setShowList] = useState<boolean>(false);
   return (
     <>
@@ -342,14 +345,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           <Table hover bordered className='mb-0 appointment-table'>
             <thead className='thead-bg'>
               <tr>
-                <th className="thead-sticky name-col custom-appointment-col ">
-                  <div className="position-relative">
+                <th className='thead-sticky name-col custom-appointment-col '>
+                  <div className='position-relative'>
                     CareInstitution
                     <Button
                       onClick={() => handleRightMenuToggle()}
-                      className="btn-more d-flex align-items-center justify-content-center"
+                      className='btn-more d-flex align-items-center justify-content-center'
                     >
-                      <i className="icon-options-vertical" />
+                      <i className='icon-options-vertical' />
                     </Button>
                     {/* <UncontrolledDropdown className='custom-dropdown options-dropdown'>
                       <DropdownToggle
@@ -438,16 +441,16 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     </UncontrolledDropdown> */}
                   </div>
                 </th>
-                <th className="thead-sticky h-col custom-appointment-col text-center">
+                <th className='thead-sticky h-col custom-appointment-col text-center'>
                   H
                 </th>
-                <th className="thead-sticky s-col custom-appointment-col text-center">
+                <th className='thead-sticky s-col custom-appointment-col text-center'>
                   S
                 </th>
-                <th className="thead-sticky u-col custom-appointment-col text-center">
+                <th className='thead-sticky u-col custom-appointment-col text-center'>
                   A
                 </th>
-                <th className="thead-sticky v-col custom-appointment-col text-center">
+                <th className='thead-sticky v-col custom-appointment-col text-center'>
                   V
                 </th>
                 {/* array for showing day */}
@@ -458,13 +461,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   ) => {
                     return (
                       <th
-                        className="thead-sticky calender-col custom-appointment-col text-center"
+                        className='thead-sticky calender-col custom-appointment-col text-center'
                         key={index}
                       >
-                        <div className="custom-appointment-calendar-date">
+                        <div className='custom-appointment-calendar-date'>
                           {date}
                         </div>
-                        <div className="custom-appointment-calendar-day">
+                        <div className='custom-appointment-calendar-day'>
                           {day}
                         </div>
                       </th>
@@ -476,7 +479,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <tbody>
               {loading ? (
                 <tr>
-                  <td className={"table-loader"} colSpan={40}>
+                  <td className={'table-loader'} colSpan={40}>
                     <Loader />
                   </td>
                 </tr>
@@ -557,14 +560,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                       : null;
                   })
                 ) : (
-                  <tr className={"text-center no-hover-row"}>
-                    <td colSpan={40} className={"pt-5 pb-5"}>
-                      <div className="no-data-section">
-                        <div className="no-data-icon">
-                          <i className="icon-ban" />
+                  <tr className={'text-center no-hover-row'}>
+                    <td colSpan={40} className={'pt-5 pb-5'}>
+                      <div className='no-data-section'>
+                        <div className='no-data-icon'>
+                          <i className='icon-ban' />
                         </div>
-                        <h4 className="mb-1">
-                          Currently there are no CareInstitution added.{" "}
+                        <h4 className='mb-1'>
+                          Currently there are no CareInstitution added.{' '}
                         </h4>
                       </div>
                     </td>
@@ -572,7 +575,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 )
               ) : deptLoading ? (
                 <tr>
-                  <td className={"table-loader"} colSpan={40}>
+                  <td className={'table-loader'} colSpan={40}>
                     <Loader />
                   </td>
                 </tr>
@@ -581,43 +584,43 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   if (!dept.locked) {
                     return (
                       <tr key={`${dept.id}-${index}`}>
-                        <th className="name-col custom-appointment-col thead-sticky">
+                        <th className='name-col custom-appointment-col thead-sticky'>
                           <div
-                            className="text-capitalize view-more-link one-line-text"
+                            className='text-capitalize view-more-link one-line-text'
                             // onClick={() =>
                             //   handleSelectedUser(list, null, 'caregiver')
                             // }
                           >
-                            {!dept.newRow ? (dept.name ? dept.name : "") : ""}
+                            {!dept.newRow ? (dept.name ? dept.name : '') : ''}
                           </div>
                         </th>
-                        <td className="h-col custom-appointment-col text-center"></td>
+                        <td className='h-col custom-appointment-col text-center'></td>
                         <td
-                          className="s-col custom-appointment-col text-center"
+                          className='s-col custom-appointment-col text-center'
                           onClick={() => handleFirstStarCanstitution(null)}
                         >
                           {starCanstitution.setIndex === index ||
                           starCanstitution.isStar ? (
-                            <i className="fa fa-star theme-text" />
+                            <i className='fa fa-star theme-text' />
                           ) : (
-                            <i className="fa fa-star-o" />
+                            <i className='fa fa-star-o' />
                           )}
                         </td>
                         <td
-                          className="u-col custom-appointment-col text-center"
+                          className='u-col custom-appointment-col text-center'
                           onClick={() => onhandleSecondStarCanstitution(dept)}
                         >
                           {secondStarCanstitution ? (
-                            <i className="fa fa-star theme-text" />
+                            <i className='fa fa-star theme-text' />
                           ) : (
-                            <i className="fa fa-star-o" />
+                            <i className='fa fa-star-o' />
                           )}
                         </td>
                         <td
-                          className="v-col custom-appointment-col text-center"
-                          onClick={e => onAddingRow(e, "caregiver", index)}
+                          className='v-col custom-appointment-col text-center'
+                          onClick={e => onAddingRow(e, 'caregiver', index)}
                         >
-                          <i className="fa fa-arrow-down" />
+                          <i className='fa fa-arrow-down' />
                         </td>
                         {daysArr.map((key: any, i: number) => {
                           return (
@@ -634,15 +637,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   }
                 })
               ) : (
-                <tr className={"text-center no-hover-row"}>
-                  <td colSpan={40} className={"pt-5 pb-5"}>
-                    <div className="no-data-section">
-                      <div className="no-data-icon">
-                        <i className="icon-ban" />
+                <tr className={'text-center no-hover-row'}>
+                  <td colSpan={40} className={'pt-5 pb-5'}>
+                    <div className='no-data-section'>
+                      <div className='no-data-icon'>
+                        <i className='icon-ban' />
                       </div>
-                      <h4 className="mb-1">
+                      <h4 className='mb-1'>
                         {languageTranslation(
-                          "NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST"
+                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST'
                         )}
                       </h4>
                     </div>

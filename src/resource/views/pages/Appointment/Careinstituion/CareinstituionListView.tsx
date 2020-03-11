@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState } from 'react';
 import {
   Table,
   UncontrolledDropdown,
@@ -44,14 +44,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     loading,
     onAddingRow,
     handleSelectedUser,
-    handleSecondStar,
+    qualificationList,
     handleReset,
     handleFirstStarCanstitution,
     careInstituionDeptData,
     starCanstitution,
     deptLoading,
     onhandleSecondStarCanstitution,
-    secondStarCanstitution
+    secondStarCanstitution,
+    activeDateCaregiver
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -104,12 +105,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
+  const [selectedCell, setSelectedCell] = useState<any[]>([]);
   const onSelectFinish = (selectedCells: any[]) => {
     const selected: any = [];
     let list: any = [];
 
     for (let i = 0; i < selectedCells.length; i++) {
       const { props: cellProps } = selectedCells[i];
+      setSelectedCell(selectedCells ? selectedCells : []);
       selected.push(cellProps.day);
       if (selectedCells[0].props.list) {
         list = selectedCells[0].props.list;
@@ -138,7 +141,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     handleSelectedUser(
       list,
       selected,
-      "careinstitution",
+      'careinstitution',
       selctedAvailability && selctedAvailability.length
         ? selctedAvailability[0]
         : {}
@@ -151,174 +154,174 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [showList, setShowList] = useState<boolean>(false);
   return (
     <>
+      <div
+        className={classnames({
+          'rightclick-menu': true,
+          'custom-scrollbar': true,
+          'd-none': !toggleMenuButton
+        })}
+        id={'clickbox'}
+      >
+        <div
+          onMouseOver={() => {
+            console.log('Mouse hover', onEnterMenu);
+            setonEnterMenu(true);
+          }}
+        >
+          <Nav vertical>
+            <NavItem>
+              <NavLink>
+                <img src={new_appointment} className='mr-2' alt='' />
+                <span>New appointment</span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={delete_appointment} className='mr-2' alt='' />
+                <span>Delete free appointments</span>
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink>
+                <img src={all_list} className='mr-2' alt='' />
+                <span>Select all appointments of the caregiver</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink onClick={() => setShowList(true)}>
+                <img src={detail_list} className='mr-2' alt='' />
+                <span>Detailed List</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (sorted by division)
+                </span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (sorted by day)
+                </span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (no direct booking; sorted by division)
+                </span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (no direct booking; sorted by day)
+                </span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={set_confirm} className='mr-2' alt='' />
+                <span>Set on offered</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={unset_confirm} className='mr-2' alt='' />
+                <span>Reset offered</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={connect} className='mr-2' alt='' />
+                <span>Link appointments</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={disconnect} className='mr-2' alt='' />
+                <span>Unlink appointments</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>Offer caregivers (ordered by day)</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>Offer appointments (ordered by department)</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={confirm_appointment} className='mr-2' alt='' />
+                <span>Confirm appointments (ordered by day) </span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={confirm_appointment} className='mr-2' alt='' />
+                <span>Confirm appointments (ordered by department)</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={set_confirm} className='mr-2' alt='' />
+                <span>Set on confirmed </span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={unset_confirm} className='mr-2' alt='' />
+                <span>Reset confirmed</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={invoice} className='mr-2' alt='' />
+                <span>Create prepayment invoice</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={refresh} className='mr-2' alt='' />
+                <span>Refresh </span>
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </div>
+      </div>
+
       <SelectableGroup
         allowClickWithoutSelected
-        className="custom-row-selector"
-        clickClassName="tick"
+        className='custom-row-selector'
+        clickClassName='tick'
         resetOnStart={true}
         onSelectionFinish={onSelectFinish}
         onSelectionClear={onSelectionClear}
-        ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
+        ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
       >
-        <div
-          className={classnames({
-            'rightclick-menu': true,
-            'custom-scrollbar': true,
-            'd-none': !toggleMenuButton
-          })}
-          id={'clickbox'}
-        >
-          <div
-            onMouseOver={() => {
-              console.log('Mouse hover', onEnterMenu);
-              setonEnterMenu(true);
-            }}
-          >
-            <Nav vertical>
-              <NavItem>
-                <NavLink>
-                  <img src={new_appointment} className='mr-2' alt='' />
-                  <span>New appointment</span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={delete_appointment} className='mr-2' alt='' />
-                  <span>Delete free appointments</span>
-                </NavLink>
-              </NavItem>
-
-              <NavItem>
-                <NavLink>
-                  <img src={all_list} className='mr-2' alt='' />
-                  <span>Select all appointments of the caregiver</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink onClick={() => setShowList(true)}>
-                  <img src={detail_list} className='mr-2' alt='' />
-                  <span>Detailed List</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (sorted by division)
-                  </span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (sorted by day)
-                  </span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (no direct booking; sorted by division)
-                  </span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (no direct booking; sorted by day)
-                  </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={set_confirm} className='mr-2' alt='' />
-                  <span>Set on offered</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={unset_confirm} className='mr-2' alt='' />
-                  <span>Reset offered</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={connect} className='mr-2' alt='' />
-                  <span>Link appointments</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={disconnect} className='mr-2' alt='' />
-                  <span>Unlink appointments</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>Offer caregivers (ordered by day)</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>Offer appointments (ordered by department)</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={confirm_appointment} className='mr-2' alt='' />
-                  <span>Confirm appointments (ordered by day) </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={confirm_appointment} className='mr-2' alt='' />
-                  <span>Confirm appointments (ordered by department)</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={set_confirm} className='mr-2' alt='' />
-                  <span>Set on confirmed </span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={unset_confirm} className='mr-2' alt='' />
-                  <span>Reset confirmed</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={invoice} className='mr-2' alt='' />
-                  <span>Create prepayment invoice</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={refresh} className='mr-2' alt='' />
-                  <span>Refresh </span>
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </div>
-        </div>
-
         <div className='calender-section custom-scrollbar  mt-3'>
           <Table hover bordered className='mb-0 appointment-table'>
             <thead className='thead-bg'>
@@ -631,6 +634,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       <DetaillistCareinstitutionPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
+        selectedCell={selectedCell}
+        qualificationList={qualificationList}
+        activeDateCaregiver={activeDateCaregiver}
       />
     </>
   );

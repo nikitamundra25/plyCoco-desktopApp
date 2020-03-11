@@ -38,7 +38,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     onAddingRow,
     handleSelectedUser,
     handleSecondStar,
-    handleReset
+    handleReset,
+    selctedAvailability,
+    activeDateCaregiver
+
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -73,6 +76,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
   const [selectedCell, setSelectedCell] = useState<any[]>([]);
+  const [allAvailabilities, setAllAvailabilities] = useState<any>({});
   const onSelectFinish = (selectedCells: any[]) => {
     const selected: any = [];
     let list: any = [];
@@ -105,19 +109,25 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                   moment(avabilityData.date).format('DD.MM.YYYY') ===
                   moment(dateString).format('DD.MM.YYYY')
               );
+              console.log('item+++++++', item);
+              setAllAvailabilities(item);
 
               selctedAvailability = temp && temp.length ? temp : {};
             }
           }
         }
       }
+      const allSelectedAvailability: any = selctedAvailability;
+      console.log('selctedAvailability', selctedAvailability);
+
       handleSelectedUser(
         list,
         selected,
         'caregiver',
         selctedAvailability && selctedAvailability.length
           ? selctedAvailability[0]
-          : {}
+          : {},
+        allSelectedAvailability
       );
     }
   };
@@ -452,6 +462,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         selectedCell={selectedCell}
+        allAvailabilities={allAvailabilities}
+        activeDateCaregiver={activeDateCaregiver}
       />
     </>
   );

@@ -80,6 +80,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
 
   const handleRightMenuToggle = () => {
+    // alert("zdfsadfsa");
     settoggleMenuButton(!toggleMenuButton);
   };
   const { daysArr = [] } = daysData ? daysData : {};
@@ -166,6 +167,171 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [showList, setShowList] = useState<boolean>(false);
   return (
     <>
+      <div
+        className={classnames({
+          "right-manu-close": true,
+          "d-none": !toggleMenuButton
+        })}
+        onClick={() => handleRightMenuToggle()}
+      ></div>
+      <div
+        className={classnames({
+          "rightclick-menu": true,
+          "custom-scrollbar": true,
+          "d-none": !toggleMenuButton
+        })}
+        id={"clickbox"}
+      >
+        <div
+          onMouseOver={() => {
+            console.log("Mouse hover", onEnterMenu);
+            setonEnterMenu(true);
+          }}
+        >
+          <Nav vertical>
+            <NavItem>
+              <NavLink>
+                <img src={new_appointment} className="mr-2" alt="" />
+                <span>New appointment</span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={delete_appointment} className="mr-2" alt="" />
+                <span>Delete free appointments</span>
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink>
+                <img src={all_list} className="mr-2" alt="" />
+                <span>Select all appointments of the caregiver</span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem className="bordernav" />
+            <NavItem>
+              <NavLink onClick={() => setShowList(true)}>
+                <img src={detail_list} className="mr-2" alt="" />
+                <span>Detailed List</span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem className="bordernav" />
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className="mr-2" alt="" />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (sorted by division)
+                </span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className="mr-2" alt="" />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (sorted by day)
+                </span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className="mr-2" alt="" />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (no direct booking; sorted by division)
+                </span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className="mr-2" alt="" />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (no direct booking; sorted by day)
+                </span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={set_confirm} className="mr-2" alt="" />
+                <span>Set on offered</span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={unset_confirm} className="mr-2" alt="" />
+                <span>Reset offered</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className="bordernav" />
+            <NavItem>
+              <NavLink>
+                <img src={connect} className="mr-2" alt="" />
+                <span>Link appointments</span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={disconnect} className="mr-2" alt="" />
+                <span>Unlink appointments</span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem className="bordernav" />
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className="mr-2" alt="" />
+                <span>Offer caregivers (ordered by day)</span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className="mr-2" alt="" />
+                <span>Offer appointments (ordered by department)</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className="bordernav" />
+            <NavItem>
+              <NavLink>
+                <img src={confirm_appointment} className="mr-2" alt="" />
+                <span>Confirm appointments (ordered by day) </span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={confirm_appointment} className="mr-2" alt="" />
+                <span>Confirm appointments (ordered by department)</span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={set_confirm} className="mr-2" alt="" />
+                <span>Set on confirmed </span>
+              </NavLink>{" "}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={unset_confirm} className="mr-2" alt="" />
+                <span>Reset confirmed</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className="bordernav" />
+            <NavItem>
+              <NavLink>
+                <img src={invoice} className="mr-2" alt="" />
+                <span>Create prepayment invoice</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className="bordernav" />
+            <NavItem>
+              <NavLink>
+                <img src={refresh} className="mr-2" alt="" />
+                <span>Refresh </span>
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </div>
+      </div>
       <SelectableGroup
         allowClickWithoutSelected
         className="custom-row-selector"
@@ -175,165 +341,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         onSelectionClear={onSelectionClear}
         ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
       >
-        <div
-          className={classnames({
-            "rightclick-menu": true,
-            "custom-scrollbar": true,
-            "d-none": !toggleMenuButton
-          })}
-          id={"clickbox"}
-        >
-          <div
-            onMouseOver={() => {
-              console.log("Mouse hover", onEnterMenu);
-              setonEnterMenu(true);
-            }}
-          >
-            <Nav vertical>
-              <NavItem>
-                <NavLink>
-                  <img src={new_appointment} className="mr-2" alt="" />
-                  <span>New appointment</span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={delete_appointment} className="mr-2" alt="" />
-                  <span>Delete free appointments</span>
-                </NavLink>
-              </NavItem>
-
-              <NavItem>
-                <NavLink>
-                  <img src={all_list} className="mr-2" alt="" />
-                  <span>Select all appointments of the caregiver</span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem className="bordernav" />
-              <NavItem>
-                <NavLink onClick={() => setShowList(true)}>
-                  <img src={detail_list} className="mr-2" alt="" />
-                  <span>Detailed List</span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem className="bordernav" />
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className="mr-2" alt="" />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (sorted by division)
-                  </span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className="mr-2" alt="" />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (sorted by day)
-                  </span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className="mr-2" alt="" />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (no direct booking; sorted by division)
-                  </span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className="mr-2" alt="" />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (no direct booking; sorted by day)
-                  </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={set_confirm} className="mr-2" alt="" />
-                  <span>Set on offered</span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={unset_confirm} className="mr-2" alt="" />
-                  <span>Reset offered</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className="bordernav" />
-              <NavItem>
-                <NavLink>
-                  <img src={connect} className="mr-2" alt="" />
-                  <span>Link appointments</span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={disconnect} className="mr-2" alt="" />
-                  <span>Unlink appointments</span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem className="bordernav" />
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className="mr-2" alt="" />
-                  <span>Offer caregivers (ordered by day)</span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className="mr-2" alt="" />
-                  <span>Offer appointments (ordered by department)</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className="bordernav" />
-              <NavItem>
-                <NavLink>
-                  <img src={confirm_appointment} className="mr-2" alt="" />
-                  <span>Confirm appointments (ordered by day) </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={confirm_appointment} className="mr-2" alt="" />
-                  <span>Confirm appointments (ordered by department)</span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={set_confirm} className="mr-2" alt="" />
-                  <span>Set on confirmed </span>
-                </NavLink>{" "}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={unset_confirm} className="mr-2" alt="" />
-                  <span>Reset confirmed</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className="bordernav" />
-              <NavItem>
-                <NavLink>
-                  <img src={invoice} className="mr-2" alt="" />
-                  <span>Create prepayment invoice</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className="bordernav" />
-              <NavItem>
-                <NavLink>
-                  <img src={refresh} className="mr-2" alt="" />
-                  <span>Refresh </span>
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </div>
-        </div>
-
         <div className="calender-section custom-scrollbar  mt-3">
           <Table hover bordered className="mb-0 appointment-table">
             <thead className="thead-bg">

@@ -1,15 +1,14 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Table, Nav, NavItem, NavLink, Button } from 'reactstrap';
-import '../index.scss';
+import moment from 'moment';
+import classnames from 'classnames';
 import {
   IAppointmentCareGiverList,
   IDaysArray
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
-import '../index.scss';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import Cell from './Cell';
-import moment from 'moment';
 import DetaillistCaregiverPopup from '../DetailedList/DetailListCaregiver';
 import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
@@ -26,7 +25,7 @@ import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
 import leasing_contact from '../../../../assets/img/dropdown/leasing.svg';
 import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
-import classnames from 'classnames';
+import '../index.scss';
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   props: IAppointmentCareGiverList & any
@@ -37,8 +36,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     loading,
     onAddingRow,
     handleSelectedUser,
+    handleSelection,
     handleSecondStar,
-    handleReset
+    handleReset,
+    onReserve,
+    onDeleteEntries,
+    onCaregiverQualificationFilter
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -70,16 +73,19 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   const { daysArr = [] } = daysData ? daysData : {};
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
+
   const onSelectFinish = (selectedCells: any[]) => {
     const selected: any = [];
     let list: any = [];
     if (selectedCells.length) {
       for (let i = 0; i < selectedCells.length; i++) {
         const { props: cellProps } = selectedCells[i];
-        const { item } = cellProps;
+        console.log(selectedCells, 'cellProps');
+        const { item, list: caregiverData } = cellProps;
         selected.push({
           dateString: cellProps.day ? cellProps.day.dateString : '',
-          item
+          item,
+          list: caregiverData
         });
         if (selectedCells[0].props.list) {
           list = selectedCells[0].props.list;
@@ -87,33 +93,28 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         setSelectedDays(selected);
       }
       let selctedAvailability: any = {};
-      if (
-        list &&
-        list.caregiver_avabilities &&
-        list.caregiver_avabilities.length
-      ) {
-        if (selected && selected.length) {
-          for (let index = 0; index < selected.length; index++) {
-            const { dateString, item } = selected[index];
-            if (item && item.length) {
-              let temp = item.filter(
-                (avabilityData: any, index: number) =>
-                  moment(avabilityData.date).format('DD.MM.YYYY') ===
-                  moment(dateString).format('DD.MM.YYYY')
-              );
-              selctedAvailability = temp && temp.length ? temp : {};
-            }
-          }
+      let selectedRows: any[] = [];
+      // if (
+      //   list &&
+      //   list.caregiver_avabilities &&
+      //   list.caregiver_avabilities.length
+      // ) {
+      if (selected && selected.length) {
+        for (let index = 0; index < selected.length; index++) {
+          const { item, list, dateString } = selected[index];
+          selctedAvailability = item;
+          selectedRows.push({
+            id: list.id,
+            qualificationIds: list.qualificationId,
+            item,
+            dateString
+          });
         }
       }
-      handleSelectedUser(
-        list,
-        selected,
-        'caregiver',
-        selctedAvailability && selctedAvailability.length
-          ? selctedAvailability[0]
-          : {}
-      );
+      // }
+
+      handleSelection(selectedRows, 'caregiver');
+      handleSelectedUser(list, selected, 'caregiver', selctedAvailability);
     }
   };
   const onSelectionClear = () => {
@@ -138,13 +139,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink onClick={onReserve}>
               <img src={reserve} className='mr-2' alt='' />
               <span className='align-middle'>Reserve</span>
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink onClick={onDeleteEntries}>
               <img src={delete_appointment} className='mr-2' alt='' />
               <span className='align-middle'>
                 Delete free and reserved calender entries
@@ -159,7 +160,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem className='bordernav' />
-          <NavItem>
+          <NavItem onClick={onCaregiverQualificationFilter}>
             <NavLink>
               <img src={filter} className='mr-2' alt='' />
               <span className='align-middle'>
@@ -408,7 +409,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                   key={`${key}-${i}`}
                                   day={key}
                                   list={list}
-                                  item={item}
+                                  item={
+                                    item.filter((avabilityData: any) => {
+                                      return (
+                                        moment(key.isoString).format(
+                                          'DD.MM.YYYY'
+                                        ) ===
+                                        moment(avabilityData.date).format(
+                                          'DD.MM.YYYY'
+                                        )
+                                      );
+                                    })[0]
+                                  }
                                   handleSelectedAvailability
                                 />
                               );

@@ -163,6 +163,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
+
+  // Link appointments
+  const handleLinkAppointments = () => {};
   const [showList, setShowList] = useState<boolean>(false);
   return (
     <>
@@ -267,7 +270,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavItem>
               <NavItem className='bordernav' />
               <NavItem>
-                <NavLink>
+                <NavLink onClick={() => handleLinkAppointments()}>
                   <img src={connect} className='mr-2' alt='' />
                   <span>Link appointments</span>
                 </NavLink>{' '}

@@ -181,9 +181,10 @@ const Appointment: FunctionComponent = () => {
     { data: addCareinstitutionRes }
   ] = useMutation<
     { addCareInstitutionRequirement: IAddCargiverAppointmentRes },
-    { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue }
+    { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue[] }
   >(ADD_INSTITUTION_REQUIREMENT, {
     onCompleted() {
+      newAppointment();
       canstitutionRefetch();
     }
   });
@@ -288,6 +289,30 @@ const Appointment: FunctionComponent = () => {
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache'
   });
+
+  // Create new appointment or blank fields of careinstitution
+  const newAppointment = () => {
+    console.log('hereee');
+    setvaluesForCareinstitution({
+      appointmentId: '',
+      name: '',
+      date: '',
+      shift: undefined,
+      endTime: '',
+      startTime: '',
+      qualificationId: undefined,
+      department: undefined,
+      address: '',
+      contactPerson: '',
+      departmentOfferRemarks: '',
+      departmentBookingRemarks: '',
+      departmentRemarks: '',
+      isWorkingProof: false,
+      offerRemarks: '',
+      bookingRemarks: '',
+      comments: ''
+    });
+  };
 
   const [positive, setPositive] = useState<number[]>([]);
   const [negative, setNegative] = useState<number[]>([]);
@@ -657,15 +682,17 @@ const Appointment: FunctionComponent = () => {
     if (name === 'caregiver') {
       if (careGiversList && careGiversList.getUserByQualifications) {
         const { getUserByQualifications } = careGiversList;
-        if (getUserByQualifications && getUserByQualifications.length) {
-          setcaregiversList(getUserByQualifications);
+        const { result } = getUserByQualifications;
+        if (result && result.length) {
+          setcaregiversList(result);
         }
       }
     } else {
       if (careInstitutionList && careInstitutionList.getUserByQualifications) {
         const { getUserByQualifications } = careInstitutionList;
-        if (getUserByQualifications && getUserByQualifications.length) {
-          setcareinstitutionList(getUserByQualifications);
+        const { result } = getUserByQualifications;
+        if (result && result.length) {
+          setcareinstitutionList(result);
         }
       }
     }
@@ -1385,7 +1412,7 @@ const Appointment: FunctionComponent = () => {
       } else {
         await addCareinstitutionRequirment({
           variables: {
-            careInstitutionRequirementInput
+            careInstitutionRequirementInput: [careInstitutionRequirementInput]
           }
         });
         if (!toast.isActive(toastId)) {
@@ -1410,6 +1437,8 @@ const Appointment: FunctionComponent = () => {
 
   // fetch last time data for caregiver
   const handleLastTimeData = (id: string, values: any) => {
+    console.log('id', id);
+
     if (id) {
       fetchCaregiverLastTimeData({
         variables: {
@@ -1429,8 +1458,8 @@ const Appointment: FunctionComponent = () => {
     if (userRole === 'caregiver') {
       let userIncludes: any,
         userData: any = {};
-      if (careInstitutionList && careInstitutionList.getUserByQualifications) {
-        const { getUserByQualifications } = careInstitutionList;
+      if (careGiversList && careGiversList.getUserByQualifications) {
+        const { getUserByQualifications } = careGiversList;
         const { result } = getUserByQualifications;
         result.map((key: any, index: number) => {
           if (key.caregiver_avabilities && key.caregiver_avabilities.length) {
@@ -1443,8 +1472,6 @@ const Appointment: FunctionComponent = () => {
           }
         });
       }
-      console.log('userData', userData);
-
       setselectedCareGiver(userData ? userData : {});
       fetchCareGiversFilterById({
         variables: {

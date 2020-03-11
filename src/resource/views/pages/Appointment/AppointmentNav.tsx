@@ -249,7 +249,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 name='id'
                 value={userId}
                 onChange={(e: any) => handleSelect(e, 'text')}
-                onBlur={(e: any) => handleBlur()}
+                // onBlur={(e: any) => handleBlur()}
                 onKeyPress={(e: any) => handleKeyPress(e)}
               />
               <DropdownToggle caret color='primary' />

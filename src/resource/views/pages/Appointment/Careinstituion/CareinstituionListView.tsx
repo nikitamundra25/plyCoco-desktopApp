@@ -56,7 +56,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     handleSelection,
     selectedCellsCareinstitution,
     selectedCells,
-    onLinkAppointment
+    onLinkAppointment,
+    setOnOfferedCareInstitution
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
@@ -412,7 +413,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink>
-                <img src={set_confirm} className='mr-2' alt='' />
+                <img src={set_confirm} className='mr-2' alt='' onClick={setOnOfferedCareInstitution}/>
                 <span>Set on offered</span>
               </NavLink>{' '}
             </NavItem>
@@ -543,10 +544,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     return (
                       <th
                         key={index}
-                        className={`'thead-sticky calender-col custom-appointment-col text-center' ${
+                        className={`thead-sticky calender-col custom-appointment-col text-center ${
                           date === todaysDate
                             ? 'today'
-                            : '' || isWeekend
+                            : isWeekend
                             ? 'weekend'
                             : ''
                         }`}

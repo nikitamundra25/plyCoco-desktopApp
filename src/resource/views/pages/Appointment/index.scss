@@ -1,4 +1,4 @@
-@import "../../../assets/scss/variables";
+@import '../../../assets/scss/variables';
 
 .common-header-input {
   .form-control {
@@ -192,6 +192,12 @@
           }
         }
       }
+      &.weekend {
+        background-color: #ffebda;
+      }
+      &.today {
+        background-color: #ff973b;
+      }
     }
     th {
       &:first-child {
@@ -303,7 +309,7 @@
       text-align: left;
       display: block;
       padding: 0px;
-      font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+      font-family: 'FrutigerNeueLTPro-Bold', sans-serif;
     }
   }
   .arrow-btn {
@@ -380,10 +386,4 @@ body {
       background-color: $selecting_color;
     }
   }
-}
-.today {
-  background-color: #ff973b;
-}
-.weekend {
-  background-color: #ffebda;
 }

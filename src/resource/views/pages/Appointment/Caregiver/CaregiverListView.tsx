@@ -394,7 +394,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                   <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                     <div className='all-star-wrap'>
                       <div className='position-relative one-line-text'>
-                        Caregiver
+                        <div className="calender-heading">Caregiver</div>
                         <Button
                           onClick={() => handleToggleMenuItem()}
                           className='btn-more d-flex align-items-center justify-content-center'
@@ -492,11 +492,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                       : '',
                                   }}
                                 >
+                                  <div className="calender-heading">
                                   {row === 0
                                     ? `${list.lastName ? list.lastName : ''} ${
                                         list.firstName ? list.firstName : ''
                                       }`
                                     : ''}
+                                    </div>
                                 </div>
                                 <div className='h-col custom-appointment-col text-center'></div>
                                 <div

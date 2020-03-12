@@ -539,7 +539,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                   <div className='all-star-wrap'>
                     <div className='position-relative one-line-text'>
-                      CareInstitution
+                    <div className="calender-heading"> CareInstitution</div>
                       <Button
                         onClick={() => handleRightMenuToggle()}
                         className='btn-more d-flex align-items-center justify-content-center'
@@ -639,11 +639,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                     )
                                   }
                                 >
+                                  <div className="calender-heading">
                                   {row === 0
                                     ? `${list.lastName ? list.lastName : ''} ${
                                         list.firstName ? list.firstName : ''
                                       }`
                                     : ''}
+                                    </div>
                                 </div>
                                 <div className='h-col custom-appointment-col text-center'></div>
                                 <div
@@ -744,7 +746,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               //   handleSelectedUser(list, null, 'caregiver')
                               // }
                             >
+                              <div className="calender-heading">
                               {!dept.newRow ? (dept.name ? dept.name : '') : ''}
+                              </div>
                             </div>
                             <div className='h-col custom-appointment-col text-center'></div>
                             <div

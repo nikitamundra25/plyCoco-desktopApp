@@ -121,10 +121,10 @@
       padding: 4px;
       vertical-align: middle;
       font-size: 12px;
-      .all-star-wrap{
+      .all-star-wrap {
         display: flex;
         height: 24px;
-        .one-line-text{
+        .one-line-text {
           flex: 1 1 150px;
           max-width: 150px;
           border-right: 1px solid #dedede;
@@ -133,7 +133,9 @@
           align-items: center;
           justify-content: space-between;
         }
-        .h-col, .s-col, .u-col{
+        .h-col,
+        .s-col,
+        .u-col {
           flex: 1 1 30px;
           max-width: 30px;
           border-right: 1px solid #dedede;
@@ -142,8 +144,6 @@
           align-items: center;
           justify-content: center;
         }
-       
-      
       }
       .btn-more {
         position: absolute;
@@ -155,21 +155,20 @@
         width: 30px;
         min-width: 30px;
         max-width: 30px;
-        
+
         &.name-col {
           width: 240px;
           min-width: 240px;
           padding: 0px;
           border-right: 0px;
         }
-        &.v-col{
+        &.v-col {
           border-left: 0px;
         }
         &.h-col {
           width: 30px;
           min-width: 30px;
           max-width: 30px;
-        
         }
         &.calender-col {
           width: 40px;
@@ -193,8 +192,10 @@
         background: $white;
         border-left: 0px;
       }
-      .all-star-wrap{
-        height: 41px;
+      &.head-name-col {
+        .all-star-wrap {
+          height: 41px;
+        }
       }
     }
     thead {

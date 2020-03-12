@@ -335,7 +335,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             <Table hover bordered className='mb-0 appointment-table'>
               <thead className='thead-bg'>
                 <tr>
-                  <th className='thead-sticky name-col custom-appointment-col  '>
+                  <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                   <div className="all-star-wrap">
                     <div className='position-relative one-line-text'>
                       Caregiver

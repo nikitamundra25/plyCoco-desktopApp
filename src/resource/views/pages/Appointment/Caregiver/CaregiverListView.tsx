@@ -45,7 +45,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     activeDateCaregiver,
     onReserve,
     onDeleteEntries,
-    onCaregiverQualificationFilter
+    onCaregiverQualificationFilter,
+    setOnConfirmedCaregiver,
+    setOnNotConfirmedCaregiver
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -287,13 +289,20 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           <NavItem>
             <NavLink>
               <img src={set_confirm} className='mr-2' alt='' />
-              <span className='align-middle'>Set on confirmed</span>
+              <span className='align-middle' onClick={setOnConfirmedCaregiver}>
+                Set on confirmed
+              </span>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink>
               <img src={unset_confirm} className='mr-2' alt='' />
-              <span className='align-middle'>Set on not confirmed</span>
+              <span
+                className='align-middle'
+                onClick={setOnNotConfirmedCaregiver}
+              >
+                Set on not confirmed
+              </span>
             </NavLink>{' '}
           </NavItem>
           <NavItem>

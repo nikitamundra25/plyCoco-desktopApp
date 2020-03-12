@@ -57,7 +57,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCellsCareinstitution,
     selectedCells,
     onLinkAppointment,
-    setOnConfirmedCareInstitution
+    setOnConfirmedCaregiver,
+    setOnConfirmedCareInst,
+    setOnNotConfirmedCareInst
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
@@ -179,6 +181,24 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
+  const handleSetConfirmed = (name: string) => {
+    console.log('name', name);
+
+    console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
+    if (selectedCellsCareinstitution) {
+      selectedCellsCareinstitution.map((data: any) => {
+        console.log('data.iem', data && data.item && data.item.status);
+        if (
+          data &&
+          data.item &&
+          data.item.status &&
+          data.item.status === 'linked'
+        ) {
+          // set status offer
+        }
+      });
+    }
+  };
 
   // Link appointments
   const handleLinkAppointments = (name: string) => {
@@ -277,38 +297,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const handleCareInstitutionBulkEmail = () => {
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
-  const handleSetConfirmed = () => {
-    console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
-    if (selectedCellsCareinstitution) {
-      selectedCellsCareinstitution.map((data: any) => {
-        console.log('data.iem', data && data.item && data.item.status);
-        if (
-          data &&
-          data.item &&
-          data.item.status &&
-          data.item.status === 'linked'
-        ) {
-          // set status offer
-        }
-      });
-    }
-  };
-  const handleSetNotConfirmed = () => {
-    console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
-    if (selectedCellsCareinstitution) {
-      selectedCellsCareinstitution.map((data: any) => {
-        console.log('data.iem', data && data.item && data.item.status);
-        if (
-          data &&
-          data.item &&
-          data.item.status &&
-          data.item.status === 'linked'
-        ) {
-          // set status offer
-        }
-      });
-    }
-  };
+
   return (
     <>
       <div
@@ -480,13 +469,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={set_confirm} className='mr-2' alt='' />
-                <span onClick={handleSetConfirmed}>Set on confirmed </span>
-              </NavLink>{' '}
+                <span onClick={() => setOnConfirmedCareInst()}>
+                  Set on confirmed
+                </span>
+              </NavLink>
             </NavItem>
             <NavItem>
               <NavLink>
                 <img src={unset_confirm} className='mr-2' alt='' />
-                <span>Reset confirmed</span>
+                <span onClick={() => setOnNotConfirmedCareInst()}>
+                  Reset confirmed
+                </span>
               </NavLink>
             </NavItem>
             <NavItem className='bordernav' />

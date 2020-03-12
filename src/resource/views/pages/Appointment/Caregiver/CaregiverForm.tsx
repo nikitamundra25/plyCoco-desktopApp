@@ -12,12 +12,12 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
+  InputGroupText
 } from 'reactstrap';
 import {
   IAppointmentCareGiverForm,
   ICaregiverFormValue,
-  IReactSelectInterface,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 import { NightAllowancePerHour, State } from '../../../../../config';
@@ -26,7 +26,7 @@ import '../index.scss';
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm &
   any> = (
-  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any,
+  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   // const { selectedCareGiver } = props;
   const {
@@ -51,7 +51,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       remarksInternal,
       f,
       s,
-      n,
+      n
     },
     touched,
     errors,
@@ -70,7 +70,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     onhandleDelete,
     careGiversListArr,
     handleSelectUserList,
-    handleLastTimeData,
+    handleLastTimeData
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -81,7 +81,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
   let isAvailability: boolean = false,
     isMatching: boolean = false,
-    isContract: boolean = false;
+    isContract: boolean = false,
+    isConfirm: boolean = false;
+
   if (selctedAvailability) {
     if (selctedAvailability.status === 'default') {
       isAvailability = true;
@@ -89,6 +91,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       isMatching = true;
     } else if (selctedAvailability.status === 'contract') {
       isContract = true;
+    } else if (selctedAvailability.status === 'confirmed') {
+      isConfirm = true;
     }
   }
 
@@ -114,7 +118,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             'form-card custom-height custom-scrollbar': true,
             'availability-bg': isAvailability,
             'matching-bg': isMatching,
-            'contract-bg': isContract,
+            'confirmation-bg': isConfirm
           })}
         >
           <h5 className='content-title'>
@@ -175,7 +179,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               onClick={() =>
                                 handleUserList(
                                   selectedCareGiver ? selectedCareGiver.id : '',
-                                  'caregiver',
+                                  'caregiver'
                                 )
                               }
                             ></i>
@@ -215,7 +219,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     <div className='text-value mb-1'>
                       {activeDateCaregiver && activeDateCaregiver.dateString
                         ? moment(activeDateCaregiver.dateString).format(
-                            'dd DD.MM.YYYY',
+                            'dd DD.MM.YYYY'
                           )
                         : null}
                     </div>
@@ -231,10 +235,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'f'}
                             checked={f ? true : false}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('f', checked);
                             }}
@@ -253,10 +257,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'s'}
                             checked={s}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('s', checked);
                             }}
@@ -275,10 +279,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'n'}
                             checked={n}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('n', checked);
                             }}
@@ -338,7 +342,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         onClick={() =>
                           handleLastTimeData(
                             selectedCareGiver ? selectedCareGiver.id : '',
-                            props.values,
+                            props.values
                           )
                         }
                       >
@@ -794,10 +798,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'workingProofRecieved'}
                             checked={workingProofRecieved}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('workingProofRecieved', checked);
                             }}

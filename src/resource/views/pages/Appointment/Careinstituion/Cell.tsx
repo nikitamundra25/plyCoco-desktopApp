@@ -13,7 +13,9 @@ const CellCareinstitution = ({
 }: any) => {
   let isRequirment: boolean = false,
     isMatching: boolean = false,
-    isContract: boolean = false;
+    isContract: boolean = false,
+    isConfirm: boolean = false;
+
   if (item) {
     if (item.status === 'default') {
       isRequirment = true;
@@ -21,6 +23,8 @@ const CellCareinstitution = ({
       isMatching = true;
     } else if (item.status === 'contract') {
       isContract = true;
+    } else if (item.status === 'confirmed') {
+      isConfirm = true;
     }
   }
   return (
@@ -35,7 +39,7 @@ const CellCareinstitution = ({
         'selecting-cell': isSelecting,
         'requirement-bg': isRequirment && !isSelected ? isRequirment : false,
         'matching-bg': isMatching && !isSelected ? isMatching : false,
-        'contract-bg': isContract && !isSelected ? isContract : false,
+        'contract-bg': isConfirm && !isSelected ? isConfirm : false,
         'cell-available-careinstitution': !isSelected
           ? item
             ? item.f === item.f || item.s === item.s || item.n === item.n

@@ -97,7 +97,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 
   let isRequirment: boolean = false,
     isMatching: boolean = false,
-    isContract: boolean = false;
+    isContract: boolean = false,
+    isConfirm: boolean = false;
 
   if (selctedRequirement) {
     if (selctedRequirement.status === 'default') {
@@ -106,6 +107,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       isMatching = true;
     } else if (selctedRequirement.status === 'contract') {
       isContract = true;
+    } else if (selctedRequirement.status === 'confirmed') {
+      isConfirm = true;
     }
   }
 
@@ -126,7 +129,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             'form-card custom-height custom-scrollbar': true,
             'requirement-bg': isRequirment,
             'matching-bg': isMatching,
-            'contract-bg': isContract
+            'contract-bg': isConfirm
           })}
         >
           <h5 className='content-title'>

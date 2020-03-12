@@ -13,6 +13,7 @@ import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstit
 import {
   dbAcceptableFormat,
   appointmentDateFormat,
+  AppRoutes,
 } from '../../../../../config';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import all_list from '../../../../assets/img/dropdown/all_list.svg';
@@ -31,10 +32,12 @@ import { languageTranslation } from '../../../../../helpers';
 import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router';
 
 let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
+  let history = useHistory();
   const {
     daysData,
     careInstitutionList,
@@ -56,7 +59,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCellsCareinstitution,
     selectedCells,
     onLinkAppointment,
-    setOnOfferedCareInstitution
+    setOnOfferedCareInstitution,
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -391,7 +394,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink>
-                <img src={set_confirm} className='mr-2' alt='' onClick={setOnOfferedCareInstitution}/>
+                <img
+                  src={set_confirm}
+                  className='mr-2'
+                  alt=''
+                  onClick={setOnOfferedCareInstitution}
+                />
                 <span>Set on offered</span>
               </NavLink>{' '}
             </NavItem>
@@ -551,17 +559,18 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   careInstitutionList.map((list: any, index: number) => {
                     return list.availabilityData && list.availabilityData.length
                       ? list.availabilityData.map((item: any, row: number) => (
-                          <tr key={index}>
+                          <tr key={`${list.id}-${index}-${row}`}>
                             <th className='thead-sticky name-col custom-appointment-col'>
                               <div
                                 className='text-capitalize view-more-link one-line-text'
-                                // onClick={() =>
-                                //   handleSelectedUser(
-                                //     list,
-                                //     null,
-                                //     'careinstitution'
-                                //   )
-                                // }
+                                onClick={() =>
+                                  history.push(
+                                    AppRoutes.CARE_INSTITUION_VIEW.replace(
+                                      ':id',
+                                      list.id,
+                                    ),
+                                  )
+                                }
                               >
                                 {row === 0
                                   ? `${list.lastName ? list.lastName : ''} ${

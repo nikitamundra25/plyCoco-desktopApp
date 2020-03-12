@@ -12,7 +12,13 @@ import moment from 'moment';
 import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
 import {
   dbAcceptableFormat,
-  appointmentDateFormat
+  appointmentDateFormat,
+  AppRoutes,
+  CareInstTIMyoCYAttrId,
+  CareInstPlycocoAttrId,
+  leasingListColor,
+  selfEmployesListColor,
+  deactivatedListColor
 } from '../../../../../config';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import all_list from '../../../../assets/img/dropdown/all_list.svg';
@@ -31,11 +37,13 @@ import { languageTranslation } from '../../../../../helpers';
 import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router';
 import UnlinkAppointment from '../unlinkModal';
 
 let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
+  let history = useHistory();
   const {
     daysData,
     careInstitutionList,
@@ -57,7 +65,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCellsCareinstitution,
     selectedCells,
     onLinkAppointment,
-    setOnOfferedCareInstitution
+    setOnConfirmedCaregiver,
+    setOnConfirmedCareInst,
+    setOnNotConfirmedCareInst
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
@@ -177,6 +187,24 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   const onSelectionClear = () => {
     setSelectedDays([]);
+  };
+  const handleSetConfirmed = (name: string) => {
+    console.log('name', name);
+
+    console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
+    if (selectedCellsCareinstitution) {
+      selectedCellsCareinstitution.map((data: any) => {
+        console.log('data.iem', data && data.item && data.item.status);
+        if (
+          data &&
+          data.item &&
+          data.item.status &&
+          data.item.status === 'linked'
+        ) {
+          // set status offer
+        }
+      });
+    }
   };
 
   // Link appointments
@@ -413,12 +441,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink>
-                <img
-                  src={set_confirm}
-                  className='mr-2'
-                  alt=''
-                  onClick={setOnOfferedCareInstitution}
-                />
+                <img src={set_confirm} className='mr-2' alt='' />
                 <span>Set on offered</span>
               </NavLink>{' '}
             </NavItem>
@@ -470,13 +493,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={set_confirm} className='mr-2' alt='' />
-                <span>Set on confirmed </span>
-              </NavLink>{' '}
+                <span onClick={() => setOnConfirmedCareInst()}>
+                  Set on confirmed
+                </span>
+              </NavLink>
             </NavItem>
             <NavItem>
               <NavLink>
                 <img src={unset_confirm} className='mr-2' alt='' />
-                <span>Reset confirmed</span>
+                <span onClick={() => setOnNotConfirmedCareInst()}>
+                  Reset confirmed
+                </span>
               </NavLink>
             </NavItem>
             <NavItem className='bordernav' />
@@ -587,13 +614,30 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               <div className='all-star-wrap'>
                                 <div
                                   className='text-capitalize view-more-link one-line-text'
-                                  // onClick={() =>
-                                  //   handleSelectedUser(
-                                  //     list,
-                                  //     null,
-                                  //     'careinstitution'
-                                  //   )
-                                  // }
+                                  style={{
+                                    backgroundColor: !list.isActive
+                                      ? deactivatedListColor
+                                      : list.canstitution &&
+                                        list.canstitution.attributes
+                                      ? list.canstitution.attributes.includes(
+                                          CareInstTIMyoCYAttrId
+                                        )
+                                        ? leasingListColor
+                                        : list.canstitution.attributes.includes(
+                                            CareInstPlycocoAttrId
+                                          )
+                                        ? selfEmployesListColor
+                                        : ''
+                                      : ''
+                                  }}
+                                  onClick={() =>
+                                    history.push(
+                                      AppRoutes.CARE_INSTITUION_VIEW.replace(
+                                        ':id',
+                                        list.id
+                                      )
+                                    )
+                                  }
                                 >
                                   {row === 0
                                     ? `${list.lastName ? list.lastName : ''} ${

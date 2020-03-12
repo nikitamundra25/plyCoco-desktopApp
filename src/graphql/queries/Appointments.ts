@@ -31,6 +31,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         userName
         userRole
         id
+        isActive
         caregiver {
           nightAllowance
           weekendAllowance
@@ -234,5 +235,5 @@ export const AppointmentsQueries = [
   GET_USERS_BY_QUALIFICATION_ID,
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
-  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID
+  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
 ];

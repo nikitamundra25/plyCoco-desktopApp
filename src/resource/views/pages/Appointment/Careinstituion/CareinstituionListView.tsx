@@ -468,7 +468,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={offer_sent} className='mr-2' alt='' />
-                <span>Offer caregivers (ordered by day)</span>
+                <span>Offer appointments (ordered by day)</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>

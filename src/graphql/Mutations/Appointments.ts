@@ -103,8 +103,8 @@ const LINK_REQUIREMENT = gql`
 `;
 
 const UN_LINK_REQUIREMENT = gql`
-  mutation AddAppointment($appointmentInput: [AppointmentInput]) {
-    addAppointment(appointmentInput: $appointmentInput) {
+  mutation DeleteAppointment($appointmentInput: [AppointmentInput]) {
+    deleteAppointment(appointmentInput: $appointmentInput) {
       status
     }
   }

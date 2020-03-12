@@ -97,7 +97,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 
   let isRequirment: boolean = false,
     isMatching: boolean = false,
-    isContract: boolean = false;
+    isContract: boolean = false,
+    isConfirm: boolean = false;
 
   if (selctedRequirement) {
     if (selctedRequirement.status === 'default') {
@@ -106,14 +107,21 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       isMatching = true;
     } else if (selctedRequirement.status === 'contract') {
       isContract = true;
+    } else if (selctedRequirement.status === 'confirmed') {
+      isConfirm = true;
     }
   }
 
   const handleUserList = (id: string, name: string) => {
     let data: any = careInstitutionListArr;
     setstarMark(!starMark);
-    if (id && !starMark) {
-      data = careInstitutionListArr.filter((x: any) => x.id === id);
+    if (
+      id &&
+      !starMark &&
+      careInstitutionListArr &&
+      careInstitutionListArr.result
+    ) {
+      data = careInstitutionListArr.result.filter((x: any) => x.id === id);
     }
     handleSelectUserList(data, name);
   };
@@ -126,7 +134,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             'form-card custom-height custom-scrollbar': true,
             'requirement-bg': isRequirment,
             'matching-bg': isMatching,
-            'contract-bg': isContract
+            'contract-bg': isConfirm
           })}
         >
           <h5 className='content-title'>
@@ -183,12 +191,14 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               }
                               aria-hidden='true'
                               onClick={() =>
-                                handleUserList(
-                                  selectedCareinstitution
-                                    ? selectedCareinstitution.id
-                                    : '',
-                                  'careinstitution'
-                                )
+                                name
+                                  ? handleUserList(
+                                      selectedCareinstitution
+                                        ? selectedCareinstitution.id
+                                        : '',
+                                      'careinstitution'
+                                    )
+                                  : ''
                               }
                             ></i>
                           </InputGroupText>

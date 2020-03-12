@@ -9,6 +9,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     $positiveAttributeId: [ID]
     $gte: String
     $lte: String
+    $userId:[ID]
     $showAppointments: String
   ) {
     getUserByQualifications(
@@ -20,6 +21,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
       positiveAttributeId: $positiveAttributeId
       gte: $gte
       lte: $lte
+      userId: $userId
       showAppointments: $showAppointments
     ) {
       totalCount
@@ -29,6 +31,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         userName
         userRole
         id
+        isActive
         caregiver {
           nightAllowance
           weekendAllowance
@@ -56,6 +59,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           otherExpenses
           remarksCareGiver
           remarksInternal
+          appointments {
+            id
+            date
+          }
         }
         careinstitution_requirements {
           id
@@ -80,6 +87,17 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           qualificationId
           startTime
           userId
+          appointments {
+            id
+            date
+          }
+        }
+        contacts {
+          firstName
+          surName
+          salutation
+          mobileNumber
+          email
         }
         canstitution {
           city
@@ -193,5 +211,5 @@ export const AppointmentsQueries = [
   GET_USERS_BY_QUALIFICATION_ID,
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
-  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID
+  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
 ];

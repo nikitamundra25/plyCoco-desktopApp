@@ -14,6 +14,23 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
   if (item) {
     isBlocked = item.f === 'block' || item.s === 'block' || item.n === 'block';
   }
+
+  let isRequirment: boolean = false,
+    isMatching: boolean = false,
+    isContract: boolean = false,
+    isConfirm: boolean = false;
+  if (item) {
+    if (item.status === 'default') {
+      isRequirment = true;
+    } else if (item.status === 'linked') {
+      isMatching = true;
+    } else if (item.status === 'contract') {
+      isContract = true;
+    } else if (item.status === 'confirmed') {
+      isConfirm = true;
+    }
+  }
+
   return (
     <>
       <td
@@ -26,6 +43,8 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
           'selected-cell': isSelected,
           'selecting-cell': isSelecting,
           'cell-block': item ? (isBlocked ? true : false) : false,
+          'matching-bg': isMatching && !isSelected ? isMatching : false,
+          'confirmation-bg': isConfirm && !isSelected ? isConfirm : false,
           'cell-available': !isSelected
             ? item
               ? item.f === 'available' ||
@@ -34,7 +53,7 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
                 ? true
                 : false
               : false
-            : false,
+            : false
         })}
         ref={selectableRef}
       >
@@ -53,7 +72,9 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
           )
         : null} */}
         {item ? (
-          isBlocked ? (
+          item.status === 'confirmed' ? (
+            'o'
+          ) : isBlocked ? (
             <i className='fa fa-ban'></i>
           ) : (
             <>

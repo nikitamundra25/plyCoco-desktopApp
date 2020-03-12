@@ -975,14 +975,14 @@ export const filterUserById: IReactSelectInterface[] = [
 
 export const Without_Appointments: IReactSelectInterface[] = [
   {
-    value: 'Show with appointment',
-    label: languageTranslation('SHOW_APPOINTMENT'),
+    value: 'showWithAppointments',
+    label: languageTranslation('SHOW_APPOINTMENT')
   },
   {
-    value: 'Show without appointment',
-    label: languageTranslation('SHOW_WITHOUT_APPOINTMENT'),
+    value: 'showWithoutAppointments',
+    label: languageTranslation('SHOW_WITHOUT_APPOINTMENT')
   },
-  { value: 'Show All', label: languageTranslation('SHOW_ALL') },
+  { value: 'showAll', label: languageTranslation('SHOW_ALL') }
 ];
 
 export const TodoStatus: IReactSelectInterface[] = [

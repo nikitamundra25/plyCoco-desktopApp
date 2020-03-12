@@ -17,8 +17,9 @@ import '../index.scss';
 import BulkEmailCaregiver from '../../BulkEmailCaregiver';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
+import BulkEmailCareInstitution from '../../BulkEmailCareinstitution';
 
-const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
+const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
   const { openModal, handleClose } = props;
   const externalCloseBtn = (
     <button
@@ -40,16 +41,12 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
         size='xl'
       >
         <ModalHeader close={externalCloseBtn}>
-          Bulk Email Care giver
+          Bulk Email Care Institution
         </ModalHeader>
         <ModalBody>
-          <BulkEmailCaregiver
-            label={'appointment'}
-            qualification={props.qualification}
-            gte={props.gte}
-            lte={props.lte}
-            sortBy={props.sortBy}
-            showButton={props.showButton}
+          <BulkEmailCareInstitution
+          // label={'appointment'}
+          // qualification={props.qualification}
           />
         </ModalBody>
       </Modal>
@@ -57,4 +54,4 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
   );
 };
 
-export default BulkEmailCareGiverModal;
+export default BulkEmailCareInstitutionModal;

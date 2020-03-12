@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
-import Select from 'react-select';
-import logger from 'redux-logger';
+import React from 'react';
+import { Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
-import { State, defaultDateFormat } from '../../../../../config';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import refresh from '../../../../assets/img/refresh.svg';
-import moment from 'moment';
 
 const DetailListCareinstitution = (props: any) => {
   const {
     show,
     handleClose,
-
     qualificationList,
-
     selectedCellsCareinstitution
   } = props;
 
@@ -25,7 +19,7 @@ const DetailListCareinstitution = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  let positiveNamesArr: any = [];
+
   return (
     <div>
       <Modal
@@ -40,7 +34,7 @@ const DetailListCareinstitution = (props: any) => {
         <ModalBody>
           <div className='common-detail-page'>
             <div className='common-detail-section'>
-              <div className='common-topheader d-flex align-items-center '>
+              <div className='common-topheader d-flex align-items-center'>
                 <div className='header-nav-item'>
                   <span className='header-nav-icon'>
                     <img src={refresh} alt='' />
@@ -67,58 +61,58 @@ const DetailListCareinstitution = (props: any) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {selectedCellsCareinstitution
-                        ? selectedCellsCareinstitution.map(
-                            (elem: any, index: number) => {
-                              return elem && elem.item ? (
-                                <tr key={index}>
-                                  <td> {elem.id ? elem.id : null}</td>
-                                  <td> -</td>
-                                  <td>
-                                    {elem.item.name ? elem.item.name : null}
-                                  </td>
-                                  <td>Station</td>
-                                  <td>
-                                    {elem.item.qualificationId &&
-                                    qualificationList
-                                      ? qualificationList
-                                          .filter((qualification: any) =>
-                                            elem.item.qualificationId.includes(
-                                              qualification.value
-                                            )
+                      {selectedCellsCareinstitution ? (
+                        selectedCellsCareinstitution.map(
+                          (elem: any, index: number) => {
+                            return elem && elem.item ? (
+                              <tr key={index}>
+                                <td> {elem.id ? elem.id : null}</td>
+                                <td>
+                                  {elem.item.name ? elem.item.name : null}
+                                </td>
+                                <td>Station</td>
+                                <td>
+                                  {elem.item.qualificationId &&
+                                  qualificationList
+                                    ? qualificationList
+                                        .filter((qualification: any) =>
+                                          elem.item.qualificationId.includes(
+                                            qualification.value
                                           )
-                                          .map((q: any) => (
-                                            <span>{q.label + ' '}</span>
-                                          ))
-                                      : null}
-                                  </td>
-                                  <td>-</td>
-                                  <td>-</td>
-                                  <td>
-                                    <span className='checkbox-custom '>
-                                      <input
-                                        type='checkbox'
-                                        id='checkAll'
-                                        className=''
-                                        checked={
-                                          elem.item.isWorkingProof
-                                            ? true
-                                            : false
-                                        }
-                                      />
-                                      <label className=''> </label>
-                                    </span>
-                                  </td>
-                                  <td>
-                                    {elem.item.departmentOfferRemarks
-                                      ? elem.item.departmentOfferRemarks
-                                      : null}
-                                  </td>
-                                </tr>
-                              ) : null;
-                            }
-                          )
-                        : null}
+                                        )
+                                        .map((q: any) => (
+                                          <span>{q.label + ' '}</span>
+                                        ))
+                                    : null}
+                                </td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>
+                                  <span className='checkbox-custom '>
+                                    <input
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
+                                      checked={
+                                        elem.item.isWorkingProof ? true : false
+                                      }
+                                    />
+                                    <label className=''> </label>
+                                  </span>
+                                </td>
+                                <td>
+                                  {elem.item.departmentOfferRemarks
+                                    ? elem.item.departmentOfferRemarks
+                                    : null}
+                                </td>
+                              </tr>
+                            ) : null;
+                          }
+                        )
+                      ) : (
+                        <p>No data found</p>
+                      )}
+                      }
                     </tbody>
                   </Table>
                 </div>

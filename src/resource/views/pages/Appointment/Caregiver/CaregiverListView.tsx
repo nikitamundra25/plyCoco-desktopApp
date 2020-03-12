@@ -186,6 +186,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
 
   return (
     <>
+    <div 
+       className={classnames({
+        "right-manu-close": true,
+        "d-none": !openToggleMenu
+      })}
+    onClick={handleToggleMenuItem}
+    >
+
+    </div>
       <div
         className={classnames({
           'rightclick-menu top-open': true,

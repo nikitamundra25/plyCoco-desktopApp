@@ -5,11 +5,13 @@
     padding-right: 0.8rem;
     margin-right: 0.8rem;
   }
-  &:nth-last-child(2) {
-    border-right: none;
-    padding-right: 0.8rem;
-    margin-right: 0.8rem;
-  }
+
+    &.profile-section{
+      border-right: none;
+      padding-right: 0.8rem;
+      margin-right: 0.8rem;
+    }
+ 
   .header-nav-heading {
     font-size: 12px;
     font-weight: 400;

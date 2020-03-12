@@ -58,6 +58,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           otherExpenses
           remarksCareGiver
           remarksInternal
+          appointments {
+            id
+            date
+          }
         }
         careinstitution_requirements {
           id
@@ -82,6 +86,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           qualificationId
           startTime
           userId
+          appointments {
+            id
+            date
+          }
         }
         contacts {
           firstName

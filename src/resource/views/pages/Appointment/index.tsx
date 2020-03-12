@@ -223,7 +223,6 @@ const Appointment: FunctionComponent = (props: any) => {
           })
       );
       setCaregiverAttributeOptions(caregiverAttrOpt);
-      console.log('caregiverAttrOpt', caregiverAttrOpt);
     }
   }, [attributeData]);
 
@@ -562,7 +561,6 @@ const Appointment: FunctionComponent = (props: any) => {
           );
         }
       }
-      console.log('above set state');
 
       setvaluesForCareinstitution({
         appointmentId: id ? id : '',
@@ -1077,7 +1075,6 @@ const Appointment: FunctionComponent = (props: any) => {
           startTime: startTime ? startTime : values.startTime,
           endTime: endTime ? endTime : values.endTime
         };
-        console.log('above set state', temp);
         setvaluesForCareinstitution(temp);
       }
     }
@@ -1877,8 +1874,6 @@ const Appointment: FunctionComponent = (props: any) => {
       ? selectedCells[0]
       : {};
 
-  console.log(item, caregiver, 'dateString');
-
   // end
   const {
     name = '',
@@ -1901,7 +1896,6 @@ const Appointment: FunctionComponent = (props: any) => {
     s = '',
     n = ''
   } = item ? item : caregiver ? caregiver : {};
-  console.log(fee, 'feeee');
 
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,

@@ -1,15 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-  Table,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-  Nav,
-  NavItem,
-  NavLink
-} from 'reactstrap';
+import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
@@ -48,8 +38,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     loading,
     onAddingRow,
     handleSelectedUser,
-    handleSecondStar,
-    handleReset,
     handleFirstStarCanstitution,
     careInstituionDeptData,
     starCanstitution,

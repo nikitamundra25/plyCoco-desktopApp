@@ -108,21 +108,15 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                  <div className="header-nav-item ">
                    <span className="header-nav-text">Not sent</span>
                  </div>
+              </div>
+               <div className="header-nav-colmn-items">
+                 <div className="header-nav-heading mx-1"></div>
                
                  <div className="user-select mx-1 ">
                    <Select
                      classNamePrefix="custom-inner-reactselect"
                      className={"custom-reactselect "}
                      placeholder="Facilities"
-                     options={options}
-                     isClearable={true}
-                   />
-                 </div>
-                 <div className="user-select mx-1 ">
-                   <Select
-                     classNamePrefix="custom-inner-reactselect"
-                     className={"custom-reactselect "}
-                     placeholder="Broadcast date"
                      options={options}
                      isClearable={true}
                    />
@@ -143,14 +137,14 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                    <span className="header-nav-icon">
                      <img src={PlyCocoreceipt} alt="" />
                    </span>
-                   <span className="header-nav-text">PlyCoco show receipt</span>
+                   <span className="header-nav-text">show receipt</span>
                  </div>
                  <div className="header-nav-item ">
                    <span className="header-nav-icon">
                      <img src={SpecialistInvoice} alt="" />
                    </span>
                    <span className="header-nav-text">
-                     Show specialist invoice
+                   Save invoice
                </span>
                  </div>
                </div>
@@ -160,7 +154,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                    <span className="header-nav-icon">
                      <img src={Again} alt="" />
                    </span>
-                   <span className="header-nav-text">again</span>
+                   <span className="header-nav-text">send again</span>
                  </div>
                  <div className="header-nav-item">
                    <span className="header-nav-text">Sent today</span>
@@ -176,7 +170,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                    <span className="header-nav-icon">
                      <img src={paid} alt="" />
                    </span>
-                   <span className="header-nav-text">Paid</span>
+                   <span className="header-nav-text">Paid on</span>
                  </div>
                  <div className="header-nav-item">
                    <span className="header-nav-icon">
@@ -201,7 +195,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                    <span className="header-nav-icon">
                      <img src={professaionalProfile} alt="" />
                    </span>
-                   <span className="header-nav-text">Professional profile</span>
+                   <span className="header-nav-text">Furnishing profile</span>
                  </div>
                  <div className="header-nav-item">
                    <span className="header-nav-icon">
@@ -222,10 +216,10 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                  <div className="header-nav-heading mx-1"></div>
 
                  <div className="header-nav-item">
-                   <span className="header-nav-text">professional</span>
+                   <span className="header-nav-text">Solo setup</span>
                  </div>
                  <div className="header-nav-item">
-                   <span className="header-nav-text">furnishing solo</span>
+                   <span className="header-nav-text">Release</span>
                  </div>
                </div>
              </div>
@@ -443,8 +437,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                     <thead className="thead-bg">
                       <tr>
                         <th className="all-invoice-number">
-                          {" "}
-                          {languageTranslation("NUMBER")}{" "}
+                          RchngNr
                         </th>
                         <th className="all-invoice-facility">
                           {" "}
@@ -482,7 +475,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                           {languageTranslation("REMINDED")}
                         </th>
                         <th className="all-invoice-lawyer">
-                          {languageTranslation("LAWYER")}
+                          Attorney
                         </th>
                         <th className="all-invoice-doudful">
                           {languageTranslation("DOUBTFUL")}

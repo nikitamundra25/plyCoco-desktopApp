@@ -394,12 +394,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                       <div className='thead-sticky u-col custom-appointment-col text-center'>
                         U
                       </div>
+                  <div className='thead-sticky v-col custom-appointment-col text-center'>
+                    V
+                  </div>
                     </div>
                   </th>
 
-                  <th className='thead-sticky v-col custom-appointment-col text-center'>
-                    V
-                  </th>
                   {/* array for showing day */}
                   {daysArr.map(
                     (
@@ -411,10 +411,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                       );
                       return (
                         <th
-                          className={`'thead-sticky calender-col custom-appointment-col text-center' ${
+                          className={`thead-sticky calender-col custom-appointment-col text-center ${
                             date === todaysDate
                               ? 'today'
-                              : '' || isWeekend
+                              : isWeekend
                               ? 'weekend'
                               : ''
                           }`}
@@ -484,15 +484,16 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                     <i className='fa fa-star-o' />
                                   )}
                                 </div>
-                              </div>
-                            </th>
-
-                            <td
+                              <div
                               className='v-col custom-appointment-col text-center'
                               onClick={e => onAddingRow(e, 'caregiver', index)}
                             >
                               <i className='fa fa-arrow-down' />
-                            </td>
+                            </div>
+                              </div>
+                            </th>
+
+                           
                             {daysArr.map((key: any, i: number) => {
                               return (
                                 <Cell

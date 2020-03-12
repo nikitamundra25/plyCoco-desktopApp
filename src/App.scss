@@ -874,7 +874,7 @@ body {
         &::-webkit-scrollbar-track {
           -webkit-box-shadow: inset 0 0 5px 0 0 5px rgba(0, 0, 0, 0.3);
           box-shadow: inset 0 0 5px 0 0 5px rgba(0, 0, 0, 0.3);
-          // border-radius: 5px;
+          // border-radius: 5px;  
           background-color: #EEEEEE;
         }
         &::-webkit-scrollbar-thumb {
@@ -1771,6 +1771,7 @@ html:not([dir='rtl']) {
     font-family: $font_Frutiger_Regular;
     .custom-inner-reactselect__placeholder {
       margin: 0px;
+      padding-left: 5px;
     }
     .custom-inner-reactselect__multi-value {
       line-height: normal;

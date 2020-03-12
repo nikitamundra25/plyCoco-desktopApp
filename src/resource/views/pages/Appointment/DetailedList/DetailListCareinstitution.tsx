@@ -1,22 +1,16 @@
-import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
-import Select from 'react-select';
-import logger from 'redux-logger';
+import React from 'react';
+import { Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
-import { State, defaultDateFormat } from '../../../../../config';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import refresh from '../../../../assets/img/refresh.svg';
-import moment from 'moment';
 
 const DetailListCareinstitution = (props: any) => {
   const {
     show,
     handleClose,
-
     qualificationList,
-
-    selectedCellsCareinstitution
+    selectedCellsCareinstitution,
   } = props;
 
   const externalCloseBtn = (
@@ -25,7 +19,7 @@ const DetailListCareinstitution = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  let positiveNamesArr: any = [];
+
   return (
     <div>
       <Modal
@@ -40,7 +34,7 @@ const DetailListCareinstitution = (props: any) => {
         <ModalBody>
           <div className='common-detail-page'>
             <div className='common-detail-section'>
-              <div className='common-topheader d-flex align-items-center '>
+              <div className='common-topheader d-flex align-items-center'>
                 <div className='header-nav-item'>
                   <span className='header-nav-icon'>
                     <img src={refresh} alt='' />
@@ -70,32 +64,22 @@ const DetailListCareinstitution = (props: any) => {
                       {selectedCellsCareinstitution
                         ? selectedCellsCareinstitution.map(
                             (elem: any, index: number) => {
-                              return elem.item ? (
+                              return elem && elem.item ? (
                                 <tr key={index}>
-                                  <td> {elem && elem.id ? elem.id : null}</td>
+                                  <td> {elem.id ? elem.id : null}</td>
                                   <td>
-                                    {elem && elem.item && elem.item.name
-                                      ? elem.item.name
-                                      : null}
+                                    {elem.item.name ? elem.item.name : null}
                                   </td>
                                   <td> -</td>
                                   <td>Station</td>
                                   <td>
-                                    {console.log(
-                                      'elem.item.list.qualificationId',
-                                      elem &&
-                                        elem.item &&
-                                        elem.item.qualificationId
-                                    )}
-                                    {elem &&
-                                    elem.item &&
-                                    elem.item.qualificationId &&
+                                    {elem.item.qualificationId &&
                                     qualificationList
                                       ? qualificationList
                                           .filter((qualification: any) =>
                                             elem.item.qualificationId.includes(
-                                              qualification.value
-                                            )
+                                              qualification.value,
+                                            ),
                                           )
                                           .map((q: any) => (
                                             <span>{q.label + ' '}</span>
@@ -111,8 +95,6 @@ const DetailListCareinstitution = (props: any) => {
                                         id='checkAll'
                                         className=''
                                         checked={
-                                          elem &&
-                                          elem.item &&
                                           elem.item.isWorkingProof
                                             ? true
                                             : false
@@ -122,15 +104,13 @@ const DetailListCareinstitution = (props: any) => {
                                     </span>
                                   </td>
                                   <td>
-                                    {elem &&
-                                    elem.item &&
-                                    elem.item.departmentOfferRemarks
+                                    {elem.item.departmentOfferRemarks
                                       ? elem.item.departmentOfferRemarks
                                       : null}
                                   </td>
                                 </tr>
                               ) : null;
-                            }
+                            },
                           )
                         : null}
                     </tbody>

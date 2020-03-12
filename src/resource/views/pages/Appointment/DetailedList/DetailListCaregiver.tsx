@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
-import Select from 'react-select';
-import logger from 'redux-logger';
+import { Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
-import { State, defaultDateFormat } from '../../../../../config';
+import { defaultDateFormat } from '../../../../../config';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import refresh from '../../../../assets/img/refresh.svg';
@@ -104,41 +102,27 @@ const DetailListCaregiver = (props: any) => {
                       <tbody>
                         {selectedCells ? (
                           selectedCells.map((elem: any) => {
-                            return elem.item ? (
+                            return elem && elem.item ? (
                               <tr>
-                                <td> {elem && elem.id ? elem.id : null}</td>
+                                <td> {elem.id ? elem.id : null}</td>
                                 <td>
-                                  {elem && elem.lastName
-                                    ? elem.lastName
-                                    : null + ' ' + elem && elem.lastName
-                                    ? elem.firstName
-                                    : null}
+                                  {elem.lastName && elem.firstName
+                                    ? [elem.lastName, elem.firstName].join(' ')
+                                    : '-'}
                                 </td>
                                 <td> -</td>
                                 <td> -</td>
                                 <td>
-                                  {elem && elem.item && elem.item.date
+                                  {elem.item.date
                                     ? moment(elem.item.date).format(
                                         defaultDateFormat,
                                       )
                                     : null}
                                 </td>
                                 <td>
-                                  {elem &&
-                                  elem.item &&
-                                  elem.item.f === 'available'
-                                    ? 'f'
-                                    : null}
-                                  {elem &&
-                                  elem.item &&
-                                  elem.item.s === 'available'
-                                    ? 's'
-                                    : null}
-                                  {elem &&
-                                  elem.item &&
-                                  elem.item.n === 'available'
-                                    ? 'n'
-                                    : null}
+                                  {elem.item.f === 'available' ? 'f' : null}
+                                  {elem.item.s === 'available' ? 's' : null}
+                                  {elem.item.n === 'available' ? 'n' : null}
                                 </td>
                                 <td>-</td>
                                 <td>-</td>
@@ -149,8 +133,6 @@ const DetailListCaregiver = (props: any) => {
                                       id='checkAll'
                                       className=''
                                       checked={
-                                        elem &&
-                                        elem.item &&
                                         elem.item.workingProofRecieved
                                           ? true
                                           : false
@@ -170,9 +152,7 @@ const DetailListCaregiver = (props: any) => {
                                   </span>
                                 </td>
                                 <td>
-                                  {elem &&
-                                  elem.item &&
-                                  elem.item.remarksCareGiver
+                                  {elem.item.remarksCareGiver
                                     ? elem.item.remarksCareGiver
                                     : null}
                                 </td>
@@ -228,11 +208,11 @@ const DetailListCaregiver = (props: any) => {
                       </thead>
                       {selectedCells
                         ? selectedCells.map((elem: any) => {
-                            return (
+                            return elem && elem.item ? (
                               <tr>
-                                <td> {elem && elem.id ? elem.id : null}</td>
+                                <td> {elem.id ? elem.id : null}</td>
                                 <td>
-                                  {elem && elem.lastName
+                                  {elem.lastName
                                     ? elem.lastName
                                     : null + ' ' + elem && elem.lastName
                                     ? elem.firstName
@@ -240,33 +220,25 @@ const DetailListCaregiver = (props: any) => {
                                 </td>
                                 <td> -</td>
                                 <td>
-                                  {elem && elem.item && elem.item.date
+                                  {elem.item.date
                                     ? moment(elem.item.date).format(
                                         defaultDateFormat,
                                       )
                                     : null}
                                 </td>
+                                <td>{elem.item.fee ? elem.item.fee : null}</td>
                                 <td>
-                                  {elem && elem.item && elem.item.fee
-                                    ? elem.item.fee
-                                    : null}
-                                </td>
-                                <td>
-                                  {elem && elem.item && elem.item.nightFee
+                                  {elem.item.nightFee
                                     ? elem.item.nightFee
                                     : null}
                                 </td>
                                 <td>
-                                  {elem &&
-                                  elem.item &&
-                                  elem.item.weekendAllowance
+                                  {elem.item.weekendAllowance
                                     ? elem.item.weekendAllowance
                                     : null}
                                 </td>
                                 <td>
-                                  {elem &&
-                                  elem.item &&
-                                  elem.item.holidayAllowance
+                                  {elem.item.holidayAllowance
                                     ? elem.item.holidayAllowance
                                     : null}
                                 </td>
@@ -276,7 +248,7 @@ const DetailListCaregiver = (props: any) => {
                                 <td>-</td>
                                 <td>-</td>
                                 <td>
-                                  {elem && elem.item && elem.item.feePerKM
+                                  {elem.item.feePerKM
                                     ? elem.item.feePerKM
                                     : null}
                                 </td>
@@ -287,8 +259,6 @@ const DetailListCaregiver = (props: any) => {
                                       id='checkAll'
                                       className=''
                                       checked={
-                                        elem &&
-                                        elem.item &&
                                         elem.item.workingProofRecieved
                                           ? true
                                           : false
@@ -308,14 +278,14 @@ const DetailListCaregiver = (props: any) => {
                                   </span>
                                 </td>
                                 <td>
-                                  {elem && elem.item && elem.item.nightAllowance
+                                  {elem.item.nightAllowance
                                     ? elem.item.nightAllowance
                                     : null}
                                 </td>
                                 <td>-</td>
                                 <td>-</td>{' '}
                               </tr>
-                            );
+                            ) : null;
                           })
                         : null}
                       <tbody></tbody>

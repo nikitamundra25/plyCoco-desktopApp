@@ -502,26 +502,31 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           <Table hover bordered className='mb-0 appointment-table'>
             <thead className='thead-bg'>
               <tr>
-                <th className='thead-sticky name-col custom-appointment-col '>
-                  <div className='position-relative'>
+              <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
+                  <div className="all-star-wrap">
+                    <div className='position-relative one-line-text'>
                     CareInstitution
-                    <Button
+                      <Button
                       onClick={() => handleRightMenuToggle()}
                       className='btn-more d-flex align-items-center justify-content-center'
                     >
                       <i className='icon-options-vertical' />
                     </Button>
+                    </div>
+                  
+                    <div className='thead-sticky h-col custom-appointment-col text-center'>
+                    H
                   </div>
-                </th>
-                <th className='thead-sticky h-col custom-appointment-col text-center'>
-                  H
-                </th>
-                <th className='thead-sticky s-col custom-appointment-col text-center'>
-                  S
-                </th>
-                <th className='thead-sticky u-col custom-appointment-col text-center'>
-                  A
-                </th>
+                  <div className='thead-sticky s-col custom-appointment-col text-center'>
+                    S
+                  </div>
+                  <div className='thead-sticky u-col custom-appointment-col text-center'>
+                    A
+                  </div>
+                  </div>
+                  </th>
+                 
+               
                 <th className='thead-sticky v-col custom-appointment-col text-center'>
                   V
                 </th>
@@ -573,7 +578,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                       ? list.availabilityData.map((item: any, row: number) => (
                           <tr key={index}>
                             <th className='thead-sticky name-col custom-appointment-col'>
-                              <div
+                             
+                            <div className="all-star-wrap">
+                            <div
                                 className='text-capitalize view-more-link one-line-text'
                                 // onClick={() =>
                                 //   handleSelectedUser(
@@ -589,9 +596,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                     }`
                                   : ''}
                               </div>
-                            </th>
-                            <td className='h-col custom-appointment-col text-center'></td>
-                            <td
+                            <div className='h-col custom-appointment-col text-center'></div>
+                            <div
                               className='s-col custom-appointment-col text-center'
                               onClick={() =>
                                 handleFirstStarCanstitution(list, index)
@@ -603,8 +609,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               ) : (
                                 <i className='fa fa-star-o' />
                               )}
-                            </td>
-                            <td
+                            </div>
+                            <div
                               className='u-col custom-appointment-col text-center'
                               // onClick={() =>
                               //   onhandleSecondStar(list, index, 'careinstitution')
@@ -615,7 +621,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               ) : (
                                 <i className='fa fa-star-o' />
                               )}
-                            </td>
+                            </div>
+                           
+                            </div>
+                            </th>
+                         
                             <td
                               className='v-col custom-appointment-col text-center'
                               onClick={e =>
@@ -624,6 +634,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             >
                               <i className='fa fa-arrow-down' />
                             </td>
+                           
                             {/* map */}
                             {daysArr.map((key: any, i: number) => {
                               return (
@@ -679,6 +690,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     return (
                       <tr key={`${dept.id}-${index}`}>
                         <th className='name-col custom-appointment-col thead-sticky'>
+                        <div className="all-star-wrap">
                           <div
                             className='text-capitalize view-more-link one-line-text'
                             // onClick={() =>
@@ -687,9 +699,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           >
                             {!dept.newRow ? (dept.name ? dept.name : '') : ''}
                           </div>
-                        </th>
-                        <td className='h-col custom-appointment-col text-center'></td>
-                        <td
+                        <div className='h-col custom-appointment-col text-center'></div>
+                        <div
                           className='s-col custom-appointment-col text-center'
                           onClick={() => handleFirstStarCanstitution(null)}
                         >
@@ -699,8 +710,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           ) : (
                             <i className='fa fa-star-o' />
                           )}
-                        </td>
-                        <td
+                        </div>
+                        <div
                           className='u-col custom-appointment-col text-center'
                           onClick={() => onhandleSecondStarCanstitution(dept)}
                         >
@@ -709,13 +720,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           ) : (
                             <i className='fa fa-star-o' />
                           )}
-                        </td>
-                        <td
+                        </div>
+                        <div
                           className='v-col custom-appointment-col text-center'
                           onClick={e => onAddingRow(e, 'caregiver', index)}
                         >
                           <i className='fa fa-arrow-down' />
-                        </td>
+                        </div>
+                        </div>
+                        </th>
+                      
+                      
                         {daysArr.map((key: any, i: number) => {
                           return (
                             <CellCareinstitution
@@ -793,7 +808,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
       />
-      />
+
     </>
   );
 };

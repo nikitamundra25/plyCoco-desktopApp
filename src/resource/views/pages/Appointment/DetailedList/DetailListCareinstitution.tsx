@@ -70,26 +70,16 @@ const DetailListCareinstitution = (props: any) => {
                       {selectedCellsCareinstitution
                         ? selectedCellsCareinstitution.map(
                             (elem: any, index: number) => {
-                              return elem.item ? (
+                              return elem && elem.item ? (
                                 <tr key={index}>
-                                  <td> {elem && elem.id ? elem.id : null}</td>
-                                  <td>
-                                    {elem && elem.item && elem.item.name
-                                      ? elem.item.name
-                                      : null}
-                                  </td>
+                                  <td> {elem.id ? elem.id : null}</td>
                                   <td> -</td>
+                                  <td>
+                                    {elem.item.name ? elem.item.name : null}
+                                  </td>
                                   <td>Station</td>
                                   <td>
-                                    {console.log(
-                                      'elem.item.list.qualificationId',
-                                      elem &&
-                                        elem.item &&
-                                        elem.item.qualificationId
-                                    )}
-                                    {elem &&
-                                    elem.item &&
-                                    elem.item.qualificationId &&
+                                    {elem.item.qualificationId &&
                                     qualificationList
                                       ? qualificationList
                                           .filter((qualification: any) =>
@@ -111,8 +101,6 @@ const DetailListCareinstitution = (props: any) => {
                                         id='checkAll'
                                         className=''
                                         checked={
-                                          elem &&
-                                          elem.item &&
                                           elem.item.isWorkingProof
                                             ? true
                                             : false
@@ -122,9 +110,7 @@ const DetailListCareinstitution = (props: any) => {
                                     </span>
                                   </td>
                                   <td>
-                                    {elem &&
-                                    elem.item &&
-                                    elem.item.departmentOfferRemarks
+                                    {elem.item.departmentOfferRemarks
                                       ? elem.item.departmentOfferRemarks
                                       : null}
                                   </td>

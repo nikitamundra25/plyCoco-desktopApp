@@ -336,60 +336,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                       >
                         <i className='icon-options-vertical' />
                       </Button>
-                      {/* <UncontrolledDropdown className='custom-dropdown options-dropdown'>
-                      <DropdownToggle
-                        className={"text-capitalize btn-more"}
-                        size="sm"
-                      >
-                        <i className="icon-options-vertical" />
-                      </DropdownToggle>
-                      <DropdownMenu right>
-                        <DropdownItem>
-                          <span>New appointment</span>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <span>Reserve</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Delete free and reserved calender entries</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem onClick={() => setShowList(true)}>
-                          <span>Detailed List</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Filter by qualifications of caregiver</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem
-                          onClick={() => handleCareGiverBulkEmail()}
-                        >
-                          <span>Offer all available calendar entries</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Connect availabilities</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Disconnect availabilities</span>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <span>Confirmed appointments</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Set on confirmed</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Set on not confirmed</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Request temporary leasing contract</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Create termination agreement</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Refresh</span>
-                        </DropdownItem>{" "}
-                      </DropdownMenu>
-                    </UncontrolledDropdown> */}
                     </div>
                   </th>
                   <th className='thead-sticky h-col custom-appointment-col text-center'>

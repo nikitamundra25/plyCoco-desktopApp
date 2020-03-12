@@ -695,90 +695,97 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('WORKING_HOURS')}
-                    </Label>
-                  </Col>
+            {selctedAvailability &&
+            selctedAvailability.status === 'confirmed' ? (
+              <>
+                <Col lg={'12'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm={'4'}>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('WORKING_HOURS')}
+                        </Label>
+                      </Col>
 
-                  <Col sm={'8'}>
-                    <div className='required-input'>
-                      <div className='custom-col inner-no-padding-col row'>
-                        <Col sm={'6'}>
-                          <div>
-                            <Select
-                              classNamePrefix='custom-inner-reactselect'
-                              className={
-                                'custom-reactselect custom-reactselect-menu-width'
-                              }
-                              placeholder=''
-                              options={State}
-                            />
+                      <Col sm={'8'}>
+                        <div className='required-input'>
+                          <div className='custom-col inner-no-padding-col row'>
+                            <Col sm={'6'}>
+                              <div>
+                                <Select
+                                  classNamePrefix='custom-inner-reactselect'
+                                  className={
+                                    'custom-reactselect custom-reactselect-menu-width'
+                                  }
+                                  placeholder=''
+                                  options={State}
+                                />
+                              </div>
+                            </Col>
+                            <Col sm={'6'}>
+                              <div>
+                                <Select
+                                  classNamePrefix='custom-inner-reactselect'
+                                  className={
+                                    'custom-reactselect custom-reactselect-menu-width'
+                                  }
+                                  placeholder=''
+                                  options={State}
+                                />
+                              </div>
+                            </Col>
                           </div>
-                        </Col>
-                        <Col sm={'6'}>
-                          <div>
-                            <Select
-                              classNamePrefix='custom-inner-reactselect'
-                              className={
-                                'custom-reactselect custom-reactselect-menu-width'
-                              }
-                              placeholder=''
-                              options={State}
-                            />
-                          </div>
-                        </Col>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('BREAK')}
-                    </Label>
-                  </Col>
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={'12'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm={'4'}>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('BREAK')}
+                        </Label>
+                      </Col>
 
-                  <Col sm={'8'}>
-                    <div className='required-input'>
-                      <div className='custom-col inner-no-padding-col row'>
-                        <Col sm={'6'}>
-                          <div>
-                            <Select
-                              classNamePrefix='custom-inner-reactselect'
-                              className={
-                                'custom-reactselect custom-reactselect-menu-width'
-                              }
-                              placeholder=''
-                              options={State}
-                            />
+                      <Col sm={'8'}>
+                        <div className='required-input'>
+                          <div className='custom-col inner-no-padding-col row'>
+                            <Col sm={'6'}>
+                              <div>
+                                <Select
+                                  classNamePrefix='custom-inner-reactselect'
+                                  className={
+                                    'custom-reactselect custom-reactselect-menu-width'
+                                  }
+                                  placeholder=''
+                                  options={State}
+                                />
+                              </div>
+                            </Col>
+                            <Col sm={'6'}>
+                              <div>
+                                <Select
+                                  classNamePrefix='custom-inner-reactselect'
+                                  className={
+                                    'custom-reactselect custom-reactselect-menu-width'
+                                  }
+                                  placeholder=''
+                                  options={State}
+                                />
+                              </div>
+                            </Col>
                           </div>
-                        </Col>
-                        <Col sm={'6'}>
-                          <div>
-                            <Select
-                              classNamePrefix='custom-inner-reactselect'
-                              className={
-                                'custom-reactselect custom-reactselect-menu-width'
-                              }
-                              placeholder=''
-                              options={State}
-                            />
-                          </div>
-                        </Col>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+              </>
+            ) : (
+              ''
+            )}
             <Col lg={'12'}>
               <FormGroup>
                 <Row>

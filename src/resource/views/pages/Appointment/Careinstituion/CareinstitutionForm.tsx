@@ -122,7 +122,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     }
     handleSelectUserList(data, name);
   };
-  
+
   return (
     <>
       <div className='form-section '>

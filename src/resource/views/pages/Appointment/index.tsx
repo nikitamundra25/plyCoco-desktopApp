@@ -359,6 +359,14 @@ const Appointment: FunctionComponent = (props: any) => {
     fetchPolicy: 'no-cache'
   });
 
+  // Reset applied filter
+  const handleResetFilters = () => {
+    setPositive([]);
+    setNegative([]);
+    setqualification([]);
+    setfilterByAppointments(undefined);
+  };
+
   // Create new appointment or blank fields of careinstitution
   const newAppointment = () => {
     setvaluesForCareinstitution({
@@ -1104,7 +1112,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // On link requirement
   const onLinkAppointment = async (selectedOption: any, name: string) => {
-    console.log('selectedOption', selectedOption);
     if (name === 'link') {
       await linkRequirement({
         variables: {
@@ -1937,6 +1944,7 @@ const Appointment: FunctionComponent = (props: any) => {
     s: s === 'available' ? true : false,
     n: n === 'available' ? true : false
   };
+
   return (
     <>
       <div className='common-detail-page'>
@@ -1965,7 +1973,9 @@ const Appointment: FunctionComponent = (props: any) => {
             }
             applyFilter={applyFilter}
             handleSelectAppointment={handleSelectAppointment}
+            filterByAppointments={filterByAppointments}
             onFilterByUserId={onFilterByUserId}
+            handleResetFilters={handleResetFilters}
           />
 
           <div className='common-content flex-grow-1'>

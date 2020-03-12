@@ -227,12 +227,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 selectedData.push({
                   avabilityId: parseInt(key.item.id),
                   requirementId: parseInt(element.item.id),
-                  date: moment(element.dateString).format(dbAcceptableFormat)
+                  date: moment(element.dateString).format(dbAcceptableFormat),
+                  status: 'appointment'
                 });
               } else {
                 selectedData.push({
                   avabilityId: parseInt(key.item.id),
-                  requirementId: parseInt(element.item.id)
+                  requirementId: parseInt(element.item.id),
+                  status: 'unlinked'
                 });
               }
             }
@@ -400,13 +402,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink onClick={handleLinkAppointments('link')}>
+              <NavLink onClick={() => handleLinkAppointments('link')}>
                 <img src={connect} className='mr-2' alt='' />
                 <span>Link appointments</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
-              <NavLink onClick={handleLinkAppointments('unlink')}>
+              <NavLink onClick={() => handleLinkAppointments('unlink')}>
                 <img src={disconnect} className='mr-2' alt='' />
                 <span>Unlink appointments</span>
               </NavLink>{' '}

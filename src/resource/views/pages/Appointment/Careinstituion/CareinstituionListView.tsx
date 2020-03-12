@@ -287,7 +287,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavItem>
               <NavItem className='bordernav' />
               <NavItem>
-                <NavLink disabled={selectedCellsCareinstitution ? selectedCellsCareinstitution.length === 0 : true}
+                {/* <NavLink disabled={selectedCellsCareinstitution ? selectedCellsCareinstitution.length === 0 : true} */}
+                <NavLink
                   onClick={() => {
                     handleCareGiverBulkEmail('division', true);
                     handleCareInstitutionBulkEmail();
@@ -747,6 +748,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         <BulkEmailCareInstitutionModal
           openModal={openCareInstitutionBulkEmail}
           handleClose={() => handleCareInstitutionBulkEmail()}
+          qualification={props.qualification}
+          selectedCellsCareinstitution={selectedCellsCareinstitution}
+          gte={props.gte}
+          lte={props.lte}
         />
 
         <BulkEmailCareGiverModal

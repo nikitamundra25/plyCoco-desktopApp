@@ -9,8 +9,20 @@ const CellCareinstitution = ({
   isSelected,
   isSelecting,
   item,
-  key,
+  key
 }: any) => {
+  let isRequirment: boolean = false,
+    isMatching: boolean = false,
+    isContract: boolean = false;
+  if (item) {
+    if (item.status === 'default') {
+      isRequirment = true;
+    } else if (item.status === 'linked') {
+      isMatching = true;
+    } else if (item.status === 'contract') {
+      isContract = true;
+    }
+  }
   return (
     <td
       key={key}
@@ -21,13 +33,16 @@ const CellCareinstitution = ({
         'cursor-pointer': true,
         'selected-cell': isSelected,
         'selecting-cell': isSelecting,
+        'requirement-bg': isRequirment && !isSelected ? isRequirment : false,
+        'matching-bg': isMatching && !isSelected ? isMatching : false,
+        'contract-bg': isContract && !isSelected ? isContract : false,
         'cell-available-careinstitution': !isSelected
           ? item
             ? item.f === item.f || item.s === item.s || item.n === item.n
               ? true
               : false
             : false
-          : false,
+          : false
         // 'cell-available-careinstitution': !isSelected
         //   ? list &&
         //     list.careinstitution_requirements &&

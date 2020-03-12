@@ -214,20 +214,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             return false;
           } else {
             if (!checkError) {
-              if (name === 'link') {
-                selectedData.push({
-                  avabilityId: parseInt(key.item.id),
-                  requirementId: parseInt(element.item.id),
-                  date: moment(element.dateString).format(dbAcceptableFormat),
-                  status: 'appointment'
-                });
-              } else {
-                selectedData.push({
-                  avabilityId: parseInt(key.item.id),
-                  requirementId: parseInt(element.item.id),
-                  status: 'unlinked'
-                });
-              }
+              selectedData.push({
+                avabilityId: parseInt(key.item.id),
+                requirementId: parseInt(element.item.id),
+                date: moment(element.dateString).format(dbAcceptableFormat),
+                status: 'appointment'
+              });
             }
           }
         });
@@ -247,14 +239,25 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
+        let appointId: any = key.item.appointments.filter(
+          (appointment: any) => {
+            return (
+              moment(key.dateString).format('DD.MM.YYYY') ===
+              moment(appointment.date).format('DD.MM.YYYY')
+            );
+          }
+        );
         return appointmentId.push({
-          appointmentId: parseInt('1' /* key.appointmentId */),
-          likedBy: likedBy,
-          isMark: check
+          appointmentId: parseInt(appointId[0].id),
+          unlinkedBy: likedBy,
+          deleteAll: check
         });
       });
-      // console.log('appointmentId', appointmentId);
       onLinkAppointment(appointmentId, 'unlink');
+    } else {
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error('Please select appointment/s.');
+      }
     }
   };
 
@@ -324,7 +327,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <span>Delete free appointments</span>
               </NavLink>
             </NavItem>
-
             <NavItem>
               <NavLink>
                 <img src={all_list} className='mr-2' alt='' />
@@ -711,17 +713,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               day={key}
                               item={
                                 dept
-                                  ? dept.filter((avabilityData: any) => {
-                                      return (
-                                        moment(key.isoString).format(
-                                          'DD.MM.YYYY'
-                                        ) ===
-                                        moment(avabilityData.date).format(
-                                          'DD.MM.YYYY'
-                                        )
-                                      );
-                                    })[0]
-                                  : ''
+                                // ? dept.filter((avabilityData: any) => {
+                                //     return (
+                                //       moment(key.isoString).format(
+                                //         'DD.MM.YYYY'
+                                //       ) ===
+                                //       moment(avabilityData.date).format(
+                                //         'DD.MM.YYYY'
+                                //       )
+                                //     );
+                                //   })[0]
+                                // : ''
                               }
                               list={dept}
                               handleSelectedAvailability
@@ -776,7 +778,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
-      />
       />
     </>
   );

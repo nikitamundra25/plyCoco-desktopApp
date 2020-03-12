@@ -24,7 +24,9 @@ import {
   IStarInterface,
   IAttributeValues,
   IAttributeOptions,
-  ICareGiverValues
+  ICareGiverValues,
+  IUnlinkAppointmentInput,
+  IlinkAppointmentInput
 } from '../../../../interfaces';
 import moment from 'moment';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -292,22 +294,28 @@ const Appointment: FunctionComponent = (props: any) => {
   });
 
   // Mutation to linkRequirement
-  const [linkRequirement, {}] = useMutation<{ appointmentInput: any }>(
-    LINK_REQUIREMENT,
-    {
-      onCompleted() {
-        if (!toast.isActive(toastId)) {
-          toastId = toast.success(languageTranslation('LINKED_APPOINTMENTS'));
-        }
-        fetchData();
+  const [linkRequirement, { loading: linkLoading }] = useMutation<{
+    appointmentInput: IlinkAppointmentInput;
+  }>(LINK_REQUIREMENT, {
+    onCompleted() {
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation('LINKED_APPOINTMENTS'));
       }
+      fetchData();
     }
-  );
+  });
 
   // Mutation to unLink Requirement
-  const [unLinkRequirement, {}] = useMutation<{ appointmentInput: any }>(
-    UN_LINK_REQUIREMENT
-  );
+  const [unLinkRequirement, {}] = useMutation<{
+    appointmentInput: IUnlinkAppointmentInput;
+  }>(UN_LINK_REQUIREMENT, {
+    onCompleted() {
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation('UN_LINKED_APPOINTMENTS'));
+      }
+      fetchData();
+    }
+  });
 
   // To get caregiver list from db
   const [
@@ -1428,7 +1436,7 @@ const Appointment: FunctionComponent = (props: any) => {
           });
         }
       } else {
-        setTimeSlotError(languageTranslation('CAREGIVER_TIME_SLOT_ERROR_MSG'));
+        setTimeSlotError(languageTranslation('WORKING_SHIFT_ERROR'));
         return;
       }
     } catch (error) {
@@ -1740,6 +1748,54 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
+  // Link both forms
+  const handleLinkBoth = () => {
+    let selectedData: any = [],
+      checkError: boolean = false;
+    if (
+      selectedCellsCareinstitution &&
+      selectedCellsCareinstitution.length &&
+      selectedCells &&
+      selectedCells.length
+    ) {
+      selectedCells.map((key: any, index: number) => {
+        const element = selectedCellsCareinstitution[index];
+        if (
+          moment(key.dateString).format(dbAcceptableFormat) !==
+          moment(element.dateString).format(dbAcceptableFormat)
+        ) {
+          checkError = true;
+          if (!toast.isActive(toastId)) {
+            toastId = toast.error(
+              'Date range between appointments & requirement mismatch.'
+            );
+          }
+          return false;
+        } else if (key.item === undefined || element.item === undefined) {
+          checkError = true;
+          if (!toast.isActive(toastId)) {
+            toastId = toast.error(
+              'Create requirement or appointment first for the selected cell.'
+            );
+          }
+          return false;
+        } else {
+          if (!checkError) {
+            selectedData.push({
+              avabilityId: parseInt(key.item.id),
+              requirementId: parseInt(element.item.id),
+              date: moment(element.dateString).format(dbAcceptableFormat),
+              status: 'appointment'
+            });
+          }
+        }
+      });
+      if (!checkError) {
+        onLinkAppointment(selectedData, 'link');
+      }
+    }
+  };
+
   const onCaregiverQualificationFilter = () => {
     if (selectedCells && selectedCells.length) {
       let temp: string[] = [];
@@ -1878,6 +1934,7 @@ const Appointment: FunctionComponent = (props: any) => {
   const {
     firstName = '',
     lastName = '',
+    id: selectedCaregiverId = '',
     dateString = '',
     caregiver = undefined,
     item = undefined
@@ -2009,6 +2066,8 @@ const Appointment: FunctionComponent = (props: any) => {
                       onCaregiverQualificationFilter
                     }
                     handleSelection={handleSelection}
+                    selectedCellsCareinstitution={selectedCellsCareinstitution}
+                    onLinkAppointment={onLinkAppointment}
                   />
                   <CarinstituionListView
                     daysData={daysData}
@@ -2063,7 +2122,7 @@ const Appointment: FunctionComponent = (props: any) => {
                           return (
                             <CaregiverFormView
                               {...props}
-                              selectedCareGiver={selectedCareGiver}
+                              selectedCareGiver={{ id: selectedCaregiverId }}
                               activeDateCaregiver={
                                 { dateString }
                                 // activeDateCaregiver &&
@@ -2167,8 +2226,21 @@ const Appointment: FunctionComponent = (props: any) => {
                         <Button
                           className='btn-common mt-0 mb-2 mx-2'
                           color='secondary'
+                          disabled={
+                            selectedCells &&
+                            selectedCells.length === 1 &&
+                            selectedCellsCareinstitution &&
+                            selectedCellsCareinstitution.length === 1
+                              ? false
+                              : true
+                          }
+                          onClick={handleLinkBoth}
                         >
-                          <i className='fa fa-link mr-2' />
+                          {linkLoading ? (
+                            <i className='fa fa-spinner fa-spin mr-2' />
+                          ) : (
+                            <i className='fa fa-link mr-2' />
+                          )}
                           {languageTranslation('LINK')}
                         </Button>
                       </div>

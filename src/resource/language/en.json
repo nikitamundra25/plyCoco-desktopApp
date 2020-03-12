@@ -891,14 +891,16 @@
   "PRICE_AND_WORKING": "Price & working hours",
   "CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT": "This careinstitution requirement will be deleted.",
   "DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS": "This careinstitution requirement has been deleted successfully",
-  "CONFIRM_DELETE_CAREGIVER_AVABILITY": "This caregiver avability will be deleted.",
-  "DELETE_CAREGIVER_AVABILITY_SUCCESS": "This caregiver avability has been deleted successfully",
+  "CONFIRM_DELETE_CAREGIVER_AVABILITY": "This caregiver's availability will be deleted.",
+  "DELETE_CAREGIVER_AVABILITY_SUCCESS": "This caregiver's availability has been deleted successfully",
   "NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST": "Currently there are no department added for this careinstitution.",
   "ENTER_DATE": "Please enter date.",
   "SHOW_MORE": "Show More",
   "SHOW_LESS": "Show Less",
   "LINKED_APPOINTMENTS": "Linked has been created successfully.",
+  "UN_LINKED_APPOINTMENTS": "Appointments has been unlinked successfully.",
   "UNLINK_APPOINTMENT": "Unlink appointment",
   "UNLINK_DELETE_APPOINTMENT_QUESTION": "who has the appointment canceled ?",
-  "CHECK_APPOINTMENT": "Delete the date of the originator"
+  "CHECK_APPOINTMENT": "Delete the date of the originator",
+  "WORKING_SHIFT_ERROR": "Please select at least one working shift"
 }

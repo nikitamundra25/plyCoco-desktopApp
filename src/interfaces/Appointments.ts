@@ -230,3 +230,16 @@ export interface IUnlinkInterface {
   handleClose: () => any;
   handleUnlinkData: (linkedBy: string, check: boolean) => void;
 }
+
+export interface IUnlinkAppointmentInput {
+  appointmentId: number;
+  unlinkedBy: string;
+  deleteAll: boolean;
+}
+
+export interface IlinkAppointmentInput {
+  avabilityId: number;
+  requirementId: number;
+  date: any;
+  status: string;
+}

@@ -4,7 +4,7 @@ import moment from 'moment';
 import classnames from 'classnames';
 import {
   IAppointmentCareGiverList,
-  IDaysArray,
+  IDaysArray
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
@@ -26,9 +26,13 @@ import leasing_contact from '../../../../assets/img/dropdown/leasing.svg';
 import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 import '../index.scss';
+import { dbAcceptableFormat } from '../../../../../config';
+import { toast } from 'react-toastify';
+import UnlinkAppointment from '../unlinkModal';
 
+let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
-  props: IAppointmentCareGiverList & any,
+  props: IAppointmentCareGiverList & any
 ) => {
   const {
     daysData,
@@ -45,11 +49,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     onReserve,
     onDeleteEntries,
     onCaregiverQualificationFilter,
+    selectedCellsCareinstitution,
+    onLinkAppointment
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   const [getSelecetedCell, setSelecetdCell] = useState<any>();
+  const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
+
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
       setstarMark(!starMark);
@@ -66,7 +74,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
 
   //State for care giver bulk email
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
-    false,
+    false
   );
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
@@ -89,7 +97,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           firstName = '',
           lastName = '',
           caregiver = {},
-          qualificationId = [],
+          qualificationId = []
         } = caregiverData ? caregiverData : {};
         return {
           id,
@@ -98,7 +106,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           caregiver,
           item,
           qualificationIds: qualificationId,
-          dateString: day ? day.dateString : '',
+          dateString: day ? day.dateString : ''
         };
       });
       handleSelection(selectedRows, 'caregiver');
@@ -113,92 +121,115 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       //   });
       // }
     }
-    // if (selectedCells.length) {
-    //   console.log('onSelectFinish iffffff');
-
-    //   for (let i = 0; i < selectedCells.length; i++) {
-    //     const { props: cellProps } = selectedCells[i];
-    //     console.log(selectedCells, 'cellProps');
-    //     const { item, list: caregiverData } = cellProps;
-    //     selected.push({
-    //       dateString: cellProps.day ? cellProps.day.dateString : '',
-    //       item,
-    //       list: caregiverData,
-    //     });
-    //     if (selectedCells[0].props.list) {
-    //       list = selectedCells[0].props.list;
-    //     }
-    //     setSelectedDays(selected);
-    //   }
-    //   let selctedAvailability: any = {};
-    //   let selectedRows: any[] = [];
-    //   // if (
-    //   //   list &&
-    //   //   list.caregiver_avabilities &&
-    //   //   list.caregiver_avabilities.length
-    //   // ) {
-    //   if (selected && selected.length) {
-    //     selectedRows = selectedCells.map((selectedCell: any) => {
-    //       const { props: cellProps } = selectedCell;
-    //       const { item, list: caregiverData, day } = cellProps;
-    //       const {
-    //         id = '',
-    //         firstName = '',
-    //         lastName = '',
-    //         caregiver = {},
-    //         qualificationId = [],
-    //       } = caregiverData ? caregiverData : {};
-    //       console.log(caregiver, 'caregiver');
-
-    //       return {
-    //         id,
-    //         firstName,
-    //         lastName,
-    //         caregiver,
-    //         item,
-    //         qualificationIds: qualificationId,
-    //         dateString: day ? day.dateString : '',
-    //       };
-    //     });
-    //     // for (let index = 0; index < selected.length; index++) {
-    //     //   const { item, list, dateString } = selected[index];
-    //     //   selctedAvailability = item;
-    //     //   selectedRows.push({
-    //     //     id: list.id,
-    //     //     qualificationIds: list.qualificationId,
-    //     //     item,
-    //     //     dateString,
-    //     //   });
-    //     // }
-    //   }
-    //   // }
-    //   console.log(selectedRows, 'selectedRows');
-    //   // handleSelection(selectedRows);
-    //   // handleSelectedUser(list, selected, 'caregiver', selctedAvailability);
-    // }
   };
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
+
+  // Link appointments
+  const handleLinkAppointments = (name: string) => {
+    let selectedData: any = [],
+      checkError: boolean = false;
+    if (
+      selectedCellsCareinstitution &&
+      selectedCellsCareinstitution.length &&
+      selectedCells &&
+      selectedCells.length
+    ) {
+      if (selectedCellsCareinstitution.length !== selectedCells.length) {
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error('Please select same length cells');
+        }
+      } else {
+        selectedCells.map((key: any, index: number) => {
+          const element = selectedCellsCareinstitution[index];
+          if (
+            moment(key.dateString).format(dbAcceptableFormat) !==
+            moment(element.dateString).format(dbAcceptableFormat)
+          ) {
+            checkError = true;
+            if (!toast.isActive(toastId)) {
+              toastId = toast.error(
+                'Date range between appointments & requirement mismatch.'
+              );
+            }
+            return false;
+          } else if (key.item === undefined || element.item === undefined) {
+            checkError = true;
+            if (!toast.isActive(toastId)) {
+              toastId = toast.error(
+                'Create requirement or appointment first for all selected cells.'
+              );
+            }
+            return false;
+          } else {
+            if (!checkError) {
+              selectedData.push({
+                avabilityId: parseInt(key.item.id),
+                requirementId: parseInt(element.item.id),
+                date: moment(element.dateString).format(dbAcceptableFormat),
+                status: 'appointment'
+              });
+            }
+          }
+        });
+        if (!checkError) {
+          onLinkAppointment(selectedData, name);
+        }
+      }
+    }
+  };
+
+  //  UnLink appointmnets
+  const handleUnLinkAppointments = () => {
+    setshowUnlinkModal(!showUnlinkModal);
+  };
+
+  const handleUnlinkData = (likedBy: string, check: boolean) => {
+    let appointmentId: any = [];
+    if (selectedCells && selectedCells.length) {
+      selectedCells.map((key: any, index: number) => {
+        if (key.item && key.item.appointments && key.item.appointments.length) {
+          let appointId: any = key.item.appointments.filter(
+            (appointment: any) => {
+              return (
+                moment(key.dateString).format('DD.MM.YYYY') ===
+                moment(appointment.date).format('DD.MM.YYYY')
+              );
+            }
+          );
+          return appointmentId.push({
+            appointmentId: parseInt(appointId[0].id),
+            unlinkedBy: likedBy,
+            deleteAll: check
+          });
+        }
+      });
+      // console.log('appointmentId', appointmentId);
+      onLinkAppointment(appointmentId, 'unlink');
+    } else {
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error('Please select appointment/s.');
+      }
+    }
+  };
+
   const [showList, setShowList] = useState<boolean>(false);
-  console.log(selectedCells, 'selectedCells');
 
   return (
     <>
-    <div 
-       className={classnames({
-        "right-manu-close": true,
-        "d-none": !openToggleMenu
-      })}
-    onClick={handleToggleMenuItem}
-    >
-
-    </div>
+      <div
+        className={classnames({
+          'right-manu-close': true,
+          'd-none': !openToggleMenu
+        })}
+        onClick={handleToggleMenuItem}
+      ></div>
       <div
         className={classnames({
           'rightclick-menu top-open': true,
           'custom-scrollbar': true,
-          'd-none': !openToggleMenu,
+          'd-none': !openToggleMenu
         })}
       >
         <Nav vertical>
@@ -266,6 +297,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             <NavLink
               onClick={() => {
                 setopenToggleMenu(false);
+                handleLinkAppointments('link');
               }}
             >
               <img src={connect} className='mr-2' alt='' />
@@ -273,7 +305,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink
+              onClick={() => {
+                setopenToggleMenu(false);
+                handleUnLinkAppointments();
+              }}
+            >
               <img src={disconnect} className='mr-2' alt='' />
               <span className='align-middle'>Disconnect availabilities</span>
             </NavLink>
@@ -416,7 +453,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                   {daysArr.map(
                     (
                       { date, day, isoString, isWeekend }: IDaysArray,
-                      index: number,
+                      index: number
                     ) => {
                       return (
                         <th
@@ -432,7 +469,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                           </div>
                         </th>
                       );
-                    },
+                    }
                   )}
                 </tr>
               </thead>
@@ -503,10 +540,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                     item.filter((avabilityData: any) => {
                                       return (
                                         moment(key.isoString).format(
-                                          'DD.MM.YYYY',
+                                          'DD.MM.YYYY'
                                         ) ===
                                         moment(avabilityData.date).format(
-                                          'DD.MM.YYYY',
+                                          'DD.MM.YYYY'
                                         )
                                       );
                                     })[0]
@@ -548,6 +585,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         selectedCells={selectedCells}
+      />
+      <UnlinkAppointment
+        show={showUnlinkModal}
+        handleClose={() => setshowUnlinkModal(false)}
+        handleUnlinkData={handleUnlinkData}
       />
     </>
   );

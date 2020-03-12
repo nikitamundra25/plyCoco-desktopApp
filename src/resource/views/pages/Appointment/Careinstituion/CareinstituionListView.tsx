@@ -1,15 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-  Table,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-  Nav,
-  NavItem,
-  NavLink
-} from 'reactstrap';
+import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
@@ -47,9 +37,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     careInstitutionList,
     loading,
     onAddingRow,
+    qualificationList,
     handleSelectedUser,
-    handleSecondStar,
-    handleReset,
     handleFirstStarCanstitution,
     careInstituionDeptData,
     starCanstitution,
@@ -92,6 +81,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
 
   const handleRightMenuToggle = () => {
+    // alert("zdfsadfsa");
     settoggleMenuButton(!toggleMenuButton);
   };
   const { daysArr = [] } = daysData ? daysData : {};
@@ -148,6 +138,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           //     moment(avabilityData.date).format('DD.MM.YYYY') ===
           //     moment(dateString).format('DD.MM.YYYY')
           // );
+
           selctedAvailability = item;
           selectedRows.push({
             id: list.id,
@@ -157,6 +148,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           });
         }
       }
+
       // selctedAvailability = list.careinstitution_requirements.filter(
       //   (avabilityData: any, index: number) => {
       //     return (
@@ -175,9 +167,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       list,
       selected,
       'careinstitution',
-      selctedAvailability && selctedAvailability.length
-        ? selctedAvailability[0]
-        : {}
+      selctedAvailability ? selctedAvailability : {}
     );
   };
 
@@ -186,7 +176,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   };
 
   // Link appointments
-  const handleLinkAppointments = () => {
+  const handleLinkAppointments = (name: string) => {
     let selectedData: any = [],
       checkError: boolean = false;
     if (
@@ -223,16 +213,25 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             return false;
           } else {
             if (!checkError) {
-              selectedData.push({
-                avabilityId: parseInt(key.item.id),
-                requirementId: parseInt(element.item.id),
-                date: moment(element.dateString).format(dbAcceptableFormat)
-              });
+              if (name === 'link') {
+                selectedData.push({
+                  avabilityId: parseInt(key.item.id),
+                  requirementId: parseInt(element.item.id),
+                  date: moment(element.dateString).format(dbAcceptableFormat),
+                  status: 'appointment'
+                });
+              } else {
+                selectedData.push({
+                  avabilityId: parseInt(key.item.id),
+                  requirementId: parseInt(element.item.id),
+                  status: 'unlinked'
+                });
+              }
             }
           }
         });
         if (!checkError) {
-          onLinkAppointment(selectedData);
+          onLinkAppointment(selectedData, name);
         }
       }
     }
@@ -271,6 +270,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   return (
     <>
+      <div
+        className={classnames({
+          'right-manu-close': true,
+          'd-none': !toggleMenuButton
+        })}
+        onClick={() => handleRightMenuToggle()}
+      ></div>
       <div
         className={classnames({
           'rightclick-menu': true,
@@ -393,13 +399,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink onClick={handleLinkAppointments}>
+              <NavLink onClick={() => handleLinkAppointments('link')}>
                 <img src={connect} className='mr-2' alt='' />
                 <span>Link appointments</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink onClick={() => handleLinkAppointments('unlink')}>
                 <img src={disconnect} className='mr-2' alt='' />
                 <span>Unlink appointments</span>
               </NavLink>{' '}
@@ -682,6 +688,20 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             <CellCareinstitution
                               key={`${key}-${i}`}
                               day={key}
+                              item={
+                                dept
+                                  ? dept.filter((avabilityData: any) => {
+                                      return (
+                                        moment(key.isoString).format(
+                                          'DD.MM.YYYY'
+                                        ) ===
+                                        moment(avabilityData.date).format(
+                                          'DD.MM.YYYY'
+                                        )
+                                      );
+                                    })[0]
+                                  : ''
+                              }
                               list={dept}
                               handleSelectedAvailability
                             />
@@ -711,12 +731,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           </Table>
         </div>
       </SelectableGroup>
-
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() => handleCareInstitutionBulkEmail()}
       />
-
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}
@@ -726,10 +744,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         sortBy={sortBy}
         showButton={showButton}
       />
-
       <DetaillistCareinstitutionPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
+        qualificationList={qualificationList}
+        activeDateCaregiver={activeDateCaregiver}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+      />
       />
     </>
   );

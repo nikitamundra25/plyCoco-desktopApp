@@ -10,12 +10,11 @@ import Select from 'react-select';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { languageTranslation } from '../../../../helpers';
-import { Without_Appointments, filterUserById } from '../../../../config';
+import { Without_Appointments } from '../../../../config';
 import { IAppointmentNav, IReactSelectInterface } from '../../../../interfaces';
 import AttributeFilter from './AttributeFilter';
 import right_arrow from '../../../assets/img/rightarrow.svg';
 import left_arrow from '../../../assets/img/leftarrow.svg';
-import refresh from '../../../assets/img/refresh.svg';
 import filter from '../../../assets/img/filter.svg';
 import caregiver from '../../../assets/img/caregiver.svg';
 import careinstitution from '../../../assets/img/careinstitution.svg';
@@ -41,7 +40,9 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     careInstitutionListArr,
     applyFilter,
     handleSelectAppointment,
-    onFilterByUserId
+    onFilterByUserId,
+    handleResetFilters,
+    filterByAppointments
   } = props;
 
   const { month = '', year = '' } = daysData ? daysData : {};
@@ -101,14 +102,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     <>
       <div className='sticky-common-header'>
         <div className='common-topheader d-flex align-items-center px-2 mb-1'>
-          <div className='header-nav-item'>
-            <span className='header-nav-icon'>
-              <img src={refresh} alt='' />
-            </span>
-            <span className='header-nav-text'>
-              {languageTranslation('REFRESH')}
-            </span>
-          </div>
           <div
             className='common-label px-1 cursor-pointer'
             onClick={handleToday}
@@ -145,6 +138,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               placeholder='Select'
               options={Without_Appointments}
               isClearable={true}
+              value={
+                filterByAppointments
+                  ? filterByAppointments
+                  : { label: 'Select', value: 'Select' }
+              }
               onChange={(value: any) =>
                 handleSelectAppointment(value, 'appointments')
               }
@@ -231,6 +229,14 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               }
               isClearable={true}
             />
+          </div>
+          <div className='header-nav-item pt-1' onClick={handleResetFilters}>
+            <span className='header-nav-icon'>
+              <i className='fa fa-refresh '></i>
+            </span>
+            <span className='header-nav-text'>
+              {languageTranslation('RESET_LABEL')}
+            </span>
           </div>
           <div className='common-header-input pr-1'>
             {/* <Select

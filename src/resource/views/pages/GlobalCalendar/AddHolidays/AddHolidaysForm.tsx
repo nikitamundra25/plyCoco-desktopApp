@@ -77,12 +77,15 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
   };
   return (
     <>
+    <div className="holiday-section-wrap">
+    <div className="holiday-section-body custom-scrollbar">
       <FieldArray
         name={"inputs"}
         render={() => {
           return values.inputs.map(
             (holidaysData: IAddHolidaysFormValues, index: number) => {
               return (
+           
                 <React.Fragment key={index}>
                   <Row className={"holiday-add-block form-section"}>
                     <Col sm="6">
@@ -204,19 +207,22 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                       </a>
                     ) : null}
                   </Row>
-                  <hr />
+                 
                 </React.Fragment>
+              
               );
             }
           );
         }}
       />
+        </div>
       {isEditMode ? null : (
         <Button color={"primary"} onClick={() => addNewHoliday(values)}>
           <i className={"fa fa-plus"} />
           &nbsp;&nbsp;New
         </Button>
       )}
+      </div>
     </>
   );
 };

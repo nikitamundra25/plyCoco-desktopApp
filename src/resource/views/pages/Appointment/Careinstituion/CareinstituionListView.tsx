@@ -522,12 +522,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     <div className='thead-sticky u-col custom-appointment-col text-center'>
                       A
                     </div>
+                  <div className='thead-sticky v-col custom-appointment-col text-center'>
+                  V
+                </div>
                   </div>
                 </th>
 
-                <th className='thead-sticky v-col custom-appointment-col text-center'>
-                  V
-                </th>
+              
                 {/* array for showing day */}
                 {daysArr.map(
                   (
@@ -619,17 +620,19 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                     <i className='fa fa-star-o' />
                                   )}
                                 </div>
-                              </div>
-                            </th>
-
-                            <td
+                              <div
                               className='v-col custom-appointment-col text-center'
                               onClick={e =>
                                 onAddingRow(e, 'careinstitution', index)
                               }
                             >
                               <i className='fa fa-arrow-down' />
-                            </td>
+                            </div>
+                              </div>
+
+                            </th>
+
+                            
 
                             {/* map */}
                             {daysArr.map((key: any, i: number) => {

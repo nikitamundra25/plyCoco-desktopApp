@@ -8,19 +8,22 @@ import {
   Button,
   Nav,
   NavItem,
-  NavLink,
+  NavLink
 } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
-  IDaysArray,
+  IDaysArray
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 import moment from 'moment';
 import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
-import { dbAcceptableFormat } from '../../../../../config';
+import {
+  dbAcceptableFormat,
+  appointmentDateFormat
+} from '../../../../../config';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import all_list from '../../../../assets/img/dropdown/all_list.svg';
 import delete_appointment from '../../../../assets/img/dropdown/delete.svg';
@@ -57,7 +60,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     activeDateCaregiver,
     activeDateCareinstitution,
     handleSelection,
-    selectedCellsCareinstitution,
+    selectedCellsCareinstitution
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -120,7 +123,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       selected.push({
         dateString: cellProps.day ? cellProps.day.dateString : '',
         item,
-        list: careinstitutionData,
+        list: careinstitutionData
       });
 
       if (selectedCells[0].props.list) {
@@ -143,7 +146,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             id: list.id,
             qualificationIds: list.qualificationId,
             item,
-            dateString,
+            dateString
           });
         }
       }
@@ -155,7 +158,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       'careinstitution',
       selctedAvailability && selctedAvailability.length
         ? selctedAvailability[0]
-        : {},
+        : {}
     );
   };
 
@@ -175,7 +178,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       selectedCareGiver.caregiver_avabilities.map(
         (caregiver: any, index: number) => {
           caregiver.date;
-        },
+        }
       );
 
       // if (
@@ -199,7 +202,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         className={classnames({
           'rightclick-menu': true,
           'custom-scrollbar': true,
-          'd-none': !toggleMenuButton,
+          'd-none': !toggleMenuButton
         })}
         id={'clickbox'}
       >
@@ -476,13 +479,22 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 {/* array for showing day */}
                 {daysArr.map(
                   (
-                    { date, day, isoString, isWeekend }: IDaysArray,
-                    index: number,
+                    { date, day, isWeekend, today }: IDaysArray,
+                    index: number
                   ) => {
+                    const todaysDate = moment(today).format(
+                      appointmentDateFormat
+                    );
                     return (
                       <th
-                        className='thead-sticky calender-col custom-appointment-col text-center'
                         key={index}
+                        className={`'thead-sticky calender-col custom-appointment-col text-center' ${
+                          date === todaysDate
+                            ? 'today'
+                            : '' || isWeekend
+                            ? 'weekend'
+                            : ''
+                        }`}
                       >
                         <div className='custom-appointment-calendar-date'>
                           {date}
@@ -492,7 +504,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         </div>
                       </th>
                     );
-                  },
+                  }
                 )}
               </tr>
             </thead>
@@ -575,10 +587,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                       ? item.filter((avabilityData: any) => {
                                           return (
                                             moment(key.isoString).format(
-                                              'DD.MM.YYYY',
+                                              'DD.MM.YYYY'
                                             ) ===
                                             moment(avabilityData.date).format(
-                                              'DD.MM.YYYY',
+                                              'DD.MM.YYYY'
                                             )
                                           );
                                         })[0]
@@ -678,7 +690,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                       </div>
                       <h4 className='mb-1'>
                         {languageTranslation(
-                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST',
+                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST'
                         )}
                       </h4>
                     </div>

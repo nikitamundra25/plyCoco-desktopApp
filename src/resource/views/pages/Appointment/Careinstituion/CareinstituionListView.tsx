@@ -1,15 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-  Table,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-  Nav,
-  NavItem,
-  NavLink,
-} from 'reactstrap';
+import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
@@ -49,8 +39,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     onAddingRow,
     qualificationList,
     handleSelectedUser,
-    handleSecondStar,
-    handleReset,
     handleFirstStarCanstitution,
     careInstituionDeptData,
     starCanstitution,
@@ -188,7 +176,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   };
 
   // Link appointments
-  const handleLinkAppointments = () => {
+  const handleLinkAppointments = (name: string) => {
     let selectedData: any = [],
       checkError: boolean = false;
     if (
@@ -225,16 +213,25 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             return false;
           } else {
             if (!checkError) {
-              selectedData.push({
-                avabilityId: parseInt(key.item.id),
-                requirementId: parseInt(element.item.id),
-                date: moment(element.dateString).format(dbAcceptableFormat),
-              });
+              if (name === 'link') {
+                selectedData.push({
+                  avabilityId: parseInt(key.item.id),
+                  requirementId: parseInt(element.item.id),
+                  date: moment(element.dateString).format(dbAcceptableFormat),
+                  status: 'appointment',
+                });
+              } else {
+                selectedData.push({
+                  avabilityId: parseInt(key.item.id),
+                  requirementId: parseInt(element.item.id),
+                  status: 'unlinked',
+                });
+              }
             }
           }
         });
         if (!checkError) {
-          onLinkAppointment(selectedData);
+          onLinkAppointment(selectedData, name);
         }
       }
     }
@@ -273,6 +270,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   return (
     <>
+      <div
+        className={classnames({
+          'right-manu-close': true,
+          'd-none': !toggleMenuButton,
+        })}
+        onClick={() => handleRightMenuToggle()}
+      ></div>
       <div
         className={classnames({
           'rightclick-menu': true,
@@ -395,13 +399,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink onClick={handleLinkAppointments}>
+              <NavLink onClick={() => handleLinkAppointments('link')}>
                 <img src={connect} className='mr-2' alt='' />
                 <span>Link appointments</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink onClick={() => handleLinkAppointments('unlink')}>
                 <img src={disconnect} className='mr-2' alt='' />
                 <span>Unlink appointments</span>
               </NavLink>{' '}

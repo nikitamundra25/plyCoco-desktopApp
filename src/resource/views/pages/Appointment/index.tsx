@@ -57,6 +57,8 @@ const [
   UPDATE_INSTITUTION_REQUIREMENT,
   DELETE_CAREINSTITUTION_REQUIREMENT,
   DELETE_CAREGIVER_AVABILITY,
+  LINK_REQUIREMENT,
+  UN_LINK_REQUIREMENT,
 ] = AppointmentMutations;
 const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [
@@ -91,11 +93,13 @@ const Appointment: FunctionComponent = (props: any) => {
   const [careInstituionDept, setcareInstituionDept] = useState<
     IReactSelectInterface
   >();
+
   // set field to update formik values
   const [
     updateCanstitutionFormikValues,
     setupdateCanstitutionFormikValues,
   ] = useState<any>();
+
   const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
@@ -219,7 +223,6 @@ const Appointment: FunctionComponent = (props: any) => {
           }),
       );
       setCaregiverAttributeOptions(caregiverAttrOpt);
-      console.log('caregiverAttrOpt', caregiverAttrOpt);
     }
   }, [attributeData]);
 
@@ -288,6 +291,16 @@ const Appointment: FunctionComponent = (props: any) => {
     },
   });
 
+  // Mutation to linkRequirement
+  const [linkRequirement, {}] = useMutation<{ appointmentInput: any }>(
+    LINK_REQUIREMENT,
+  );
+
+  // Mutation to unLink Requirement
+  const [unLinkRequirement, {}] = useMutation<{ appointmentInput: any }>(
+    UN_LINK_REQUIREMENT,
+  );
+
   // To get caregiver list from db
   const [
     getDepartmentList,
@@ -345,6 +358,14 @@ const Appointment: FunctionComponent = (props: any) => {
     fetchPolicy: 'no-cache',
   });
 
+  // Reset applied filter
+  const handleResetFilters = () => {
+    setPositive([]);
+    setNegative([]);
+    setqualification([]);
+    setfilterByAppointments(undefined);
+  };
+
   // Create new appointment or blank fields of careinstitution
   const newAppointment = () => {
     setvaluesForCareinstitution({
@@ -391,6 +412,12 @@ const Appointment: FunctionComponent = (props: any) => {
           positiveAttributeId: positiveId,
           gte: '2020-01-01',
           lte: '2020-03-31',
+          showAppointments:
+            filterByAppointments && filterByAppointments.value
+              ? filterByAppointments.value === 'showAll'
+                ? ''
+                : filterByAppointments.value
+              : null,
         },
       });
     } else {
@@ -403,6 +430,12 @@ const Appointment: FunctionComponent = (props: any) => {
           positiveAttributeId: positiveId,
           gte: '2020-01-01',
           lte: '2020-03-31',
+          showAppointments:
+            filterByAppointments && filterByAppointments.value
+              ? filterByAppointments.value === 'showAll'
+                ? ''
+                : filterByAppointments.value
+              : null,
         },
       });
     }
@@ -528,7 +561,6 @@ const Appointment: FunctionComponent = (props: any) => {
           );
         }
       }
-      console.log('above set state');
 
       setvaluesForCareinstitution({
         appointmentId: id ? id : '',
@@ -792,7 +824,9 @@ const Appointment: FunctionComponent = (props: any) => {
         negativeAttributeId: negative,
         showAppointments:
           filterByAppointments && filterByAppointments.value
-            ? filterByAppointments.value
+            ? filterByAppointments.value === 'showAll'
+              ? ''
+              : filterByAppointments.value
             : null,
         positiveAttributeId: positive,
         gte,
@@ -806,7 +840,9 @@ const Appointment: FunctionComponent = (props: any) => {
         userRole: 'canstitution',
         showAppointments:
           filterByAppointments && filterByAppointments.value
-            ? filterByAppointments.value
+            ? filterByAppointments.value === 'showAll'
+              ? ''
+              : filterByAppointments.value
             : null,
         negativeAttributeId: negative,
         positiveAttributeId: positive,
@@ -1039,7 +1075,6 @@ const Appointment: FunctionComponent = (props: any) => {
           startTime: startTime ? startTime : values.startTime,
           endTime: endTime ? endTime : values.endTime,
         };
-        console.log('above set state', temp);
         setvaluesForCareinstitution(temp);
       }
     }
@@ -1071,6 +1106,23 @@ const Appointment: FunctionComponent = (props: any) => {
       setvaluesForCareinstitution(data);
     }
   }, [careInstituionShift]);
+
+  // On link requirement
+  const onLinkAppointment = async (selectedOption: any, name: string) => {
+    if (name === 'link') {
+      await linkRequirement({
+        variables: {
+          appointmentInput: selectedOption,
+        },
+      });
+    } else {
+      await unLinkRequirement({
+        variables: {
+          appointmentInput: selectedOption,
+        },
+      });
+    }
+  };
 
   // select careGiver or careinstitution
   const handleSelectedUser = (
@@ -1830,8 +1882,6 @@ const Appointment: FunctionComponent = (props: any) => {
       ? selectedCells[0]
       : {};
 
-  console.log(item, caregiver, 'dateString');
-
   // end
   const {
     name = '',
@@ -1854,7 +1904,6 @@ const Appointment: FunctionComponent = (props: any) => {
     s = '',
     n = '',
   } = item ? item : caregiver ? caregiver : {};
-  console.log(fee, 'feeee');
 
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
@@ -1897,6 +1946,7 @@ const Appointment: FunctionComponent = (props: any) => {
     s: s === 'available' ? true : false,
     n: n === 'available' ? true : false,
   };
+
   return (
     <>
       <div className='common-detail-page'>
@@ -1925,7 +1975,9 @@ const Appointment: FunctionComponent = (props: any) => {
             }
             applyFilter={applyFilter}
             handleSelectAppointment={handleSelectAppointment}
+            filterByAppointments={filterByAppointments}
             onFilterByUserId={onFilterByUserId}
+            handleResetFilters={handleResetFilters}
           />
 
           <div className='common-content flex-grow-1'>
@@ -1991,6 +2043,8 @@ const Appointment: FunctionComponent = (props: any) => {
                     gte={gteDayData}
                     lte={lteDayData}
                     selectedCellsCareinstitution={selectedCellsCareinstitution}
+                    selectedCells={selectedCells}
+                    onLinkAppointment={onLinkAppointment}
                   />
                 </Col>
                 <Col lg={'7'}>

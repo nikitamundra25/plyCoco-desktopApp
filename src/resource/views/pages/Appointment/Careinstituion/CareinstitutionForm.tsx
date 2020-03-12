@@ -100,7 +100,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     isContract: boolean = false;
 
   if (selctedRequirement) {
-    if (selctedRequirement.status === 'requirement') {
+    if (selctedRequirement.status === 'default') {
       isRequirment = true;
     } else if (selctedRequirement.status === 'linked') {
       isMatching = true;

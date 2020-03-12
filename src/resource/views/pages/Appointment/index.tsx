@@ -1086,6 +1086,7 @@ const Appointment: FunctionComponent = (props: any) => {
     let values = updateCanstitutionFormikValues;
     let time = timeData && !timeData.data ? timeData.value.split('-') : '';
     let data: any = {
+      ...values,
       shift: careInstituionShift,
       startTime: timeData
         ? timeData.data && timeData.data.begin
@@ -1098,13 +1099,7 @@ const Appointment: FunctionComponent = (props: any) => {
           : time[1]
         : ''
     };
-    if (values) {
-      data = {
-        ...values,
-        data
-      };
-      setvaluesForCareinstitution(data);
-    }
+    setvaluesForCareinstitution(data);
   }, [careInstituionShift]);
 
   // On link requirement

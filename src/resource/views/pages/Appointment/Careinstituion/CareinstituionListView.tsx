@@ -136,6 +136,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           //     moment(avabilityData.date).format('DD.MM.YYYY') ===
           //     moment(dateString).format('DD.MM.YYYY')
           // );
+
           selctedAvailability = item;
           selectedRows.push({
             id: list.id,
@@ -145,6 +146,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           });
         }
       }
+
       // selctedAvailability = list.careinstitution_requirements.filter(
       //   (avabilityData: any, index: number) => {
       //     return (
@@ -163,9 +165,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       list,
       selected,
       'careinstitution',
-      selctedAvailability && selctedAvailability.length
-        ? selctedAvailability[0]
-        : {}
+      selctedAvailability ? selctedAvailability : {}
     );
   };
 
@@ -679,6 +679,20 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             <CellCareinstitution
                               key={`${key}-${i}`}
                               day={key}
+                              item={
+                                dept
+                                  ? dept.filter((avabilityData: any) => {
+                                      return (
+                                        moment(key.isoString).format(
+                                          'DD.MM.YYYY'
+                                        ) ===
+                                        moment(avabilityData.date).format(
+                                          'DD.MM.YYYY'
+                                        )
+                                      );
+                                    })[0]
+                                  : ''
+                              }
                               list={dept}
                               handleSelectedAvailability
                             />

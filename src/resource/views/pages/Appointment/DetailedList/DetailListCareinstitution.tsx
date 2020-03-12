@@ -10,7 +10,7 @@ const DetailListCareinstitution = (props: any) => {
     show,
     handleClose,
     qualificationList,
-    selectedCellsCareinstitution
+    selectedCellsCareinstitution,
   } = props;
 
   const externalCloseBtn = (
@@ -66,7 +66,8 @@ const DetailListCareinstitution = (props: any) => {
                           (elem: any, index: number) => {
                             return elem && elem.item ? (
                               <tr key={index}>
-                                <td> {elem.id ? elem.id : null}</td>
+                                <td>{elem.id ? elem.id : null}</td>
+                                <td>-</td>
                                 <td>
                                   {elem.item.name ? elem.item.name : null}
                                 </td>
@@ -77,8 +78,8 @@ const DetailListCareinstitution = (props: any) => {
                                     ? qualificationList
                                         .filter((qualification: any) =>
                                           elem.item.qualificationId.includes(
-                                            qualification.value
-                                          )
+                                            qualification.value,
+                                          ),
                                         )
                                         .map((q: any) => (
                                           <span>{q.label + ' '}</span>
@@ -107,12 +108,11 @@ const DetailListCareinstitution = (props: any) => {
                                 </td>
                               </tr>
                             ) : null;
-                          }
+                          },
                         )
                       ) : (
                         <p>No data found</p>
                       )}
-                      }
                     </tbody>
                   </Table>
                 </div>

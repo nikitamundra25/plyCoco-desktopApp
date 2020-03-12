@@ -93,7 +93,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
 
   const handleBlur = () => {
     if (userId) {
-      let userRole = user ? user : 'caregiver';
+      let userRole = user ? user : 'avability';
       onFilterByUserId(userId, userRole);
     }
   };
@@ -249,7 +249,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 onChange={(value: any) => handleSelect(value, 'user')}
               /> */}
 
-            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle} className="button-group-dropdown">
+            <ButtonDropdown
+              isOpen={dropdownOpen}
+              toggle={toggle}
+              className='button-group-dropdown'
+            >
               <Input
                 placeholder={user ? user : 'select user'}
                 type='text'
@@ -261,10 +265,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               />
               <DropdownToggle caret color='primary' />
               <DropdownMenu onClick={(e: any) => handleSelect(e, 'dropdown')}>
-                <DropdownItem value='caregiver'>
+                <DropdownItem value='avability'>
                   {languageTranslation('CAREGIVER_USERROLE')}
                 </DropdownItem>
-                <DropdownItem value='canstitution'>
+                <DropdownItem value='requirement'>
                   {languageTranslation('CAREINST_USERROLE')}
                 </DropdownItem>
               </DropdownMenu>

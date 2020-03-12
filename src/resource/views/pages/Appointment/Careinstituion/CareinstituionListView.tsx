@@ -294,7 +294,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const handleCareInstitutionBulkEmail = () => {
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
-  
+
   return (
     <>
       <div
@@ -413,7 +413,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink>
-                <img src={set_confirm} className='mr-2' alt='' onClick={setOnOfferedCareInstitution}/>
+                <img
+                  src={set_confirm}
+                  className='mr-2'
+                  alt=''
+                  onClick={setOnOfferedCareInstitution}
+                />
                 <span>Set on offered</span>
               </NavLink>{' '}
             </NavItem>
@@ -525,13 +530,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     <div className='thead-sticky u-col custom-appointment-col text-center'>
                       A
                     </div>
-                  <div className='thead-sticky v-col custom-appointment-col text-center'>
-                  V
-                </div>
+                    <div className='thead-sticky v-col custom-appointment-col text-center'>
+                      V
+                    </div>
                   </div>
                 </th>
 
-              
                 {/* array for showing day */}
                 {daysArr.map(
                   (
@@ -623,19 +627,16 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                     <i className='fa fa-star-o' />
                                   )}
                                 </div>
-                              <div
-                              className='v-col custom-appointment-col text-center'
-                              onClick={e =>
-                                onAddingRow(e, 'careinstitution', index)
-                              }
-                            >
-                              <i className='fa fa-arrow-down' />
-                            </div>
+                                <div
+                                  className='v-col custom-appointment-col text-center'
+                                  onClick={e =>
+                                    onAddingRow(e, 'careinstitution', index)
+                                  }
+                                >
+                                  <i className='fa fa-arrow-down' />
+                                </div>
                               </div>
-
                             </th>
-
-                            
 
                             {/* map */}
                             {daysArr.map((key: any, i: number) => {

@@ -14,6 +14,11 @@ import {
   dbAcceptableFormat,
   appointmentDateFormat,
   AppRoutes,
+  CareInstTIMyoCYAttrId,
+  CareInstPlycocoAttrId,
+  leasingListColor,
+  selfEmployesListColor,
+  deactivatedListColor,
 } from '../../../../../config';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import all_list from '../../../../assets/img/dropdown/all_list.svg';
@@ -560,7 +565,25 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     return list.availabilityData && list.availabilityData.length
                       ? list.availabilityData.map((item: any, row: number) => (
                           <tr key={`${list.id}-${index}-${row}`}>
-                            <th className='thead-sticky name-col custom-appointment-col'>
+                            <th
+                              className='thead-sticky name-col custom-appointment-col'
+                              style={{
+                                backgroundColor: !list.isActive
+                                  ? deactivatedListColor
+                                  : list.canstitution &&
+                                    list.canstitution.attributes
+                                  ? list.canstitution.attributes.includes(
+                                      CareInstTIMyoCYAttrId,
+                                    )
+                                    ? leasingListColor
+                                    : list.canstitution.attributes.includes(
+                                        CareInstPlycocoAttrId,
+                                      )
+                                    ? selfEmployesListColor
+                                    : ''
+                                  : '',
+                              }}
+                            >
                               <div
                                 className='text-capitalize view-more-link one-line-text'
                                 onClick={() =>

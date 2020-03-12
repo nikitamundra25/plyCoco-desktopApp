@@ -26,7 +26,14 @@ import leasing_contact from '../../../../assets/img/dropdown/leasing.svg';
 import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 import '../index.scss';
-import { appointmentDateFormat, AppRoutes } from '../../../../../config';
+import {
+  appointmentDateFormat,
+  AppRoutes,
+  selfEmployesListColor,
+  leasingListColor,
+  CaregiverTIMyoCYAttrId,
+  deactivatedListColor,
+} from '../../../../../config';
 import { useHistory } from 'react-router';
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
@@ -404,7 +411,24 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                     return list.availabilityData && list.availabilityData.length
                       ? list.availabilityData.map((item: any, row: number) => (
                           <tr key={`${list.id}-${index}-${row}`}>
-                            <th className='name-col custom-appointment-col thead-sticky'>
+                            <th
+                              className='name-col custom-appointment-col thead-sticky'
+                              style={{
+                                backgroundColor: !list.isActive
+                                  ? deactivatedListColor
+                                  : list.caregiver && list.caregiver.attributes
+                                  ? list.caregiver.attributes.includes(
+                                      CaregiverTIMyoCYAttrId,
+                                    )
+                                    ? leasingListColor
+                                    : list.caregiver.attributes.includes(
+                                        'Plycoco',
+                                      )
+                                    ? selfEmployesListColor
+                                    : ''
+                                  : '',
+                              }}
+                            >
                               <div
                                 className='text-capitalize view-more-link one-line-text'
                                 onClick={() =>

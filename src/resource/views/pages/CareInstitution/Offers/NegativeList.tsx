@@ -86,7 +86,7 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
                     key={index}
                     className={"cursor-pointer list-item text-capitalize "}
                   >
-                    <div className="list-item-text"
+                    <div className="list-item-text view-more-link"
                       onClick={() =>
                         history.push(
                           AppRoutes.CARE_GIVER_VIEW.replace(

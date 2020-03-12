@@ -1709,32 +1709,39 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  const onDeleteEntries = () => {
+  const onDeleteEntries = async () => {
     if (selectedCells && selectedCells.length) {
-      let availabilityIds: number[] = [];
-      selectedCells.forEach(async element => {
-        const { dateString, id, item } = element;
-        if (item && item.id) {
-          await deleteCaregiverRequirement({
-            variables: {
-              id: parseInt(item.id),
-            },
-          });
-        } else {
-          let index: number = -1;
-          index = caregiversList.findIndex(
-            (caregiver: any) => caregiver.id === id,
-          );
-          let temp: any = [...caregiversList];
-          temp[index].availabilityData = [];
-          // temp.splice(index + 1, 0, { ...temp[index], newRow: true });
-          setcaregiversList(temp);
-        }
+      const { value } = await ConfirmBox({
+        title: languageTranslation('CONFIRM_LABEL'),
+        text: languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY'),
       });
-      if (!toast.isActive(toastId)) {
-        toastId = toast.success(
-          languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS'),
-        );
+      if (value) {
+        selectedCells.forEach(async element => {
+          const { id, item } = element;
+          if (item && item.id) {
+            await deleteCaregiverRequirement({
+              variables: {
+                id: parseInt(item.id),
+              },
+            });
+          } else {
+            let index: number = -1;
+            index = caregiversList.findIndex(
+              (caregiver: any) => caregiver.id === id,
+            );
+            let temp: any = [...caregiversList];
+            temp[index].availabilityData = [];
+            // temp.splice(index + 1, 0, { ...temp[index], newRow: true });
+            setcaregiversList(temp);
+          }
+        });
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS'),
+          );
+        }
+      } else {
+        return;
       }
     }
   };

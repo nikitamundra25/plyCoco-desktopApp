@@ -1,4 +1,4 @@
-@import "../../../assets/scss/variables";
+@import '../../../assets/scss/variables';
 
 .common-header-input {
   .form-control {
@@ -35,7 +35,7 @@
   bottom: -35px;
   left: 30px;
   z-index: 11;
-  background: rgba(255, 255, 255, 0.80);
+  background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ddd;
   max-width: 400px;
   max-height: 500px;
@@ -139,6 +139,12 @@
             text-transform: capitalize;
           }
         }
+      }
+      &.weekend {
+        background-color: #ffebda;
+      }
+      &.today {
+        background-color: #ff973b;
       }
     }
     th {
@@ -246,7 +252,7 @@
       text-align: left;
       display: block;
       padding: 0px;
-      font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+      font-family: 'FrutigerNeueLTPro-Bold', sans-serif;
     }
   }
   .arrow-btn {
@@ -322,10 +328,4 @@ body {
       background-color: $selecting_color;
     }
   }
-}
-.today {
-  background-color: #ff973b;
-}
-.weekend {
-  background-color: #ffebda;
 }

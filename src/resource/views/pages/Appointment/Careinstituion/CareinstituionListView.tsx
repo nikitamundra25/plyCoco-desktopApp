@@ -65,6 +65,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCellsCareinstitution,
     selectedCells,
     onLinkAppointment,
+    onDeleteEntries,
     setOnConfirmedCaregiver,
     setOnConfirmedCareInst,
     setOnNotConfirmedCareInst,
@@ -353,7 +354,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink onClick={() => onDeleteEntries()}>
                 <img src={delete_appointment} className='mr-2' alt='' />
                 <span>Delete free appointments</span>
               </NavLink>

@@ -63,6 +63,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     onLinkAppointment,
     setOnConfirmedCaregiver,
     setOnNotConfirmedCaregiver,
+    onNewAvailability,
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -246,7 +247,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       >
         <Nav vertical>
           <NavItem>
-            <NavLink>
+            <NavLink
+              onClick={() => {
+                setopenToggleMenu(false);
+                onNewAvailability();
+              }}
+            >
               <img src={new_appointment} className='mr-2' alt='' />
               <span className='align-middle'>New appointment</span>
             </NavLink>
@@ -266,7 +272,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             <NavLink
               onClick={() => {
                 setopenToggleMenu(false);
-                onDeleteEntries();
+                onDeleteEntries('caregiver');
               }}
             >
               <img src={delete_appointment} className='mr-2' alt='' />

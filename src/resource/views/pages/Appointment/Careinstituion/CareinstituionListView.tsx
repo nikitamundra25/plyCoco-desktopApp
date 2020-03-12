@@ -28,6 +28,7 @@ import { languageTranslation } from '../../../../../helpers';
 import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { toast } from 'react-toastify';
+import UnlinkAppointment from '../unlinkModal';
 
 let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
@@ -54,7 +55,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCells,
     onLinkAppointment
   } = props;
-  const [starMark, setstarMark] = useState<boolean>(false);
+  const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
   // const handleFirstStar = (list: object, index: number, name: string) => {
   //   if (starMarkIndex !== index) {
@@ -237,6 +238,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
   };
 
+  //  UnLink appointmnets
+  const handleUnLinkAppointments = (name: string) => {
+    setshowUnlinkModal(!showUnlinkModal);
+  };
+
   const [showList, setShowList] = useState<boolean>(false);
 
   // state for care giver bulk email
@@ -405,7 +411,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>{' '}
             </NavItem>
             <NavItem>
-              <NavLink onClick={() => handleLinkAppointments('unlink')}>
+              <NavLink onClick={() => handleUnLinkAppointments('unlink')}>
                 <img src={disconnect} className='mr-2' alt='' />
                 <span>Unlink appointments</span>
               </NavLink>{' '}
@@ -750,6 +756,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         qualificationList={qualificationList}
         activeDateCaregiver={activeDateCaregiver}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
+      />
+      <UnlinkAppointment
+        show={showUnlinkModal}
+        handleClose={() => setshowUnlinkModal(false)}
       />
       />
     </>

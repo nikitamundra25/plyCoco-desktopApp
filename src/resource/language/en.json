@@ -4,6 +4,7 @@
   "MAN": "Man",
   "WOMAN": "Woman",
   "CAREGIVER_USERROLE": "caregiver",
+  "EMPLOYEE_LABEL": "Employee",
   "CAREINST_USERROLE": "careinstitution",
   "REMARK_LIMIT": "Text should be minimum of 255 characters",
   "REQUIRED_REGION": "Please enter the name of Region",
@@ -895,5 +896,9 @@
   "NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST": "Currently there are no department added for this careinstitution.",
   "ENTER_DATE": "Please enter date.",
   "SHOW_MORE": "Show More",
-  "SHOW_LESS": "Show Less"
+  "SHOW_LESS": "Show Less",
+  "LINKED_APPOINTMENTS": "Linked has been created successfully.",
+  "UNLINK_APPOINTMENT": "Separate appointment",
+  "UNLINK_DELETE_APPOINTMENT_QUESTION": "who has the appointment canceled ?",
+  "CHECK_APPOINTMENT": "Delete the date of the originator"
 }

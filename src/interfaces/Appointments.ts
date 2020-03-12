@@ -224,3 +224,8 @@ export interface ICareinstitutionFormSubmitValue {
   n: string;
   status: string;
 }
+
+export interface IUnlinkInterface {
+  show: boolean;
+  handleClose: () => void;
+}

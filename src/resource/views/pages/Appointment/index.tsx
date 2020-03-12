@@ -1345,70 +1345,78 @@ const Appointment: FunctionComponent = (props: any) => {
     try {
       if (f || s || n) {
         setTimeSlotError('');
-        const { id = '', dateString = '' } =
-          selectedCells && selectedCells.length && selectedCells[0]
-            ? selectedCells[0]
-            : {};
-        let CareGiverAvabilityInput: any = {
-          userId: id ? parseInt(id) : '',
-          date: dateString,
-          // userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
-          // date:
-          //   activeDateCaregiver && activeDateCaregiver.length
-          //     ? activeDateCaregiver[0].dateString
-          //     : '',
-          name,
-          fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
-          weekendAllowance: weekendAllowance
-            ? parseFloat(weekendAllowance.replace(/,/g, '.'))
-            : null,
-          holidayAllowance: holidayAllowance
-            ? parseFloat(holidayAllowance.replace(/,/g, '.'))
-            : null,
-          nightFee: nightFee ? parseFloat(nightFee.replace(/,/g, '.')) : null,
-          nightAllowance:
-            nightAllowance && nightAllowance.value
-              ? nightAllowance.value
-              : null,
-          workingProofRecieved: workingProofRecieved ? true : false,
-          distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
-          feePerKM: feePerKM ? parseFloat(feePerKM) : null,
-          travelAllowance: travelAllowance ? parseFloat(travelAllowance) : null,
-          otherExpenses: otherExpenses ? parseFloat(otherExpenses) : null,
-          remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
-          remarksInternal: remarksInternal ? remarksInternal : null,
-          f: f ? 'available' : 'default',
-          s: s ? 'available' : 'default',
-          n: n ? 'available' : 'default',
-          status: 'default'
-        };
-        if (appointmentId) {
-          await updateCaregiver({
-            variables: {
-              id: parseInt(appointmentId),
-              careGiverAvabilityInput: CareGiverAvabilityInput
-            }
-          });
-          if (!toast.isActive(toastId)) {
-            toastId = toast.success(
-              languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG')
-            );
-          }
-        } else {
-          await addCaregiver({
-            variables: {
-              careGiverAvabilityInput: [
-                {
-                  ...CareGiverAvabilityInput
+        if (selectedCells && selectedCells.length) {
+          // To add mulitple availabilty
+          selectedCells.forEach(async (element: any) => {
+            const { id = '', dateString = '' } = element ? element : {};
+            let CareGiverAvabilityInput: any = {
+              userId: id ? parseInt(id) : '',
+              date: dateString,
+              // userId: selectedCareGiver ? parseInt(selectedCareGiver.id) : '',
+              // date:
+              //   activeDateCaregiver && activeDateCaregiver.length
+              //     ? activeDateCaregiver[0].dateString
+              //     : '',
+              name,
+              fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
+              weekendAllowance: weekendAllowance
+                ? parseFloat(weekendAllowance.replace(/,/g, '.'))
+                : null,
+              holidayAllowance: holidayAllowance
+                ? parseFloat(holidayAllowance.replace(/,/g, '.'))
+                : null,
+              nightFee: nightFee
+                ? parseFloat(nightFee.replace(/,/g, '.'))
+                : null,
+              nightAllowance:
+                nightAllowance && nightAllowance.value
+                  ? nightAllowance.value
+                  : null,
+              workingProofRecieved: workingProofRecieved ? true : false,
+              distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
+              feePerKM: feePerKM ? parseFloat(feePerKM) : null,
+              travelAllowance: travelAllowance
+                ? parseFloat(travelAllowance)
+                : null,
+              otherExpenses: otherExpenses ? parseFloat(otherExpenses) : null,
+              remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
+              remarksInternal: remarksInternal ? remarksInternal : null,
+              f: f ? 'available' : 'default',
+              s: s ? 'available' : 'default',
+              n: n ? 'available' : 'default',
+              status: 'default'
+            };
+            if (appointmentId) {
+              await updateCaregiver({
+                variables: {
+                  id: parseInt(appointmentId),
+                  careGiverAvabilityInput: CareGiverAvabilityInput
                 }
-              ]
+              });
+              if (!toast.isActive(toastId)) {
+                toastId = toast.success(
+                  languageTranslation(
+                    'CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG'
+                  )
+                );
+              }
+            } else {
+              await addCaregiver({
+                variables: {
+                  careGiverAvabilityInput: [
+                    {
+                      ...CareGiverAvabilityInput
+                    }
+                  ]
+                }
+              });
+              if (!toast.isActive(toastId)) {
+                toastId = toast.success(
+                  languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
+                );
+              }
             }
           });
-          if (!toast.isActive(toastId)) {
-            toastId = toast.success(
-              languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
-            );
-          }
         }
       } else {
         setTimeSlotError(languageTranslation('CAREGIVER_TIME_SLOT_ERROR_MSG'));

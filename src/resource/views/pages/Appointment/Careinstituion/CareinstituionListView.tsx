@@ -37,6 +37,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     careInstitutionList,
     loading,
     onAddingRow,
+    qualificationList,
     handleSelectedUser,
     handleFirstStarCanstitution,
     careInstituionDeptData,
@@ -80,6 +81,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
 
   const handleRightMenuToggle = () => {
+    // alert("zdfsadfsa");
     settoggleMenuButton(!toggleMenuButton);
   };
   const { daysArr = [] } = daysData ? daysData : {};
@@ -268,6 +270,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   return (
     <>
+      <div
+        className={classnames({
+          'right-manu-close': true,
+          'd-none': !toggleMenuButton
+        })}
+        onClick={() => handleRightMenuToggle()}
+      ></div>
       <div
         className={classnames({
           'rightclick-menu': true,
@@ -722,12 +731,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           </Table>
         </div>
       </SelectableGroup>
-
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() => handleCareInstitutionBulkEmail()}
       />
-
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}
@@ -737,10 +744,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         sortBy={sortBy}
         showButton={showButton}
       />
-
       <DetaillistCareinstitutionPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
+        qualificationList={qualificationList}
+        activeDateCaregiver={activeDateCaregiver}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+      />
       />
     </>
   );

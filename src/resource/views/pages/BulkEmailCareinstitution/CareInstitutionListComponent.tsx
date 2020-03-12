@@ -39,10 +39,8 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
       handleCheckElement(e, id);
     }
   };
-  console.log(
-    'careInstitutions',
-    careInstitutions.careInstitutionData
-  );
+  console.log('called', called);
+  console.log('loading', loading);
 
   return (
     <Col lg={'5'} className='pr-lg-0'>
@@ -67,7 +65,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
                 : false
               : false
           }
-          loader={""}
+          loader={''}
         >
           <Table bordered hover responsive className='mb-0'>
             <thead className='thead-bg'>

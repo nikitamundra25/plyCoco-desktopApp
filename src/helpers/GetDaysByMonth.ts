@@ -10,7 +10,9 @@ import {
 import { IDaysArray, IGetDaysArrayByMonthRes } from '../interfaces';
 
 // To set locale in germany
-moment.locale('de');
+if (localStorage.getItem('language') === 'en') {
+  moment.locale('en');
+}
 
 export const getDaysArrayByMonth = (
   month: number = moment().month(),

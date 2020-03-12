@@ -1,12 +1,15 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Col, Row, Button } from 'reactstrap';
+import moment from 'moment';
+import { toast } from 'react-toastify';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
 import {
   getDaysArrayByMonth,
   germanNumberFormat,
   languageTranslation,
   timeDiffernce,
 } from '../../../../helpers';
-import './index.scss';
 import AppointmentNav from './AppointmentNav';
 import CaregiverListView from './Caregiver/CaregiverListView';
 import CarinstituionListView from './Careinstituion/CareinstituionListView';
@@ -26,8 +29,6 @@ import {
   IAttributeOptions,
   ICareGiverValues,
 } from '../../../../interfaces';
-import moment from 'moment';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   AppointmentsQueries,
@@ -36,18 +37,14 @@ import {
 } from '../../../../graphql/queries';
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
 import {
   CareGiverValidationSchema,
   CareInstitutionValidationSchema,
 } from '../../../validations/AppointmentsFormValidationSchema';
-import { toast } from 'react-toastify';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { dbAcceptableFormat } from '../../../../config';
 import { ConfirmBox } from '../../components/ConfirmBox';
-import { addAvailabilityRequest } from '../../../../store/actions';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import './index.scss';
 
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [

@@ -14,6 +14,20 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
   if (item) {
     isBlocked = item.f === 'block' || item.s === 'block' || item.n === 'block';
   }
+
+  let isRequirment: boolean = false,
+    isMatching: boolean = false,
+    isContract: boolean = false;
+  if (item) {
+    if (item.status === 'default') {
+      isRequirment = true;
+    } else if (item.status === 'linked') {
+      isMatching = true;
+    } else if (item.status === 'contract') {
+      isContract = true;
+    }
+  }
+
   return (
     <>
       <td
@@ -26,6 +40,8 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
           'selected-cell': isSelected,
           'selecting-cell': isSelecting,
           'cell-block': item ? (isBlocked ? true : false) : false,
+          'matching-bg': isMatching && !isSelected ? isMatching : false,
+          'contract-bg': isContract && !isSelected ? isContract : false,
           'cell-available': !isSelected
             ? item
               ? item.f === 'available' ||
@@ -34,7 +50,7 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
                 ? true
                 : false
               : false
-            : false,
+            : false
         })}
         ref={selectableRef}
       >

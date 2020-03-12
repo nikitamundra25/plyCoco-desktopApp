@@ -219,6 +219,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className='user-select mx-1'>
+            {console.log('careInstitutionList', careInstitutionList)}
             <Select
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect custom-reactselect-menu-width'}
@@ -248,7 +249,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 onChange={(value: any) => handleSelect(value, 'user')}
               /> */}
 
-            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle} className="button-group-dropdown">
               <Input
                 placeholder={user ? user : 'select user'}
                 type='text'

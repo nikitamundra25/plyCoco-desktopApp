@@ -112,12 +112,17 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   const handleUserList = (id: string, name: string) => {
     let data: any = careInstitutionListArr;
     setstarMark(!starMark);
-    if (id && !starMark) {
-      data = careInstitutionListArr.filter((x: any) => x.id === id);
+    if (
+      id &&
+      !starMark &&
+      careInstitutionListArr &&
+      careInstitutionListArr.result
+    ) {
+      data = careInstitutionListArr.result.filter((x: any) => x.id === id);
     }
     handleSelectUserList(data, name);
   };
-
+  
   return (
     <>
       <div className='form-section '>
@@ -183,12 +188,14 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               }
                               aria-hidden='true'
                               onClick={() =>
-                                handleUserList(
-                                  selectedCareinstitution
-                                    ? selectedCareinstitution.id
-                                    : '',
-                                  'careinstitution'
-                                )
+                                name
+                                  ? handleUserList(
+                                      selectedCareinstitution
+                                        ? selectedCareinstitution.id
+                                        : '',
+                                      'careinstitution'
+                                    )
+                                  : ''
                               }
                             ></i>
                           </InputGroupText>

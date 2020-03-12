@@ -12,10 +12,13 @@ import { languageTranslation } from "../../../../../helpers";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
 
 import { INegativeListInterface } from "../../../../../interfaces";
+import { AppRoutes } from "../../../../../config";
+import { useHistory } from "react-router-dom";
 
 const NegativeList: FunctionComponent<INegativeListInterface> = (
   props: INegativeListInterface
 ) => {
+  let history = useHistory();
   let {
     negativeUser,
     handleRemoveAll,
@@ -83,37 +86,45 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
       <div className="common-list-body custom-scrollbar">
         <ul className="common-list list-unstyled mb-0">
           {negativeUser &&
-          negativeUser.getNegativeList &&
-          negativeUser.getNegativeList.negativeList
+            negativeUser.getNegativeList &&
+            negativeUser.getNegativeList.negativeList
             ? negativeUser.getNegativeList.negativeList.map(
-                (item: any, index: number) => {
-                  return (
-                    <li
-                      key={index}
-                      className={"cursor-pointer list-item text-capitalize"}
-                    >
-                      <div className="list-item-text">
-                        {item && item.lastName + " " + item.firstName}
-                      </div>
-                      <div className="list-item-icon">
-                        <span
-                          id={`delete${index}`}
-                          className={`btn-icon mr-2`}
-                          onClick={() => onDeleteNegativeUser(item.id)}
+              (item: any, index: number) => {
+                return (
+                  <li
+                    key={index}
+                    className={"cursor-pointer list-item text-capitalize"}
+                  >
+                    <div className="list-item-text view-more-link"
+                      onClick={() =>
+                        history.push(
+                          AppRoutes.CARE_INSTITUION_VIEW.replace(
+                            /:id/gi,
+                            item.id
+                          )
+                        )
+                      }>
+                      {item && item.lastName + " " + item.firstName}
+                    </div>
+                    <div className="list-item-icon">
+                      <span
+                        id={`delete${index}`}
+                        className={`btn-icon mr-2`}
+                        onClick={() => onDeleteNegativeUser(item.id)}
+                      >
+                        <UncontrolledTooltip
+                          placement={"top"}
+                          target={`delete${index}`}
                         >
-                          <UncontrolledTooltip
-                            placement={"top"}
-                            target={`delete${index}`}
-                          >
-                            {languageTranslation("DELETE")}
-                          </UncontrolledTooltip>
-                          <i className="fa fa-trash"></i>
-                        </span>
-                      </div>
-                    </li>
-                  );
-                }
-              )
+                          {languageTranslation("DELETE")}
+                        </UncontrolledTooltip>
+                        <i className="fa fa-trash"></i>
+                      </span>
+                    </div>
+                  </li>
+                );
+              }
+            )
             : null}
         </ul>
       </div>

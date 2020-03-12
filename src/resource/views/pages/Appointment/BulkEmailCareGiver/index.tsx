@@ -31,8 +31,6 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  console.log("props.gte", props.gte);
-  
   return (
     <>
       <Modal
@@ -50,6 +48,8 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
             qualification={props.qualification}
             gte={props.gte}
             lte={props.lte}
+            sortBy={props.sortBy}
+            showButton={props.showButton}
           />
         </ModalBody>
       </Modal>

@@ -1,17 +1,8 @@
 import React from 'react';
 import { createSelectable } from 'react-selectable-fast';
 import classnames from 'classnames';
-import moment from 'moment';
-const Cell = ({
-  selectableRef,
-  isSelected,
-  isSelecting,
-  day,
-  list,
-  item,
-  key,
-  handleSelectedAvailability,
-}: any) => {
+
+const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
   // // Filter current date data
   // const temp = item.filter((avabilityData: any) => {
   //   return (

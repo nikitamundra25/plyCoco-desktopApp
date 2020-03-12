@@ -8,11 +8,8 @@ const CellCareinstitution = ({
   selectableRef,
   isSelected,
   isSelecting,
-  day,
-  list,
   item,
   key,
-  handleSelectedUser
 }: any) => {
   return (
     <td
@@ -30,7 +27,7 @@ const CellCareinstitution = ({
               ? true
               : false
             : false
-          : false
+          : false,
         // 'cell-available-careinstitution': !isSelected
         //   ? list &&
         //     list.careinstitution_requirements &&

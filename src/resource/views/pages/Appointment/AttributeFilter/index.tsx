@@ -157,8 +157,6 @@ const AttributeFilter = (props: IAttributeFilter) => {
 
   // on applying filter and getting care giver according to filter
   const onApplyingFilter = () => {
-    console.log('inside apply');
-
     applyFilter(attributeFilter, isPositive, isNegative);
     // setIsPositive([]);
     // setIsNegative([]);

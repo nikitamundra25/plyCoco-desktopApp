@@ -3,7 +3,6 @@ import React, { FunctionComponent, useState } from 'react';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionForm,
-  IDaysArray,
   ICareinstitutionFormValue,
   IReactSelectInterface
 } from '../../../../../interfaces';
@@ -13,7 +12,6 @@ import {
   Input,
   Col,
   Row,
-  Form,
   Button,
   InputGroup,
   InputGroupAddon,
@@ -22,18 +20,12 @@ import {
 import '../index.scss';
 import { languageTranslation } from '../../../../../helpers';
 import MaskedInput from 'react-text-mask';
-import {
-  NightAllowancePerHour,
-  State,
-  ShiftTime,
-  TimeMask
-} from '../../../../../config';
+import { ShiftTime, TimeMask } from '../../../../../config';
 import Select from 'react-select';
 import { FormikProps, Field } from 'formik';
 import moment from 'moment';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import classnames from 'classnames';
-import { any } from 'prop-types';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -70,8 +62,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
-    setFieldError,
     activeDateCareinstitution,
     selectedCareinstitution,
     qualificationList,
@@ -108,10 +98,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false;
-  console.log('selctedRequirement', selctedRequirement);
 
   if (selctedRequirement) {
-    if (selctedRequirement.status === 'requirement') {
+    if (selctedRequirement.status === 'default') {
       isRequirment = true;
     } else if (selctedRequirement.status === 'linked') {
       isMatching = true;
@@ -182,7 +171,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
-                          value={name !== 'undefined   undefined' ? name : ''}
+                          value={name ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -370,24 +359,19 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             : 'add-new-btn arrow-btn disabled-class'
                         }
                         color=''
-                        onClick={
-                          qualificationId && qualificationId.length
-                            ? () => handleQualification(qualificationId)
-                            : ''
-                        }
+                        onClick={() => {
+                          if (qualificationId && qualificationId.length) {
+                            handleQualification(qualificationId);
+                          }
+                        }}
                       >
                         <i className='fa fa-arrow-up' aria-hidden='true' />
                       </Button>
 
                       <div className='custom-select-checkbox'>
                         <ReactMultiSelectCheckboxes
-                          placeholderButtonLabel={languageTranslation(
-                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
-                          )}
                           options={qualificationList}
-                          placeholder={languageTranslation(
-                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
-                          )}
+                          placeholder='Select Qualifications'
                           className={'custom-reactselect '}
                           classNamePrefix='custom-inner-reactselect'
                           onChange={(value: any) =>

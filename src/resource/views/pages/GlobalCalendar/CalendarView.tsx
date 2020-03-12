@@ -113,7 +113,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                       <div className="position-relative word-wrap">
                         {moment(holiday.date).format(defaultDateFormat)}
                         {holiday.note ? ` - ${holiday.note}` : null}
-                        <div className="action-btn">
+                        <div className="action-btn dark-action-btn">
                           <a
                             href=""
                             onClick={(e: any) => {

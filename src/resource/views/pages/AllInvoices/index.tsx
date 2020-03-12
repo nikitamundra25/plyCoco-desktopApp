@@ -27,6 +27,20 @@ import professaionalProfile from "../../../assets/img/header-icons/professaional
 import paid from "../../../assets/img/header-icons/paid.svg";
 import interierDesign from "../../../assets/img/header-icons/interier-design-professional.svg";
 import Again from "../../../assets/img/header-icons/again.svg";
+import appendToPlycoco from "../../../assets/img/header-icons/tab-icons/append-to-plycoco.svg";
+import attachReminder from "../../../assets/img/header-icons/tab-icons/attach-reminder.svg";
+import AttachSpeacilistInvoice from "../../../assets/img/header-icons/tab-icons/attach-speacilist-invoice.svg";
+import clear from "../../../assets/img/header-icons/tab-icons/clear.svg";
+
+import edit from "../../../assets/img/header-icons/tab-icons/edit.svg";
+import paperclip from "../../../assets/img/header-icons/tab-icons/paperclip.svg";
+import sendLawyer from "../../../assets/img/header-icons/tab-icons/send-lawyer.svg";
+import sendReminder from "../../../assets/img/header-icons/tab-icons/send-reminder.svg";
+import showReminder from "../../../assets/img/header-icons/tab-icons/show-reminder.svg";
+import taxConsultant from "../../../assets/img/header-icons/tab-icons/tax-consultant.svg";
+import uploadReminder from "../../../assets/img/header-icons/tab-icons/upload-reminder.svg";
+import vicantPosition from "../../../assets/img/header-icons/tab-icons/vicant-position.svg";
+import createReminder from "../../../assets/img/header-icons/tab-icons/create-reminder.svg";
 import { FormikHelpers, FormikProps, Formik } from "formik";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
@@ -42,7 +56,10 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" }
   ];
-
+  const [tabChange, setTabChange] = useState(1);
+  const tabChangehandler = (currentTab: any) => {
+    setTabChange(currentTab)
+  }
   return (
     <>
       <Card>
@@ -51,23 +68,154 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
             <div className="common-sidnav">
               <Nav className="common-ul" tabs>
                 <li className="nav-item">
-                  <a className="nav-link ">
+                  <a
+                    className={`nav-link ${tabChange == 1 ? "active" : ""}`}
+                    onClick={() => tabChangehandler(1)}>
                     <span className="nav-text text-capitalize">
-                      Booking details
+                      General
                     </span>
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link active">
+                  <a
+                    className={`nav-link ${tabChange == 2 ? "active" : ""}`}
+                    onClick={() => tabChangehandler(2)}>
                     <span className="nav-text text-capitalize">
-                      Price & working hours
+                      Mahnwesen und expert
                     </span>
                   </a>
                 </li>
               </Nav>
             </div>
-
-       
+            {tabChange == 1 ?
+              <div className="common-topheader d-flex  px-2 mb-1">
+                <div className="header-nav-colmn-items">
+                  <div className="header-nav-heading mx-1">Reminders</div>
+                  <div className="header-nav-item">
+                    <span className="header-nav-icon">
+                      <img src={sendReminder} alt="" />
+                    </span>
+                    <span className="header-nav-text">Send reminder</span>
+                  </div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={createReminder} alt="" />
+                    </span>
+                    <span className="header-nav-text">Create a reminder</span>
+                  </div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={showReminder} alt="" />
+                    </span>
+                    <span className="header-nav-text">Show reminder</span>
+                  </div>
+                </div>
+                <div className="header-nav-colmn-items">
+                  <div className="header-nav-heading mx-1">Warning</div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={uploadReminder} alt="" />
+                    </span>
+                    <span className="header-nav-text">Upload reminder</span>
+                  </div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={attachReminder} alt="" />
+                    </span>
+                    <span className="header-nav-text">attach reminder</span>
+                  </div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={sendLawyer} alt="" />
+                    </span>
+                    <span className="header-nav-text">Send to lawyer</span>
+                  </div>
+                </div>
+                <div className="header-nav-colmn-items">
+                  <div className="header-nav-heading mx-1">Export</div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={taxConsultant} alt="" />
+                    </span>
+                    <span className="header-nav-text">Tax consultant</span>
+                  </div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={vicantPosition} alt="" />
+                    </span>
+                    <span className="header-nav-text">Vacant positions</span>
+                  </div>
+                </div>
+                <div className="header-nav-colmn-items">
+                  <div className="header-nav-heading mx-1">Invoices</div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={SpecialistInvoice} alt="" />
+                    </span>
+                    <span className="header-nav-text">Create new invoice</span>
+                  </div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={SpecialistInvoice} alt="" />
+                    </span>
+                    <span className="header-nav-text">
+                      Create cancellation invoice
+                  </span>
+                  </div>
+                </div>
+                <div className="header-nav-colmn-items">
+                  <div className="header-nav-heading mx-1">attachment</div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={appendToPlycoco} alt="" />
+                    </span>
+                    <span className="header-nav-text">Append to plyco bill</span>
+                  </div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={AttachSpeacilistInvoice} alt="" />
+                    </span>
+                    <span className="header-nav-text">
+                      Attach to specialist invoice
+                  </span>
+                  </div>
+                </div>
+                <div className="header-nav-colmn-items">
+                  <div className="header-nav-heading mx-1"></div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={Again} alt="" />
+                    </span>
+                    <span className="header-nav-text">
+                      Append order number Plycoco
+                  </span>
+                  </div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={Again} alt="" />
+                    </span>
+                    <span className="header-nav-text">
+                      Append order number specialist
+                  </span>
+                  </div>
+                </div>
+                <div className="header-nav-colmn-items">
+                  <div className="header-nav-heading mx-1">Other tool</div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={refresh} alt="" />
+                    </span>
+                    <span className="header-nav-text">To edit</span>
+                  </div>
+                  <div className="header-nav-item ">
+                    <span className="header-nav-icon">
+                      <img src={refresh} alt="" />
+                    </span>
+                    <span className="header-nav-text">Clear</span>
+                  </div>
+                </div>
+              </div>
+              :
               <div className="common-topheader d-flex  px-2 mb-1">
                 <div className="header-nav-colmn-items">
                   <div className="header-nav-heading mx-1"></div>
@@ -117,16 +265,12 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                   </div>
                 </div>
                 <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">
-                    View Invoice PDFs
-                  </div>
+                  <div className="header-nav-heading mx-1">View Invoice PDFs</div>
                   <div className="header-nav-item ">
                     <span className="header-nav-icon">
                       <img src={PlyCocoreceipt} alt="" />
                     </span>
-                    <span className="header-nav-text">
-                      PlyCoco show receipt
-                    </span>
+                    <span className="header-nav-text">PlyCoco show receipt</span>
                   </div>
                   <div className="header-nav-item ">
                     <span className="header-nav-icon">
@@ -134,13 +278,11 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                     </span>
                     <span className="header-nav-text">
                       Show specialist invoice
-                    </span>
+                </span>
                   </div>
                 </div>
                 <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">
-                    Sent &amp; Unsent
-                  </div>
+                  <div className="header-nav-heading mx-1">Sent &amp; Unsent</div>
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
                       <img src={Again} alt="" />
@@ -155,9 +297,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                   </div>
                 </div>
                 <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">
-                    Paid &amp; Unpaid
-                  </div>
+                  <div className="header-nav-heading mx-1">Paid &amp; Unpaid</div>
 
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
@@ -188,9 +328,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                     <span className="header-nav-icon">
                       <img src={professaionalProfile} alt="" />
                     </span>
-                    <span className="header-nav-text">
-                      Professional profile
-                    </span>
+                    <span className="header-nav-text">Professional profile</span>
                   </div>
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
@@ -198,7 +336,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                     </span>
                     <span className="header-nav-text">
                       interior design professional
-                    </span>
+                </span>
                   </div>
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
@@ -218,7 +356,8 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                   </div>
                 </div>
               </div>
-      
+
+            }
 
             <CardBody>
               <div className="filter-form form-section mb-2">

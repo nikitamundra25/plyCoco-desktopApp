@@ -10,6 +10,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     $gte: String
     $lte: String
     $userId:[ID]
+    $showAppointments: String
   ) {
     getUserByQualifications(
       qualificationId: $qualificationId
@@ -21,6 +22,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
       gte: $gte
       lte: $lte
       userId: $userId
+      showAppointments: $showAppointments
     ) {
       totalCount
       result {
@@ -35,6 +37,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           fee
           holiday
           night
+          attributes
         }
         caregiver_avabilities {
           id

@@ -6,6 +6,7 @@ export interface IDaysArray {
   isoString: string;
   dateString?: string;
   isWeekend: boolean;
+  today?: any;
 }
 
 export interface IGetDaysArrayByMonthRes {
@@ -26,6 +27,7 @@ export interface IAppointmentNav {
   careInstitutionList: any;
   careGiversList: any;
   qualification: IReactSelectInterface[] | undefined;
+  filterByAppointments: IReactSelectInterface | undefined;
   careGiversListArr: any;
   careInstitutionListArr: any;
   applyFilter: (
@@ -38,6 +40,7 @@ export interface IAppointmentNav {
     name: string
   ) => void;
   onFilterByUserId: (userId: string, userRole: string) => void;
+  handleResetFilters: () => void;
 }
 
 export interface IAppointmentCareGiverList {

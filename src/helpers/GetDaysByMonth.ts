@@ -10,7 +10,9 @@ import {
 import { IDaysArray, IGetDaysArrayByMonthRes } from '../interfaces';
 
 // To set locale in germany
-moment.locale('de');
+if (localStorage.getItem('language') === 'en') {
+  moment.locale('en');
+}
 
 export const getDaysArrayByMonth = (
   month: number = moment().month(),
@@ -31,8 +33,10 @@ export const getDaysArrayByMonth = (
       day: moment(current).format(appointmentDayFormat),
       isoString: moment(current).toISOString(),
       dateString: moment(current).format(dbAcceptableFormat),
+      // To check whether the given date is weekend or not
       isWeekend:
-        [0, 6].indexOf(new Date(moment(current).format()).getDay()) != -1, // To check whether the given date is weekend or not
+        [0, 6].indexOf(new Date(moment(current).format()).getDay()) != -1,
+      today: new Date(),
     });
     daysInMonth--;
   }

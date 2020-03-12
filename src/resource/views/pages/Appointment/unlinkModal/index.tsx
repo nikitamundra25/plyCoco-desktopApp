@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -16,10 +16,26 @@ import closehover from '../../../../assets/img/cancel-hover.svg';
 import { IUnlinkInterface } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 
-const UnlinkAppointment = (props: IUnlinkInterface) => {
-  const { show, handleClose } = props;
+const UnlinkAppointment: FunctionComponent<any> = (props: IUnlinkInterface) => {
+  const { show, handleClose, handleUnlinkData } = props;
   const [checkMark, setcheckMark] = useState<boolean>(false);
-  console.log(':checkMark', checkMark);
+
+  const externalCloseBtn = (
+    <button
+      className='close modal-close'
+      onClick={() => {
+        handleClose();
+      }}
+    >
+      {/* <img src={close} alt='close' className='main-img' /> */}
+      <img src={closehover} alt='close' className='hover-img' />
+    </button>
+  );
+
+  const handleSelectUser = (name: string) => {
+    handleUnlinkData(name, checkMark);
+    handleClose();
+  };
 
   return (
     <div>
@@ -29,11 +45,11 @@ const UnlinkAppointment = (props: IUnlinkInterface) => {
         centered
         size='l'
       >
-        <ModalHeader close={handleClose}>
+        <ModalHeader close={externalCloseBtn}>
           {languageTranslation('UNLINK_APPOINTMENT')}
         </ModalHeader>
         <ModalBody>
-          <div className='d-flex align-items-center mb-2'>
+          <div className=' align-items-center mb-2'>
             {/* <div className='custom-header-nav-item mr-3'> */}
             {/* <span className='custom-header-nav-icon'>
                 <img src={filter} alt='' />
@@ -41,7 +57,7 @@ const UnlinkAppointment = (props: IUnlinkInterface) => {
             <span>
               {languageTranslation('UNLINK_DELETE_APPOINTMENT_QUESTION')}
             </span>
-            <div>
+            <div className='my-2'>
               <div className='required-input'>
                 <FormGroup check inline>
                   <div className=' checkbox-custom mb-0'>
@@ -66,16 +82,32 @@ const UnlinkAppointment = (props: IUnlinkInterface) => {
               </div>
             </div>
             <div className='d-flex align-items-center justify-content-between'>
-              <Button className={'btn-save'} color='primary'>
+              <Button
+                className={'btn-save'}
+                color='primary'
+                onClick={() => handleSelectUser('caregiver')}
+              >
                 {languageTranslation('CAREGIVER_USERROLE')}
               </Button>
-              <Button className='btn-save' color='primary'>
+              <Button
+                className='btn-save'
+                color='primary'
+                onClick={() => handleSelectUser('canstitution')}
+              >
                 {languageTranslation('CAREINST_USERROLE')}
               </Button>
-              <Button className={'btn-save'} color='primary'>
+              <Button
+                className={'btn-save'}
+                color='primary'
+                onClick={() => handleSelectUser('employee')}
+              >
                 {languageTranslation('EMPLOYEE_LABEL')}
               </Button>
-              <Button className={'btn-save'} color='primary'>
+              <Button
+                className={'btn-save'}
+                color='primary'
+                onClick={handleClose}
+              >
                 {languageTranslation('CANCEL')}
               </Button>
             </div>

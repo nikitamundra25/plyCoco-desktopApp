@@ -227,5 +227,6 @@ export interface ICareinstitutionFormSubmitValue {
 
 export interface IUnlinkInterface {
   show: boolean;
-  handleClose: () => void;
+  handleClose: () => any;
+  handleUnlinkData: (linkedBy: string, check: boolean) => void;
 }

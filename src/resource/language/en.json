@@ -898,7 +898,7 @@
   "SHOW_MORE": "Show More",
   "SHOW_LESS": "Show Less",
   "LINKED_APPOINTMENTS": "Linked has been created successfully.",
-  "UNLINK_APPOINTMENT": "Separate appointment",
+  "UNLINK_APPOINTMENT": "Unlink appointment",
   "UNLINK_DELETE_APPOINTMENT_QUESTION": "who has the appointment canceled ?",
   "CHECK_APPOINTMENT": "Delete the date of the originator"
 }

@@ -243,6 +243,21 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setshowUnlinkModal(!showUnlinkModal);
   };
 
+  const handleUnlinkData = (likedBy: string, check: boolean) => {
+    let appointmentId: any = [];
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      selectedCellsCareinstitution.map((key: any, index: number) => {
+        return appointmentId.push({
+          appointmentId: parseInt('1' /* key.appointmentId */),
+          likedBy: likedBy,
+          isMark: check
+        });
+      });
+      // console.log('appointmentId', appointmentId);
+      onLinkAppointment(appointmentId, 'unlink');
+    }
+  };
+
   const [showList, setShowList] = useState<boolean>(false);
 
   // state for care giver bulk email
@@ -760,6 +775,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
+        handleUnlinkData={handleUnlinkData}
       />
       />
     </>

@@ -248,7 +248,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 onChange={(value: any) => handleSelect(value, 'user')}
               /> */}
 
-            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle} className="button-group-dropdown">
               <Input
                 placeholder={user ? user : 'select user'}
                 type='text'

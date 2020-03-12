@@ -18,6 +18,13 @@
       border-color: $theme_color;
     }
   }
+  .button-group-dropdown{
+  .btn{  line-height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;}
+  }
 }
 
 // calendar table css

@@ -44,5 +44,6 @@ export const AppRoutes: IAppRoutes = {
   ATTRIBUTE_MANAGEMENT: "/further/attribute",
   EMAIL_TEMPLATE_MANAGEMENT: "/further/email-templates",
   BULK_EMAIL_CAREINSTITUTION: "/bulk-email-careinstitution",
-  ALLINVOICES: "/invoices"
+  ALLINVOICES: "/invoices",
+  INVOICESOLONA: "/invoice-solona"
 };

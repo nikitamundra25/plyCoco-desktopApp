@@ -1,12 +1,15 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Col, Row, Button } from 'reactstrap';
+import moment from 'moment';
+import { toast } from 'react-toastify';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
 import {
   getDaysArrayByMonth,
   germanNumberFormat,
   languageTranslation,
   timeDiffernce
 } from '../../../../helpers';
-import './index.scss';
 import AppointmentNav from './AppointmentNav';
 import CaregiverListView from './Caregiver/CaregiverListView';
 import CarinstituionListView from './Careinstituion/CareinstituionListView';
@@ -28,8 +31,6 @@ import {
   IUnlinkAppointmentInput,
   IlinkAppointmentInput
 } from '../../../../interfaces';
-import moment from 'moment';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   AppointmentsQueries,
@@ -38,18 +39,14 @@ import {
 } from '../../../../graphql/queries';
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
 import {
   CareGiverValidationSchema,
   CareInstitutionValidationSchema
 } from '../../../validations/AppointmentsFormValidationSchema';
-import { toast } from 'react-toastify';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { dbAcceptableFormat } from '../../../../config';
 import { ConfirmBox } from '../../components/ConfirmBox';
-import { addAvailabilityRequest } from '../../../../store/actions';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import './index.scss';
 
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [
@@ -413,12 +410,23 @@ const Appointment: FunctionComponent = (props: any) => {
     positiveId: number[],
     negativeId: number[]
   ) => {
+    // Default value is start & end of month
+    let gte: string = moment()
+      .startOf('month')
+      .format(dbAcceptableFormat);
+    let lte: string = moment()
+      .endOf('month')
+      .format(dbAcceptableFormat);
+    if (daysData && daysData.daysArr && daysData.daysArr.length) {
+      gte = daysData.daysArr[0].dateString || '';
+      lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
+    }
     setPositive(positiveId), setNegative(negativeId);
     let temp: any = [];
     qualification.map((key: any) => {
       temp.push(parseInt(key.value));
     });
-    if ('caregiver') {
+    if (userRole === 'caregiver') {
       // get careGivers list
       fetchCaregiverList({
         variables: {
@@ -426,8 +434,8 @@ const Appointment: FunctionComponent = (props: any) => {
           userRole: 'caregiver',
           negativeAttributeId: negativeId,
           positiveAttributeId: positiveId,
-          gte: '2020-01-01',
-          lte: '2020-03-31',
+          gte,
+          lte,
           showAppointments:
             filterByAppointments && filterByAppointments.value
               ? filterByAppointments.value === 'showAll'
@@ -444,8 +452,8 @@ const Appointment: FunctionComponent = (props: any) => {
           userRole: 'canstitution',
           negativeAttributeId: negativeId,
           positiveAttributeId: positiveId,
-          gte: '2020-01-01',
-          lte: '2020-03-31',
+          gte,
+          lte,
           showAppointments:
             filterByAppointments && filterByAppointments.value
               ? filterByAppointments.value === 'showAll'

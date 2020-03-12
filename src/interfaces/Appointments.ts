@@ -6,6 +6,7 @@ export interface IDaysArray {
   isoString: string;
   dateString?: string;
   isWeekend: boolean;
+  today?: any;
 }
 
 export interface IGetDaysArrayByMonthRes {

@@ -29,6 +29,7 @@ import '../index.scss';
 import { dbAcceptableFormat } from '../../../../../config';
 import { toast } from 'react-toastify';
 import UnlinkAppointment from '../unlinkModal';
+import { appointmentDateFormat } from '../../../../../config';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
@@ -357,107 +358,66 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           </NavItem>
         </Nav>
       </div>
-      <SelectableGroup
-        allowClickWithoutSelected
-        className='custom-row-selector'
-        clickClassName='tick'
-        resetOnStart={true}
-        duringSelection={(data: any) => console.log(data, 'duringSelection')}
-        onSelectionFinish={onSelectFinish}
-        onSelectionClear={onSelectionClear}
-        ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
-      >
-        <div>
-          <div className='calender-section custom-scrollbar'>
+      <div className='calender-section custom-scrollbar'>
+        <SelectableGroup
+          allowClickWithoutSelected
+          className='custom-row-selector'
+          clickClassName='tick'
+          resetOnStart={true}
+          duringSelection={(data: any) => console.log(data, 'duringSelection')}
+          onSelectionFinish={onSelectFinish}
+          onSelectionClear={onSelectionClear}
+          ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
+        >
+          <div>
             <Table hover bordered className='mb-0 appointment-table'>
               <thead className='thead-bg'>
                 <tr>
-                  <th className='thead-sticky name-col custom-appointment-col  '>
-                    <div className='position-relative'>
-                      Caregiver
-                      <Button
-                        onClick={() => handleToggleMenuItem()}
-                        className='btn-more d-flex align-items-center justify-content-center'
-                      >
-                        <i className='icon-options-vertical' />
-                      </Button>
-                      {/* <UncontrolledDropdown className='custom-dropdown options-dropdown'>
-                      <DropdownToggle
-                        className={"text-capitalize btn-more"}
-                        size="sm"
-                      >
-                        <i className="icon-options-vertical" />
-                      </DropdownToggle>
-                      <DropdownMenu right>
-                        <DropdownItem>
-                          <span>New appointment</span>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <span>Reserve</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Delete free and reserved calender entries</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem onClick={() => setShowList(true)}>
-                          <span>Detailed List</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Filter by qualifications of caregiver</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem
-                          onClick={() => handleCareGiverBulkEmail()}
+                  <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
+                    <div className='all-star-wrap'>
+                      <div className='position-relative one-line-text'>
+                        Caregiver
+                        <Button
+                          onClick={() => handleToggleMenuItem()}
+                          className='btn-more d-flex align-items-center justify-content-center'
                         >
-                          <span>Offer all available calendar entries</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Connect availabilities</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Disconnect availabilities</span>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <span>Confirmed appointments</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Set on confirmed</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Set on not confirmed</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Request temporary leasing contract</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Create termination agreement</span>
-                        </DropdownItem>{" "}
-                        <DropdownItem>
-                          <span>Refresh</span>
-                        </DropdownItem>{" "}
-                      </DropdownMenu>
-                    </UncontrolledDropdown> */}
+                          <i className='icon-options-vertical' />
+                        </Button>
+                      </div>
+
+                      <div className='thead-sticky h-col custom-appointment-col text-center'>
+                        H
+                      </div>
+                      <div className='thead-sticky s-col custom-appointment-col text-center'>
+                        S
+                      </div>
+                      <div className='thead-sticky u-col custom-appointment-col text-center'>
+                        U
+                      </div>
                     </div>
                   </th>
-                  <th className='thead-sticky h-col custom-appointment-col text-center'>
-                    H
-                  </th>
-                  <th className='thead-sticky s-col custom-appointment-col text-center'>
-                    S
-                  </th>
-                  <th className='thead-sticky u-col custom-appointment-col text-center'>
-                    U
-                  </th>
+
                   <th className='thead-sticky v-col custom-appointment-col text-center'>
                     V
                   </th>
                   {/* array for showing day */}
                   {daysArr.map(
                     (
-                      { date, day, isoString, isWeekend }: IDaysArray,
+                      { date, day, isWeekend, today }: IDaysArray,
                       index: number
                     ) => {
+                      const todaysDate = moment(today).format(
+                        appointmentDateFormat
+                      );
                       return (
                         <th
-                          className='thead-sticky calender-col custom-appointment-col text-center'
+                          className={`'thead-sticky calender-col custom-appointment-col text-center' ${
+                            date === todaysDate
+                              ? 'today'
+                              : '' || isWeekend
+                              ? 'weekend'
+                              : ''
+                          }`}
                           key={index}
                         >
                           <div className='custom-appointment-calendar-date'>
@@ -486,44 +446,47 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                       ? list.availabilityData.map((item: any, row: number) => (
                           <tr key={`${list.id}-${index}-${row}`}>
                             <th className='name-col custom-appointment-col thead-sticky'>
-                              <div
-                                className='text-capitalize view-more-link one-line-text'
-                                // onClick={() =>
-                                //   handleSelectedUser(list, null, 'caregiver')
-                                // }
-                              >
-                                {row === 0
-                                  ? `${list.lastName ? list.lastName : ''} ${
-                                      list.firstName ? list.firstName : ''
-                                    }`
-                                  : ''}
+                              <div className='all-star-wrap'>
+                                <div
+                                  className='text-capitalize view-more-link one-line-text'
+                                  // onClick={() =>
+                                  //   handleSelectedUser(list, null, 'caregiver')
+                                  // }
+                                >
+                                  {row === 0
+                                    ? `${list.lastName ? list.lastName : ''} ${
+                                        list.firstName ? list.firstName : ''
+                                      }`
+                                    : ''}
+                                </div>
+                                <div className='h-col custom-appointment-col text-center'></div>
+                                <div
+                                  className='s-col custom-appointment-col text-center'
+                                  onClick={() =>
+                                    onhandleSecondStar(list, index, 'caregiver')
+                                  }
+                                >
+                                  {starMark ? (
+                                    <i className='fa fa-star theme-text' />
+                                  ) : (
+                                    <i className='fa fa-star-o' />
+                                  )}
+                                </div>
+                                <div
+                                  className='u-col custom-appointment-col text-center'
+                                  onClick={() =>
+                                    onhandleSecondStar(list, index, 'caregiver')
+                                  }
+                                >
+                                  {starMark ? (
+                                    <i className='fa fa-star theme-text' />
+                                  ) : (
+                                    <i className='fa fa-star-o' />
+                                  )}
+                                </div>
                               </div>
                             </th>
-                            <td className='h-col custom-appointment-col text-center'></td>
-                            <td
-                              className='s-col custom-appointment-col text-center'
-                              onClick={() =>
-                                onhandleSecondStar(list, index, 'caregiver')
-                              }
-                            >
-                              {starMark ? (
-                                <i className='fa fa-star theme-text' />
-                              ) : (
-                                <i className='fa fa-star-o' />
-                              )}
-                            </td>
-                            <td
-                              className='u-col custom-appointment-col text-center'
-                              onClick={() =>
-                                onhandleSecondStar(list, index, 'caregiver')
-                              }
-                            >
-                              {starMark ? (
-                                <i className='fa fa-star theme-text' />
-                              ) : (
-                                <i className='fa fa-star-o' />
-                              )}
-                            </td>
+
                             <td
                               className='v-col custom-appointment-col text-center'
                               onClick={e => onAddingRow(e, 'caregiver', index)}
@@ -572,8 +535,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               </tbody>
             </Table>
           </div>
-        </div>
-      </SelectableGroup>
+        </SelectableGroup>
+      </div>
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}

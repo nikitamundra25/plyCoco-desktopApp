@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
 import '../index.scss';
 import {
@@ -10,7 +10,10 @@ import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 import moment from 'moment';
 import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
-import { dbAcceptableFormat } from '../../../../../config';
+import {
+  dbAcceptableFormat,
+  appointmentDateFormat
+} from '../../../../../config';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import all_list from '../../../../assets/img/dropdown/all_list.svg';
 import delete_appointment from '../../../../assets/img/dropdown/delete.svg';
@@ -162,7 +165,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       //   }
       // );
     }
-
     handleSelection(selectedRows, 'careinstitution');
     handleSelectedUser(
       list,
@@ -291,7 +293,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const handleCareInstitutionBulkEmail = () => {
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
-
+  
   return (
     <>
       <div
@@ -488,52 +490,65 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           </Nav>
         </div>
       </div>
-      <SelectableGroup
-        allowClickWithoutSelected
-        className='custom-row-selector'
-        clickClassName='tick'
-        resetOnStart={true}
-        onSelectionFinish={onSelectFinish}
-        onSelectionClear={onSelectionClear}
-        ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
-      >
-        <div className='calender-section custom-scrollbar  mt-3'>
+      <div className='calender-section custom-scrollbar  mt-3'>
+        <SelectableGroup
+          allowClickWithoutSelected
+          className='custom-row-selector'
+          clickClassName='tick'
+          resetOnStart={true}
+          onSelectionFinish={onSelectFinish}
+          onSelectionClear={onSelectionClear}
+          ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
+        >
           <Table hover bordered className='mb-0 appointment-table'>
             <thead className='thead-bg'>
               <tr>
-                <th className='thead-sticky name-col custom-appointment-col '>
-                  <div className='position-relative'>
-                    CareInstitution
-                    <Button
-                      onClick={() => handleRightMenuToggle()}
-                      className='btn-more d-flex align-items-center justify-content-center'
-                    >
-                      <i className='icon-options-vertical' />
-                    </Button>
+                <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
+                  <div className='all-star-wrap'>
+                    <div className='position-relative one-line-text'>
+                      CareInstitution
+                      <Button
+                        onClick={() => handleRightMenuToggle()}
+                        className='btn-more d-flex align-items-center justify-content-center'
+                      >
+                        <i className='icon-options-vertical' />
+                      </Button>
+                    </div>
+
+                    <div className='thead-sticky h-col custom-appointment-col text-center'>
+                      H
+                    </div>
+                    <div className='thead-sticky s-col custom-appointment-col text-center'>
+                      S
+                    </div>
+                    <div className='thead-sticky u-col custom-appointment-col text-center'>
+                      A
+                    </div>
                   </div>
                 </th>
-                <th className='thead-sticky h-col custom-appointment-col text-center'>
-                  H
-                </th>
-                <th className='thead-sticky s-col custom-appointment-col text-center'>
-                  S
-                </th>
-                <th className='thead-sticky u-col custom-appointment-col text-center'>
-                  A
-                </th>
+
                 <th className='thead-sticky v-col custom-appointment-col text-center'>
                   V
                 </th>
                 {/* array for showing day */}
                 {daysArr.map(
                   (
-                    { date, day, isoString, isWeekend }: IDaysArray,
+                    { date, day, isWeekend, today }: IDaysArray,
                     index: number
                   ) => {
+                    const todaysDate = moment(today).format(
+                      appointmentDateFormat
+                    );
                     return (
                       <th
-                        className='thead-sticky calender-col custom-appointment-col text-center'
                         key={index}
+                        className={`'thead-sticky calender-col custom-appointment-col text-center' ${
+                          date === todaysDate
+                            ? 'today'
+                            : '' || isWeekend
+                            ? 'weekend'
+                            : ''
+                        }`}
                       >
                         <div className='custom-appointment-calendar-date'>
                           {date}
@@ -563,49 +578,52 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                       ? list.availabilityData.map((item: any, row: number) => (
                           <tr key={index}>
                             <th className='thead-sticky name-col custom-appointment-col'>
-                              <div
-                                className='text-capitalize view-more-link one-line-text'
-                                // onClick={() =>
-                                //   handleSelectedUser(
-                                //     list,
-                                //     null,
-                                //     'careinstitution'
-                                //   )
-                                // }
-                              >
-                                {row === 0
-                                  ? `${list.lastName ? list.lastName : ''} ${
-                                      list.firstName ? list.firstName : ''
-                                    }`
-                                  : ''}
+                              <div className='all-star-wrap'>
+                                <div
+                                  className='text-capitalize view-more-link one-line-text'
+                                  // onClick={() =>
+                                  //   handleSelectedUser(
+                                  //     list,
+                                  //     null,
+                                  //     'careinstitution'
+                                  //   )
+                                  // }
+                                >
+                                  {row === 0
+                                    ? `${list.lastName ? list.lastName : ''} ${
+                                        list.firstName ? list.firstName : ''
+                                      }`
+                                    : ''}
+                                </div>
+                                <div className='h-col custom-appointment-col text-center'></div>
+                                <div
+                                  className='s-col custom-appointment-col text-center'
+                                  onClick={() =>
+                                    handleFirstStarCanstitution(list, index)
+                                  }
+                                >
+                                  {starCanstitution.setIndex === index ||
+                                  starCanstitution.isStar ? (
+                                    <i className='fa fa-star theme-text' />
+                                  ) : (
+                                    <i className='fa fa-star-o' />
+                                  )}
+                                </div>
+                                <div
+                                  className='u-col custom-appointment-col text-center'
+                                  // onClick={() =>
+                                  //   onhandleSecondStar(list, index, 'careinstitution')
+                                  // }
+                                >
+                                  {secondStarCanstitution ? (
+                                    <i className='fa fa-star theme-text' />
+                                  ) : (
+                                    <i className='fa fa-star-o' />
+                                  )}
+                                </div>
                               </div>
                             </th>
-                            <td className='h-col custom-appointment-col text-center'></td>
-                            <td
-                              className='s-col custom-appointment-col text-center'
-                              onClick={() =>
-                                handleFirstStarCanstitution(list, index)
-                              }
-                            >
-                              {starCanstitution.setIndex === index ||
-                              starCanstitution.isStar ? (
-                                <i className='fa fa-star theme-text' />
-                              ) : (
-                                <i className='fa fa-star-o' />
-                              )}
-                            </td>
-                            <td
-                              className='u-col custom-appointment-col text-center'
-                              // onClick={() =>
-                              //   onhandleSecondStar(list, index, 'careinstitution')
-                              // }
-                            >
-                              {secondStarCanstitution ? (
-                                <i className='fa fa-star theme-text' />
-                              ) : (
-                                <i className='fa fa-star-o' />
-                              )}
-                            </td>
+
                             <td
                               className='v-col custom-appointment-col text-center'
                               onClick={e =>
@@ -614,6 +632,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             >
                               <i className='fa fa-arrow-down' />
                             </td>
+
                             {/* map */}
                             {daysArr.map((key: any, i: number) => {
                               return (
@@ -669,43 +688,48 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     return (
                       <tr key={`${dept.id}-${index}`}>
                         <th className='name-col custom-appointment-col thead-sticky'>
-                          <div
-                            className='text-capitalize view-more-link one-line-text'
-                            // onClick={() =>
-                            //   handleSelectedUser(list, null, 'caregiver')
-                            // }
-                          >
-                            {!dept.newRow ? (dept.name ? dept.name : '') : ''}
+                          <div className='all-star-wrap'>
+                            <div
+                              className='text-capitalize view-more-link one-line-text'
+                              // onClick={() =>
+                              //   handleSelectedUser(list, null, 'caregiver')
+                              // }
+                            >
+                              {!dept.newRow ? (dept.name ? dept.name : '') : ''}
+                            </div>
+                            <div className='h-col custom-appointment-col text-center'></div>
+                            <div
+                              className='s-col custom-appointment-col text-center'
+                              onClick={() => handleFirstStarCanstitution(null)}
+                            >
+                              {starCanstitution.setIndex === index ||
+                              starCanstitution.isStar ? (
+                                <i className='fa fa-star theme-text' />
+                              ) : (
+                                <i className='fa fa-star-o' />
+                              )}
+                            </div>
+                            <div
+                              className='u-col custom-appointment-col text-center'
+                              onClick={() =>
+                                onhandleSecondStarCanstitution(dept)
+                              }
+                            >
+                              {secondStarCanstitution ? (
+                                <i className='fa fa-star theme-text' />
+                              ) : (
+                                <i className='fa fa-star-o' />
+                              )}
+                            </div>
+                            <div
+                              className='v-col custom-appointment-col text-center'
+                              onClick={e => onAddingRow(e, 'caregiver', index)}
+                            >
+                              <i className='fa fa-arrow-down' />
+                            </div>
                           </div>
                         </th>
-                        <td className='h-col custom-appointment-col text-center'></td>
-                        <td
-                          className='s-col custom-appointment-col text-center'
-                          onClick={() => handleFirstStarCanstitution(null)}
-                        >
-                          {starCanstitution.setIndex === index ||
-                          starCanstitution.isStar ? (
-                            <i className='fa fa-star theme-text' />
-                          ) : (
-                            <i className='fa fa-star-o' />
-                          )}
-                        </td>
-                        <td
-                          className='u-col custom-appointment-col text-center'
-                          onClick={() => onhandleSecondStarCanstitution(dept)}
-                        >
-                          {secondStarCanstitution ? (
-                            <i className='fa fa-star theme-text' />
-                          ) : (
-                            <i className='fa fa-star-o' />
-                          )}
-                        </td>
-                        <td
-                          className='v-col custom-appointment-col text-center'
-                          onClick={e => onAddingRow(e, 'caregiver', index)}
-                        >
-                          <i className='fa fa-arrow-down' />
-                        </td>
+
                         {daysArr.map((key: any, i: number) => {
                           return (
                             <CellCareinstitution
@@ -752,11 +776,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               )}
             </tbody>
           </Table>
-        </div>
-      </SelectableGroup>
+        </SelectableGroup>
+      </div>
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() => handleCareInstitutionBulkEmail()}
+        qualification={props.qualification}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        gte={props.gte}
+        lte={props.lte}
       />
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}

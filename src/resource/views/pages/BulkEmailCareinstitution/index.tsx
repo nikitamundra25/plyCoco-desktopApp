@@ -17,7 +17,10 @@ import {
   AppointmentsQueries
 } from '../../../../graphql/queries';
 import {
-  IEmailAttachmentData, IReactSelectInterface, IEmailTemplateData, INewEmailAttachments
+  IEmailAttachmentData,
+  IReactSelectInterface,
+  IEmailTemplateData,
+  INewEmailAttachments
 } from '../../../../interfaces';
 import { CareInstitutionListComponent } from './CareInstitutionListComponent';
 import filter from '../../../assets/img/filter.svg';
@@ -41,7 +44,6 @@ const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 let toastId: any = null;
 
 const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
-
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const history = useHistory();
 
@@ -51,7 +53,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     userData = client.readQuery({
       query: VIEW_PROFILE
     });
-  } catch (error) { }
+  } catch (error) {}
 
   const { viewAdminProfile }: any = userData ? userData : {};
   const { firstName = '', lastName = '', id = '' } = viewAdminProfile
@@ -59,14 +61,23 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     : {};
 
   // To fetch caregivers by qualification id
-  const [fetchCaregiverListFromQualification, { data: careInstitutionsList, called: careGiverListCalled, loading: caregiverLoading, refetch: caregiverQulliRefetch, fetchMore: caregiverListFetch }] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
+  const [
+    fetchCaregiverListFromQualification,
+    {
+      data: careInstitutionsList,
+      called: careGiverListCalled,
+      loading: caregiverLoading,
+      refetch: caregiverQulliRefetch,
+      fetchMore: caregiverListFetch
+    }
+  ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache'
   });
 
-  // To get caregiver list from db
+  // To get careinstitution list from db
   const [
     getCareInstitutions,
-    { data: careInstitutionList, called, loading, refetch, fetchMore }
+    { data: careInstitutionListData, called, loading, refetch, fetchMore }
   ] = useLazyQuery<any, any>(GET_CARE_INSTITUTION_LIST, {
     fetchPolicy: 'no-cache'
   });
@@ -117,7 +128,10 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     if (props.label === 'appointment') {
       let userId: any = [];
-      if (props.selectedCellsCareinstitution && props.selectedCellsCareinstitution.length > 0) {
+      if (
+        props.selectedCellsCareinstitution &&
+        props.selectedCellsCareinstitution.length > 0
+      ) {
         for (let i = 0; i < props.selectedCellsCareinstitution.length; i++) {
           let value = props.selectedCellsCareinstitution[i];
           userId.push(parseInt(value.id));
@@ -145,10 +159,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   }, [props.qualification]);
 
-
   useEffect(() => {
-    // Fetch list of caregivers
-    console.log('Helooo');
+    // Fetch list of care instituion
     if (props.label !== 'appointment') {
       getCareInstitutions({
         variables: {
@@ -162,13 +174,19 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   }, []);
 
-
   useEffect(() => {
-    if (careInstitutionList) {
-      const { getCareInstitutions } = careInstitutionList;
-      setCareInstitution(getCareInstitutions);
+    const getUserByQualifications =
+      careInstitutionsList && careInstitutionsList.getUserByQualifications
+        ? careInstitutionsList.getUserByQualifications
+        : {};
+    if (getUserByQualifications) {
+      const { result, totalCount } = getUserByQualifications;
+      setCareInstitution({
+        totalCount,
+        careInstitutionData: result
+      });
     }
-  }, [careInstitutionList]);
+  }, [careInstitutionsList]);
 
   // Refresh component
   const onRefresh = () => {
@@ -210,13 +228,13 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
               setAttachments(
                 attachments
                   ? attachments.map(
-                    ({ name, id, path, size }: INewEmailAttachments) => ({
-                      fileName: name,
-                      id,
-                      path,
-                      size
-                    })
-                  )
+                      ({ name, id, path, size }: INewEmailAttachments) => ({
+                        fileName: name,
+                        id,
+                        path,
+                        size
+                      })
+                    )
                   : []
               );
 
@@ -272,7 +290,10 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         selectedCareGiver.splice(selectedCareGiver.indexOf(parseInt(id)), 1);
         setselectedCareGiver([...selectedCareGiver]);
       }
-      if (careInstitutions && careInstitutions.length === selectedCareGiver.length) {
+      if (
+        careInstitutions &&
+        careInstitutions.length === selectedCareGiver.length
+      ) {
         setBulkCareGivers(true);
       } else {
         setBulkCareGivers(false);
@@ -327,8 +348,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             files:
               attachments && attachments.length
                 ? attachments
-                  .map((item: IEmailAttachmentData) => item.file)
-                  .filter((file: File | null) => file)
+                    .map((item: IEmailAttachmentData) => item.file)
+                    .filter((file: File | null) => file)
                 : null,
             caregiver: careGiverIdList,
             senderUserId: id ? parseInt(id) : null
@@ -397,13 +418,13 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       setAttachments(
         attachments
           ? attachments.map(
-            ({ name, id, path, size }: INewEmailAttachments) => ({
-              fileName: name,
-              id,
-              path,
-              size
-            })
-          )
+              ({ name, id, path, size }: INewEmailAttachments) => ({
+                fileName: name,
+                id,
+                path,
+                size
+              })
+            )
           : []
       );
     }
@@ -466,11 +487,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   {bulkEmailLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
-                      <i
-                        className='fa fa-paper-plane mr-2'
-                        aria-hidden='true'
-                      ></i>
-                    )}
+                    <i
+                      className='fa fa-paper-plane mr-2'
+                      aria-hidden='true'
+                    ></i>
+                  )}
                   <span>{languageTranslation('SEND')}</span>
                 </Button>
               </div>

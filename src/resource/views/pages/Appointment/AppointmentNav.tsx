@@ -219,6 +219,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className='user-select mx-1'>
+            {console.log('careInstitutionList', careInstitutionList)}
             <Select
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect custom-reactselect-menu-width'}

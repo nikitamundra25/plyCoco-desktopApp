@@ -290,7 +290,15 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // Mutation to linkRequirement
   const [linkRequirement, {}] = useMutation<{ appointmentInput: any }>(
-    LINK_REQUIREMENT
+    LINK_REQUIREMENT,
+    {
+      onCompleted() {
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(languageTranslation('LINKED_APPOINTMENTS'));
+        }
+        fetchData();
+      }
+    }
   );
 
   // Mutation to unLink Requirement
@@ -905,6 +913,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
   }
+
   // Options to show department data
   const careInstitutionDepartment: IReactSelectInterface[] | undefined = [];
   if (departmentList && departmentList.getDivision.length) {

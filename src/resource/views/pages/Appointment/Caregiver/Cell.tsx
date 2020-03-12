@@ -1,27 +1,18 @@
 import React from 'react';
 import { createSelectable } from 'react-selectable-fast';
 import classnames from 'classnames';
-import moment from 'moment';
-const Cell = ({
-  selectableRef,
-  isSelected,
-  isSelecting,
-  day,
-  list,
-  item,
-  key,
-  handleSelectedAvailability
-}: any) => {
-  // Filter current date data
-  const temp = item.filter((avabilityData: any, index: number) => {
-    return (
-      moment(day.isoString).format('DD.MM.YYYY') ===
-      moment(avabilityData.date).format('DD.MM.YYYY')
-    );
-  })[0];
+
+const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
+  // // Filter current date data
+  // const temp = item.filter((avabilityData: any) => {
+  //   return (
+  //     moment(day.isoString).format('DD.MM.YYYY') ===
+  //     moment(avabilityData.date).format('DD.MM.YYYY')
+  //   );
+  // })[0];
   let isBlocked: boolean = false;
-  if (temp) {
-    isBlocked = temp.f === 'block' || temp.s === 'block' || temp.n === 'block';
+  if (item) {
+    isBlocked = item.f === 'block' || item.s === 'block' || item.n === 'block';
   }
   return (
     <>
@@ -34,16 +25,16 @@ const Cell = ({
           'cursor-pointer': true,
           'selected-cell': isSelected,
           'selecting-cell': isSelecting,
-          'cell-block': temp ? (isBlocked ? true : false) : false,
+          'cell-block': item ? (isBlocked ? true : false) : false,
           'cell-available': !isSelected
-            ? temp
-              ? temp.f === 'available' ||
-                temp.s === 'available' ||
-                temp.n === 'available'
+            ? item
+              ? item.f === 'available' ||
+                item.s === 'available' ||
+                item.n === 'available'
                 ? true
                 : false
               : false
-            : false
+            : false,
         })}
         ref={selectableRef}
       >
@@ -61,14 +52,14 @@ const Cell = ({
             },
           )
         : null} */}
-        {temp ? (
+        {item ? (
           isBlocked ? (
             <i className='fa fa-ban'></i>
           ) : (
             <>
-              {temp.f === 'available' ? 'f' : null}
-              {temp.s === 'available' ? 's' : null}
-              {temp.n === 'available' ? 'n' : null}
+              {item.f === 'available' ? 'f' : null}
+              {item.s === 'available' ? 's' : null}
+              {item.n === 'available' ? 'n' : null}
             </>
           )
         ) : null}

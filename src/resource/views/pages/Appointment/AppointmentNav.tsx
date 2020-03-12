@@ -1,15 +1,20 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Input } from 'reactstrap';
+import {
+  ButtonDropdown,
+  Input,
+  DropdownToggle,
+  DropdownItem,
+  DropdownMenu
+} from 'reactstrap';
 import Select from 'react-select';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { languageTranslation } from '../../../../helpers';
-import { Without_Appointments, filterUserById } from '../../../../config';
+import { Without_Appointments } from '../../../../config';
 import { IAppointmentNav, IReactSelectInterface } from '../../../../interfaces';
 import AttributeFilter from './AttributeFilter';
 import right_arrow from '../../../assets/img/rightarrow.svg';
 import left_arrow from '../../../assets/img/leftarrow.svg';
-import refresh from '../../../assets/img/refresh.svg';
 import filter from '../../../assets/img/filter.svg';
 import caregiver from '../../../assets/img/caregiver.svg';
 import careinstitution from '../../../assets/img/careinstitution.svg';
@@ -34,7 +39,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     careGiversListArr,
     careInstitutionListArr,
     applyFilter,
-    handleSelectAppointment
+    handleSelectAppointment,
+    onFilterByUserId,
+    handleResetFilters,
+    filterByAppointments
   } = props;
 
   const { month = '', year = '' } = daysData ? daysData : {};
@@ -42,20 +50,24 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   const [attributeSearch, setShowAttribute] = useState<boolean>(false);
   const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
   const [user, setuser] = useState<string>('');
+  const [userId, setuserId] = useState<string>('');
+  const [dropdownOpen, setOpen] = useState<boolean>(false);
+
+  const toggle = () => setOpen(!dropdownOpen);
 
   const handleUserList = (
     selectedOption: IReactSelectInterface,
     name: string
   ) => {
-    let data: any =
-      name === 'caregiver' ? careGiversListArr : careInstitutionListArr;
+    const { result: caregiverArr } = careGiversListArr;
+    const { result: careinstitutionArr } = careInstitutionListArr;
+
+    let data: any = name === 'caregiver' ? caregiverArr : careinstitutionArr;
     if (selectedOption && selectedOption.value) {
       if (name === 'caregiver') {
-        data = careGiversListArr.filter(
-          (x: any) => x.id === selectedOption.value
-        );
+        data = caregiverArr.filter((x: any) => x.id === selectedOption.value);
       } else {
-        data = careInstitutionListArr.filter(
+        data = careinstitutionArr.filter(
           (x: any) => x.id === selectedOption.value
         );
       }
@@ -63,10 +75,26 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     handleSelectUserList(data, name);
   };
 
-  const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    if (selectOption && selectOption.value && name === 'user') {
-      setuser(selectOption.value);
+  const handleSelect = (e: any, name: string) => {
+    if (name === 'dropdown') {
+      setuser(e.target.value);
     } else {
+      setuserId(e.target.value);
+    }
+  };
+
+  const handleKeyPress = (e: any) => {
+    if (e.which === 13 || e.keyCode === 13) {
+      handleBlur();
+    } else {
+      return;
+    }
+  };
+
+  const handleBlur = () => {
+    if (userId) {
+      let userRole = user ? user : 'caregiver';
+      onFilterByUserId(userId, userRole);
     }
   };
 
@@ -74,14 +102,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     <>
       <div className='sticky-common-header'>
         <div className='common-topheader d-flex align-items-center px-2 mb-1'>
-          <div className='header-nav-item'>
-            <span className='header-nav-icon'>
-              <img src={refresh} alt='' />
-            </span>
-            <span className='header-nav-text'>
-              {languageTranslation('REFRESH')}
-            </span>
-          </div>
           <div
             className='common-label px-1 cursor-pointer'
             onClick={handleToday}
@@ -118,6 +138,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               placeholder='Select'
               options={Without_Appointments}
               isClearable={true}
+              value={
+                filterByAppointments
+                  ? filterByAppointments
+                  : { label: 'Select', value: 'Select' }
+              }
               onChange={(value: any) =>
                 handleSelectAppointment(value, 'appointments')
               }
@@ -205,20 +230,46 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               isClearable={true}
             />
           </div>
+          <div className='header-nav-item pt-1' onClick={handleResetFilters}>
+            <span className='header-nav-icon'>
+              <i className='fa fa-refresh '></i>
+            </span>
+            <span className='header-nav-text'>
+              {languageTranslation('RESET_LABEL')}
+            </span>
+          </div>
           <div className='common-header-input pr-1'>
-            <div className='user-select mx-1'>
-              <Select
+            {/* <Select
                 classNamePrefix='custom-inner-reactselect'
                 className={'custom-reactselect '}
                 placeholder='Select User'
-                options={filterUserById}
                 isClearable={true}
                 // value={user ? user : ''}
                 onChange={(value: any) => handleSelect(value, 'user')}
+              /> */}
+
+            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+              <Input
+                placeholder={user ? user : 'select user'}
+                type='text'
+                name='id'
+                value={userId}
+                onChange={(e: any) => handleSelect(e, 'text')}
+                // onBlur={(e: any) => handleBlur()}
+                onKeyPress={(e: any) => handleKeyPress(e)}
               />
-            </div>
-            {/* <Input placeholder={''} type='input' name='text' /> */}
+              <DropdownToggle caret color='primary' />
+              <DropdownMenu onClick={(e: any) => handleSelect(e, 'dropdown')}>
+                <DropdownItem value='caregiver'>
+                  {languageTranslation('CAREGIVER_USERROLE')}
+                </DropdownItem>
+                <DropdownItem value='canstitution'>
+                  {languageTranslation('CAREINST_USERROLE')}
+                </DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
           </div>
+          {/* <Input placeholder={''} type='input' name='text' /> */}
         </div>
       </div>
       <AttributeFilter

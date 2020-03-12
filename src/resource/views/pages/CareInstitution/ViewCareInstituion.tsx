@@ -157,8 +157,6 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
         ? canstitution
         : {};
       attributes = attributes ? attributes : [];
-      console.log('attributes in view', attributes);
-      console.log('data in view', data);
 
       CareInstitutionList.push({
         label: `${data.lastName}${' '}${data.firstName}`,
@@ -267,8 +265,6 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       },
     });
   };
-  console.log('neContactAdded', newContactAdded);
-
   return (
     <div>
       <div className='common-detail-page'>

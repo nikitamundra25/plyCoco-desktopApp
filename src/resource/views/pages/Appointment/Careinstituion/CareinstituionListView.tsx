@@ -1,26 +1,19 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-  Table,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-  Nav,
-  NavItem,
-  NavLink
-} from 'reactstrap';
+import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
-  IDaysArray
+  IDaysArray,
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 import moment from 'moment';
 import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
-import { dbAcceptableFormat } from '../../../../../config';
+import {
+  dbAcceptableFormat,
+  appointmentDateFormat,
+} from '../../../../../config';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import all_list from '../../../../assets/img/dropdown/all_list.svg';
 import delete_appointment from '../../../../assets/img/dropdown/delete.svg';
@@ -35,7 +28,11 @@ import invoice from '../../../../assets/img/dropdown/invoice.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 import classnames from 'classnames';
 import { languageTranslation } from '../../../../../helpers';
+import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
+import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
+import { toast } from 'react-toastify';
 
+let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   any> = (props: IAppointmentCareInstitutionList & any) => {
   const {
@@ -43,15 +40,22 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     careInstitutionList,
     loading,
     onAddingRow,
+    qualificationList,
     handleSelectedUser,
-    handleSecondStar,
-    handleReset,
     handleFirstStarCanstitution,
     careInstituionDeptData,
     starCanstitution,
     deptLoading,
     onhandleSecondStarCanstitution,
-    secondStarCanstitution
+    secondStarCanstitution,
+    selectedCareGiver,
+    selectedCareinstitution,
+    activeDateCaregiver,
+    activeDateCareinstitution,
+    handleSelection,
+    selectedCellsCareinstitution,
+    selectedCells,
+    onLinkAppointment,
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -80,6 +84,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
 
   const handleRightMenuToggle = () => {
+    // alert("zdfsadfsa");
     settoggleMenuButton(!toggleMenuButton);
   };
   const { daysArr = [] } = daysData ? daysData : {};
@@ -109,10 +114,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     let list: any = [];
     for (let i = 0; i < selectedCells.length; i++) {
       const { props: cellProps } = selectedCells[i];
-      const { item } = cellProps;
+      const { item, list: careinstitutionData } = cellProps;
       selected.push({
         dateString: cellProps.day ? cellProps.day.dateString : '',
-        item
+        item,
+        list: careinstitutionData,
       });
 
       if (selectedCells[0].props.list) {
@@ -121,6 +127,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       setSelectedDays(selected);
     }
     let selctedAvailability: any;
+    let selectedRows: any[] = [];
     if (
       list &&
       list.careinstitution_requirements &&
@@ -128,15 +135,23 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     ) {
       if (selected && selected.length) {
         for (let index = 0; index < selected.length; index++) {
-          const { dateString, item } = selected[index];
-          let temp = item.filter(
-            (avabilityData: any, index: number) =>
-              moment(avabilityData.date).format('DD.MM.YYYY') ===
-              moment(dateString).format('DD.MM.YYYY')
-          );
-          selctedAvailability = temp && temp.length ? temp : {};
+          const { dateString, item, list } = selected[index];
+          // let temp = item.filter(
+          //   (avabilityData: any, index: number) =>
+          //     moment(avabilityData.date).format('DD.MM.YYYY') ===
+          //     moment(dateString).format('DD.MM.YYYY')
+          // );
+
+          selctedAvailability = item;
+          selectedRows.push({
+            id: list.id,
+            qualificationIds: list.qualificationId,
+            item,
+            dateString,
+          });
         }
       }
+
       // selctedAvailability = list.careinstitution_requirements.filter(
       //   (avabilityData: any, index: number) => {
       //     return (
@@ -150,22 +165,309 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       // );
     }
 
+    handleSelection(selectedRows, 'careinstitution');
     handleSelectedUser(
       list,
       selected,
       'careinstitution',
-      selctedAvailability && selctedAvailability.length
-        ? selctedAvailability[0]
-        : {}
+      selctedAvailability ? selctedAvailability : {},
     );
   };
 
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
+
+  // Link appointments
+  const handleLinkAppointments = (name: string) => {
+    let selectedData: any = [],
+      checkError: boolean = false;
+    if (
+      selectedCellsCareinstitution &&
+      selectedCellsCareinstitution.length &&
+      selectedCells &&
+      selectedCells.length
+    ) {
+      if (selectedCellsCareinstitution.length !== selectedCells.length) {
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error('Please select same length cells');
+        }
+      } else {
+        selectedCells.map((key: any, index: number) => {
+          const element = selectedCellsCareinstitution[index];
+          if (
+            moment(key.dateString).format(dbAcceptableFormat) !==
+            moment(element.dateString).format(dbAcceptableFormat)
+          ) {
+            checkError = true;
+            if (!toast.isActive(toastId)) {
+              toastId = toast.error(
+                'Date range between appointments & requirement mismatch.',
+              );
+            }
+            return false;
+          } else if (key.item === undefined || element.item === undefined) {
+            checkError = true;
+            if (!toast.isActive(toastId)) {
+              toastId = toast.error(
+                'Create requirement or appointment first for all selected cells.',
+              );
+            }
+            return false;
+          } else {
+            if (!checkError) {
+              if (name === 'link') {
+                selectedData.push({
+                  avabilityId: parseInt(key.item.id),
+                  requirementId: parseInt(element.item.id),
+                  date: moment(element.dateString).format(dbAcceptableFormat),
+                  status: 'appointment',
+                });
+              } else {
+                selectedData.push({
+                  avabilityId: parseInt(key.item.id),
+                  requirementId: parseInt(element.item.id),
+                  status: 'unlinked',
+                });
+              }
+            }
+          }
+        });
+        if (!checkError) {
+          onLinkAppointment(selectedData, name);
+        }
+      }
+    }
+  };
+
   const [showList, setShowList] = useState<boolean>(false);
+
+  // state for care giver bulk email
+  const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
+    false,
+  );
+
+  // state for care institution bulk email
+  const [
+    openCareInstitutionBulkEmail,
+    setopenCareInstitutionBulkEmail,
+  ] = useState<boolean>(false);
+
+  // lable for care institution
+  const [sortBy, setSortBy] = useState<string>('');
+
+  // show button for care institution
+  const [showButton, setShowButton] = useState<boolean>(false);
+
+  // Open care giver bulk Email section
+  const handleCareGiverBulkEmail = (sortBy: string, showButton: boolean) => {
+    setSortBy(sortBy);
+    setShowButton(showButton);
+    setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+  };
+
+  // open care institution bulk Email section
+  const handleCareInstitutionBulkEmail = () => {
+    setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+  };
+
   return (
     <>
+      <div
+        className={classnames({
+          'right-manu-close': true,
+          'd-none': !toggleMenuButton,
+        })}
+        onClick={() => handleRightMenuToggle()}
+      ></div>
+      <div
+        className={classnames({
+          'rightclick-menu': true,
+          'custom-scrollbar': true,
+          'd-none': !toggleMenuButton,
+        })}
+        id={'clickbox'}
+      >
+        <div
+          onMouseOver={() => {
+            setonEnterMenu(true);
+          }}
+        >
+          <Nav vertical>
+            <NavItem>
+              <NavLink>
+                <img src={new_appointment} className='mr-2' alt='' />
+                <span>New appointment</span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={delete_appointment} className='mr-2' alt='' />
+                <span>Delete free appointments</span>
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink>
+                <img src={all_list} className='mr-2' alt='' />
+                <span>Select all appointments of the caregiver</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink onClick={() => setShowList(true)}>
+                <img src={detail_list} className='mr-2' alt='' />
+                <span>Detailed List</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
+                onClick={() => {
+                  handleCareGiverBulkEmail('division', true);
+                  handleCareInstitutionBulkEmail();
+                }}
+              >
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (sorted by division)
+                </span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
+                onClick={() => handleCareGiverBulkEmail('day', true)}
+              >
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (sorted by day)
+                </span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
+                onClick={() => handleCareGiverBulkEmail('division', false)}
+              >
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (no direct booking; sorted by division)
+                </span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
+                onClick={() => handleCareGiverBulkEmail('day', false)}
+              >
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>
+                  Select available caregivers, offer them appointments and set
+                  them on offered (no direct booking; sorted by day)
+                </span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={set_confirm} className='mr-2' alt='' />
+                <span>Set on offered</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={unset_confirm} className='mr-2' alt='' />
+                <span>Reset offered</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink onClick={() => handleLinkAppointments('link')}>
+                <img src={connect} className='mr-2' alt='' />
+                <span>Link appointments</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink onClick={() => handleLinkAppointments('unlink')}>
+                <img src={disconnect} className='mr-2' alt='' />
+                <span>Unlink appointments</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>Offer caregivers (ordered by day)</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={offer_sent} className='mr-2' alt='' />
+                <span>Offer appointments (ordered by department)</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={confirm_appointment} className='mr-2' alt='' />
+                <span>Confirm appointments (ordered by day) </span>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={confirm_appointment} className='mr-2' alt='' />
+                <span>Confirm appointments (ordered by department)</span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={set_confirm} className='mr-2' alt='' />
+                <span>Set on confirmed </span>
+              </NavLink>{' '}
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <img src={unset_confirm} className='mr-2' alt='' />
+                <span>Reset confirmed</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={invoice} className='mr-2' alt='' />
+                <span>Create prepayment invoice</span>
+              </NavLink>
+            </NavItem>
+            <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={refresh} className='mr-2' alt='' />
+                <span>Refresh </span>
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </div>
+      </div>
       <SelectableGroup
         allowClickWithoutSelected
         className='custom-row-selector'
@@ -175,165 +477,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         onSelectionClear={onSelectionClear}
         ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
       >
-        <div
-          className={classnames({
-            'rightclick-menu': true,
-            'custom-scrollbar': true,
-            'd-none': !toggleMenuButton
-          })}
-          id={'clickbox'}
-        >
-          <div
-            onMouseOver={() => {
-              console.log('Mouse hover', onEnterMenu);
-              setonEnterMenu(true);
-            }}
-          >
-            <Nav vertical>
-              <NavItem>
-                <NavLink>
-                  <img src={new_appointment} className='mr-2' alt='' />
-                  <span>New appointment</span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={delete_appointment} className='mr-2' alt='' />
-                  <span>Delete free appointments</span>
-                </NavLink>
-              </NavItem>
-
-              <NavItem>
-                <NavLink>
-                  <img src={all_list} className='mr-2' alt='' />
-                  <span>Select all appointments of the caregiver</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink onClick={() => setShowList(true)}>
-                  <img src={detail_list} className='mr-2' alt='' />
-                  <span>Detailed List</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (sorted by division)
-                  </span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (sorted by day)
-                  </span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (no direct booking; sorted by division)
-                  </span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>
-                    Select available caregivers, offer them appointments and set
-                    them on offered (no direct booking; sorted by day)
-                  </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={set_confirm} className='mr-2' alt='' />
-                  <span>Set on offered</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={unset_confirm} className='mr-2' alt='' />
-                  <span>Reset offered</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={connect} className='mr-2' alt='' />
-                  <span>Link appointments</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={disconnect} className='mr-2' alt='' />
-                  <span>Unlink appointments</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>Offer caregivers (ordered by day)</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={offer_sent} className='mr-2' alt='' />
-                  <span>Offer appointments (ordered by department)</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={confirm_appointment} className='mr-2' alt='' />
-                  <span>Confirm appointments (ordered by day) </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={confirm_appointment} className='mr-2' alt='' />
-                  <span>Confirm appointments (ordered by department)</span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={set_confirm} className='mr-2' alt='' />
-                  <span>Set on confirmed </span>
-                </NavLink>{' '}
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <img src={unset_confirm} className='mr-2' alt='' />
-                  <span>Reset confirmed</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={invoice} className='mr-2' alt='' />
-                  <span>Create prepayment invoice</span>
-                </NavLink>
-              </NavItem>
-              <NavItem className='bordernav' />
-              <NavItem>
-                <NavLink>
-                  <img src={refresh} className='mr-2' alt='' />
-                  <span>Refresh </span>
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </div>
-        </div>
-
         <div className='calender-section custom-scrollbar  mt-3'>
           <Table hover bordered className='mb-0 appointment-table'>
             <thead className='thead-bg'>
@@ -347,91 +490,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     >
                       <i className='icon-options-vertical' />
                     </Button>
-                    {/* <UncontrolledDropdown className='custom-dropdown options-dropdown'>
-                      <DropdownToggle
-                        className={'text-capitalize btn-more'}
-                        size='sm'
-                      >
-                        <i className='icon-options-vertical' />
-                      </DropdownToggle>
-                      <DropdownMenu right>
-                        <DropdownItem>
-                          <span>New appointment</span>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <span>Delete free appointments</span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>Select all appointments of the caregiver</span>
-                        </DropdownItem>{' '}
-                        <DropdownItem onClick={() => setShowList(true)}>
-                          <span>Detailed List</span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>
-                            Select available caregivers, offer them appointments
-                            and set them on offered (sorted by division)
-                          </span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>
-                            Select available caregivers, offer them appointments
-                            and set them on offered (sorted by day)
-                          </span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>
-                            Select available caregivers, offer them appointments
-                            and set them on offered (no direct booking; sorted
-                            by division)
-                          </span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>
-                            Select available caregivers, offer them appointments
-                            and set them on offered (no direct booking; sorted
-                            by day)
-                          </span>
-                        </DropdownItem>
-                        <DropdownItem>
-                          <span>Set on offered</span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>Link appointments</span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>Unlink appointments</span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>Offer caregivers (ordered by day)</span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>
-                            Offer appointments (ordered by department)
-                          </span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>Confirm appointments (ordered by day) </span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>
-                            Confirm appointments (ordered by department){' '}
-                          </span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>Set on confirmed </span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>Reset confirmed</span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>Create prepayment invoice</span>
-                        </DropdownItem>{' '}
-                        <DropdownItem>
-                          <span>Refresh </span>
-                        </DropdownItem>{' '}
-                      </DropdownMenu>
-                    </UncontrolledDropdown> */}
                   </div>
                 </th>
                 <th className='thead-sticky h-col custom-appointment-col text-center'>
@@ -449,13 +507,22 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 {/* array for showing day */}
                 {daysArr.map(
                   (
-                    { date, day, isoString, isWeekend }: IDaysArray,
-                    index: number
+                    { date, day, isWeekend, today }: IDaysArray,
+                    index: number,
                   ) => {
+                    const todaysDate = moment(today).format(
+                      appointmentDateFormat,
+                    );
                     return (
                       <th
-                        className='thead-sticky calender-col custom-appointment-col text-center'
                         key={index}
+                        className={`'thead-sticky calender-col custom-appointment-col text-center' ${
+                          date === todaysDate
+                            ? 'today'
+                            : '' || isWeekend
+                            ? 'weekend'
+                            : ''
+                        }`}
                       >
                         <div className='custom-appointment-calendar-date'>
                           {date}
@@ -465,7 +532,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         </div>
                       </th>
                     );
-                  }
+                  },
                 )}
               </tr>
             </thead>
@@ -543,7 +610,20 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                   key={`${key}-${i}`}
                                   day={key}
                                   list={list}
-                                  item={item}
+                                  item={
+                                    item
+                                      ? item.filter((avabilityData: any) => {
+                                          return (
+                                            moment(key.isoString).format(
+                                              'DD.MM.YYYY',
+                                            ) ===
+                                            moment(avabilityData.date).format(
+                                              'DD.MM.YYYY',
+                                            )
+                                          );
+                                        })[0]
+                                      : ''
+                                  }
                                   handleSelectedAvailability
                                 />
                               );
@@ -620,6 +700,20 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             <CellCareinstitution
                               key={`${key}-${i}`}
                               day={key}
+                              item={
+                                dept
+                                  ? dept.filter((avabilityData: any) => {
+                                      return (
+                                        moment(key.isoString).format(
+                                          'DD.MM.YYYY',
+                                        ) ===
+                                        moment(avabilityData.date).format(
+                                          'DD.MM.YYYY',
+                                        )
+                                      );
+                                    })[0]
+                                  : ''
+                              }
                               list={dept}
                               handleSelectedAvailability
                             />
@@ -638,7 +732,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                       </div>
                       <h4 className='mb-1'>
                         {languageTranslation(
-                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST'
+                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST',
                         )}
                       </h4>
                     </div>
@@ -649,10 +743,25 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           </Table>
         </div>
       </SelectableGroup>
-
+      <BulkEmailCareInstitutionModal
+        openModal={openCareInstitutionBulkEmail}
+        handleClose={() => handleCareInstitutionBulkEmail()}
+      />
+      <BulkEmailCareGiverModal
+        openModal={openCareGiverBulkEmail}
+        qualification={props.qualification}
+        handleClose={() => handleCareGiverBulkEmail('', false)}
+        gte={props.gte}
+        lte={props.lte}
+        sortBy={sortBy}
+        showButton={showButton}
+      />
       <DetaillistCareinstitutionPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
+        qualificationList={qualificationList}
+        activeDateCaregiver={activeDateCaregiver}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
       />
     </>
   );

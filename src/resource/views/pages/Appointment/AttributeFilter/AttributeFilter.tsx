@@ -119,7 +119,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                 <li
                                   className={`cursor-pointer list-item text-capitalize ${
                                     activePreset === item.id ? 'active' : ''
-                                  }`}
+                                  }`} key={index}
                                 >
                                   <div
                                     className='list-item-text one-line-text'

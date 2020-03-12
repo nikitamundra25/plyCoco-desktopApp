@@ -27,7 +27,7 @@ const PycModal: FunctionComponent<IPycModalProps> = ({
       <ModalHeader close={<PycCloseBtn handleClose={handleClose} />}>
         {headerText || "Modal Header"}
       </ModalHeader>
-      <ModalBody>{body || children}</ModalBody>
+      <ModalBody className="holiday-body-wrap">{body || children}</ModalBody>
       <ModalFooter>
         {footerButtons
           ? footerButtons.map(

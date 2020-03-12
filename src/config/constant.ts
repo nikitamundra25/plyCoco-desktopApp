@@ -214,8 +214,14 @@ export const DocumentTempSelect: IReactSelectInterface[] = [
   { value: 'Sick Note', label: 'Sick Note' }
 ];
 export const Gender: IReactSelectInterface[] = [
-  { value: 'Man', label: 'Male' },
-  { value: 'Woman', label: 'Female' }
+  {
+    value: languageTranslation('MAN'),
+    label: languageTranslation('MALE')
+  },
+  {
+    value: languageTranslation('WOMAN'),
+    label: languageTranslation('FEMALE')
+  }
 ];
 export const State: IReactSelectInterface[] = [
   { value: 'Sales', label: 'Sales' },
@@ -969,14 +975,14 @@ export const filterUserById: IReactSelectInterface[] = [
 
 export const Without_Appointments: IReactSelectInterface[] = [
   {
-    value: 'showWithAppointments',
-    label: languageTranslation('SHOW_APPOINTMENT')
+    value: 'Show with appointment',
+    label: languageTranslation('SHOW_APPOINTMENT'),
   },
   {
-    value: 'showWithoutAppointments',
-    label: languageTranslation('SHOW_WITHOUT_APPOINTMENT')
+    value: 'Show without appointment',
+    label: languageTranslation('SHOW_WITHOUT_APPOINTMENT'),
   },
-  { value: 'showAll', label: languageTranslation('SHOW_ALL') }
+  { value: 'Show All', label: languageTranslation('SHOW_ALL') },
 ];
 
 export const TodoStatus: IReactSelectInterface[] = [

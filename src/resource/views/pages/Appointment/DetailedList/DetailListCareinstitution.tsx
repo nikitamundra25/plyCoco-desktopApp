@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
-import Select from 'react-select';
-import logger from 'redux-logger';
+import React from 'react';
+import { Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
-import { State } from '../../../../../config';
 import close from '../../../../assets/img/cancel.svg';
-import closehover from '../../../../assets/img/cancel-hover.svg'
+import closehover from '../../../../assets/img/cancel-hover.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 
 const DetailListCareinstitution = (props: any) => {
-  const { show, handleClose } = props;
+  const {
+    show,
+    handleClose,
+    qualificationList,
+    selectedCellsCareinstitution,
+  } = props;
 
   const externalCloseBtn = (
     <button className='close modal-close' onClick={() => handleClose()}>
@@ -17,6 +19,7 @@ const DetailListCareinstitution = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
+
   return (
     <div>
       <Modal
@@ -31,7 +34,7 @@ const DetailListCareinstitution = (props: any) => {
         <ModalBody>
           <div className='common-detail-page'>
             <div className='common-detail-section'>
-              <div className='common-topheader d-flex align-items-center '>
+              <div className='common-topheader d-flex align-items-center'>
                 <div className='header-nav-item'>
                   <span className='header-nav-icon'>
                     <img src={refresh} alt='' />
@@ -40,16 +43,7 @@ const DetailListCareinstitution = (props: any) => {
                     {languageTranslation('REFRESH')}
                   </span>
                 </div>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={refresh} alt='' />
-                  </span>
-                  <span className='header-nav-text'>
-                    {languageTranslation('ALWAYS_IN_BACKGROUND')}
-                  </span>
-                </div>
               </div>
-
               <div className='common-content flex-grow-1 px-0 bg-white'>
                 <div className='table-minheight '>
                   <Table bordered hover responsive>
@@ -67,22 +61,58 @@ const DetailListCareinstitution = (props: any) => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td> 3143156</td>
-                        <td> Joh Doe</td>
-                        <td> Testwerk</td>
-                        <td>Station2</td>
-                        <td> Altenpfleger, Hauskrankenpflege</td>
-                        <td>Tue, 03.03.2020 06:00</td>
-                        <td>Tue, 03.03.2020 14:00</td>
-                        <td>
-                          <span className='checkbox-custom '>
-                            <input type='checkbox' id='checkAll' className='' />
-                            <label className=''> </label>
-                          </span>
-                        </td>
-                        <td></td>
-                      </tr>
+                      {selectedCellsCareinstitution ? (
+                        selectedCellsCareinstitution.map(
+                          (elem: any, index: number) => {
+                            return elem && elem.item ? (
+                              <tr key={index}>
+                                <td>{elem.id ? elem.id : null}</td>
+                                <td>-</td>
+                                <td>
+                                  {elem.item.name ? elem.item.name : null}
+                                </td>
+                                <td>Station</td>
+                                <td>
+                                  {elem.item.qualificationId &&
+                                  qualificationList
+                                    ? qualificationList
+                                        .filter((qualification: any) =>
+                                          elem.item.qualificationId.includes(
+                                            qualification.value,
+                                          ),
+                                        )
+                                        .map((q: any) => (
+                                          <span>{q.label + ' '}</span>
+                                        ))
+                                    : null}
+                                </td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>
+                                  <span className='checkbox-custom '>
+                                    <input
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
+                                      checked={
+                                        elem.item.isWorkingProof ? true : false
+                                      }
+                                    />
+                                    <label className=''> </label>
+                                  </span>
+                                </td>
+                                <td>
+                                  {elem.item.departmentOfferRemarks
+                                    ? elem.item.departmentOfferRemarks
+                                    : null}
+                                </td>
+                              </tr>
+                            ) : null;
+                          },
+                        )
+                      ) : (
+                        <p>No data found</p>
+                      )}
                     </tbody>
                   </Table>
                 </div>

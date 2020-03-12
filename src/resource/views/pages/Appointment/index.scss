@@ -18,12 +18,14 @@
       border-color: $theme_color;
     }
   }
-  .button-group-dropdown{
-  .btn{  line-height: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;}
+  .button-group-dropdown {
+    .btn {
+      line-height: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
   }
 }
 
@@ -42,7 +44,7 @@
   bottom: -35px;
   left: 30px;
   z-index: 11;
-  background: rgba(255, 255, 255, 0.80);
+  background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ddd;
   max-width: 400px;
   max-height: 500px;
@@ -119,24 +121,55 @@
       padding: 4px;
       vertical-align: middle;
       font-size: 12px;
+      .all-star-wrap{
+        display: flex;
+        height: 24px;
+        .one-line-text{
+          flex: 1 1 150px;
+          max-width: 150px;
+          border-right: 1px solid #dedede;
+          padding: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .h-col, .s-col, .u-col{
+          flex: 1 1 30px;
+          max-width: 30px;
+          border-right: 1px solid #dedede;
+          padding: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+       
+      
+      }
       .btn-more {
         position: absolute;
         right: -5px;
-        top: -5px;
+        top: 50%;
+        transform: translateY(-50%);
       }
       &.custom-appointment-col {
         width: 30px;
         min-width: 30px;
         max-width: 30px;
+        
         &.name-col {
-          width: 150px;
-          min-width: 150px;
-          min-width: 150px;
+          width: 240px;
+          min-width: 240px;
+          padding: 0px;
+          border-right: 0px;
+        }
+        &.v-col{
+          border-left: 0px;
         }
         &.h-col {
           width: 30px;
           min-width: 30px;
           max-width: 30px;
+        
         }
         &.calender-col {
           width: 40px;
@@ -148,12 +181,20 @@
         }
       }
     }
+    td {
+      &.custom-appointment-col {
+        background-color: #fff;
+      }
+    }
     th {
       &:first-child {
         left: 0px;
         position: sticky;
         background: $white;
         border-left: 0px;
+      }
+      .all-star-wrap{
+        height: 41px;
       }
     }
     thead {

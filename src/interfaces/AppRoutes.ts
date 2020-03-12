@@ -42,4 +42,5 @@ export interface IAppRoutes {
   GLOBAL_CALENDAR: string;
   BULK_EMAIL_CAREINSTITUTION: String;
   ALLINVOICES: string;
+  INVOICESOLONA: string;
 }

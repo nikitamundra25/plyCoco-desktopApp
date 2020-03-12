@@ -185,15 +185,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
 
   return (
     <>
-    <div 
-       className={classnames({
-        "right-manu-close": true,
-        "d-none": !openToggleMenu
-      })}
-    onClick={handleToggleMenuItem}
-    >
+      <div
+        className={classnames({
+          "right-manu-close": true,
+          "d-none": !openToggleMenu
+        })}
+        onClick={handleToggleMenuItem}
+      >
 
-    </div>
+      </div>
       <div
         className={classnames({
           'rightclick-menu top-open': true,
@@ -336,7 +336,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               <thead className='thead-bg'>
                 <tr>
                   <th className='thead-sticky name-col custom-appointment-col  '>
-                    <div className='position-relative'>
+                  <div className="all-star-wrap">
+                    <div className='position-relative one-line-text'>
                       Caregiver
                       <Button
                         onClick={() => handleToggleMenuItem()}
@@ -399,16 +400,19 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                       </DropdownMenu>
                     </UncontrolledDropdown> */}
                     </div>
-                  </th>
-                  <th className='thead-sticky h-col custom-appointment-col text-center'>
+                  
+                    <div className='thead-sticky h-col custom-appointment-col text-center'>
                     H
-                  </th>
-                  <th className='thead-sticky s-col custom-appointment-col text-center'>
+                  </div>
+                  <div className='thead-sticky s-col custom-appointment-col text-center'>
                     S
-                  </th>
-                  <th className='thead-sticky u-col custom-appointment-col text-center'>
+                  </div>
+                  <div className='thead-sticky u-col custom-appointment-col text-center'>
                     U
+                  </div>
+                  </div>
                   </th>
+                 
                   <th className='thead-sticky v-col custom-appointment-col text-center'>
                     V
                   </th>
@@ -447,23 +451,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                   careGiversList.map((list: any, index: number) => {
                     return list.availabilityData && list.availabilityData.length
                       ? list.availabilityData.map((item: any, row: number) => (
-                          <tr key={`${list.id}-${index}-${row}`}>
-                            <th className='name-col custom-appointment-col thead-sticky'>
-                              <div
-                                className='text-capitalize view-more-link one-line-text'
-                                // onClick={() =>
-                                //   handleSelectedUser(list, null, 'caregiver')
-                                // }
-                              >
-                                {row === 0
-                                  ? `${list.lastName ? list.lastName : ''} ${
-                                      list.firstName ? list.firstName : ''
-                                    }`
-                                  : ''}
-                              </div>
-                            </th>
-                            <td className='h-col custom-appointment-col text-center'></td>
-                            <td
+                        <tr key={`${list.id}-${index}-${row}`}>
+                          <th className='name-col custom-appointment-col thead-sticky'>
+                           <div className="all-star-wrap">
+                            <div
+                              className='text-capitalize view-more-link one-line-text'
+                            // onClick={() =>
+                            //   handleSelectedUser(list, null, 'caregiver')
+                            // }
+                            >
+                              {row === 0
+                                ? `${list.lastName ? list.lastName : ''} ${
+                                list.firstName ? list.firstName : ''
+                                }`
+                                : ''}
+                            </div>
+                            <div className='h-col custom-appointment-col text-center'></div>
+                            <div
                               className='s-col custom-appointment-col text-center'
                               onClick={() =>
                                 onhandleSecondStar(list, index, 'caregiver')
@@ -472,10 +476,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                               {starMark ? (
                                 <i className='fa fa-star theme-text' />
                               ) : (
-                                <i className='fa fa-star-o' />
-                              )}
-                            </td>
-                            <td
+                                  <i className='fa fa-star-o' />
+                                )}
+                            </div>
+                            <div
                               className='u-col custom-appointment-col text-center'
                               onClick={() =>
                                 onhandleSecondStar(list, index, 'caregiver')
@@ -484,54 +488,57 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                               {starMark ? (
                                 <i className='fa fa-star theme-text' />
                               ) : (
-                                <i className='fa fa-star-o' />
-                              )}
-                            </td>
-                            <td
-                              className='v-col custom-appointment-col text-center'
-                              onClick={e => onAddingRow(e, 'caregiver', index)}
-                            >
-                              <i className='fa fa-arrow-down' />
-                            </td>
-                            {daysArr.map((key: any, i: number) => {
-                              return (
-                                <Cell
-                                  key={`${key}-${i}`}
-                                  day={key}
-                                  list={list}
-                                  item={
-                                    item.filter((avabilityData: any) => {
-                                      return (
-                                        moment(key.isoString).format(
-                                          'DD.MM.YYYY',
-                                        ) ===
-                                        moment(avabilityData.date).format(
-                                          'DD.MM.YYYY',
-                                        )
-                                      );
-                                    })[0]
-                                  }
-                                />
-                              );
-                            })}
-                          </tr>
-                        ))
+                                  <i className='fa fa-star-o' />
+                                )}
+                            </div>
+                            </div>
+                          </th>
+
+                          <td
+                            className='v-col custom-appointment-col text-center'
+                            onClick={e => onAddingRow(e, 'caregiver', index)}
+                          >
+                            <i className='fa fa-arrow-down' />
+                          </td>
+                          {daysArr.map((key: any, i: number) => {
+                            return (
+                              <Cell
+                                key={`${key}-${i}`}
+                                day={key}
+                                list={list}
+                                item={
+                                  item.filter((avabilityData: any) => {
+                                    return (
+                                      moment(key.isoString).format(
+                                        'DD.MM.YYYY',
+                                      ) ===
+                                      moment(avabilityData.date).format(
+                                        'DD.MM.YYYY',
+                                      )
+                                    );
+                                  })[0]
+                                }
+                              />
+                            );
+                          })}
+                        </tr>
+                      ))
                       : null;
                   })
                 ) : (
-                  <tr className={'text-center no-hover-row'}>
-                    <td colSpan={40} className={'pt-5 pb-5'}>
-                      <div className='no-data-section'>
-                        <div className='no-data-icon'>
-                          <i className='icon-ban' />
-                        </div>
-                        <h4 className='mb-1'>
-                          Currently there are no CareGiver added.{' '}
-                        </h4>
-                      </div>
-                    </td>
-                  </tr>
-                )}
+                      <tr className={'text-center no-hover-row'}>
+                        <td colSpan={40} className={'pt-5 pb-5'}>
+                          <div className='no-data-section'>
+                            <div className='no-data-icon'>
+                              <i className='icon-ban' />
+                            </div>
+                            <h4 className='mb-1'>
+                              Currently there are no CareGiver added.{' '}
+                            </h4>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
               </tbody>
             </Table>
           </div>

@@ -59,6 +59,11 @@ const AllInvoices = React.lazy(() =>
     "../resource/views/pages/AllInvoices"
   )
 );
+const InvoiceSolona = React.lazy(() =>
+  import(
+    "../resource/views/pages/AllInvoices/InvoiceSolona"
+  )
+);
 
 const DocumentTemplateWorkingProof = React.lazy(() =>
   import("../resource/views/pages/DocumentTemplateManagement/index")
@@ -377,6 +382,12 @@ const routes = [
     path: AppRoutes.ALLINVOICES,
     name: "AllInvoices",
     component: AllInvoices,
+    exact: true
+  },
+  {
+    path: AppRoutes.INVOICESOLONA,
+    name: "InvoiceSolona",
+    component: InvoiceSolona,
     exact: true
   }
 ];

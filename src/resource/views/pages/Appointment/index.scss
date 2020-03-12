@@ -127,6 +127,9 @@
           .custom-appointment-calendar-date {
             text-transform: capitalize;
           }
+          &:hover{
+            background: #8c7fd8;
+          }
         }
       }
     }
@@ -297,6 +300,7 @@ body {
     margin: 0;
     .selected-cell {
       background-color: $selected_color;
+      color: #fff;
     }
     .cell-available {
       background-color: $available_color;

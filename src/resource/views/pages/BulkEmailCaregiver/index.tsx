@@ -328,8 +328,125 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (email_templates && email_templates.length) {
         email_templates.map((emailData: IEmailTemplateData & any) => {
           if (props.label === 'appointment') {
-            console.log('In temp opt', props.showButton);
-            if (emailData.menuEntry === 'Offers for care givers') {
+            if (props.showButton) {
+              if (
+                emailData.menuEntry ===
+                  'Offer by care institution sort by Division (with button)' &&
+                props.sortBy === 'division'
+              ) {
+                const { subject, body, attachments } = emailData;
+                const editorState = body ? HtmlToDraftConverter(body) : '';
+                setSubject(subject);
+                setBody(editorState);
+                setAttachments(
+                  attachments
+                    ? attachments.map(
+                        ({ name, id, path, size }: INewEmailAttachments) => ({
+                          fileName: name,
+                          id,
+                          path,
+                          size
+                        })
+                      )
+                    : []
+                );
+
+                setTemplate({
+                  label: emailData.menuEntry,
+                  value: emailData
+                });
+              }
+              if (
+                emailData.menuEntry ===
+                  'Offer By care institution Sort by Days (With Button)' &&
+                props.sortBy === 'day'
+              ) {
+                console.log('****************emailData', emailData);
+                const { subject, body, attachments } = emailData;
+                const editorState = body ? HtmlToDraftConverter(body) : '';
+                setSubject(subject);
+                setBody(editorState);
+                setAttachments(
+                  attachments
+                    ? attachments.map(
+                        ({ name, id, path, size }: INewEmailAttachments) => ({
+                          fileName: name,
+                          id,
+                          path,
+                          size
+                        })
+                      )
+                    : []
+                );
+
+                setTemplate({
+                  label: emailData.menuEntry,
+                  value: emailData
+                });
+              }
+            }
+            if (!props.showButton) {
+              if (
+                emailData.menuEntry ===
+                  'Offer by care institution sort by division (without button)' &&
+                props.sortBy === 'division'
+              ) {
+                const { subject, body, attachments } = emailData;
+                const editorState = body ? HtmlToDraftConverter(body) : '';
+                setSubject(subject);
+                setBody(editorState);
+                setAttachments(
+                  attachments
+                    ? attachments.map(
+                        ({ name, id, path, size }: INewEmailAttachments) => ({
+                          fileName: name,
+                          id,
+                          path,
+                          size
+                        })
+                      )
+                    : []
+                );
+
+                setTemplate({
+                  label: emailData.menuEntry,
+                  value: emailData
+                });
+              }
+              if (
+                emailData.menuEntry ===
+                  'offer by care institution sort by days (without button)' &&
+                props.sortBy === 'day'
+              ) {
+                console.log('****************emailData', emailData);
+                const { subject, body, attachments } = emailData;
+                const editorState = body ? HtmlToDraftConverter(body) : '';
+                setSubject(subject);
+                setBody(editorState);
+                setAttachments(
+                  attachments
+                    ? attachments.map(
+                        ({ name, id, path, size }: INewEmailAttachments) => ({
+                          fileName: name,
+                          id,
+                          path,
+                          size
+                        })
+                      )
+                    : []
+                );
+
+                setTemplate({
+                  label: emailData.menuEntry,
+                  value: emailData
+                });
+              }
+            }
+
+            if (
+              emailData.menuEntry === 'Offers for care givers' &&
+              !props.showButton
+            ) {
               const { subject, body, attachments } = emailData;
               const editorState = body ? HtmlToDraftConverter(body) : '';
               setSubject(subject);
@@ -518,7 +635,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             uniqueUser.push(element);
           }
         }
-       
+
         uniqueUser.map((careGiverId: number) => {
           careGiverIdList.push({ receiverUserId: careGiverId });
         });

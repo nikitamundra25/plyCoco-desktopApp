@@ -65,6 +65,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCellsCareinstitution,
     selectedCells,
     onLinkAppointment,
+    setOnConfirmedCaregiver,
+    setOnConfirmedCareInst,
+    setOnNotConfirmedCareInst,
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
@@ -184,6 +187,24 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   const onSelectionClear = () => {
     setSelectedDays([]);
+  };
+  const handleSetConfirmed = (name: string) => {
+    console.log('name', name);
+
+    console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
+    if (selectedCellsCareinstitution) {
+      selectedCellsCareinstitution.map((data: any) => {
+        console.log('data.iem', data && data.item && data.item.status);
+        if (
+          data &&
+          data.item &&
+          data.item.status &&
+          data.item.status === 'linked'
+        ) {
+          // set status offer
+        }
+      });
+    }
   };
 
   // Link appointments
@@ -472,13 +493,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={set_confirm} className='mr-2' alt='' />
-                <span>Set on confirmed </span>
-              </NavLink>{' '}
+                <span onClick={() => setOnConfirmedCareInst()}>
+                  Set on confirmed
+                </span>
+              </NavLink>
             </NavItem>
             <NavItem>
               <NavLink>
                 <img src={unset_confirm} className='mr-2' alt='' />
-                <span>Reset confirmed</span>
+                <span onClick={() => setOnNotConfirmedCareInst()}>
+                  Reset confirmed
+                </span>
               </NavLink>
             </NavItem>
             <NavItem className='bordernav' />
@@ -585,28 +610,26 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     return list.availabilityData && list.availabilityData.length
                       ? list.availabilityData.map((item: any, row: number) => (
                           <tr key={index}>
-                            <th
-                              className='thead-sticky name-col custom-appointment-col'
-                              style={{
-                                backgroundColor: !list.isActive
-                                  ? deactivatedListColor
-                                  : list.canstitution &&
-                                    list.canstitution.attributes
-                                  ? list.canstitution.attributes.includes(
-                                      CareInstTIMyoCYAttrId,
-                                    )
-                                    ? leasingListColor
-                                    : list.canstitution.attributes.includes(
-                                        CareInstPlycocoAttrId,
-                                      )
-                                    ? selfEmployesListColor
-                                    : ''
-                                  : '',
-                              }}
-                            >
+                            <th className='thead-sticky name-col custom-appointment-col'>
                               <div className='all-star-wrap'>
                                 <div
                                   className='text-capitalize view-more-link one-line-text'
+                                  style={{
+                                    backgroundColor: !list.isActive
+                                      ? deactivatedListColor
+                                      : list.canstitution &&
+                                        list.canstitution.attributes
+                                      ? list.canstitution.attributes.includes(
+                                          CareInstTIMyoCYAttrId,
+                                        )
+                                        ? leasingListColor
+                                        : list.canstitution.attributes.includes(
+                                            CareInstPlycocoAttrId,
+                                          )
+                                        ? selfEmployesListColor
+                                        : ''
+                                      : '',
+                                  }}
                                   onClick={() =>
                                     history.push(
                                       AppRoutes.CARE_INSTITUION_VIEW.replace(

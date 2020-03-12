@@ -1127,8 +1127,131 @@ const Appointment: FunctionComponent = (props: any) => {
     setvaluesForCareinstitution(data);
   }, [careInstituionShift]);
 
+  const setOnConfirmedCareInst = async () => {
+    console.log('selectedCells careinst', selectedCellsCareinstitution);
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      selectedCellsCareinstitution.forEach(async element => {
+        const { item } = element;
+        console.log('item inside careinst appointment', item);
+
+        if (item && item.id && item.status === 'linked') {
+          let availabilityId: number = item.id ? parseInt(item.id) : 0;
+          delete item.id;
+          delete item.__typename;
+          await updateCareinstitutionRequirment({
+            variables: {
+              id: availabilityId,
+              careInstitutionRequirementInput: {
+                ...item,
+                status: 'confirmed',
+              },
+            },
+          });
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG'),
+            );
+          }
+        }
+      });
+    }
+  };
+  const setOnNotConfirmedCareInst = async () => {
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      selectedCellsCareinstitution.forEach(async element => {
+        const { item } = element;
+        console.log('item inside caregiver appointment', item);
+
+        if (item && item.id && item.status === 'confirmed') {
+          let availabilityId: number = item.id ? parseInt(item.id) : 0;
+          delete item.id;
+          delete item.__typename;
+          await updateCareinstitutionRequirment({
+            variables: {
+              id: availabilityId,
+              careInstitutionRequirementInput: {
+                ...item,
+                status: 'linked',
+              },
+            },
+          });
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation('CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG'),
+            );
+          }
+        }
+      });
+    }
+  };
+  // set on offeres for careinstitution
+  const setOnConfirmedCaregiver = async () => {
+    console.log('inside caregiver');
+
+    if (selectedCells && selectedCells.length) {
+      selectedCells.forEach(async element => {
+        const { item } = element;
+        console.log('item inside caregiver', item);
+
+        if (item && item.id && item.status === 'linked') {
+          let availabilityId: number = item.id ? parseInt(item.id) : 0;
+          delete item.id;
+          delete item.__typename;
+          await updateCaregiver({
+            variables: {
+              id: availabilityId,
+              careGiverAvabilityInput: {
+                ...item,
+                status: 'confirmed',
+              },
+            },
+          });
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation('CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG'),
+            );
+          }
+        }
+      });
+    }
+  };
+
+  // set on offeres for careinstitution
+  const setOnNotConfirmedCaregiver = async () => {
+    console.log('inside caregiver not');
+
+    if (selectedCells && selectedCells.length) {
+      selectedCells.forEach(async element => {
+        const { item } = element;
+        console.log('item inside caregiver appointment', item);
+
+        if (item && item.id && item.status === 'confirmed') {
+          let availabilityId: number = item.id ? parseInt(item.id) : 0;
+          delete item.id;
+          delete item.__typename;
+          await updateCaregiver({
+            variables: {
+              id: availabilityId,
+              careGiverAvabilityInput: {
+                ...item,
+                status: 'linked',
+              },
+            },
+          });
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation('CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG'),
+            );
+          }
+        }
+      });
+    }
+  };
+
   // On link requirement
   const onLinkAppointment = async (selectedOption: any, name: string) => {
+    console.log('selectedOption', selectedOption);
+
     if (name === 'link') {
       await linkRequirement({
         variables: {
@@ -2083,6 +2206,8 @@ const Appointment: FunctionComponent = (props: any) => {
                     handleSelection={handleSelection}
                     selectedCellsCareinstitution={selectedCellsCareinstitution}
                     onLinkAppointment={onLinkAppointment}
+                    setOnConfirmedCaregiver={setOnConfirmedCaregiver}
+                    setOnNotConfirmedCaregiver={setOnNotConfirmedCaregiver}
                   />
                   <CarinstituionListView
                     daysData={daysData}
@@ -2123,6 +2248,8 @@ const Appointment: FunctionComponent = (props: any) => {
                     selectedCellsCareinstitution={selectedCellsCareinstitution}
                     selectedCells={selectedCells}
                     onLinkAppointment={onLinkAppointment}
+                    setOnConfirmedCareInst={setOnConfirmedCareInst}
+                    setOnNotConfirmedCareInst={setOnNotConfirmedCareInst}
                   />
                 </Col>
                 <Col lg={'7'}>

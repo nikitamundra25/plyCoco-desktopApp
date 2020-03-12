@@ -61,6 +61,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     onCaregiverQualificationFilter,
     selectedCellsCareinstitution,
     onLinkAppointment,
+    setOnConfirmedCaregiver,
+    setOnNotConfirmedCaregiver,
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -335,13 +337,20 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           <NavItem>
             <NavLink>
               <img src={set_confirm} className='mr-2' alt='' />
-              <span className='align-middle'>Set on confirmed</span>
+              <span className='align-middle' onClick={setOnConfirmedCaregiver}>
+                Set on confirmed
+              </span>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink>
               <img src={unset_confirm} className='mr-2' alt='' />
-              <span className='align-middle'>Set on not confirmed</span>
+              <span
+                className='align-middle'
+                onClick={setOnNotConfirmedCaregiver}
+              >
+                Set on not confirmed
+              </span>
             </NavLink>{' '}
           </NavItem>
           <NavItem>
@@ -454,24 +463,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                     return list.availabilityData && list.availabilityData.length
                       ? list.availabilityData.map((item: any, row: number) => (
                           <tr key={`${list.id}-${index}-${row}`}>
-                            <th
-                              className='name-col custom-appointment-col thead-sticky'
-                              style={{
-                                backgroundColor: !list.isActive
-                                  ? deactivatedListColor
-                                  : list.caregiver && list.caregiver.attributes
-                                  ? list.caregiver.attributes.includes(
-                                      CaregiverTIMyoCYAttrId,
-                                    )
-                                    ? leasingListColor
-                                    : list.caregiver.attributes.includes(
-                                        'Plycoco',
-                                      )
-                                    ? selfEmployesListColor
-                                    : ''
-                                  : '',
-                              }}
-                            >
+                            <th className='name-col custom-appointment-col thead-sticky'>
                               <div className='all-star-wrap'>
                                 <div
                                   className='text-capitalize view-more-link one-line-text'
@@ -483,6 +475,22 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                       ),
                                     )
                                   }
+                                  style={{
+                                    backgroundColor: !list.isActive
+                                      ? deactivatedListColor
+                                      : list.caregiver &&
+                                        list.caregiver.attributes
+                                      ? list.caregiver.attributes.includes(
+                                          CaregiverTIMyoCYAttrId,
+                                        )
+                                        ? leasingListColor
+                                        : list.caregiver.attributes.includes(
+                                            'Plycoco',
+                                          )
+                                        ? selfEmployesListColor
+                                        : ''
+                                      : '',
+                                  }}
                                 >
                                   {row === 0
                                     ? `${list.lastName ? list.lastName : ''} ${

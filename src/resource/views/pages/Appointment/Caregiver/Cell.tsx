@@ -17,7 +17,8 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
 
   let isRequirment: boolean = false,
     isMatching: boolean = false,
-    isContract: boolean = false;
+    isContract: boolean = false,
+    isConfirm: boolean = false;
   if (item) {
     if (item.status === 'default') {
       isRequirment = true;
@@ -25,6 +26,8 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
       isMatching = true;
     } else if (item.status === 'contract') {
       isContract = true;
+    } else if (item.status === 'confirmed') {
+      isConfirm = true;
     }
   }
 
@@ -41,7 +44,7 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
           'selecting-cell': isSelecting,
           'cell-block': item ? (isBlocked ? true : false) : false,
           'matching-bg': isMatching && !isSelected ? isMatching : false,
-          'contract-bg': isContract && !isSelected ? isContract : false,
+          'confirmation-bg': isConfirm && !isSelected ? isConfirm : false,
           'cell-available': !isSelected
             ? item
               ? item.f === 'available' ||
@@ -69,7 +72,9 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
           )
         : null} */}
         {item ? (
-          isBlocked ? (
+          item.status === 'confirmed' ? (
+            'o'
+          ) : isBlocked ? (
             <i className='fa fa-ban'></i>
           ) : (
             <>

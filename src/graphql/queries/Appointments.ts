@@ -188,6 +188,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         qualificationId
         startTime
         userId
+        status
       }
     }
   }
@@ -235,5 +236,5 @@ export const AppointmentsQueries = [
   GET_USERS_BY_QUALIFICATION_ID,
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
-  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
+  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID
 ];

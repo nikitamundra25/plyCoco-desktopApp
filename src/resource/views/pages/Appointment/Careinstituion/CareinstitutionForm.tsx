@@ -53,7 +53,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       departmentRemarks,
       offerRemarks,
       bookingRemarks,
-      comments
+      comments,
+      status
     },
     touched,
     errors,
@@ -100,14 +101,20 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     isContract: boolean = false,
     isConfirm: boolean = false;
 
-  if (selctedRequirement) {
-    if (selctedRequirement.status === 'default') {
+  if (selctedRequirement || status) {
+    if (selctedRequirement.status === 'default' || status === 'default') {
       isRequirment = true;
-    } else if (selctedRequirement.status === 'linked') {
+    } else if (selctedRequirement.status === 'linked' || status === 'linked') {
       isMatching = true;
-    } else if (selctedRequirement.status === 'contract') {
+    } else if (
+      selctedRequirement.status === 'contract' ||
+      status === 'contract'
+    ) {
       isContract = true;
-    } else if (selctedRequirement.status === 'confirmed') {
+    } else if (
+      selctedRequirement.status === 'confirmed' ||
+      status === 'confirmed'
+    ) {
       isConfirm = true;
     }
   }

@@ -219,7 +219,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className='user-select mx-1'>
-            {console.log('careInstitutionList', careInstitutionList)}
             <Select
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect custom-reactselect-menu-width'}
@@ -266,10 +265,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               <DropdownToggle caret color='primary' />
               <DropdownMenu onClick={(e: any) => handleSelect(e, 'dropdown')}>
                 <DropdownItem value='avability'>
-                  {languageTranslation('CAREGIVER_USERROLE')}
+                  {languageTranslation('CAREGIVER_AVABILITY')}
                 </DropdownItem>
                 <DropdownItem value='requirement'>
-                  {languageTranslation('CAREINST_USERROLE')}
+                  {languageTranslation('CAREINST_REQUIREMENT')}
                 </DropdownItem>
               </DropdownMenu>
             </ButtonDropdown>

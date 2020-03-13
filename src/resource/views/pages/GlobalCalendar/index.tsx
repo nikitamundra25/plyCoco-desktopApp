@@ -75,7 +75,7 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   // returns JSX
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="global-calendar-header">
         <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
         <Button
           color={"primary"}

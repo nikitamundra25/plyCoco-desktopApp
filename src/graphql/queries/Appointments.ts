@@ -29,6 +29,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         firstName
         lastName
         userName
+        email
         userRole
         id
         isActive

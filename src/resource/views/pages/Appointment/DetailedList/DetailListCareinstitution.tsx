@@ -10,7 +10,7 @@ const DetailListCareinstitution = (props: any) => {
     show,
     handleClose,
     qualificationList,
-    selectedCellsCareinstitution,
+    selectedCellsCareinstitution
   } = props;
 
   const externalCloseBtn = (
@@ -63,18 +63,20 @@ const DetailListCareinstitution = (props: any) => {
                     <tbody>
                       {selectedCellsCareinstitution ? (
                         selectedCellsCareinstitution.map(
-                          (elem: any, index: number) => {                            
+                          (elem: any, index: number) => {
                             return elem && elem.item ? (
-                              <tr key={index}
-                              className={
-                                elem.item.status === 'default'
-                                  ? 'availability-bg'
-                                  : elem.item.status === 'linked'
-                                  ? 'matching-bg'
-                                  : elem.item.status === 'confirmed'
-                                  ? 'contract-bg'
-                                  : ''
-                              }>
+                              <tr
+                                key={index}
+                                className={
+                                  elem.item.status === 'offered'
+                                    ? 'cell-green-caregiver'
+                                    : elem.item.status === 'linked'
+                                    ? 'matching-bg'
+                                    : elem.item.status === 'confirmed'
+                                    ? 'contract-bg'
+                                    : 'cell-pink-careinstitution'
+                                }
+                              >
                                 <td>{elem.id ? elem.id : null}</td>
                                 <td>-</td>
                                 <td>
@@ -87,8 +89,8 @@ const DetailListCareinstitution = (props: any) => {
                                     ? qualificationList
                                         .filter((qualification: any) =>
                                           elem.item.qualificationId.includes(
-                                            qualification.value,
-                                          ),
+                                            qualification.value
+                                          )
                                         )
                                         .map((q: any) => (
                                           <span>{q.label + ' '}</span>
@@ -117,7 +119,7 @@ const DetailListCareinstitution = (props: any) => {
                                 </td>
                               </tr>
                             ) : null;
-                          },
+                          }
                         )
                       ) : (
                         <p>No data found</p>

@@ -1064,8 +1064,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // change department
   useEffect(() => {
-    console.log("jjjjjjjjjjjjjjjjjj");
-    
     let deptId = careInstituionDept ? careInstituionDept.value : '';
     let departmentData: any = {};
     const careInstitutionTimesOptions:
@@ -1075,14 +1073,10 @@ const Appointment: FunctionComponent = (props: any) => {
     let startTime: string = '';
     let endTime: string = '';
     if (deptId) {
-      
       if (departmentList && departmentList.getDivision.length) {
         const { getDivision } = departmentList;
-        console.log("deptId",getDivision);
         departmentData = getDivision.filter((dept: any) => dept.id === deptId);
         if (departmentData[0] && departmentData[0].times) {
-          console.log("departmentData",departmentData);
-          
           startTime = departmentData[0].times[0]
             ? departmentData[0].times[0].begin
             : '';
@@ -1098,23 +1092,34 @@ const Appointment: FunctionComponent = (props: any) => {
           });
         }
         setshiftOption(careInstitutionTimesOptions);
-        let temp: ICareinstitutionFormValue = {
-          ...values,
-          department: careInstituionDept,
-          address: departmentData[0].address,
-          contactPerson: departmentData[0].contactPerson,
-          departmentOfferRemarks: departmentData[0].commentsOffer,
-          departmentRemarks: departmentData[0].commentsVisibleInternally,
-          departmentBookingRemarks: departmentData[0].commentsCareGiver,
-          shift:
-            careInstitutionTimesOptions && careInstitutionTimesOptions.length
-              ? careInstitutionTimesOptions[0]
-              : values.shift,
-          startTime: startTime ? startTime : values.startTime,
-          endTime: endTime ? endTime : values.endTime
-        };
-        
-        setvaluesForCareinstitution(temp);
+        let temp: any[] = [
+          {
+            ...id,
+            ...firstName,
+            ...lastName,
+            ...canstitution,
+            ...qualificationIds,
+            ...dateString,
+            item: {
+              ...values,
+              department: careInstituionDept,
+              address: departmentData[0].address,
+              contactPerson: departmentData[0].contactPerson,
+              departmentOfferRemarks: departmentData[0].commentsOffer,
+              departmentRemarks: departmentData[0].commentsVisibleInternally,
+              departmentBookingRemarks: departmentData[0].commentsCareGiver,
+              shift:
+                careInstitutionTimesOptions &&
+                careInstitutionTimesOptions.length
+                  ? careInstitutionTimesOptions[0]
+                  : values.shift,
+              startTime: startTime ? startTime : values.startTime,
+              endTime: endTime ? endTime : values.endTime
+            }
+          }
+        ];
+        setselectedCellsCareinstitution(temp);
+        // setvaluesForCareinstitution(temp);
       }
     }
   }, [careInstituionDept]);
@@ -1124,30 +1129,38 @@ const Appointment: FunctionComponent = (props: any) => {
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
     let values = updateCanstitutionFormikValues;
     let time = timeData && !timeData.data ? timeData.value.split('-') : '';
-    let data: any = {
-      ...values,
-      shift: careInstituionShift,
-      startTime: timeData
-        ? timeData.data && timeData.data.begin
-          ? timeData.data.begin
-          : time[0]
-        : '',
-      endTime: timeData
-        ? timeData.data && timeData.data.begin
-          ? timeData.data.end
-          : time[1]
-        : ''
-    };
-    setvaluesForCareinstitution(data);
+    let data: any[] = [
+      {
+        ...id,
+        ...firstName,
+        ...lastName,
+        ...canstitution,
+        ...qualificationIds,
+        ...dateString,
+        item: {
+          ...values,
+          shift: careInstituionShift,
+          startTime: timeData
+            ? timeData.data && timeData.data.begin
+              ? timeData.data.begin
+              : time[0]
+            : '',
+          endTime: timeData
+            ? timeData.data && timeData.data.begin
+              ? timeData.data.end
+              : time[1]
+            : ''
+        }
+      }
+    ];
+    // setvaluesForCareinstitution(data);
+    setselectedCellsCareinstitution(data);
   }, [careInstituionShift]);
 
   const setOnConfirmedCareInst = async () => {
-    console.log('selectedCells careinst', selectedCellsCareinstitution);
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        console.log('item inside careinst appointment', item);
-
         if (item && item.id && item.status === 'linked') {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
@@ -1174,8 +1187,6 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        console.log('item inside caregiver appointment', item);
-
         if (item && item.id && item.status === 'confirmed') {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
@@ -1200,13 +1211,9 @@ const Appointment: FunctionComponent = (props: any) => {
   };
   // set on offeres for careinstitution
   const setOnConfirmedCaregiver = async () => {
-    console.log('inside caregiver');
-
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-        console.log('item inside caregiver', item);
-
         if (item && item.id && item.status === 'linked') {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
@@ -1232,12 +1239,9 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // set on offeres for careinstitution
   const setOnNotConfirmedCaregiver = async () => {
-    console.log('inside caregiver not');
-
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-        console.log('item inside caregiver appointment', item);
 
         if (item && item.id && item.status === 'confirmed') {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
@@ -1264,8 +1268,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // On link requirement
   const onLinkAppointment = async (selectedOption: any, name: string) => {
-    console.log('selectedOption', selectedOption);
-
     if (name === 'link') {
       await linkRequirement({
         variables: {
@@ -1323,13 +1325,15 @@ const Appointment: FunctionComponent = (props: any) => {
               });
             }
           }
+          console.log('qualification', qualificationData);
 
-          // if (careInstitutionDepartment && careInstitutionDepartment.length) {
-          //   const { getDivision } = departmentList;
-          //   departmentData = careInstitutionDepartment.filter(
-          //     (dept: any) => dept.id === selctedAvailability.divisionId
-          //   );
-          // }
+          if (careInstitutionDepartment && careInstitutionDepartment.length) {
+            const { getDivision } = departmentList;
+            console.log('getDivision', getDivision);
+            departmentData = careInstitutionDepartment.filter(
+              (dept: any) => dept.id === selctedAvailability.divisionId
+            );
+          }
 
           setselctedRequirement(selctedAvailability);
           const selectedData: any = {
@@ -1401,9 +1405,10 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //  call department list query with every selection of care institution
   useEffect(() => {
-    let userId: string = selectedCellsCareinstitution && selectedCellsCareinstitution.length 
-      ? selectedCellsCareinstitution[0].id
-      : '';
+    let userId: string =
+      selectedCellsCareinstitution && selectedCellsCareinstitution.length
+        ? selectedCellsCareinstitution[0].id
+        : '';
     if (userId) {
       getDepartmentList({
         variables: {
@@ -2123,12 +2128,42 @@ const Appointment: FunctionComponent = (props: any) => {
       ? selectedCells[0]
       : {};
 
+  // let qualification1: any = [],
+  //   departmentData: any = [],
+  //   qualificationData: IReactSelectInterface[] = [];
+  // if (data && data.getQualifications && selctedAvailability.qualificationId) {
+  //   qualification1 = data.getQualifications.filter(({ id }) =>
+  //     selctedAvailability.qualificationId.includes(id)
+  //   );
+  //   if (qualification && qualification.length) {
+  //     qualification.map((key: any) => {
+  //       return qualificationData.push({
+  //         label: key.name,
+  //         value: key.id
+  //       });
+  //     });
+  //   }
+  // }
+  // console.log('qualificationData', qualificationData);
+
+  // if (careInstitutionDepartment && careInstitutionDepartment.length) {
+  //   const { getDivision } = departmentList;
+  //   console.log('getDivision', getDivision);
+  //   departmentData = careInstitutionDepartment.filter(
+  //     (dept: any) => dept.id === selctedAvailability.divisionId
+  //   );
+  // }
+  // console.log('departmentData', departmentData);
+
   const {
     id: Id = '',
     firstName: FirstName = '',
     lastName: LastName = '',
     canstitution = {},
-    item: Item = {},
+    item: Item = {
+      // ...item,
+      // qualification: qualificationData ? qualificationData : []
+    },
     qualificationIds = {},
     dateString: activeDateCareInstitution = ''
   } =
@@ -2202,8 +2237,6 @@ const Appointment: FunctionComponent = (props: any) => {
     n: n === 'available' ? true : false,
     status: status ? status : ''
   };
-
-  console.log(multipleAvailability, 'multipleAvailability+++');
 
   return (
     <>
@@ -2363,7 +2396,6 @@ const Appointment: FunctionComponent = (props: any) => {
                         }}
                       />
                     </Col>
-                    {console.log('+++++++++++canstitution', canstitution, Item)}
                     <Col lg={'6'}>
                       <Formik
                         initialValues={Item}

@@ -45,5 +45,6 @@ export const AppRoutes: IAppRoutes = {
   EMAIL_TEMPLATE_MANAGEMENT: "/further/email-templates",
   BULK_EMAIL_CAREINSTITUTION: "/bulk-email-careinstitution",
   ALLINVOICES: "/invoices",
-  INVOICESOLONA: "/invoice-solona"
+  INVOICESOLONA: "/invoice-solona",
+  CREATEINVOICES: "/create-invoices"
 };

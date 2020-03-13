@@ -72,9 +72,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnNotConfirmedCareInst,
     setOnOfferedCareInst,
     setOnNotOfferedCareInst,
-    careinstitutionDepartmentList
+    careinstitutionDepartmentList,
+    onNewRequirement
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
+  const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
 
   // const handleFirstStar = (list: object, index: number, name: string) => {
   //   if (starMarkIndex !== index) {
@@ -302,7 +304,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const handleCareInstitutionBulkEmail = () => {
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
-
+  const [StatusTo, setStatusTo] = useState('');
   return (
     <>
       <div
@@ -327,7 +329,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         >
           <Nav vertical>
             <NavItem>
-              <NavLink>
+              <NavLink
+                onClick={() => {
+                  handleRightMenuToggle();
+                  onNewRequirement();
+                }}
+              >
                 <img src={new_appointment} className='mr-2' alt='' />
                 <span>New appointment</span>
               </NavLink>
@@ -352,7 +359,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink onClick={() => setShowList(true)}>
+              <NavLink
+                onClick={() => {
+                  handleRightMenuToggle();
+                  setShowList(true);
+                }}
+              >
                 <img src={detail_list} className='mr-2' alt='' />
                 <span>Detailed List</span>
               </NavLink>{' '}
@@ -368,6 +380,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('division', true);
                   handleCareInstitutionBulkEmail();
+                  setOnOfferedCareInst();
+                  setopenToggleMenu(false);
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -384,7 +398,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     ? selectedCellsCareinstitution.length === 0
                     : true
                 }
-                onClick={() => handleCareGiverBulkEmail('day', true)}
+                onClick={() => {
+                  handleCareGiverBulkEmail('day', true);
+                  handleCareInstitutionBulkEmail();
+                  setOnOfferedCareInst();
+                  setopenToggleMenu(false);
+                }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
                 <span>
@@ -400,7 +419,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     ? selectedCellsCareinstitution.length === 0
                     : true
                 }
-                onClick={() => handleCareGiverBulkEmail('division', false)}
+                onClick={() => {
+                  handleCareGiverBulkEmail('division', false);
+                  handleCareInstitutionBulkEmail();
+                  setOnOfferedCareInst();
+                  setopenToggleMenu(false);
+                }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
                 <span>
@@ -416,7 +440,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     ? selectedCellsCareinstitution.length === 0
                     : true
                 }
-                onClick={() => handleCareGiverBulkEmail('day', false)}
+                onClick={() => {
+                  handleCareGiverBulkEmail('day', false);
+                  handleCareInstitutionBulkEmail();
+                  setOnOfferedCareInst();
+                  setopenToggleMenu(false);
+                }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
                 <span>
@@ -428,50 +457,112 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={set_confirm} className='mr-2' alt='' />
-                <span onClick={setOnOfferedCareInst}>Set on offered</span>
+                <span
+                  onClick={() => {
+                    setopenToggleMenu(false);
+                    setOnOfferedCareInst();
+                  }}
+                >
+                  Set on offered
+                </span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
               <NavLink>
                 <img src={unset_confirm} className='mr-2' alt='' />
-                <span onClick={setOnNotOfferedCareInst}>Reset offered</span>
+                <span
+                  onClick={() => {
+                    setopenToggleMenu(false);
+                    setOnNotOfferedCareInst();
+                  }}
+                >
+                  Reset offered
+                </span>
               </NavLink>
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink onClick={() => handleLinkAppointments('link')}>
+              <NavLink
+                onClick={() => {
+                  handleRightMenuToggle();
+                  handleLinkAppointments('link');
+                }}
+              >
                 <img src={connect} className='mr-2' alt='' />
-                <span>Link appointments</span>
+                <span>Connect appointments</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
-              <NavLink onClick={() => handleUnLinkAppointments('unlink')}>
+              <NavLink
+                onClick={() => {
+                  handleRightMenuToggle();
+                  handleUnLinkAppointments('unlink');
+                }}
+              >
                 <img src={disconnect} className='mr-2' alt='' />
-                <span>Unlink appointments</span>
+                <span>Disconnect appointments</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink>
+              <NavLink
+                // add disabled condition to check select requirement is linked or not
+                // disabled={
+                //   selectedCellsCareinstitution &&
+                //   selectedCellsCareinstitution.length
+                //     ? selectedCellsCareinstitution.filter(
+                //         (cell: any) =>
+                //           cell.item && cell.item.status === 'linked',
+                //       ).length
+                //       ? false
+                //       : true
+                //     : true
+                // }
+                onClick={() => {
+                  handleCareInstitutionBulkEmail();
+                  setStatusTo('offered');
+                  setopenToggleMenu(false);
+                }}
+              >
                 <img src={offer_sent} className='mr-2' alt='' />
                 <span>Offer appointments (ordered by day)</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink
+                onClick={() => {
+                  handleCareInstitutionBulkEmail();
+                  setStatusTo('offered');
+                  setopenToggleMenu(false);
+                }}
+              >
                 <img src={offer_sent} className='mr-2' alt='' />
                 <span>Offer appointments (ordered by department)</span>
               </NavLink>
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink>
+              <NavLink
+                onClick={() => {
+                  handleCareInstitutionBulkEmail();
+                  setStatusTo('confirmed');
+                  setopenToggleMenu(false);
+                  setOnConfirmedCareInst();
+                }}
+              >
                 <img src={confirm_appointment} className='mr-2' alt='' />
                 <span>Confirm appointments (ordered by day) </span>
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink
+                onClick={() => {
+                  handleCareInstitutionBulkEmail();
+                  setStatusTo('confirmed');
+                  setopenToggleMenu(false);
+                  setOnConfirmedCareInst();
+                }}
+              >
                 <img src={confirm_appointment} className='mr-2' alt='' />
                 <span>Confirm appointments (ordered by department)</span>
               </NavLink>{' '}
@@ -479,7 +570,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={set_confirm} className='mr-2' alt='' />
-                <span onClick={() => setOnConfirmedCareInst()}>
+                <span
+                  onClick={() => {
+                    setopenToggleMenu(false);
+                    setOnConfirmedCareInst();
+                  }}
+                >
                   Set on confirmed
                 </span>
               </NavLink>
@@ -487,7 +583,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={unset_confirm} className='mr-2' alt='' />
-                <span onClick={() => setOnNotConfirmedCareInst()}>
+                <span
+                  onClick={() => {
+                    setopenToggleMenu(false);
+                    setOnNotConfirmedCareInst();
+                  }}
+                >
                   Reset confirmed
                 </span>
               </NavLink>
@@ -525,7 +626,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                   <div className='all-star-wrap'>
                     <div className='position-relative one-line-text'>
-                      CareInstitution
+                      <div className='calender-heading'> CareInstitution</div>
                       <Button
                         onClick={() => handleRightMenuToggle()}
                         className='btn-more d-flex align-items-center justify-content-center'
@@ -625,11 +726,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                     )
                                   }
                                 >
-                                  {row === 0
-                                    ? `${list.lastName ? list.lastName : ''} ${
-                                        list.firstName ? list.firstName : ''
-                                      }`
-                                    : ''}
+                                  <div className='calender-heading'>
+                                    {row === 0
+                                      ? `${
+                                          list.lastName ? list.lastName : ''
+                                        } ${
+                                          list.firstName ? list.firstName : ''
+                                        }`
+                                      : ''}
+                                  </div>
                                 </div>
                                 <div className='h-col custom-appointment-col text-center'></div>
                                 <div
@@ -721,98 +826,86 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               ) : careInstituionDeptData && careInstituionDeptData.length ? (
                 careInstituionDeptData.map((dept: any, index: number) => {
                   if (!dept.locked) {
-                    return careinstitutionDepartmentList &&
-                      careinstitutionDepartmentList.length &&
-                      careinstitutionDepartmentList[0] &&
-                      careinstitutionDepartmentList[0].availabilityData
-                      ? careinstitutionDepartmentList[0].availabilityData[0].map(
-                          (item: any, row: number) => {
-                            console.log('item', item);
-                            return (
-                              <tr key={`${dept.id}-${index}`}>
-                                <th className='name-col custom-appointment-col thead-sticky'>
-                                  <div className='all-star-wrap'>
-                                    <div
-                                      className='text-capitalize view-more-link one-line-text'
-                                      // onClick={() =>
-                                      //   handleSelectedUser(list, null, 'caregiver')
-                                      // }
-                                    >
-                                      {row === 1
-                                        ? dept.name
-                                          ? dept.name
-                                          : ''
-                                        : ''}
-                                    </div>
-                                    <div className='h-col custom-appointment-col text-center'></div>
-                                    <div
-                                      className='s-col custom-appointment-col text-center'
-                                      onClick={() =>
-                                        handleFirstStarCanstitution(null)
-                                      }
-                                    >
-                                      {starCanstitution.setIndex === index ||
-                                      starCanstitution.isStar ? (
-                                        <i className='fa fa-star theme-text' />
-                                      ) : (
-                                        <i className='fa fa-star-o' />
-                                      )}
-                                    </div>
-                                    <div
-                                      className='u-col custom-appointment-col text-center'
-                                      onClick={() =>
-                                        onhandleSecondStarCanstitution(dept)
-                                      }
-                                    >
-                                      {secondStarCanstitution ? (
-                                        <i className='fa fa-star theme-text' />
-                                      ) : (
-                                        <i className='fa fa-star-o' />
-                                      )}
-                                    </div>
-                                    <div
-                                      className='v-col custom-appointment-col text-center'
-                                      onClick={e =>
-                                        onAddingRow(e, 'caregiver', index)
-                                      }
-                                    >
-                                      <i className='fa fa-arrow-down' />
-                                    </div>
-                                  </div>
-                                </th>
+                    return (
+                      <tr key={`${dept.id}-${index}`}>
+                        <th className='name-col custom-appointment-col thead-sticky'>
+                          <div className='all-star-wrap'>
+                            <div
+                              className='text-capitalize view-more-link one-line-text'
+                              // onClick={() =>
+                              //   handleSelectedUser(list, null, 'caregiver')
+                              // }
+                            >
+                              <div className='calender-heading'>
+                                {!dept.newRow
+                                  ? dept.name
+                                    ? dept.name
+                                    : ''
+                                  : ''}
+                              </div>
+                            </div>
+                            <div className='h-col custom-appointment-col text-center'></div>
+                            <div
+                              className='s-col custom-appointment-col text-center cursor-pointer'
+                              onClick={() => handleFirstStarCanstitution(null)}
+                            >
+                              {starCanstitution.setIndex === index ||
+                              starCanstitution.isStar ? (
+                                <i className='fa fa-star theme-text' />
+                              ) : (
+                                <i className='fa fa-star-o' />
+                              )}
+                            </div>
+                            <div
+                              className='u-col custom-appointment-col text-center cursor-pointer'
+                              onClick={() =>
+                                onhandleSecondStarCanstitution(dept)
+                              }
+                            >
+                              {secondStarCanstitution ? (
+                                <i className='fa fa-star theme-text' />
+                              ) : (
+                                <i className='fa fa-star-o' />
+                              )}
+                            </div>
+                            <div
+                              className='v-col custom-appointment-col text-center cursor-pointer'
+                              onClick={e => onAddingRow(e, 'caregiver', index)}
+                            >
+                              <i className='fa fa-arrow-down' />
+                            </div>
+                          </div>
+                        </th>
 
-                                {daysArr.map((key: any, i: number) => {
-                                  return (
-                                    <CellCareinstitution
-                                      key={`${key}-${i}`}
-                                      day={key}
-                                      item={
-                                        ''
-                                        // item
-                                        //   ? item.filter(
-                                        //       (avabilityData: any) => {
-                                        //         return (
-                                        //           moment(key.isoString).format(
-                                        //             'DD.MM.YYYY'
-                                        //           ) ===
-                                        //           moment(
-                                        //             avabilityData.date
-                                        //           ).format('DD.MM.YYYY')
-                                        //         );
-                                        //       }
-                                        //     )[0]
-                                        //   : ''
-                                      }
-                                      list={dept}
-                                      handleSelectedAvailability
-                                    />
-                                  );
-                                })}
-                              </tr>
-                            );
-                          }
-                        )
-                      : '';
+                        {daysArr.map((key: any, i: number) => {
+                          return (
+                            <CellCareinstitution
+                              key={`${key}-${i}`}
+                              day={key}
+                              item={
+                                ''
+                                // item
+                                //   ? item.filter(
+                                //       (avabilityData: any) => {
+                                //         return (
+                                //           moment(key.isoString).format(
+                                //             'DD.MM.YYYY'
+                                //           ) ===
+                                //           moment(
+                                //             avabilityData.date
+                                //           ).format('DD.MM.YYYY')
+                                //         );
+                                //       }
+                                //     )[0]
+                                //   : ''
+                              }
+                              list={dept}
+                              handleSelectedAvailability
+                            />
+                          );
+                        })}
+                      </tr>
+                    );
                   }
                 })
               ) : (
@@ -842,6 +935,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         selectedCellsCareinstitution={selectedCellsCareinstitution}
         gte={props.gte}
         lte={props.lte}
+        statusTo={StatusTo}
       />
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}

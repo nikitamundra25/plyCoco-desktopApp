@@ -50,6 +50,7 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
             selectedCellsCareinstitution={props.selectedCellsCareinstitution}
             gte={props.gte}
             lte={props.lte}
+            statusTo={props.statusTo}
           />
         </ModalBody>
       </Modal>

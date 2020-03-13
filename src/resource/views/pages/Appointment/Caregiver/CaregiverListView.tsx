@@ -285,7 +285,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           </NavItem>
           <NavItem className='bordernav' />
           <NavItem>
-            <NavLink onClick={() => setShowList(true)}>
+            <NavLink
+              onClick={() => {
+                setopenToggleMenu(false);
+                setShowList(true);
+              }}
+            >
               <img src={detail_list} className='mr-2' alt='' />
               <span className='align-middle'>Detailed List</span>
             </NavLink>{' '}
@@ -321,7 +326,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               }}
             >
               <img src={connect} className='mr-2' alt='' />
-              <span className='align-middle'>Link appointments</span>
+              <span className='align-middle'>Connect appointments</span>
             </NavLink>{' '}
           </NavItem>
           <NavItem>
@@ -332,7 +337,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               }}
             >
               <img src={disconnect} className='mr-2' alt='' />
-              <span className='align-middle'>Unlink appointments</span>
+              <span className='align-middle'>Disconnect appointments</span>
             </NavLink>
           </NavItem>
           <NavItem className='bordernav' />
@@ -345,7 +350,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           <NavItem>
             <NavLink>
               <img src={set_confirm} className='mr-2' alt='' />
-              <span className='align-middle' onClick={setOnConfirmedCaregiver}>
+              <span
+                className='align-middle'
+                onClick={() => {
+                  setopenToggleMenu(false);
+                  setOnConfirmedCaregiver();
+                }}
+              >
                 Set on confirmed
               </span>
             </NavLink>
@@ -355,7 +366,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               <img src={unset_confirm} className='mr-2' alt='' />
               <span
                 className='align-middle'
-                onClick={setOnNotConfirmedCaregiver}
+                onClick={() => {
+                  setopenToggleMenu(false);
+                  setOnNotConfirmedCaregiver();
+                }}
               >
                 Set on not confirmed
               </span>
@@ -402,7 +416,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                   <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                     <div className='all-star-wrap'>
                       <div className='position-relative one-line-text'>
-                        Caregiver
+                        <div className='calender-heading'>Caregiver</div>
                         <Button
                           onClick={() => handleToggleMenuItem()}
                           className='btn-more d-flex align-items-center justify-content-center'
@@ -437,21 +451,25 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                       );
                       return (
                         <th
-                          className={`thead-sticky calender-col custom-appointment-col text-center ${
-                            date === todaysDate
-                              ? 'today'
-                              : isWeekend
-                              ? 'weekend'
-                              : ''
-                          }`}
+                          className={`thead-sticky calender-col custom-appointment-col text-center p-0`}
                           key={index}
                         >
-                          <div className='custom-appointment-calendar-date'>
-                            {' '}
-                            {date}
-                          </div>
-                          <div className='custom-appointment-calendar-day'>
-                            {day}
+                          <div
+                            className={`${
+                              date === todaysDate
+                                ? 'today'
+                                : isWeekend
+                                ? 'weekend'
+                                : ''
+                            }`}
+                          >
+                            <div className='custom-appointment-calendar-date'>
+                              {' '}
+                              {date}
+                            </div>
+                            <div className='custom-appointment-calendar-day'>
+                              {day}
+                            </div>
                           </div>
                         </th>
                       );
@@ -500,15 +518,19 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                       : ''
                                   }}
                                 >
-                                  {row === 0
-                                    ? `${list.lastName ? list.lastName : ''} ${
-                                        list.firstName ? list.firstName : ''
-                                      }`
-                                    : ''}
+                                  <div className='calender-heading'>
+                                    {row === 0
+                                      ? `${
+                                          list.lastName ? list.lastName : ''
+                                        } ${
+                                          list.firstName ? list.firstName : ''
+                                        }`
+                                      : ''}
+                                  </div>
                                 </div>
                                 <div className='h-col custom-appointment-col text-center'></div>
                                 <div
-                                  className='s-col custom-appointment-col text-center'
+                                  className='s-col custom-appointment-col text-center cursor-pointer'
                                   onClick={() =>
                                     onhandleSecondStar(list, index, 'caregiver')
                                   }
@@ -520,7 +542,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                   )}
                                 </div>
                                 <div
-                                  className='u-col custom-appointment-col text-center'
+                                  className='u-col custom-appointment-col text-center cursor-pointer'
                                   onClick={() =>
                                     onhandleSecondStar(list, index, 'caregiver')
                                   }
@@ -532,7 +554,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                   )}
                                 </div>
                                 <div
-                                  className='v-col custom-appointment-col text-center'
+                                  className='v-col custom-appointment-col text-center cursor-pointer'
                                   onClick={e =>
                                     onAddingRow(e, 'caregiver', index)
                                   }

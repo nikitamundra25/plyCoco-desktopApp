@@ -43,4 +43,5 @@ export interface IAppRoutes {
   BULK_EMAIL_CAREINSTITUTION: String;
   ALLINVOICES: string;
   INVOICESOLONA: string;
+  CREATEINVOICES: string;
 }

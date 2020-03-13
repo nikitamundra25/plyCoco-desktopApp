@@ -163,9 +163,6 @@
           align-items: center;
           justify-content: center;
         }
-        .v-col{
-          border-right:none;
-        }
       }
       .btn-more {
         position: absolute;
@@ -229,6 +226,10 @@
           height: 41px;
         }
       }
+      
+    }
+    th+td, th+th{
+     border-left: 0px;
     }
     thead {
       th {

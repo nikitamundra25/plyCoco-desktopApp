@@ -1,4 +1,4 @@
-@import '../../../assets/scss/variables';
+@import "../../../assets/scss/variables";
 
 .common-header-input {
   .form-control {
@@ -141,10 +141,10 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          .calender-heading{
+          .calender-heading {
             width: 100%;
             overflow: hidden;
-            text-overflow:ellipsis;
+            text-overflow: ellipsis;
           }
         }
         .h-col,
@@ -197,11 +197,13 @@
           }
         }
       }
-      &.weekend {
+      .weekend {
         background-color: #ffebda;
+        height: 41px;
       }
-      &.today {
+      .today {
         background-color: #ff973b;
+        height: 41px;
       }
     }
     th {
@@ -314,7 +316,7 @@
       text-align: left;
       display: block;
       padding: 0px;
-      font-family: 'FrutigerNeueLTPro-Bold', sans-serif;
+      font-family: "FrutigerNeueLTPro-Bold", sans-serif;
     }
   }
   .arrow-btn {
@@ -398,5 +400,10 @@ body {
       display: flex;
       align-items: center;
     }
+  }
+}
+.select-right-bottom {
+  & > div > button + div {
+    right: 0px;
   }
 }

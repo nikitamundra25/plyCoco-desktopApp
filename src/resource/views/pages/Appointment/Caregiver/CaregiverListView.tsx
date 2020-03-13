@@ -429,21 +429,28 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                       );
                       return (
                         <th
-                          className={`thead-sticky calender-col custom-appointment-col text-center ${
-                            date === todaysDate
-                              ? 'today'
-                              : isWeekend
-                              ? 'weekend'
-                              : ''
-                          }`}
+                          className={`thead-sticky calender-col custom-appointment-col text-center p-0`}
+                        
                           key={index}
+                         
                         >
+                          <div
+                            className={`${
+                              date === todaysDate
+                                ? 'today'
+                                : isWeekend
+                                ? 'weekend'
+                                : ''
+                            }`}
+                          >
+
                           <div className='custom-appointment-calendar-date'>
                             {' '}
                             {date}
                           </div>
                           <div className='custom-appointment-calendar-day'>
                             {day}
+                          </div>
                           </div>
                         </th>
                       );

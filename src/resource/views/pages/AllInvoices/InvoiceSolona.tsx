@@ -475,7 +475,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                           {languageTranslation("REMINDED")}
                         </th>
                         <th className="all-invoice-lawyer">
-                          Attorney
+                          Attorney    
                         </th>
                         <th className="all-invoice-doudful">
                           {languageTranslation("DOUBTFUL")}

@@ -71,7 +71,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnConfirmedCareInst,
     setOnNotConfirmedCareInst,
     setOnOfferedCareInst,
-    setOnNotOfferedCareInst
+    setOnNotOfferedCareInst,
+    careinstitutionDepartmentList
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
@@ -720,77 +721,98 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               ) : careInstituionDeptData && careInstituionDeptData.length ? (
                 careInstituionDeptData.map((dept: any, index: number) => {
                   if (!dept.locked) {
-                    return (
-                      <tr key={`${dept.id}-${index}`}>
-                        <th className='name-col custom-appointment-col thead-sticky'>
-                          <div className='all-star-wrap'>
-                            <div
-                              className='text-capitalize view-more-link one-line-text'
-                              // onClick={() =>
-                              //   handleSelectedUser(list, null, 'caregiver')
-                              // }
-                            >
-                              {!dept.newRow ? (dept.name ? dept.name : '') : ''}
-                            </div>
-                            <div className='h-col custom-appointment-col text-center'></div>
-                            <div
-                              className='s-col custom-appointment-col text-center'
-                              onClick={() => handleFirstStarCanstitution(null)}
-                            >
-                              {starCanstitution.setIndex === index ||
-                              starCanstitution.isStar ? (
-                                <i className='fa fa-star theme-text' />
-                              ) : (
-                                <i className='fa fa-star-o' />
-                              )}
-                            </div>
-                            <div
-                              className='u-col custom-appointment-col text-center'
-                              onClick={() =>
-                                onhandleSecondStarCanstitution(dept)
-                              }
-                            >
-                              {secondStarCanstitution ? (
-                                <i className='fa fa-star theme-text' />
-                              ) : (
-                                <i className='fa fa-star-o' />
-                              )}
-                            </div>
-                            <div
-                              className='v-col custom-appointment-col text-center'
-                              onClick={e => onAddingRow(e, 'caregiver', index)}
-                            >
-                              <i className='fa fa-arrow-down' />
-                            </div>
-                          </div>
-                        </th>
+                    return careinstitutionDepartmentList &&
+                      careinstitutionDepartmentList.length &&
+                      careinstitutionDepartmentList[0] &&
+                      careinstitutionDepartmentList[0].availabilityData
+                      ? careinstitutionDepartmentList[0].availabilityData[0].map(
+                          (item: any, row: number) => {
+                            console.log('item', item);
+                            return (
+                              <tr key={`${dept.id}-${index}`}>
+                                <th className='name-col custom-appointment-col thead-sticky'>
+                                  <div className='all-star-wrap'>
+                                    <div
+                                      className='text-capitalize view-more-link one-line-text'
+                                      // onClick={() =>
+                                      //   handleSelectedUser(list, null, 'caregiver')
+                                      // }
+                                    >
+                                      {row === 1
+                                        ? dept.name
+                                          ? dept.name
+                                          : ''
+                                        : ''}
+                                    </div>
+                                    <div className='h-col custom-appointment-col text-center'></div>
+                                    <div
+                                      className='s-col custom-appointment-col text-center'
+                                      onClick={() =>
+                                        handleFirstStarCanstitution(null)
+                                      }
+                                    >
+                                      {starCanstitution.setIndex === index ||
+                                      starCanstitution.isStar ? (
+                                        <i className='fa fa-star theme-text' />
+                                      ) : (
+                                        <i className='fa fa-star-o' />
+                                      )}
+                                    </div>
+                                    <div
+                                      className='u-col custom-appointment-col text-center'
+                                      onClick={() =>
+                                        onhandleSecondStarCanstitution(dept)
+                                      }
+                                    >
+                                      {secondStarCanstitution ? (
+                                        <i className='fa fa-star theme-text' />
+                                      ) : (
+                                        <i className='fa fa-star-o' />
+                                      )}
+                                    </div>
+                                    <div
+                                      className='v-col custom-appointment-col text-center'
+                                      onClick={e =>
+                                        onAddingRow(e, 'caregiver', index)
+                                      }
+                                    >
+                                      <i className='fa fa-arrow-down' />
+                                    </div>
+                                  </div>
+                                </th>
 
-                        {daysArr.map((key: any, i: number) => {
-                          return (
-                            <CellCareinstitution
-                              key={`${key}-${i}`}
-                              day={key}
-                              item={
-                                dept
-                                // ? dept.filter((avabilityData: any) => {
-                                //     return (
-                                //       moment(key.isoString).format(
-                                //         'DD.MM.YYYY'
-                                //       ) ===
-                                //       moment(avabilityData.date).format(
-                                //         'DD.MM.YYYY'
-                                //       )
-                                //     );
-                                //   })[0]
-                                // : ''
-                              }
-                              list={dept}
-                              handleSelectedAvailability
-                            />
-                          );
-                        })}
-                      </tr>
-                    );
+                                {daysArr.map((key: any, i: number) => {
+                                  return (
+                                    <CellCareinstitution
+                                      key={`${key}-${i}`}
+                                      day={key}
+                                      item={
+                                        ''
+                                        // item
+                                        //   ? item.filter(
+                                        //       (avabilityData: any) => {
+                                        //         return (
+                                        //           moment(key.isoString).format(
+                                        //             'DD.MM.YYYY'
+                                        //           ) ===
+                                        //           moment(
+                                        //             avabilityData.date
+                                        //           ).format('DD.MM.YYYY')
+                                        //         );
+                                        //       }
+                                        //     )[0]
+                                        //   : ''
+                                      }
+                                      list={dept}
+                                      handleSelectedAvailability
+                                    />
+                                  );
+                                })}
+                              </tr>
+                            );
+                          }
+                        )
+                      : '';
                   }
                 })
               ) : (

@@ -106,6 +106,10 @@ const Appointment: FunctionComponent = (props: any) => {
   ] = useState<any>();
 
   const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
+  const [
+    careinstitutionDepartmentList,
+    setcareinstitutionDepartmentList
+  ] = useState<any>([]);
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
     IDate[]
@@ -1590,7 +1594,48 @@ const Appointment: FunctionComponent = (props: any) => {
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
-    let temp: any[] = [{}];
+    console.log('list', list);
+
+    let temp = careinstitutionList.filter((dept: any) => dept.id === list.id);
+    console.log('temp', temp);
+
+    //  setcareinstitutionList()
+    setcareinstitutionDepartmentList(temp);
+    const {
+      id = '',
+      firstName = '',
+      lastName = '',
+      canstitution = {},
+      qualificationIds = [],
+      dateString = ''
+    } =
+      selectedCellsCareinstitution && selectedCellsCareinstitution.length
+        ? selectedCellsCareinstitution[0]
+        : {};
+
+    let data: any[] = [
+      {
+        id,
+        firstName,
+        lastName,
+        canstitution,
+        qualificationIds,
+        dateString,
+        item: {
+          // shift: list.shift,
+          // startTime: timeData
+          //   ? timeData.data && timeData.data.begin
+          //     ? timeData.data.begin
+          //     : time[0]
+          //   : '',
+          // endTime: timeData
+          //   ? timeData.data && timeData.data.begin
+          //     ? timeData.data.end
+          //     : time[1]
+          //   : ''
+        }
+      }
+    ];
     // setselectedCellsCareinstitution()
     if (!starCanstitution.isStar) {
       setstarCanstitution({
@@ -2258,7 +2303,6 @@ const Appointment: FunctionComponent = (props: any) => {
     comments: Item ? Item.comments : '',
     status: Item ? Item.status : ''
   };
-  console.log('valuesForCareIntituionForm', valuesForCareIntituionForm);
 
   // end
   const {
@@ -2435,6 +2479,9 @@ const Appointment: FunctionComponent = (props: any) => {
                     setOnOfferedCareInst={setOnOfferedCareInst}
                     setOnNotOfferedCareInst={setOnNotOfferedCareInst}
                     onNewRequirement={() => setMultipleRequirement(true)}
+                    careinstitutionDepartmentList={
+                      careinstitutionDepartmentList
+                    }
                   />
                 </Col>
                 <Col lg={'7'}>

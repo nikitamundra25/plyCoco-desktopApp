@@ -698,6 +698,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                   key={`${key}-${i}`}
                                   day={key}
                                   list={list}
+                                  daysArr={key.isWeekend}
                                   item={
                                     item
                                       ? item.filter((avabilityData: any) => {

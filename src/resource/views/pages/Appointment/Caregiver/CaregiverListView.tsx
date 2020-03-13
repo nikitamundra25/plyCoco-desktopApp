@@ -541,9 +541,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                             </th>
 
                             {daysArr.map((key: any, i: number) => {
+                              
+
                               return (
                                 <Cell
                                   key={`${key}-${i}`}
+                                  daysArr={key.isWeekend}
                                   day={key}
                                   list={list}
                                   item={
@@ -573,7 +576,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                           <i className='icon-ban' />
                         </div>
                         <h4 className='mb-1'>
-                          Currently there are no CareGiver added.{' '}
+                          Currently there are no Caregiver added.{' '}
                         </h4>
                       </div>
                     </td>

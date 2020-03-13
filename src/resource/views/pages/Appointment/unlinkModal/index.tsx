@@ -6,6 +6,7 @@ import {
   FormGroup,
   Label,
   Button,
+  ModalFooter,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -81,7 +82,12 @@ const UnlinkAppointment: FunctionComponent<any> = (props: IUnlinkInterface) => {
                 </FormGroup>
               </div>
             </div>
-            <div className='d-flex align-items-center justify-content-between'>
+          
+          </div>
+          {/* </div> */}
+        </ModalBody>
+        <ModalFooter>
+        <div className='d-flex align-items-center justify-content-between'>
               <Button
                 className={'btn-save'}
                 color='primary'
@@ -111,9 +117,7 @@ const UnlinkAppointment: FunctionComponent<any> = (props: IUnlinkInterface) => {
                 {languageTranslation('CANCEL')}
               </Button>
             </div>
-          </div>
-          {/* </div> */}
-        </ModalBody>
+        </ModalFooter>
       </Modal>
     </div>
   );

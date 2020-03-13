@@ -245,8 +245,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   };
 
   const handleInfiniteScroll = () => {
-    console.log("kkkkkkkkkkkkk");
-    
     setPage(page + 1);
     if (props.label !== 'appointment') {
       fetchMore({
@@ -363,7 +361,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   'Offer By care institution Sort by Days (With Button)' &&
                 props.sortBy === 'day'
               ) {
-                console.log('****************emailData', emailData);
                 const { subject, body, attachments } = emailData;
                 const editorState = body ? HtmlToDraftConverter(body) : '';
                 setSubject(subject);
@@ -420,7 +417,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   'offer by care institution sort by days (without button)' &&
                 props.sortBy === 'day'
               ) {
-                console.log('****************emailData', emailData);
                 const { subject, body, attachments } = emailData;
                 const editorState = body ? HtmlToDraftConverter(body) : '';
                 setSubject(subject);

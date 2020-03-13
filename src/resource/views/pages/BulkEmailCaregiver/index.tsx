@@ -131,6 +131,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
       }
+      props.handleClose();
       setSubject('');
       setBody(undefined);
       setAttachments([]);

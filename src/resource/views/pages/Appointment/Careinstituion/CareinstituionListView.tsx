@@ -72,6 +72,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnNotConfirmedCareInst,
     setOnOfferedCareInst,
     setOnNotOfferedCareInst,
+    careinstitutionDepartmentList,
     onNewRequirement
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
@@ -379,6 +380,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('division', true);
                   handleCareInstitutionBulkEmail();
+                  setOnOfferedCareInst();
+                  setopenToggleMenu(false);
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -395,7 +398,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     ? selectedCellsCareinstitution.length === 0
                     : true
                 }
-                onClick={() => handleCareGiverBulkEmail('day', true)}
+                onClick={() => {
+                  handleCareGiverBulkEmail('day', true);
+                  handleCareInstitutionBulkEmail();
+                  setOnOfferedCareInst();
+                  setopenToggleMenu(false);
+                }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
                 <span>
@@ -411,7 +419,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     ? selectedCellsCareinstitution.length === 0
                     : true
                 }
-                onClick={() => handleCareGiverBulkEmail('division', false)}
+                onClick={() => {
+                  handleCareGiverBulkEmail('division', false);
+                  handleCareInstitutionBulkEmail();
+                  setOnOfferedCareInst();
+                  setopenToggleMenu(false);
+                }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
                 <span>
@@ -427,7 +440,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     ? selectedCellsCareinstitution.length === 0
                     : true
                 }
-                onClick={() => handleCareGiverBulkEmail('day', false)}
+                onClick={() => {
+                  handleCareGiverBulkEmail('day', false);
+                  handleCareInstitutionBulkEmail();
+                  setOnOfferedCareInst();
+                  setopenToggleMenu(false);
+                }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
                 <span>
@@ -503,6 +521,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
+                  setopenToggleMenu(false);
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -514,6 +533,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
+                  setopenToggleMenu(false);
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -526,6 +546,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
+                  setopenToggleMenu(false);
+                  setOnConfirmedCareInst();
                 }}
               >
                 <img src={confirm_appointment} className='mr-2' alt='' />
@@ -537,6 +559,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
+                  setopenToggleMenu(false);
+                  setOnConfirmedCareInst();
                 }}
               >
                 <img src={confirm_appointment} className='mr-2' alt='' />
@@ -859,18 +883,21 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               key={`${key}-${i}`}
                               day={key}
                               item={
-                                dept
-                                // ? dept.filter((avabilityData: any) => {
-                                //     return (
-                                //       moment(key.isoString).format(
-                                //         'DD.MM.YYYY'
-                                //       ) ===
-                                //       moment(avabilityData.date).format(
-                                //         'DD.MM.YYYY'
-                                //       )
-                                //     );
-                                //   })[0]
-                                // : ''
+                                ''
+                                // item
+                                //   ? item.filter(
+                                //       (avabilityData: any) => {
+                                //         return (
+                                //           moment(key.isoString).format(
+                                //             'DD.MM.YYYY'
+                                //           ) ===
+                                //           moment(
+                                //             avabilityData.date
+                                //           ).format('DD.MM.YYYY')
+                                //         );
+                                //       }
+                                //     )[0]
+                                //   : ''
                               }
                               list={dept}
                               handleSelectedAvailability

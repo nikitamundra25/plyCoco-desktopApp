@@ -73,6 +73,12 @@ const Appointment: FunctionComponent = (props: any) => {
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null
   );
+  const [multipleAvailability, setMultipleAvailability] = useState<boolean>(
+    false
+  );
+  const [multipleRequirement, setMultipleRequirement] = useState<boolean>(
+    false
+  );
   const [activeMonth, setActiveMonth] = useState<number>(moment().month());
   const [activeYear, setActiveYear] = useState<number>(moment().year());
   const [qualification, setqualification] = useState<any>([]);
@@ -1855,21 +1861,35 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  const onDeleteEntries = async () => {
-    if (selectedCells && selectedCells.length) {
+  const onDeleteEntries = async (userRole: string) => {
+    let temp: any =
+      userRole === 'caregiver' ? selectedCells : selectedCellsCareinstitution;
+
+    if (temp && temp.length) {
       const { value } = await ConfirmBox({
         title: languageTranslation('CONFIRM_LABEL'),
-        text: languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY')
+        text:
+          userRole === 'caregiver'
+            ? languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY')
+            : languageTranslation('CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT')
       });
       if (value) {
-        selectedCells.forEach(async element => {
+        temp.forEach(async (element: any) => {
           const { id, item } = element;
           if (item && item.id) {
-            await deleteCaregiverRequirement({
-              variables: {
-                id: parseInt(item.id)
-              }
-            });
+            if (userRole === 'caregiver') {
+              await deleteCaregiverRequirement({
+                variables: {
+                  id: parseInt(item.id)
+                }
+              });
+            } else {
+              await deleteCareinstitutionRequirement({
+                variables: {
+                  id: parseInt(item.id)
+                }
+              });
+            }
           } else {
             let index: number = -1;
             index = caregiversList.findIndex(
@@ -1883,7 +1903,11 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
+            userRole === 'caregiver'
+              ? languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
+              : languageTranslation(
+                  'DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS'
+                )
           );
         }
       } else {
@@ -2154,6 +2178,8 @@ const Appointment: FunctionComponent = (props: any) => {
     status: status ? status : ''
   };
 
+  console.log(multipleAvailability, 'multipleAvailability+++');
+
   return (
     <>
       <div className='common-detail-page'>
@@ -2211,6 +2237,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     onCaregiverQualificationFilter={
                       onCaregiverQualificationFilter
                     }
+                    onNewAvailability={() => setMultipleAvailability(true)}
                     handleSelection={handleSelection}
                     selectedCellsCareinstitution={selectedCellsCareinstitution}
                     onLinkAppointment={onLinkAppointment}
@@ -2256,8 +2283,10 @@ const Appointment: FunctionComponent = (props: any) => {
                     selectedCellsCareinstitution={selectedCellsCareinstitution}
                     selectedCells={selectedCells}
                     onLinkAppointment={onLinkAppointment}
+                    onDeleteEntries={onDeleteEntries}
                     setOnConfirmedCareInst={setOnConfirmedCareInst}
                     setOnNotConfirmedCareInst={setOnNotConfirmedCareInst}
+                    onNewRequirement={() => setMultipleRequirement(true)}
                   />
                 </Col>
                 <Col lg={'7'}>
@@ -2274,7 +2303,12 @@ const Appointment: FunctionComponent = (props: any) => {
                               {...props}
                               selectedCareGiver={{ id: selectedCaregiverId }}
                               activeDateCaregiver={
-                                { dateString }
+                                !multipleAvailability
+                                  ? [dateString]
+                                  : selectedCells
+                                  ? selectedCells.map(cell => cell.dateString)
+                                  : []
+                                // { dateString }
                                 // activeDateCaregiver &&
                                 // activeDateCaregiver.length
                                 //   ? activeDateCaregiver[0]

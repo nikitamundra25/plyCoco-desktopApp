@@ -65,6 +65,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCellsCareinstitution,
     selectedCells,
     onLinkAppointment,
+    onDeleteEntries,
     setOnConfirmedCaregiver,
     setOnConfirmedCareInst,
     setOnNotConfirmedCareInst
@@ -121,6 +122,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
+
   const onSelectFinish = (selectedCells: any[]) => {
     const selected: any = [];
     let list: any = [];
@@ -176,6 +178,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       //   }
       // );
     }
+
     handleSelection(selectedRows, 'careinstitution');
     handleSelectedUser(
       list,
@@ -353,7 +356,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink
+                onClick={() => {
+                  handleRightMenuToggle();
+                  onDeleteEntries();
+                }}
+                // onClick={() => onDeleteEntries()}
+              >
                 <img src={delete_appointment} className='mr-2' alt='' />
                 <span>Delete free appointments</span>
               </NavLink>
@@ -468,7 +477,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={offer_sent} className='mr-2' alt='' />
-                <span>Offer caregivers (ordered by day)</span>
+                <span>Offer appointments (ordered by day)</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
@@ -609,7 +618,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   careInstitutionList.map((list: any, index: number) => {
                     return list.availabilityData && list.availabilityData.length
                       ? list.availabilityData.map((item: any, row: number) => (
-                          <tr key={index}>
+                          <tr key={`${list.id}-${index}-${row}`}>
                             <th className='thead-sticky name-col custom-appointment-col'>
                               <div className='all-star-wrap'>
                                 <div

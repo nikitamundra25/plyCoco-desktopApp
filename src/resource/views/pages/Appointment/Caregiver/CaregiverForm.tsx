@@ -228,11 +228,27 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       /> */}
 
                     <div className='text-value mb-1'>
-                      {activeDateCaregiver && activeDateCaregiver.dateString
+                      {activeDateCaregiver
+                        ? activeDateCaregiver
+                            .map((dateString: string | undefined) =>
+                              dateString
+                                ? moment(dateString).format('dd DD.MM.YYYY')
+                                : // (
+                                  //     <span>
+                                  //       {moment(dateString).format(
+                                  //         'dd DD.MM.YYYY',
+                                  //       )}
+                                  //     </span>,
+                                  //   )
+                                  null,
+                            )
+                            .join(', ')
+                        : null}
+                      {/* {activeDateCaregiver && activeDateCaregiver.dateString
                         ? moment(activeDateCaregiver.dateString).format(
                             'dd DD.MM.YYYY'
                           )
-                        : null}
+                        : null} */}
                     </div>
                     {/* </div> */}
 

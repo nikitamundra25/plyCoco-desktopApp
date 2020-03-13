@@ -63,9 +63,18 @@ const DetailListCareinstitution = (props: any) => {
                     <tbody>
                       {selectedCellsCareinstitution ? (
                         selectedCellsCareinstitution.map(
-                          (elem: any, index: number) => {
+                          (elem: any, index: number) => {                            
                             return elem && elem.item ? (
-                              <tr key={index}>
+                              <tr key={index}
+                              className={
+                                elem.item.status === 'default'
+                                  ? 'availability-bg'
+                                  : elem.item.status === 'linked'
+                                  ? 'matching-bg'
+                                  : elem.item.status === 'confirmed'
+                                  ? 'contract-bg'
+                                  : ''
+                              }>
                                 <td>{elem.id ? elem.id : null}</td>
                                 <td>-</td>
                                 <td>

@@ -2,14 +2,14 @@ import React from 'react';
 import { createSelectable } from 'react-selectable-fast';
 import classnames from 'classnames';
 
-const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
-  // // Filter current date data
-  // const temp = item.filter((avabilityData: any) => {
-  //   return (
-  //     moment(day.isoString).format('DD.MM.YYYY') ===
-  //     moment(avabilityData.date).format('DD.MM.YYYY')
-  //   );
-  // })[0];
+const Cell = ({
+  selectableRef,
+  isSelected,
+  isSelecting,
+  item,
+  key,
+  daysArr
+}: any) => {
   let isBlocked: boolean = false;
   if (item) {
     isBlocked = item.f === 'block' || item.s === 'block' || item.n === 'block';
@@ -42,6 +42,7 @@ const Cell = ({ selectableRef, isSelected, isSelecting, item, key }: any) => {
           'cursor-pointer': true,
           'selected-cell': isSelected,
           'selecting-cell': isSelecting,
+          'weekend': daysArr,
           'cell-block': item ? (isBlocked ? true : false) : false,
           'matching-bg': isMatching && !isSelected ? isMatching : false,
           'confirmation-bg': isConfirm && !isSelected ? isConfirm : false,

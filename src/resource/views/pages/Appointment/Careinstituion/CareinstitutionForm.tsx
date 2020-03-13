@@ -157,7 +157,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             'requirement-bg': isRequirment,
             'matching-bg': isMatching,
             'contract-bg': isConfirm,
-            'cell-available': isOffered
+            'cell-green-caregiver': isOffered
           })}
         >
           <h5 className='content-title'>

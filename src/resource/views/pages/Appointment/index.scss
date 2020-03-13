@@ -228,6 +228,13 @@
 .availability-bg {
   background: $availability_color !important;
 }
+.cell-green-caregiver {
+  background-color: #d7ffe4;
+}
+.cell-pink-careinstitution{
+  background-color: #ee21ff;
+
+}
 .requirement-bg {
   background: $requirement_color !important;
 }
@@ -374,6 +381,9 @@ body {
         background-color: $selected_color;
       }
       .cell-available {
+        background-color: $available_color;
+      }
+      .cell-green-caregiver {
         background-color: $available_color;
       }
       .cell-available-careinstitution {

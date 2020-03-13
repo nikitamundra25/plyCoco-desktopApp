@@ -64,6 +64,8 @@ const DetailListCareinstitution = (props: any) => {
                       {selectedCellsCareinstitution ? (
                         selectedCellsCareinstitution.map(
                           (elem: any, index: number) => {
+                            console.log('elem in careost',elem);
+                            
                             return elem && elem.item ? (
                               <tr
                                 key={index}

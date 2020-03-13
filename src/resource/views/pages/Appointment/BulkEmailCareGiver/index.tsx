@@ -19,7 +19,7 @@ import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 
 const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
-  const { openModal, handleClose } = props;
+  const { openModal, handleClose, selectedCells } = props;
   const externalCloseBtn = (
     <button
       className='close modal-close'
@@ -39,9 +39,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
         centered
         size='xl'
       >
-        <ModalHeader close={externalCloseBtn}>
-          Bulk Email Care giver
-        </ModalHeader>
+        <ModalHeader close={externalCloseBtn}>Bulk Email Caregiver</ModalHeader>
         <ModalBody>
           <BulkEmailCaregiver
             label={'appointment'}
@@ -50,6 +48,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
             lte={props.lte}
             sortBy={props.sortBy}
             showButton={props.showButton}
+            selectedCells={selectedCells}
           />
         </ModalBody>
       </Modal>

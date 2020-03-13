@@ -110,6 +110,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           id = '',
           firstName = '',
           lastName = '',
+          email = '',
           caregiver = {},
           qualificationId = []
         } = caregiverData ? caregiverData : {};
@@ -117,6 +118,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           id,
           firstName,
           lastName,
+          email,
           caregiver,
           item,
           qualificationIds: qualificationId,
@@ -310,7 +312,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem>
-            <NavLink onClick={() => handleCareGiverBulkEmail()}>
+            <NavLink
+              onClick={() => {
+                setopenToggleMenu(false);
+                handleCareGiverBulkEmail();
+              }}
+            >
               <img src={offer_sent} className='mr-2' alt='' />
               <span className='align-middle'>
                 Offer all available calendar entries
@@ -342,7 +349,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           </NavItem>
           <NavItem className='bordernav' />
           <NavItem>
-            <NavLink>
+            <NavLink
+              onClick={() => {
+                setopenToggleMenu(false);
+                handleCareGiverBulkEmail();
+              }}
+            >
               <img src={confirm_appointment} className='mr-2' alt='' />
               <span className='align-middle'>Confirmed appointments</span>
             </NavLink>{' '}
@@ -607,6 +619,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               </tbody>
             </Table>
           </div>
+          {console.log('selectedCells before bulk', selectedCells)}
         </SelectableGroup>
       </div>
       <BulkEmailCareGiverModal
@@ -615,6 +628,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         handleClose={() => handleCareGiverBulkEmail()}
         gte={props.gte}
         lte={props.lte}
+        selectedCells={selectedCells}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

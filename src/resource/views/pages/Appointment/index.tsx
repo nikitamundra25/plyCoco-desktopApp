@@ -2286,8 +2286,6 @@ const Appointment: FunctionComponent = (props: any) => {
     comments: Item ? Item.comments : '',
     status: Item ? Item.status : '',
   };
-  console.log('valuesForCareIntituionForm', valuesForCareIntituionForm);
-
   // end
   const {
     name = '',

@@ -265,7 +265,11 @@ const DetailListCaregiver = (props: any) => {
                                 <td>-</td>
                                 <td>-</td>
                                 <td>-</td>
-                                <td>-</td>
+                                <td>
+                                  {elem.item.distanceInKM
+                                    ? elem.item.distanceInKM
+                                    : '-'}
+                                </td>
                                 <td>
                                   {elem.item.feePerKM
                                     ? elem.item.feePerKM

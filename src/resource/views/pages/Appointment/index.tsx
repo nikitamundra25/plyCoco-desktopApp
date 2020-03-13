@@ -804,6 +804,7 @@ const Appointment: FunctionComponent = (props: any) => {
       setselectedCellsCareinstitution(selectedCells);
     }
   };
+  console.log('setvaluesForCareinstitution', valuesForCareinstitution);
 
   // Reset the users list
   const handleReset = (name: string) => {
@@ -1064,8 +1065,8 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // change department
   useEffect(() => {
-    console.log("jjjjjjjjjjjjjjjjjj");
-    
+    console.log('jjjjjjjjjjjjjjjjjj');
+
     let deptId = careInstituionDept ? careInstituionDept.value : '';
     let departmentData: any = {};
     const careInstitutionTimesOptions:
@@ -1075,14 +1076,13 @@ const Appointment: FunctionComponent = (props: any) => {
     let startTime: string = '';
     let endTime: string = '';
     if (deptId) {
-      
       if (departmentList && departmentList.getDivision.length) {
         const { getDivision } = departmentList;
-        console.log("deptId",getDivision);
+        console.log('deptId', getDivision);
         departmentData = getDivision.filter((dept: any) => dept.id === deptId);
         if (departmentData[0] && departmentData[0].times) {
-          console.log("departmentData",departmentData);
-          
+          console.log('departmentData', departmentData);
+
           startTime = departmentData[0].times[0]
             ? departmentData[0].times[0].begin
             : '';
@@ -1113,7 +1113,7 @@ const Appointment: FunctionComponent = (props: any) => {
           startTime: startTime ? startTime : values.startTime,
           endTime: endTime ? endTime : values.endTime
         };
-        
+
         setvaluesForCareinstitution(temp);
       }
     }
@@ -1401,9 +1401,10 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //  call department list query with every selection of care institution
   useEffect(() => {
-    let userId: string = selectedCellsCareinstitution && selectedCellsCareinstitution.length 
-      ? selectedCellsCareinstitution[0].id
-      : '';
+    let userId: string =
+      selectedCellsCareinstitution && selectedCellsCareinstitution.length
+        ? selectedCellsCareinstitution[0].id
+        : '';
     if (userId) {
       getDepartmentList({
         variables: {
@@ -1923,10 +1924,6 @@ const Appointment: FunctionComponent = (props: any) => {
       }
     }
   };
-  console.log(
-    'careInstitutionListcareInstitutionList',
-    selectedCellsCareinstitution
-  );
 
   // Link both forms
   const handleLinkBoth = () => {
@@ -2025,91 +2022,6 @@ const Appointment: FunctionComponent = (props: any) => {
     setgteDayData(gteDayData);
   }, []);
 
-  // // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
-  // let firstName: string = '',
-  //   lastName: string = '',
-  //   caregiver: any = {};
-
-  // if (selctedAvailability && selctedAvailability.id) {
-  //   caregiver = selctedAvailability ? selctedAvailability : {};
-  // } else {
-  //   (firstName = selectedCareGiver ? selectedCareGiver.firstName : ''),
-  //     (lastName = selectedCareGiver ? selectedCareGiver.lastName : ''),
-  //     (caregiver =
-  //       selectedCareGiver && selectedCareGiver.caregiver
-  //         ? selectedCareGiver.caregiver
-  //         : {});
-  // }
-  // // end
-  // const {
-  //   id = null,
-  //   fee = null,
-  //   night = null,
-  //   nightFee = null,
-  //   nightAllowance = undefined,
-  //   holiday = null,
-  //   holidayAllowance = null,
-  //   weekendAllowance = null,
-  //   distanceInKM = null,
-  //   feePerKM = null,
-  //   travelAllowance = null,
-  //   otherExpenses = null,
-  //   workingProofRecieved = false,
-  //   remarksCareGiver = null,
-  //   remarksInternal = null,
-  //   f = null,
-  //   s = null,
-  //   n = null,
-  // } = caregiver ? caregiver : {};
-
-  // const valuesForCaregiver: ICaregiverFormValue = {
-  //   appointmentId: id !== null ? id : null,
-  //   firstName:
-  //     selectedCareGiver && selectedCareGiver.firstName
-  //       ? selectedCareGiver.firstName
-  //       : '',
-  //   lastName:
-  //     selectedCareGiver && selectedCareGiver.lastName
-  //       ? selectedCareGiver.lastName
-  //       : '',
-  //   fee: fee ? germanNumberFormat(fee) : '',
-  //   nightFee: night
-  //     ? germanNumberFormat(night)
-  //     : nightFee
-  //     ? germanNumberFormat(nightFee)
-  //     : '',
-  //   nightAllowance:
-  //     caregiver && nightAllowance
-  //       ? { value: nightAllowance, label: nightAllowance }
-  //       : undefined,
-  //   holidayAllowance: holidayAllowance
-  //     ? germanNumberFormat(holidayAllowance)
-  //     : holiday
-  //     ? germanNumberFormat(holiday)
-  //     : '',
-  //   weekendAllowance: weekendAllowance
-  //     ? germanNumberFormat(weekendAllowance)
-  //     : '',
-  //   workingProofRecieved: workingProofRecieved ? true : false,
-  //   distanceInKM: distanceInKM ? distanceInKM : '',
-  //   feePerKM: feePerKM ? feePerKM : '',
-  //   travelAllowance: travelAllowance ? travelAllowance : '',
-  //   otherExpenses: otherExpenses ? otherExpenses : '',
-  //   workingHoursFrom: '',
-  //   workingHoursTo: '',
-  //   breakFrom: '',
-  //   breakTo: '',
-  //   remarksCareGiver: caregiver && remarksCareGiver ? remarksCareGiver : '',
-  //   remarksInternal: caregiver && remarksInternal ? remarksInternal : '',
-  //   f: f === 'available' ? true : false,
-  //   s: s === 'available' ? true : false,
-  //   n: n === 'available' ? true : false,
-  // };
-
-  // console.log('++++++++++++++++Get gte and lte data', gteDayData);
-  // console.log('***********Get gte and lte data', lteDayData);
-  // console.log('qualification above return', qualification);
-
   // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
   const {
     firstName = '',
@@ -2135,6 +2047,27 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
+
+  const valuesForCareIntituionForm: ICareinstitutionFormValue = {
+    appointmentId: Item ? Item.id : '',
+    name: Item && Item.name ? Item.name : `${LastName}${' '}${FirstName}`,
+    date: Item ? Item.date : '',
+    startTime: Item ? Item.startTime : '',
+    endTime: Item ? Item.endTime : '',
+    qualificationId: undefined,
+    address: Item ? Item.address : '',
+    contactPerson: Item ? Item.contactPerson : '',
+    departmentOfferRemarks: Item ? Item.departmentOfferRemarks : '',
+    departmentBookingRemarks: Item ? Item.departmentBookingRemarks : '',
+    departmentRemarks: Item ? Item.departmentRemarks : '',
+    isWorkingProof: Item ? Item.isWorkingProof : false,
+    offerRemarks: Item ? Item.offerRemarks : '',
+    bookingRemarks: Item ? Item.bookingRemarks : '',
+    shift: undefined,
+    department: undefined,
+    comments: Item ? Item.comments : '',
+    status: Item ? Item.status : ''
+  };
 
   // end
   const {
@@ -2363,10 +2296,9 @@ const Appointment: FunctionComponent = (props: any) => {
                         }}
                       />
                     </Col>
-                    {console.log('+++++++++++canstitution', canstitution, Item)}
                     <Col lg={'6'}>
                       <Formik
-                        initialValues={Item}
+                        initialValues={valuesForCareIntituionForm}
                         onSubmit={handleSubmitCareinstitutionForm}
                         enableReinitialize={true}
                         validationSchema={CareInstitutionValidationSchema}

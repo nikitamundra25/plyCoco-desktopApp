@@ -8,31 +8,43 @@ const CellCareinstitution = ({
   selectableRef,
   isSelected,
   isSelecting,
-  day,
-  list,
   item,
+  daysArr,
   key,
-  handleSelectedUser
 }: any) => {
-  const temp = item.filter((avabilityData: any, index: number) => {
-    return (
-      moment(day.isoString).format('DD.MM.YYYY') ===
-      moment(avabilityData.date).format('DD.MM.YYYY')
-    );
-  })[0];
+  let isRequirment: boolean = false,
+    isMatching: boolean = false,
+    isContract: boolean = false,
+    isConfirm: boolean = false;
+
+  if (item) {
+    if (item.status === 'default') {
+      isRequirment = true;
+    } else if (item.status === 'linked') {
+      isMatching = true;
+    } else if (item.status === 'contract') {
+      isContract = true;
+    } else if (item.status === 'confirmed') {
+      isConfirm = true;
+    }
+  }
   return (
     <td
       key={key}
       className={classnames({
         'calender-col': true,
         'text-center': true,
+        'weekend': daysArr,
         'custom-appointment-col': true,
         'cursor-pointer': true,
         'selected-cell': isSelected,
         'selecting-cell': isSelecting,
+        'requirement-bg': isRequirment && !isSelected ? isRequirment : false,
+        'matching-bg': isMatching && !isSelected ? isMatching : false,
+        'contract-bg': isConfirm && !isSelected ? isConfirm : false,
         'cell-available-careinstitution': !isSelected
-          ? temp
-            ? temp.f === temp.f || temp.s === temp.s || temp.n === temp.n
+          ? item
+            ? item.f === item.f || item.s === item.s || item.n === item.n
               ? true
               : false
             : false
@@ -60,11 +72,11 @@ const CellCareinstitution = ({
       ref={selectableRef}
       // onClick={() => handleSelectedUser(list, day, 'caregiver')}
     >
-      {temp ? (
+      {item ? (
         <>
-          {temp.f ? temp.f : null}
-          {temp.s ? temp.s : null}
-          {temp.n ? temp.n : null}
+          {item.f ? item.f : null}
+          {item.s ? item.s : null}
+          {item.n ? item.n : null}
         </>
       ) : null}
       {/* {list &&

@@ -1,37 +1,27 @@
 import React, { FunctionComponent, useState } from 'react';
-
-import '../index.scss';
-import {
-  IAppointmentCareGiverForm,
-  IDaysArray,
-  ICaregiverFormValue,
-  IReactSelectInterface
-} from '../../../../../interfaces';
+import Select from 'react-select';
+import { FormikProps } from 'formik';
+import moment from 'moment';
+import classnames from 'classnames';
 import {
   FormGroup,
   Label,
   Input,
   Col,
   Row,
-  Form,
   Button,
   InputGroup,
   InputGroupAddon,
   InputGroupText
 } from 'reactstrap';
-import '../index.scss';
-import { languageTranslation } from '../../../../../helpers';
-import MaskedInput from 'react-text-mask';
 import {
-  NightAllowancePerHour,
-  State,
-  defaultDateFormat
-} from '../../../../../config';
-import Select from 'react-select';
-import { FormikProps } from 'formik';
-import { FormikTextField } from '../../../components/forms/FormikFields';
-import moment from 'moment';
-import classnames from 'classnames';
+  IAppointmentCareGiverForm,
+  ICaregiverFormValue,
+  IReactSelectInterface
+} from '../../../../../interfaces';
+import { languageTranslation } from '../../../../../helpers';
+import { NightAllowancePerHour, State } from '../../../../../config';
+import '../index.scss';
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm &
@@ -41,9 +31,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   // const { selectedCareGiver } = props;
   const {
     values: {
-      firstName,
+      name,
       appointmentId,
-      lastName,
       fee,
       nightFee,
       nightAllowance,
@@ -62,7 +51,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       remarksInternal,
       f,
       s,
-      n
+      n,
+      status
     },
     touched,
     errors,
@@ -83,7 +73,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     handleSelectUserList,
     handleLastTimeData
   } = props;
-
   const [starMark, setstarMark] = useState<boolean>(false);
 
   // Custom function to handle react select fields
@@ -93,23 +82,25 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
   let isAvailability: boolean = false,
     isMatching: boolean = false,
-    isContract: boolean = false;
-  if (selctedAvailability) {
-    if (selctedAvailability.status === 'default') {
-      isAvailability = true;
-    } else if (selctedAvailability.status === 'linked') {
-      isMatching = true;
-    } else if (selctedAvailability.status === 'contract') {
-      isContract = true;
-    }
-  }
+    isContract: boolean = false,
+    isConfirm: boolean = false;
 
-  let appointmentid: any = null;
-  if (addCaregiverRes && addCaregiverRes[0].id) {
-    appointmentid = addCaregiverRes[0].id;
-    // setFieldValue('appointmentid', appointmentid);
-  } else if (selctedAvailability && selctedAvailability.id) {
-    appointmentid = selctedAvailability.id;
+  if (selctedAvailability || status) {
+    if (selctedAvailability.status === 'default' || status === 'default') {
+      isAvailability = true;
+    } else if (selctedAvailability.status === 'linked' || status === 'linked') {
+      isMatching = true;
+    } else if (
+      selctedAvailability.status === 'contract' ||
+      status === 'contract'
+    ) {
+      isContract = true;
+    } else if (
+      selctedAvailability.status === 'confirmed' ||
+      status === 'confirmed'
+    ) {
+      isConfirm = true;
+    }
   }
 
   const handleTravelAllowance = () => {
@@ -119,9 +110,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
   const handleUserList = (id: string, name: string) => {
     let data: any = careGiversListArr;
-    setstarMark(!starMark);
+    setstarMark(!starMark && careGiversListArr && careGiversListArr.result);
     if (id && !starMark) {
-      data = careGiversListArr.filter((x: any) => x.id === id);
+      data = careGiversListArr.result.filter((x: any) => x.id === id);
     }
     handleSelectUserList(data, name);
   };
@@ -134,7 +125,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             'form-card custom-height custom-scrollbar': true,
             'availability-bg': isAvailability,
             'matching-bg': isMatching,
-            'contract-bg': isContract
+            'confirmation-bg': isConfirm
           })}
         >
           <h5 className='content-title'>
@@ -181,13 +172,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           type='text'
                           disabled={true}
                           placeholder={languageTranslation('NAME')}
-                          value={
-                            firstName
-                              ? `${lastName ? lastName : ''} ${
-                                  firstName ? firstName : ''
-                                }`
-                              : ''
-                          }
+                          value={name ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -199,10 +184,14 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               }
                               aria-hidden='true'
                               onClick={() =>
-                                handleUserList(
-                                  selectedCareGiver ? selectedCareGiver.id : '',
-                                  'caregiver'
-                                )
+                                name
+                                  ? handleUserList(
+                                      selectedCareGiver
+                                        ? selectedCareGiver.id
+                                        : '',
+                                      'caregiver'
+                                    )
+                                  : ''
                               }
                             ></i>
                           </InputGroupText>
@@ -240,12 +229,26 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
                     <div className='text-value mb-1'>
                       {activeDateCaregiver
-                        ? moment(
-                            activeDateCaregiver
-                              ? activeDateCaregiver.dateString
-                              : null
-                          ).format('dd DD.MM.YYYY')
+                        ? activeDateCaregiver
+                            .map((dateString: string | undefined) =>
+                              dateString
+                                ? moment(dateString).format('dd DD.MM.YYYY')
+                                : // (
+                                  //     <span>
+                                  //       {moment(dateString).format(
+                                  //         'dd DD.MM.YYYY',
+                                  //       )}
+                                  //     </span>,
+                                  //   )
+                                  null,
+                            )
+                            .join(', ')
                         : null}
+                      {/* {activeDateCaregiver && activeDateCaregiver.dateString
+                        ? moment(activeDateCaregiver.dateString).format(
+                            'dd DD.MM.YYYY'
+                          )
+                        : null} */}
                     </div>
                     {/* </div> */}
 
@@ -719,90 +722,97 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('WORKING_HOURS')}
-                    </Label>
-                  </Col>
+            {selctedAvailability &&
+            selctedAvailability.status === 'confirmed' ? (
+              <>
+                <Col lg={'12'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm={'4'}>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('WORKING_HOURS')}
+                        </Label>
+                      </Col>
 
-                  <Col sm={'8'}>
-                    <div className='required-input'>
-                      <div className='custom-col inner-no-padding-col row'>
-                        <Col sm={'6'}>
-                          <div>
-                            <Select
-                              classNamePrefix='custom-inner-reactselect'
-                              className={
-                                'custom-reactselect custom-reactselect-menu-width'
-                              }
-                              placeholder=''
-                              options={State}
-                            />
+                      <Col sm={'8'}>
+                        <div className='required-input'>
+                          <div className='custom-col inner-no-padding-col row'>
+                            <Col sm={'6'}>
+                              <div>
+                                <Select
+                                  classNamePrefix='custom-inner-reactselect'
+                                  className={
+                                    'custom-reactselect custom-reactselect-menu-width'
+                                  }
+                                  placeholder=''
+                                  options={State}
+                                />
+                              </div>
+                            </Col>
+                            <Col sm={'6'}>
+                              <div>
+                                <Select
+                                  classNamePrefix='custom-inner-reactselect'
+                                  className={
+                                    'custom-reactselect custom-reactselect-menu-width'
+                                  }
+                                  placeholder=''
+                                  options={State}
+                                />
+                              </div>
+                            </Col>
                           </div>
-                        </Col>
-                        <Col sm={'6'}>
-                          <div>
-                            <Select
-                              classNamePrefix='custom-inner-reactselect'
-                              className={
-                                'custom-reactselect custom-reactselect-menu-width'
-                              }
-                              placeholder=''
-                              options={State}
-                            />
-                          </div>
-                        </Col>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('BREAK')}
-                    </Label>
-                  </Col>
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={'12'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm={'4'}>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('BREAK')}
+                        </Label>
+                      </Col>
 
-                  <Col sm={'8'}>
-                    <div className='required-input'>
-                      <div className='custom-col inner-no-padding-col row'>
-                        <Col sm={'6'}>
-                          <div>
-                            <Select
-                              classNamePrefix='custom-inner-reactselect'
-                              className={
-                                'custom-reactselect custom-reactselect-menu-width'
-                              }
-                              placeholder=''
-                              options={State}
-                            />
+                      <Col sm={'8'}>
+                        <div className='required-input'>
+                          <div className='custom-col inner-no-padding-col row'>
+                            <Col sm={'6'}>
+                              <div>
+                                <Select
+                                  classNamePrefix='custom-inner-reactselect'
+                                  className={
+                                    'custom-reactselect custom-reactselect-menu-width'
+                                  }
+                                  placeholder=''
+                                  options={State}
+                                />
+                              </div>
+                            </Col>
+                            <Col sm={'6'}>
+                              <div>
+                                <Select
+                                  classNamePrefix='custom-inner-reactselect'
+                                  className={
+                                    'custom-reactselect custom-reactselect-menu-width'
+                                  }
+                                  placeholder=''
+                                  options={State}
+                                />
+                              </div>
+                            </Col>
                           </div>
-                        </Col>
-                        <Col sm={'6'}>
-                          <div>
-                            <Select
-                              classNamePrefix='custom-inner-reactselect'
-                              className={
-                                'custom-reactselect custom-reactselect-menu-width'
-                              }
-                              placeholder=''
-                              options={State}
-                            />
-                          </div>
-                        </Col>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+              </>
+            ) : (
+              ''
+            )}
             <Col lg={'12'}>
               <FormGroup>
                 <Row>

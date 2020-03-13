@@ -1,369 +1,531 @@
-import React, { FunctionComponent } from "react";
-import {
-  Col,
-  Row,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-  Table,
-  UncontrolledTooltip
-} from "reactstrap";
-import { Editor } from "react-draft-wysiwyg";
-import { convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import Select from "react-select";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { languageTranslation } from "../../../../helpers";
-import { useDropzone } from "react-dropzone";
-import refresh from "../../../assets/img/refresh.svg";
-import "./index.scss";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Row, Button } from 'reactstrap';
+import { convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 
-const BulkEmailCareInstitution: FunctionComponent = () => {
-  const { getRootProps, getInputProps } = useDropzone({
-    multiple: true,
-    minSize: 0,
-    maxSize: 25000000
+import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
+import {
+  languageTranslation,
+  stripHtml,
+  HtmlToDraftConverter,
+  errorFormatter
+} from '../../../../helpers';
+import {
+  ProfileQueries,
+  CareInstitutionQueries,
+  EmailTemplateQueries,
+  AppointmentsQueries
+} from '../../../../graphql/queries';
+import {
+  IEmailAttachmentData,
+  IReactSelectInterface,
+  IEmailTemplateData,
+  INewEmailAttachments
+} from '../../../../interfaces';
+import { CareInstitutionListComponent } from './CareInstitutionListComponent';
+import filter from '../../../assets/img/filter.svg';
+import refresh from '../../../assets/img/refresh.svg';
+import './index.scss';
+import { useHistory } from 'react-router';
+import { client } from '../../../../config';
+import { EmailEditorComponent } from './EmailFormComponent';
+import { ConfirmBox } from '../../components/ConfirmBox';
+import { BulkEmailCareGivers } from '../../../../graphql/Mutations';
+import { IBulkEmailVariables } from '../../../../interfaces/BulkEmailCaregiver';
+import { toast } from 'react-toastify';
+import { ApolloError } from 'apollo-client';
+
+const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
+const [BULK_EMAILS] = BulkEmailCareGivers;
+const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
+const [VIEW_PROFILE] = ProfileQueries;
+const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
+
+let toastId: any = null;
+
+const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
+  let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
+  const history = useHistory();
+
+  // To access data of loggedIn user
+  let userData: any = '';
+  try {
+    userData = client.readQuery({
+      query: VIEW_PROFILE
+    });
+  } catch (error) {}
+
+  const { viewAdminProfile }: any = userData ? userData : {};
+  const { firstName = '', lastName = '', id = '' } = viewAdminProfile
+    ? viewAdminProfile
+    : {};
+
+  // To fetch caregivers by qualification id
+  const [
+    fetchCaregiverListFromQualification,
+    {
+      data: careInstitutionsList,
+      called: careGiverListCalled,
+      loading: caregiverLoading,
+      refetch: caregiverQulliRefetch,
+      fetchMore: caregiverListFetch
+    }
+  ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
+    fetchPolicy: 'no-cache'
   });
+
+  // To get careinstitution list from db
+  const [
+    getCareInstitutions,
+    { data: careInstitutionListData, called, loading, refetch, fetchMore }
+  ] = useLazyQuery<any, any>(GET_CARE_INSTITUTION_LIST, {
+    fetchPolicy: 'no-cache'
+  });
+
+  //To get all email templates of care giver addded in system
+  const { data, loading: fetchTemplateListLoading } = useQuery<any>(
+    GET_CAREGIVER_EMAIL_TEMPLATES,
+    {
+      variables: {
+        type: languageTranslation('CAREINSTITUTION_EMAIL_TEMPLATE_TYPE')
+      }
+    }
+  );
+
+  const [page, setPage] = useState<number>(1);
+  const [template, setTemplate] = useState<any>(undefined);
+  const [subject, setSubject] = useState<string>('');
+  const [body, setBody] = useState<any>('');
+  const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [bulkcareGivers, setBulkCareGivers] = useState<boolean>(false);
+  const [careInstitutions, setCareInstitution] = useState<any>([]);
+
+  const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
+    bulkEmailsInput: IBulkEmailVariables;
+  }>(BULK_EMAILS, {
+    onCompleted() {
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
+      }
+      setSubject('');
+      setBody(undefined);
+      setAttachments([]);
+      setIsSubmit(false);
+      setTemplate({ label: '', value: '' });
+      setselectedCareGiver([]);
+      setBulkCareGivers(false);
+    },
+    onError: (error: ApolloError) => {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+  });
+
+  // To fetch users according to user selected
+  useEffect(() => {
+    if (props.label === 'appointment') {
+      let userId: any = [];
+      if (
+        props.selectedCellsCareinstitution &&
+        props.selectedCellsCareinstitution.length > 0
+      ) {
+        for (let i = 0; i < props.selectedCellsCareinstitution.length; i++) {
+          let value = props.selectedCellsCareinstitution[i];
+          userId.push(parseInt(value.id));
+        }
+      }
+      let temp: any = [];
+      props.qualification.map((key: any, index: number) => {
+        temp.push(parseInt(key.value));
+      });
+
+      // get careInstitutions list
+      fetchCaregiverListFromQualification({
+        variables: {
+          qualificationId: temp ? temp : [],
+          positiveAttributeId: [],
+          negativeAttributeId: [],
+          userRole: 'canstitution',
+          limit: 30,
+          page,
+          gte: props.gte,
+          lte: props.lte,
+          userId: userId
+        }
+      });
+    }
+  }, [props.qualification]);
+
+  useEffect(() => {
+    // Fetch list of care instituion
+    if (props.label !== 'appointment') {
+      getCareInstitutions({
+        variables: {
+          searchBy: '',
+          sortBy: 3,
+          limit: 30,
+          page,
+          isActive: ''
+        }
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const getUserByQualifications =
+      careInstitutionsList && careInstitutionsList.getUserByQualifications
+        ? careInstitutionsList.getUserByQualifications
+        : {};
+    if (getUserByQualifications) {
+      const { result, totalCount } = getUserByQualifications;
+      setCareInstitution({
+        totalCount,
+        careInstitutionData: result
+      });
+    }
+  }, [careInstitutionsList]);
+
+  // Refresh component
+  const onRefresh = () => {
+    // refetch();
+    getCareInstitutions({
+      variables: {
+        searchBy: '',
+        sortBy: 3,
+        limit: 30,
+        page: 1,
+        isActive: ''
+      }
+    });
+    setSubject('');
+    setBody(undefined);
+    setAttachments([]);
+    setIsSubmit(false);
+    setPage(page);
+    setTemplate({ label: '', value: '' });
+    setselectedCareGiver([]);
+    setBulkCareGivers(false);
+  };
+
+  //Use Effect for set default email template data
+  useEffect(() => {
+    if (data && props.label === 'appointment') {
+      const {
+        getEmailtemplate: { email_templates }
+      } = data;
+      if (email_templates && email_templates.length) {
+        email_templates.map((emailData: IEmailTemplateData & any) => {
+          if (props.label === 'appointment') {
+            if (emailData.menuEntry === 'Acknowledge for offer sent') {
+              console.log('In temp opt', emailData);
+              const { subject, body, attachments } = emailData;
+              const editorState = body ? HtmlToDraftConverter(body) : '';
+              setSubject(subject);
+              setBody(editorState);
+              setAttachments(
+                attachments
+                  ? attachments.map(
+                      ({ name, id, path, size }: INewEmailAttachments) => ({
+                        fileName: name,
+                        id,
+                        path,
+                        size
+                      })
+                    )
+                  : []
+              );
+
+              setTemplate({
+                label: emailData.menuEntry,
+                value: emailData
+              });
+            }
+          }
+        });
+      }
+    }
+  }, [data]);
+
+  const handleSelectAll = async () => {
+    if (careInstitutions && careInstitutions.careInstitutionData.length) {
+      let list: any = [];
+      if (!bulkcareGivers) {
+        careInstitutions.careInstitutionData.map((key: any) => {
+          return (list = [...list, parseInt(key.id)]);
+        });
+        setselectedCareGiver(list);
+        setBulkCareGivers(true);
+      } else {
+        setselectedCareGiver([]);
+        setBulkCareGivers(false);
+      }
+    }
+  };
+
+  const handleCheckElement = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => {
+    const { target } = e;
+    const { checked } = target;
+
+    if (checked) {
+      setselectedCareGiver((selectedCareGiver: any) => [
+        ...selectedCareGiver,
+        parseInt(id)
+      ]);
+      if (
+        careInstitutions &&
+        careInstitutions.length === selectedCareGiver.length + 1
+      ) {
+        setBulkCareGivers(true);
+      } else {
+        setBulkCareGivers(false);
+      }
+    } else {
+      if (selectedCareGiver.indexOf(parseInt(id)) > -1) {
+        selectedCareGiver.splice(selectedCareGiver.indexOf(parseInt(id)), 1);
+        setselectedCareGiver([...selectedCareGiver]);
+      }
+      if (
+        careInstitutions &&
+        careInstitutions.length === selectedCareGiver.length
+      ) {
+        setBulkCareGivers(true);
+      } else {
+        setBulkCareGivers(false);
+      }
+    }
+  };
+
+  const handleSendEmail = (e: React.FormEvent<any>) => {
+    e.preventDefault();
+    let content = body
+      ? draftToHtml(convertToRaw(body.getCurrentContent()))
+      : '';
+    const result = stripHtml(content);
+    setIsSubmit(true);
+
+    try {
+      let careGiverIdList: any = [];
+
+      if (selectedCareGiver && selectedCareGiver.length) {
+        // Remove duplicate values from an array of objects
+        let uniqueUser = selectedCareGiver.reduce((unique: any, key: any) => {
+          if (
+            !unique.some(
+              (obj: any) => obj.label === key.label && obj.value === key.value
+            )
+          ) {
+            unique.push(key);
+          }
+          return unique;
+        }, []);
+
+        uniqueUser.map((careGiverId: number) => {
+          careGiverIdList = [
+            ...careGiverIdList,
+            { receiverUserId: careGiverId }
+          ];
+        });
+
+        if (subject && body && result && result.length >= 2) {
+          const bulkEmailsInput: IBulkEmailVariables = {
+            to: 'caregiver',
+            from: 'plycoco',
+            subject: subject /* .replace(/AW:/g, '') */,
+            body: body ? content : '',
+            parentId: null,
+            status: 'unread',
+            type: props.label === 'appointment' ? 'offer' : 'email',
+            attachments:
+              attachments && attachments.length
+                ? attachments.filter((attachment: any) => attachment.path)
+                : [],
+            files:
+              attachments && attachments.length
+                ? attachments
+                    .map((item: IEmailAttachmentData) => item.file)
+                    .filter((file: File | null) => file)
+                : null,
+            caregiver: careGiverIdList,
+            senderUserId: id ? parseInt(id) : null
+          };
+          bulkEmails({ variables: { bulkEmailsInput } });
+        }
+      } else {
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(
+            languageTranslation('EMAIL_SELECT_CARE_GIVERS')
+          );
+        }
+      }
+    } catch (error) {
+      const message = error.message
+        .replace('SequelizeValidationError: ', '')
+        .replace('Validation error: ', '')
+        .replace('GraphQL error: ', '');
+      toast.error(message);
+    }
+  };
+
+  const onDelteDocument = async (
+    attachmentId: string,
+    attachmentIndex?: number
+  ) => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG')
+    });
+    if (!value) {
+      return;
+    } else {
+      setAttachments((prevArray: any) =>
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
+      );
+    }
+  };
+
+  const uploadDocument = (data: IEmailAttachmentData) => {
+    setAttachments((prevArray: any) => [data, ...prevArray]);
+  };
+
+  const onEditorStateChange = (editorState: any): void => {
+    setBody(editorState);
+  };
+
+  const handleChangeSubject = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSubject(e.target.value);
+  };
+
+  // set subject & body on template selection
+  const onTemplateSelection = (selectedOption: any) => {
+    const {
+      getEmailtemplate: { email_templates }
+    } = data;
+    setTemplate(selectedOption);
+    const templateData = email_templates.filter(
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
+    )[0];
+    if (templateData) {
+      const { subject, body, attachments } = templateData;
+      const editorState = body ? HtmlToDraftConverter(body) : '';
+      setSubject(subject);
+      setBody(editorState);
+      setAttachments(
+        attachments
+          ? attachments.map(
+              ({ name, id, path, size }: INewEmailAttachments) => ({
+                fileName: name,
+                id,
+                path,
+                size
+              })
+            )
+          : []
+      );
+    }
+  };
+
+  const templateOptions: IReactSelectInterface[] | undefined = [];
+  if (data && data.getEmailtemplate) {
+    const {
+      getEmailtemplate: { email_templates }
+    } = data;
+
+    if (email_templates && email_templates.length) {
+      email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
+        templateOptions.push({
+          label: menuEntry,
+          value: id ? id.toString() : ''
+        });
+      });
+    }
+  }
+
   return (
     <>
-      <div className="common-detail-page">
-        <div className="common-detail-section">
-          <div className="sticky-common-header">
-            <div className="common-topheader d-flex align-items-center px-2 mb-1">
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={refresh} alt="" />
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
+          <div className='sticky-common-header'>
+            <div className='common-topheader d-flex align-items-center px-2 mb-1'>
+              <div className='header-nav-item' onClick={onRefresh}>
+                <span className='header-nav-icon'>
+                  <img src={refresh} alt='' />
                 </span>
-                <span className="header-nav-text">
-                  {languageTranslation("REFRESH")}
+                <span className='header-nav-text'>
+                  {languageTranslation('REFRESH')}
                 </span>
               </div>
-
-              <div className="ml-auto">
+              {/* <div className='header-nav-item'>
+                <span className='header-nav-icon'>
+                  <img src={filter} alt='' />
+                </span>
+                <span className='header-nav-text'>
+                  {languageTranslation('ATTRIBUTES')}
+                </span>
+              </div> */}
+              {/* <div className='ml-auto'>
                 <Button
-                  color="primary"
-                  className="btn-email-save ml-auto mr-2 btn btn-primary"
+                  color='primary'
+                  onClick={handleSendEmail}
+                  className='btn-email-save ml-auto mr-2 btn btn-primary'
                 >
-                  <i className="fa fa-paper-plane mr-2" aria-hidden="true"></i>
-
-                  <span>{languageTranslation("SEND")}</span>
+                  <i className='fa fa-spinner fa-spin mr-2' />
+                  <span>{languageTranslation('SEND')}</span>
+                </Button>
+              </div> */}
+              <div className='ml-auto'>
+                <Button
+                  color='primary'
+                  onClick={handleSendEmail}
+                  className='btn-email-save ml-auto mr-2 btn btn-primary'
+                >
+                  {bulkEmailLoading ? (
+                    <i className='fa fa-spinner fa-spin mr-2' />
+                  ) : (
+                    <i
+                      className='fa fa-paper-plane mr-2'
+                      aria-hidden='true'
+                    ></i>
+                  )}
+                  <span>{languageTranslation('SEND')}</span>
                 </Button>
               </div>
             </div>
           </div>
 
-          <div className="common-content flex-grow-1">
-            <div className="bulk-email-section">
+          <div className='common-content flex-grow-1'>
+            <div className='bulk-email-section'>
               <Row>
-                <Col lg="6" className="pr-lg-0">
-                  <div
-                    id="scrollableDiv"
-                    className="caregiver-list custom-scroll"
-                  >
-                    <Table
-                      bordered
-                      hover
-                      responsive
-                      className="mail-table mb-0"
-                    >
-                      <thead className="thead-bg">
-                        <tr>
-                          <th className="">
-                            {languageTranslation("MENU_INSTITUTION")}
-                          </th>
-                          <th className="">{languageTranslation("CONTACT")}</th>
-                          <th>{languageTranslation("NAME")}</th>
-                          <th className="">{languageTranslation("EMAIL")}</th>
-                          <th>{languageTranslation("SALUTATION")}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <span className=" checkbox-custom  ">
-                              <input
-                                type="checkbox"
-                                id="check"
-                                name="checkbox"
-                                className=""
-                              />
-                              <label className=""> Advita Berlin</label>
-                            </span>
-                          </td>
-                          <td>John Doe</td>
-                          <td>Head Contact</td>
-                          <td>doe@advita.de</td>
-                          <td>hello</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span className=" checkbox-custom  ">
-                              <input
-                                type="checkbox"
-                                id="check"
-                                name="checkbox"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td>John Doe</td>
-                          <td>PDL</td>
-                          <td>doe@advita.de</td>
-                          <td>hello</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span className=" checkbox-custom  ">
-                              <input
-                                type="checkbox"
-                                id="check"
-                                name="checkbox"
-                                className=""
-                              />
-                              <label className=""></label>
-                            </span>
-                          </td>
-                          <td>John Doe</td>
-                          <td>Personal Officer</td>
-                          <td>doe@advita.de</td>
-                          <td>hello</td>
-                        </tr>{" "}
-                        <tr>
-                          <td>
-                            <span className=" checkbox-custom  ">
-                              <input
-                                type="checkbox"
-                                id="check"
-                                name="checkbox"
-                                className=""
-                              />
-                              <label className=""> Testwerk</label>
-                            </span>
-                          </td>
-                          <td>John Doe</td>
-                          <td>Head Contact</td>
-                          <td>doe@testwerk.de</td>
-                          <td>hello</td>
-                        </tr>{" "}
-                        <tr>
-                          <td>
-                            <span className=" checkbox-custom  ">
-                              <input
-                                type="checkbox"
-                                id="check"
-                                name="checkbox"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td>John Doe</td>
-                          <td>Personal department</td>
-                          <td>doe@advita.de</td>
-                          <td>hello</td>
-                        </tr>{" "}
-                        <tr>
-                          <td>
-                            <span className=" checkbox-custom  ">
-                              <input
-                                type="checkbox"
-                                id="check"
-                                name="checkbox"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td>John Doe</td>
-                          <td>PDL</td>
-                          <td>doe@advita.de</td>
-                          <td>hello</td>
-                        </tr>{" "}
-                        <tr>
-                          <td>
-                            <span className=" checkbox-custom  ">
-                              <input
-                                type="checkbox"
-                                id="check"
-                                name="checkbox"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td>John Doe</td>
-                          <td>ASP</td>
-                          <td>doe@advita.de</td>
-                          <td>hello</td>
-                        </tr>{" "}
-                        <tr>
-                          <td>
-                            <span className=" checkbox-custom  ">
-                              <input
-                                type="checkbox"
-                                id="check"
-                                name="checkbox"
-                                className=""
-                              />
-                              <label className=""> </label>
-                            </span>
-                          </td>
-                          <td>John Doe</td>
-                          <td>Central department</td>
-                          <td>doe@advita.de</td>
-                          <td>hello</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </div>
-                </Col>
-                <Col lg={"6"}>
-                  <div className="">
-                    <div className="form-section py-2 px-3 form-card">
-                      <div className="d-flex align-items-end justify-content-between bulk-email-header">
-                        <Label className="bulk-email-label">
-                          {languageTranslation("SUBJECT")}{" "}
-                          {languageTranslation("EMAIL")}
-                          <span className="required">*</span>
-                        </Label>
-                        <div className="select-box mb-2">
-                          <Select
-                            placeholder={languageTranslation("SELECT_TEMPLATE")}
-                            classNamePrefix="custom-inner-reactselect"
-                            className="custom-reactselect"
-                          />
-                        </div>
-                      </div>
-                      <Row>
-                        <Col lg={"12"}>
-                          <FormGroup>
-                            <div>
-                              <Input
-                                type="text"
-                                placeholder={languageTranslation("SUBJECT")}
-                                name={"lastName"}
-                                maxLength={255}
-                              />
-                            </div>
-                          </FormGroup>
-                        </Col>
-                        <Col lg={"12"}>
-                          <FormGroup>
-                            <Label className="form-label col-form-label mb-2">
-                              {languageTranslation("TEXT_EMAIL")}
-                              <span className="required">*</span>
-                            </Label>
-
-                            <div>
-                              <Editor
-                                // editorState={body}
-                                toolbarClassName="toolbarClassName"
-                                wrapperClassName="wrapperClassName"
-                                editorClassName="editorClassName"
-                                placeholder={languageTranslation(
-                                  "EMAIL_BODY_PLACEHOLDER"
-                                )}
-                                toolbar={{
-                                  options: [
-                                    "inline",
-                                    "blockType",
-                                    "fontSize",
-                                    "list",
-                                    "textAlign",
-                                    "link"
-                                  ],
-                                  inline: {
-                                    options: ["bold", "italic", "underline"]
-                                  },
-                                  fontSize: {
-                                    className: "bordered-option-classname"
-                                  },
-                                  fontFamily: {
-                                    className: "bordered-option-classname"
-                                  },
-                                  list: {
-                                    inDropdown: false,
-                                    options: ["unordered"]
-                                  },
-                                  link: {
-                                    options: ["link"]
-                                  }
-                                }}
-                                // onEditorStateChange={onEditorStateChange}
-                              />
-                            </div>
-                          </FormGroup>
-                        </Col>
-                        <Col lg="12">
-                          <div
-                            {...getRootProps()}
-                            className="dropzone-preview mb-2 "
-                          >
-                            <input
-                              {...getInputProps()}
-                              className="dropzone-input-preview"
-                            />
-                            <div className="icon-upload">
-                              <i className="cui-cloud-upload"></i>
-                            </div>
-                            <span>
-                              {languageTranslation("PERSONAL_DOCUMENTS_UPLOAD")}
-                            </span>
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
-                    <div className="document-list custom-scrollbar">
-                      <div className="archieve-table-minheight ">
-                        <Table
-                          bordered
-                          hover
-                          responsive
-                          className="mail-table mb-0"
-                        >
-                          <thead className="thead-bg">
-                            <tr>
-                              <th className="file-name">
-                                {languageTranslation("FILE_NAME")}
-                              </th>
-
-                              <th className="size-col">
-                                {languageTranslation("SIZE")}
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className={`file-name`}>
-                                <div className={`file-description`}>
-                                  <span className="word-wrap view-more-link">
-                                    document.pdf
-                                  </span>
-
-                                  <span id={`delete`} className="trash-icon">
-                                    <UncontrolledTooltip
-                                      placement={"top"}
-                                      target={`delete`}
-                                    >
-                                      {languageTranslation(
-                                        "ATTACHMENT_DELETE_INFO_MSG"
-                                      )}
-                                    </UncontrolledTooltip>
-                                    <i className="fa fa-trash"></i>
-                                  </span>
-                                </div>
-                              </td>
-
-                              <td className="size-col">123 Kb</td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
+                <CareInstitutionListComponent
+                  handleSelectAll={handleSelectAll}
+                  called={called}
+                  loading={loading}
+                  careInstitutions={careInstitutions}
+                  setCareInstitution={setCareInstitution}
+                  selectedCareGiver={selectedCareGiver}
+                  handleCheckElement={handleCheckElement}
+                  page={page}
+                  label={props.label}
+                  bulkcareGivers={bulkcareGivers}
+                />
+                <EmailEditorComponent
+                  body={body}
+                  templateOptions={templateOptions}
+                  subject={subject}
+                  onTemplateSelection={onTemplateSelection}
+                  onEditorStateChange={onEditorStateChange}
+                  template={template}
+                  handleChangeSubject={handleChangeSubject}
+                  attachments={attachments}
+                  uploadDocument={uploadDocument}
+                  onDelteDocument={onDelteDocument}
+                  isSubmit={isSubmit}
+                />
               </Row>
             </div>
           </div>

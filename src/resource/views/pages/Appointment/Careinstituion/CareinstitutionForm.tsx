@@ -3,7 +3,6 @@ import React, { FunctionComponent, useState } from 'react';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionForm,
-  IDaysArray,
   ICareinstitutionFormValue,
   IReactSelectInterface
 } from '../../../../../interfaces';
@@ -13,7 +12,6 @@ import {
   Input,
   Col,
   Row,
-  Form,
   Button,
   InputGroup,
   InputGroupAddon,
@@ -22,18 +20,12 @@ import {
 import '../index.scss';
 import { languageTranslation } from '../../../../../helpers';
 import MaskedInput from 'react-text-mask';
-import {
-  NightAllowancePerHour,
-  State,
-  ShiftTime,
-  TimeMask
-} from '../../../../../config';
+import { ShiftTime, TimeMask } from '../../../../../config';
 import Select from 'react-select';
 import { FormikProps, Field } from 'formik';
 import moment from 'moment';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import classnames from 'classnames';
-import { any } from 'prop-types';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -61,7 +53,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       departmentRemarks,
       offerRemarks,
       bookingRemarks,
-      comments
+      comments,
+      status
     },
     touched,
     errors,
@@ -70,8 +63,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
-    setFieldError,
     activeDateCareinstitution,
     selectedCareinstitution,
     qualificationList,
@@ -107,24 +98,37 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 
   let isRequirment: boolean = false,
     isMatching: boolean = false,
-    isContract: boolean = false;
-  console.log('selctedRequirement', selctedRequirement);
+    isContract: boolean = false,
+    isConfirm: boolean = false;
 
-  if (selctedRequirement) {
-    if (selctedRequirement.status === 'requirement') {
+  if (selctedRequirement || status) {
+    if (selctedRequirement.status === 'default' || status === 'default') {
       isRequirment = true;
-    } else if (selctedRequirement.status === 'linked') {
+    } else if (selctedRequirement.status === 'linked' || status === 'linked') {
       isMatching = true;
-    } else if (selctedRequirement.status === 'contract') {
+    } else if (
+      selctedRequirement.status === 'contract' ||
+      status === 'contract'
+    ) {
       isContract = true;
+    } else if (
+      selctedRequirement.status === 'confirmed' ||
+      status === 'confirmed'
+    ) {
+      isConfirm = true;
     }
   }
 
   const handleUserList = (id: string, name: string) => {
     let data: any = careInstitutionListArr;
     setstarMark(!starMark);
-    if (id && !starMark) {
-      data = careInstitutionListArr.filter((x: any) => x.id === id);
+    if (
+      id &&
+      !starMark &&
+      careInstitutionListArr &&
+      careInstitutionListArr.result
+    ) {
+      data = careInstitutionListArr.result.filter((x: any) => x.id === id);
     }
     handleSelectUserList(data, name);
   };
@@ -137,7 +141,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             'form-card custom-height custom-scrollbar': true,
             'requirement-bg': isRequirment,
             'matching-bg': isMatching,
-            'contract-bg': isContract
+            'contract-bg': isConfirm
           })}
         >
           <h5 className='content-title'>
@@ -182,7 +186,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
-                          value={name !== 'undefined   undefined' ? name : ''}
+                          value={name ? name : ''}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -194,12 +198,14 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               }
                               aria-hidden='true'
                               onClick={() =>
-                                handleUserList(
-                                  selectedCareinstitution
-                                    ? selectedCareinstitution.id
-                                    : '',
-                                  'careinstitution'
-                                )
+                                name
+                                  ? handleUserList(
+                                      selectedCareinstitution
+                                        ? selectedCareinstitution.id
+                                        : '',
+                                      'careinstitution'
+                                    )
+                                  : ''
                               }
                             ></i>
                           </InputGroupText>
@@ -370,24 +376,19 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             : 'add-new-btn arrow-btn disabled-class'
                         }
                         color=''
-                        onClick={
-                          qualificationId && qualificationId.length
-                            ? () => handleQualification(qualificationId)
-                            : ''
-                        }
+                        onClick={() => {
+                          if (qualificationId && qualificationId.length) {
+                            handleQualification(qualificationId);
+                          }
+                        }}
                       >
                         <i className='fa fa-arrow-up' aria-hidden='true' />
                       </Button>
 
                       <div className='custom-select-checkbox'>
                         <ReactMultiSelectCheckboxes
-                          placeholderButtonLabel={languageTranslation(
-                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
-                          )}
                           options={qualificationList}
-                          placeholder={languageTranslation(
-                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
-                          )}
+                          placeholder='Select Qualifications'
                           className={'custom-reactselect '}
                           classNamePrefix='custom-inner-reactselect'
                           onChange={(value: any) =>

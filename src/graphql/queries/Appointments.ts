@@ -3,12 +3,14 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
   query getUserByQualifications(
     $qualificationId: [ID]
     $userRole: String
-    $page:Int
-    $limit:Int
+    $page: Int
+    $limit: Int
     $negativeAttributeId: [ID]
     $positiveAttributeId: [ID]
     $gte: String
     $lte: String
+    $userId: [ID]
+    $showAppointments: String
   ) {
     getUserByQualifications(
       qualificationId: $qualificationId
@@ -19,6 +21,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
       positiveAttributeId: $positiveAttributeId
       gte: $gte
       lte: $lte
+      userId: $userId
+      showAppointments: $showAppointments
     ) {
       totalCount
       result {
@@ -27,12 +31,14 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         userName
         userRole
         id
+        isActive
         caregiver {
           nightAllowance
           weekendAllowance
           fee
           holiday
           night
+          attributes
         }
         caregiver_avabilities {
           id
@@ -53,6 +59,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           otherExpenses
           remarksCareGiver
           remarksInternal
+          appointments {
+            id
+            date
+          }
         }
         careinstitution_requirements {
           id
@@ -77,6 +87,17 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           qualificationId
           startTime
           userId
+          appointments {
+            id
+            date
+          }
+        }
+        contacts {
+          firstName
+          surName
+          salutation
+          mobileNumber
+          email
         }
         canstitution {
           city
@@ -106,10 +127,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           website
           attributes
         }
-        qualifications {
-          id
-          name
-        }
+        qualificationId
       }
     }
   }
@@ -126,6 +144,86 @@ const GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID = gql`
     }
   }
 `;
+
+const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
+  query getRequirementAndAvabilityById($id: ID, $searchIn: String) {
+    getRequirementAndAvabilityById(id: $id, searchIn: $searchIn) {
+      avabilityData {
+        id
+        userId
+        name
+        f
+        s
+        n
+        date
+        fee
+        nightFee
+        weekendAllowance
+        holidayAllowance
+        nightAllowance
+        distanceInKM
+        feePerKM
+        travelAllowance
+        otherExpenses
+        workingProofRecieved
+        remarksCareGiver
+        remarksInternal
+        status
+      }
+      requirementData {
+        id
+        name
+        address
+        bookingRemarks
+        comments
+        contactPerson
+        date
+        divisionId
+        departmentBookingRemarks
+        departmentOfferRemarks
+        departmentRemarks
+        endTime
+        isWorkingProof
+        offerRemarks
+        qualificationId
+        startTime
+        userId
+        status
+      }
+    }
+  }
+`;
+
+const GET_CAREGIVER_AVABILITY_DETAILS_BY_ID = gql`
+  query getCareGiverAvabilitiesDetails($id: ID) {
+    getCareGiverAvabilitiesDetails(id: $id) {
+      id
+      userId
+      name
+      f
+      s
+      n
+      date
+      fee
+      nightFee
+      weekendAllowance
+      holidayAllowance
+      nightAllowance
+      distanceInKM
+      feePerKM
+      travelAllowance
+      otherExpenses
+      workingHoursFrom
+      workingHoursTo
+      breakFrom
+      breakTo
+      workingProofRecieved
+      remarksCareGiver
+      remarksInternal
+      status
+    }
+  }
+`;
 // negativeAttributeId:[ID],positiveAttributeId: [ID],gte:String, lte:String
 // qualificationId: $qualificationId
 //       userRole: $userRole
@@ -136,5 +234,7 @@ const GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID = gql`
 
 export const AppointmentsQueries = [
   GET_USERS_BY_QUALIFICATION_ID,
-  GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID
+  GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
+  GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
+  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID
 ];

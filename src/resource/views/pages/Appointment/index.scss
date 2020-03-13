@@ -231,15 +231,17 @@
 .cell-green-caregiver {
   background-color: #d7ffe4;
 }
-.cell-pink-careinstitution{
+.cell-pink-careinstitution {
   background-color: #ee21ff;
-
 }
 .requirement-bg {
   background: $requirement_color !important;
 }
 .matching-bg {
   background: $matching_color !important;
+}
+.cell-block {
+  background-color: $red;
 }
 .contract-bg {
   background: $contract_color !important;
@@ -389,9 +391,7 @@ body {
       .cell-available-careinstitution {
         background-color: #ee21ff;
       }
-      .cell-block {
-        background-color: $red;
-      }
+
       .selecting-cell {
         background-color: $selecting_color;
       }

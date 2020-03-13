@@ -138,6 +138,7 @@ export interface ICaregiverFormValue {
   f?: boolean;
   s?: boolean;
   n?: boolean;
+  status?: string;
 }
 
 export interface ICaregiverValidationFormValue {
@@ -201,6 +202,7 @@ export interface ICareinstitutionFormValue {
   shift?: IReactSelectTimeInterface | undefined;
   department?: IReactSelectInterface | undefined;
   comments: string;
+  status?: string;
 }
 
 export interface ICareinstitutionFormSubmitValue {

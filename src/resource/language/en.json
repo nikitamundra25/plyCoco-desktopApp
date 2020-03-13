@@ -902,5 +902,11 @@
   "UNLINK_APPOINTMENT": "Unlink appointment",
   "UNLINK_DELETE_APPOINTMENT_QUESTION": "who has the appointment canceled ?",
   "CHECK_APPOINTMENT": "Delete the date of the originator",
-  "WORKING_SHIFT_ERROR": "Please select at least one working shift"
+  "WORKING_SHIFT_ERROR": "Please select at least one working shift",
+  "CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG": "Caregiver status set on confirmed",
+  "CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG": "Caregiver status set on not confirmed",
+  "CARE_INST_SET_CONFIRMED_SUCCESS_MSG": "Care Institution status set on confirmed",
+  "CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG": "Care Institution status set not confirmed",
+  "CAREGIVER_AVABILITY": "Availability",
+  "CAREINST_REQUIREMENT": "Requirement"
 }

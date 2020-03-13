@@ -1,55 +1,55 @@
-import React, { FunctionComponent, useState } from "react";
-import PycModal from "../../../components/PycModal";
+import React, { FunctionComponent, useState } from 'react';
+import PycModal from '../../../components/PycModal';
 import {
   IAddHolidayProps,
   IPycButtonProps,
   IAddHolidaysFormValues,
-  IAddHolidayFormikProps
-} from "../../../../../interfaces";
-import { Formik, FormikHelpers, FormikProps } from "formik";
-import AddHolidaysForm from "./AddHolidaysForm";
-import { AddHolidayValidations } from "../../../../validations";
+  IAddHolidayFormikProps,
+} from '../../../../../interfaces';
+import { Formik, FormikHelpers, FormikProps } from 'formik';
+import AddHolidaysForm from './AddHolidaysForm';
+import { AddHolidayValidations } from '../../../../validations';
 import {
   languageTranslation,
   logger,
-  errorFormatter
-} from "../../../../../helpers";
-import { useMutation } from "@apollo/react-hooks";
-import { GlobalCalendarMutations } from "../../../../../graphql/Mutations";
-import moment from "moment";
-import { toast } from "react-toastify";
-import { defaultDateFormat } from "../../../../../config";
+  errorFormatter,
+} from '../../../../../helpers';
+import { useMutation } from '@apollo/react-hooks';
+import { GlobalCalendarMutations } from '../../../../../graphql/Mutations';
+import moment from 'moment';
+import { toast } from 'react-toastify';
+import { defaultDateFormat } from '../../../../../config';
 let isEditValueSet = false;
 const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
   isOpen,
   handleClose,
   states,
   refresh,
-  editInfo
+  editInfo,
 }: IAddHolidayProps): JSX.Element => {
   const [
     ADD_GLOBAL_HOLIDAYS,
     _,
-    UPDATE_GLOBAL_HOLIDAY
+    UPDATE_GLOBAL_HOLIDAY,
   ] = GlobalCalendarMutations;
   const initialHolidayData: IAddHolidayFormikProps = {
     inputs: [
       {
-        date: "",
-        note: "",
-        states: []
-      }
-    ]
+        date: '',
+        note: '',
+        states: [],
+      },
+    ],
   };
   const [holidaysData, setHolidayData] = useState<IAddHolidayFormikProps>(
-    initialHolidayData
+    initialHolidayData,
   );
   const [AddGlobalHolidays, { loading, error, data: resp }] = useMutation<{
     AddGlobalHolidays: any;
   }>(ADD_GLOBAL_HOLIDAYS);
   const [
     UpdateGlobalHoliday,
-    { loading: isUpdating, error: updateError, data: updateResp }
+    { loading: isUpdating, error: updateError, data: updateResp },
   ] = useMutation<
     {
       UpdateGlobalHoliday: any;
@@ -64,14 +64,14 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
   // save holidays
   const handleSubmit = async (
     values: IAddHolidayFormikProps,
-    data: FormikHelpers<IAddHolidayFormikProps>
+    data: FormikHelpers<IAddHolidayFormikProps>,
   ) => {
     try {
       const globalCalendarInput = values.inputs.map(
         (v: IAddHolidaysFormValues) => {
           // Parse the date parts to integers
           const parts: string[] =
-            v.date && typeof v.date === "string" ? v.date.split(".") : [];
+            v.date && typeof v.date === 'string' ? v.date.split('.') : [];
           const day: number = Number(parts[0]);
           const month: number = Number(parts[1]);
           const year: number = Number(parts[2]);
@@ -82,15 +82,16 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
               years: year,
               hours: 0,
               minutes: 0,
-              seconds: 0
+              seconds: 0,
             })
             .format();
           return {
             date,
             applicableStates: v.states,
-            note: v.note
+            note: v.note,
+            leaveType: 'PH',
           };
-        }
+        },
       );
 
       let respError = undefined;
@@ -98,15 +99,15 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
         await UpdateGlobalHoliday({
           variables: {
             id: editInfo && editInfo.id ? editInfo!.id : 0,
-            globalCalendarInput: globalCalendarInput[0]
-          }
+            globalCalendarInput: globalCalendarInput[0],
+          },
         });
         respError = updateError;
       } else {
         await AddGlobalHolidays({
           variables: {
-            globalCalendarInput
-          }
+            globalCalendarInput,
+          },
         });
         respError = error;
       }
@@ -115,12 +116,12 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
       }
       toast.success(
         isEditMode
-          ? languageTranslation("HOLIDAY_ADD_SUCCESS", {
-              n: values.inputs.length > 1 ? "s" : ""
+          ? languageTranslation('HOLIDAY_ADD_SUCCESS', {
+              n: values.inputs.length > 1 ? 's' : '',
             })
-          : languageTranslation("UPDATE_SUCCESSFULLY", {
-              item: languageTranslation("HOLIDAY")
-            })
+          : languageTranslation('UPDATE_SUCCESSFULLY', {
+              item: languageTranslation('HOLIDAY'),
+            }),
       );
       // reset form
       data.resetForm();
@@ -140,16 +141,16 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
   // add form for holiday
   const addNewHoliday = (values: IAddHolidayFormikProps): void => {
     values.inputs.push({
-      date: "",
-      note: "",
-      states: []
+      date: '',
+      note: '',
+      states: [],
     });
     setHolidayData(values || []);
   };
   // remove particular holiday
   const removeHoliday = (
     values: IAddHolidayFormikProps,
-    index: number
+    index: number,
   ): void => {
     values.inputs.splice(index, 1);
     setHolidayData(values || []);
@@ -161,15 +162,15 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
           id: editInfo.id,
           date: moment(editInfo.date).format(defaultDateFormat),
           note: editInfo.note,
-          states: editInfo.states
-        }
-      ]
+          states: editInfo.states,
+        },
+      ],
     });
     isEditValueSet = true;
   }
   return (
     <Formik
-      key={"add-holiday"}
+      key={'add-holiday'}
       initialValues={holidaysData}
       enableReinitialize
       onSubmit={handleSubmit}
@@ -177,28 +178,28 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
       children={(props: FormikProps<IAddHolidayFormikProps>) => {
         const footerButtons: IPycButtonProps[] = [
           {
-            text: languageTranslation("CLOSE"),
-            color: "secondary",
+            text: languageTranslation('CLOSE'),
+            color: 'secondary',
             onClick: () => {
               props.resetForm();
               isEditValueSet = false;
               setHolidayData(initialHolidayData);
               handleClose ? handleClose() : undefined;
-            }
+            },
           },
           {
-            text: languageTranslation("SUBMIT"),
-            color: "primary",
+            text: languageTranslation('SUBMIT'),
+            color: 'primary',
             onClick: props.handleSubmit,
             loading: loading || isUpdating,
-            type: "submit"
-          }
+            type: 'submit',
+          },
         ];
         return (
           <PycModal
             isOpen={isOpen}
             handleClose={handleClose}
-            headerText={languageTranslation("UPDATE_CALEDAR")}
+            headerText={languageTranslation('UPDATE_CALEDAR')}
             footerButtons={footerButtons}
           >
             <AddHolidaysForm
@@ -208,7 +209,7 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
               }}
               removeHoliday={(
                 values: IAddHolidayFormikProps,
-                index: number
+                index: number,
               ) => {
                 removeHoliday(values, index);
                 props.resetForm();

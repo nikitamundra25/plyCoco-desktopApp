@@ -9,7 +9,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     $positiveAttributeId: [ID]
     $gte: String
     $lte: String
-    $userId:[ID]
+    $userId: [ID]
     $showAppointments: String
   ) {
     getUserByQualifications(
@@ -31,6 +31,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         userName
         userRole
         id
+        isActive
         caregiver {
           nightAllowance
           weekendAllowance
@@ -145,25 +146,50 @@ const GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID = gql`
 `;
 
 const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
-  query getCareinstitutionRequirement($id: ID!) {
-    getCareinstitutionRequirement(id: $id) {
-      name
-      userId
-      id
-      date
-      startTime
-      endTime
-      address
-      contactPerson
-      offerRemarks
-      divisionId
-      departmentOfferRemarks
-      departmentBookingRemarks
-      departmentRemarks
-      isWorkingProof
-      bookingRemarks
-      comments
-      qualificationId
+  query getRequirementAndAvabilityById($id: ID, $searchIn: String) {
+    getRequirementAndAvabilityById(id: $id, searchIn: $searchIn) {
+      avabilityData {
+        id
+        userId
+        name
+        f
+        s
+        n
+        date
+        fee
+        nightFee
+        weekendAllowance
+        holidayAllowance
+        nightAllowance
+        distanceInKM
+        feePerKM
+        travelAllowance
+        otherExpenses
+        workingProofRecieved
+        remarksCareGiver
+        remarksInternal
+        status
+      }
+      requirementData {
+        id
+        name
+        address
+        bookingRemarks
+        comments
+        contactPerson
+        date
+        divisionId
+        departmentBookingRemarks
+        departmentOfferRemarks
+        departmentRemarks
+        endTime
+        isWorkingProof
+        offerRemarks
+        qualificationId
+        startTime
+        userId
+        status
+      }
     }
   }
 `;

@@ -8,7 +8,7 @@ const Cell = ({
   isSelecting,
   item,
   key,
-  daysArr
+  daysArr,
 }: any) => {
   let isBlocked: boolean = false;
   if (item) {
@@ -42,7 +42,7 @@ const Cell = ({
           'cursor-pointer': true,
           'selected-cell': isSelected,
           'selecting-cell': isSelecting,
-          'weekend': daysArr,
+          weekend: daysArr,
           'cell-block': item ? (isBlocked ? true : false) : false,
           'matching-bg': isMatching && !isSelected ? isMatching : false,
           'confirmation-bg': isConfirm && !isSelected ? isConfirm : false,
@@ -54,7 +54,7 @@ const Cell = ({
                 ? true
                 : false
               : false
-            : false
+            : false,
         })}
         ref={selectableRef}
       >

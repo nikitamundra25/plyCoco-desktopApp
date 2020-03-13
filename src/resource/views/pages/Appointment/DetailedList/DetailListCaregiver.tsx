@@ -95,17 +95,16 @@ const DetailListCaregiver = (props: any) => {
                       </thead>
                       <tbody>
                         {selectedCells ? (
-                          selectedCells.map((elem: any, index: number) => {                            return elem && elem.item ? (
+                          selectedCells.map((elem: any, index: number) => {
+                            return elem && elem.item ? (
                               <tr
                                 key={index}
                                 className={
-                                  elem.item.status === 'default'
-                                    ? 'availability-bg'
-                                    : elem.item.status === 'linked'
+                                  elem.item.status === 'linked'
                                     ? 'matching-bg'
                                     : elem.item.status === 'confirmed'
                                     ? 'contract-bg'
-                                    : ''
+                                    : 'cell-green-caregiver'
                                 }
                               >
                                 <td> {elem.id ? elem.id : null}</td>

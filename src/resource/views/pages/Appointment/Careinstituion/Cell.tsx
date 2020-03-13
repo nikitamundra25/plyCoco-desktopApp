@@ -7,7 +7,7 @@ const CellCareinstitution = ({
   isSelecting,
   item,
   daysArr,
-  key
+  key,
 }: any) => {
   let isRequirment: boolean = false,
     isMatching: boolean = false,
@@ -28,10 +28,6 @@ const CellCareinstitution = ({
       isOffered = true;
     }
   }
-  console.log('item.status in cell', item);
-
-  console.log('isOffered in cell', isOffered);
-
   return (
     <td
       key={key}
@@ -48,8 +44,7 @@ const CellCareinstitution = ({
         'matching-bg': isMatching && !isSelected ? isMatching : false,
         'contract-bg': isConfirm && !isSelected ? isConfirm : false,
         'cell-available-careinstitution':
-          isRequirment && !isSelected ? isRequirment : false
-       
+          isRequirment && !isSelected ? isRequirment : false,
       })}
       ref={selectableRef}
       // onClick={() => handleSelectedUser(list, day, 'caregiver')}

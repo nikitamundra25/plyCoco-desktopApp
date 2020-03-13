@@ -74,6 +74,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     onNewRequirement
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
+  const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
 
   // const handleFirstStar = (list: object, index: number, name: string) => {
   //   if (starMarkIndex !== index) {
@@ -420,13 +421,27 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={set_confirm} className='mr-2' alt='' />
-                <span onClick={setOnOfferedCareInst}>Set on offered</span>
+                <span
+                  onClick={() => {
+                    setopenToggleMenu(false);
+                    setOnOfferedCareInst();
+                  }}
+                >
+                  Set on offered
+                </span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
               <NavLink>
                 <img src={unset_confirm} className='mr-2' alt='' />
-                <span onClick={setOnNotOfferedCareInst}>Reset offered</span>
+                <span
+                  onClick={() => {
+                    setopenToggleMenu(false);
+                    setOnNotOfferedCareInst();
+                  }}
+                >
+                  Reset offered
+                </span>
               </NavLink>
             </NavItem>
             <NavItem className='bordernav' />
@@ -513,7 +528,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={set_confirm} className='mr-2' alt='' />
-                <span onClick={() => setOnConfirmedCareInst()}>
+                <span
+                  onClick={() => {
+                    setopenToggleMenu(false);
+                    setOnConfirmedCareInst();
+                  }}
+                >
                   Set on confirmed
                 </span>
               </NavLink>
@@ -521,7 +541,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={unset_confirm} className='mr-2' alt='' />
-                <span onClick={() => setOnNotConfirmedCareInst()}>
+                <span
+                  onClick={() => {
+                    setopenToggleMenu(false);
+                    setOnNotConfirmedCareInst();
+                  }}
+                >
                   Reset confirmed
                 </span>
               </NavLink>
@@ -779,7 +804,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             </div>
                             <div className='h-col custom-appointment-col text-center'></div>
                             <div
-                              className='s-col custom-appointment-col text-center'
+                              className='s-col custom-appointment-col text-center cursor-pointer'
                               onClick={() => handleFirstStarCanstitution(null)}
                             >
                               {starCanstitution.setIndex === index ||
@@ -790,7 +815,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               )}
                             </div>
                             <div
-                              className='u-col custom-appointment-col text-center'
+                              className='u-col custom-appointment-col text-center cursor-pointer'
                               onClick={() =>
                                 onhandleSecondStarCanstitution(dept)
                               }
@@ -802,7 +827,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               )}
                             </div>
                             <div
-                              className='v-col custom-appointment-col text-center'
+                              className='v-col custom-appointment-col text-center cursor-pointer'
                               onClick={e => onAddingRow(e, 'caregiver', index)}
                             >
                               <i className='fa fa-arrow-down' />

@@ -650,7 +650,10 @@ const Appointment: FunctionComponent = (props: any) => {
             remarksInternal,
             travelAllowance,
             workingProofRecieved,
-            status
+            status:
+              requirementData && requirementData.status
+                ? requirementData.status
+                : ''
           }
         }
       ];
@@ -2194,38 +2197,7 @@ const Appointment: FunctionComponent = (props: any) => {
       ? selectedCells[0]
       : {};
 
-  let qualification1: any = [],
-    departmentData: any = [],
-    qualificationData: IReactSelectInterface[] = [];
-  if (
-    data &&
-    data.getQualifications &&
-    selectedCellsCareinstitution &&
-    selectedCellsCareinstitution.length &&
-    selectedCellsCareinstitution[0] &&
-    selectedCellsCareinstitution[0].item &&
-    selectedCellsCareinstitution[0].item.qualificationId &&
-    selectedCellsCareinstitution[0].item.qualificationId.length &&
-    selectedCellsCareinstitution[0].item.qualificationId[0].id
-  ) {
-    console.log('data.getQualifications', data.getQualifications);
-    console.log('fgfdg', selectedCellsCareinstitution[0].item.qualificationId);
-
-    qualification1 = data.getQualifications.filter(({ id }) =>
-      selectedCellsCareinstitution[0].item.qualificationId.includes(id)
-    );
-
-    if (qualification1 && qualification1.length) {
-      qualification1.map((key: any) => {
-        return qualificationData.push({
-          label: key.name,
-          value: key.id
-        });
-      });
-    }
-  }
-  console.log('qualificationData', qualificationData);
-
+  let departmentData: any = [];
   if (
     careInstitutionDepartment &&
     careInstitutionDepartment.length &&
@@ -2255,20 +2227,14 @@ const Appointment: FunctionComponent = (props: any) => {
       ? selectedCellsCareinstitution[0]
       : {};
 
-  console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
-  console.log('qualificationIds', qualificationIds);
-
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : '',
     name: Item && Item.name ? Item.name : `${LastName}${' '}${FirstName}`,
     date: Item ? Item.date : '',
     startTime: Item ? Item.startTime : '',
     endTime: Item ? Item.endTime : '',
-    qualificationId: qualificationData
-      ? qualificationData
-      : qualificationIds
-      ? qualificationIds
-      : undefined,
+    qualificationId:
+      Item && Item.qualificationId ? Item.qualificationId : undefined,
     address: Item ? Item.address : '',
     contactPerson: Item ? Item.contactPerson : '',
     departmentOfferRemarks: Item ? Item.departmentOfferRemarks : '',

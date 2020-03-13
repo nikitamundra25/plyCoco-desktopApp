@@ -3,7 +3,8 @@ import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
-  IDaysArray
+  IDaysArray,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
@@ -141,18 +142,35 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           canstitution = {},
           qualificationId = []
         } = caregiverData ? caregiverData : {};
+
+        let qualification1: IReactSelectInterface[] = [];
+        if (
+          qualificationList &&
+          qualificationList.length &&
+          item &&
+          item.qualificationId
+        ) {
+          qualification1 = qualificationList.filter(({ value }: any) =>
+            item.qualificationId.includes(value)
+          );
+        }
+        let temp = {
+          ...item,
+          qualificationId: qualification1 ? qualification1 : []
+        };
+
         return {
           id,
           firstName,
           lastName,
           caregiver,
           canstitution,
-          item,
+          item: item ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : ''
         };
       });
-
+      console.log('selectedRowsselectedRows', selectedRows);
       handleSelection(selectedRows, 'careinstitution');
       // for (let index = 0; index < selected.length; index++) {
       //   const { item, list, dateString } = selected[index];

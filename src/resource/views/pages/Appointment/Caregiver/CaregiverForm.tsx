@@ -12,12 +12,12 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
+  InputGroupText
 } from 'reactstrap';
 import {
   IAppointmentCareGiverForm,
   ICaregiverFormValue,
-  IReactSelectInterface,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 import { NightAllowancePerHour, State } from '../../../../../config';
@@ -26,7 +26,7 @@ import '../index.scss';
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm &
   any> = (
-  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any,
+  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   // const { selectedCareGiver } = props;
   const {
@@ -52,6 +52,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       f,
       s,
       n,
+      status
     },
     touched,
     errors,
@@ -70,7 +71,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     onhandleDelete,
     careGiversListArr,
     handleSelectUserList,
-    handleLastTimeData,
+    handleLastTimeData
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -84,14 +85,20 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     isContract: boolean = false,
     isConfirm: boolean = false;
 
-  if (selctedAvailability) {
-    if (selctedAvailability.status === 'default') {
+  if (selctedAvailability || status) {
+    if (selctedAvailability.status === 'default' || status === 'default') {
       isAvailability = true;
-    } else if (selctedAvailability.status === 'linked') {
+    } else if (selctedAvailability.status === 'linked' || status === 'linked') {
       isMatching = true;
-    } else if (selctedAvailability.status === 'contract') {
+    } else if (
+      selctedAvailability.status === 'contract' ||
+      status === 'contract'
+    ) {
       isContract = true;
-    } else if (selctedAvailability.status === 'confirmed') {
+    } else if (
+      selctedAvailability.status === 'confirmed' ||
+      status === 'confirmed'
+    ) {
       isConfirm = true;
     }
   }
@@ -118,7 +125,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             'form-card custom-height custom-scrollbar': true,
             'availability-bg': isAvailability,
             'matching-bg': isMatching,
-            'confirmation-bg': isConfirm,
+            'confirmation-bg': isConfirm
           })}
         >
           <h5 className='content-title'>
@@ -182,7 +189,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                       selectedCareGiver
                                         ? selectedCareGiver.id
                                         : '',
-                                      'caregiver',
+                                      'caregiver'
                                     )
                                   : ''
                               }
@@ -221,11 +228,27 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       /> */}
 
                     <div className='text-value mb-1'>
-                      {activeDateCaregiver && activeDateCaregiver.dateString
-                        ? moment(activeDateCaregiver.dateString).format(
-                            'dd DD.MM.YYYY',
-                          )
+                      {activeDateCaregiver
+                        ? activeDateCaregiver
+                            .map((dateString: string | undefined) =>
+                              dateString
+                                ? moment(dateString).format('dd DD.MM.YYYY')
+                                : // (
+                                  //     <span>
+                                  //       {moment(dateString).format(
+                                  //         'dd DD.MM.YYYY',
+                                  //       )}
+                                  //     </span>,
+                                  //   )
+                                  null,
+                            )
+                            .join(', ')
                         : null}
+                      {/* {activeDateCaregiver && activeDateCaregiver.dateString
+                        ? moment(activeDateCaregiver.dateString).format(
+                            'dd DD.MM.YYYY'
+                          )
+                        : null} */}
                     </div>
                     {/* </div> */}
 
@@ -239,10 +262,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'f'}
                             checked={f ? true : false}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('f', checked);
                             }}
@@ -261,10 +284,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'s'}
                             checked={s}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('s', checked);
                             }}
@@ -283,10 +306,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'n'}
                             checked={n}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('n', checked);
                             }}
@@ -346,7 +369,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         onClick={() =>
                           handleLastTimeData(
                             selectedCareGiver ? selectedCareGiver.id : '',
-                            props.values,
+                            props.values
                           )
                         }
                       >
@@ -809,10 +832,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'workingProofRecieved'}
                             checked={workingProofRecieved}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('workingProofRecieved', checked);
                             }}

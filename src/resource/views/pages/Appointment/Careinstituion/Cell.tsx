@@ -9,7 +9,8 @@ const CellCareinstitution = ({
   isSelected,
   isSelecting,
   item,
-  key
+  daysArr,
+  key,
 }: any) => {
   let isRequirment: boolean = false,
     isMatching: boolean = false,
@@ -33,6 +34,7 @@ const CellCareinstitution = ({
       className={classnames({
         'calender-col': true,
         'text-center': true,
+        'weekend': daysArr,
         'custom-appointment-col': true,
         'cursor-pointer': true,
         'selected-cell': isSelected,

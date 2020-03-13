@@ -22,12 +22,6 @@ const DetailListCaregiver = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  // const noData = getSelecetedCell
-  //   ? getSelecetedCell.map((elem: any) => {
-  //       console.log(elem.item);
-  //       elem && elem.item && elem.item.id ? true : false;
-  //     })
-  //   : null;
   return (
     <div>
       <Modal
@@ -101,9 +95,22 @@ const DetailListCaregiver = (props: any) => {
                       </thead>
                       <tbody>
                         {selectedCells ? (
-                          selectedCells.map((elem: any) => {
+                          selectedCells.map((elem: any, index: number) => {
+                            console.log('elem in caregiver detail list', elem);
+
                             return elem && elem.item ? (
-                              <tr>
+                              <tr
+                                key={index}
+                                className={
+                                  elem.item.status === 'default'
+                                    ? 'availability-bg'
+                                    : elem.item.status === 'linked'
+                                    ? 'matching-bg'
+                                    : elem.item.status === 'confirmed'
+                                    ? 'contract-bg'
+                                    : ''
+                                }
+                              >
                                 <td> {elem.id ? elem.id : null}</td>
                                 <td>
                                   {elem.lastName && elem.firstName
@@ -115,7 +122,7 @@ const DetailListCaregiver = (props: any) => {
                                 <td>
                                   {elem.item.date
                                     ? moment(elem.item.date).format(
-                                        defaultDateFormat,
+                                        defaultDateFormat
                                       )
                                     : null}
                                 </td>
@@ -222,7 +229,7 @@ const DetailListCaregiver = (props: any) => {
                                 <td>
                                   {elem.item.date
                                     ? moment(elem.item.date).format(
-                                        defaultDateFormat,
+                                        defaultDateFormat
                                       )
                                     : null}
                                 </td>

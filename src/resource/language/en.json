@@ -906,5 +906,7 @@
   "CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG": "Caregiver status set on confirmed",
   "CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG": "Caregiver status set on not confirmed",
   "CARE_INST_SET_CONFIRMED_SUCCESS_MSG": "Care Institution status set on confirmed",
-  "CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG": "Care Institution status set not confirmed"
+  "CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG": "Care Institution status set not confirmed",
+  "CAREGIVER_AVABILITY": "Availability",
+  "CAREINST_REQUIREMENT": "Requirement"
 }

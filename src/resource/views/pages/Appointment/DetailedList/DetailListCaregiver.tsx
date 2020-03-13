@@ -95,10 +95,7 @@ const DetailListCaregiver = (props: any) => {
                       </thead>
                       <tbody>
                         {selectedCells ? (
-                          selectedCells.map((elem: any, index: number) => {
-                            console.log('elem in caregiver detail list', elem);
-
-                            return elem && elem.item ? (
+                          selectedCells.map((elem: any, index: number) => {                            return elem && elem.item ? (
                               <tr
                                 key={index}
                                 className={
@@ -118,32 +115,18 @@ const DetailListCaregiver = (props: any) => {
                                     : '-'}
                                 </td>
                                 <td> -</td>
-                                {console.log(
-                                  'qualificationList',
-                                  qualificationList
-                                )}
-                                {console.log(
-                                  'elem.caregiver.attributes',
-                                  elem.caregiver.attributes
-                                )}
+
                                 <td>
                                   {elem.caregiver &&
                                   elem.caregiver.attributes &&
                                   qualificationList
                                     ? qualificationList
                                         .filter((qualification: any) => {
-                                          console.log(
-                                            'qualification.val',
-                                            qualification.value
-                                          );
-
                                           elem.caregiver.attributes.includes(
                                             qualification.value
                                           );
                                         })
                                         .map((q: any) => {
-                                          console.log('qqqqqqq', q);
-
                                           <span>{q.label + ' '}</span>;
                                         })
                                     : null}

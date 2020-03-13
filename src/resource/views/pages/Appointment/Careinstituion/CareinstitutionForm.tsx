@@ -117,7 +117,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       status === 'confirmed'
     ) {
       isConfirm = true;
-    } else if (selctedRequirement.status === 'offered') {
+    } else if (
+      selctedRequirement.status === 'offered' ||
+      status === 'offered'
+    ) {
       isOffered = true;
     }
   }

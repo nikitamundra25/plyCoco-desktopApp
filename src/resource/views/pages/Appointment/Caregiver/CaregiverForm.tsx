@@ -86,17 +86,23 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     isConfirm: boolean = false;
 
   if (selctedAvailability || status) {
-    if (selctedAvailability.status === 'default' || status === 'default') {
+    if (
+      (selctedAvailability && selctedAvailability.status === 'default') ||
+      status === 'default'
+    ) {
       isAvailability = true;
-    } else if (selctedAvailability.status === 'linked' || status === 'linked') {
+    } else if (
+      (selctedAvailability && selctedAvailability.status === 'linked') ||
+      status === 'linked'
+    ) {
       isMatching = true;
     } else if (
-      selctedAvailability.status === 'contract' ||
+      (selctedAvailability && selctedAvailability.status === 'contract') ||
       status === 'contract'
     ) {
       isContract = true;
     } else if (
-      selctedAvailability.status === 'confirmed' ||
+      (selctedAvailability && selctedAvailability.status === 'confirmed') ||
       status === 'confirmed'
     ) {
       isConfirm = true;
@@ -240,7 +246,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                   //       )}
                                   //     </span>,
                                   //   )
-                                  null,
+                                  null
                             )
                             .join(', ')
                         : null}

@@ -1141,6 +1141,7 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
+          delete item.appointments;
           await updateCareinstitutionRequirment({
             variables: {
               id: availabilityId,
@@ -1160,6 +1161,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
   const setOnNotConfirmedCareInst = async () => {
+    console.log('selectedCells not confirm', selectedCellsCareinstitution);
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
@@ -1167,6 +1169,7 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
+          delete item.appointments;
           await updateCareinstitutionRequirment({
             variables: {
               id: availabilityId,
@@ -1200,15 +1203,15 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
-          await updateCareinstitutionRequirment({
-            variables: {
-              id: availabilityId,
-              careInstitutionRequirementInput: {
-                ...item,
-                status: 'offered'
-              }
-            }
-          });
+          // await updateCareinstitutionRequirment({
+          //   variables: {
+          //     id: availabilityId,
+          //     careInstitutionRequirementInput: {
+          //       ...item,
+          //       status: 'offered'
+          //     }
+          //   }
+          // });
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation('CARE_INST_SET_ON_OFFERED_SUCCESS_MSG')
@@ -1228,15 +1231,15 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
-          await updateCareinstitutionRequirment({
-            variables: {
-              id: availabilityId,
-              careInstitutionRequirementInput: {
-                ...item,
-                status: 'default'
-              }
-            }
-          });
+          // await updateCareinstitutionRequirment({
+          //   variables: {
+          //     id: availabilityId,
+          //     careInstitutionRequirementInput: {
+          //       ...item,
+          //       status: 'default'
+          //     }
+          //   }
+          // });
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation('CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG')
@@ -1248,8 +1251,6 @@ const Appointment: FunctionComponent = (props: any) => {
   };
   // set on offeres for careinstitution
   const setOnConfirmedCaregiver = async () => {
-    console.log('inside caregiver');
-
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
@@ -1259,6 +1260,7 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
+          delete item.appointments;
           await updateCaregiver({
             variables: {
               id: availabilityId,
@@ -1280,17 +1282,14 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // set on offeres for careinstitution
   const setOnNotConfirmedCaregiver = async () => {
-    console.log('inside caregiver not');
-
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-        console.log('item inside caregiver appointment', item);
-
         if (item && item.id && item.status === 'confirmed') {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
+          delete item.appointments;
           await updateCaregiver({
             variables: {
               id: availabilityId,
@@ -2233,9 +2232,6 @@ const Appointment: FunctionComponent = (props: any) => {
     n: n === 'available' ? true : false,
     status: status ? status : ''
   };
-
-  console.log(multipleAvailability, 'multipleAvailability+++');
-
   return (
     <>
       <div className='common-detail-page'>

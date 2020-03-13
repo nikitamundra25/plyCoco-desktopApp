@@ -63,9 +63,7 @@ const DetailListCareinstitution = (props: any) => {
                     <tbody>
                       {selectedCellsCareinstitution ? (
                         selectedCellsCareinstitution.map(
-                          (elem: any, index: number) => {
-                            console.log('elem in careinst',elem)
-                            
+                          (elem: any, index: number) => {                            
                             return elem && elem.item ? (
                               <tr key={index}
                               className={

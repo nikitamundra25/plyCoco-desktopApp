@@ -321,7 +321,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               }}
             >
               <img src={connect} className='mr-2' alt='' />
-              <span className='align-middle'>Connect availabilities</span>
+              <span className='align-middle'>Link appointments</span>
             </NavLink>{' '}
           </NavItem>
           <NavItem>
@@ -332,7 +332,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               }}
             >
               <img src={disconnect} className='mr-2' alt='' />
-              <span className='align-middle'>Disconnect availabilities</span>
+              <span className='align-middle'>Unlink appointments</span>
             </NavLink>
           </NavItem>
           <NavItem className='bordernav' />

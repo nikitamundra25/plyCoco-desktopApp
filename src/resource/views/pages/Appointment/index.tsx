@@ -2144,9 +2144,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  //  Save both forms
-  const onSubmitBothForms = () => {};
-
   const onCaregiverQualificationFilter = () => {
     if (selectedCells && selectedCells.length) {
       let temp: string[] = [];
@@ -2551,7 +2548,6 @@ const Appointment: FunctionComponent = (props: any) => {
                         <Button
                           className='btn-common  mt-0 mb-2 mx-2'
                           color='primary'
-                          onClick={onSubmitBothForms}
                         >
                           <i className='fa fa-save mr-2' />
                           {languageTranslation('SAVE_BOTH')}

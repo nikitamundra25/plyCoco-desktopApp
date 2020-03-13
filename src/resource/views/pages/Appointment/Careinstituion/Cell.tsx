@@ -1,21 +1,19 @@
 import { createSelectable } from 'react-selectable-fast';
 import React from 'react';
 import classnames from 'classnames';
-import moment from 'moment';
-import { dbAcceptableFormat } from '../../../../../config';
-
 const CellCareinstitution = ({
   selectableRef,
   isSelected,
   isSelecting,
   item,
   daysArr,
-  key,
+  key
 }: any) => {
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false,
-    isConfirm: boolean = false;
+    isConfirm: boolean = false,
+    isOffered: boolean = false;
 
   if (item) {
     if (item.status === 'default') {
@@ -26,6 +24,8 @@ const CellCareinstitution = ({
       isContract = true;
     } else if (item.status === 'confirmed') {
       isConfirm = true;
+    } else if (item.status === 'offered') {
+      isOffered = true;
     }
   }
   return (
@@ -34,7 +34,8 @@ const CellCareinstitution = ({
       className={classnames({
         'calender-col': true,
         'text-center': true,
-        'weekend': daysArr,
+        weekend: daysArr,
+        'cell-available': isOffered && !isSelected ? isOffered : false,
         'custom-appointment-col': true,
         'cursor-pointer': true,
         'selected-cell': isSelected,

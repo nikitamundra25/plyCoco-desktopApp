@@ -272,25 +272,7 @@ const Appointment: FunctionComponent = (props: any) => {
   >(DELETE_CAREINSTITUTION_REQUIREMENT, {
     onCompleted() {
       canstitutionRefetch();
-      setvaluesForCareinstitution({
-        appointmentId: '',
-        name: '',
-        date: '',
-        shift: undefined,
-        endTime: '',
-        startTime: '',
-        qualificationId: undefined,
-        department: undefined,
-        address: '',
-        contactPerson: '',
-        departmentOfferRemarks: '',
-        departmentBookingRemarks: '',
-        departmentRemarks: '',
-        isWorkingProof: false,
-        offerRemarks: '',
-        bookingRemarks: '',
-        comments: ''
-      });
+      setselectedCellsCareinstitution([]);
       setselctedRequirement({});
       setactiveDateCareinstitution([]);
     }

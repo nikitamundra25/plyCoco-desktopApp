@@ -2182,7 +2182,7 @@ const Appointment: FunctionComponent = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div>
               <Row>
-                <Col lg={'5'}>
+                <Col lg={'6'}>
                   <CaregiverListView
                     daysData={daysData}
                     loading={caregiverLoading}
@@ -2252,7 +2252,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     setOnNotConfirmedCareInst={setOnNotConfirmedCareInst}
                   />
                 </Col>
-                <Col lg={'7'}>
+                <Col lg={'6'}>
                   <Row>
                     <Col lg={'6'} className='px-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
                       <Formik

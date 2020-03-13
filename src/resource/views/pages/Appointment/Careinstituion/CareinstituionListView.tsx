@@ -68,7 +68,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     onDeleteEntries,
     setOnConfirmedCaregiver,
     setOnConfirmedCareInst,
-    setOnNotConfirmedCareInst
+    setOnNotConfirmedCareInst,
+    setOnOfferedCareInst,
+    setOnNotOfferedCareInst
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
@@ -166,21 +168,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
-  const handleSetConfirmed = (name: string) => {
-    if (selectedCellsCareinstitution) {
-      selectedCellsCareinstitution.map((data: any) => {
-        if (
-          data &&
-          data.item &&
-          data.item.status &&
-          data.item.status === 'linked'
-        ) {
-          // set status offer
-        }
-      });
-    }
-  };
-
   // Link appointments
   const handleLinkAppointments = (name: string) => {
     let selectedData: any = [],
@@ -422,13 +409,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink>
                 <img src={set_confirm} className='mr-2' alt='' />
-                <span>Set on offered</span>
+                <span onClick={setOnOfferedCareInst}>Set on offered</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
               <NavLink>
                 <img src={unset_confirm} className='mr-2' alt='' />
-                <span>Reset offered</span>
+                <span onClick={setOnNotOfferedCareInst}>Reset offered</span>
               </NavLink>
             </NavItem>
             <NavItem className='bordernav' />
@@ -669,6 +656,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                   key={`${key}-${i}`}
                                   day={key}
                                   list={list}
+                                  daysArr={key.isWeekend}
                                   item={
                                     item
                                       ? item.filter((avabilityData: any) => {

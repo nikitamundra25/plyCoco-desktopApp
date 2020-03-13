@@ -193,7 +193,7 @@
         }
       }
       &.weekend {
-        background-color: #ffebda;
+        background-color: #e8e8e9;
       }
       &.today {
         background-color: #ff973b;
@@ -367,23 +367,24 @@
   }
 }
 body {
-  .custom-row-selector {
-    margin: 0;
-    .selected-cell {
-      background-color: $selected_color;
-      color: #fff;
-    }
-    .cell-available {
-      background-color: $available_color;
-    }
-    .cell-available-careinstitution {
-      background-color: #ee21ff;
-    }
-    .cell-block {
-      background-color: $red;
-    }
-    .selecting-cell {
-      background-color: $selecting_color;
+  .calender-section {
+    .custom-row-selector {
+      margin: 0;
+      .selected-cell {
+        background-color: $selected_color;
+      }
+      .cell-available {
+        background-color: $available_color;
+      }
+      .cell-available-careinstitution {
+        background-color: #ee21ff;
+      }
+      .cell-block {
+        background-color: $red;
+      }
+      .selecting-cell {
+        background-color: $selecting_color;
+      }
     }
   }
 }

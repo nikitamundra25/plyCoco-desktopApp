@@ -17,25 +17,25 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
     handleInfiniteScroll,
     page,
     bulkcareGivers,
-    careInstData,
+    careInstData
   } = props;
 
   const handleChecked = (id: string) => {
     if (selectedCareGiver && selectedCareGiver.length) {
       const found = selectedCareGiver.some(
-        (el: any) => parseInt(el) === parseInt(id),
+        (el: any) => parseInt(el) === parseInt(id)
       );
       const e = {
         target: {
-          checked: !found,
-        },
+          checked: !found
+        }
       };
       handleCheckElement(e, id);
     } else {
       const e = {
         target: {
-          checked: true,
-        },
+          checked: true
+        }
       };
       handleCheckElement(e, id);
     }
@@ -47,7 +47,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
     lastName = '',
     email = '',
     canstitution = {},
-    contact = [],
+    contact = []
   } = getCareInstitution ? getCareInstitution : {};
   const { companyName = '' } = canstitution ? canstitution : {};
   const temp = [
@@ -55,8 +55,8 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
       companyName,
       contactType: languageTranslation('MAIN_CONTACT'),
       name: [lastName, firstName].join(' '),
-      email,
-    },
+      email
+    }
   ];
 
   if (contact && contact.length) {
@@ -65,7 +65,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
         firstName = '',
         surName = '',
         email = '',
-        contact_type = {},
+        contact_type = {}
       } = item ? item : {};
       temp.push({
         companyName: '',
@@ -74,7 +74,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
             ? contact_type.contactType
             : '',
         name: [surName, firstName].join(' '),
-        email,
+        email
       });
     });
   }
@@ -129,7 +129,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
                 companyName = '',
                 contactType = '',
                 name = '',
-                email = '',
+                email = ''
               } = item ? item : {};
               return (
                 <tr

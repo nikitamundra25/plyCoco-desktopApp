@@ -128,8 +128,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     if (selectedCells && selectedCells.length) {
       selectedRows = selectedCells.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
-        console.log("+++++++++++++++cellProps",cellProps);
-        
         const { item, list: caregiverData, day } = cellProps;
         const {
           id = '',

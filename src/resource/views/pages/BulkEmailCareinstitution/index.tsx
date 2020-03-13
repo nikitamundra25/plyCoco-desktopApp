@@ -242,7 +242,61 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       if (email_templates && email_templates.length) {
         email_templates.map((emailData: IEmailTemplateData & any) => {
           if (props.label === 'appointment') {
-            if (emailData.menuEntry === 'Acknowledge for offer sent') {
+            if (props.statusTo === 'offered') {
+              if (emailData.menuEntry === 'offer appointments by day') {
+                const { subject, body, attachments } = emailData;
+                const editorState = body ? HtmlToDraftConverter(body) : '';
+                setSubject(subject);
+                setBody(editorState);
+                setAttachments(
+                  attachments
+                    ? attachments.map(
+                        ({ name, id, path, size }: INewEmailAttachments) => ({
+                          fileName: name,
+                          id,
+                          path,
+                          size
+                        })
+                      )
+                    : []
+                );
+
+                setTemplate({
+                  label: emailData.menuEntry,
+                  value: emailData
+                });
+              }
+            }
+            if (props.statusTo === 'confirmed') {
+              if (emailData.menuEntry === 'Appointment Confirmation') {
+                console.log('In temp opt', emailData);
+                const { subject, body, attachments } = emailData;
+                const editorState = body ? HtmlToDraftConverter(body) : '';
+                setSubject(subject);
+                setBody(editorState);
+                setAttachments(
+                  attachments
+                    ? attachments.map(
+                        ({ name, id, path, size }: INewEmailAttachments) => ({
+                          fileName: name,
+                          id,
+                          path,
+                          size
+                        })
+                      )
+                    : []
+                );
+
+                setTemplate({
+                  label: emailData.menuEntry,
+                  value: emailData
+                });
+              }
+            }
+            if (
+              emailData.menuEntry === 'Acknowledge for offer sent' &&
+              props.statusTo === ''
+            ) {
               console.log('In temp opt', emailData);
               const { subject, body, attachments } = emailData;
               const editorState = body ? HtmlToDraftConverter(body) : '';

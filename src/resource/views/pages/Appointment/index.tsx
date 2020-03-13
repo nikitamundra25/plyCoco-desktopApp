@@ -1856,7 +1856,6 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const onDeleteEntries = async (userRole: string) => {
-    console.log(userRole, 'onDeleteEntries');
     let temp: any =
       userRole === 'caregiver' ? selectedCells : selectedCellsCareinstitution;
 
@@ -1865,8 +1864,8 @@ const Appointment: FunctionComponent = (props: any) => {
         title: languageTranslation('CONFIRM_LABEL'),
         text:
           userRole === 'caregiver'
-            ? languageTranslation('CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT')
-            : languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY'),
+            ? languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY')
+            : languageTranslation('CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT'),
       });
       if (value) {
         temp.forEach(async (element: any) => {
@@ -1881,7 +1880,7 @@ const Appointment: FunctionComponent = (props: any) => {
             } else {
               await deleteCareinstitutionRequirement({
                 variables: {
-                  id: parseInt(id),
+                  id: parseInt(item.id),
                 },
               });
             }

@@ -135,7 +135,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     }
     handleSelectUserList(data, name);
   };
-  console.log('appointmentId', appointmentId);
 
   return (
     <>
@@ -190,7 +189,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
-                          value={name ? name : ''}
+                          value={name ? name : languageTranslation('NAME')}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>

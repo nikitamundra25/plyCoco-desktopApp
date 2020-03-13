@@ -2390,7 +2390,7 @@ const Appointment: FunctionComponent = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div>
               <Row>
-                <Col lg={'5'}>
+                <Col lg={'6'}>
                   <CaregiverListView
                     daysData={daysData}
                     loading={caregiverLoading}
@@ -2465,7 +2465,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     onNewRequirement={() => setMultipleRequirement(true)}
                   />
                 </Col>
-                <Col lg={'7'}>
+                <Col lg={'6'}>
                   <Row>
                     <Col
                       lg={'6'}

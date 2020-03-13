@@ -297,9 +297,9 @@ const CreateInvoices: FunctionComponent<RouteComponentProps> & any = (
                   <div className="header-nav-heading mx-1">attachment</div>
                   <div className="header-nav-item ">
                     <span className="header-nav-icon">
-                      <img src={appendToPlycoco} alt="" />
+                      <img src={AttachSpeacilistInvoice} alt="" />
                     </span>
-                    <span className="header-nav-text">Append to plyco bill</span>
+                    <span className="header-nav-text">Bill again</span>
                   </div>
                   <div className="header-nav-item ">
                     <span className="header-nav-icon">

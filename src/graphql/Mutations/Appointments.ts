@@ -21,19 +21,7 @@ const ADD_INSTITUTION_REQUIREMENT = gql`
       careInstitutionRequirementInput: $careInstitutionRequirementInput
     ) {
       id
-      userId
-      name
-      date
-      startTime
-      endTime
-      divisionId
-      address
-      contactPerson
-      departmentBookingRemarks
-      departmentRemarks
-      isWorkingProof
-      offerRemarks
-      bookingRemarks
+      status
     }
   }
 `;

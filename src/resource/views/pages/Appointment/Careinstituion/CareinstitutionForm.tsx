@@ -4,7 +4,7 @@ import '../index.scss';
 import {
   IAppointmentCareInstitutionForm,
   ICareinstitutionFormValue,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../../interfaces';
 import {
   FormGroup,
@@ -15,7 +15,7 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
 } from 'reactstrap';
 import '../index.scss';
 import { languageTranslation } from '../../../../../helpers';
@@ -34,7 +34,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   any> = (
   props: FormikProps<ICareinstitutionFormValue> &
     IAppointmentCareInstitutionForm &
-    any
+    any,
 ) => {
   const {
     values: {
@@ -53,7 +53,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       departmentRemarks,
       offerRemarks,
       bookingRemarks,
-      comments
+      comments,
+      status,
     },
     touched,
     errors,
@@ -75,7 +76,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     handleQualification,
     onhandleDelete,
     careInstitutionListArr,
-    handleSelectUserList
+    handleSelectUserList,
   } = props;
 
   let d = moment().format('L');
@@ -98,22 +99,43 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false,
-    isConfirm: boolean = false;
+    isConfirm: boolean = false,
+    isOffered: boolean = false;
 
-  if (selctedRequirement) {
-    if (selctedRequirement.status === 'default') {
+  if (selctedRequirement || status) {
+    if (
+      (selctedRequirement && selctedRequirement.status === 'default') ||
+      status === 'default'
+    ) {
       isRequirment = true;
-    } else if (selctedRequirement.status === 'linked') {
+    } else if (
+      (selctedRequirement && selctedRequirement.status === 'linked') ||
+      status === 'linked'
+    ) {
       isMatching = true;
-    } else if (selctedRequirement.status === 'contract') {
+    } else if (
+      (selctedRequirement && selctedRequirement.status === 'contract') ||
+      status === 'contract'
+    ) {
       isContract = true;
-    } else if (selctedRequirement.status === 'confirmed') {
+    } else if (
+      (selctedRequirement && selctedRequirement.status === 'confirmed') ||
+      status === 'confirmed'
+    ) {
       isConfirm = true;
+    } else if (
+      (selctedRequirement && selctedRequirement.status === 'offered') ||
+      status === 'offered'
+    ) {
+      isOffered = true;
     }
   }
 
   const handleUserList = (id: string, name: string) => {
-    let data: any = careInstitutionListArr;
+    let data: any =
+      careInstitutionListArr && careInstitutionListArr.result
+        ? careInstitutionListArr.result
+        : {};
     setstarMark(!starMark);
     if (
       id &&
@@ -134,7 +156,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             'form-card custom-height custom-scrollbar': true,
             'requirement-bg': isRequirment,
             'matching-bg': isMatching,
-            'contract-bg': isConfirm
+            'contract-bg': isConfirm,
+            'cell-green-caregiver': isOffered,
           })}
         >
           <h5 className='content-title'>
@@ -179,7 +202,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
-                          value={name ? name : ''}
+                          value={name ? name : languageTranslation('NAME')}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>
@@ -196,7 +219,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                       selectedCareinstitution
                                         ? selectedCareinstitution.id
                                         : '',
-                                      'careinstitution'
+                                      'careinstitution',
                                     )
                                   : ''
                               }
@@ -220,11 +243,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='7'>
                     <div className='text-value mb-1'>
                       {activeDateCareinstitution
-                        ? moment(
-                            activeDateCareinstitution
-                              ? activeDateCareinstitution.dateString
-                              : null
-                          ).format('dd DD.MM.YYYY')
+                        ? activeDateCareinstitution
+                            .map((dateString: string | undefined) =>
+                              dateString
+                                ? moment(dateString).format('dd DD.MM.YYYY')
+                                : null,
+                            )
+                            .join(', ')
                         : null}
                     </div>
                   </Col>
@@ -566,7 +591,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='5'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation(
-                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
+                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY',
                       )}
                     </Label>
                   </Col>
@@ -605,10 +630,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             className=''
                             checked={isWorkingProof}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
+                              e: React.ChangeEvent<HTMLInputElement>,
                             ) => {
                               const {
-                                target: { checked }
+                                target: { checked },
                               } = e;
                               setFieldValue('isWorkingProof', checked);
                             }}
@@ -637,7 +662,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='textarea'
                         name='offerRemarks'
                         id='exampleText'
-                        value={offerRemarks}
+                        value={offerRemarks ? offerRemarks : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
@@ -662,7 +687,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='textarea'
                         name='bookingRemarks'
                         id='exampleText'
-                        value={bookingRemarks}
+                        value={bookingRemarks ? bookingRemarks : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
@@ -687,7 +712,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='textarea'
                         name='comments'
                         id='exampleText'
-                        value={comments}
+                        value={comments ? comments : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />

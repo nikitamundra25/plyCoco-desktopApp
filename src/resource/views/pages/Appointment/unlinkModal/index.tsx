@@ -35,6 +35,7 @@ const UnlinkAppointment: FunctionComponent<any> = (props: IUnlinkInterface) => {
 
   const handleSelectUser = (name: string) => {
     handleUnlinkData(name, checkMark);
+    setcheckMark(false);
     handleClose();
   };
 

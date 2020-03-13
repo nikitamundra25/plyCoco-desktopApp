@@ -10,7 +10,6 @@
     <meta name="description" content="%REACT_APP_DESCRIPTION%" />
     <meta name="author" content="%REACT_APP_AUTHOHR%" />
     <meta name="keyword" content="%REACT_APP_TAGS%" />
-    <!-- <title>%REACT_APP_NAME%</title> -->
     <title>
       Plycoco - Vermittlung selbständiger medizinischer
       Fachkräfte,Krankenschwestern,Altenpfleger,Krankenpfleger
@@ -31,7 +30,10 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <script>
-      localStorage.setItem('language', 'en');
+      const lang = localStorage.getItem("language");
+      if (!lang) {
+        localStorage.setItem("language", "en");
+      }
     </script>
   </head>
 

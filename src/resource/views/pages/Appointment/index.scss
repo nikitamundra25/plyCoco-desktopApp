@@ -284,19 +284,25 @@
 // custom-color for matching
 .availability-bg {
   background: $availability_color !important;
-}
-.requirement-bg {
+  }
+  .cell-green-caregiver {
+  background-color: #d7ffe4;
+  }
+  .cell-pink-careinstitution {
+  background-color: #ee21ff;
+  }
+  .requirement-bg {
   background: $requirement_color !important;
-}
-.matching-bg {
+  }
+  .matching-bg {
   background: $matching_color !important;
-}
-.contract-bg {
+  }
+  .contract-bg {
   background: $contract_color !important;
-}
-.confirmation-bg {
+  }
+  .confirmation-bg {
   background: $confirmation_color !important;
-}
+  }
 
 .invoice-bg {
   background: $invoice_color !important;
@@ -424,25 +430,35 @@
   }
 }
 body {
-  .custom-row-selector {
+
+    .calender-section {
+    .custom-row-selector {
     margin: 0;
-    .selected-cell {
-      background-color: $selected_color;
-      color: #fff;
-    }
+    
     .cell-available {
-      background-color: $available_color;
+    background-color: $available_color;
+    }
+    .cell-green-caregiver {
+    background-color: $available_color;
     }
     .cell-available-careinstitution {
-      background-color: #ee21ff;
+    background-color: #ee21ff;
     }
     .cell-block {
-      background-color: $red;
+    background-color: $red;
     }
     .selecting-cell {
-      background-color: $selecting_color;
+    background-color: $selecting_color;
     }
-  }
+    .selected-cell {
+    background-color: $selected_color;
+    }
+    }
+    }
+
+
+
+
   .appointment-commonheader {
     &.common-topheader {
       @media only screen and (max-width: 1200px) {

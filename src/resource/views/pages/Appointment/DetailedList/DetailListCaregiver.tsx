@@ -8,7 +8,7 @@ import refresh from '../../../../assets/img/refresh.svg';
 import moment from 'moment';
 
 const DetailListCaregiver = (props: any) => {
-  const { show, handleClose, selectedCells } = props;
+  const { show, handleClose, selectedCells, qualificationList } = props;
   const [workingHourTab, setWorkingHourTab] = useState<boolean>(false);
   const externalCloseBtn = (
     <button
@@ -22,12 +22,6 @@ const DetailListCaregiver = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  // const noData = getSelecetedCell
-  //   ? getSelecetedCell.map((elem: any) => {
-  //       console.log(elem.item);
-  //       elem && elem.item && elem.item.id ? true : false;
-  //     })
-  //   : null;
   return (
     <div>
       <Modal
@@ -101,9 +95,18 @@ const DetailListCaregiver = (props: any) => {
                       </thead>
                       <tbody>
                         {selectedCells ? (
-                          selectedCells.map((elem: any) => {
+                          selectedCells.map((elem: any, index: number) => {
                             return elem && elem.item ? (
-                              <tr>
+                              <tr
+                                key={index}
+                                className={
+                                  elem.item.status === 'linked'
+                                    ? 'matching-bg'
+                                    : elem.item.status === 'confirmed'
+                                    ? 'contract-bg'
+                                    : 'cell-green-caregiver'
+                                }
+                              >
                                 <td> {elem.id ? elem.id : null}</td>
                                 <td>
                                   {elem.lastName && elem.firstName
@@ -111,11 +114,26 @@ const DetailListCaregiver = (props: any) => {
                                     : '-'}
                                 </td>
                                 <td> -</td>
-                                <td> -</td>
+
+                                <td>
+                                  {elem.caregiver &&
+                                  elem.caregiver.attributes &&
+                                  qualificationList
+                                    ? qualificationList
+                                        .filter((qualification: any) => {
+                                          elem.caregiver.attributes.includes(
+                                            qualification.value
+                                          );
+                                        })
+                                        .map((q: any) => {
+                                          <span>{q.label + ' '}</span>;
+                                        })
+                                    : null}
+                                </td>
                                 <td>
                                   {elem.item.date
                                     ? moment(elem.item.date).format(
-                                        defaultDateFormat,
+                                        defaultDateFormat
                                       )
                                     : null}
                                 </td>
@@ -222,7 +240,7 @@ const DetailListCaregiver = (props: any) => {
                                 <td>
                                   {elem.item.date
                                     ? moment(elem.item.date).format(
-                                        defaultDateFormat,
+                                        defaultDateFormat
                                       )
                                     : null}
                                 </td>

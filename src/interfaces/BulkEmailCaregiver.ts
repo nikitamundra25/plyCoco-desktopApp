@@ -42,7 +42,8 @@ export interface ICareGiverListComponentProps {
 }
 
 export interface IBulkEmailVariables {
-  caregiver: any;
+  caregiver?: any;
+  canstitution?: any;
   senderUserId?: number | null;
   to: string;
   from: string;

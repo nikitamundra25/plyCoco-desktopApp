@@ -123,6 +123,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           dateString: day ? day.dateString : ''
         };
       });
+
       handleSelection(selectedRows, 'caregiver');
       // for (let index = 0; index < selected.length; index++) {
       //   const { item, list, dateString } = selected[index];

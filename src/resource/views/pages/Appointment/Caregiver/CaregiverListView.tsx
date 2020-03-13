@@ -47,7 +47,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     onDeleteEntries,
     onCaregiverQualificationFilter,
     setOnConfirmedCaregiver,
-    setOnNotConfirmedCaregiver
+    setOnNotConfirmedCaregiver,
+    qualificationList
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -514,6 +515,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         selectedCells={selectedCells}
+        qualificationList={qualificationList}
       />
     </>
   );

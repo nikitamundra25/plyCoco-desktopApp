@@ -1120,12 +1120,9 @@ const Appointment: FunctionComponent = (props: any) => {
   }, [careInstituionShift]);
 
   const setOnConfirmedCareInst = async () => {
-    console.log('selectedCells careinst', selectedCellsCareinstitution);
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        console.log('item inside careinst appointment', item);
-
         if (item && item.id && item.status === 'linked') {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
@@ -1152,8 +1149,6 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        console.log('item inside caregiver appointment', item);
-
         if (item && item.id && item.status === 'confirmed') {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
@@ -1170,6 +1165,67 @@ const Appointment: FunctionComponent = (props: any) => {
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation('CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG')
+            );
+          }
+        }
+      });
+    }
+  };
+  const setOnOfferedCareInst = async () => {
+    console.log('selectedCells careinst', selectedCellsCareinstitution);
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      selectedCellsCareinstitution.forEach(async element => {
+        const { item } = element;
+        console.log('item inside careinst appointment', item);
+        if (
+          item &&
+          item.id &&
+          (item.status === 'default' || item.status === 'requirement')
+        ) {
+          console.log('inside if', item.status);
+          let availabilityId: number = item.id ? parseInt(item.id) : 0;
+          delete item.id;
+          delete item.__typename;
+          await updateCareinstitutionRequirment({
+            variables: {
+              id: availabilityId,
+              careInstitutionRequirementInput: {
+                ...item,
+                status: 'offered'
+              }
+            }
+          });
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation('CARE_INST_SET_ON_OFFERED_SUCCESS_MSG')
+            );
+          }
+        }
+      });
+    }
+  };
+  const setOnNotOfferedCareInst = async () => {
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      selectedCellsCareinstitution.forEach(async element => {
+        const { item } = element;
+        console.log('item inside caregiver appointment', item);
+
+        if (item && item.id && item.status === 'offered') {
+          let availabilityId: number = item.id ? parseInt(item.id) : 0;
+          delete item.id;
+          delete item.__typename;
+          await updateCareinstitutionRequirment({
+            variables: {
+              id: availabilityId,
+              careInstitutionRequirementInput: {
+                ...item,
+                status: 'default'
+              }
+            }
+          });
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation('CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG')
             );
           }
         }
@@ -2184,6 +2240,8 @@ const Appointment: FunctionComponent = (props: any) => {
                     onLinkAppointment={onLinkAppointment}
                     setOnConfirmedCareInst={setOnConfirmedCareInst}
                     setOnNotConfirmedCareInst={setOnNotConfirmedCareInst}
+                    setOnOfferedCareInst={setOnOfferedCareInst}
+                    setOnNotOfferedCareInst={setOnNotOfferedCareInst}
                   />
                 </Col>
                 <Col lg={'7'}>

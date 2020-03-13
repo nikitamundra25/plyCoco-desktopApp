@@ -901,8 +901,11 @@
   "UNLINK_APPOINTMENT": "Separate appointment",
   "UNLINK_DELETE_APPOINTMENT_QUESTION": "who has the appointment canceled ?",
   "CHECK_APPOINTMENT": "Delete the date of the originator",
-  "CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG": "Caregiver status set on confirmed",
-  "CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG": "Caregiver status set on not confirmed",
-  "CARE_INST_SET_CONFIRMED_SUCCESS_MSG": "Care Institution status set on confirmed",
-  "CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG": "Care Institution status set not confirmed"
+  "CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG": "Caregiver set on confirmed",
+  "CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG": "Caregiver set on not confirmed",
+  "CARE_INST_SET_CONFIRMED_SUCCESS_MSG": "Care Institution set on confirmed",
+  "CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG": "Care Institution set not confirmed",
+  "CARE_INST_SET_ON_OFFERED_SUCCESS_MSG":"Care Institution set on offered",
+  "CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG":"Care Institution reset offered"
+
 }

@@ -54,7 +54,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
               : 0
           } //This is important field to render the next data totalCount
           next={() => {
-            handleInfiniteScroll();
+            // handleInfiniteScroll();
           }}
           scrollableTarget='scrollableDiv'
           hasMore={

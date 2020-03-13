@@ -245,6 +245,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   };
 
   const handleInfiniteScroll = () => {
+    console.log("kkkkkkkkkkkkk");
+    
     setPage(page + 1);
     if (props.label !== 'appointment') {
       fetchMore({

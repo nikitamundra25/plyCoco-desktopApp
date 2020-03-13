@@ -1,5 +1,12 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
+import {
+  Table,
+  Button,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledTooltip,
+} from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
@@ -677,6 +684,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               <div className='all-star-wrap'>
                                 <div
                                   className='text-capitalize view-more-link one-line-text'
+                                  id={`careinst-${list.id}`}
                                   style={{
                                     backgroundColor: !list.isActive
                                       ? deactivatedListColor
@@ -703,6 +711,16 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                   }
                                 >
                                   <div className='calender-heading'>
+                                    {row === 0 ? (
+                                      <UncontrolledTooltip
+                                        placement='right'
+                                        target={`careinst-${list.id}`}
+                                      >
+                                        {[list.lastName, list.firstName].join(
+                                          ' ',
+                                        )}
+                                      </UncontrolledTooltip>
+                                    ) : null}
                                     {row === 0
                                       ? `${
                                           list.lastName ? list.lastName : ''

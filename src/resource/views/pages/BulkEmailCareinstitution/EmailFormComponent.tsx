@@ -6,7 +6,7 @@ import draftToHtml from "draftjs-to-html";
 import Select from "react-select";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { stripHtml, languageTranslation } from "../../../../helpers";
-import { IEmailEditorComponentProps } from "../../../../interfaces/BulkEmailCaregiver";
+import { IEmailEditorComponentProps } from "../../../../interfaces";
 import { AttachmentList } from "../../components/Attachments";
 import { AttachmentFormComponent } from "../EmailTemplateManagement/AddTemplate/AttachmentFormComponent";
 
@@ -59,7 +59,7 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
                     name={"lastName"}
                     className={`width-common ${
                       isSubmit && !subject ? "error" : ""
-                      }`}
+                    }`}
                     value={subject}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleChangeSubject(e)
@@ -123,8 +123,8 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
                   {languageTranslation("REQUIRED_BODY")}
                 </div>
               ) : (
-                  ""
-                )}
+                ""
+              )}
             </Col>
             <AttachmentFormComponent
               uploadDocument={uploadDocument}

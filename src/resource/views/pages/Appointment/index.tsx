@@ -526,7 +526,7 @@ const Appointment: FunctionComponent = (props: any) => {
         lastName = '',
         canstitution = {},
         qualificationIds = [],
-        dateString = ''
+        dateString = '',
       } =
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
@@ -538,7 +538,7 @@ const Appointment: FunctionComponent = (props: any) => {
           firstName,
           lastName,
           canstitution: {
-            ...canstitution
+            ...canstitution,
           },
           qualificationIds,
           dateString: date ? date : '',
@@ -557,7 +557,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ? departmentData && departmentData.length
                 ? {
                     value: departmentData[0].id,
-                    label: departmentData[0].name
+                    label: departmentData[0].name,
                   }
                 : undefined
               : undefined,
@@ -571,9 +571,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : ''
-          }
-        }
+                : '',
+          },
+        },
       ];
 
       console.log('careinstitutionvalue', careinstitutionvalue);
@@ -662,9 +662,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : ''
-          }
-        }
+                : '',
+          },
+        },
       ];
       setactiveDateCaregiver([{ dateString: date }]);
       // setselectedCareGiver(caregiverdata);
@@ -2286,7 +2286,6 @@ const Appointment: FunctionComponent = (props: any) => {
     comments: Item ? Item.comments : '',
     status: Item ? Item.status : '',
   };
-  console.log('valuesForCareIntituionForm', valuesForCareIntituionForm);
 
   // end
   const {

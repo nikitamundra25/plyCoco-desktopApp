@@ -794,6 +794,7 @@ const Appointment: FunctionComponent = (props: any) => {
     if (name === 'caregiver') {
       setSelectedCells(selectedCells);
     } else {
+      console.log('selectedCellsselectedCells', selectedCells);
       setselectedCellsCareinstitution(selectedCells);
     }
   };
@@ -1755,6 +1756,23 @@ const Appointment: FunctionComponent = (props: any) => {
       }
     }
   };
+  console.log(
+    'careInstitutionListcareInstitutionList',
+    selectedCellsCareinstitution
+  );
+
+  const {
+    id: Id = '',
+    firstName: FirstName = '',
+    lastName: LastName = '',
+    canstitution = {},
+    item: Item = {},
+    qualificationIds = {},
+    dateString: activeDateCareInstitution = ''
+  } =
+    selectedCellsCareinstitution && selectedCellsCareinstitution.length
+      ? selectedCellsCareinstitution[0]
+      : {};
 
   // Link both forms
   const handleLinkBoth = () => {
@@ -2162,9 +2180,10 @@ const Appointment: FunctionComponent = (props: any) => {
                         }}
                       />
                     </Col>
+                    {console.log('+++++++++++canstitution', canstitution, Item)}
                     <Col lg={'6'}>
                       <Formik
-                        initialValues={valuesForCareinstitution}
+                        initialValues={Item}
                         onSubmit={handleSubmitCareinstitutionForm}
                         enableReinitialize={true}
                         validationSchema={CareInstitutionValidationSchema}
@@ -2175,10 +2194,7 @@ const Appointment: FunctionComponent = (props: any) => {
                             <CareinstitutionFormView
                               {...props}
                               activeDateCareinstitution={
-                                activeDateCareinstitution &&
-                                activeDateCareinstitution.length
-                                  ? activeDateCareinstitution[0]
-                                  : undefined
+                                activeDateCareInstitution
                               }
                               setcareInstituionDept={(
                                 deptData: any,
@@ -2207,7 +2223,7 @@ const Appointment: FunctionComponent = (props: any) => {
                               }
                               careInstitutionTimesOptions={shiftOption}
                               secondStarCanstitution={secondStarCanstitution}
-                              selctedRequirement={selctedRequirement}
+                              selctedRequirement={Item}
                               handleQualification={handleQualification}
                               onhandleDelete={onhandleDelete}
                               handleSelectUserList={handleSelectUserList}

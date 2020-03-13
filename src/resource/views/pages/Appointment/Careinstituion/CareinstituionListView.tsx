@@ -112,67 +112,44 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
   const onSelectFinish = (selectedCells: any[]) => {
-    const selected: any = [];
-    let list: any = [];
-    for (let i = 0; i < selectedCells.length; i++) {
-      const { props: cellProps } = selectedCells[i];
-      const { item, list: careinstitutionData } = cellProps;
-      selected.push({
-        dateString: cellProps.day ? cellProps.day.dateString : '',
-        item,
-        list: careinstitutionData
-      });
-
-      if (selectedCells[0].props.list) {
-        list = selectedCells[0].props.list;
-      }
-      setSelectedDays(selected);
-    }
-    let selctedAvailability: any;
     let selectedRows: any[] = [];
-    if (
-      list &&
-      list.careinstitution_requirements &&
-      list.careinstitution_requirements.length
-    ) {
-      if (selected && selected.length) {
-        for (let index = 0; index < selected.length; index++) {
-          const { dateString, item, list } = selected[index];
-          // let temp = item.filter(
-          //   (avabilityData: any, index: number) =>
-          //     moment(avabilityData.date).format('DD.MM.YYYY') ===
-          //     moment(dateString).format('DD.MM.YYYY')
-          // );
-
-          selctedAvailability = item;
-          selectedRows.push({
-            id: list.id,
-            qualificationIds: list.qualificationId,
-            item,
-            dateString
-          });
-        }
-      }
-
-      // selctedAvailability = list.careinstitution_requirements.filter(
-      //   (avabilityData: any, index: number) => {
-      //     return (
-      //       moment(selected[0].isoString).format(dbAcceptableFormat) ===
-      //         moment(avabilityData.date).format(dbAcceptableFormat) &&
-      //       (avabilityData.f === avabilityData.f ||
-      //         avabilityData.s === avabilityData.s ||
-      //         avabilityData.n === avabilityData.n)
-      //     );
-      //   }
-      // );
+    if (selectedCells && selectedCells.length) {
+      selectedRows = selectedCells.map((selectedCell: any) => {
+        const { props: cellProps } = selectedCell;
+        console.log("+++++++++++++++cellProps",cellProps);
+        
+        const { item, list: caregiverData, day } = cellProps;
+        const {
+          id = '',
+          firstName = '',
+          lastName = '',
+          caregiver = {},
+          canstitution = {},
+          qualificationId = []
+        } = caregiverData ? caregiverData : {};
+        return {
+          id,
+          firstName,
+          lastName,
+          caregiver,
+          canstitution,
+          item,
+          qualificationIds: qualificationId,
+          dateString: day ? day.dateString : ''
+        };
+      });
+      handleSelection(selectedRows, 'careinstitution');
+      // for (let index = 0; index < selected.length; index++) {
+      //   const { item, list, dateString } = selected[index];
+      //   selctedAvailability = item;
+      //   selectedRows.push({
+      //     id: list.id,
+      //     qualificationIds: list.qualificationId,
+      //     item,
+      //     dateString,
+      //   });
+      // }
     }
-    handleSelection(selectedRows, 'careinstitution');
-    handleSelectedUser(
-      list,
-      selected,
-      'careinstitution',
-      selctedAvailability ? selctedAvailability : {}
-    );
   };
 
   const onSelectionClear = () => {
@@ -294,7 +271,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const handleCareInstitutionBulkEmail = () => {
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
-  
+
   return (
     <>
       <div
@@ -413,7 +390,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink>
-                <img src={set_confirm} className='mr-2' alt='' onClick={setOnOfferedCareInstitution}/>
+                <img
+                  src={set_confirm}
+                  className='mr-2'
+                  alt=''
+                  onClick={setOnOfferedCareInstitution}
+                />
                 <span>Set on offered</span>
               </NavLink>{' '}
             </NavItem>
@@ -525,13 +507,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     <div className='thead-sticky u-col custom-appointment-col text-center'>
                       A
                     </div>
-                  <div className='thead-sticky v-col custom-appointment-col text-center'>
-                  V
-                </div>
+                    <div className='thead-sticky v-col custom-appointment-col text-center'>
+                      V
+                    </div>
                   </div>
                 </th>
 
-              
                 {/* array for showing day */}
                 {daysArr.map(
                   (
@@ -623,19 +604,16 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                     <i className='fa fa-star-o' />
                                   )}
                                 </div>
-                              <div
-                              className='v-col custom-appointment-col text-center'
-                              onClick={e =>
-                                onAddingRow(e, 'careinstitution', index)
-                              }
-                            >
-                              <i className='fa fa-arrow-down' />
-                            </div>
+                                <div
+                                  className='v-col custom-appointment-col text-center'
+                                  onClick={e =>
+                                    onAddingRow(e, 'careinstitution', index)
+                                  }
+                                >
+                                  <i className='fa fa-arrow-down' />
+                                </div>
                               </div>
-
                             </th>
-
-                            
 
                             {/* map */}
                             {daysArr.map((key: any, i: number) => {

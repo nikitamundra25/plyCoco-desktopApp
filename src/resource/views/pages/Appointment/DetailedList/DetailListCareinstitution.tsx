@@ -77,7 +77,7 @@ const DetailListCareinstitution = (props: any) => {
                                     : 'cell-pink-careinstitution'
                                 }
                               >
-                                <td>{elem.id ? elem.id : null}</td>
+                                <td>{elem.item.id ? elem.item.id : null}</td>
                                 <td>-</td>
                                 <td>
                                   {elem.item.name ? elem.item.name : null}

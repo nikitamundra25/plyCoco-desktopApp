@@ -2326,7 +2326,6 @@ const Appointment: FunctionComponent = (props: any) => {
     comments: Item ? Item.comments : '',
     status: Item ? Item.status : ''
   };
-
   // end
   const {
     name = '',

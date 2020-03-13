@@ -101,7 +101,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   return (
     <>
       <div className='sticky-common-header'>
-        <div className='common-topheader d-flex align-items-center px-2 mb-1'>
+        <div className='common-topheader d-flex align-items-center px-2 mb-1 appointment-commonheader'>
           <div
             className='common-label px-1 cursor-pointer'
             onClick={handleToday}

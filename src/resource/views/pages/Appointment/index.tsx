@@ -2254,7 +2254,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 </Col>
                 <Col lg={'7'}>
                   <Row>
-                    <Col lg={'6'} className='px-lg-0'>
+                    <Col lg={'6'} className='px-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
                       <Formik
                         initialValues={valuesForCaregiver}
                         onSubmit={handleSubmitCaregiverForm}

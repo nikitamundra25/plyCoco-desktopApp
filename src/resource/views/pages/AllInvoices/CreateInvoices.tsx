@@ -10,16 +10,13 @@ import {
   Col,
   Card,
   CardBody,
-  CardHeader,
+  
   Nav
 } from "reactstrap";
 import Select from "react-select";
-import logger from "redux-logger";
+
 import { languageTranslation } from "../../../../helpers";
-import Search from "../../components/SearchFilter/index";
-import { State } from "../../../../config";
-import close from "../../../assets/img/cancel.svg";
-import closehover from "../../../assets/img/cancel-hover.svg";
+
 import refresh from "../../../assets/img/refresh.svg";
 import PlyCocoreceipt from "../../../assets/img/header-icons/plyCoco-receipt.svg";
 import SpecialistInvoice from "../../../assets/img/header-icons/specialist-invoice.svg";
@@ -31,9 +28,7 @@ import appendToPlycoco from "../../../assets/img/header-icons/tab-icons/append-t
 import attachReminder from "../../../assets/img/header-icons/tab-icons/attach-reminder.svg";
 import AttachSpeacilistInvoice from "../../../assets/img/header-icons/tab-icons/attach-speacilist-invoice.svg";
 import clear from "../../../assets/img/header-icons/tab-icons/clear.svg";
-
 import edit from "../../../assets/img/header-icons/tab-icons/edit.svg";
-import paperclip from "../../../assets/img/header-icons/tab-icons/paperclip.svg";
 import sendLawyer from "../../../assets/img/header-icons/tab-icons/send-lawyer.svg";
 import sendReminder from "../../../assets/img/header-icons/tab-icons/send-reminder.svg";
 import showReminder from "../../../assets/img/header-icons/tab-icons/show-reminder.svg";
@@ -44,11 +39,11 @@ import createReminder from "../../../assets/img/header-icons/tab-icons/create-re
 import { FormikHelpers, FormikProps, Formik } from "formik";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
-import { TODO_PAGE_LIMIT, AppRoutes } from "../../../../config";
-import "./index.scss";
-import filter from "../../../assets/img/filter.svg";
 
-const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
+import "./index.scss";
+
+
+const CreateInvoices: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
   const options = [
@@ -575,4 +570,4 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
     </>
   );
 };
-export default InvoiceSolona;
+export default CreateInvoices;

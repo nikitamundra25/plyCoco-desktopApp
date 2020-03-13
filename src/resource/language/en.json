@@ -908,5 +908,6 @@
   "CARE_INST_SET_CONFIRMED_SUCCESS_MSG": "Care Institution status set on confirmed",
   "CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG": "Care Institution status set not confirmed",
   "CAREGIVER_AVABILITY": "Availability",
-  "CAREINST_REQUIREMENT": "Requirement"
+  "CAREINST_REQUIREMENT": "Requirement",
+  "DOCUEMENT_FETCHED_SUCCESS": "Work proof fetched from successfully."
 }

@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const GET_DOCUMENT_TEMPLATE = gql`
   query getDocumentTemplates(
@@ -55,6 +55,7 @@ const GET_REQUIRED_DOCUMENT_TYPES = gql`
     }
   }
 `;
+
 export const DocumentQueries = [
   GET_DOCUMENT_TEMPLATE,
   GET_DOCUMENTS,

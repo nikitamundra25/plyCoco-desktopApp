@@ -50,6 +50,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
             lte={props.lte}
             sortBy={props.sortBy}
             showButton={props.showButton}
+            handleClose={() => handleClose()}
           />
         </ModalBody>
       </Modal>

@@ -1185,24 +1185,28 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        if (item && item.id && item.status === 'linked') {
-          let availabilityId: number = item.id ? parseInt(item.id) : 0;
-          delete item.id;
-          delete item.__typename;
-          delete item.appointments;
-          await updateCareinstitutionRequirment({
-            variables: {
-              id: availabilityId,
-              careInstitutionRequirementInput: {
-                ...item,
-                status: 'confirmed',
+        if (item && item.id) {
+          if (item.status === 'linked') {
+            let availabilityId: number = item.id ? parseInt(item.id) : 0;
+            delete item.id;
+            delete item.__typename;
+            delete item.appointments;
+            await updateCareinstitutionRequirment({
+              variables: {
+                id: availabilityId,
+                careInstitutionRequirementInput: {
+                  ...item,
+                  status: 'confirmed',
+                },
               },
-            },
-          });
-          if (!toast.isActive(toastId)) {
-            toastId = toast.success(
-              languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG'),
-            );
+            });
+            if (!toast.isActive(toastId)) {
+              toastId = toast.success(
+                languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG'),
+              );
+            }
+          } else {
+            toast.error('Care Institution must be linked with a caregiver');
           }
         }
       });
@@ -1213,24 +1217,28 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        if (item && item.id && item.status === 'confirmed') {
-          let availabilityId: number = item.id ? parseInt(item.id) : 0;
-          delete item.id;
-          delete item.__typename;
-          delete item.appointments;
-          await updateCareinstitutionRequirment({
-            variables: {
-              id: availabilityId,
-              careInstitutionRequirementInput: {
-                ...item,
-                status: 'linked',
+        if (item && item.id) {
+          if (item.status === 'confirmed') {
+            let availabilityId: number = item.id ? parseInt(item.id) : 0;
+            delete item.id;
+            delete item.__typename;
+            delete item.appointments;
+            await updateCareinstitutionRequirment({
+              variables: {
+                id: availabilityId,
+                careInstitutionRequirementInput: {
+                  ...item,
+                  status: 'linked',
+                },
               },
-            },
-          });
-          if (!toast.isActive(toastId)) {
-            toastId = toast.success(
-              languageTranslation('CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG'),
-            );
+            });
+            if (!toast.isActive(toastId)) {
+              toastId = toast.success(
+                languageTranslation('CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG'),
+              );
+            }
+          } else {
+            toast.error('Care Institution must be linked with a caregiver');
           }
         }
       });
@@ -1251,15 +1259,16 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
-          // await updateCareinstitutionRequirment({
-          //   variables: {
-          //     id: availabilityId,
-          //     careInstitutionRequirementInput: {
-          //       ...item,
-          //       status: 'offered'
-          //     }
-          //   }
-          // });
+          delete item.appointments;
+          await updateCareinstitutionRequirment({
+            variables: {
+              id: availabilityId,
+              careInstitutionRequirementInput: {
+                ...item,
+                status: 'offered',
+              },
+            },
+          });
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation('CARE_INST_SET_ON_OFFERED_SUCCESS_MSG'),
@@ -1279,15 +1288,16 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
-          // await updateCareinstitutionRequirment({
-          //   variables: {
-          //     id: availabilityId,
-          //     careInstitutionRequirementInput: {
-          //       ...item,
-          //       status: 'default'
-          //     }
-          //   }
-          // });
+          delete item.appointments;
+          await updateCareinstitutionRequirment({
+            variables: {
+              id: availabilityId,
+              careInstitutionRequirementInput: {
+                ...item,
+                status: 'default',
+              },
+            },
+          });
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation('CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG'),
@@ -1302,24 +1312,30 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-        if (item && item.id && item.status === 'linked') {
-          let availabilityId: number = item.id ? parseInt(item.id) : 0;
-          delete item.id;
-          delete item.__typename;
-          delete item.appointments;
-          await updateCaregiver({
-            variables: {
-              id: availabilityId,
-              careGiverAvabilityInput: {
-                ...item,
-                status: 'confirmed',
+        console.log('item inside caregiver', item);
+
+        if (item && item.id) {
+          if (item.status === 'linked') {
+            let availabilityId: number = item.id ? parseInt(item.id) : 0;
+            delete item.id;
+            delete item.__typename;
+            delete item.appointments;
+            await updateCaregiver({
+              variables: {
+                id: availabilityId,
+                careGiverAvabilityInput: {
+                  ...item,
+                  status: 'confirmed',
+                },
               },
-            },
-          });
-          if (!toast.isActive(toastId)) {
-            toastId = toast.success(
-              languageTranslation('CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG'),
-            );
+            });
+            if (!toast.isActive(toastId)) {
+              toastId = toast.success(
+                languageTranslation('CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG'),
+              );
+            }
+          } else {
+            toast.error('Caregiver must be linked with a care institution');
           }
         }
       });
@@ -1331,24 +1347,28 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-        if (item && item.id && item.status === 'confirmed') {
-          let availabilityId: number = item.id ? parseInt(item.id) : 0;
-          delete item.id;
-          delete item.__typename;
-          delete item.appointments;
-          await updateCaregiver({
-            variables: {
-              id: availabilityId,
-              careGiverAvabilityInput: {
-                ...item,
-                status: 'linked',
+        if (item && item.id) {
+          if (item.status === 'confirmed') {
+            let availabilityId: number = item.id ? parseInt(item.id) : 0;
+            delete item.id;
+            delete item.__typename;
+            delete item.appointments;
+            await updateCaregiver({
+              variables: {
+                id: availabilityId,
+                careGiverAvabilityInput: {
+                  ...item,
+                  status: 'linked',
+                },
               },
-            },
-          });
-          if (!toast.isActive(toastId)) {
-            toastId = toast.success(
-              languageTranslation('CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG'),
-            );
+            });
+            if (!toast.isActive(toastId)) {
+              toastId = toast.success(
+                languageTranslation('CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG'),
+              );
+            }
+          } else {
+            toast.error('Caregiver must be linked with a care institution');
           }
         }
       });
@@ -2399,7 +2419,10 @@ const Appointment: FunctionComponent = (props: any) => {
                 </Col>
                 <Col lg={'7'}>
                   <Row>
-                    <Col lg={'6'} className='px-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
+                    <Col
+                      lg={'6'}
+                      className='px-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'
+                    >
                       <Formik
                         initialValues={valuesForCaregiver}
                         onSubmit={handleSubmitCaregiverForm}

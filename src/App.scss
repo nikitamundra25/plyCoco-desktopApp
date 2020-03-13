@@ -149,8 +149,9 @@ body {
     &:hover,
     &:active,
     &:disabled {
-      background: $theme_color_hover;
-      border-color: $theme_color_hover;
+      background: $theme_color_hover!important;
+      background-color: $theme_color_hover!important;
+      border-color: $theme_color_hover!important;
       box-shadow: none !important;
     }
     &:not(:disabled):not(.disabled):active {
@@ -1905,6 +1906,9 @@ html:not([dir="rtl"]) {
     .custom-inner-reactselect__menu {
       width: 500px;
     }
+  }
+  &.custom-reactselect{
+    
   }
 }
 

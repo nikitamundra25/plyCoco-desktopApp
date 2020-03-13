@@ -297,22 +297,11 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                       Create cancellation invoice
      </span>
                   </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">attachment</div>
                   <div className="header-nav-item ">
                     <span className="header-nav-icon">
-                      <img src={appendToPlycoco} alt="" />
+                      <img src={Again} alt="" />
                     </span>
-                    <span className="header-nav-text">Append to plyco bill</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={AttachSpeacilistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Attach to specialist invoice
-     </span>
+                    <span className="header-nav-text">Bill again</span>
                   </div>
                 </div>
                 <div className="header-nav-colmn-items">

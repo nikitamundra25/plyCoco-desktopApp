@@ -238,7 +238,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               {languageTranslation('RESET_LABEL')}
             </span>
           </div>
-          <div className='common-header-input pr-1'>
+          <div className='common-header-input pr-1 header-dropdown-wrap'>
             {/* <Select
                 classNamePrefix='custom-inner-reactselect'
                 className={'custom-reactselect '}

@@ -106,6 +106,10 @@ const Appointment: FunctionComponent = (props: any) => {
   ] = useState<any>();
 
   const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
+  const [
+    careinstitutionDepartmentList,
+    setcareinstitutionDepartmentList
+  ] = useState<any>([]);
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
     IDate[]
@@ -526,7 +530,7 @@ const Appointment: FunctionComponent = (props: any) => {
         lastName = '',
         canstitution = {},
         qualificationIds = [],
-        dateString = ''
+        dateString = '',
       } =
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
@@ -538,7 +542,7 @@ const Appointment: FunctionComponent = (props: any) => {
           firstName,
           lastName,
           canstitution: {
-            ...canstitution
+            ...canstitution,
           },
           qualificationIds,
           dateString: date ? date : '',
@@ -557,7 +561,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ? departmentData && departmentData.length
                 ? {
                     value: departmentData[0].id,
-                    label: departmentData[0].name
+                    label: departmentData[0].name,
                   }
                 : undefined
               : undefined,
@@ -571,9 +575,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : ''
-          }
-        }
+                : '',
+          },
+        },
       ];
 
       console.log('careinstitutionvalue', careinstitutionvalue);
@@ -662,9 +666,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : ''
-          }
-        }
+                : '',
+          },
+        },
       ];
       setactiveDateCaregiver([{ dateString: date }]);
       // setselectedCareGiver(caregiverdata);
@@ -1319,17 +1323,14 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
   const setOnOfferedCareInst = async () => {
-    console.log('selectedCells careinst', selectedCellsCareinstitution);
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        console.log('item inside careinst appointment', item);
         if (
           item &&
           item.id &&
           (item.status === 'default' || item.status === 'requirement')
         ) {
-          console.log('inside if', item.status);
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
@@ -1357,8 +1358,6 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        console.log('item inside caregiver appointment', item);
-
         if (item && item.id && item.status === 'offered') {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
@@ -1616,7 +1615,48 @@ const Appointment: FunctionComponent = (props: any) => {
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
-    let temp: any[] = [{}];
+    console.log('list', list);
+
+    let temp = careinstitutionList.filter((dept: any) => dept.id === list.id);
+    console.log('temp', temp);
+
+    //  setcareinstitutionList()
+    setcareinstitutionDepartmentList(temp);
+    const {
+      id = '',
+      firstName = '',
+      lastName = '',
+      canstitution = {},
+      qualificationIds = [],
+      dateString = ''
+    } =
+      selectedCellsCareinstitution && selectedCellsCareinstitution.length
+        ? selectedCellsCareinstitution[0]
+        : {};
+
+    let data: any[] = [
+      {
+        id,
+        firstName,
+        lastName,
+        canstitution,
+        qualificationIds,
+        dateString,
+        item: {
+          // shift: list.shift,
+          // startTime: timeData
+          //   ? timeData.data && timeData.data.begin
+          //     ? timeData.data.begin
+          //     : time[0]
+          //   : '',
+          // endTime: timeData
+          //   ? timeData.data && timeData.data.begin
+          //     ? timeData.data.end
+          //     : time[1]
+          //   : ''
+        }
+      }
+    ];
     // setselectedCellsCareinstitution()
     if (!starCanstitution.isStar) {
       setstarCanstitution({
@@ -2394,7 +2434,7 @@ const Appointment: FunctionComponent = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div>
               <Row>
-                <Col lg={'5'}>
+                <Col lg={'6'}>
                   <CaregiverListView
                     daysData={daysData}
                     loading={caregiverLoading}
@@ -2467,9 +2507,12 @@ const Appointment: FunctionComponent = (props: any) => {
                     setOnOfferedCareInst={setOnOfferedCareInst}
                     setOnNotOfferedCareInst={setOnNotOfferedCareInst}
                     onNewRequirement={() => setMultipleRequirement(true)}
+                    careinstitutionDepartmentList={
+                      careinstitutionDepartmentList
+                    }
                   />
                 </Col>
-                <Col lg={'7'}>
+                <Col lg={'6'}>
                   <Row>
                     <Col
                       lg={'6'}

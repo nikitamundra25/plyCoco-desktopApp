@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react';
-import { Col, Table } from 'reactstrap';
-import { ICareGiverListComponentProps } from '../../../../interfaces/BulkEmailCaregiver';
-import Loader from '../../containers/Loader/Loader';
-import { languageTranslation } from '../../../../helpers';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import React, { FunctionComponent } from "react";
+import { Col, Table } from "reactstrap";
+import { ICareGiverListComponentProps } from "../../../../interfaces";
+import Loader from "../../containers/Loader/Loader";
+import { languageTranslation } from "../../../../helpers";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export const CareInstitutionListComponent: FunctionComponent<ICareGiverListComponentProps &
   any> = (props: ICareGiverListComponentProps & any) => {
@@ -43,19 +43,19 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
 
   const { getCareInstitution = {} } = careInstData ? careInstData : {};
   const {
-    firstName = '',
-    lastName = '',
-    email = '',
-    id='',
+    firstName = "",
+    lastName = "",
+    email = "",
+    id = "",
     canstitution = {},
     contact = []
   } = getCareInstitution ? getCareInstitution : {};
-  const { companyName = '' } = canstitution ? canstitution : {};
+  const { companyName = "" } = canstitution ? canstitution : {};
   const temp = [
     {
       companyName,
-      contactType: languageTranslation('MAIN_CONTACT'),
-      name: [lastName, firstName].join(' '),
+      contactType: languageTranslation("MAIN_CONTACT"),
+      name: [lastName, firstName].join(" "),
       email,
       id
     }
@@ -64,67 +64,67 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
   if (contact && contact.length) {
     contact.forEach((item: any) => {
       const {
-        firstName = '',
-        surName = '',
-        email = '',
+        firstName = "",
+        surName = "",
+        email = "",
         contact_type = {},
-        id=''
+        id = ""
       } = item ? item : {};
       temp.push({
         id,
-        companyName: '',
+        companyName: "",
         contactType:
           contact_type && contact_type.contactType
             ? contact_type.contactType
-            : '',
-        name: [surName, firstName].join(' '),
+            : "",
+        name: [surName, firstName].join(" "),
         email
       });
     });
   }
   return (
-    <Col lg={'5'} className='pr-lg-0'>
-      <Table bordered hover responsive className='mb-0'>
-        <thead className='thead-bg'>
+    <Col lg={"5"} className="pr-lg-0">
+      <Table bordered hover responsive className="mb-0">
+        <thead className="thead-bg">
           <tr>
-            <th className='checkbox-th-column'></th>
-            <th className=''>{languageTranslation('MENU_INSTITUTION')}</th>
-            <th className=''>{languageTranslation('CONTACT')}</th>
-            <th>{languageTranslation('NAME')}</th>
-            <th className=''>{languageTranslation('EMAIL')}</th>
+            <th className="checkbox-th-column"></th>
+            <th className="">{languageTranslation("MENU_INSTITUTION")}</th>
+            <th className="">{languageTranslation("CONTACT")}</th>
+            <th>{languageTranslation("NAME")}</th>
+            <th className="">{languageTranslation("EMAIL")}</th>
             {/* <th>{languageTranslation('SALUTATION')}</th> */}
           </tr>
         </thead>
         <tbody>
           {loading ? (
             <tr>
-              <td className={'table-loader'} colSpan={8}>
+              <td className={"table-loader"} colSpan={8}>
                 <Loader />
               </td>
             </tr>
           ) : temp && temp.length ? (
             temp.map((item: any, index: number) => {
               const {
-                companyName = '',
-                contactType = '',
-                name = '',
-                email = ''
-              } = item ? item : {}; 
+                companyName = "",
+                contactType = "",
+                name = "",
+                email = ""
+              } = item ? item : {};
               return (
                 <tr
                   key={index}
                   onClick={(e: any) => {
                     handleChecked(item.id);
                   }}
-                  className='cursor-pointer'
+                  className="cursor-pointer"
                 >
                   <td>
-                    <span className=' checkbox-custom  '>
+                    <span className=" checkbox-custom  ">
                       <input
-                        type='checkbox'
-                        id='check'
-                        name='checkbox'
-                        className=''
+                        type="checkbox"
+                        id="check"
+                        name="checkbox"
+                        className=""
                         checked={
                           selectedCareGiver &&
                           selectedCareGiver.length &&
@@ -136,7 +136,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
                           handleCheckElement(e, item.id);
                         }}
                       />
-                      <label className=''></label>
+                      <label className=""></label>
                     </span>
                   </td>
                   <td>{companyName}</td>

@@ -28,10 +28,6 @@ const CellCareinstitution = ({
       isOffered = true;
     }
   }
-  console.log('item.status in cell', item);
-
-  console.log('isOffered in cell', isOffered);
-
   return (
     <td
       key={key}

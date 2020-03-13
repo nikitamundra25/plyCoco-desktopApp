@@ -96,6 +96,7 @@ const DetailListCaregiver = (props: any) => {
                       <tbody>
                         {selectedCells ? (
                           selectedCells.map((elem: any, index: number) => {
+                            console.log('elem.item', elem.item);
                             return elem && elem.item ? (
                               <tr
                                 key={index}
@@ -107,7 +108,7 @@ const DetailListCaregiver = (props: any) => {
                                     : 'cell-green-caregiver'
                                 }
                               >
-                                <td> {elem.id ? elem.id : null}</td>
+                                <td> {elem.item.id ? elem.item.id : null}</td>
                                 <td>
                                   {elem.lastName && elem.firstName
                                     ? [elem.lastName, elem.firstName].join(' ')

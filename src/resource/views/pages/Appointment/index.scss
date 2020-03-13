@@ -163,6 +163,9 @@
           align-items: center;
           justify-content: center;
         }
+        .v-col{
+          border-right:none;
+        }
       }
       .btn-more {
         position: absolute;

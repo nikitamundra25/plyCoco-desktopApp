@@ -89,9 +89,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
             </div>
             {tabChange == 1 ?
                <div className="common-topheader d-flex  px-2 mb-1">
-               <div className="header-nav-colmn-items">
-                 <div className="header-nav-heading mx-1"></div>
-               </div>
+              
                <div className="header-nav-colmn-items">
                  <div className="header-nav-heading mx-1">Filter</div>
                  <div className="header-nav-item ">

@@ -368,6 +368,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                 setconfirmApp(true);
                 setopenToggleMenu(false);
                 handleCareGiverBulkEmail();
+                setOnConfirmedCaregiver();
               }}
             >
               <img src={confirm_appointment} className='mr-2' alt='' />

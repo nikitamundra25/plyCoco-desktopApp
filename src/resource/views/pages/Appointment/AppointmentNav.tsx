@@ -93,7 +93,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
 
   const handleBlur = () => {
     if (userId) {
-      let userRole = user ? user : 'caregiver';
+      let userRole = user ? user : 'avability';
       onFilterByUserId(userId, userRole);
     }
   };
@@ -219,7 +219,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className='user-select mx-1'>
-            {console.log('careInstitutionList', careInstitutionList)}
             <Select
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect custom-reactselect-menu-width'}
@@ -249,7 +248,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 onChange={(value: any) => handleSelect(value, 'user')}
               /> */}
 
-            <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+            <ButtonDropdown
+              isOpen={dropdownOpen}
+              toggle={toggle}
+              className='button-group-dropdown'
+            >
               <Input
                 placeholder={user ? user : 'select user'}
                 type='text'
@@ -261,11 +264,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               />
               <DropdownToggle caret color='primary' />
               <DropdownMenu onClick={(e: any) => handleSelect(e, 'dropdown')}>
-                <DropdownItem value='caregiver'>
-                  {languageTranslation('CAREGIVER_USERROLE')}
+                <DropdownItem value='avability'>
+                  {languageTranslation('CAREGIVER_AVABILITY')}
                 </DropdownItem>
-                <DropdownItem value='canstitution'>
-                  {languageTranslation('CAREINST_USERROLE')}
+                <DropdownItem value='requirement'>
+                  {languageTranslation('CAREINST_REQUIREMENT')}
                 </DropdownItem>
               </DropdownMenu>
             </ButtonDropdown>

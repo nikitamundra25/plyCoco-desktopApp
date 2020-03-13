@@ -59,7 +59,7 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
                     name={"lastName"}
                     className={`width-common ${
                       isSubmit && !subject ? "error" : ""
-                    }`}
+                      }`}
                     value={subject}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleChangeSubject(e)
@@ -123,8 +123,8 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
                   {languageTranslation("REQUIRED_BODY")}
                 </div>
               ) : (
-                ""
-              )}
+                  ""
+                )}
             </Col>
             <AttachmentFormComponent
               uploadDocument={uploadDocument}

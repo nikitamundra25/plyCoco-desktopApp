@@ -135,7 +135,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
                 <tr
                   key={index}
                   onClick={(e: any) => {
-                    handleChecked(item.id);
+                    handleChecked(email);
                   }}
                   className='cursor-pointer'
                 >

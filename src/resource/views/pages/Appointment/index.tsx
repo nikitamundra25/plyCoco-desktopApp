@@ -1114,9 +1114,18 @@ const Appointment: FunctionComponent = (props: any) => {
             },
           },
         ];
-
-        setselectedCellsCareinstitution(temp);
-        // setvaluesForCareinstitution(temp);
+        if (
+          selectedCellsCareinstitution &&
+          selectedCellsCareinstitution.length
+        ) {
+          let data = [...selectedCellsCareinstitution];
+          data[0] = temp[0];
+          setselectedCellsCareinstitution(data);
+        }
+        // setvaluesForCareinstitution(data);
+        else {
+          setselectedCellsCareinstitution(temp);
+        }
       }
     }
   }, [careInstituionDept]);
@@ -1161,8 +1170,15 @@ const Appointment: FunctionComponent = (props: any) => {
         },
       },
     ];
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      let temp = [...selectedCellsCareinstitution];
+      temp[0] = data[0];
+      setselectedCellsCareinstitution(temp);
+    }
     // setvaluesForCareinstitution(data);
-    setselectedCellsCareinstitution(data);
+    else {
+      setselectedCellsCareinstitution(data);
+    }
   }, [careInstituionShift]);
 
   const setOnConfirmedCareInst = async () => {
@@ -1648,6 +1664,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   ],
                 },
               });
+              setMultipleAvailability(false);
               if (!toast.isActive(toastId)) {
                 toastId = toast.success(
                   languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG'),
@@ -1734,8 +1751,6 @@ const Appointment: FunctionComponent = (props: any) => {
       if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
         // To add mulitple availabilty
         selectedCellsCareinstitution.forEach(async (element: any) => {
-          console.log(element, 'elementelementelement');
-
           const { id = '', dateString = '' } = element ? element : {};
           let careInstitutionRequirementInput: ICareinstitutionFormSubmitValue = {
             userId: id ? parseInt(id) : 0,
@@ -1798,6 +1813,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 ],
               },
             });
+            setMultipleRequirement(false);
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
                 languageTranslation(
@@ -2123,7 +2139,7 @@ const Appointment: FunctionComponent = (props: any) => {
     caregiver = undefined,
     item = undefined,
   } =
-    selectedCells && selectedCells.length && selectedCells[0]
+    selectedCells && selectedCells.length === 1 && selectedCells[0]
       ? selectedCells[0]
       : {};
 
@@ -2176,7 +2192,7 @@ const Appointment: FunctionComponent = (props: any) => {
     canstitution = {},
     item: Item = {},
     qualificationIds = {},
-    dateString: activeDateCareInstitution = '',
+    dateString: careInstitutiondateString = '',
   } =
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
@@ -2443,7 +2459,14 @@ const Appointment: FunctionComponent = (props: any) => {
                             <CareinstitutionFormView
                               {...props}
                               activeDateCareinstitution={
-                                activeDateCareInstitution
+                                !multipleRequirement
+                                  ? [careInstitutiondateString]
+                                  : selectedCellsCareinstitution
+                                  ? selectedCellsCareinstitution.map(
+                                      cell => cell.dateString,
+                                    )
+                                  : []
+                                // activeDateCareInstitution
                               }
                               setcareInstituionDept={(
                                 deptData: any,

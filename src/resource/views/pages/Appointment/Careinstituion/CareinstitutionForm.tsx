@@ -4,7 +4,7 @@ import '../index.scss';
 import {
   IAppointmentCareInstitutionForm,
   ICareinstitutionFormValue,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../../interfaces';
 import {
   FormGroup,
@@ -15,7 +15,7 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
 } from 'reactstrap';
 import '../index.scss';
 import { languageTranslation } from '../../../../../helpers';
@@ -34,7 +34,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   any> = (
   props: FormikProps<ICareinstitutionFormValue> &
     IAppointmentCareInstitutionForm &
-    any
+    any,
 ) => {
   const {
     values: {
@@ -54,7 +54,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       offerRemarks,
       bookingRemarks,
       comments,
-      status
+      status,
     },
     touched,
     errors,
@@ -76,7 +76,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     handleQualification,
     onhandleDelete,
     careInstitutionListArr,
-    handleSelectUserList
+    handleSelectUserList,
   } = props;
 
   let d = moment().format('L');
@@ -157,7 +157,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             'requirement-bg': isRequirment,
             'matching-bg': isMatching,
             'contract-bg': isConfirm,
-            'cell-available': isOffered
+            'cell-available': isOffered,
           })}
         >
           <h5 className='content-title'>
@@ -219,7 +219,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                       selectedCareinstitution
                                         ? selectedCareinstitution.id
                                         : '',
-                                      'careinstitution'
+                                      'careinstitution',
                                     )
                                   : ''
                               }
@@ -243,11 +243,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='7'>
                     <div className='text-value mb-1'>
                       {activeDateCareinstitution
-                        ? moment(
-                            activeDateCareinstitution
-                              ? activeDateCareinstitution.dateString
-                              : null
-                          ).format('dd DD.MM.YYYY')
+                        ? activeDateCareinstitution
+                            .map((dateString: string | undefined) =>
+                              dateString
+                                ? moment(dateString).format('dd DD.MM.YYYY')
+                                : null,
+                            )
+                            .join(', ')
                         : null}
                     </div>
                   </Col>
@@ -589,7 +591,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='5'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation(
-                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
+                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY',
                       )}
                     </Label>
                   </Col>
@@ -628,10 +630,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             className=''
                             checked={isWorkingProof}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
+                              e: React.ChangeEvent<HTMLInputElement>,
                             ) => {
                               const {
-                                target: { checked }
+                                target: { checked },
                               } = e;
                               setFieldValue('isWorkingProof', checked);
                             }}

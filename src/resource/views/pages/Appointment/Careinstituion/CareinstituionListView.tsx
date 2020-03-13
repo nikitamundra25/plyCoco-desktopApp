@@ -71,6 +71,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnNotConfirmedCareInst,
     setOnOfferedCareInst,
     setOnNotOfferedCareInst,
+    onNewRequirement,
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
@@ -308,7 +309,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         >
           <Nav vertical>
             <NavItem>
-              <NavLink>
+              <NavLink
+                onClick={() => {
+                  handleRightMenuToggle();
+                  onNewRequirement();
+                }}
+              >
                 <img src={new_appointment} className='mr-2' alt='' />
                 <span>New appointment</span>
               </NavLink>
@@ -333,7 +339,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink onClick={() => setShowList(true)}>
+              <NavLink
+                onClick={() => {
+                  handleRightMenuToggle();
+                  setShowList(true);
+                }}
+              >
                 <img src={detail_list} className='mr-2' alt='' />
                 <span>Detailed List</span>
               </NavLink>{' '}
@@ -420,15 +431,25 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink onClick={() => handleLinkAppointments('link')}>
+              <NavLink
+                onClick={() => {
+                  handleRightMenuToggle();
+                  handleLinkAppointments('link');
+                }}
+              >
                 <img src={connect} className='mr-2' alt='' />
-                <span>Link appointments</span>
+                <span>Connect appointments</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem>
-              <NavLink onClick={() => handleUnLinkAppointments('unlink')}>
+              <NavLink
+                onClick={() => {
+                  handleRightMenuToggle();
+                  handleUnLinkAppointments('unlink');
+                }}
+              >
                 <img src={disconnect} className='mr-2' alt='' />
-                <span>Unlink appointments</span>
+                <span>Disconnect appointments</span>
               </NavLink>{' '}
             </NavItem>
             <NavItem className='bordernav' />

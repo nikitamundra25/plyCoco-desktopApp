@@ -99,28 +99,43 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false,
-    isConfirm: boolean = false;
+    isConfirm: boolean = false,
+    isOffered: boolean = false;
 
   if (selctedRequirement || status) {
-    if (selctedRequirement.status === 'default' || status === 'default') {
+    if (
+      (selctedRequirement && selctedRequirement.status === 'default') ||
+      status === 'default'
+    ) {
       isRequirment = true;
-    } else if (selctedRequirement.status === 'linked' || status === 'linked') {
+    } else if (
+      (selctedRequirement && selctedRequirement.status === 'linked') ||
+      status === 'linked'
+    ) {
       isMatching = true;
     } else if (
-      selctedRequirement.status === 'contract' ||
+      (selctedRequirement && selctedRequirement.status === 'contract') ||
       status === 'contract'
     ) {
       isContract = true;
     } else if (
-      selctedRequirement.status === 'confirmed' ||
+      (selctedRequirement && selctedRequirement.status === 'confirmed') ||
       status === 'confirmed'
     ) {
       isConfirm = true;
+    } else if (
+      (selctedRequirement && selctedRequirement.status === 'offered') ||
+      status === 'offered'
+    ) {
+      isOffered = true;
     }
   }
 
   const handleUserList = (id: string, name: string) => {
-    let data: any = careInstitutionListArr;
+    let data: any =
+      careInstitutionListArr && careInstitutionListArr.result
+        ? careInstitutionListArr.result
+        : {};
     setstarMark(!starMark);
     if (
       id &&
@@ -141,7 +156,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             'form-card custom-height custom-scrollbar': true,
             'requirement-bg': isRequirment,
             'matching-bg': isMatching,
-            'contract-bg': isConfirm
+            'contract-bg': isConfirm,
+            'cell-available': isOffered
           })}
         >
           <h5 className='content-title'>
@@ -186,7 +202,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
-                          value={name ? name : ''}
+                          value={name ? name : languageTranslation('NAME')}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>

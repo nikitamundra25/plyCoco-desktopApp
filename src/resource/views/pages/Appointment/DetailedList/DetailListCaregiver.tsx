@@ -8,7 +8,7 @@ import refresh from '../../../../assets/img/refresh.svg';
 import moment from 'moment';
 
 const DetailListCaregiver = (props: any) => {
-  const { show, handleClose, selectedCells } = props;
+  const { show, handleClose, selectedCells, qualificationList } = props;
   const [workingHourTab, setWorkingHourTab] = useState<boolean>(false);
   const externalCloseBtn = (
     <button
@@ -95,10 +95,7 @@ const DetailListCaregiver = (props: any) => {
                       </thead>
                       <tbody>
                         {selectedCells ? (
-                          selectedCells.map((elem: any, index: number) => {
-                            console.log('elem in caregiver detail list', elem);
-
-                            return elem && elem.item ? (
+                          selectedCells.map((elem: any, index: number) => {                            return elem && elem.item ? (
                               <tr
                                 key={index}
                                 className={
@@ -118,7 +115,22 @@ const DetailListCaregiver = (props: any) => {
                                     : '-'}
                                 </td>
                                 <td> -</td>
-                                <td> -</td>
+
+                                <td>
+                                  {elem.caregiver &&
+                                  elem.caregiver.attributes &&
+                                  qualificationList
+                                    ? qualificationList
+                                        .filter((qualification: any) => {
+                                          elem.caregiver.attributes.includes(
+                                            qualification.value
+                                          );
+                                        })
+                                        .map((q: any) => {
+                                          <span>{q.label + ' '}</span>;
+                                        })
+                                    : null}
+                                </td>
                                 <td>
                                   {elem.item.date
                                     ? moment(elem.item.date).format(

@@ -53,7 +53,9 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
           }}
           scrollableTarget='scrollableDiv'
           hasMore={
-            props.label !== 'appointment'
+            props.confirmApp
+              ? false
+              : props.label !== 'appointment'
               ? careGivers &&
                 careGivers.getCaregivers &&
                 careGivers.getCaregivers.totalCount

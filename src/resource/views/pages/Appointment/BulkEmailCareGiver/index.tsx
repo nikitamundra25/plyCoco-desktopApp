@@ -50,6 +50,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
             showButton={props.showButton}
             handleClose={() => handleClose()}
             selectedCells={selectedCells}
+            confirmApp={props.confirmApp}
           />
         </ModalBody>
       </Modal>

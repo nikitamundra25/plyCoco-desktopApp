@@ -92,6 +92,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   );
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
+    if (openCareGiverBulkEmail === true) {
+      setconfirmApp(false);
+    }
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
 
@@ -196,6 +199,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       }
     }
   };
+
+  const [confirmApp, setconfirmApp] = useState<boolean>(false);
 
   //  UnLink appointmnets
   const handleUnLinkAppointments = () => {
@@ -351,6 +356,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           <NavItem>
             <NavLink
               onClick={() => {
+                setOnConfirmedCaregiver();
+                setconfirmApp(true);
                 setopenToggleMenu(false);
                 handleCareGiverBulkEmail();
               }}
@@ -619,7 +626,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               </tbody>
             </Table>
           </div>
-          {console.log('selectedCells before bulk', selectedCells)}
         </SelectableGroup>
       </div>
       <BulkEmailCareGiverModal
@@ -629,6 +635,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         gte={props.gte}
         lte={props.lte}
         selectedCells={selectedCells}
+        confirmApp={confirmApp}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

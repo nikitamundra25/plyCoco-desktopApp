@@ -179,18 +179,20 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     //       return (data = [...data, key]);
     //     });
     //   } setCaregiverConfirm(data);
-    if (selectedCells) {
-      console.log('in if');
+    if (selectedCells && props.confirmApp) {
       if (selectedCells && selectedCells.length) {
-        console.log('selectedCells ');
         selectedCells.map((key: any) => {
-          console.log('key ', key);
-          return (list = [...list, key]);
+          if (list && list.length) {
+            if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
+              return (list = [...list, key]);
+            }
+          } else {
+            return (list = [...list, key]);
+          }
         });
         setcareGiverData(list);
       }
     } else {
-      console.log('inside else');
       if (careGiversList) {
         const { getUserByQualifications } = careGiversList;
         const { result } = getUserByQualifications;
@@ -780,6 +782,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   page={page}
                   label={props.label}
                   bulkcareGivers={bulkcareGivers}
+                  confirmApp={props.confirmApp}
                 />
 
                 <EmailEditorComponent

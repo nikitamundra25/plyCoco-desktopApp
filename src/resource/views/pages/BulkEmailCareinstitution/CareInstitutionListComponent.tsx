@@ -46,6 +46,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
     firstName = '',
     lastName = '',
     email = '',
+    id='',
     canstitution = {},
     contact = []
   } = getCareInstitution ? getCareInstitution : {};
@@ -55,7 +56,8 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
       companyName,
       contactType: languageTranslation('MAIN_CONTACT'),
       name: [lastName, firstName].join(' '),
-      email
+      email,
+      id
     }
   ];
 
@@ -65,9 +67,11 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
         firstName = '',
         surName = '',
         email = '',
-        contact_type = {}
+        contact_type = {},
+        id=''
       } = item ? item : {};
       temp.push({
+        id,
         companyName: '',
         contactType:
           contact_type && contact_type.contactType
@@ -78,37 +82,12 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
       });
     });
   }
-  // if (careInstData) {
-  // }
-
   return (
     <Col lg={'5'} className='pr-lg-0'>
       <Table bordered hover responsive className='mb-0'>
         <thead className='thead-bg'>
           <tr>
-            <th className='checkbox-th-column'>
-              <span className=' checkbox-custom '>
-                <input
-                  type='checkbox'
-                  id='checkAll'
-                  name='checkbox'
-                  className=''
-                  checked={
-                    bulkcareGivers ? true : false
-                    // careInstitutions &&
-                    // careInstitutions.careInstitutionData &&
-                    // careInstitutions.careInstitutionData.result.length ===
-                    //   selectedCareGiver.length
-                    //   ? true
-                    //   : false
-                  }
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleSelectAll(e);
-                  }}
-                />
-                <label className=''></label>
-              </span>
-            </th>
+            <th className='checkbox-th-column'></th>
             <th className=''>{languageTranslation('MENU_INSTITUTION')}</th>
             <th className=''>{languageTranslation('CONTACT')}</th>
             <th>{languageTranslation('NAME')}</th>
@@ -130,12 +109,12 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
                 contactType = '',
                 name = '',
                 email = ''
-              } = item ? item : {};
+              } = item ? item : {}; 
               return (
                 <tr
                   key={index}
                   onClick={(e: any) => {
-                    handleChecked(email);
+                    handleChecked(item.id);
                   }}
                   className='cursor-pointer'
                 >

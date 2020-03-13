@@ -8,24 +8,8 @@ const Cell = ({
   isSelecting,
   item,
   key,
-  daysArr
+  daysArr,
 }: any) => {
-  // // Filter current date data
-  // const temp = item.filter((avabilityData: any) => {
-  //   return (
-  //     moment(day.isoString).format('DD.MM.YYYY') ===
-  //     moment(avabilityData.date).format('DD.MM.YYYY')
-  //   );
-  // })[0];
-  console.log('daysArr', daysArr);
-  // let isWeekend: any;
-  // if (daysArr) {
-  //   isWeekend = daysArr.map((key: any) => {
-  //     isWeekend = key.isWeekend;
-  //   });
-  // }
-  // console.log('isWeekend in cell', isWeekend);
-
   let isBlocked: boolean = false;
   if (item) {
     isBlocked = item.f === 'block' || item.s === 'block' || item.n === 'block';
@@ -58,7 +42,7 @@ const Cell = ({
           'cursor-pointer': true,
           'selected-cell': isSelected,
           'selecting-cell': isSelecting,
-          'weekend': daysArr,
+          weekend: daysArr,
           'cell-block': item ? (isBlocked ? true : false) : false,
           'matching-bg': isMatching && !isSelected ? isMatching : false,
           'confirmation-bg': isConfirm && !isSelected ? isConfirm : false,
@@ -70,7 +54,7 @@ const Cell = ({
                 ? true
                 : false
               : false
-            : false
+            : false,
         })}
         ref={selectableRef}
       >

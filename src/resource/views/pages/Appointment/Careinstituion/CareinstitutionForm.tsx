@@ -120,7 +120,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   }
 
   const handleUserList = (id: string, name: string) => {
-    let data: any = careInstitutionListArr;
+    let data: any =
+      careInstitutionListArr && careInstitutionListArr.result
+        ? careInstitutionListArr.result
+        : {};
     setstarMark(!starMark);
     if (
       id &&
@@ -132,6 +135,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     }
     handleSelectUserList(data, name);
   };
+  console.log('appointmentId', appointmentId);
 
   return (
     <>

@@ -103,22 +103,28 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     isOffered: boolean = false;
 
   if (selctedRequirement || status) {
-    if (selctedRequirement.status === 'default' || status === 'default') {
+    if (
+      (selctedRequirement && selctedRequirement.status === 'default') ||
+      status === 'default'
+    ) {
       isRequirment = true;
-    } else if (selctedRequirement.status === 'linked' || status === 'linked') {
+    } else if (
+      (selctedRequirement && selctedRequirement.status === 'linked') ||
+      status === 'linked'
+    ) {
       isMatching = true;
     } else if (
-      selctedRequirement.status === 'contract' ||
+      (selctedRequirement && selctedRequirement.status === 'contract') ||
       status === 'contract'
     ) {
       isContract = true;
     } else if (
-      selctedRequirement.status === 'confirmed' ||
+      (selctedRequirement && selctedRequirement.status === 'confirmed') ||
       status === 'confirmed'
     ) {
       isConfirm = true;
     } else if (
-      selctedRequirement.status === 'offered' ||
+      (selctedRequirement && selctedRequirement.status === 'offered') ||
       status === 'offered'
     ) {
       isOffered = true;

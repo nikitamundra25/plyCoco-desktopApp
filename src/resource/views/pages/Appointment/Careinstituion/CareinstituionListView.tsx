@@ -72,6 +72,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnNotConfirmedCareInst,
     setOnOfferedCareInst,
     setOnNotOfferedCareInst,
+    careinstitutionDepartmentList,
     onNewRequirement
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
@@ -882,18 +883,21 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               key={`${key}-${i}`}
                               day={key}
                               item={
-                                dept
-                                // ? dept.filter((avabilityData: any) => {
-                                //     return (
-                                //       moment(key.isoString).format(
-                                //         'DD.MM.YYYY'
-                                //       ) ===
-                                //       moment(avabilityData.date).format(
-                                //         'DD.MM.YYYY'
-                                //       )
-                                //     );
-                                //   })[0]
-                                // : ''
+                                ''
+                                // item
+                                //   ? item.filter(
+                                //       (avabilityData: any) => {
+                                //         return (
+                                //           moment(key.isoString).format(
+                                //             'DD.MM.YYYY'
+                                //           ) ===
+                                //           moment(
+                                //             avabilityData.date
+                                //           ).format('DD.MM.YYYY')
+                                //         );
+                                //       }
+                                //     )[0]
+                                //   : ''
                               }
                               list={dept}
                               handleSelectedAvailability

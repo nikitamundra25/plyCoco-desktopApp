@@ -662,7 +662,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='textarea'
                         name='offerRemarks'
                         id='exampleText'
-                        value={offerRemarks}
+                        value={offerRemarks ? offerRemarks : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
@@ -687,7 +687,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='textarea'
                         name='bookingRemarks'
                         id='exampleText'
-                        value={bookingRemarks}
+                        value={bookingRemarks ? bookingRemarks : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
@@ -712,7 +712,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='textarea'
                         name='comments'
                         id='exampleText'
-                        value={comments}
+                        value={comments ? comments : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />

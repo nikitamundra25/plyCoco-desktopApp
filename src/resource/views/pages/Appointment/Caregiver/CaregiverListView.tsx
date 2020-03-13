@@ -123,6 +123,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           dateString: day ? day.dateString : ''
         };
       });
+
       handleSelection(selectedRows, 'caregiver');
       // for (let index = 0; index < selected.length; index++) {
       //   const { item, list, dateString } = selected[index];
@@ -529,7 +530,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                 </div>
                                 <div className='h-col custom-appointment-col text-center'></div>
                                 <div
-                                  className='s-col custom-appointment-col text-center'
+                                  className='s-col custom-appointment-col text-center cursor-pointer'
                                   onClick={() =>
                                     onhandleSecondStar(list, index, 'caregiver')
                                   }
@@ -541,7 +542,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                   )}
                                 </div>
                                 <div
-                                  className='u-col custom-appointment-col text-center'
+                                  className='u-col custom-appointment-col text-center cursor-pointer'
                                   onClick={() =>
                                     onhandleSecondStar(list, index, 'caregiver')
                                   }
@@ -553,7 +554,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                   )}
                                 </div>
                                 <div
-                                  className='v-col custom-appointment-col text-center'
+                                  className='v-col custom-appointment-col text-center cursor-pointer'
                                   onClick={e =>
                                     onAddingRow(e, 'caregiver', index)
                                   }

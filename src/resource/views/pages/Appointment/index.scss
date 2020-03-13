@@ -211,6 +211,10 @@
           height: 41px;
         }
       }
+      
+    }
+    th+td, th+th{
+     border-left: 0px;
     }
     thead {
       th {

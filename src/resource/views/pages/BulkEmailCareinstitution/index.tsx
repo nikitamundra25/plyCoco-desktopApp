@@ -8,19 +8,19 @@ import {
   languageTranslation,
   stripHtml,
   HtmlToDraftConverter,
-  errorFormatter,
+  errorFormatter
 } from '../../../../helpers';
 import {
   ProfileQueries,
   CareInstitutionQueries,
   EmailTemplateQueries,
-  AppointmentsQueries,
+  AppointmentsQueries
 } from '../../../../graphql/queries';
 import {
   IEmailAttachmentData,
   IReactSelectInterface,
   IEmailTemplateData,
-  INewEmailAttachments,
+  INewEmailAttachments
 } from '../../../../interfaces';
 import { CareInstitutionListComponent } from './CareInstitutionListComponent';
 import filter from '../../../assets/img/filter.svg';
@@ -30,16 +30,16 @@ import { useHistory } from 'react-router';
 import { client } from '../../../../config';
 import { EmailEditorComponent } from './EmailFormComponent';
 import { ConfirmBox } from '../../components/ConfirmBox';
-import { BulkEmailCareGivers } from '../../../../graphql/Mutations';
 import { IBulkEmailVariables } from '../../../../interfaces/BulkEmailCaregiver';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
+import { BulkEmailCareInstituion } from '../../../../graphql/Mutations/BulkEmailCareInstitution';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
-const [BULK_EMAILS] = BulkEmailCareGivers;
+const [BULK_EMAILS_CAREINSTITUTION] = BulkEmailCareInstituion;
 const [
   GET_CARE_INSTITUTION_LIST,
-  GET_CARE_INSTITUION_BY_ID,
+  GET_CARE_INSTITUION_BY_ID
 ] = CareInstitutionQueries;
 
 const [VIEW_PROFILE] = ProfileQueries;
@@ -56,7 +56,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   let userData: any = '';
   try {
     userData = client.readQuery({
-      query: VIEW_PROFILE,
+      query: VIEW_PROFILE
     });
   } catch (error) {}
 
@@ -73,23 +73,23 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       called: careGiverListCalled,
       loading: caregiverLoading,
       refetch: caregiverQulliRefetch,
-      fetchMore: caregiverListFetch,
-    },
+      fetchMore: caregiverListFetch
+    }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'no-cache'
   });
 
   // To get careinstitution list from db
   const [
     getCareInstitutions,
-    { data: careInstitutionListData, called, loading, refetch, fetchMore },
+    { data: careInstitutionListData, called, loading, refetch, fetchMore }
   ] = useLazyQuery<any, any>(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'no-cache'
   });
 
   const [
     fetchCareInstDetails,
-    { data: careInstData, loading: dataLoading, refetch: careInstDetailsRetch },
+    { data: careInstData, loading: dataLoading, refetch: careInstDetailsRetch }
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
 
   //To get all email templates of care giver addded in system
@@ -97,9 +97,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     GET_CAREGIVER_EMAIL_TEMPLATES,
     {
       variables: {
-        type: languageTranslation('CAREINSTITUTION_EMAIL_TEMPLATE_TYPE'),
-      },
-    },
+        type: languageTranslation('CAREINSTITUTION_EMAIL_TEMPLATE_TYPE')
+      }
+    }
   );
 
   const [page, setPage] = useState<number>(1);
@@ -113,7 +113,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
 
   const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
     bulkEmailsInput: IBulkEmailVariables;
-  }>(BULK_EMAILS, {
+  }>(BULK_EMAILS_CAREINSTITUTION, {
     onCompleted() {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
@@ -131,24 +131,22 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    },
+    }
   });
 
   useEffect(() => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       let careInstIds: string = selectedCellsCareinstitution.map(
-        (careInst: any) => careInst.id,
+        (careInst: any) => careInst.id
       );
       fetchCareInstDetails({
         variables: {
           careInstitutionId:
-            careInstIds && careInstIds.length ? parseInt(careInstIds[0]) : '',
-        },
+            careInstIds && careInstIds.length ? parseInt(careInstIds[0]) : ''
+        }
       });
     }
   }, []);
-  console.log(selectedCellsCareinstitution, 'selectedCellsCareinstitution');
-
   // To fetch users according to user selected
   useEffect(() => {
     if (props.label === 'appointment') {
@@ -178,8 +176,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           page,
           gte: props.gte,
           lte: props.lte,
-          userId: userId,
-        },
+          userId: userId
+        }
       });
     }
   }, [props.qualification]);
@@ -193,8 +191,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           sortBy: 3,
           limit: 30,
           page,
-          isActive: '',
-        },
+          isActive: ''
+        }
       });
     }
   }, []);
@@ -208,7 +206,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       const { result, totalCount } = getUserByQualifications;
       setCareInstitution({
         totalCount,
-        careInstitutionData: result,
+        careInstitutionData: result
       });
     }
   }, [careInstitutionsList]);
@@ -222,8 +220,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         sortBy: 3,
         limit: 30,
         page: 1,
-        isActive: '',
-      },
+        isActive: ''
+      }
     });
     setSubject('');
     setBody(undefined);
@@ -239,12 +237,66 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     if (data && props.label === 'appointment') {
       const {
-        getEmailtemplate: { email_templates },
+        getEmailtemplate: { email_templates }
       } = data;
       if (email_templates && email_templates.length) {
         email_templates.map((emailData: IEmailTemplateData & any) => {
           if (props.label === 'appointment') {
-            if (emailData.menuEntry === 'Acknowledge for offer sent') {
+            if (props.statusTo === 'offered') {
+              if (emailData.menuEntry === 'offer appointments by day') {
+                const { subject, body, attachments } = emailData;
+                const editorState = body ? HtmlToDraftConverter(body) : '';
+                setSubject(subject);
+                setBody(editorState);
+                setAttachments(
+                  attachments
+                    ? attachments.map(
+                        ({ name, id, path, size }: INewEmailAttachments) => ({
+                          fileName: name,
+                          id,
+                          path,
+                          size
+                        })
+                      )
+                    : []
+                );
+
+                setTemplate({
+                  label: emailData.menuEntry,
+                  value: emailData
+                });
+              }
+            }
+            if (props.statusTo === 'confirmed') {
+              if (emailData.menuEntry === 'Appointment Confirmation') {
+                console.log('In temp opt', emailData);
+                const { subject, body, attachments } = emailData;
+                const editorState = body ? HtmlToDraftConverter(body) : '';
+                setSubject(subject);
+                setBody(editorState);
+                setAttachments(
+                  attachments
+                    ? attachments.map(
+                        ({ name, id, path, size }: INewEmailAttachments) => ({
+                          fileName: name,
+                          id,
+                          path,
+                          size
+                        })
+                      )
+                    : []
+                );
+
+                setTemplate({
+                  label: emailData.menuEntry,
+                  value: emailData
+                });
+              }
+            }
+            if (
+              emailData.menuEntry === 'Acknowledge for offer sent' &&
+              props.statusTo === ''
+            ) {
               console.log('In temp opt', emailData);
               const { subject, body, attachments } = emailData;
               const editorState = body ? HtmlToDraftConverter(body) : '';
@@ -257,15 +309,15 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                         fileName: name,
                         id,
                         path,
-                        size,
-                      }),
+                        size
+                      })
                     )
-                  : [],
+                  : []
               );
 
               setTemplate({
                 label: emailData.menuEntry,
-                value: emailData,
+                value: emailData
               });
             }
           }
@@ -292,7 +344,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
 
   const handleCheckElement = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string,
+    id: string
   ) => {
     const { target } = e;
     const { checked } = target;
@@ -300,7 +352,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     if (checked) {
       setselectedCareGiver((selectedCareGiver: any) => [
         ...selectedCareGiver,
-        parseInt(id),
+        parseInt(id)
       ]);
       if (
         careInstitutions &&
@@ -342,7 +394,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         let uniqueUser = selectedCareGiver.reduce((unique: any, key: any) => {
           if (
             !unique.some(
-              (obj: any) => obj.label === key.label && obj.value === key.value,
+              (obj: any) => obj.label === key.label && obj.value === key.value
             )
           ) {
             unique.push(key);
@@ -350,16 +402,20 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           return unique;
         }, []);
 
+        for (let index = 0; index < selectedCareGiver.length; index++) {
+          const element = selectedCareGiver[index];
+          if (uniqueUser[uniqueUser.length - 1] !== element) {
+            uniqueUser.push(element);
+          }
+        }
+
         uniqueUser.map((careGiverId: number) => {
-          careGiverIdList = [
-            ...careGiverIdList,
-            { receiverUserId: careGiverId },
-          ];
+          careGiverIdList.push({ receiverUserId: careGiverId });
         });
 
         if (subject && body && result && result.length >= 2) {
           const bulkEmailsInput: IBulkEmailVariables = {
-            to: 'caregiver',
+            to: 'canstitution',
             from: 'plycoco',
             subject: subject /* .replace(/AW:/g, '') */,
             body: body ? content : '',
@@ -376,15 +432,15 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     .map((item: IEmailAttachmentData) => item.file)
                     .filter((file: File | null) => file)
                 : null,
-            caregiver: careGiverIdList,
-            senderUserId: id ? parseInt(id) : null,
+            canstitution: careGiverIdList,
+            senderUserId: id ? parseInt(id) : null
           };
           bulkEmails({ variables: { bulkEmailsInput } });
         }
       } else {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(
-            languageTranslation('EMAIL_SELECT_CARE_GIVERS'),
+            languageTranslation('EMAIL_SELECT_CARE_GIVERS')
           );
         }
       }
@@ -399,17 +455,17 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
 
   const onDelteDocument = async (
     attachmentId: string,
-    attachmentIndex?: number,
+    attachmentIndex?: number
   ) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG'),
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG')
     });
     if (!value) {
       return;
     } else {
       setAttachments((prevArray: any) =>
-        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
       );
     }
   };
@@ -429,11 +485,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
-      getEmailtemplate: { email_templates },
+      getEmailtemplate: { email_templates }
     } = data;
     setTemplate(selectedOption);
     const templateData = email_templates.filter(
-      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value),
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
@@ -447,10 +503,10 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 fileName: name,
                 id,
                 path,
-                size,
-              }),
+                size
+              })
             )
-          : [],
+          : []
       );
     }
   };
@@ -458,14 +514,14 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   const templateOptions: IReactSelectInterface[] | undefined = [];
   if (data && data.getEmailtemplate) {
     const {
-      getEmailtemplate: { email_templates },
+      getEmailtemplate: { email_templates }
     } = data;
 
     if (email_templates && email_templates.length) {
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
           label: menuEntry,
-          value: id ? id.toString() : '',
+          value: id ? id.toString() : ''
         });
       });
     }

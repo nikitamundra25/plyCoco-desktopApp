@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const ADD_DOCUMENT = gql`
   mutation AddUserDocuments($documentInput: DocumentInput) {
@@ -82,7 +82,14 @@ const UPDATE_CAREINST_DOC = gql`
     }
   }
 `;
-
+const GET_DOCUMENTS_FROM_OUTLOOK = gql`
+  mutation GetDocumentFromOutlook($documentType: String) {
+    getUnreadMailAttachments(documentType: $documentType) {
+      id
+      document
+    }
+  }
+`;
 // updateCanstitutionDocuments(id: Int, documentInput : DocumentInput): Document
 export const DocumentMutations = [
   ADD_DOCUMENT,
@@ -93,5 +100,6 @@ export const DocumentMutations = [
   DISAPPROVE_DOCUMENT,
   ADD_DOCUMENT_TYPE_CAREINST,
   DELETE_DOCUMENT_TYPE_CAREINST,
-  UPDATE_CAREINST_DOC
+  UPDATE_CAREINST_DOC,
+  GET_DOCUMENTS_FROM_OUTLOOK
 ];

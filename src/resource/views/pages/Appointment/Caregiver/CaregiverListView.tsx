@@ -1,5 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Table, Nav, NavItem, NavLink, Button } from 'reactstrap';
+import {
+  Table,
+  Nav,
+  NavItem,
+  NavLink,
+  Button,
+  UncontrolledTooltip,
+} from 'reactstrap';
 import moment from 'moment';
 import classnames from 'classnames';
 import {
@@ -38,6 +45,7 @@ import { dbAcceptableFormat } from '../../../../../config';
 import { toast } from 'react-toastify';
 import UnlinkAppointment from '../unlinkModal';
 import '../index.scss';
+import { languageTranslation } from '../../../../../helpers';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
@@ -518,7 +526,20 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                       : '',
                                   }}
                                 >
-                                  <div className='calender-heading'>
+                                  <div
+                                    className='calender-heading'
+                                    id={`caregiver-${list.id}`}
+                                  >
+                                    {row === 0 ? (
+                                      <UncontrolledTooltip
+                                        placement='right'
+                                        target={`caregiver-${list.id}`}
+                                      >
+                                        {[list.lastName, list.firstName].join(
+                                          ' ',
+                                        )}
+                                      </UncontrolledTooltip>
+                                    ) : null}
                                     {row === 0
                                       ? `${
                                           list.lastName ? list.lastName : ''

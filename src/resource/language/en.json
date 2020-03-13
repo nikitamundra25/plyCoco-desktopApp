@@ -910,5 +910,6 @@
   "CARE_INST_SET_CONFIRMED_SUCCESS_MSG": "Care Institution set on confirmed",
   "CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG": "Care Institution reset confirmed",
   "CAREGIVER_AVABILITY": "Availability",
-  "CAREINST_REQUIREMENT": "Requirement"
+  "CAREINST_REQUIREMENT": "Requirement",
+  "MAIN_CONTACT": "Main contact"
 }

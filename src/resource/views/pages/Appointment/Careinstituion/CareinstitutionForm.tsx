@@ -132,7 +132,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   }
 
   const handleUserList = (id: string, name: string) => {
-    let data: any = careInstitutionListArr;
+    let data: any =
+      careInstitutionListArr && careInstitutionListArr.result
+        ? careInstitutionListArr.result
+        : {};
     setstarMark(!starMark);
     if (
       id &&
@@ -199,7 +202,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           name={'name'}
                           placeholder={languageTranslation('NAME')}
                           disabled
-                          value={name ? name : ''}
+                          value={name ? name : languageTranslation('NAME')}
                         />
                         <InputGroupAddon addonType='append'>
                           <InputGroupText>

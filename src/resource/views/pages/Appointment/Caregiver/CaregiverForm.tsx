@@ -115,7 +115,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   };
 
   const handleUserList = (id: string, name: string) => {
-    let data: any = careGiversListArr;
+    let data: any =
+      careGiversListArr && careGiversListArr.result
+        ? careGiversListArr.result
+        : {};
     setstarMark(!starMark && careGiversListArr && careGiversListArr.result);
     if (id && !starMark) {
       data = careGiversListArr.result.filter((x: any) => x.id === id);

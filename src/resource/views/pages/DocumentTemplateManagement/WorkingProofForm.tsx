@@ -180,7 +180,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                   <img src={upload} alt="" />
                 </span>
                 <span className="header-nav-text">
-                  Retrieve new work proofs
+                  {languageTranslation("RETRIVE_WORK_PROOF")}
                 </span>
               </div>
               <div className="header-nav-item">

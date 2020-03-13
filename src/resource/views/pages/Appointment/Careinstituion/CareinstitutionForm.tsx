@@ -403,7 +403,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         <i className='fa fa-arrow-up' aria-hidden='true' />
                       </Button>
 
-                      <div className='custom-select-checkbox'>
+                      <div className='custom-select-checkbox select-right-bottom'>
                         <ReactMultiSelectCheckboxes
                           options={qualificationList}
                           placeholder='Select Qualifications'

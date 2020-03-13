@@ -141,6 +141,15 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
+          .calender-heading {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          @media only screen and (max-width: 500px) {
+            flex: 1 1 100px;
+            max-width: 100px;
+          }
         }
         .h-col,
         .s-col,
@@ -171,6 +180,10 @@
           min-width: 270px;
           padding: 0px;
           border-right: 0px;
+          @media only screen and (max-width: 500px) {
+            width: 220px;
+            min-width: 220px;
+          }
         }
         &.v-col {
           border-left: 0px;
@@ -192,11 +205,13 @@
           }
         }
       }
-      &.weekend {
-        background-color: #e8e8e9;
+      .weekend {
+        background-color: #ffebda;
+        height: 41px;
       }
-      &.today {
+      .today {
         background-color: #ff973b;
+        height: 41px;
       }
     }
     th {
@@ -386,5 +401,45 @@ body {
         background-color: $selecting_color;
       }
     }
+  }
+  .appointment-commonheader {
+    &.common-topheader {
+      @media only screen and (max-width: 1200px) {
+        flex-wrap: wrap;
+      }
+      .common-label {
+        @media only screen and (max-width: 1200px) {
+          margin: 3px 0px;
+        }
+      }
+      .header-nav-item {
+        @media only screen and (max-width: 1200px) {
+          margin: 3px 0px;
+        }
+      }
+      .common-header-input {
+        @media only screen and (max-width: 1200px) {
+          margin: 3px 0px;
+        }
+      }
+      .user-select {
+        @media only screen and (max-width: 1200px) {
+          margin: 3px 0px;
+        }
+      }
+    }
+  }
+}
+.custom-reactselect {
+  .custom-inner-reactselect__menu {
+    .custom-inner-reactselect__option {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+.select-right-bottom {
+  & > div > button + div {
+    right: 0px;
   }
 }

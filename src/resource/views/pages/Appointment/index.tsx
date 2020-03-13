@@ -530,7 +530,7 @@ const Appointment: FunctionComponent = (props: any) => {
         lastName = '',
         canstitution = {},
         qualificationIds = [],
-        dateString = ''
+        dateString = '',
       } =
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
@@ -542,7 +542,7 @@ const Appointment: FunctionComponent = (props: any) => {
           firstName,
           lastName,
           canstitution: {
-            ...canstitution
+            ...canstitution,
           },
           qualificationIds,
           dateString: date ? date : '',
@@ -561,7 +561,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ? departmentData && departmentData.length
                 ? {
                     value: departmentData[0].id,
-                    label: departmentData[0].name
+                    label: departmentData[0].name,
                   }
                 : undefined
               : undefined,
@@ -575,9 +575,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : ''
-          }
-        }
+                : '',
+          },
+        },
       ];
 
       console.log('careinstitutionvalue', careinstitutionvalue);
@@ -666,9 +666,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : ''
-          }
-        }
+                : '',
+          },
+        },
       ];
       setactiveDateCaregiver([{ dateString: date }]);
       // setselectedCareGiver(caregiverdata);
@@ -2428,7 +2428,7 @@ const Appointment: FunctionComponent = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div>
               <Row>
-                <Col lg={'5'}>
+                <Col lg={'6'}>
                   <CaregiverListView
                     daysData={daysData}
                     loading={caregiverLoading}
@@ -2506,7 +2506,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     }
                   />
                 </Col>
-                <Col lg={'7'}>
+                <Col lg={'6'}>
                   <Row>
                     <Col
                       lg={'6'}

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Col, Table } from 'reactstrap';
-import { ICareGiverListComponentProps } from '../../../../interfaces/BulkEmailCaregiver';
+import { ICareGiverListComponentProps } from '../../../../interfaces';
 import Loader from '../../containers/Loader/Loader';
 import { languageTranslation } from '../../../../helpers';
 import InfiniteScroll from 'react-infinite-scroll-component';

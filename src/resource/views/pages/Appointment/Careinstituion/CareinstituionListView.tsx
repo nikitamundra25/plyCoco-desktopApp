@@ -148,6 +148,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           dateString: day ? day.dateString : ''
         };
       });
+
       handleSelection(selectedRows, 'careinstitution');
       // for (let index = 0; index < selected.length; index++) {
       //   const { item, list, dateString } = selected[index];
@@ -166,12 +167,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setSelectedDays([]);
   };
   const handleSetConfirmed = (name: string) => {
-    console.log('name', name);
-
-    console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
     if (selectedCellsCareinstitution) {
       selectedCellsCareinstitution.map((data: any) => {
-        console.log('data.iem', data && data.item && data.item.status);
         if (
           data &&
           data.item &&

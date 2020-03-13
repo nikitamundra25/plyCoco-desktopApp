@@ -800,11 +800,9 @@ const Appointment: FunctionComponent = (props: any) => {
     if (name === 'caregiver') {
       setSelectedCells(selectedCells);
     } else {
-      console.log('selectedCellsselectedCells', selectedCells);
       setselectedCellsCareinstitution(selectedCells);
     }
   };
-  console.log('setvaluesForCareinstitution', valuesForCareinstitution);
 
   // Reset the users list
   const handleReset = (name: string) => {
@@ -1134,7 +1132,6 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         ];
-        console.log('temp', temp);
 
         setselectedCellsCareinstitution(temp);
         // setvaluesForCareinstitution(temp);
@@ -1147,14 +1144,25 @@ const Appointment: FunctionComponent = (props: any) => {
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
     let values = updateCanstitutionFormikValues;
     let time = timeData && !timeData.data ? timeData.value.split('-') : '';
+    const {
+      id = '',
+      firstName = '',
+      lastName = '',
+      canstitution = {},
+      qualificationIds = [],
+      dateString = ''
+    } =
+      selectedCellsCareinstitution && selectedCellsCareinstitution.length
+        ? selectedCellsCareinstitution[0]
+        : {};
     let data: any[] = [
       {
-        ...id,
-        ...firstName,
-        ...lastName,
-        ...canstitution,
-        ...qualificationIds,
-        ...dateString,
+        id,
+        firstName,
+        lastName,
+        canstitution,
+        qualificationIds,
+        dateString,
         item: {
           ...values,
           shift: careInstituionShift,
@@ -1343,11 +1351,9 @@ const Appointment: FunctionComponent = (props: any) => {
               });
             }
           }
-          console.log('qualification', qualificationData);
 
           if (careInstitutionDepartment && careInstitutionDepartment.length) {
             const { getDivision } = departmentList;
-            console.log('getDivision', getDivision);
             departmentData = careInstitutionDepartment.filter(
               (dept: any) => dept.id === selctedAvailability.divisionId
             );
@@ -1620,8 +1626,6 @@ const Appointment: FunctionComponent = (props: any) => {
     setSubmitting(false);
   };
 
-  console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
-
   // submit careinstitution form
   const handleSubmitCareinstitutionForm = async (
     values: ICareinstitutionFormValue,
@@ -1644,7 +1648,8 @@ const Appointment: FunctionComponent = (props: any) => {
       isWorkingProof,
       departmentBookingRemarks,
       departmentRemarks,
-      comments
+      comments,
+      status
     } = values;
 
     let quali: number[] = [];
@@ -1653,7 +1658,6 @@ const Appointment: FunctionComponent = (props: any) => {
         quali.push(parseInt(key.value));
       });
     }
-
     /*  Time slot condition for f,s, n
      */
     let fvar: string = '';
@@ -1712,7 +1716,7 @@ const Appointment: FunctionComponent = (props: any) => {
         f: fvar,
         s: svar,
         n: nvar,
-        status: 'default'
+        status: status ? status : 'default'
       };
       if (appointmentId) {
         await updateCareinstitutionRequirment({
@@ -2069,18 +2073,15 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution &&
     selectedCellsCareinstitution.length &&
     selectedCellsCareinstitution[0] &&
-    selectedCellsCareinstitution[0].qualificationId
+    selectedCellsCareinstitution[0].item &&
+    selectedCellsCareinstitution[0].item.qualificationId
   ) {
-    console.log(
-      ' selectedCellsCareinstitution[0].qualificationId',
-      selectedCellsCareinstitution[0].item.qualificationId
-    );
-
     qualification1 = data.getQualifications.filter(({ id }) =>
       selectedCellsCareinstitution[0].item.qualificationId.includes(id)
     );
-    if (qualification && qualification.length) {
-      qualification.map((key: any) => {
+
+    if (qualification1 && qualification1.length) {
+      qualification1.map((key: any) => {
         return qualificationData.push({
           label: key.name,
           value: key.id
@@ -2088,26 +2089,29 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
   }
-  console.log('qualificationData', qualificationData);
 
-  if (careInstitutionDepartment && careInstitutionDepartment.length) {
+  if (
+    careInstitutionDepartment &&
+    careInstitutionDepartment.length &&
+    selectedCellsCareinstitution &&
+    selectedCellsCareinstitution.length &&
+    selectedCellsCareinstitution[0] &&
+    selectedCellsCareinstitution[0].item &&
+    selectedCellsCareinstitution[0].item.divisionId
+  ) {
     const { getDivision } = departmentList;
-    console.log('getDivision', getDivision);
     departmentData = careInstitutionDepartment.filter(
-      (dept: any) => dept.id === selctedAvailability.divisionId
+      (dept: any) =>
+        dept.value === selectedCellsCareinstitution[0].item.divisionId
     );
   }
-  console.log('departmentData', departmentData);
 
   const {
     id: Id = '',
     firstName: FirstName = '',
     lastName: LastName = '',
     canstitution = {},
-    item: Item = {
-      // ...item,
-      // qualification: qualificationData ? qualificationData : []
-    },
+    item: Item = {},
     qualificationIds = {},
     dateString: activeDateCareInstitution = ''
   } =
@@ -2121,7 +2125,7 @@ const Appointment: FunctionComponent = (props: any) => {
     date: Item ? Item.date : '',
     startTime: Item ? Item.startTime : '',
     endTime: Item ? Item.endTime : '',
-    qualificationId: Item ? Item.qualificationId : undefined,
+    qualificationId: qualificationData ? qualificationData : undefined,
     address: Item ? Item.address : '',
     contactPerson: Item ? Item.contactPerson : '',
     departmentOfferRemarks: Item ? Item.departmentOfferRemarks : '',
@@ -2131,11 +2135,11 @@ const Appointment: FunctionComponent = (props: any) => {
     offerRemarks: Item ? Item.offerRemarks : '',
     bookingRemarks: Item ? Item.bookingRemarks : '',
     shift: Item ? Item.shift : undefined,
-    department: Item ? Item.department : undefined,
+    department:
+      departmentData && departmentData[0] ? departmentData[0] : undefined,
     comments: Item ? Item.comments : '',
     status: Item ? Item.status : ''
   };
-  console.log('valuesForCareIntituionForm', valuesForCareIntituionForm);
 
   // end
   const {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
-import { languageTranslation } from '../../../../../helpers';
+import { languageTranslation, logger } from '../../../../../helpers';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import refresh from '../../../../assets/img/refresh.svg';
@@ -69,6 +69,7 @@ const DetailListCareinstitution = (props: any) => {
                       {selectedCellsCareinstitution ? (
                         selectedCellsCareinstitution.map(
                           (elem: any, index: number) => {
+                            logger('elem in careinst dfdf', elem);
                             return elem && elem.item ? (
                               <tr
                                 key={index}
@@ -85,7 +86,13 @@ const DetailListCareinstitution = (props: any) => {
                                 <td>{elem.item.id ? elem.item.id : '-'}</td>
                                 <td>-</td>
                                 <td>{elem.item.name ? elem.item.name : '-'}</td>
-                                <td>-</td>
+                                <td>
+                                  {elem.item && elem.item.divisions
+                                    ? elem.item.divisions.map((dept: any) => {
+                                        return <span>{dept}</span>;
+                                      })
+                                    : null}
+                                </td>
                                 <td>
                                   {elem.item && elem.item.qualificationId
                                     ? elem.item.qualificationId.map(

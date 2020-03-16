@@ -143,7 +143,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           lastName = '',
           caregiver = {},
           canstitution = {},
-          qualificationId = []
+          qualificationId = [],
+          divisions = []
         } = caregiverData ? caregiverData : {};
 
         let qualification1: IReactSelectInterface[] = [];
@@ -170,7 +171,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           canstitution,
           item: item ? temp : item,
           qualificationIds: qualificationId,
-          dateString: day ? day.dateString : ''
+          dateString: day ? day.dateString : '',
+          divisions
         };
       });
       handleSelection(selectedRows, 'careinstitution');

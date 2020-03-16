@@ -100,6 +100,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           mobileNumber
           email
         }
+        divisions {
+          id
+          email
+        }
         canstitution {
           city
           zipCode

@@ -140,11 +140,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
         const {
           id = '',
+          name='',//department name on solo care institution
           firstName = '',
           lastName = '',
           caregiver = {},
           canstitution = {},
           qualificationId = [],
+          deptId=''
         } = careInstData ? careInstData : {};
         console.log(canstitution, 'canstitution');
 
@@ -174,6 +176,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               : '',
           caregiver,
           canstitution,
+          dept:{id:deptId, name},
           item: item ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : '',
@@ -357,19 +360,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             {list.name}
                           </UncontrolledTooltip>
                         ) : null}
-                        {/* {row === 0 ? (
-                          <UncontrolledTooltip
-                            placement='right'
-                            target={`careinst-${list.id}`}
-                          >
-                            {[list.lastName, list.firstName].join(' ')}
-                          </UncontrolledTooltip>
-                        ) : null}
-                        {row === 0
-                          ? `${list.lastName ? list.lastName : ''} ${
-                              list.firstName ? list.firstName : ''
-                            }`
-                          : ''} */}
                       </div>
                     </div>
                     <div className='h-col custom-appointment-col text-center'></div>

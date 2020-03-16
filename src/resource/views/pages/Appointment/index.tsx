@@ -852,6 +852,13 @@ const Appointment: FunctionComponent = (props: any) => {
           await appointmentDataSort('caregiver', result, appointId);
         }
       }
+      // To default select department in case of selected solo careinstitution 
+      if (selectedCells && selectedCells.length && selectedCells[0] && selectedCells[0].dept,selectedCells[0].dept.id) {
+        setcareInstituionDept({
+          label: selectedCells[0].dept.name,
+          value: selectedCells[0].dept.id,
+        });
+      }
       setselectedCellsCareinstitution(selectedCells);
     }
   };
@@ -897,8 +904,10 @@ const Appointment: FunctionComponent = (props: any) => {
                   id,
                   firstName,
                   lastName,
+                  name,
                   email,
                   caregiver,
+                  canstitution,
                   item: stemp ? stemp : temp[0],
                   qualificationIds: qualificationId,
                   dateString: temp[0]
@@ -1175,7 +1184,6 @@ const Appointment: FunctionComponent = (props: any) => {
             });
           });
         }
-
         setshiftOption(careInstitutionTimesOptions);
         const {
           id = '',
@@ -1193,6 +1201,7 @@ const Appointment: FunctionComponent = (props: any) => {
             id,
             firstName,
             lastName,
+            name,
             canstitution: {
               ...canstitution,
             },
@@ -1246,6 +1255,7 @@ const Appointment: FunctionComponent = (props: any) => {
       id = '',
       firstName = '',
       lastName = '',
+      name='',
       canstitution = {},
       qualificationIds = [],
       dateString = '',
@@ -1258,6 +1268,7 @@ const Appointment: FunctionComponent = (props: any) => {
         id,
         firstName,
         lastName,
+        name,
         canstitution,
         qualificationIds,
         dateString,
@@ -1535,10 +1546,6 @@ const Appointment: FunctionComponent = (props: any) => {
           careInstData.availabilityData,
           'careInstData useEffect',
         );
-        console.log(
-          [].concat.apply([], careInstData.availabilityData),
-          'careInstData merged array',
-        );
         let temp: any[] = daysData ? [...daysData.daysArr] : [];
 
         getDivision
@@ -1547,6 +1554,7 @@ const Appointment: FunctionComponent = (props: any) => {
             divison.availabilityData = [];
             divison.canstitution = careInstData.canstitution;
             divison.careInstId = careInstData.id;
+            divison.deptId = divison.id;
             let deptRequirement = requirements.filter(
               (req: any) => req.divisionId === divison.id,
             );
@@ -2210,7 +2218,7 @@ const Appointment: FunctionComponent = (props: any) => {
     caregiver = undefined,
     item = undefined,
   } =
-    selectedCells && selectedCells.length === 1 && selectedCells[0]
+    selectedCells && (selectedCells.length === 1 || multipleAvailability) && selectedCells[0]
       ? selectedCells[0]
       : {};
 
@@ -2251,7 +2259,7 @@ const Appointment: FunctionComponent = (props: any) => {
       ? selectedCellsCareinstitution[0]
       : {};
 
-  console.log(careInstName, 'careInstName');
+  console.log(careInstName,Item,selectedCellsCareinstitution, 'careInstName');
 
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : '',
@@ -2455,6 +2463,8 @@ const Appointment: FunctionComponent = (props: any) => {
       },
     });
   };
+  console.log(selectedCellsCareinstitution,'selectedCellsCareinstitution');
+  
 
   const isUnLinkable =
     selectedCells &&

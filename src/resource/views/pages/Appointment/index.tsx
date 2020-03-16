@@ -23,7 +23,6 @@ import {
   IDate,
   IReactSelectTimeInterface,
   ICareinstitutionFormSubmitValue,
-  IDaysArray,
   IStarInterface,
   IAttributeValues,
   IAttributeOptions,
@@ -63,8 +62,7 @@ const [, , GET_DEPARTMENT_LIST, ,] = CareInstitutionQueries;
 const [
   GET_USERS_BY_QUALIFICATION_ID,
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
-  GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
-  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID
+  GET_CAREINSTITUTION_REQUIREMENT_BY_ID
 ] = AppointmentsQueries;
 
 let toastId: any = null;
@@ -247,47 +245,6 @@ const Appointment: FunctionComponent = (props: any) => {
       canstitutionRefetch();
     }
   });
-
-  // useEffect(() => {
-  //   const {
-  //     id = '',
-  //     firstName = '',
-  //     lastName = '',
-  //     canstitution = {},
-  //     qualificationIds = [],
-  //     dateString = '',
-  //     item = ''
-  //   } =
-  //     selectedCellsCareinstitution && selectedCellsCareinstitution.length
-  //       ? selectedCellsCareinstitution[0]
-  //       : {};
-  //   console.log('addCareinstitutionRes', addCareinstitutionRes);
-
-  //   let response: any =
-  //     addCareinstitutionRes &&
-  //     addCareinstitutionRes.addCareInstitutionRequirement
-  //       ? addCareinstitutionRes.addCareInstitutionRequirement
-  //       : '';
-  //   console.log('response', response);
-
-  //   let temp: any[] = [
-  //     {
-  //       id,
-  //       firstName,
-  //       lastName,
-  //       canstitution: {
-  //         ...canstitution
-  //       },
-  //       qualificationIds,
-  //       dateString,
-  //       item: {
-  //         ...item,
-  //         id: response && response.appointmentId ? response.appointmentId : '',
-  //         status: response && response.status ? response.status : ''
-  //       }
-  //     }
-  //   ];
-  // }, [addCareinstitutionRes]);
 
   // update Careinstitution Requirment
   const [
@@ -530,7 +487,7 @@ const Appointment: FunctionComponent = (props: any) => {
         lastName = '',
         canstitution = {},
         qualificationIds = [],
-        dateString = '',
+        dateString = ''
       } =
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
@@ -542,7 +499,7 @@ const Appointment: FunctionComponent = (props: any) => {
           firstName,
           lastName,
           canstitution: {
-            ...canstitution,
+            ...canstitution
           },
           qualificationIds,
           dateString: date ? date : '',
@@ -561,7 +518,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ? departmentData && departmentData.length
                 ? {
                     value: departmentData[0].id,
-                    label: departmentData[0].name,
+                    label: departmentData[0].name
                   }
                 : undefined
               : undefined,
@@ -575,9 +532,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : '',
-          },
-        },
+                : ''
+          }
+        }
       ];
 
       console.log('careinstitutionvalue', careinstitutionvalue);
@@ -666,9 +623,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : '',
-          },
-        },
+                : ''
+          }
+        }
       ];
       setactiveDateCaregiver([{ dateString: date }]);
       // setselectedCareGiver(caregiverdata);
@@ -2436,6 +2393,7 @@ const Appointment: FunctionComponent = (props: any) => {
               <Row>
                 <Col lg={'6'}>
                   <CaregiverListView
+                    fetchingCareGiverData={fetchingCareGiverData}
                     daysData={daysData}
                     loading={caregiverLoading}
                     careGiversList={caregiversList ? caregiversList : []}
@@ -2468,6 +2426,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     careInstitutionList={
                       careinstitutionList ? careinstitutionList : []
                     }
+                    fetchCareinstitutionList={fetchCareinstitutionList}
                     onAddingRow={onAddingRow}
                     handleSelectedUser={handleSelectedUser}
                     handleSecondStar={handleSecondStar}
@@ -2534,11 +2493,6 @@ const Appointment: FunctionComponent = (props: any) => {
                                   : selectedCells
                                   ? selectedCells.map(cell => cell.dateString)
                                   : []
-                                // { dateString }
-                                // activeDateCaregiver &&
-                                // activeDateCaregiver.length
-                                //   ? activeDateCaregiver[0]
-                                //   : undefined
                               }
                               addCaregiverRes={
                                 addCaregiverRes &&
@@ -2584,7 +2538,6 @@ const Appointment: FunctionComponent = (props: any) => {
                                       cell => cell.dateString
                                     )
                                   : []
-                                // activeDateCareInstitution
                               }
                               setcareInstituionDept={(
                                 deptData: any,

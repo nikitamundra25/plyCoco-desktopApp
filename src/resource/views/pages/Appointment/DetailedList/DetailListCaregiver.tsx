@@ -8,7 +8,7 @@ import refresh from '../../../../assets/img/refresh.svg';
 import moment from 'moment';
 
 const DetailListCaregiver = (props: any) => {
-  const { show, handleClose, selectedCells, qualificationList } = props;
+  const { show, handleClose, selectedCells, fetchingCareGiverData } = props;
   const [workingHourTab, setWorkingHourTab] = useState<boolean>(false);
   const externalCloseBtn = (
     <button
@@ -22,6 +22,24 @@ const DetailListCaregiver = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
+  let temp: any = [];
+  let checkData: boolean = false;
+  checkData = selectedCells
+    ? selectedCells.map((elem: any, index: number) => {
+        return elem &&
+          elem.item &&
+          (elem.item.f === 'available' ||
+            elem.item.s === 'available' ||
+            elem.item.n === 'available')
+          ? true
+          : false;
+      })
+    : null;
+  if (checkData) {
+    temp.push(checkData);
+  }
+  console.log('check dfadadada', checkData);
+
   return (
     <div>
       <Modal
@@ -41,8 +59,10 @@ const DetailListCaregiver = (props: any) => {
                   <span className='header-nav-icon'>
                     <img src={refresh} alt='' />
                   </span>
-                  {/* window.location.reload(); */}
-                  <span className='header-nav-text'>
+                  <span
+                    className='header-nav-text'
+                    onClick={() => fetchingCareGiverData()}
+                  >
                     {languageTranslation('REFRESH')}
                   </span>
                 </div>
@@ -96,8 +116,11 @@ const DetailListCaregiver = (props: any) => {
                       <tbody>
                         {selectedCells ? (
                           selectedCells.map((elem: any, index: number) => {
-                            console.log('elem.item', elem.item);
-                            return elem && elem.item ? (
+                            return elem &&
+                              elem.item &&
+                              (elem.item.f === 'available' ||
+                                elem.item.s === 'available' ||
+                                elem.item.n === 'available') ? (
                               <tr
                                 key={index}
                                 className={
@@ -117,7 +140,7 @@ const DetailListCaregiver = (props: any) => {
                                 <td> -</td>
 
                                 <td>
-                                  {elem.caregiver &&
+                                  {/* {elem.caregiver &&
                                   elem.caregiver.attributes &&
                                   qualificationList
                                     ? qualificationList
@@ -129,14 +152,15 @@ const DetailListCaregiver = (props: any) => {
                                         .map((q: any) => {
                                           <span>{q.label + ' '}</span>;
                                         })
-                                    : null}
+                                    : null} */}
+                                  -
                                 </td>
                                 <td>
                                   {elem.item.date
                                     ? moment(elem.item.date).format(
                                         defaultDateFormat
                                       )
-                                    : null}
+                                    : '-'}
                                 </td>
                                 <td>
                                   {elem.item.f === 'available' ? 'f' : null}
@@ -173,13 +197,13 @@ const DetailListCaregiver = (props: any) => {
                                 <td>
                                   {elem.item.remarksCareGiver
                                     ? elem.item.remarksCareGiver
-                                    : null}
+                                    : '-'}
                                 </td>
                               </tr>
                             ) : null;
                           })
                         ) : (
-                          <p>No data found</p>
+                          <p>{languageTranslation('NO_DATA_FOUND')}</p>
                         )}
                       </tbody>
                     </Table>
@@ -221,96 +245,105 @@ const DetailListCaregiver = (props: any) => {
                           <th>{languageTranslation('DLN_REQUIRED')}</th>
                           <th>{languageTranslation('DLN_AVAILABLE')}</th>
                           <th>{languageTranslation('NIGHT_ALLOWANCE')}</th>
-                          <th>Factoring Contracts</th>
+                          <th>{languageTranslation('FACTORING_CONTRACT')}</th>
                           <th>{languageTranslation('FACTORING')}</th>
                         </tr>
                       </thead>
-                      {selectedCells
-                        ? selectedCells.map((elem: any) => {
-                            return elem && elem.item ? (
-                              <tr>
-                                <td> {elem.id ? elem.id : null}</td>
-                                <td>
-                                  {elem.lastName
-                                    ? elem.lastName
-                                    : null + ' ' + elem && elem.lastName
-                                    ? elem.firstName
-                                    : null}
-                                </td>
-                                <td> -</td>
-                                <td>
-                                  {elem.item.date
-                                    ? moment(elem.item.date).format(
-                                        defaultDateFormat
-                                      )
-                                    : null}
-                                </td>
-                                <td>{elem.item.fee ? elem.item.fee : null}</td>
-                                <td>
-                                  {elem.item.nightFee
-                                    ? elem.item.nightFee
-                                    : null}
-                                </td>
-                                <td>
-                                  {elem.item.weekendAllowance
-                                    ? elem.item.weekendAllowance
-                                    : null}
-                                </td>
-                                <td>
-                                  {elem.item.holidayAllowance
-                                    ? elem.item.holidayAllowance
-                                    : null}
-                                </td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>
-                                  {elem.item.distanceInKM
-                                    ? elem.item.distanceInKM
-                                    : '-'}
-                                </td>
-                                <td>
-                                  {elem.item.feePerKM
-                                    ? elem.item.feePerKM
-                                    : null}
-                                </td>
-                                <td>
-                                  <span className='checkbox-custom '>
-                                    <input
-                                      type='checkbox'
-                                      id='checkAll'
-                                      className=''
-                                      checked={
-                                        elem.item.workingProofRecieved
-                                          ? true
-                                          : false
-                                      }
-                                    />
-                                    <label className=''> </label>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span className='checkbox-custom '>
-                                    <input
-                                      type='checkbox'
-                                      id='checkAll'
-                                      className=''
-                                    />
-                                    <label className=''> </label>
-                                  </span>
-                                </td>
-                                <td>
-                                  {elem.item.nightAllowance
-                                    ? elem.item.nightAllowance
-                                    : null}
-                                </td>
-                                <td>-</td>
-                                <td>-</td>{' '}
-                              </tr>
-                            ) : null;
-                          })
-                        : null}
+                      {selectedCells ? (
+                        selectedCells.map((elem: any, index: number) => {
+                          return elem &&
+                            elem.item &&
+                            (elem.item.f === 'available' ||
+                              elem.item.s === 'available' ||
+                              elem.item.n === 'available') ? (
+                            <tr
+                              key={index}
+                              className={
+                                elem.item.status === 'linked'
+                                  ? 'matching-bg'
+                                  : elem.item.status === 'confirmed'
+                                  ? 'contract-bg'
+                                  : 'cell-green-caregiver'
+                              }
+                            >
+                              <td> {elem.item.id ? elem.item.id : null}</td>
+                              <td>
+                                {elem.lastName && elem.firstName
+                                  ? [elem.lastName, elem.firstName].join(' ')
+                                  : '-'}
+                              </td>
+                              <td> -</td>
+                              <td>
+                                {elem.item.date
+                                  ? moment(elem.item.date).format(
+                                      defaultDateFormat
+                                    )
+                                  : '-'}
+                              </td>
+                              <td>{elem.item.fee ? elem.item.fee : '-'}</td>
+                              <td>
+                                {elem.item.nightFee ? elem.item.nightFee : '-'}
+                              </td>
+                              <td>
+                                {elem.item.weekendAllowance
+                                  ? elem.item.weekendAllowance
+                                  : '-'}
+                              </td>
+                              <td>
+                                {elem.item.holidayAllowance
+                                  ? elem.item.holidayAllowance
+                                  : '-'}
+                              </td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>-</td>
+                              <td>
+                                {elem.item.distanceInKM
+                                  ? elem.item.distanceInKM
+                                  : '-'}
+                              </td>
+                              <td>
+                                {elem.item.feePerKM ? elem.item.feePerKM : '-'}
+                              </td>
+                              <td>
+                                <span className='checkbox-custom '>
+                                  <input
+                                    type='checkbox'
+                                    id='checkAll'
+                                    className=''
+                                    checked={
+                                      elem.item.workingProofRecieved
+                                        ? true
+                                        : false
+                                    }
+                                  />
+                                  <label className=''> </label>
+                                </span>
+                              </td>
+                              <td>
+                                <span className='checkbox-custom '>
+                                  <input
+                                    type='checkbox'
+                                    id='checkAll'
+                                    className=''
+                                  />
+                                  <label className=''> </label>
+                                </span>
+                              </td>
+                              <td>
+                                {elem.item.nightAllowance
+                                  ? elem.item.nightAllowance
+                                  : "From 22'o clock"}
+                              </td>
+                              <td>-</td>
+                              <td>-</td>
+                            </tr>
+                          ) : null;
+                        })
+                      ) : (
+                        <p>{languageTranslation('NO_DATA_FOUND')}</p>
+                      )}
                       <tbody></tbody>
                     </Table>
                   </div>

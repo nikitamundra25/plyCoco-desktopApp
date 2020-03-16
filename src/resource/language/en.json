@@ -913,5 +913,7 @@
   "CAREINST_REQUIREMENT": "Requirement",
   "RETRIVE_WORK_PROOF": "Retrieve new work proofs",
   "DOCUEMENT_FETCHED_SUCCESS": "Work proof fetched from successfully.",
-  "MAIN_CONTACT": "Main contact"
+  "MAIN_CONTACT": "Main contact",
+  "NO_DATA_FOUND":"No data found",
+  "FACTORING_CONTRACT":"Factoring Contracts"
 }

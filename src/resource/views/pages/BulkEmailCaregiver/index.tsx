@@ -58,7 +58,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   const { firstName = '', lastName = '', id = '' } = viewAdminProfile
     ? viewAdminProfile
     : {};
-
+  const { selectedCells } = props;
   // To get caregiver list from db
   const [
     fetchCareGiverList,
@@ -164,29 +164,58 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   }, []);
 
   const [careGiverData, setcareGiverData] = useState<Object[]>([]);
-
+  const [careGiverConfirm, setCaregiverConfirm] = useState<Object[]>([]);
   // get care giver list according to selected qualification in appointment section
 
   useEffect(() => {
     let list: any = [...careGiverData];
-    if (careGiversList) {
-      const { getUserByQualifications } = careGiversList;
-      const { result } = getUserByQualifications;
-      if (result && result.length) {
-        result.map((key: any) => {
-          return (list = [...list, key]);
+    // let data: any = [...careGiverConfirm];
+    // if (selectedCells) {
+    //   console.log('in if');
+    //   if (selectedCells && selectedCells.length) {
+    //     console.log('selectedCells ');
+    //     selectedCells.map((key: any) => {
+    //       console.log('key ', key);
+    //       return (data = [...data, key]);
+    //     });
+    //   } setCaregiverConfirm(data);
+    if (selectedCells && props.confirmApp) {
+      if (selectedCells && selectedCells.length) {
+        selectedCells.map((key: any) => {
+          if (list && list.length) {
+            if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
+              return (list = [...list, key]);
+            }
+          } else {
+            return (list = [...list, key]);
+          }
         });
+        setcareGiverData(list);
       }
-      setcareGiverData(list);
-      let selectedId: any = [];
-      if (bulkcareGivers) {
-        list.map((key: any) => {
-          return (selectedId = [...selectedId, parseInt(key.id)]);
-        });
-        setselectedCareGiver(selectedId);
+    } else {
+      if (careGiversList) {
+        const { getUserByQualifications } = careGiversList;
+        const { result } = getUserByQualifications;
+        console.log('result', result);
+        if (result && result.length) {
+          result.map((key: any) => {
+            console.log('key of data', key);
+            return (list = [...list, key]);
+          });
+        }
+        console.log('list', list);
+        setcareGiverData(list);
+        let selectedId: any = [];
+        if (bulkcareGivers) {
+          list.map((key: any) => {
+            return (selectedId = [...selectedId, parseInt(key.id)]);
+          });
+          setselectedCareGiver(selectedId);
+        }
       }
     }
   }, [careGiversList]);
+  console.log('setCaregiverConfirm', careGiverConfirm);
 
   useEffect(() => {
     let list: any = [...careGiverData];
@@ -753,6 +782,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   page={page}
                   label={props.label}
                   bulkcareGivers={bulkcareGivers}
+                  confirmApp={props.confirmApp}
                 />
 
                 <EmailEditorComponent

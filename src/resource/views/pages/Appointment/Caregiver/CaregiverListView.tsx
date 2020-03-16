@@ -98,6 +98,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   );
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
+    if (openCareGiverBulkEmail === true) {
+      setconfirmApp(false);
+    }
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
 
@@ -116,6 +119,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           id = "",
           firstName = "",
           lastName = "",
+          email = "",
           caregiver = {},
           qualificationId = []
         } = caregiverData ? caregiverData : {};
@@ -123,6 +127,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           id,
           firstName,
           lastName,
+          email,
           caregiver,
           item,
           qualificationIds: qualificationId,
@@ -200,6 +205,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     }
   };
+
+  const [confirmApp, setconfirmApp] = useState<boolean>(false);
 
   //  UnLink appointmnets
   const handleUnLinkAppointments = () => {
@@ -318,7 +325,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             </NavLink>{" "}
           </NavItem>
           <NavItem>
-            <NavLink onClick={() => handleCareGiverBulkEmail()}>
+            <NavLink
+              onClick={() => {
+                setopenToggleMenu(false);
+                handleCareGiverBulkEmail();
+              }}
+            >
               <img src={offer_sent} className="mr-2" alt="" />
               <span className="align-middle">
                 Offer all available calendar entries
@@ -350,7 +362,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem className="bordernav" />
           <NavItem>
-            <NavLink>
+            <NavLink
+              onClick={() => {
+                setOnConfirmedCaregiver();
+                setconfirmApp(true);
+                setopenToggleMenu(false);
+                handleCareGiverBulkEmail();
+                setOnConfirmedCaregiver();
+              }}
+            >
               <img src={confirm_appointment} className="mr-2" alt="" />
               <span className="align-middle">Confirmed appointments</span>
             </NavLink>{" "}
@@ -666,6 +686,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         handleClose={() => handleCareGiverBulkEmail()}
         gte={props.gte}
         lte={props.lte}
+        selectedCells={selectedCells}
+        confirmApp={confirmApp}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

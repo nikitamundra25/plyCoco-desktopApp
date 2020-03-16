@@ -1263,6 +1263,8 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
+        console.log("item in conf", item);
+
         if (item && item.id) {
           if (item.status === "linked") {
             let availabilityId: number = item.id ? parseInt(item.id) : 0;
@@ -1274,6 +1276,9 @@ const Appointment: FunctionComponent = (props: any) => {
                 id: availabilityId,
                 careInstitutionRequirementInput: {
                   ...item,
+                  qualificationId: item.qualificationId.map((item: any) => {
+                    item.id;
+                  }),
                   status: "confirmed"
                 }
               }
@@ -1340,6 +1345,7 @@ const Appointment: FunctionComponent = (props: any) => {
               id: availabilityId,
               careInstitutionRequirementInput: {
                 ...item,
+                // qualificationId:item,
                 status: "offered"
               }
             }
@@ -2331,7 +2337,6 @@ const Appointment: FunctionComponent = (props: any) => {
     comments: Item ? Item.comments : "",
     status: Item ? Item.status : ""
   };
-
   // end
   const {
     name = "",

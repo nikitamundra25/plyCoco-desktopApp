@@ -1,10 +1,17 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Table, Nav, NavItem, NavLink, Button } from 'reactstrap';
+import {
+  Table,
+  Nav,
+  NavItem,
+  NavLink,
+  Button,
+  UncontrolledTooltip,
+} from 'reactstrap';
 import moment from 'moment';
 import classnames from 'classnames';
 import {
   IAppointmentCareGiverList,
-  IDaysArray
+  IDaysArray,
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
@@ -31,17 +38,18 @@ import {
   selfEmployesListColor,
   leasingListColor,
   CaregiverTIMyoCYAttrId,
-  deactivatedListColor
+  deactivatedListColor,
 } from '../../../../../config';
 import { useHistory } from 'react-router';
 import { dbAcceptableFormat } from '../../../../../config';
 import { toast } from 'react-toastify';
 import UnlinkAppointment from '../unlinkModal';
 import '../index.scss';
+import { languageTranslation } from '../../../../../helpers';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
-  props: IAppointmentCareGiverList & any
+  props: IAppointmentCareGiverList & any,
 ) => {
   let history = useHistory();
   const {
@@ -64,7 +72,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     setOnConfirmedCaregiver,
     setOnNotConfirmedCaregiver,
     qualificationList,
-    onNewAvailability
+    onNewAvailability,
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -88,10 +96,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
 
   //State for care giver bulk email
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
-    false
+    false,
   );
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
+    if (openCareGiverBulkEmail === true) {
+      setconfirmApp(false);
+    }
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
 
@@ -110,17 +121,19 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           id = '',
           firstName = '',
           lastName = '',
+          email = '',
           caregiver = {},
-          qualificationId = []
+          qualificationId = [],
         } = caregiverData ? caregiverData : {};
         return {
           id,
           firstName,
           lastName,
+          email,
           caregiver,
           item,
           qualificationIds: qualificationId,
-          dateString: day ? day.dateString : ''
+          dateString: day ? day.dateString : '',
         };
       });
 
@@ -165,7 +178,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             checkError = true;
             if (!toast.isActive(toastId)) {
               toastId = toast.error(
-                'Date range between appointments & requirement mismatch.'
+                'Date range between appointments & requirement mismatch.',
               );
             }
             return false;
@@ -173,7 +186,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             checkError = true;
             if (!toast.isActive(toastId)) {
               toastId = toast.error(
-                'Create requirement or appointment first for all selected cells.'
+                'Create requirement or appointment first for all selected cells.',
               );
             }
             return false;
@@ -183,7 +196,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                 avabilityId: parseInt(key.item.id),
                 requirementId: parseInt(element.item.id),
                 date: moment(element.dateString).format(dbAcceptableFormat),
-                status: 'appointment'
+                status: 'appointment',
               });
             }
           }
@@ -194,6 +207,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       }
     }
   };
+
+  const [confirmApp, setconfirmApp] = useState<boolean>(false);
 
   //  UnLink appointmnets
   const handleUnLinkAppointments = () => {
@@ -211,12 +226,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                 moment(key.dateString).format('DD.MM.YYYY') ===
                 moment(appointment.date).format('DD.MM.YYYY')
               );
-            }
+            },
           );
           return appointmentId.push({
             appointmentId: parseInt(appointId[0].id),
             unlinkedBy: likedBy,
-            deleteAll: check
+            deleteAll: check,
           });
         }
       });
@@ -236,7 +251,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
       <div
         className={classnames({
           'right-manu-close': true,
-          'd-none': !openToggleMenu
+          'd-none': !openToggleMenu,
         })}
         onClick={handleToggleMenuItem}
       ></div>
@@ -244,7 +259,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         className={classnames({
           'rightclick-menu top-open': true,
           'custom-scrollbar': true,
-          'd-none': !openToggleMenu
+          'd-none': !openToggleMenu,
         })}
       >
         <Nav vertical>
@@ -310,7 +325,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem>
-            <NavLink onClick={() => handleCareGiverBulkEmail()}>
+            <NavLink
+              onClick={() => {
+                setopenToggleMenu(false);
+                handleCareGiverBulkEmail();
+              }}
+            >
               <img src={offer_sent} className='mr-2' alt='' />
               <span className='align-middle'>
                 Offer all available calendar entries
@@ -342,7 +362,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           </NavItem>
           <NavItem className='bordernav' />
           <NavItem>
-            <NavLink>
+            <NavLink
+              onClick={() => {
+                setOnConfirmedCaregiver();
+                setconfirmApp(true);
+                setopenToggleMenu(false);
+                handleCareGiverBulkEmail();
+                setOnConfirmedCaregiver();
+              }}
+            >
               <img src={confirm_appointment} className='mr-2' alt='' />
               <span className='align-middle'>Confirmed appointments</span>
             </NavLink>{' '}
@@ -444,10 +472,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                   {daysArr.map(
                     (
                       { date, day, isWeekend, today }: IDaysArray,
-                      index: number
+                      index: number,
                     ) => {
                       const todaysDate = moment(today).format(
-                        appointmentDateFormat
+                        appointmentDateFormat,
                       );
                       return (
                         <th
@@ -473,7 +501,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                           </div>
                         </th>
                       );
-                    }
+                    },
                   )}
                 </tr>
               </thead>
@@ -497,8 +525,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                     history.push(
                                       AppRoutes.CARE_GIVER_VIEW.replace(
                                         ':id',
-                                        list.id
-                                      )
+                                        list.id,
+                                      ),
                                     )
                                   }
                                   style={{
@@ -507,18 +535,31 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                       : list.caregiver &&
                                         list.caregiver.attributes
                                       ? list.caregiver.attributes.includes(
-                                          CaregiverTIMyoCYAttrId
+                                          CaregiverTIMyoCYAttrId,
                                         )
                                         ? leasingListColor
                                         : list.caregiver.attributes.includes(
-                                            'Plycoco'
+                                            'Plycoco',
                                           )
                                         ? selfEmployesListColor
                                         : ''
-                                      : ''
+                                      : '',
                                   }}
                                 >
-                                  <div className='calender-heading'>
+                                  <div
+                                    className='calender-heading'
+                                    id={`caregiver-${list.id}`}
+                                  >
+                                    {row === 0 ? (
+                                      <UncontrolledTooltip
+                                        placement='right'
+                                        target={`caregiver-${list.id}`}
+                                      >
+                                        {[list.lastName, list.firstName].join(
+                                          ' ',
+                                        )}
+                                      </UncontrolledTooltip>
+                                    ) : null}
                                     {row === 0
                                       ? `${
                                           list.lastName ? list.lastName : ''
@@ -575,10 +616,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                     item.filter((avabilityData: any) => {
                                       return (
                                         moment(key.isoString).format(
-                                          'DD.MM.YYYY'
+                                          'DD.MM.YYYY',
                                         ) ===
                                         moment(avabilityData.date).format(
-                                          'DD.MM.YYYY'
+                                          'DD.MM.YYYY',
                                         )
                                       );
                                     })[0]
@@ -615,6 +656,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         handleClose={() => handleCareGiverBulkEmail()}
         gte={props.gte}
         lte={props.lte}
+        selectedCells={selectedCells}
+        confirmApp={confirmApp}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

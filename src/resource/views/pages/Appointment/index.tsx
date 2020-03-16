@@ -47,6 +47,7 @@ import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { dbAcceptableFormat } from '../../../../config';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import './index.scss';
+import UnlinkAppointment from './unlinkModal';
 
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [
@@ -79,6 +80,7 @@ const Appointment: FunctionComponent = (props: any) => {
   const [multipleRequirement, setMultipleRequirement] = useState<boolean>(
     false
   );
+  const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [activeMonth, setActiveMonth] = useState<number>(moment().month());
   const [activeYear, setActiveYear] = useState<number>(moment().year());
   const [qualification, setqualification] = useState<any>([]);
@@ -801,11 +803,117 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  const handleSelection = (selectedCells: any, name: string) => {
+  const handleSelection = async (selectedCells: any, name: string) => {
+    const checkCondition: boolean =
+      selectedCells &&
+      selectedCells.length &&
+      selectedCells[0].item &&
+      selectedCells[0].item.appointments &&
+      selectedCells[0].item.appointments.length;
+
     if (name === 'caregiver') {
+      if (checkCondition) {
+        let appointId: any = selectedCells[0].item.appointments.filter(
+          (appointment: any) => {
+            return (
+              moment(selectedCells[0].dateString).format('DD.MM.YYYY') ===
+              moment(appointment.date).format('DD.MM.YYYY')
+            );
+          }
+        );
+        if (
+          careInstitutionList &&
+          careInstitutionList.getUserByQualifications
+        ) {
+          const { getUserByQualifications } = careInstitutionList;
+          const { result } = getUserByQualifications;
+          await appointmentDataSort('careinstitution', result, appointId);
+        }
+      }
       setSelectedCells(selectedCells);
     } else {
+      if (checkCondition) {
+        let appointId: any = selectedCells[0].item.appointments.filter(
+          (appointment: any) => {
+            return (
+              moment(selectedCells[0].dateString).format('DD.MM.YYYY') ===
+              moment(appointment.date).format('DD.MM.YYYY')
+            );
+          }
+        );
+        if (careGiversList && careGiversList.getUserByQualifications) {
+          const { getUserByQualifications } = careGiversList;
+          const { result } = getUserByQualifications;
+          await appointmentDataSort('caregiver', result, appointId);
+        }
+      }
       setselectedCellsCareinstitution(selectedCells);
+    }
+  };
+
+  // Function to select appointment data
+  const appointmentDataSort = (name: string, result: any, appointId: any) => {
+    let temp: any, availData: any, stemp: any;
+    if (result && result.length && appointId && appointId.length) {
+      result.map((list: any, index: number) => {
+        if (list.availabilityData && list.availabilityData.length) {
+          list.availabilityData.map((item: any, i: number) => {
+            temp = item.filter((avabilityData: any) => {
+              return appointId[0].requirementId === avabilityData.id;
+            });
+            if (temp && temp.length) {
+              const {
+                id = '',
+                firstName = '',
+                lastName = '',
+                email = '',
+                caregiver = {},
+                qualificationId = []
+              } = list ? list : {};
+              if (name === 'careinstitution') {
+                let qualification1: IReactSelectInterface[] = [];
+                if (
+                  qualificationList &&
+                  qualificationList.length &&
+                  temp[0].qualificationId
+                ) {
+                  qualification1 = qualificationList.filter(({ value }: any) =>
+                    temp[0].qualificationId.includes(value)
+                  );
+                }
+                stemp = {
+                  ...temp[0],
+                  qualificationId: qualification1 ? qualification1 : []
+                };
+              }
+
+              availData = [
+                {
+                  id,
+                  firstName,
+                  lastName,
+                  email,
+                  caregiver,
+                  item: stemp ? stemp : temp[0],
+                  qualificationIds: qualificationId,
+                  dateString: temp[0]
+                    ? moment(temp[0].date).format('YYYY.MM.DD')
+                    : ''
+                }
+              ];
+            }
+          });
+        }
+      });
+      if (availData && availData.length && availData[0].id) {
+        if (name === 'careinstitution') {
+          setselectedCellsCareinstitution(availData);
+        } else {
+          setSelectedCells(availData);
+        }
+      }
+    } else {
+      return true;
     }
   };
 
@@ -2165,6 +2273,37 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
+  // Handle unlink both
+  const handleUnlinkBoth = () => {
+    setshowUnlinkModal(!showUnlinkModal);
+  };
+
+  const handleUnlinkData = (likedBy: string, check: boolean) => {
+    let appointmentId: any = [];
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      selectedCellsCareinstitution.map((key: any, index: number) => {
+        let appointId: any = key.item.appointments.filter(
+          (appointment: any) => {
+            return (
+              moment(key.dateString).format('DD.MM.YYYY') ===
+              moment(appointment.date).format('DD.MM.YYYY')
+            );
+          }
+        );
+        return appointmentId.push({
+          appointmentId: parseInt(appointId[0].id),
+          unlinkedBy: likedBy,
+          deleteAll: check
+        });
+      });
+      onLinkAppointment(appointmentId, 'unlink');
+    } else {
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error('Please select appointment/s.');
+      }
+    }
+  };
+
   const onCaregiverQualificationFilter = () => {
     if (selectedCells && selectedCells.length) {
       let temp: string[] = [];
@@ -2233,7 +2372,7 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution[0] &&
     selectedCellsCareinstitution[0].item
       ? selectedCellsCareinstitution[0].item.department
-      : '';
+      : undefined;
   if (
     careInstitutionDepartment &&
     careInstitutionDepartment.length &&
@@ -2363,6 +2502,25 @@ const Appointment: FunctionComponent = (props: any) => {
       : false
     : false;
 
+  const isUnLinkable =
+    selectedCells &&
+    selectedCells.length &&
+    selectedCells[0].item &&
+    selectedCells[0].item.appointments &&
+    selectedCells[0].item.appointments.length &&
+    selectedCellsCareinstitution &&
+    selectedCellsCareinstitution.length &&
+    selectedCellsCareinstitution[0].item &&
+    selectedCellsCareinstitution[0].item.appointments &&
+    selectedCells[0].item.appointments.length &&
+    selectedCells[0].item.appointments[0] &&
+    selectedCells[0].item.appointments[0].id &&
+    selectedCellsCareinstitution[0].item.appointments[0] &&
+    selectedCellsCareinstitution[0].item.appointments[0].id &&
+    selectedCells[0].item.appointments[0].id ===
+      selectedCellsCareinstitution[0].item.appointments[0].id
+      ? true
+      : false;
   return (
     <>
       <div className='common-detail-page'>
@@ -2612,7 +2770,13 @@ const Appointment: FunctionComponent = (props: any) => {
                           <i className='fa fa-save mr-2' />
                           {languageTranslation('SAVE_BOTH')}
                         </Button>
-
+                        {
+                          (console.log(
+                            'selectedCellsCareinstitution',
+                            selectedCellsCareinstitution
+                          ),
+                          console.log('selectedCells', selectedCells))
+                        }
                         <Button
                           className='btn-common mt-0 mb-2 mx-2'
                           color='secondary'
@@ -2621,25 +2785,16 @@ const Appointment: FunctionComponent = (props: any) => {
                               ? false
                               : true
                           }
-                          onClick={handleLinkBoth}
+                          onClick={() =>
+                            isUnLinkable ? handleUnlinkBoth() : handleLinkBoth()
+                          }
                         >
                           {linkLoading ? (
                             <i className='fa fa-spinner fa-spin mr-2' />
                           ) : (
                             <i className='fa fa-link mr-2' />
                           )}
-                          {selectedCells &&
-                          selectedCells.length &&
-                          selectedCells[0].item &&
-                          selectedCells[0].item.appointments &&
-                          selectedCells[0].item.appointments.length &&
-                          selectedCellsCareinstitution &&
-                          selectedCellsCareinstitution.length &&
-                          selectedCellsCareinstitution[0].item &&
-                          selectedCellsCareinstitution[0].item.appointments &&
-                          selectedCells[0].item.appointments.length &&
-                          selectedCells[0].item.appointments[0].id ===
-                            selectedCells[0].item.appointments[0].id
+                          {isUnLinkable
                             ? 'Unlink'
                             : languageTranslation('LINK')}
                         </Button>
@@ -2652,6 +2807,11 @@ const Appointment: FunctionComponent = (props: any) => {
           </div>
         </div>
       </div>
+      <UnlinkAppointment
+        show={showUnlinkModal}
+        handleClose={() => setshowUnlinkModal(false)}
+        handleUnlinkData={handleUnlinkData}
+      />
     </>
   );
 };

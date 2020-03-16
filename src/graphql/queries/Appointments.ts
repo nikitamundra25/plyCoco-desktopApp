@@ -63,6 +63,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           appointments {
             id
             date
+            requirementId
+            avabilityId
           }
         }
         careinstitution_requirements {
@@ -91,6 +93,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           appointments {
             id
             date
+            requirementId
+            avabilityId
           }
         }
         contacts {

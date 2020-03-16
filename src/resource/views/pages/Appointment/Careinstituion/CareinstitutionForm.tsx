@@ -508,11 +508,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           //   ? department
                           //   : { label: ' ', value: '' }
                         }
-                        // value={
-                        //   department && department.value
-                        //     ? department
-                        //     : { label: "Select Department", value: "" }
-                        // }
                       />
                       {errors.department && touched.department && (
                         <div className='required-tooltip'>

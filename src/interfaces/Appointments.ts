@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from './Constant';
+import { IReactSelectInterface } from "./Constant";
 
 export interface IDaysArray {
   date: string;
@@ -60,6 +60,24 @@ export interface IAppointmentCareGiverList {
   ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
   handleReset: (name: string) => void;
+  totalCaregiver: number;
+  getNext: () => void;
+  selectedCells?: any[];
+  qualification?: any;
+  gte?: any;
+  lte?: any;
+  selctedAvailability?: any;
+  qualificationList?: any[];
+  activeDateCaregiver?: any[];
+  onReserve?: () => void;
+  onDeleteEntries?: (userRole: string) => void;
+  onCaregiverQualificationFilter?: () => void;
+  onNewAvailability?: () => void;
+  handleSelection?: (selectedCells: any, name: string) => void;
+  selectedCellsCareinstitution?: any;
+  onLinkAppointment?: any;
+  setOnConfirmedCaregiver?: any;
+  setOnNotConfirmedCaregiver?: any;
 }
 
 export interface IAppointmentCareInstitutionList {

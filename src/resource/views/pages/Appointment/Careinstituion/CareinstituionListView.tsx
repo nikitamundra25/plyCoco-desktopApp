@@ -626,7 +626,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               <tr>
                 <th className="thead-sticky name-col custom-appointment-col  head-name-col">
                   <div className="all-star-wrap">
-                    <div className="position-relative one-line-text">
+                    <div className="position-relative  username-col align-self-center">
                       <div className="calender-heading">
                         {languageTranslation("MENU_INSTITUTION")}
                       </div>
@@ -706,7 +706,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                   title={[list.lastName, list.firstName]
                                     .filter(Boolean)
                                     .join(" ")}
-                                  className="text-capitalize view-more-link one-line-text"
+                                  className="text-capitalize view-more-link one-line-text username-col"
                                   id={`careinst-${list.id}`}
                                   style={{
                                     backgroundColor: !list.isActive
@@ -733,8 +733,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                     )
                                   }
                                 >
-                                  <div className="calender-heading">
-                                    {/* {row === 0 ? (
+                                  {/* {row === 0 ? (
                                       <UncontrolledTooltip
                                         placement="right"
                                         target={`careinst-${list.id}`}
@@ -744,14 +743,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                         )}
                                       </UncontrolledTooltip>
                                     ) : null} */}
-                                    {row === 0
-                                      ? `${
-                                          list.lastName ? list.lastName : ""
-                                        } ${
-                                          list.firstName ? list.firstName : ""
-                                        }`
-                                      : ""}
-                                  </div>
+                                  {row === 0
+                                    ? `${list.lastName ? list.lastName : ""} ${
+                                        list.firstName ? list.firstName : ""
+                                      }`
+                                    : ""}
                                 </div>
                                 <div className="h-col custom-appointment-col text-center"></div>
                                 <div
@@ -848,18 +844,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         <th className="name-col custom-appointment-col thead-sticky">
                           <div className="all-star-wrap">
                             <div
-                              className="text-capitalize view-more-link one-line-text"
+                              className="text-capitalize view-more-link one-line-text username-text"
                               // onClick={() =>
                               //   handleSelectedUser(list, null, 'caregiver')
                               // }
                             >
-                              <div className="calender-heading">
-                                {!dept.newRow
-                                  ? dept.name
-                                    ? dept.name
-                                    : ""
-                                  : ""}
-                              </div>
+                              {!dept.newRow ? (dept.name ? dept.name : "") : ""}
                             </div>
                             <div className="h-col custom-appointment-col text-center"></div>
                             <div

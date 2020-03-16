@@ -777,7 +777,7 @@
   "HOLIDAY_DATE": "Choose Date",
   "HOLIDAY_DATE_PLACEHOLDER": "DD.MM.YYYY",
   "HOLIDAY_NOTE": "Enter Note",
-  "HOLIDAY_NOTE_PLACEHOLDER": "Describe the reason(Optional)",
+  "HOLIDAY_NOTE_PLACEHOLDER": "Describe the reason",
   "HOLIDAY_STATES": "Applicable States",
   "HOLIDAY_STATES_PLACEHOLDER": "Applicable States",
   "CLOSE": "Close",

@@ -236,7 +236,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         }
                       /> */}
 
-                    <div className="text-value mb-1">
+                    <div className="text-value">
                       {activeDateCaregiver
                         ? activeDateCaregiver
                             .map((dateString: string | undefined) =>
@@ -260,7 +260,20 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         : null} */}
                     </div>
                     {/* </div> */}
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
 
+            <Col lg={"12"}>
+              <FormGroup>
+                <Row>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("SHIFT")}
+                    </Label>
+                  </Col>
+                  <Col sm="8">
                     <div>
                       <FormGroup check inline>
                         <div className=" checkbox-custom mb-1">

@@ -1,10 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 
 import '../index.scss';
 import {
   IAppointmentCareInstitutionForm,
   ICareinstitutionFormValue,
-  IReactSelectInterface,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import {
   FormGroup,
@@ -15,7 +15,7 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
+  InputGroupText
 } from 'reactstrap';
 import '../index.scss';
 import { languageTranslation } from '../../../../../helpers';
@@ -34,8 +34,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   any> = (
   props: FormikProps<ICareinstitutionFormValue> &
     IAppointmentCareInstitutionForm &
-    any,
+    any
 ) => {
+  useEffect(() => {
+    if (props.savingBoth) {
+      handleSubmit();
+    }
+  }, [props.savingBoth]);
   const {
     values: {
       appointmentId,
@@ -54,7 +59,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       offerRemarks,
       bookingRemarks,
       comments,
-      status,
+      status
     },
     touched,
     errors,
@@ -76,7 +81,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     handleQualification,
     onhandleDelete,
     careInstitutionListArr,
-    handleSelectUserList,
+    handleSelectUserList
   } = props;
 
   let d = moment().format('L');
@@ -157,7 +162,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             'requirement-bg': isRequirment,
             'matching-bg': isMatching,
             'contract-bg': isConfirm,
-            'cell-green-caregiver': isOffered,
+            'cell-green-caregiver': isOffered
           })}
         >
           <h5 className='content-title'>
@@ -219,7 +224,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                       selectedCareinstitution
                                         ? selectedCareinstitution.id
                                         : '',
-                                      'careinstitution',
+                                      'careinstitution'
                                     )
                                   : ''
                               }
@@ -247,7 +252,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             .map((dateString: string | undefined) =>
                               dateString
                                 ? moment(dateString).format('dd DD.MM.YYYY')
-                                : null,
+                                : null
                             )
                             .join(', ')
                         : null}
@@ -591,7 +596,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='5'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation(
-                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY',
+                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
                       )}
                     </Label>
                   </Col>
@@ -630,10 +635,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             className=''
                             checked={isWorkingProof}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('isWorkingProof', checked);
                             }}

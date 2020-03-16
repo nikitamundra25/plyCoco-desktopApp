@@ -13,6 +13,7 @@ import {
 import AppointmentNav from "./AppointmentNav";
 import CaregiverListView from "./Caregiver/CaregiverListView";
 import CarinstituionListView from "./Careinstituion/CareinstituionListView";
+import { PAGE_LIMIT } from "./../../../../config";
 import {
   IGetDaysArrayByMonthRes,
   IQualifications,
@@ -440,7 +441,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 ? ""
                 : filterByAppointments.value
               : null,
-          limit: 10,
+          limit: PAGE_LIMIT,
           page: 1
         }
       });
@@ -635,8 +636,7 @@ const Appointment: FunctionComponent = (props: any) => {
         otherExpenses = "",
         workingProofRecieved = false,
         remarksCareGiver = "",
-        remarksInternal = "",
-        status = ""
+        remarksInternal = ""
       } = avabilityData ? avabilityData : {};
       // const { caregiver } = selectedCells;
 
@@ -694,7 +694,6 @@ const Appointment: FunctionComponent = (props: any) => {
       remarksInternal = "",
       s = "",
       travelAllowance = "",
-      weekendAllowance = "",
       workingProofRecieved = false
     } = caregiverLastTimeValues ? caregiverLastTimeValues : {};
 
@@ -919,7 +918,7 @@ const Appointment: FunctionComponent = (props: any) => {
         positiveAttributeId: positive,
         gte,
         lte,
-        limit: 10,
+        limit: PAGE_LIMIT,
         page: 1
       }
     });
@@ -1712,7 +1711,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // submit caregiver form
   const handleSubmitCaregiverForm = async (
     values: ICaregiverFormValue,
-    { setSubmitting, setFieldError }: FormikHelpers<ICaregiverFormValue>
+    { setSubmitting }: FormikHelpers<ICaregiverFormValue>
   ) => {
     const {
       name,
@@ -1727,10 +1726,6 @@ const Appointment: FunctionComponent = (props: any) => {
       feePerKM,
       travelAllowance,
       otherExpenses,
-      workingHoursFrom,
-      workingHoursTo,
-      breakFrom,
-      breakTo,
       remarksCareGiver,
       remarksInternal,
       f,
@@ -1835,13 +1830,11 @@ const Appointment: FunctionComponent = (props: any) => {
   // submit careinstitution form
   const handleSubmitCareinstitutionForm = async (
     values: ICareinstitutionFormValue,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareinstitutionFormValue>
+    { setSubmitting }: FormikHelpers<ICareinstitutionFormValue>
   ) => {
     const {
       appointmentId,
       name,
-      date,
-      shift,
       endTime,
       startTime,
       qualificationId,
@@ -2403,8 +2396,10 @@ const Appointment: FunctionComponent = (props: any) => {
     n: n === "available" ? true : false,
     status: status ? status : ""
   };
-  const getNext = () => {
-    console.log("fasdfas");
+  // get next page caregivers
+  const getNext = (skip: number): void => {
+    const page = skip / PAGE_LIMIT;
+    console.log(skip, page);
   };
   return (
     <>
@@ -2443,6 +2438,7 @@ const Appointment: FunctionComponent = (props: any) => {
             <div>
               <Row>
                 <Col lg={"6"}>
+                  {/* caregiver list view */}
                   <CaregiverListView
                     daysData={daysData}
                     loading={caregiverLoading}
@@ -2472,6 +2468,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     totalCaregiver={totalCaregiver}
                     getNext={getNext}
                   />
+                  {/* care insitution list */}
                   <CarinstituionListView
                     daysData={daysData}
                     loading={careinstitutionLoading}
@@ -2682,17 +2679,17 @@ const Appointment: FunctionComponent = (props: any) => {
   );
 };
 
-// const mapStateToProps: any = (state: IRootState) => ({
-//   appointmentReducer: state.appointmentReducer,
-// });
+/* const mapStateToProps: any = (state: IRootState) => ({
+  appointmentReducer: state.appointmentReducer,
+});
 
-// const mapDispatchToProps = (dispatch: Dispatch) => {
-//   return {
-//     addAvailability: (data: any) => {
-//       dispatch(addAvailabilityRequest(data));
-//     },
-//   };
-// };
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    addAvailability: (data: any) => {
+      dispatch(addAvailabilityRequest(data));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps) */
 
-export default // connect(mapStateToProps, mapDispatchToProps)
-Appointment;
+export default Appointment;

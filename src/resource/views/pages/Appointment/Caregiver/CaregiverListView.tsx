@@ -14,7 +14,7 @@ import {
   IDaysArray
 } from "../../../../../interfaces";
 import Loader from "../../../containers/Loader/Loader";
-import { SelectableGroup, SelectAll, DeselectAll } from "react-selectable-fast";
+import { SelectableGroup } from "react-selectable-fast";
 import Cell from "./Cell";
 import DetaillistCaregiverPopup from "../DetailedList/DetailListCaregiver";
 import BulkEmailCareGiverModal from "../BulkEmailCareGiver";
@@ -517,12 +517,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     loader={<Loader />}
                     hasMore={careGiversList.length < totalCaregiver}
                     dataLength={totalCaregiver}
-                    next={getNext}
-                    endMessage={
-                      <p style={{ textAlign: "center" }}>
-                        <b>Yay! You have seen it all</b>
-                      </p>
-                    }
+                    next={() => {
+                      getNext(careGiversList.length);
+                    }}
+                    endMessage={<p />}
                     scrollableTarget={document.getElementById(
                       "calender-section"
                     )}

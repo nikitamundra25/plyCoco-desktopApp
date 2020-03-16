@@ -61,7 +61,7 @@ export interface IAppointmentCareGiverList {
   handleSecondStar: (list: object, index: number, name: string) => void;
   handleReset: (name: string) => void;
   totalCaregiver: number;
-  getNext: () => void;
+  getNext: (skip: number) => void;
   selectedCells?: any[];
   qualification?: any;
   gte?: any;

@@ -174,16 +174,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         };
       });
       handleSelection(selectedRows, 'careinstitution');
-      // for (let index = 0; index < selected.length; index++) {
-      //   const { item, list, dateString } = selected[index];
-      //   selctedAvailability = item;
-      //   selectedRows.push({
-      //     id: list.id,
-      //     qualificationIds: list.qualificationId,
-      //     item,
-      //     dateString,
-      //   });
-      // }
     }
   };
 
@@ -507,18 +497,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem className='bordernav' />
             <NavItem>
               <NavLink
-                // add disabled condition to check select requirement is linked or not
-                // disabled={
-                //   selectedCellsCareinstitution &&
-                //   selectedCellsCareinstitution.length
-                //     ? selectedCellsCareinstitution.filter(
-                //         (cell: any) =>
-                //           cell.item && cell.item.status === 'linked',
-                //       ).length
-                //       ? false
-                //       : true
-                //     : true
-                // }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');

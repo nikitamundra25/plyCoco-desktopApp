@@ -30,7 +30,7 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
   const result = stripHtml(content);
 
   return (
-    <Col lg={"7"}>
+    <Col lg={"6"}>
       <div className="">
         <div className="form-section py-2 px-3 form-card">
           <div className="d-flex align-items-end justify-content-between bulk-email-header">

@@ -52,14 +52,27 @@ export interface IAppointmentCareGiverList {
     name: string,
     index: number,
   ) => void | undefined;
-  handleSelectedUser: (
-    value: object,
-    date: IDaysArray[] | null,
-    name: string,
-    handleSelectedAvailability: any,
-  ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
   handleReset: (name: string) => void;
+  totalCaregiver: number;
+  getNext: (skip: number) => void;
+  selectedCells?: any[];
+  qualification?: any;
+  gte?: any;
+  lte?: any;
+  selctedAvailability?: any;
+  qualificationList?: any[];
+  activeDateCaregiver?: any[];
+  onReserve?: () => void;
+  onDeleteEntries?: (userRole: string) => void;
+  onCaregiverQualificationFilter?: () => void;
+  onNewAvailability?: () => void;
+  handleSelection?: (selectedCells: any, name: string) => void;
+  selectedCellsCareinstitution?: any;
+  onLinkAppointment?: any;
+  setOnConfirmedCaregiver?: any;
+  setOnNotConfirmedCaregiver?: any;
+  fetchingCareGiverData?: () => void;
 }
 
 export interface IAppointmentCareInstitutionList {
@@ -156,6 +169,7 @@ export interface ICaregiverValidationFormValue {
 export interface ICareinstituionValidationFormValue {
   startTime: string;
   endTime: string;
+  department?: any;
 }
 // export interface ICareinstitutionFormValue {
 //   firstName: string;
@@ -204,6 +218,7 @@ export interface ICareinstitutionFormValue {
   department?: IReactSelectInterface | undefined;
   comments: string;
   status?: string;
+  careInstitutionDepartment?: IReactSelectInterface[] | undefined;
 }
 
 export interface ICareinstitutionFormSubmitValue {

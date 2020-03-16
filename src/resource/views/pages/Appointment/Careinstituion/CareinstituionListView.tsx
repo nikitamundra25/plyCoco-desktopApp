@@ -58,28 +58,23 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     loading,
     onAddingRow,
     qualificationList,
-    handleSelectedUser,
+    fetchCareinstitutionList,
     handleFirstStarCanstitution,
     careInstituionDeptData,
     starCanstitution,
     deptLoading,
     onhandleSecondStarCanstitution,
     secondStarCanstitution,
-    selectedCareGiver,
-    selectedCareinstitution,
     activeDateCaregiver,
-    activeDateCareinstitution,
     handleSelection,
     selectedCellsCareinstitution,
     selectedCells,
     onLinkAppointment,
     onDeleteEntries,
-    setOnConfirmedCaregiver,
     setOnConfirmedCareInst,
     setOnNotConfirmedCareInst,
     setOnOfferedCareInst,
     setOnNotOfferedCareInst,
-    careinstitutionDepartmentList,
     onNewRequirement,
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
@@ -187,16 +182,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       console.log(selectedRows, 'selectedRows');
 
       handleSelection(selectedRows, 'careinstitution');
-      // for (let index = 0; index < selected.length; index++) {
-      //   const { item, list, dateString } = selected[index];
-      //   selctedAvailability = item;
-      //   selectedRows.push({
-      //     id: list.id,
-      //     qualificationIds: list.qualificationId,
-      //     item,
-      //     dateString,
-      //   });
-      // }
     }
   };
 
@@ -651,18 +636,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem className='bordernav' />
             <NavItem>
               <NavLink
-                // add disabled condition to check select requirement is linked or not
-                // disabled={
-                //   selectedCellsCareinstitution &&
-                //   selectedCellsCareinstitution.length
-                //     ? selectedCellsCareinstitution.filter(
-                //         (cell: any) =>
-                //           cell.item && cell.item.status === 'linked',
-                //       ).length
-                //       ? false
-                //       : true
-                //     : true
-                // }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
@@ -746,12 +719,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem className='bordernav' />
-            <NavItem>
-              <NavLink>
-                <img src={refresh} className='mr-2' alt='' />
-                <span>Refresh </span>
-              </NavLink>
-            </NavItem>
           </Nav>
         </div>
       </div>
@@ -771,7 +738,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                   <div className='all-star-wrap'>
                     <div className='position-relative one-line-text'>
-                      <div className='calender-heading'> CareInstitution</div>
+                      <div className='calender-heading'>
+                        {languageTranslation('MENU_INSTITUTION')}
+                      </div>
                       <Button
                         onClick={() => handleRightMenuToggle()}
                         className='btn-more d-flex align-items-center justify-content-center'
@@ -1127,8 +1096,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         qualificationList={qualificationList}
-        activeDateCaregiver={activeDateCaregiver}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
+        fetchCareinstitutionList={fetchCareinstitutionList}
       />
       <UnlinkAppointment
         show={showUnlinkModal}

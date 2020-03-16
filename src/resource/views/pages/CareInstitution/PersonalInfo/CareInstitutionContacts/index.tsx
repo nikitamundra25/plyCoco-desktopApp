@@ -28,6 +28,7 @@ import CotactFormComponent from './CotactFormComponent';
 import { ConfirmBox } from '../../../../components/ConfirmBox';
 import Loader from '../../../../containers/Loader/Loader';
 import close from '../../../../../assets/img/close.svg';
+import { Gender } from '../../../../../../config';
 
 let toastId: any;
 
@@ -418,11 +419,10 @@ const CareInstitutionContacts: any = (props: any) => {
     title,
     contactType: selecContactType,
     gender: gender
-      ? {
-          label: gender,
-          value: gender,
-        }
-      : undefined,
+    ? Gender.filter(
+        ({ value }: IReactSelectInterface) => value === gender,
+      )[0]
+    : undefined,
     salutation: salutation
       ? {
           label: salutation,

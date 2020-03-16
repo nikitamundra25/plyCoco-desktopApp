@@ -43,7 +43,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props) => {
 
   useEffect(() => {
     // Fetch list of careinstitution
-    console.log('Helooo');
     if (props.label !== 'appointment') {
       fetchCareInstitutionList({
         variables: {

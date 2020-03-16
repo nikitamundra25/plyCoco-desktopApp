@@ -36,19 +36,7 @@ const DetailListCareinstitution = (props: any) => {
         <ModalBody>
           <div className='common-detail-page'>
             <div className='common-detail-section'>
-              <div className='common-topheader d-flex align-items-center'>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={refresh} alt='' />
-                  </span>
-                  <span
-                    className='header-nav-text'
-                    onClick={() => fetchCareinstitutionList()}
-                  >
-                    {languageTranslation('REFRESH')}
-                  </span>
-                </div>
-              </div>
+              <div className='common-topheader d-flex align-items-center'></div>
               <div className='common-content flex-grow-1 px-0 bg-white'>
                 <div className='table-minheight '>
                   <Table bordered hover responsive>
@@ -87,10 +75,23 @@ const DetailListCareinstitution = (props: any) => {
                                 <td>-</td>
                                 <td>{elem.item.name ? elem.item.name : '-'}</td>
                                 <td>
-                                  {elem.item && elem.item.divisions
-                                    ? elem.item.divisions.map((dept: any) => {
-                                        return <span>{dept}</span>;
-                                      })
+                                  {elem.item && elem.item.divisionId
+                                    ? elem.divisions
+                                        .filter((div: any) => {
+                                          console.log('divvvv', div);
+                                          console.log(
+                                            div.id.includes(
+                                              elem.item.divisionId
+                                            )
+                                          );
+                                          return div.id.includes(
+                                            elem.item.divisionId
+                                          );
+                                        })
+                                        .map((name: any) => {
+                                          console.log('name', name);
+                                          return <span>{name.label}</span>;
+                                        })
                                     : null}
                                 </td>
                                 <td>

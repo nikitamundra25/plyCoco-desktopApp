@@ -417,12 +417,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem className='bordernav' />
-          <NavItem>
+          {/* <NavItem>
             <NavLink>
               <img src={refresh} className='mr-2' alt='' />
               <span className='align-middle'>Refresh</span>
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
       </div>
       <div className='calender-section custom-scrollbar'>

@@ -1221,10 +1221,8 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.error('Care Institution must be linked with a caregiver');
+            toast.warn(languageTranslation('CAREINSTTITUTION_LINKED'));
           }
-        } else {
-          toast.error('Please select atleast a cell');
         }
       });
     }
@@ -1254,7 +1252,7 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.error('Care Institution must be linked with a caregiver');
+            toast.warn(languageTranslation('CAREINSTTITUTION_LINKED'));
           }
         }
       });
@@ -1264,29 +1262,28 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        if (
-          item &&
-          item.id &&
-          (item.status === 'default' || item.status === 'requirement')
-        ) {
-          let availabilityId: number = item.id ? parseInt(item.id) : 0;
-          delete item.id;
-          delete item.__typename;
-          delete item.appointments;
-          await updateCareinstitutionRequirment({
-            variables: {
-              id: availabilityId,
-              careInstitutionRequirementInput: {
-                ...item,
-                // qualificationId:item,
-                status: 'offered'
+        if (item && item.id) {
+          if (item.status === 'default' || item.status === 'requirement') {
+            let availabilityId: number = item.id ? parseInt(item.id) : 0;
+            delete item.id;
+            delete item.__typename;
+            delete item.appointments;
+            await updateCareinstitutionRequirment({
+              variables: {
+                id: availabilityId,
+                careInstitutionRequirementInput: {
+                  ...item,
+                  status: 'offered'
+                }
               }
+            });
+            if (!toast.isActive(toastId)) {
+              toastId = toast.success(
+                languageTranslation('CARE_INST_SET_ON_OFFERED_SUCCESS_MSG')
+              );
             }
-          });
-          if (!toast.isActive(toastId)) {
-            toastId = toast.success(
-              languageTranslation('CARE_INST_SET_ON_OFFERED_SUCCESS_MSG')
-            );
+          } else {
+            toast.warn('something wrong');
           }
         }
       });
@@ -1296,24 +1293,28 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        if (item && item.id && item.status === 'offered') {
-          let availabilityId: number = item.id ? parseInt(item.id) : 0;
-          delete item.id;
-          delete item.__typename;
-          delete item.appointments;
-          await updateCareinstitutionRequirment({
-            variables: {
-              id: availabilityId,
-              careInstitutionRequirementInput: {
-                ...item,
-                status: 'default'
+        if (item && item.id) {
+          if (item.status === 'offered') {
+            let availabilityId: number = item.id ? parseInt(item.id) : 0;
+            delete item.id;
+            delete item.__typename;
+            delete item.appointments;
+            await updateCareinstitutionRequirment({
+              variables: {
+                id: availabilityId,
+                careInstitutionRequirementInput: {
+                  ...item,
+                  status: 'default'
+                }
               }
+            });
+            if (!toast.isActive(toastId)) {
+              toastId = toast.success(
+                languageTranslation('CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG')
+              );
             }
-          });
-          if (!toast.isActive(toastId)) {
-            toastId = toast.success(
-              languageTranslation('CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG')
-            );
+          } else {
+            toast.warn('something wrong');
           }
         }
       });
@@ -1345,7 +1346,7 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.error('Caregiver must be linked with a care institution');
+            toast.warn(languageTranslation('CAREGIVER_LINKED'));
           }
         }
       });
@@ -1378,7 +1379,7 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.error('Caregiver must be linked with a care institution');
+            toast.warn(languageTranslation('CAREGIVER_LINKED'));
           }
         }
       });

@@ -52,19 +52,6 @@ const DetailListCaregiver = (props: any) => {
         <ModalBody>
           <div className='common-detail-page'>
             <div className='common-detail-section'>
-              <div className='common-topheader d-flex align-items-center '>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={refresh} alt='' />
-                  </span>
-                  <span
-                    className='header-nav-text'
-                    onClick={() => fetchingCareGiverData()}
-                  >
-                    {languageTranslation('REFRESH')}
-                  </span>
-                </div>
-              </div>
               <div className='common-sidnav'>
                 <ul className='common-ul nav nav-tabs'>
                   <li className='nav-item'>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState } from 'react';
 import {
   Table,
   Nav,
@@ -6,32 +6,32 @@ import {
   NavLink,
   Button,
   UncontrolledTooltip
-} from "reactstrap";
-import moment from "moment";
-import classnames from "classnames";
+} from 'reactstrap';
+import moment from 'moment';
+import classnames from 'classnames';
 import {
   IAppointmentCareGiverList,
   IDaysArray
-} from "../../../../../interfaces";
-import Loader from "../../../containers/Loader/Loader";
-import { SelectableGroup } from "react-selectable-fast";
-import Cell from "./Cell";
-import DetaillistCaregiverPopup from "../DetailedList/DetailListCaregiver";
-import BulkEmailCareGiverModal from "../BulkEmailCareGiver";
-import new_appointment from "../../../../assets/img/dropdown/new_appointment.svg";
-import reserve from "../../../../assets/img/dropdown/block.svg";
-import delete_appointment from "../../../../assets/img/dropdown/delete.svg";
-import detail_list from "../../../../assets/img/dropdown/detail_list.svg";
-import filter from "../../../../assets/img/filter.svg";
-import offer_sent from "../../../../assets/img/dropdown/offer_sent.svg";
-import connect from "../../../../assets/img/dropdown/connect.svg";
-import disconnect from "../../../../assets/img/dropdown/disconnect.svg";
-import confirm_appointment from "../../../../assets/img/dropdown/confirm_appointment.svg";
-import set_confirm from "../../../../assets/img/dropdown/confirm.svg";
-import unset_confirm from "../../../../assets/img/dropdown/not_confirm.svg";
-import leasing_contact from "../../../../assets/img/dropdown/leasing.svg";
-import termination from "../../../../assets/img/dropdown/aggrement.svg";
-import refresh from "../../../../assets/img/refresh.svg";
+} from '../../../../../interfaces';
+import Loader from '../../../containers/Loader/Loader';
+import { SelectableGroup } from 'react-selectable-fast';
+import Cell from './Cell';
+import DetaillistCaregiverPopup from '../DetailedList/DetailListCaregiver';
+import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
+import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
+import reserve from '../../../../assets/img/dropdown/block.svg';
+import delete_appointment from '../../../../assets/img/dropdown/delete.svg';
+import detail_list from '../../../../assets/img/dropdown/detail_list.svg';
+import filter from '../../../../assets/img/filter.svg';
+import offer_sent from '../../../../assets/img/dropdown/offer_sent.svg';
+import connect from '../../../../assets/img/dropdown/connect.svg';
+import disconnect from '../../../../assets/img/dropdown/disconnect.svg';
+import confirm_appointment from '../../../../assets/img/dropdown/confirm_appointment.svg';
+import set_confirm from '../../../../assets/img/dropdown/confirm.svg';
+import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
+import leasing_contact from '../../../../assets/img/dropdown/leasing.svg';
+import termination from '../../../../assets/img/dropdown/aggrement.svg';
+import refresh from '../../../../assets/img/refresh.svg';
 import {
   appointmentDateFormat,
   AppRoutes,
@@ -39,13 +39,13 @@ import {
   leasingListColor,
   CaregiverTIMyoCYAttrId,
   deactivatedListColor
-} from "../../../../../config";
-import { useHistory } from "react-router";
-import { dbAcceptableFormat } from "../../../../../config";
-import { toast } from "react-toastify";
-import UnlinkAppointment from "../unlinkModal";
-import "../index.scss";
-import InfiniteScroll from "react-infinite-scroll-component";
+} from '../../../../../config';
+import { useHistory } from 'react-router';
+import { dbAcceptableFormat } from '../../../../../config';
+import { toast } from 'react-toastify';
+import UnlinkAppointment from '../unlinkModal';
+import '../index.scss';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -68,10 +68,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onLinkAppointment,
     setOnConfirmedCaregiver,
     setOnNotConfirmedCaregiver,
-    qualificationList,
     onNewAvailability,
     totalCaregiver,
-    getNext
+    getNext,
+    fetchingCareGiverData
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -109,17 +109,16 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCellsData: any[]) => {
-    console.log(selectedCellsData, "onSelectFinish");
     let selectedRows: any[] = [];
     if (selectedCellsData && selectedCellsData.length) {
       selectedRows = selectedCellsData.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
         const { item, list: caregiverData, day } = cellProps;
         const {
-          id = "",
-          firstName = "",
-          lastName = "",
-          email = "",
+          id = '',
+          firstName = '',
+          lastName = '',
+          email = '',
           caregiver = {},
           qualificationId = []
         } = caregiverData ? caregiverData : {};
@@ -131,11 +130,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           caregiver,
           item,
           qualificationIds: qualificationId,
-          dateString: day ? day.dateString : ""
+          dateString: day ? day.dateString : ''
         };
       });
 
-      handleSelection ? handleSelection(selectedRows, "caregiver") : undefined;
+      handleSelection ? handleSelection(selectedRows, 'caregiver') : undefined;
       // for (let index = 0; index < selected.length; index++) {
       //   const { item, list, dateString } = selected[index];
       //   selctedAvailability = item;
@@ -164,7 +163,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     ) {
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
         if (!toast.isActive(toastId)) {
-          toastId = toast.error("Please select same length cells");
+          toastId = toast.error('Please select same length cells');
         }
       } else {
         selectedCells.map((key: any, index: number) => {
@@ -176,7 +175,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             checkError = true;
             if (!toast.isActive(toastId)) {
               toastId = toast.error(
-                "Date range between appointments & requirement mismatch."
+                'Date range between appointments & requirement mismatch.'
               );
             }
             return false;
@@ -184,7 +183,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             checkError = true;
             if (!toast.isActive(toastId)) {
               toastId = toast.error(
-                "Create requirement or appointment first for all selected cells."
+                'Create requirement or appointment first for all selected cells.'
               );
             }
             return false;
@@ -194,7 +193,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 avabilityId: parseInt(key.item.id),
                 requirementId: parseInt(element.item.id),
                 date: moment(element.dateString).format(dbAcceptableFormat),
-                status: "appointment"
+                status: 'appointment'
               });
             }
           }
@@ -221,8 +220,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           let appointId: any = key.item.appointments.filter(
             (appointment: any) => {
               return (
-                moment(key.dateString).format("DD.MM.YYYY") ===
-                moment(appointment.date).format("DD.MM.YYYY")
+                moment(key.dateString).format('DD.MM.YYYY') ===
+                moment(appointment.date).format('DD.MM.YYYY')
               );
             }
           );
@@ -234,30 +233,32 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         }
       });
       // console.log('appointmentId', appointmentId);
-      onLinkAppointment(appointmentId, "unlink");
+      onLinkAppointment(appointmentId, 'unlink');
     } else {
       if (!toast.isActive(toastId)) {
-        toastId = toast.error("Please select appointment/s.");
+        toastId = toast.error('Please select appointment/s.');
       }
     }
   };
 
   const [showList, setShowList] = useState<boolean>(false);
+  console.log('totalCaregiver', totalCaregiver);
+  console.log('*************careGiverList', careGiversList.length);
 
   return (
-    <>
+    <div>
       <div
         className={classnames({
-          "right-manu-close": true,
-          "d-none": !openToggleMenu
+          'right-manu-close': true,
+          'd-none': !openToggleMenu
         })}
         onClick={handleToggleMenuItem}
       ></div>
       <div
         className={classnames({
-          "rightclick-menu top-open": true,
-          "custom-scrollbar": true,
-          "d-none": !openToggleMenu
+          'rightclick-menu top-open': true,
+          'custom-scrollbar': true,
+          'd-none': !openToggleMenu
         })}
       >
         <Nav vertical>
@@ -268,8 +269,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 onNewAvailability ? onNewAvailability() : undefined;
               }}
             >
-              <img src={new_appointment} className="mr-2" alt="" />
-              <span className="align-middle">New appointment</span>
+              <img src={new_appointment} className='mr-2' alt='' />
+              <span className='align-middle'>New appointment</span>
             </NavLink>
           </NavItem>
           <NavItem>
@@ -279,24 +280,24 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 onReserve ? onReserve() : undefined;
               }}
             >
-              <img src={reserve} className="mr-2" alt="" />
-              <span className="align-middle">Reserve</span>
+              <img src={reserve} className='mr-2' alt='' />
+              <span className='align-middle'>Reserve</span>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
               onClick={() => {
                 setopenToggleMenu(false);
-                onDeleteEntries ? onDeleteEntries("caregiver") : undefined;
+                onDeleteEntries ? onDeleteEntries('caregiver') : undefined;
               }}
             >
-              <img src={delete_appointment} className="mr-2" alt="" />
-              <span className="align-middle">
+              <img src={delete_appointment} className='mr-2' alt='' />
+              <span className='align-middle'>
                 Delete free and reserved calender entries
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
-          <NavItem className="bordernav" />
+          <NavItem className='bordernav' />
           <NavItem>
             <NavLink
               onClick={() => {
@@ -304,11 +305,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 setShowList(true);
               }}
             >
-              <img src={detail_list} className="mr-2" alt="" />
-              <span className="align-middle">Detailed List</span>
-            </NavLink>{" "}
+              <img src={detail_list} className='mr-2' alt='' />
+              <span className='align-middle'>Detailed List</span>
+            </NavLink>{' '}
           </NavItem>
-          <NavItem className="bordernav" />
+          <NavItem className='bordernav' />
           <NavItem
             onClick={() => {
               setopenToggleMenu(false);
@@ -318,11 +319,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             }}
           >
             <NavLink>
-              <img src={filter} className="mr-2" alt="" />
-              <span className="align-middle">
+              <img src={filter} className='mr-2' alt='' />
+              <span className='align-middle'>
                 Filter by qualifications of caregiver
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
           <NavItem>
             <NavLink
@@ -331,23 +332,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 handleCareGiverBulkEmail();
               }}
             >
-              <img src={offer_sent} className="mr-2" alt="" />
-              <span className="align-middle">
+              <img src={offer_sent} className='mr-2' alt='' />
+              <span className='align-middle'>
                 Offer all available calendar entries
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
-          <NavItem className="bordernav" />
+          <NavItem className='bordernav' />
           <NavItem>
             <NavLink
               onClick={() => {
                 setopenToggleMenu(false);
-                handleLinkAppointments("link");
+                handleLinkAppointments('link');
               }}
             >
-              <img src={connect} className="mr-2" alt="" />
-              <span className="align-middle">Connect appointments</span>
-            </NavLink>{" "}
+              <img src={connect} className='mr-2' alt='' />
+              <span className='align-middle'>Connect appointments</span>
+            </NavLink>{' '}
           </NavItem>
           <NavItem>
             <NavLink
@@ -356,11 +357,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 handleUnLinkAppointments();
               }}
             >
-              <img src={disconnect} className="mr-2" alt="" />
-              <span className="align-middle">Disconnect appointments</span>
+              <img src={disconnect} className='mr-2' alt='' />
+              <span className='align-middle'>Disconnect appointments</span>
             </NavLink>
           </NavItem>
-          <NavItem className="bordernav" />
+          <NavItem className='bordernav' />
           <NavItem>
             <NavLink
               onClick={() => {
@@ -371,15 +372,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 setOnConfirmedCaregiver();
               }}
             >
-              <img src={confirm_appointment} className="mr-2" alt="" />
-              <span className="align-middle">Confirmed appointments</span>
-            </NavLink>{" "}
+              <img src={confirm_appointment} className='mr-2' alt='' />
+              <span className='align-middle'>Confirmed appointments</span>
+            </NavLink>{' '}
           </NavItem>
           <NavItem>
             <NavLink>
-              <img src={set_confirm} className="mr-2" alt="" />
+              <img src={set_confirm} className='mr-2' alt='' />
               <span
-                className="align-middle"
+                className='align-middle'
                 onClick={() => {
                   setopenToggleMenu(false);
                   setOnConfirmedCaregiver();
@@ -391,9 +392,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink>
-              <img src={unset_confirm} className="mr-2" alt="" />
+              <img src={unset_confirm} className='mr-2' alt='' />
               <span
-                className="align-middle"
+                className='align-middle'
                 onClick={() => {
                   setopenToggleMenu(false);
                   setOnNotConfirmedCaregiver();
@@ -401,68 +402,73 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               >
                 Set on not confirmed
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
           <NavItem>
             <NavLink>
-              <img src={leasing_contact} className="mr-2" alt="" />
-              <span className="align-middle">
+              <img src={leasing_contact} className='mr-2' alt='' />
+              <span className='align-middle'>
                 Request temporary leasing contract
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
           <NavItem>
             <NavLink>
-              <img src={termination} className="mr-2" alt="" />
-              <span className="align-middle">Create termination agreement</span>
-            </NavLink>{" "}
+              <img src={termination} className='mr-2' alt='' />
+              <span className='align-middle'>Create termination agreement</span>
+            </NavLink>{' '}
           </NavItem>
-          <NavItem className="bordernav" />
+          <NavItem className='bordernav' />
           <NavItem>
             <NavLink>
-              <img src={refresh} className="mr-2" alt="" />
-              <span className="align-middle">Refresh</span>
+              <img src={refresh} className='mr-2' alt='' />
+              <span className='align-middle'>Refresh</span>
             </NavLink>
           </NavItem>
         </Nav>
       </div>
-      <div className="calender-section custom-scrollbar" id="calender-section">
+      <div className='calender-section custom-scrollbar' id='scrollableDiv'>
         <SelectableGroup
           allowClickWithoutSelected
-          className="custom-row-selector"
-          clickClassName="tick"
+          className='custom-row-selector'
+          clickClassName='tick'
           resetOnStart={true}
-          duringSelection={(data: any) => console.log(data, "duringSelection")}
+          duringSelection={(data: any) => console.log(data, 'duringSelection')}
           onSelectionFinish={onSelectFinish}
           onSelectionClear={onSelectionClear}
-          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
+          ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
         >
           <div>
-            <Table hover bordered className="mb-0 appointment-table">
-              <thead className="thead-bg">
+            <Table
+              hover
+              bordered
+              className='mb-0 appointment-table'
+              id='appointment-table'
+            >
+              <thead className='thead-bg'>
                 <tr>
-                  <th className="thead-sticky name-col custom-appointment-col  head-name-col">
-                    <div className="all-star-wrap">
-                      <div className="position-relative one-line-text">
-                        <div className="calender-heading">Caregiver</div>
+                  <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
+                    <div className='all-star-wrap'>
+                      <div className='position-relative one-line-text'>
+                        <div className='calender-heading'>Caregiver</div>
                         <Button
                           onClick={() => handleToggleMenuItem()}
-                          className="btn-more d-flex align-items-center justify-content-center"
+                          className='btn-more d-flex align-items-center justify-content-center'
                         >
-                          <i className="icon-options-vertical" />
+                          <i className='icon-options-vertical' />
                         </Button>
                       </div>
 
-                      <div className="thead-sticky h-col custom-appointment-col text-center">
+                      <div className='thead-sticky h-col custom-appointment-col text-center'>
                         H
                       </div>
-                      <div className="thead-sticky s-col custom-appointment-col text-center">
+                      <div className='thead-sticky s-col custom-appointment-col text-center'>
                         S
                       </div>
-                      <div className="thead-sticky u-col custom-appointment-col text-center">
+                      <div className='thead-sticky u-col custom-appointment-col text-center'>
                         U
                       </div>
-                      <div className="thead-sticky v-col custom-appointment-col text-center">
+                      <div className='thead-sticky v-col custom-appointment-col text-center'>
                         V
                       </div>
                     </div>
@@ -485,17 +491,17 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                           <div
                             className={`${
                               date === todaysDate
-                                ? "today"
+                                ? 'today'
                                 : isWeekend
-                                ? "weekend"
-                                : ""
+                                ? 'weekend'
+                                : ''
                             }`}
                           >
-                            <div className="custom-appointment-calendar-date">
-                              {" "}
+                            <div className='custom-appointment-calendar-date'>
+                              {' '}
                               {date}
                             </div>
-                            <div className="custom-appointment-calendar-day">
+                            <div className='custom-appointment-calendar-day'>
                               {day}
                             </div>
                           </div>
@@ -508,23 +514,31 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               <tbody>
                 {loading ? (
                   <tr>
-                    <td className={"table-loader"} colSpan={40}>
+                    <td className={'table-loader'} colSpan={40}>
                       <Loader />
                     </td>
                   </tr>
                 ) : careGiversList && careGiversList.length ? (
                   <InfiniteScroll
-                    loader={<Loader />}
-                    hasMore={careGiversList.length < totalCaregiver}
-                    dataLength={totalCaregiver}
+                    loader={
+                      <div className='infinite-loader'>
+                        <Loader />
+                      </div>
+                    }
+                    hasMore={
+                      careGiversList && careGiversList.length !== totalCaregiver
+                    }
+                    dataLength={
+                      careGiversList && careGiversList.length
+                        ? careGiversList.length
+                        : 0
+                    }
                     next={() => {
                       getNext(careGiversList.length);
                     }}
-                    endMessage={<p />}
-                    scrollableTarget={document.getElementById(
-                      "calender-section"
-                    )}
-                    hasChildren
+                    // endMessage={<p />}
+                    scrollableTarget={'scrollableDiv'}
+                    // hasChildren
                   >
                     {careGiversList.map((list: any, index: number) => {
                       return list.availabilityData &&
@@ -532,14 +546,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         ? list.availabilityData.map(
                             (item: any, row: number) => (
                               <tr key={`${list.id}-${index}-${row}`}>
-                                <th className="name-col custom-appointment-col thead-sticky">
-                                  <div className="all-star-wrap">
+                                <th className='name-col custom-appointment-col thead-sticky'>
+                                  <div className='all-star-wrap'>
                                     <div
-                                      className="text-capitalize view-more-link one-line-text"
+                                      className='text-capitalize view-more-link one-line-text'
                                       onClick={() =>
                                         history.push(
                                           AppRoutes.CARE_GIVER_VIEW.replace(
-                                            ":id",
+                                            ':id',
                                             list.id
                                           )
                                         )
@@ -554,79 +568,79 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                             )
                                             ? leasingListColor
                                             : list.caregiver.attributes.includes(
-                                                "Plycoco"
+                                                'Plycoco'
                                               )
                                             ? selfEmployesListColor
-                                            : ""
-                                          : ""
+                                            : ''
+                                          : ''
                                       }}
                                     >
                                       <div
-                                        className="calender-heading"
+                                        className='calender-heading'
                                         id={`caregiver-${list.id}`}
                                       >
                                         {row === 0 ? (
                                           <UncontrolledTooltip
-                                            placement="right"
+                                            placement='right'
                                             target={`caregiver-${list.id}`}
                                           >
                                             {[
                                               list.lastName,
                                               list.firstName
-                                            ].join(" ")}
+                                            ].join(' ')}
                                           </UncontrolledTooltip>
                                         ) : null}
                                         {row === 0
                                           ? `${
-                                              list.lastName ? list.lastName : ""
+                                              list.lastName ? list.lastName : ''
                                             } ${
                                               list.firstName
                                                 ? list.firstName
-                                                : ""
+                                                : ''
                                             }`
-                                          : ""}
+                                          : ''}
                                       </div>
                                     </div>
-                                    <div className="h-col custom-appointment-col text-center"></div>
+                                    <div className='h-col custom-appointment-col text-center'></div>
                                     <div
-                                      className="s-col custom-appointment-col text-center cursor-pointer"
+                                      className='s-col custom-appointment-col text-center cursor-pointer'
                                       onClick={() =>
                                         onhandleSecondStar(
                                           list,
                                           index,
-                                          "caregiver"
+                                          'caregiver'
                                         )
                                       }
                                     >
                                       {starMark ? (
-                                        <i className="fa fa-star theme-text" />
+                                        <i className='fa fa-star theme-text' />
                                       ) : (
-                                        <i className="fa fa-star-o" />
+                                        <i className='fa fa-star-o' />
                                       )}
                                     </div>
                                     <div
-                                      className="u-col custom-appointment-col text-center cursor-pointer"
+                                      className='u-col custom-appointment-col text-center cursor-pointer'
                                       onClick={() =>
                                         onhandleSecondStar(
                                           list,
                                           index,
-                                          "caregiver"
+                                          'caregiver'
                                         )
                                       }
                                     >
                                       {starMark ? (
-                                        <i className="fa fa-star theme-text" />
+                                        <i className='fa fa-star theme-text' />
                                       ) : (
-                                        <i className="fa fa-star-o" />
+                                        <i className='fa fa-star-o' />
                                       )}
                                     </div>
                                     <div
-                                      className="v-col custom-appointment-col text-center cursor-pointer"
+                                      className='v-col custom-appointment-col text-center cursor-pointer'
                                       onClick={e =>
-                                        onAddingRow(e, "caregiver", index)
+                                        onAddingRow(e, 'caregiver', index)
                                       }
                                     >
-                                      <i className="fa fa-arrow-down" />
+                                      <i className='fa fa-arrow-down' />
                                     </div>
                                   </div>
                                 </th>
@@ -642,10 +656,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                         item.filter((avabilityData: any) => {
                                           return (
                                             moment(key.isoString).format(
-                                              "DD.MM.YYYY"
+                                              'DD.MM.YYYY'
                                             ) ===
                                             moment(avabilityData.date).format(
-                                              "DD.MM.YYYY"
+                                              'DD.MM.YYYY'
                                             )
                                           );
                                         })[0]
@@ -660,14 +674,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     })}
                   </InfiniteScroll>
                 ) : (
-                  <tr className={"text-center no-hover-row"}>
-                    <td colSpan={40} className={"pt-5 pb-5"}>
-                      <div className="no-data-section">
-                        <div className="no-data-icon">
-                          <i className="icon-ban" />
+                  <tr className={'text-center no-hover-row'}>
+                    <td colSpan={40} className={'pt-5 pb-5'}>
+                      <div className='no-data-section'>
+                        <div className='no-data-icon'>
+                          <i className='icon-ban' />
                         </div>
-                        <h4 className="mb-1">
-                          Currently there are no Caregiver added.{" "}
+                        <h4 className='mb-1'>
+                          Currently there are no Caregiver added.{' '}
                         </h4>
                       </div>
                     </td>
@@ -691,14 +705,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         selectedCells={selectedCells}
-        qualificationList={qualificationList}
+        fetchingCareGiverData={fetchingCareGiverData}
       />
       <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
       />
-    </>
+    </div>
   );
 };
 

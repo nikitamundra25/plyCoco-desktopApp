@@ -1,4 +1,4 @@
-import { IReactSelectInterface } from "./Constant";
+import { IReactSelectInterface } from './Constant';
 
 export interface IDaysArray {
   date: string;
@@ -78,6 +78,7 @@ export interface IAppointmentCareGiverList {
   onLinkAppointment?: any;
   setOnConfirmedCaregiver?: any;
   setOnNotConfirmedCaregiver?: any;
+  fetchingCareGiverData?: () => void;
 }
 
 export interface IAppointmentCareInstitutionList {

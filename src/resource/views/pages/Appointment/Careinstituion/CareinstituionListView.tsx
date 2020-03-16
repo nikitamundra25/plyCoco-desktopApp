@@ -58,23 +58,19 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     loading,
     onAddingRow,
     qualificationList,
-    handleSelectedUser,
+    fetchCareinstitutionList,
     handleFirstStarCanstitution,
     careInstituionDeptData,
     starCanstitution,
     deptLoading,
     onhandleSecondStarCanstitution,
     secondStarCanstitution,
-    selectedCareGiver,
-    selectedCareinstitution,
     activeDateCaregiver,
-    activeDateCareinstitution,
     handleSelection,
     selectedCellsCareinstitution,
     selectedCells,
     onLinkAppointment,
     onDeleteEntries,
-    setOnConfirmedCaregiver,
     setOnConfirmedCareInst,
     setOnNotConfirmedCareInst,
     setOnOfferedCareInst,
@@ -148,7 +144,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           lastName = "",
           caregiver = {},
           canstitution = {},
-          qualificationId = []
+          qualificationId = [],
+          divisions = []
         } = caregiverData ? caregiverData : {};
 
         let qualification1: IReactSelectInterface[] = [];
@@ -175,10 +172,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           canstitution,
           item: item ? temp : item,
           qualificationIds: qualificationId,
-          dateString: day ? day.dateString : ""
+          dateString: day ? day.dateString : "",
+          divisions
         };
       });
-      console.log("selectedRowsselectedRows", selectedRows);
       handleSelection(selectedRows, "careinstitution");
       // for (let index = 0; index < selected.length; index++) {
       //   const { item, list, dateString } = selected[index];
@@ -388,7 +385,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail("division", true);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                 }}
               >
                 <img src={offer_sent} className="mr-2" alt="" />
@@ -409,7 +406,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail("day", true);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                 }}
               >
                 <img src={offer_sent} className="mr-2" alt="" />
@@ -430,7 +427,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail("division", false);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                 }}
               >
                 <img src={offer_sent} className="mr-2" alt="" />
@@ -451,7 +448,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail("day", false);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                 }}
               >
                 <img src={offer_sent} className="mr-2" alt="" />
@@ -466,7 +463,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <img src={set_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
-                    setopenToggleMenu(false);
+                    handleRightMenuToggle();
                     setOnOfferedCareInst();
                   }}
                 >
@@ -479,7 +476,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <img src={unset_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
-                    setopenToggleMenu(false);
+                    handleRightMenuToggle();
                     setOnNotOfferedCareInst();
                   }}
                 >
@@ -540,7 +537,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo("offered");
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                 }}
               >
                 <img src={offer_sent} className="mr-2" alt="" />
@@ -553,7 +550,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo("confirmed");
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                   setOnConfirmedCareInst();
                 }}
               >
@@ -566,7 +563,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo("confirmed");
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                   setOnConfirmedCareInst();
                 }}
               >
@@ -592,7 +589,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <img src={unset_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
-                    setopenToggleMenu(false);
+                    handleRightMenuToggle();
+
                     setOnNotConfirmedCareInst();
                   }}
                 >
@@ -739,7 +737,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                         target={`careinst-${list.id}`}
                                       >
                                         {[list.lastName, list.firstName].join(
-                                          " "
+                                          ' '
                                         )}
                                       </UncontrolledTooltip>
                                     ) : null} */}
@@ -957,8 +955,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         qualificationList={qualificationList}
-        activeDateCaregiver={activeDateCaregiver}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
+        fetchCareinstitutionList={fetchCareinstitutionList}
       />
       <UnlinkAppointment
         show={showUnlinkModal}

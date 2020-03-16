@@ -72,7 +72,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     setOnConfirmedCaregiver,
     setOnNotConfirmedCaregiver,
     qualificationList,
-    onNewAvailability
+    onNewAvailability,
+    fetchingCareGiverData
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -111,7 +112,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCellsData: any[]) => {
-    console.log(selectedCellsData, "onSelectFinish");
     let selectedRows: any[] = [];
     if (selectedCellsData && selectedCellsData.length) {
       selectedRows = selectedCellsData.map((selectedCell: any) => {
@@ -556,7 +556,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                         target={`caregiver-${list.id}`}
                                       >
                                         {[list.lastName, list.firstName].join(
-                                          ' ',
+                                          ' '
                                         )}
                                       </UncontrolledTooltip>
                                     ) : null} */}
@@ -660,7 +660,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         selectedCells={selectedCells}
-        qualificationList={qualificationList}
+        fetchingCareGiverData={fetchingCareGiverData}
       />
       <UnlinkAppointment
         show={showUnlinkModal}

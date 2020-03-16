@@ -1,16 +1,18 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
-import { languageTranslation } from '../../../../../helpers';
+import { languageTranslation, logger } from '../../../../../helpers';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import refresh from '../../../../assets/img/refresh.svg';
+import moment from 'moment';
+import { defaultDateFormat } from './../../../../../config/constant';
 
 const DetailListCareinstitution = (props: any) => {
   const {
     show,
     handleClose,
-    qualificationList,
-    selectedCellsCareinstitution
+    selectedCellsCareinstitution,
+    fetchCareinstitutionList
   } = props;
 
   const externalCloseBtn = (
@@ -34,16 +36,7 @@ const DetailListCareinstitution = (props: any) => {
         <ModalBody>
           <div className='common-detail-page'>
             <div className='common-detail-section'>
-              <div className='common-topheader d-flex align-items-center'>
-                <div className='header-nav-item'>
-                  <span className='header-nav-icon'>
-                    <img src={refresh} alt='' />
-                  </span>
-                  <span className='header-nav-text'>
-                    {languageTranslation('REFRESH')}
-                  </span>
-                </div>
-              </div>
+              <div className='common-topheader d-flex align-items-center'></div>
               <div className='common-content flex-grow-1 px-0 bg-white'>
                 <div className='table-minheight '>
                   <Table bordered hover responsive>
@@ -64,6 +57,7 @@ const DetailListCareinstitution = (props: any) => {
                       {selectedCellsCareinstitution ? (
                         selectedCellsCareinstitution.map(
                           (elem: any, index: number) => {
+                            logger('elem in careinst dfdf', elem);
                             return elem && elem.item ? (
                               <tr
                                 key={index}
@@ -77,28 +71,62 @@ const DetailListCareinstitution = (props: any) => {
                                     : 'cell-pink-careinstitution'
                                 }
                               >
-                                <td>{elem.item.id ? elem.item.id : null}</td>
+                                <td>{elem.item.id ? elem.item.id : '-'}</td>
                                 <td>-</td>
+                                <td>{elem.item.name ? elem.item.name : '-'}</td>
                                 <td>
-                                  {elem.item.name ? elem.item.name : null}
-                                </td>
-                                <td>Station</td>
-                                <td>
-                                  {elem.item.qualificationId &&
-                                  qualificationList
-                                    ? qualificationList
-                                        .filter((qualification: any) =>
-                                          elem.item.qualificationId.includes(
-                                            qualification.value
-                                          )
-                                        )
-                                        .map((q: any) => (
-                                          <span>{q.label + ' '}</span>
-                                        ))
+                                  {elem.item && elem.item.divisionId
+                                    ? elem.divisions
+                                        .filter((div: any) => {
+                                          console.log('divvvv', div);
+                                          console.log(
+                                            div.id.includes(
+                                              elem.item.divisionId
+                                            )
+                                          );
+                                          return div.id.includes(
+                                            elem.item.divisionId
+                                          );
+                                        })
+                                        .map((name: any) => {
+                                          console.log('name', name);
+                                          return <span>{name.label}</span>;
+                                        })
                                     : null}
                                 </td>
-                                <td>-</td>
-                                <td>-</td>
+                                <td>
+                                  {elem.item && elem.item.qualificationId
+                                    ? elem.item.qualificationId.map(
+                                        (quali: any) => {
+                                          return (
+                                            <span>{quali.label + ' '}</span>
+                                          );
+                                        }
+                                      )
+                                    : '-'}
+                                </td>
+                                <td>
+                                  {elem.item &&
+                                  elem.item.startTime &&
+                                  elem.item.date
+                                    ? moment(elem.item.date).format(
+                                        defaultDateFormat
+                                      ) +
+                                      ' ' +
+                                      elem.item.startTime
+                                    : '-'}
+                                </td>
+                                <td>
+                                  {elem.item &&
+                                  elem.item.startTime &&
+                                  elem.item.date
+                                    ? moment(elem.item.date).format(
+                                        defaultDateFormat
+                                      ) +
+                                      ' ' +
+                                      elem.item.endTime
+                                    : '-'}
+                                </td>
                                 <td>
                                   <span className='checkbox-custom '>
                                     <input
@@ -113,16 +141,16 @@ const DetailListCareinstitution = (props: any) => {
                                   </span>
                                 </td>
                                 <td>
-                                  {elem.item.departmentOfferRemarks
-                                    ? elem.item.departmentOfferRemarks
-                                    : null}
+                                  {elem.item.offerRemarks
+                                    ? elem.item.offerRemarks
+                                    : '-'}
                                 </td>
                               </tr>
                             ) : null;
                           }
                         )
                       ) : (
-                        <p>No data found</p>
+                        <p>{languageTranslation('NO_DATA_FOUND')}</p>
                       )}
                     </tbody>
                   </Table>

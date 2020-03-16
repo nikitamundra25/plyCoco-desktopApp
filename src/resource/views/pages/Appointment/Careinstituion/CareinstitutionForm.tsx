@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 
 import '../index.scss';
 import {
@@ -36,6 +36,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     IAppointmentCareInstitutionForm &
     any
 ) => {
+  useEffect(() => {
+    if (props.savingBoth) {
+      handleSubmit();
+    }
+  }, [props.savingBoth]);
   const {
     values: {
       appointmentId,

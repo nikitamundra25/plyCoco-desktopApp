@@ -234,7 +234,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       {languageTranslation('DATE')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     {/* <div className='required-input'>
                       <Input
                         placeholder={languageTranslation(
@@ -462,6 +462,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
+
             <Col lg={'12'}>
               <FormGroup>
                 <Row>

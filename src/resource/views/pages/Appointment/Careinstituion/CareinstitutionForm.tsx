@@ -412,7 +412,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <div className='custom-select-checkbox select-right-bottom'>
                         <ReactMultiSelectCheckboxes
                           options={qualificationList}
-                          placeholder='Select Qualifications'
+                          placeholderButtonLabel={languageTranslation(
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                          )}
+                          placeholder={languageTranslation(
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                          )}
+                          // placeholder="Select Qualifications"
                           className={'custom-reactselect '}
                           classNamePrefix='custom-inner-reactselect'
                           onChange={(value: any) =>
@@ -502,6 +508,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           //   ? department
                           //   : { label: ' ', value: '' }
                         }
+                        // value={
+                        //   department && department.value
+                        //     ? department
+                        //     : { label: "Select Department", value: "" }
+                        // }
                       />
                       {errors.department && touched.department && (
                         <div className='required-tooltip'>
@@ -529,8 +540,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         name={'address'}
                         disabled={true}
                         placeholder={languageTranslation('ADDRESS')}
-                        className='width-common'
                         value={address}
+                        className='textarea-custom form-control'
+                        rows='2'
                       />
                     </div>
                   </Col>

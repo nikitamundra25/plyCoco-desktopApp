@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState } from "react";
 import {
   Table,
   Nav,
@@ -71,7 +71,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onNewAvailability,
     totalCaregiver,
     getNext,
-    fetchingCareGiverData
+    fetchingCareGiverData,
+    qualificationList
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -115,10 +116,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         const { props: cellProps } = selectedCell;
         const { item, list: caregiverData, day } = cellProps;
         const {
-          id = '',
-          firstName = '',
-          lastName = '',
-          email = '',
+          id = "",
+          firstName = "",
+          lastName = "",
+          email = "",
           caregiver = {},
           qualificationId = []
         } = caregiverData ? caregiverData : {};
@@ -163,7 +164,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     ) {
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
         if (!toast.isActive(toastId)) {
-          toastId = toast.error('Please select same length cells');
+          toastId = toast.error("Please select same length cells");
         }
       } else {
         selectedCells.map((key: any, index: number) => {
@@ -220,8 +221,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           let appointId: any = key.item.appointments.filter(
             (appointment: any) => {
               return (
-                moment(key.dateString).format('DD.MM.YYYY') ===
-                moment(appointment.date).format('DD.MM.YYYY')
+                moment(key.dateString).format("DD.MM.YYYY") ===
+                moment(appointment.date).format("DD.MM.YYYY")
               );
             }
           );
@@ -233,10 +234,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         }
       });
       // console.log('appointmentId', appointmentId);
-      onLinkAppointment(appointmentId, 'unlink');
+      onLinkAppointment(appointmentId, "unlink");
     } else {
       if (!toast.isActive(toastId)) {
-        toastId = toast.error('Please select appointment/s.');
+        toastId = toast.error("Please select appointment/s.");
       }
     }
   };
@@ -269,8 +270,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 onNewAvailability ? onNewAvailability() : undefined;
               }}
             >
-              <img src={new_appointment} className='mr-2' alt='' />
-              <span className='align-middle'>New appointment</span>
+              <img src={new_appointment} className="mr-2" alt="" />
+              <span className="align-middle">New appointment</span>
             </NavLink>
           </NavItem>
           <NavItem>
@@ -280,8 +281,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 onReserve ? onReserve() : undefined;
               }}
             >
-              <img src={reserve} className='mr-2' alt='' />
-              <span className='align-middle'>Reserve</span>
+              <img src={reserve} className="mr-2" alt="" />
+              <span className="align-middle">Reserve</span>
             </NavLink>
           </NavItem>
           <NavItem>
@@ -291,13 +292,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 onDeleteEntries ? onDeleteEntries('caregiver') : undefined;
               }}
             >
-              <img src={delete_appointment} className='mr-2' alt='' />
-              <span className='align-middle'>
+              <img src={delete_appointment} className="mr-2" alt="" />
+              <span className="align-middle">
                 Delete free and reserved calender entries
               </span>
-            </NavLink>{' '}
+            </NavLink>{" "}
           </NavItem>
-          <NavItem className='bordernav' />
+          <NavItem className="bordernav" />
           <NavItem>
             <NavLink
               onClick={() => {
@@ -305,11 +306,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 setShowList(true);
               }}
             >
-              <img src={detail_list} className='mr-2' alt='' />
-              <span className='align-middle'>Detailed List</span>
-            </NavLink>{' '}
+              <img src={detail_list} className="mr-2" alt="" />
+              <span className="align-middle">Detailed List</span>
+            </NavLink>{" "}
           </NavItem>
-          <NavItem className='bordernav' />
+          <NavItem className="bordernav" />
           <NavItem
             onClick={() => {
               setopenToggleMenu(false);
@@ -319,11 +320,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             }}
           >
             <NavLink>
-              <img src={filter} className='mr-2' alt='' />
-              <span className='align-middle'>
+              <img src={filter} className="mr-2" alt="" />
+              <span className="align-middle">
                 Filter by qualifications of caregiver
               </span>
-            </NavLink>{' '}
+            </NavLink>{" "}
           </NavItem>
           <NavItem>
             <NavLink
@@ -332,23 +333,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 handleCareGiverBulkEmail();
               }}
             >
-              <img src={offer_sent} className='mr-2' alt='' />
-              <span className='align-middle'>
+              <img src={offer_sent} className="mr-2" alt="" />
+              <span className="align-middle">
                 Offer all available calendar entries
               </span>
-            </NavLink>{' '}
+            </NavLink>{" "}
           </NavItem>
-          <NavItem className='bordernav' />
+          <NavItem className="bordernav" />
           <NavItem>
             <NavLink
               onClick={() => {
                 setopenToggleMenu(false);
-                handleLinkAppointments('link');
+                handleLinkAppointments("link");
               }}
             >
-              <img src={connect} className='mr-2' alt='' />
-              <span className='align-middle'>Connect appointments</span>
-            </NavLink>{' '}
+              <img src={connect} className="mr-2" alt="" />
+              <span className="align-middle">Connect appointments</span>
+            </NavLink>{" "}
           </NavItem>
           <NavItem>
             <NavLink
@@ -357,11 +358,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 handleUnLinkAppointments();
               }}
             >
-              <img src={disconnect} className='mr-2' alt='' />
-              <span className='align-middle'>Disconnect appointments</span>
+              <img src={disconnect} className="mr-2" alt="" />
+              <span className="align-middle">Disconnect appointments</span>
             </NavLink>
           </NavItem>
-          <NavItem className='bordernav' />
+          <NavItem className="bordernav" />
           <NavItem>
             <NavLink
               onClick={() => {
@@ -372,15 +373,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 setOnConfirmedCaregiver();
               }}
             >
-              <img src={confirm_appointment} className='mr-2' alt='' />
-              <span className='align-middle'>Confirmed appointments</span>
-            </NavLink>{' '}
+              <img src={confirm_appointment} className="mr-2" alt="" />
+              <span className="align-middle">Confirmed appointments</span>
+            </NavLink>{" "}
           </NavItem>
           <NavItem>
             <NavLink>
-              <img src={set_confirm} className='mr-2' alt='' />
+              <img src={set_confirm} className="mr-2" alt="" />
               <span
-                className='align-middle'
+                className="align-middle"
                 onClick={() => {
                   setopenToggleMenu(false);
                   setOnConfirmedCaregiver();
@@ -392,9 +393,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink>
-              <img src={unset_confirm} className='mr-2' alt='' />
+              <img src={unset_confirm} className="mr-2" alt="" />
               <span
-                className='align-middle'
+                className="align-middle"
                 onClick={() => {
                   setopenToggleMenu(false);
                   setOnNotConfirmedCaregiver();
@@ -402,41 +403,41 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               >
                 Set on not confirmed
               </span>
-            </NavLink>{' '}
+            </NavLink>{" "}
           </NavItem>
           <NavItem>
             <NavLink>
-              <img src={leasing_contact} className='mr-2' alt='' />
-              <span className='align-middle'>
+              <img src={leasing_contact} className="mr-2" alt="" />
+              <span className="align-middle">
                 Request temporary leasing contract
               </span>
-            </NavLink>{' '}
+            </NavLink>{" "}
           </NavItem>
           <NavItem>
             <NavLink>
-              <img src={termination} className='mr-2' alt='' />
-              <span className='align-middle'>Create termination agreement</span>
-            </NavLink>{' '}
+              <img src={termination} className="mr-2" alt="" />
+              <span className="align-middle">Create termination agreement</span>
+            </NavLink>{" "}
           </NavItem>
-          <NavItem className='bordernav' />
-          <NavItem>
+          <NavItem className="bordernav" />
+          {/* <NavItem>
             <NavLink>
               <img src={refresh} className='mr-2' alt='' />
               <span className='align-middle'>Refresh</span>
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
       </div>
       <div className='calender-section custom-scrollbar' id='scrollableDiv'>
         <SelectableGroup
           allowClickWithoutSelected
-          className='custom-row-selector'
-          clickClassName='tick'
+          className="custom-row-selector"
+          clickClassName="tick"
           resetOnStart={true}
-          duringSelection={(data: any) => console.log(data, 'duringSelection')}
+          duringSelection={(data: any) => console.log(data, "duringSelection")}
           onSelectionFinish={onSelectFinish}
           onSelectionClear={onSelectionClear}
-          ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
+          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
         >
           <div>
             <Table
@@ -447,28 +448,28 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             >
               <thead className='thead-bg'>
                 <tr>
-                  <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
-                    <div className='all-star-wrap'>
-                      <div className='position-relative one-line-text'>
-                        <div className='calender-heading'>Caregiver</div>
+                  <th className="thead-sticky name-col custom-appointment-col  head-name-col">
+                    <div className="all-star-wrap">
+                      <div className="position-relative one-line-text">
+                        <div className="calender-heading">Caregiver</div>
                         <Button
                           onClick={() => handleToggleMenuItem()}
-                          className='btn-more d-flex align-items-center justify-content-center'
+                          className="btn-more d-flex align-items-center justify-content-center"
                         >
-                          <i className='icon-options-vertical' />
+                          <i className="icon-options-vertical" />
                         </Button>
                       </div>
 
-                      <div className='thead-sticky h-col custom-appointment-col text-center'>
+                      <div className="thead-sticky h-col custom-appointment-col text-center">
                         H
                       </div>
-                      <div className='thead-sticky s-col custom-appointment-col text-center'>
+                      <div className="thead-sticky s-col custom-appointment-col text-center">
                         S
                       </div>
-                      <div className='thead-sticky u-col custom-appointment-col text-center'>
+                      <div className="thead-sticky u-col custom-appointment-col text-center">
                         U
                       </div>
-                      <div className='thead-sticky v-col custom-appointment-col text-center'>
+                      <div className="thead-sticky v-col custom-appointment-col text-center">
                         V
                       </div>
                     </div>
@@ -491,17 +492,17 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                           <div
                             className={`${
                               date === todaysDate
-                                ? 'today'
+                                ? "today"
                                 : isWeekend
-                                ? 'weekend'
-                                : ''
+                                ? "weekend"
+                                : ""
                             }`}
                           >
-                            <div className='custom-appointment-calendar-date'>
-                              {' '}
+                            <div className="custom-appointment-calendar-date">
+                              {" "}
                               {date}
                             </div>
-                            <div className='custom-appointment-calendar-day'>
+                            <div className="custom-appointment-calendar-day">
                               {day}
                             </div>
                           </div>
@@ -514,7 +515,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               <tbody>
                 {loading ? (
                   <tr>
-                    <td className={'table-loader'} colSpan={40}>
+                    <td className={"table-loader"} colSpan={40}>
                       <Loader />
                     </td>
                   </tr>
@@ -674,14 +675,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     })}
                   </InfiniteScroll>
                 ) : (
-                  <tr className={'text-center no-hover-row'}>
-                    <td colSpan={40} className={'pt-5 pb-5'}>
-                      <div className='no-data-section'>
-                        <div className='no-data-icon'>
-                          <i className='icon-ban' />
+                  <tr className={"text-center no-hover-row"}>
+                    <td colSpan={40} className={"pt-5 pb-5"}>
+                      <div className="no-data-section">
+                        <div className="no-data-icon">
+                          <i className="icon-ban" />
                         </div>
-                        <h4 className='mb-1'>
-                          Currently there are no Caregiver added.{' '}
+                        <h4 className="mb-1">
+                          Currently there are no Caregiver added.{" "}
                         </h4>
                       </div>
                     </td>

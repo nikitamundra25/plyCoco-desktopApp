@@ -602,12 +602,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem className='bordernav' />
-            <NavItem>
-              <NavLink>
-                <img src={refresh} className='mr-2' alt='' />
-                <span>Refresh </span>
-              </NavLink>
-            </NavItem>
           </Nav>
         </div>
       </div>
@@ -627,7 +621,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                   <div className='all-star-wrap'>
                     <div className='position-relative one-line-text'>
-                      <div className='calender-heading'> CareInstitution</div>
+                      <div className='calender-heading'>
+                        {languageTranslation('MENU_INSTITUTION')}
+                      </div>
                       <Button
                         onClick={() => handleRightMenuToggle()}
                         className='btn-more d-flex align-items-center justify-content-center'
@@ -701,6 +697,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             <th className='thead-sticky name-col custom-appointment-col'>
                               <div className='all-star-wrap'>
                                 <div
+                                  title={[list.lastName, list.firstName]
+                                    .filter(Boolean)
+                                    .join(' ')}
                                   className='text-capitalize view-more-link one-line-text'
                                   id={`careinst-${list.id}`}
                                   style={{
@@ -729,16 +728,16 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                   }
                                 >
                                   <div className='calender-heading'>
-                                    {row === 0 ? (
+                                    {/* {row === 0 ? (
                                       <UncontrolledTooltip
-                                        placement='right'
+                                        placement="right"
                                         target={`careinst-${list.id}`}
                                       >
                                         {[list.lastName, list.firstName].join(
                                           ' '
                                         )}
                                       </UncontrolledTooltip>
-                                    ) : null}
+                                    ) : null} */}
                                     {row === 0
                                       ? `${
                                           list.lastName ? list.lastName : ''

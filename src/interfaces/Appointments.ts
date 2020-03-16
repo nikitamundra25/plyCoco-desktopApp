@@ -168,6 +168,7 @@ export interface ICaregiverValidationFormValue {
 export interface ICareinstituionValidationFormValue {
   startTime: string;
   endTime: string;
+  department?: any;
 }
 // export interface ICareinstitutionFormValue {
 //   firstName: string;
@@ -216,6 +217,7 @@ export interface ICareinstitutionFormValue {
   department?: IReactSelectInterface | undefined;
   comments: string;
   status?: string;
+  careInstitutionDepartment?: IReactSelectInterface[] | undefined;
 }
 
 export interface ICareinstitutionFormSubmitValue {

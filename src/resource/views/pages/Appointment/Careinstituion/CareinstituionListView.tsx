@@ -5,13 +5,13 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledTooltip,
+  UncontrolledTooltip
 } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
   IDaysArray,
-  IReactSelectInterface,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
@@ -26,7 +26,7 @@ import {
   CareInstPlycocoAttrId,
   leasingListColor,
   selfEmployesListColor,
-  deactivatedListColor,
+  deactivatedListColor
 } from '../../../../../config';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import all_list from '../../../../assets/img/dropdown/all_list.svg';
@@ -80,7 +80,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnOfferedCareInst,
     setOnNotOfferedCareInst,
     careinstitutionDepartmentList,
-    onNewRequirement,
+    onNewRequirement
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
@@ -148,7 +148,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           lastName = '',
           caregiver = {},
           canstitution = {},
-          qualificationId = [],
+          qualificationId = []
         } = caregiverData ? caregiverData : {};
 
         let qualification1: IReactSelectInterface[] = [];
@@ -159,12 +159,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           item.qualificationId
         ) {
           qualification1 = qualificationList.filter(({ value }: any) =>
-            item.qualificationId.includes(value),
+            item.qualificationId.includes(value)
           );
         }
         let temp = {
           ...item,
-          qualificationId: qualification1 ? qualification1 : [],
+          qualificationId: qualification1 ? qualification1 : []
         };
 
         return {
@@ -175,10 +175,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           canstitution,
           item: item ? temp : item,
           qualificationIds: qualificationId,
-          dateString: day ? day.dateString : '',
+          dateString: day ? day.dateString : ''
         };
       });
-      console.log('selectedRowsselectedRows', selectedRows);
       handleSelection(selectedRows, 'careinstitution');
       // for (let index = 0; index < selected.length; index++) {
       //   const { item, list, dateString } = selected[index];
@@ -220,7 +219,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             checkError = true;
             if (!toast.isActive(toastId)) {
               toastId = toast.error(
-                'Date range between appointments & requirement mismatch.',
+                'Date range between appointments & requirement mismatch.'
               );
             }
             return false;
@@ -228,7 +227,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             checkError = true;
             if (!toast.isActive(toastId)) {
               toastId = toast.error(
-                'Create requirement or appointment first for all selected cells.',
+                'Create requirement or appointment first for all selected cells.'
               );
             }
             return false;
@@ -238,7 +237,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 avabilityId: parseInt(key.item.id),
                 requirementId: parseInt(element.item.id),
                 date: moment(element.dateString).format(dbAcceptableFormat),
-                status: 'appointment',
+                status: 'appointment'
               });
             }
           }
@@ -265,12 +264,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               moment(key.dateString).format('DD.MM.YYYY') ===
               moment(appointment.date).format('DD.MM.YYYY')
             );
-          },
+          }
         );
         return appointmentId.push({
           appointmentId: parseInt(appointId[0].id),
           unlinkedBy: likedBy,
-          deleteAll: check,
+          deleteAll: check
         });
       });
       onLinkAppointment(appointmentId, 'unlink');
@@ -285,13 +284,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   // state for care giver bulk email
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
-    false,
+    false
   );
 
   // state for care institution bulk email
   const [
     openCareInstitutionBulkEmail,
-    setopenCareInstitutionBulkEmail,
+    setopenCareInstitutionBulkEmail
   ] = useState<boolean>(false);
 
   // lable for care institution
@@ -317,7 +316,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       <div
         className={classnames({
           'right-manu-close': true,
-          'd-none': !toggleMenuButton,
+          'd-none': !toggleMenuButton
         })}
         onClick={() => handleRightMenuToggle()}
       ></div>
@@ -325,7 +324,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         className={classnames({
           'rightclick-menu': true,
           'custom-scrollbar': true,
-          'd-none': !toggleMenuButton,
+          'd-none': !toggleMenuButton
         })}
         id={'clickbox'}
       >
@@ -608,12 +607,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem className='bordernav' />
-            <NavItem>
-              <NavLink>
-                <img src={refresh} className='mr-2' alt='' />
-                <span>Refresh </span>
-              </NavLink>
-            </NavItem>
           </Nav>
         </div>
       </div>
@@ -633,7 +626,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                   <div className='all-star-wrap'>
                     <div className='position-relative one-line-text'>
-                      <div className='calender-heading'> CareInstitution</div>
+                      <div className='calender-heading'>
+                        {languageTranslation('MENU_INSTITUTION')}
+                      </div>
                       <Button
                         onClick={() => handleRightMenuToggle()}
                         className='btn-more d-flex align-items-center justify-content-center'
@@ -661,10 +656,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 {daysArr.map(
                   (
                     { date, day, isWeekend, today }: IDaysArray,
-                    index: number,
+                    index: number
                   ) => {
                     const todaysDate = moment(today).format(
-                      appointmentDateFormat,
+                      appointmentDateFormat
                     );
                     return (
                       <th
@@ -685,7 +680,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         </div>
                       </th>
                     );
-                  },
+                  }
                 )}
               </tr>
             </thead>
@@ -707,6 +702,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             <th className='thead-sticky name-col custom-appointment-col'>
                               <div className='all-star-wrap'>
                                 <div
+                                  title={[list.lastName, list.firstName]
+                                    .filter(Boolean)
+                                    .join(' ')}
                                   className='text-capitalize view-more-link one-line-text'
                                   id={`careinst-${list.id}`}
                                   style={{
@@ -715,36 +713,36 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                       : list.canstitution &&
                                         list.canstitution.attributes
                                       ? list.canstitution.attributes.includes(
-                                          CareInstTIMyoCYAttrId,
+                                          CareInstTIMyoCYAttrId
                                         )
                                         ? leasingListColor
                                         : list.canstitution.attributes.includes(
-                                            CareInstPlycocoAttrId,
+                                            CareInstPlycocoAttrId
                                           )
                                         ? selfEmployesListColor
                                         : ''
-                                      : '',
+                                      : ''
                                   }}
                                   onClick={() =>
                                     history.push(
                                       AppRoutes.CARE_INSTITUION_VIEW.replace(
                                         ':id',
-                                        list.id,
-                                      ),
+                                        list.id
+                                      )
                                     )
                                   }
                                 >
                                   <div className='calender-heading'>
-                                    {row === 0 ? (
+                                    {/* {row === 0 ? (
                                       <UncontrolledTooltip
-                                        placement='right'
+                                        placement="right"
                                         target={`careinst-${list.id}`}
                                       >
                                         {[list.lastName, list.firstName].join(
-                                          ' ',
+                                          ' '
                                         )}
                                       </UncontrolledTooltip>
-                                    ) : null}
+                                    ) : null} */}
                                     {row === 0
                                       ? `${
                                           list.lastName ? list.lastName : ''
@@ -804,10 +802,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                       ? item.filter((avabilityData: any) => {
                                           return (
                                             moment(key.isoString).format(
-                                              'DD.MM.YYYY',
+                                              'DD.MM.YYYY'
                                             ) ===
                                             moment(avabilityData.date).format(
-                                              'DD.MM.YYYY',
+                                              'DD.MM.YYYY'
                                             )
                                           );
                                         })[0]
@@ -935,7 +933,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                       </div>
                       <h4 className='mb-1'>
                         {languageTranslation(
-                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST',
+                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST'
                         )}
                       </h4>
                     </div>

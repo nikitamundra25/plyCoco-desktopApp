@@ -79,5 +79,10 @@ export const CareInstitutionValidationSchema: Yup.ObjectSchema<Yup.Shape<
         const { isValid, message }: ITimeResponse = timeValidator(val);
         return !val || isValid || createError({ path, message });
       }
-    })
+    }),
+  department: Yup.mixed().when('careInstitutionDepartment', {
+    is: careInstitutionDepartment =>
+      careInstitutionDepartment && careInstitutionDepartment.length > 0,
+    then: Yup.string().required('Department is required')
+  })
 });

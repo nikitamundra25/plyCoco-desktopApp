@@ -1,5 +1,13 @@
 import React, { FunctionComponent, useState } from "react";
-import { FormGroup, Col, Label, Row, Input, Button } from "reactstrap";
+import {
+  FormGroup,
+  Col,
+  Label,
+  Row,
+  Input,
+  Button,
+  UncontrolledTooltip
+} from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 import { FieldArray, Field } from "formik";
 import {
@@ -183,12 +191,13 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                               <Col sm="2">
                                 <Label className="form-label col-form-label">
                                   {languageTranslation("HOLIDAY_STATES")}{" "}
+                                  <span className="required">*</span>
                                 </Label>
                               </Col>
                               <Col sm="10">
                                 <Field name={`inputs.${index}.states`}>
                                   {({ meta }: any) => (
-                                    <>
+                                    <div className="required-input">
                                       <Select
                                         options={stateOptions as any}
                                         classNamePrefix="custom-inner-reactselect"
@@ -197,7 +206,12 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                                             IReactSelectInterface[]
                                           >
                                         ) => handleStateChange(value, index)}
-                                        className={"custom-reactselect"}
+                                        className={
+                                          meta.touched && meta.error
+                                            ? "custom-reactselect error"
+                                            : "custom-reactselect"
+                                        }
+                                        // className={"custom-reactselect"}
                                         placeholder={languageTranslation(
                                           "HOLIDAY_STATES_PLACEHOLDER"
                                         )}
@@ -209,7 +223,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                                           {meta.error}
                                         </div>
                                       )}
-                                    </>
+                                    </div>
                                   )}
                                 </Field>
                               </Col>
@@ -219,8 +233,15 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
                         {index > 0 && !isEditMode ? (
                           <a
                             className={"remove-icon"}
+                            id={`delete${index}`}
                             onClick={() => removeHoliday(values, index)}
                           >
+                            <UncontrolledTooltip
+                              placement="top"
+                              target={`delete${index}`}
+                            >
+                              {languageTranslation("DELETE")}
+                            </UncontrolledTooltip>
                             <i className={"fa fa-trash"} />
                           </a>
                         ) : null}

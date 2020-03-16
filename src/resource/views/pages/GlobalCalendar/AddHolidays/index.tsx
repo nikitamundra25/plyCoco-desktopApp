@@ -204,7 +204,11 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
               setHolidayData(initialHolidayData);
               handleClose ? handleClose() : undefined;
             }}
-            headerText={languageTranslation("UPDATE_CALEDAR")}
+            headerText={
+              isEditMode
+                ? languageTranslation("UPDATE_NEW_CALEDAR")
+                : languageTranslation("UPDATE_CALEDAR")
+            }
             footerButtons={footerButtons}
           >
             <AddHolidaysForm

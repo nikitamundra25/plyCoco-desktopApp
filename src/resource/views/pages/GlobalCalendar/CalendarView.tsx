@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { UncontrolledTooltip } from "reactstrap";
 import Loader from "../../containers/Loader/Loader";
 import { languageTranslation } from "../../../../helpers";
 import {
@@ -129,7 +130,14 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                                   })
                                 : undefined;
                             }}
+                            id={`edit${holiday.id}`}
                           >
+                            <UncontrolledTooltip
+                              placement="top"
+                              target={`edit${holiday.id}`}
+                            >
+                              {languageTranslation("EDIT")}
+                            </UncontrolledTooltip>
                             <i className={"fa fa-edit"} />
                           </a>
 
@@ -139,7 +147,14 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                               e.preventDefault();
                               deleteHoliday(holiday.id);
                             }}
+                            id={`delete${holiday.id}`}
                           >
+                            <UncontrolledTooltip
+                              placement="top"
+                              target={`delete${holiday.id}`}
+                            >
+                              {languageTranslation("DELETE")}
+                            </UncontrolledTooltip>
                             <i className={"fa fa-trash"} />
                           </a>
                         </div>

@@ -2227,7 +2227,13 @@ const Appointment: FunctionComponent = (props: any) => {
       ? selectedCells[0]
       : {};
 
-  let departmentData: any = [];
+  let departmentData: any =
+    selectedCellsCareinstitution &&
+    selectedCellsCareinstitution.length &&
+    selectedCellsCareinstitution[0] &&
+    selectedCellsCareinstitution[0].item
+      ? selectedCellsCareinstitution[0].item.department
+      : '';
   if (
     careInstitutionDepartment &&
     careInstitutionDepartment.length &&
@@ -2275,7 +2281,7 @@ const Appointment: FunctionComponent = (props: any) => {
     bookingRemarks: Item ? Item.bookingRemarks : '',
     shift: Item ? Item.shift : undefined,
     department:
-      departmentData && departmentData[0] ? departmentData[0] : undefined,
+      departmentData && departmentData[0] ? departmentData[0] : departmentData,
     comments: Item ? Item.comments : '',
     status: Item ? Item.status : '',
     careInstitutionDepartment
@@ -2356,7 +2362,7 @@ const Appointment: FunctionComponent = (props: any) => {
       ? true
       : false
     : false;
-    
+
   return (
     <>
       <div className='common-detail-page'>

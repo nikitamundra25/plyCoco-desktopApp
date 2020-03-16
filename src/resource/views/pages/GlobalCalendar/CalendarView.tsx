@@ -33,7 +33,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
   const [holidaysData, setHolidaysData] = useState<IHolidayData[]>([]);
   // check if get states are loaded
   useEffect(() => {
-    if (!isLoading && states) {
+    if (!isLoading && states && states.length) {
       getGlobalHolidays({
         variables: {
           applicableStates: states.map((state: IState) => state.id)
@@ -111,9 +111,9 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                   <tr>
                     <th>
                       <div className="position-relative word-wrap">
-                       <div className="calender-event-wrap">
+                        <div className="calender-event-wrap">
                           {moment(holiday.date).format(defaultDateFormat)}
-                        {holiday.note ? ` - ${holiday.note}` : null}
+                          {holiday.note ? ` - ${holiday.note}` : null}
                         </div>
                         <div className="action-btn dark-action-btn">
                           <a

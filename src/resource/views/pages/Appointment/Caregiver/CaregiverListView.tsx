@@ -112,7 +112,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCellsData: any[]) => {
-    console.log(selectedCellsData, 'onSelectFinish');
     let selectedRows: any[] = [];
     if (selectedCellsData && selectedCellsData.length) {
       selectedRows = selectedCellsData.map((selectedCell: any) => {
@@ -236,7 +235,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
           });
         }
       });
-      // console.log('appointmentId', appointmentId);
       onLinkAppointment(appointmentId, 'unlink');
     } else {
       if (!toast.isActive(toastId)) {

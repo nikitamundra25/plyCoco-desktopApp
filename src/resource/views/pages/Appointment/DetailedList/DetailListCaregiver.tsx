@@ -38,8 +38,6 @@ const DetailListCaregiver = (props: any) => {
   if (checkData) {
     temp.push(checkData);
   }
-  console.log('check dfadadada', checkData);
-
   return (
     <div>
       <Modal

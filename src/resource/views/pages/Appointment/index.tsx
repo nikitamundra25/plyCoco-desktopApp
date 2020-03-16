@@ -536,9 +536,6 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         }
       ];
-
-      console.log('careinstitutionvalue', careinstitutionvalue);
-
       setselectedCellsCareinstitution(careinstitutionvalue);
       // setvaluesForCareinstitution({
       //   appointmentId: id ? id : '',
@@ -1215,8 +1212,6 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        console.log('item in conf', item);
-
         if (item && item.id) {
           if (item.status === 'linked') {
             let availabilityId: number = item.id ? parseInt(item.id) : 0;
@@ -1248,7 +1243,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
   const setOnNotConfirmedCareInst = async () => {
-    console.log('selectedCells not confirm', selectedCellsCareinstitution);
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
@@ -1343,8 +1337,6 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-        console.log('item inside caregiver', item);
-
         if (item && item.id) {
           if (item.status === 'linked') {
             let availabilityId: number = item.id ? parseInt(item.id) : 0;
@@ -1572,11 +1564,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
-    console.log('list', list);
-
-    let temp = careinstitutionList.filter((dept: any) => dept.id === list.id);
-    console.log('temp', temp);
-
+    let temp = careinstitutionList.filter((dept: any) => dept.id === list.id);  
     //  setcareinstitutionList()
     setcareinstitutionDepartmentList(temp);
     const {

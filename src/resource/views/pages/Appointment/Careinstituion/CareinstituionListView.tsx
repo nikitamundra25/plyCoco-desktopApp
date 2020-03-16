@@ -173,7 +173,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           dateString: day ? day.dateString : ''
         };
       });
-      console.log('selectedRowsselectedRows', selectedRows);
       handleSelection(selectedRows, 'careinstitution');
       // for (let index = 0; index < selected.length; index++) {
       //   const { item, list, dateString } = selected[index];

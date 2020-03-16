@@ -33,11 +33,11 @@ export interface IAppointmentNav {
   applyFilter: (
     userRole: string | null,
     positiveId: number[],
-    negativeId: number[]
+    negativeId: number[],
   ) => void;
   handleSelectAppointment: (
     selectOption: IReactSelectInterface,
-    name: string
+    name: string,
   ) => void;
   onFilterByUserId: (userId: string, userRole: string) => void;
   handleResetFilters: () => void;
@@ -50,13 +50,13 @@ export interface IAppointmentCareGiverList {
   onAddingRow: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string,
-    index: number
+    index: number,
   ) => void | undefined;
   handleSelectedUser: (
     value: object,
     date: IDaysArray[] | null,
     name: string,
-    handleSelectedAvailability: any
+    handleSelectedAvailability: any,
   ) => void;
   handleSecondStar: (list: object, index: number, name: string) => void;
   handleReset: (name: string) => void;
@@ -69,12 +69,12 @@ export interface IAppointmentCareInstitutionList {
   onAddingRow: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string,
-    index: number
+    index: number,
   ) => void | undefined;
   handleSelectedUser: (
     value: object,
     date: IDaysArray[] | null,
-    name: string
+    name: string,
   ) => void;
   onhandleSecondStarCanstitution: (list: any) => void;
   handleFirstStarCanstitution: (id: string) => void;
@@ -112,6 +112,7 @@ export interface IDate {
 export interface IStarInterface {
   isStar: boolean;
   setIndex: number;
+  id: string;
 }
 
 export interface ICaregiverFormValue {

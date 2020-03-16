@@ -530,7 +530,7 @@ const Appointment: FunctionComponent = (props: any) => {
         lastName = '',
         canstitution = {},
         qualificationIds = [],
-        dateString = '',
+        dateString = ''
       } =
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
@@ -542,7 +542,7 @@ const Appointment: FunctionComponent = (props: any) => {
           firstName,
           lastName,
           canstitution: {
-            ...canstitution,
+            ...canstitution
           },
           qualificationIds,
           dateString: date ? date : '',
@@ -561,7 +561,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ? departmentData && departmentData.length
                 ? {
                     value: departmentData[0].id,
-                    label: departmentData[0].name,
+                    label: departmentData[0].name
                   }
                 : undefined
               : undefined,
@@ -575,9 +575,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : '',
-          },
-        },
+                : ''
+          }
+        }
       ];
 
       console.log('careinstitutionvalue', careinstitutionvalue);
@@ -666,9 +666,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : '',
-          },
-        },
+                : ''
+          }
+        }
       ];
       setactiveDateCaregiver([{ dateString: date }]);
       // setselectedCareGiver(caregiverdata);
@@ -684,7 +684,7 @@ const Appointment: FunctionComponent = (props: any) => {
       distanceInKM = '',
       f = '',
       feePerKM = '',
-      lastName = '',
+      lastName: { lastname } = '',
       n = '',
       nightAllowance = '',
       otherExpenses = '',
@@ -696,57 +696,50 @@ const Appointment: FunctionComponent = (props: any) => {
       workingProofRecieved = false
     } = caregiverLastTimeValues ? caregiverLastTimeValues : {};
 
+    const {
+      firstName = '',
+      lastName = '',
+      id: selectedCaregiverId = '',
+      dateString = '',
+      caregiver = undefined,
+      item = undefined
+    } =
+      selectedCells && selectedCells.length === 1 && selectedCells[0]
+        ? selectedCells[0]
+        : {};
+
+    // selectedCells
     if (caregiverLastTimeData) {
       const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
-      if (selctedAvailability && selctedAvailability.id) {
-        data = {
-          ...selctedAvailability,
-          fee: getCareGiverAvabilityLastTimeById.fee,
-          nightFee: getCareGiverAvabilityLastTimeById.nightFee,
-          weekendAllowance: getCareGiverAvabilityLastTimeById.weekendAllowance,
-          holidayAllowance: getCareGiverAvabilityLastTimeById.holidayAllowance,
-          distanceInKM: distanceInKM ? distanceInKM : '',
-          feePerKM,
+
+      let data: any[] = [
+        {
+          id,
+          firstName,
           lastName,
-          f: f ? 'available' : '',
-          n: n ? 'available' : '',
-          s: s ? 'available' : '',
-          nightAllowance,
-          otherExpenses,
-          remarksCareGiver,
-          remarksInternal,
-          travelAllowance,
-          workingProofRecieved
-        };
-        setselctedAvailability(data);
-      } else {
-        const { caregiver } = selectedCareGiver;
-        data = {
-          ...selectedCareGiver,
-          caregiver: {
-            ...caregiver,
+          canstitution,
+          qualificationIds,
+          dateString,
+          item: {
+            ...item,
             fee: getCareGiverAvabilityLastTimeById.fee,
             nightFee: getCareGiverAvabilityLastTimeById.nightFee,
             weekendAllowance:
               getCareGiverAvabilityLastTimeById.weekendAllowance,
             holidayAllowance:
               getCareGiverAvabilityLastTimeById.holidayAllowance,
-            distanceInKM: distanceInKM ? distanceInKM : '',
+            workingProofRecieved,
+            distanceInKM,
             feePerKM,
-            lastName,
-            f: f ? 'available' : '',
-            n: n ? 'available' : '',
-            nightAllowance,
-            otherExpenses,
-            remarksCareGiver,
-            remarksInternal,
-            s: s ? 'available' : '',
             travelAllowance,
-            workingProofRecieved
+            otherExpenses,
+            f: f ? 'available' : 'default',
+            s: s ? 'available' : 'default',
+            n: n ? 'available' : 'default'
           }
-        };
-        setselectedCareGiver(data);
-      }
+        }
+      ];
+      setSelectedCells(data);
     }
   }, [caregiverLastTimeData]);
 
@@ -1253,13 +1246,10 @@ const Appointment: FunctionComponent = (props: any) => {
       setselectedCellsCareinstitution(data);
     }
   }, [careInstituionShift]);
-
   const setOnConfirmedCareInst = async () => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        console.log('item in conf', item);
-
         if (item && item.id) {
           if (item.status === 'linked') {
             let availabilityId: number = item.id ? parseInt(item.id) : 0;
@@ -1291,7 +1281,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
   const setOnNotConfirmedCareInst = async () => {
-    console.log('selectedCells not confirm', selectedCellsCareinstitution);
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
@@ -2330,7 +2319,8 @@ const Appointment: FunctionComponent = (props: any) => {
     department:
       departmentData && departmentData[0] ? departmentData[0] : undefined,
     comments: Item ? Item.comments : '',
-    status: Item ? Item.status : ''
+    status: Item ? Item.status : '',
+    careInstitutionDepartment
   };
   // end
   const {
@@ -2637,6 +2627,7 @@ const Appointment: FunctionComponent = (props: any) => {
                           <i className='fa fa-save mr-2' />
                           {languageTranslation('SAVE_BOTH')}
                         </Button>
+
                         <Button
                           className='btn-common mt-0 mb-2 mx-2'
                           color='secondary'
@@ -2657,7 +2648,20 @@ const Appointment: FunctionComponent = (props: any) => {
                           ) : (
                             <i className='fa fa-link mr-2' />
                           )}
-                          {languageTranslation('LINK')}
+                          {selectedCells &&
+                          selectedCells.length &&
+                          selectedCells[0].item &&
+                          selectedCells[0].item.appointments &&
+                          selectedCells[0].item.appointments.length &&
+                          selectedCellsCareinstitution &&
+                          selectedCellsCareinstitution.length &&
+                          selectedCellsCareinstitution[0].item &&
+                          selectedCellsCareinstitution[0].item.appointments &&
+                          selectedCells[0].item.appointments.length &&
+                          selectedCells[0].item.appointments[0].id ===
+                            selectedCells[0].item.appointments[0].id
+                            ? 'Unlink'
+                            : languageTranslation('LINK')}
                         </Button>
                       </div>
                     </Col>

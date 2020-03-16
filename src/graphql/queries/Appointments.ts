@@ -95,6 +95,11 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
             date
             requirementId
             avabilityId
+            ca {
+              userId
+              id
+              name
+            }
           }
         }
         contacts {

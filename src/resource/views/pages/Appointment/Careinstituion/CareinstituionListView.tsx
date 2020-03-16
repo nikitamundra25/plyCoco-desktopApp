@@ -1,23 +1,23 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from "react";
 import {
   Table,
   Button,
   Nav,
   NavItem,
   NavLink,
-  UncontrolledTooltip,
-} from 'reactstrap';
-import '../index.scss';
+  UncontrolledTooltip
+} from "reactstrap";
+import "../index.scss";
 import {
   IAppointmentCareInstitutionList,
   IDaysArray,
-  IReactSelectInterface,
-} from '../../../../../interfaces';
-import Loader from '../../../containers/Loader/Loader';
-import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
-import CellCareinstitution from './Cell';
-import moment from 'moment';
-import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
+  IReactSelectInterface
+} from "../../../../../interfaces";
+import Loader from "../../../containers/Loader/Loader";
+import { SelectableGroup, SelectAll, DeselectAll } from "react-selectable-fast";
+import CellCareinstitution from "./Cell";
+import moment from "moment";
+import DetaillistCareinstitutionPopup from "../DetailedList/DetailListCareinstitution";
 import {
   dbAcceptableFormat,
   appointmentDateFormat,
@@ -26,27 +26,27 @@ import {
   CareInstPlycocoAttrId,
   leasingListColor,
   selfEmployesListColor,
-  deactivatedListColor,
-} from '../../../../../config';
-import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
-import all_list from '../../../../assets/img/dropdown/all_list.svg';
-import delete_appointment from '../../../../assets/img/dropdown/delete.svg';
-import detail_list from '../../../../assets/img/dropdown/detail_list.svg';
-import offer_sent from '../../../../assets/img/dropdown/offer_sent.svg';
-import connect from '../../../../assets/img/dropdown/connect.svg';
-import disconnect from '../../../../assets/img/dropdown/disconnect.svg';
-import confirm_appointment from '../../../../assets/img/dropdown/confirm_appointment.svg';
-import set_confirm from '../../../../assets/img/dropdown/confirm.svg';
-import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
-import invoice from '../../../../assets/img/dropdown/invoice.svg';
-import refresh from '../../../../assets/img/refresh.svg';
-import classnames from 'classnames';
-import { languageTranslation } from '../../../../../helpers';
-import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
-import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
-import { toast } from 'react-toastify';
-import { useHistory } from 'react-router';
-import UnlinkAppointment from '../unlinkModal';
+  deactivatedListColor
+} from "../../../../../config";
+import new_appointment from "../../../../assets/img/dropdown/new_appointment.svg";
+import all_list from "../../../../assets/img/dropdown/all_list.svg";
+import delete_appointment from "../../../../assets/img/dropdown/delete.svg";
+import detail_list from "../../../../assets/img/dropdown/detail_list.svg";
+import offer_sent from "../../../../assets/img/dropdown/offer_sent.svg";
+import connect from "../../../../assets/img/dropdown/connect.svg";
+import disconnect from "../../../../assets/img/dropdown/disconnect.svg";
+import confirm_appointment from "../../../../assets/img/dropdown/confirm_appointment.svg";
+import set_confirm from "../../../../assets/img/dropdown/confirm.svg";
+import unset_confirm from "../../../../assets/img/dropdown/not_confirm.svg";
+import invoice from "../../../../assets/img/dropdown/invoice.svg";
+import refresh from "../../../../assets/img/refresh.svg";
+import classnames from "classnames";
+import { languageTranslation } from "../../../../../helpers";
+import BulkEmailCareGiverModal from "../BulkEmailCareGiver";
+import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router";
+import UnlinkAppointment from "../unlinkModal";
 
 let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
@@ -80,7 +80,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnOfferedCareInst,
     setOnNotOfferedCareInst,
     careinstitutionDepartmentList,
-    onNewRequirement,
+    onNewRequirement
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
@@ -143,12 +143,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         const { props: cellProps } = selectedCell;
         const { item, list: caregiverData, day } = cellProps;
         const {
-          id = '',
-          firstName = '',
-          lastName = '',
+          id = "",
+          firstName = "",
+          lastName = "",
           caregiver = {},
           canstitution = {},
-          qualificationId = [],
+          qualificationId = []
         } = caregiverData ? caregiverData : {};
 
         let qualification1: IReactSelectInterface[] = [];
@@ -159,12 +159,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           item.qualificationId
         ) {
           qualification1 = qualificationList.filter(({ value }: any) =>
-            item.qualificationId.includes(value),
+            item.qualificationId.includes(value)
           );
         }
         let temp = {
           ...item,
-          qualificationId: qualification1 ? qualification1 : [],
+          qualificationId: qualification1 ? qualification1 : []
         };
 
         return {
@@ -175,11 +175,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           canstitution,
           item: item ? temp : item,
           qualificationIds: qualificationId,
-          dateString: day ? day.dateString : '',
+          dateString: day ? day.dateString : ""
         };
       });
-      console.log('selectedRowsselectedRows', selectedRows);
-      handleSelection(selectedRows, 'careinstitution');
+      console.log("selectedRowsselectedRows", selectedRows);
+      handleSelection(selectedRows, "careinstitution");
       // for (let index = 0; index < selected.length; index++) {
       //   const { item, list, dateString } = selected[index];
       //   selctedAvailability = item;
@@ -208,7 +208,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     ) {
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
         if (!toast.isActive(toastId)) {
-          toastId = toast.error('Please select same length cells');
+          toastId = toast.error("Please select same length cells");
         }
       } else {
         selectedCells.map((key: any, index: number) => {
@@ -220,7 +220,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             checkError = true;
             if (!toast.isActive(toastId)) {
               toastId = toast.error(
-                'Date range between appointments & requirement mismatch.',
+                "Date range between appointments & requirement mismatch."
               );
             }
             return false;
@@ -228,7 +228,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             checkError = true;
             if (!toast.isActive(toastId)) {
               toastId = toast.error(
-                'Create requirement or appointment first for all selected cells.',
+                "Create requirement or appointment first for all selected cells."
               );
             }
             return false;
@@ -238,7 +238,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 avabilityId: parseInt(key.item.id),
                 requirementId: parseInt(element.item.id),
                 date: moment(element.dateString).format(dbAcceptableFormat),
-                status: 'appointment',
+                status: "appointment"
               });
             }
           }
@@ -262,21 +262,21 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         let appointId: any = key.item.appointments.filter(
           (appointment: any) => {
             return (
-              moment(key.dateString).format('DD.MM.YYYY') ===
-              moment(appointment.date).format('DD.MM.YYYY')
+              moment(key.dateString).format("DD.MM.YYYY") ===
+              moment(appointment.date).format("DD.MM.YYYY")
             );
-          },
+          }
         );
         return appointmentId.push({
           appointmentId: parseInt(appointId[0].id),
           unlinkedBy: likedBy,
-          deleteAll: check,
+          deleteAll: check
         });
       });
-      onLinkAppointment(appointmentId, 'unlink');
+      onLinkAppointment(appointmentId, "unlink");
     } else {
       if (!toast.isActive(toastId)) {
-        toastId = toast.error('Please select appointment/s.');
+        toastId = toast.error("Please select appointment/s.");
       }
     }
   };
@@ -285,17 +285,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   // state for care giver bulk email
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
-    false,
+    false
   );
 
   // state for care institution bulk email
   const [
     openCareInstitutionBulkEmail,
-    setopenCareInstitutionBulkEmail,
+    setopenCareInstitutionBulkEmail
   ] = useState<boolean>(false);
 
   // lable for care institution
-  const [sortBy, setSortBy] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>("");
 
   // show button for care institution
   const [showButton, setShowButton] = useState<boolean>(false);
@@ -311,23 +311,23 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const handleCareInstitutionBulkEmail = () => {
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
-  const [StatusTo, setStatusTo] = useState('');
+  const [StatusTo, setStatusTo] = useState("");
   return (
     <>
       <div
         className={classnames({
-          'right-manu-close': true,
-          'd-none': !toggleMenuButton,
+          "right-manu-close": true,
+          "d-none": !toggleMenuButton
         })}
         onClick={() => handleRightMenuToggle()}
       ></div>
       <div
         className={classnames({
-          'rightclick-menu': true,
-          'custom-scrollbar': true,
-          'd-none': !toggleMenuButton,
+          "rightclick-menu": true,
+          "custom-scrollbar": true,
+          "d-none": !toggleMenuButton
         })}
-        id={'clickbox'}
+        id={"clickbox"}
       >
         <div
           onMouseOver={() => {
@@ -342,7 +342,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   onNewRequirement();
                 }}
               >
-                <img src={new_appointment} className='mr-2' alt='' />
+                <img src={new_appointment} className="mr-2" alt="" />
                 <span>New appointment</span>
               </NavLink>
             </NavItem>
@@ -354,17 +354,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 }}
                 // onClick={() => onDeleteEntries()}
               >
-                <img src={delete_appointment} className='mr-2' alt='' />
+                <img src={delete_appointment} className="mr-2" alt="" />
                 <span>Delete free appointments</span>
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink>
-                <img src={all_list} className='mr-2' alt='' />
+                <img src={all_list} className="mr-2" alt="" />
                 <span>Select all appointments of the caregiver</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 onClick={() => {
@@ -372,11 +372,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   setShowList(true);
                 }}
               >
-                <img src={detail_list} className='mr-2' alt='' />
+                <img src={detail_list} className="mr-2" alt="" />
                 <span>Detailed List</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 disabled={
@@ -385,18 +385,18 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     : true
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail('division', true);
+                  handleCareGiverBulkEmail("division", true);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
                   setopenToggleMenu(false);
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>
                   Select available caregivers, offer them appointments and set
                   them on offered (sorted by division)
                 </span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
@@ -406,18 +406,18 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     : true
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail('day', true);
+                  handleCareGiverBulkEmail("day", true);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
                   setopenToggleMenu(false);
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>
                   Select available caregivers, offer them appointments and set
                   them on offered (sorted by day)
                 </span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
@@ -427,18 +427,18 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     : true
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail('division', false);
+                  handleCareGiverBulkEmail("division", false);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
                   setopenToggleMenu(false);
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>
                   Select available caregivers, offer them appointments and set
                   them on offered (no direct booking; sorted by division)
                 </span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
@@ -448,13 +448,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     : true
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail('day', false);
+                  handleCareGiverBulkEmail("day", false);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
                   setopenToggleMenu(false);
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>
                   Select available caregivers, offer them appointments and set
                   them on offered (no direct booking; sorted by day)
@@ -463,7 +463,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink>
-                <img src={set_confirm} className='mr-2' alt='' />
+                <img src={set_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
                     setopenToggleMenu(false);
@@ -472,11 +472,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 >
                   Set on offered
                 </span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink>
-                <img src={unset_confirm} className='mr-2' alt='' />
+                <img src={unset_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
                     setopenToggleMenu(false);
@@ -487,30 +487,30 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 </span>
               </NavLink>
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 onClick={() => {
                   handleRightMenuToggle();
-                  handleLinkAppointments('link');
+                  handleLinkAppointments("link");
                 }}
               >
-                <img src={connect} className='mr-2' alt='' />
+                <img src={connect} className="mr-2" alt="" />
                 <span>Connect appointments</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
                 onClick={() => {
                   handleRightMenuToggle();
-                  handleUnLinkAppointments('unlink');
+                  handleUnLinkAppointments("unlink");
                 }}
               >
-                <img src={disconnect} className='mr-2' alt='' />
+                <img src={disconnect} className="mr-2" alt="" />
                 <span>Disconnect appointments</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 // add disabled condition to check select requirement is linked or not
@@ -527,37 +527,37 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 // }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
-                  setStatusTo('offered');
+                  setStatusTo("offered");
                   setopenToggleMenu(false);
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>Offer appointments (ordered by day)</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
-                  setStatusTo('offered');
+                  setStatusTo("offered");
                   setopenToggleMenu(false);
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>Offer appointments (ordered by department)</span>
               </NavLink>
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
-                  setStatusTo('confirmed');
+                  setStatusTo("confirmed");
                   setopenToggleMenu(false);
                   setOnConfirmedCareInst();
                 }}
               >
-                <img src={confirm_appointment} className='mr-2' alt='' />
+                <img src={confirm_appointment} className="mr-2" alt="" />
                 <span>Confirm appointments (ordered by day) </span>
               </NavLink>
             </NavItem>
@@ -565,18 +565,18 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               <NavLink
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
-                  setStatusTo('confirmed');
+                  setStatusTo("confirmed");
                   setopenToggleMenu(false);
                   setOnConfirmedCareInst();
                 }}
               >
-                <img src={confirm_appointment} className='mr-2' alt='' />
+                <img src={confirm_appointment} className="mr-2" alt="" />
                 <span>Confirm appointments (ordered by department)</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink>
-                <img src={set_confirm} className='mr-2' alt='' />
+                <img src={set_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
                     setopenToggleMenu(false);
@@ -589,7 +589,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink>
-                <img src={unset_confirm} className='mr-2' alt='' />
+                <img src={unset_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
                     setopenToggleMenu(false);
@@ -600,58 +600,54 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 </span>
               </NavLink>
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink>
-                <img src={invoice} className='mr-2' alt='' />
+                <img src={invoice} className="mr-2" alt="" />
                 <span>Create prepayment invoice</span>
               </NavLink>
             </NavItem>
-            <NavItem className='bordernav' />
-            <NavItem>
-              <NavLink>
-                <img src={refresh} className='mr-2' alt='' />
-                <span>Refresh </span>
-              </NavLink>
-            </NavItem>
+            <NavItem className="bordernav" />
           </Nav>
         </div>
       </div>
-      <div className='calender-section custom-scrollbar  mt-3'>
+      <div className="calender-section custom-scrollbar  mt-3">
         <SelectableGroup
           allowClickWithoutSelected
-          className='custom-row-selector'
-          clickClassName='tick'
+          className="custom-row-selector"
+          clickClassName="tick"
           resetOnStart={true}
           onSelectionFinish={onSelectFinish}
           onSelectionClear={onSelectionClear}
-          ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
+          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
         >
-          <Table hover bordered className='mb-0 appointment-table'>
-            <thead className='thead-bg'>
+          <Table hover bordered className="mb-0 appointment-table">
+            <thead className="thead-bg">
               <tr>
-                <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
-                  <div className='all-star-wrap'>
-                    <div className='position-relative one-line-text'>
-                      <div className='calender-heading'> CareInstitution</div>
+                <th className="thead-sticky name-col custom-appointment-col  head-name-col">
+                  <div className="all-star-wrap">
+                    <div className="position-relative one-line-text">
+                      <div className="calender-heading">
+                        {languageTranslation("MENU_INSTITUTION")}
+                      </div>
                       <Button
                         onClick={() => handleRightMenuToggle()}
-                        className='btn-more d-flex align-items-center justify-content-center'
+                        className="btn-more d-flex align-items-center justify-content-center"
                       >
-                        <i className='icon-options-vertical' />
+                        <i className="icon-options-vertical" />
                       </Button>
                     </div>
 
-                    <div className='thead-sticky h-col custom-appointment-col text-center'>
+                    <div className="thead-sticky h-col custom-appointment-col text-center">
                       H
                     </div>
-                    <div className='thead-sticky s-col custom-appointment-col text-center'>
+                    <div className="thead-sticky s-col custom-appointment-col text-center">
                       S
                     </div>
-                    <div className='thead-sticky u-col custom-appointment-col text-center'>
+                    <div className="thead-sticky u-col custom-appointment-col text-center">
                       A
                     </div>
-                    <div className='thead-sticky v-col custom-appointment-col text-center'>
+                    <div className="thead-sticky v-col custom-appointment-col text-center">
                       V
                     </div>
                   </div>
@@ -661,38 +657,38 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 {daysArr.map(
                   (
                     { date, day, isWeekend, today }: IDaysArray,
-                    index: number,
+                    index: number
                   ) => {
                     const todaysDate = moment(today).format(
-                      appointmentDateFormat,
+                      appointmentDateFormat
                     );
                     return (
                       <th
                         key={index}
                         className={`thead-sticky calender-col custom-appointment-col text-center ${
                           date === todaysDate
-                            ? 'today'
+                            ? "today"
                             : isWeekend
-                            ? 'weekend'
-                            : ''
+                            ? "weekend"
+                            : ""
                         }`}
                       >
-                        <div className='custom-appointment-calendar-date'>
+                        <div className="custom-appointment-calendar-date">
                           {date}
                         </div>
-                        <div className='custom-appointment-calendar-day'>
+                        <div className="custom-appointment-calendar-day">
                           {day}
                         </div>
                       </th>
                     );
-                  },
+                  }
                 )}
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td className={'table-loader'} colSpan={40}>
+                  <td className={"table-loader"} colSpan={40}>
                     <Loader />
                   </td>
                 </tr>
@@ -704,10 +700,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     return list.availabilityData && list.availabilityData.length
                       ? list.availabilityData.map((item: any, row: number) => (
                           <tr key={`${list.id}-${index}-${row}`}>
-                            <th className='thead-sticky name-col custom-appointment-col'>
-                              <div className='all-star-wrap'>
+                            <th className="thead-sticky name-col custom-appointment-col">
+                              <div className="all-star-wrap">
                                 <div
-                                  className='text-capitalize view-more-link one-line-text'
+                                  title={[list.lastName, list.firstName]
+                                    .filter(Boolean)
+                                    .join(" ")}
+                                  className="text-capitalize view-more-link one-line-text"
                                   id={`careinst-${list.id}`}
                                   style={{
                                     backgroundColor: !list.isActive
@@ -715,78 +714,78 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                       : list.canstitution &&
                                         list.canstitution.attributes
                                       ? list.canstitution.attributes.includes(
-                                          CareInstTIMyoCYAttrId,
+                                          CareInstTIMyoCYAttrId
                                         )
                                         ? leasingListColor
                                         : list.canstitution.attributes.includes(
-                                            CareInstPlycocoAttrId,
+                                            CareInstPlycocoAttrId
                                           )
                                         ? selfEmployesListColor
-                                        : ''
-                                      : '',
+                                        : ""
+                                      : ""
                                   }}
                                   onClick={() =>
                                     history.push(
                                       AppRoutes.CARE_INSTITUION_VIEW.replace(
-                                        ':id',
-                                        list.id,
-                                      ),
+                                        ":id",
+                                        list.id
+                                      )
                                     )
                                   }
                                 >
-                                  <div className='calender-heading'>
-                                    {row === 0 ? (
+                                  <div className="calender-heading">
+                                    {/* {row === 0 ? (
                                       <UncontrolledTooltip
-                                        placement='right'
+                                        placement="right"
                                         target={`careinst-${list.id}`}
                                       >
                                         {[list.lastName, list.firstName].join(
-                                          ' ',
+                                          " "
                                         )}
                                       </UncontrolledTooltip>
-                                    ) : null}
+                                    ) : null} */}
                                     {row === 0
                                       ? `${
-                                          list.lastName ? list.lastName : ''
+                                          list.lastName ? list.lastName : ""
                                         } ${
-                                          list.firstName ? list.firstName : ''
+                                          list.firstName ? list.firstName : ""
                                         }`
-                                      : ''}
+                                      : ""}
                                   </div>
                                 </div>
-                                <div className='h-col custom-appointment-col text-center'></div>
+                                <div className="h-col custom-appointment-col text-center"></div>
                                 <div
-                                  className='s-col custom-appointment-col text-center cursor-pointer'
+                                  className="s-col custom-appointment-col text-center cursor-pointer"
                                   onClick={() =>
                                     handleFirstStarCanstitution(list, index)
                                   }
                                 >
                                   {starCanstitution.setIndex === index ||
                                   starCanstitution.isStar ? (
-                                    <i className='fa fa-star theme-text' />
+                                    <i className="fa fa-star theme-text" />
                                   ) : (
-                                    <i className='fa fa-star-o' />
+                                    <i className="fa fa-star-o" />
                                   )}
                                 </div>
                                 <div
-                                  className='u-col custom-appointment-col text-center cursor-pointer'
+                                  className="u-col custom-appointment-col text-center cursor-pointer"
                                   // onClick={() =>
                                   //   onhandleSecondStar(list, index, 'careinstitution')
                                   // }
                                 >
                                   {secondStarCanstitution ? (
-                                    <i className='fa fa-star theme-text' />
+                                    <i className="fa fa-star theme-text" />
                                   ) : (
-                                    <i className='fa fa-star-o' />
+                                    <i className="fa fa-star-o" />
                                   )}
                                 </div>
                                 <div
-                                  className='v-col custom-appointment-col text-center cursor-pointer'
+                                  className="v-col custom-appointment-col text-center cursor-pointer"
                                   onClick={e =>
-                                    onAddingRow(e, 'careinstitution', index)
+                                    onAddingRow(e, "careinstitution", index)
                                   }
                                 >
-                                  <i className='fa fa-arrow-down' />
+                                  <i className="fa fa-arrow-down" />
                                 </div>
                               </div>
                             </th>
@@ -804,14 +803,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                       ? item.filter((avabilityData: any) => {
                                           return (
                                             moment(key.isoString).format(
-                                              'DD.MM.YYYY',
+                                              "DD.MM.YYYY"
                                             ) ===
                                             moment(avabilityData.date).format(
-                                              'DD.MM.YYYY',
+                                              "DD.MM.YYYY"
                                             )
                                           );
                                         })[0]
-                                      : ''
+                                      : ""
                                   }
                                   handleSelectedAvailability
                                 />
@@ -822,14 +821,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                       : null;
                   })
                 ) : (
-                  <tr className={'text-center no-hover-row'}>
-                    <td colSpan={40} className={'pt-5 pb-5'}>
-                      <div className='no-data-section'>
-                        <div className='no-data-icon'>
-                          <i className='icon-ban' />
+                  <tr className={"text-center no-hover-row"}>
+                    <td colSpan={40} className={"pt-5 pb-5"}>
+                      <div className="no-data-section">
+                        <div className="no-data-icon">
+                          <i className="icon-ban" />
                         </div>
-                        <h4 className='mb-1'>
-                          Currently there are no CareInstitution added.{' '}
+                        <h4 className="mb-1">
+                          Currently there are no CareInstitution added.{" "}
                         </h4>
                       </div>
                     </td>
@@ -837,7 +836,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 )
               ) : deptLoading ? (
                 <tr>
-                  <td className={'table-loader'} colSpan={40}>
+                  <td className={"table-loader"} colSpan={40}>
                     <Loader />
                   </td>
                 </tr>
@@ -846,51 +845,51 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   if (!dept.locked) {
                     return (
                       <tr key={`${dept.id}-${index}`}>
-                        <th className='name-col custom-appointment-col thead-sticky'>
-                          <div className='all-star-wrap'>
+                        <th className="name-col custom-appointment-col thead-sticky">
+                          <div className="all-star-wrap">
                             <div
-                              className='text-capitalize view-more-link one-line-text'
+                              className="text-capitalize view-more-link one-line-text"
                               // onClick={() =>
                               //   handleSelectedUser(list, null, 'caregiver')
                               // }
                             >
-                              <div className='calender-heading'>
+                              <div className="calender-heading">
                                 {!dept.newRow
                                   ? dept.name
                                     ? dept.name
-                                    : ''
-                                  : ''}
+                                    : ""
+                                  : ""}
                               </div>
                             </div>
-                            <div className='h-col custom-appointment-col text-center'></div>
+                            <div className="h-col custom-appointment-col text-center"></div>
                             <div
-                              className='s-col custom-appointment-col text-center cursor-pointer'
+                              className="s-col custom-appointment-col text-center cursor-pointer"
                               onClick={() => handleFirstStarCanstitution(null)}
                             >
                               {starCanstitution.setIndex === index ||
                               starCanstitution.isStar ? (
-                                <i className='fa fa-star theme-text' />
+                                <i className="fa fa-star theme-text" />
                               ) : (
-                                <i className='fa fa-star-o' />
+                                <i className="fa fa-star-o" />
                               )}
                             </div>
                             <div
-                              className='u-col custom-appointment-col text-center cursor-pointer'
+                              className="u-col custom-appointment-col text-center cursor-pointer"
                               onClick={() =>
                                 onhandleSecondStarCanstitution(dept)
                               }
                             >
                               {secondStarCanstitution ? (
-                                <i className='fa fa-star theme-text' />
+                                <i className="fa fa-star theme-text" />
                               ) : (
-                                <i className='fa fa-star-o' />
+                                <i className="fa fa-star-o" />
                               )}
                             </div>
                             <div
-                              className='v-col custom-appointment-col text-center cursor-pointer'
-                              onClick={e => onAddingRow(e, 'caregiver', index)}
+                              className="v-col custom-appointment-col text-center cursor-pointer"
+                              onClick={e => onAddingRow(e, "caregiver", index)}
                             >
-                              <i className='fa fa-arrow-down' />
+                              <i className="fa fa-arrow-down" />
                             </div>
                           </div>
                         </th>
@@ -901,7 +900,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                               key={`${key}-${i}`}
                               day={key}
                               item={
-                                ''
+                                ""
                                 // item
                                 //   ? item.filter(
                                 //       (avabilityData: any) => {
@@ -927,15 +926,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   }
                 })
               ) : (
-                <tr className={'text-center no-hover-row'}>
-                  <td colSpan={40} className={'pt-5 pb-5'}>
-                    <div className='no-data-section'>
-                      <div className='no-data-icon'>
-                        <i className='icon-ban' />
+                <tr className={"text-center no-hover-row"}>
+                  <td colSpan={40} className={"pt-5 pb-5"}>
+                    <div className="no-data-section">
+                      <div className="no-data-icon">
+                        <i className="icon-ban" />
                       </div>
-                      <h4 className='mb-1'>
+                      <h4 className="mb-1">
                         {languageTranslation(
-                          'NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST',
+                          "NO_DEPARTMENT_CAREINSTITUTION_APPOINTMENT_LIST"
                         )}
                       </h4>
                     </div>
@@ -958,7 +957,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}
-        handleClose={() => handleCareGiverBulkEmail('', false)}
+        handleClose={() => handleCareGiverBulkEmail("", false)}
         gte={props.gte}
         lte={props.lte}
         sortBy={sortBy}

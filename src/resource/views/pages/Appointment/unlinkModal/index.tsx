@@ -88,7 +88,7 @@ const UnlinkAppointment: FunctionComponent<any> = (props: IUnlinkInterface) => {
           {/* </div> */}
         </ModalBody>
         <ModalFooter>
-        <div className='d-flex align-items-center justify-content-between'>
+        <div className='d-flex align-items-center justify-content-between w-100'>
               <Button
                 className={'btn-save'}
                 color='primary'

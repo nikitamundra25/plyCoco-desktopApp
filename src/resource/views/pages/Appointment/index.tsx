@@ -248,47 +248,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   });
 
-  // useEffect(() => {
-  //   const {
-  //     id = '',
-  //     firstName = '',
-  //     lastName = '',
-  //     canstitution = {},
-  //     qualificationIds = [],
-  //     dateString = '',
-  //     item = ''
-  //   } =
-  //     selectedCellsCareinstitution && selectedCellsCareinstitution.length
-  //       ? selectedCellsCareinstitution[0]
-  //       : {};
-  //   console.log('addCareinstitutionRes', addCareinstitutionRes);
-
-  //   let response: any =
-  //     addCareinstitutionRes &&
-  //     addCareinstitutionRes.addCareInstitutionRequirement
-  //       ? addCareinstitutionRes.addCareInstitutionRequirement
-  //       : '';
-  //   console.log('response', response);
-
-  //   let temp: any[] = [
-  //     {
-  //       id,
-  //       firstName,
-  //       lastName,
-  //       canstitution: {
-  //         ...canstitution
-  //       },
-  //       qualificationIds,
-  //       dateString,
-  //       item: {
-  //         ...item,
-  //         id: response && response.appointmentId ? response.appointmentId : '',
-  //         status: response && response.status ? response.status : ''
-  //       }
-  //     }
-  //   ];
-  // }, [addCareinstitutionRes]);
-
   // update Careinstitution Requirment
   const [
     updateCareinstitutionRequirment,
@@ -530,7 +489,7 @@ const Appointment: FunctionComponent = (props: any) => {
         lastName = '',
         canstitution = {},
         qualificationIds = [],
-        dateString = '',
+        dateString = ''
       } =
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
@@ -542,7 +501,7 @@ const Appointment: FunctionComponent = (props: any) => {
           firstName,
           lastName,
           canstitution: {
-            ...canstitution,
+            ...canstitution
           },
           qualificationIds,
           dateString: date ? date : '',
@@ -561,7 +520,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ? departmentData && departmentData.length
                 ? {
                     value: departmentData[0].id,
-                    label: departmentData[0].name,
+                    label: departmentData[0].name
                   }
                 : undefined
               : undefined,
@@ -575,12 +534,10 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : '',
-          },
-        },
+                : ''
+          }
+        }
       ];
-
-      console.log('careinstitutionvalue', careinstitutionvalue);
 
       setselectedCellsCareinstitution(careinstitutionvalue);
       // setvaluesForCareinstitution({
@@ -666,9 +623,9 @@ const Appointment: FunctionComponent = (props: any) => {
             status:
               requirementData && requirementData.status
                 ? requirementData.status
-                : '',
-          },
-        },
+                : ''
+          }
+        }
       ];
       setactiveDateCaregiver([{ dateString: date }]);
       // setselectedCareGiver(caregiverdata);
@@ -1791,6 +1748,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   )
                 );
               }
+              setsavingBoth(false);
             } else {
               await addCaregiver({
                 variables: {
@@ -1934,7 +1892,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 careInstitutionRequirementInput
               }
             });
-
+            setsavingBoth(false);
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
                 languageTranslation(
@@ -2398,6 +2356,17 @@ const Appointment: FunctionComponent = (props: any) => {
     n: n === 'available' ? true : false,
     status: status ? status : ''
   };
+
+  const [savingBoth, setsavingBoth] = useState(false);
+  const handleSaveBoth = () => {
+    setsavingBoth(true);
+  };
+  const isCareinstituionData: boolean = selectedCellsCareinstitution
+    ? !selectedCellsCareinstitution[0].id
+      ? true
+      : false
+    : false;
+    
   return (
     <>
       <div className='common-detail-page'>
@@ -2528,6 +2497,7 @@ const Appointment: FunctionComponent = (props: any) => {
                             <CaregiverFormView
                               {...props}
                               selectedCareGiver={{ id: selectedCaregiverId }}
+                              setsavingBoth={() => setsavingBoth(false)}
                               activeDateCaregiver={
                                 !multipleAvailability
                                   ? [dateString]
@@ -2551,6 +2521,7 @@ const Appointment: FunctionComponent = (props: any) => {
                               // selctedAvailability}
                               onhandleDelete={onhandleDelete}
                               handleSelectUserList={handleSelectUserList}
+                              savingBoth={savingBoth}
                               careGiversListArr={
                                 careGiversList &&
                                 careGiversList.getUserByQualifications
@@ -2576,6 +2547,8 @@ const Appointment: FunctionComponent = (props: any) => {
                           return (
                             <CareinstitutionFormView
                               {...props}
+                              savingBoth={savingBoth}
+                              setsavingBoth={() => setsavingBoth(false)}
                               activeDateCareinstitution={
                                 !multipleRequirement
                                   ? [careInstitutiondateString]
@@ -2633,6 +2606,12 @@ const Appointment: FunctionComponent = (props: any) => {
                         <Button
                           className='btn-common  mt-0 mb-2 mx-2'
                           color='primary'
+                          disabled={
+                            selectedCells !== undefined && !isCareinstituionData
+                              ? false
+                              : true
+                          }
+                          onClick={() => handleSaveBoth()}
                         >
                           <i className='fa fa-save mr-2' />
                           {languageTranslation('SAVE_BOTH')}
@@ -2641,12 +2620,7 @@ const Appointment: FunctionComponent = (props: any) => {
                           className='btn-common mt-0 mb-2 mx-2'
                           color='secondary'
                           disabled={
-                            selectedCells &&
-                            selectedCells.length === 1 &&
-                            // selectedCells[0].item.status === "" &&
-                            selectedCellsCareinstitution &&
-                            // selectedCells[0].item.status  === ""&&
-                            selectedCellsCareinstitution.length === 1
+                            selectedCells !== undefined && !isCareinstituionData
                               ? false
                               : true
                           }

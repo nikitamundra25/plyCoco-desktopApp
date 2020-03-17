@@ -46,7 +46,7 @@ import { toast } from 'react-toastify';
 import UnlinkAppointment from '../unlinkModal';
 import '../index.scss';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { languageTranslation } from "../../../../../helpers";
+import { languageTranslation } from '../../../../../helpers';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -417,7 +417,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               <span className='align-middle'>Create termination agreement</span>
             </NavLink>{' '}
           </NavItem>
-           {/*<NavItem className='bordernav' />
+          {/*<NavItem className='bordernav' />
           <NavItem>
             <NavLink>
               <img src={refresh} className='mr-2' alt='' />
@@ -426,13 +426,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem> */}
         </Nav>
       </div>
-      <div className="position-relative">
+      <div className='position-relative'>
         <InfiniteScroll
-          loader={
-            <div className='appointment-list-loader'>
-              <Loader />
-            </div>
-          }
+          loader={<div className='appointment-list-loader'>{''}</div>}
           hasMore={careGiversList && careGiversList.length !== totalCaregiver}
           dataLength={
             careGiversList && careGiversList.length ? careGiversList.length : 0
@@ -445,19 +441,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           // hasChildren
         >
           <div className='calender-section custom-scrollbar' id='scrollableDiv'>
-          <SelectableGroup
-            allowClickWithoutSelected
-            className='custom-row-selector'
-            clickClassName='tick'
-            resetOnStart={true}
-            duringSelection={(data: any) =>
-              console.log(data, 'duringSelection')
-            }
-            onSelectionFinish={onSelectFinish}
-            onSelectionClear={onSelectionClear}
-            ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
-          >
-            
+            <SelectableGroup
+              allowClickWithoutSelected
+              className='custom-row-selector'
+              clickClassName='tick'
+              resetOnStart={true}
+              duringSelection={(data: any) =>
+                console.log(data, 'duringSelection')
+              }
+              onSelectionFinish={onSelectFinish}
+              onSelectionClear={onSelectionClear}
+              ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
+            >
               <Table
                 hover
                 bordered
@@ -468,15 +463,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   <tr>
                     <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                       <div className='all-star-wrap'>
-                      <div className="position-relative username-col align-self-center">
-                        <div className="calender-heading">Caregiver</div>
-                        <Button
-                          onClick={() => handleToggleMenuItem()}
-                          className="btn-more d-flex align-items-center justify-content-center"
-                        >
-                          <i className="icon-options-vertical" />
-                        </Button>
-                      </div>
+                        <div className='position-relative username-col align-self-center'>
+                          <div className='calender-heading'>Caregiver</div>
+                          <Button
+                            onClick={() => handleToggleMenuItem()}
+                            className='btn-more d-flex align-items-center justify-content-center'
+                          >
+                            <i className='icon-options-vertical' />
+                          </Button>
+                        </div>
 
                         <div className='thead-sticky h-col custom-appointment-col text-center'>
                           H
@@ -492,7 +487,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         </div>
                       </div>
                     </th>
-                    {console.log('daysArrdaysArrdaysArr', daysArr)}
                     {/* array for showing day */}
                     {daysArr.map(
                       (
@@ -518,7 +512,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                             >
                               <div className='custom-appointment-calendar-date'>
                                 {' '}
-                                {console.log('datedatedatedate', date)}
                                 {date}
                               </div>
                               <div className='custom-appointment-calendar-day'>
@@ -645,8 +638,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                 </th>
 
                                 {daysArr.map((key: any, i: number) => {
-                                  console.log('++++++++key', key);
-
                                   return (
                                     <Cell
                                       key={`${key}-${i}`}
@@ -689,11 +680,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   )}
                 </tbody>
               </Table>
-           
-          </SelectableGroup>
+            </SelectableGroup>
           </div>
         </InfiniteScroll>
-        </div>
+      </div>
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}

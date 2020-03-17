@@ -918,5 +918,8 @@
   "NO_DATA_FOUND": "No data found",
   "FACTORING_CONTRACT": "Factoring Contracts",
   "CAREINSTTITUTION_LINKED": "Care Institution must be linked with a caregiver",
-  "CAREGIVER_LINKED": "Caregiver must be linked with a care institution"
+  "CAREGIVER_LINKED": "Caregiver must be linked with a care institution",
+  "REGENERATE_PASSWORD": "Generate new password.",
+  "CONFIRM_REGENERATE_PASSWORD_MESSAGE": "Old password will be removed and a new password will be set for this :userRole and a confirmation email with new password will sent out on the <b>:email</b>. Would you like to continue?",
+  "NEW_PASSWORD_SENT_SUCCESS": "New password is generated and sent to :email."
 }

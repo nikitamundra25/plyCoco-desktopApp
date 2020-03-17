@@ -416,7 +416,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               <span className='align-middle'>Create termination agreement</span>
             </NavLink>{' '}
           </NavItem>
-          {/* <NavItem className='bordernav' />
+          {/*<NavItem className='bordernav' />
           <NavItem>
             <NavLink>
               <img src={refresh} className='mr-2' alt='' />
@@ -427,11 +427,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       </div>
       <div className='position-relative'>
         <InfiniteScroll
-          loader={
-            <div className='appointment-list-loader'>
-              <Loader />
-            </div>
-          }
+          loader={<div className='appointment-list-loader'>{''}</div>}
           hasMore={careGiversList && careGiversList.length !== totalCaregiver}
           dataLength={
             careGiversList && careGiversList.length ? careGiversList.length : 0
@@ -490,7 +486,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         </div>
                       </div>
                     </th>
-                    {console.log('daysArrdaysArrdaysArr', daysArr)}
                     {/* array for showing day */}
                     {daysArr.map(
                       (
@@ -516,7 +511,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                             >
                               <div className='custom-appointment-calendar-date'>
                                 {' '}
-                                {console.log('datedatedatedate', date)}
                                 {date}
                               </div>
                               <div className='custom-appointment-calendar-day'>

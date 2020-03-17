@@ -81,6 +81,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     showSelectedCaregiver
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
+
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   //use state for toggel menu item
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
@@ -112,7 +113,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           deptId = '',
           divisions = []
         } = careInstData ? careInstData : {};
-        console.log('qualificationId', qualificationId);
         let qualification1: IReactSelectInterface[] = [];
         if (
           qualificationList &&
@@ -149,7 +149,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           divisions
         };
       });
-
       handleSelection(selectedRows, 'careinstitution');
     }
   };
@@ -235,9 +234,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         });
       });
       onLinkAppointment(appointmentId, 'unlink');
+      if (likedBy !== 'employee') {
+        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+      }
     } else {
       if (!toast.isActive(toastId)) {
-        toastId = toast.error('Please select appointment/s.');
+        toastId = toast.error(
+          languageTranslation('SELECT_APPOINTMENT_IN_UNLINK')
+        );
       }
     }
   };
@@ -275,8 +280,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [StatusTo, setStatusTo] = useState('');
 
   const renderTableRows = (listData: any) => {
-    console.log(listData, 'listData renderTableRows');
-
     if (starCanstitution.isStar && listData && !listData.length) {
       listData = careInstitutionList.filter(
         (item: any) => item.id === starCanstitution.id
@@ -1050,6 +1053,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}
         handleClose={() => handleCareGiverBulkEmail('', false)}
+        selectedCells={selectedCells}
         gte={props.gte}
         lte={props.lte}
         sortBy={sortBy}

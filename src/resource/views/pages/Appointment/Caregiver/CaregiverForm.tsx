@@ -358,6 +358,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'fee'}
                             onChange={handleChange}
                             onBlur={handleBlur}
+                            value={fee}
                             className={
                               errors.fee && touched.fee
                                 ? 'fee-width error'
@@ -408,6 +409,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           <Input
                             type='text'
                             name={'nightFee'}
+                            value={nightFee}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className={

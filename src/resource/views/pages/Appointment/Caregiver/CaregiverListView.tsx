@@ -46,6 +46,7 @@ import { toast } from 'react-toastify';
 import UnlinkAppointment from '../unlinkModal';
 import '../index.scss';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { languageTranslation } from "../../../../../helpers";
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -416,8 +417,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               <span className='align-middle'>Create termination agreement</span>
             </NavLink>{' '}
           </NavItem>
-          <NavItem className='bordernav' />
-          {/* <NavItem>
+           {/*<NavItem className='bordernav' />
+          <NavItem>
             <NavLink>
               <img src={refresh} className='mr-2' alt='' />
               <span className='align-middle'>Refresh</span>
@@ -467,15 +468,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   <tr>
                     <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                       <div className='all-star-wrap'>
-                        <div className='position-relative one-line-text'>
-                          <div className='calender-heading'>Caregiver</div>
-                          <Button
-                            onClick={() => handleToggleMenuItem()}
-                            className='btn-more d-flex align-items-center justify-content-center'
-                          >
-                            <i className='icon-options-vertical' />
-                          </Button>
-                        </div>
+                      <div className="position-relative username-col align-self-center">
+                        <div className="calender-heading">Caregiver</div>
+                        <Button
+                          onClick={() => handleToggleMenuItem()}
+                          className="btn-more d-flex align-items-center justify-content-center"
+                        >
+                          <i className="icon-options-vertical" />
+                        </Button>
+                      </div>
 
                         <div className='thead-sticky h-col custom-appointment-col text-center'>
                           H
@@ -547,7 +548,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                 <th className='name-col custom-appointment-col thead-sticky'>
                                   <div className='all-star-wrap'>
                                     <div
-                                      className='text-capitalize view-more-link one-line-text'
+                                      className='text-capitalize view-more-link one-line-text  username-col '
                                       onClick={() =>
                                         history.push(
                                           AppRoutes.CARE_GIVER_VIEW.replace(

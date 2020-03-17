@@ -83,6 +83,7 @@ const DELETE_CAREINSTITUTION_REQUIREMENT = gql`
 const LINK_REQUIREMENT = gql`
   mutation AddAppointment($appointmentInput: [AppointmentInput]) {
     addAppointment(appointmentInput: $appointmentInput) {
+      id
       avabilityId
       requirementId
       status
@@ -93,6 +94,7 @@ const LINK_REQUIREMENT = gql`
 const UN_LINK_REQUIREMENT = gql`
   mutation DeleteAppointment($appointmentInput: [AppointmentInput]) {
     deleteAppointment(appointmentInput: $appointmentInput) {
+      id
       status
     }
   }

@@ -74,61 +74,22 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnConfirmedCareInst,
     setOnNotConfirmedCareInst,
     setOnOfferedCareInst,
+    handleSelectedAppoitment,
     setOnNotOfferedCareInst,
     onNewRequirement,
+    showSelectedCaregiver,
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
-
-  // const handleFirstStar = (list: object, index: number, name: string) => {
-  //   if (starMarkIndex !== index) {
-  //     setstarMarkIndex(index);
-  //     handleSelectedUser(list, null, name);
-  //   } else {
-  //     setstarMarkIndex(-1);
-  //   }
-  // };
-
-  // const onhandleSecondStar = (list: object, index: number, name: string) => {
-  //   if (!starMark) {
-  //     if (starMarkIndex === index) {
-  //       setstarMark(!starMark);
-  //       handleSecondStar(list, index, name);
-  //     }
-  //   } else {
-  //     setstarMark(!starMark);
-  //     handleReset(name);
-  //   }
-  // };
-
   //use state for toggel menu item
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
 
   const handleRightMenuToggle = () => {
-    // alert("zdfsadfsa");
     settoggleMenuButton(!toggleMenuButton);
   };
   const { daysArr = [] } = daysData ? daysData : {};
 
   const [onEnterMenu, setonEnterMenu] = useState(false);
-
-  // window.addEventListener('click', function(e) {
-  //   const rightMenuOption: any = document.getElementById('clickbox');
-  //   console.log('onEnterMenu', onEnterMenu);
-
-  //   if (onEnterMenu && toggleMenuButton) {
-  //     if (rightMenuOption.contains(e.target)) {
-  //       // Clicked in box
-  //       console.log('inside');
-  //     } else{
-  //       setonEnterMenu(false);
-  //       handleRightMenuToggle();
-  //       console.log('outside');
-  //     }
-  //   }
-  // });
-
-  // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCells: any[]) => {
@@ -148,8 +109,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           canstitution = {},
           qualificationId = [],
           deptId = '',
+          divisions = [],
         } = careInstData ? careInstData : {};
-        console.log(canstitution, careInstData, 'canstitution');
 
         let qualification1: IReactSelectInterface[] = [];
         if (
@@ -181,6 +142,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           item: item ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : '',
+          divisions,
         };
       });
       console.log(selectedRows, 'selectedRows');
@@ -327,7 +289,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <th className='thead-sticky name-col custom-appointment-col'>
                   <div className='all-star-wrap'>
                     <div
-                      className='text-capitalize view-more-link one-line-text'
+                      className='text-capitalize view-more-link one-line-text username-col'
                       id={`careinst-${list.id}`}
                       style={{
                         backgroundColor: !list.isActive
@@ -405,6 +367,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                       day={key}
                       list={list}
                       daysArr={key.isWeekend}
+                      showSelectedCaregiver={showSelectedCaregiver}
                       item={
                         item
                           ? item.filter((avabilityData: any) => {
@@ -475,7 +438,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink onClick={() => handleSelectedAppoitment()}>
                 <img src={all_list} className='mr-2' alt='' />
                 <span>Select all appointments of the caregiver</span>
               </NavLink>{' '}
@@ -504,7 +467,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail('division', true);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -525,7 +488,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail('day', true);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -546,7 +509,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail('division', false);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -567,7 +530,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail('day', false);
                   handleCareInstitutionBulkEmail();
                   setOnOfferedCareInst();
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -582,7 +545,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <img src={set_confirm} className='mr-2' alt='' />
                 <span
                   onClick={() => {
-                    setopenToggleMenu(false);
+                    handleRightMenuToggle();
                     setOnOfferedCareInst();
                   }}
                 >
@@ -595,7 +558,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <img src={unset_confirm} className='mr-2' alt='' />
                 <span
                   onClick={() => {
-                    setopenToggleMenu(false);
+                    handleRightMenuToggle();
                     setOnNotOfferedCareInst();
                   }}
                 >
@@ -644,7 +607,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -657,7 +620,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                   setOnConfirmedCareInst();
                 }}
               >
@@ -670,7 +633,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
-                  setopenToggleMenu(false);
+                  handleRightMenuToggle();
                   setOnConfirmedCareInst();
                 }}
               >
@@ -696,7 +659,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <img src={unset_confirm} className='mr-2' alt='' />
                 <span
                   onClick={() => {
-                    setopenToggleMenu(false);
+                    handleRightMenuToggle();
+
                     setOnNotConfirmedCareInst();
                   }}
                 >
@@ -711,7 +675,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <span>Create prepayment invoice</span>
               </NavLink>
             </NavItem>
-            <NavItem className='bordernav' />
           </Nav>
         </div>
       </div>
@@ -730,7 +693,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               <tr>
                 <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                   <div className='all-star-wrap'>
-                    <div className='position-relative one-line-text'>
+                    <div className='position-relative  username-col align-self-center'>
                       <div className='calender-heading'>
                         {languageTranslation('MENU_INSTITUTION')}
                       </div>

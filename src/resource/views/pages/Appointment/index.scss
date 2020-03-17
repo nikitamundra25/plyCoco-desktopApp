@@ -145,6 +145,10 @@
   background: $white;
   border: 1px solid $table_border;
   height: calc(50vh - 73px);
+  @media only screen and (max-width: 991px) {
+    height: auto;
+    max-height: 400px;
+  }
   user-select: none;
   .table-loader {
     position: static;
@@ -163,27 +167,16 @@
     td {
       padding: 4px;
       vertical-align: middle;
-      font-size: 12px;
+      font-size: $font_12;
       .all-star-wrap {
         display: flex;
-        height: 24px;
-        .one-line-text {
+        height: 27px;
+        .username-col {
           flex: 1 1 150px;
           max-width: 150px;
+          min-width: 150px;
           border-right: 1px solid #dedede;
           padding: 4px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          .calender-heading {
-            width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-          @media only screen and (max-width: 500px) {
-            flex: 1 1 100px;
-            max-width: 100px;
-          }
         }
         .h-col,
         .s-col,
@@ -191,6 +184,7 @@
         .u-col {
           flex: 1 1 30px;
           max-width: 30px;
+          min-width: 30px;
           border-right: 1px solid #dedede;
           padding: 4px;
           display: flex;
@@ -214,10 +208,6 @@
           min-width: 270px;
           padding: 0px;
           border-right: 0px;
-          @media only screen and (max-width: 500px) {
-            width: 220px;
-            min-width: 220px;
-          }
         }
         &.v-col {
           border-left: 0px;
@@ -230,7 +220,7 @@
         &.calender-col {
           width: 40px;
           min-width: 40px;
-          max-width: 30px;
+          max-width: 40px;
           .custom-appointment-calendar-date {
             text-transform: capitalize;
           }
@@ -253,11 +243,11 @@
         background: $white;
         border-left: 0px;
       }
-      &.head-name-col {
-        .all-star-wrap {
-          height: 41px;
-        }
-      }
+      // &.head-name-col {
+      //   // .all-star-wrap {
+      //   //   height: 41px;
+      //   // }
+      // }
     }
     th + td,
     th + th {
@@ -274,20 +264,25 @@
     }
   }
   .view-more-link {
-    font-size: 12px;
-    font-family: "Lato", sans-serif;
+    font-size: $font_12;
   }
 }
 
 // custom-color for matching
+.selecting-cell-bg {
+  background: $selected_color !important;
+}
 .availability-bg {
   background: $availability_color !important;
 }
 .cell-green-caregiver {
-  background-color: #d7ffe4;
+  background-color: $availability_color !important;
 }
 .cell-pink-careinstitution {
-  background-color: #ee21ff;
+  background-color: $requirement_color !important;
+}
+.block-bg {
+  background-color: $red !important;
 }
 .requirement-bg {
   background: $requirement_color !important;
@@ -301,11 +296,9 @@
 .confirmation-bg {
   background: $confirmation_color !important;
 }
-
 .invoice-bg {
   background: $invoice_color !important;
 }
-
 .custom-height {
   height: calc(100vh - 165px);
   overflow-x: hidden;
@@ -402,7 +395,16 @@
   .modal-content {
     .modal-body {
       padding: 12px 10px 0px;
-
+      .table-detail-list-caregiver {
+        .table-responsive {
+          max-height: calc(100vh - 170px);
+        }
+      }
+      .table-detail-list-careinstitution {
+        .table-responsive {
+          max-height: calc(100vh - 135px);
+        }
+      }
       .common-list-wrap {
         .common-list-body {
           height: calc(100vh - 235px);
@@ -444,7 +446,7 @@ body {
         background-color: $red;
       }
       .selecting-cell {
-        background-color: $selecting_color;
+        background-color: $selected_color;
       }
       .selected-cell {
         background-color: $selected_color;
@@ -491,4 +493,40 @@ body {
 .unlink-label {
   font-size: $font_13;
   font-family: $font_Frutiger_Bold;
+}
+
+.detail-table {
+  th,
+  td {
+    &.datetime-col {
+      width: 110px;
+      min-width: 110px;
+      max-width: 110px;
+    }
+    &.comment-col {
+      width: 150px;
+      min-width: 100px;
+      max-width: 150px;
+    }
+    &.qualification-col {
+      width: 200px;
+      min-width: 100px;
+      max-width: 200px;
+    }
+    &.department-col {
+      width: 150px;
+      min-width: 150px;
+      max-width: 200px;
+    }
+    &.caregiver-col {
+      width: 150px;
+      min-width: 100px;
+      max-width: 150px;
+    }
+    &.careinstitution-col {
+      width: 150px;
+      min-width: 100px;
+      max-width: 150px;
+    }
+  }
 }

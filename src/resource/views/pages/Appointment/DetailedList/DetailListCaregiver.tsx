@@ -8,7 +8,7 @@ import refresh from '../../../../assets/img/refresh.svg';
 import moment from 'moment';
 
 const DetailListCaregiver = (props: any) => {
-  const { show, handleClose, selectedCells, fetchingCareGiverData } = props;
+  const { show, handleClose, selectedCells, qualificationList } = props;
   const [workingHourTab, setWorkingHourTab] = useState<boolean>(false);
   const externalCloseBtn = (
     <button
@@ -38,6 +38,11 @@ const DetailListCaregiver = (props: any) => {
   if (checkData) {
     temp.push(checkData);
   }
+  let name: any;
+  let quali: any;
+  let dept: any;
+  let startTime: any;
+  let endTime: any;
   return (
     <div>
       <Modal
@@ -101,6 +106,31 @@ const DetailListCaregiver = (props: any) => {
                       <tbody>
                         {selectedCells ? (
                           selectedCells.map((elem: any, index: number) => {
+                            elem.item && elem.item.appointments
+                              ? elem.item.appointments.map((a: any) => {
+                                  name =
+                                    a && a.cr && a.cr.name ? a.cr.name : null;
+                                  startTime =
+                                    a && a.cr && a.cr.startTime
+                                      ? a.cr.startTime
+                                      : null;
+                                  endTime =
+                                    a && a.cr && a.cr.endTime
+                                      ? a.cr.endTime
+                                      : null;
+                                  quali =
+                                    a && a.cr && a.cr.qualificationId
+                                      ? a.cr.qualificationId
+                                      : null;
+                                  dept =
+                                    a &&
+                                    a.cr &&
+                                    a.cr.division &&
+                                    a.cr.division.name
+                                      ? a.cr.division.name
+                                      : null;
+                                })
+                              : null;
                             return elem &&
                               elem.item &&
                               (elem.item.f === 'available' ||
@@ -122,23 +152,27 @@ const DetailListCaregiver = (props: any) => {
                                     ? [elem.lastName, elem.firstName].join(' ')
                                     : '-'}
                                 </td>
-                                <td> -</td>
-
                                 <td>
-                                  {/* {elem.caregiver &&
-                                  elem.caregiver.attributes &&
-                                  qualificationList
+                                  {elem.item.status === 'default' ? '-' : name}
+                                </td>
+                                <td>
+                                  {elem.item.status === 'default'
+                                    ? '-'
+                                    : quali && qualificationList
                                     ? qualificationList
                                         .filter((qualification: any) => {
-                                          elem.caregiver.attributes.includes(
+                                          return quali.includes(
                                             qualification.value
                                           );
                                         })
                                         .map((q: any) => {
-                                          <span>{q.label + ' '}</span>;
+                                          return (
+                                            <span>
+                                              {q.label ? q.label + ' ' : '-'}
+                                            </span>
+                                          );
                                         })
-                                    : null} */}
-                                  -
+                                    : null}
                                 </td>
                                 <td>
                                   {elem.item.date
@@ -148,12 +182,24 @@ const DetailListCaregiver = (props: any) => {
                                     : '-'}
                                 </td>
                                 <td>
-                                  {elem.item.f === 'available' ? 'f' : null}
-                                  {elem.item.s === 'available' ? 's' : null}
-                                  {elem.item.n === 'available' ? 'n' : null}
+                                  {elem.item.status === 'default' ? (
+                                    <>
+                                      {elem.item.f === 'available' ? 'f' : null}
+                                      {elem.item.s === 'available' ? 's' : null}
+                                      {elem.item.n === 'available' ? 'n' : null}
+                                    </>
+                                  ) : (
+                                    <span>{startTime}</span>
+                                  )}
                                 </td>
-                                <td>-</td>
-                                <td>-</td>
+                                <td>
+                                  {elem.item.status === 'default'
+                                    ? '-'
+                                    : endTime}
+                                </td>
+                                <td>
+                                  {elem.item.status === 'default' ? '-' : dept}
+                                </td>
                                 <td>
                                   <span className='checkbox-custom '>
                                     <input
@@ -236,6 +282,20 @@ const DetailListCaregiver = (props: any) => {
                       </thead>
                       {selectedCells ? (
                         selectedCells.map((elem: any, index: number) => {
+                          elem.item && elem.item.appointments
+                            ? elem.item.appointments.map((a: any) => {
+                                name =
+                                  a && a.cr && a.cr.name ? a.cr.name : null;
+                                startTime =
+                                  a && a.cr && a.cr.startTime
+                                    ? a.cr.startTime
+                                    : null;
+                                endTime =
+                                  a && a.cr && a.cr.endTime
+                                    ? a.cr.endTime
+                                    : null;
+                              })
+                            : null;
                           return elem &&
                             elem.item &&
                             (elem.item.f === 'available' ||
@@ -257,7 +317,9 @@ const DetailListCaregiver = (props: any) => {
                                   ? [elem.lastName, elem.firstName].join(' ')
                                   : '-'}
                               </td>
-                              <td> -</td>
+                              <td>
+                                {elem.item.status === 'default' ? '-' : name}
+                              </td>
                               <td>
                                 {elem.item.date
                                   ? moment(elem.item.date).format(
@@ -279,8 +341,14 @@ const DetailListCaregiver = (props: any) => {
                                   ? elem.item.holidayAllowance
                                   : '-'}
                               </td>
-                              <td>-</td>
-                              <td>-</td>
+                              <td>
+                                {elem.item.status === 'default'
+                                  ? '-'
+                                  : startTime}
+                              </td>
+                              <td>
+                                {elem.item.status === 'default' ? '-' : endTime}
+                              </td>
                               <td>-</td>
                               <td>-</td>
                               <td>

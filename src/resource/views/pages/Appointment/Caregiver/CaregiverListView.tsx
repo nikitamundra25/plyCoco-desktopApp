@@ -73,7 +73,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     setOnNotConfirmedCaregiver,
     qualificationList,
     onNewAvailability,
-    fetchingCareGiverData
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -662,7 +661,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         selectedCells={selectedCells}
-        fetchingCareGiverData={fetchingCareGiverData}
+        qualificationList={qualificationList}
       />
       <UnlinkAppointment
         show={showUnlinkModal}

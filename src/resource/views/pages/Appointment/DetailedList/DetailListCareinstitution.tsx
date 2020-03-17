@@ -72,27 +72,35 @@ const DetailListCareinstitution = (props: any) => {
                                 }
                               >
                                 <td>{elem.item.id ? elem.item.id : '-'}</td>
-                                <td>-</td>
+                                {console.log(
+                                  'name   ',
+                                  elem.item && elem.item.appointments
+                                    ? elem.item.appointments[0] &&
+                                      elem.item.appointments[0].ca &&
+                                      elem.item.appointments[0].ca.name
+                                      ? elem.item.appointments[0].ca.name
+                                      : null
+                                    : null
+                                )}
+                                <td>
+                                  {elem.item.status === 'offered' ||
+                                  elem.item.status === 'default'
+                                    ? '-'
+                                    : elem.item && elem.item.appointments
+                                    ? elem.item.appointments[0] &&
+                                      elem.item.appointments[0].ca &&
+                                      elem.item.appointments[0].ca.name
+                                      ? elem.item.appointments[0].ca.name
+                                      : null
+                                    : null}
+                                </td>
                                 <td>{elem.item.name ? elem.item.name : '-'}</td>
                                 <td>
-                                  {elem.item && elem.item.divisionId
-                                    ? elem.divisions
-                                        .filter((div: any) => {
-                                          console.log('divvvv', div);
-                                          console.log(
-                                            div.id.includes(
-                                              elem.item.divisionId
-                                            )
-                                          );
-                                          return div.id.includes(
-                                            elem.item.divisionId
-                                          );
-                                        })
-                                        .map((name: any) => {
-                                          console.log('name', name);
-                                          return <span>{name.label}</span>;
-                                        })
-                                    : null}
+                                  {elem.item &&
+                                  elem.item.division &&
+                                  elem.item.division.name
+                                    ? elem.item.division.name
+                                    : '-'}
                                 </td>
                                 <td>
                                   {elem.item && elem.item.qualificationId

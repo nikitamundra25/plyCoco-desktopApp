@@ -12,12 +12,12 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
 } from 'reactstrap';
 import {
   IAppointmentCareGiverForm,
   ICaregiverFormValue,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 import { NightAllowancePerHour, State } from '../../../../../config';
@@ -26,7 +26,7 @@ import '../index.scss';
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm &
   any> = (
-  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
+  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any,
 ) => {
   const { addCaregiverLoading } = props;
 
@@ -67,7 +67,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       f,
       s,
       n,
-      status
+      status,
     },
     touched,
     errors,
@@ -86,7 +86,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     onhandleDelete,
     careGiversListArr,
     handleSelectUserList,
-    handleLastTimeData
+    handleLastTimeData,
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -149,7 +149,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             'form-card custom-height custom-scrollbar': true,
             'availability-bg': isAvailability,
             'matching-bg': isMatching,
-            'confirmation-bg': isConfirm
+            'confirmation-bg': isConfirm,
           })}
         >
           <h5 className='content-title'>
@@ -213,7 +213,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                       selectedCareGiver
                                         ? selectedCareGiver.id
                                         : '',
-                                      'caregiver'
+                                      'caregiver',
                                     )
                                   : ''
                               }
@@ -235,34 +235,22 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     </Label>
                   </Col>
                   <Col sm='8'>
-                    {/* <div className='required-input'>
-                      <Input
-                        placeholder={languageTranslation(
-                          'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
-                        )}
-                        disabled={true}
-                        className={'form-control mb-2'}
-                        value={
-                          activeDateCaregiver
-                            ? `${moment(activeDateCaregiver.isoString).format(
-                                defaultDateFormat
-                              )}, ${activeDateCaregiver.day}`
-                            : null
-                        }
-                      /> */}
-
                     <div className='text-value'>
                       {activeDateCaregiver
                         ? activeDateCaregiver
-                            .map((dateString: string | undefined) =>
-                              dateString
-                                ? moment(dateString).format('dd DD.MM.YYYY')
-                                : null
+                            .map(
+                              (dateString: string | undefined, index: number) =>
+                                dateString
+                                  ? moment(dateString).format(
+                                      index !== activeDateCaregiver.length - 1
+                                        ? 'dd DD.'
+                                        : 'dd DD.MM.YYYY',
+                                    )
+                                  : null,
                             )
                             .join(', ')
                         : null}
                     </div>
-                    {/* </div> */}
                   </Col>
                 </Row>
               </FormGroup>
@@ -287,10 +275,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'f'}
                             checked={f ? true : false}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
+                              e: React.ChangeEvent<HTMLInputElement>,
                             ) => {
                               const {
-                                target: { checked }
+                                target: { checked },
                               } = e;
                               setFieldValue('f', checked);
                             }}
@@ -309,10 +297,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'s'}
                             checked={s}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
+                              e: React.ChangeEvent<HTMLInputElement>,
                             ) => {
                               const {
-                                target: { checked }
+                                target: { checked },
                               } = e;
                               setFieldValue('s', checked);
                             }}
@@ -331,10 +319,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'n'}
                             checked={n}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
+                              e: React.ChangeEvent<HTMLInputElement>,
                             ) => {
                               const {
-                                target: { checked }
+                                target: { checked },
                               } = e;
                               setFieldValue('n', checked);
                             }}
@@ -370,7 +358,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'fee'}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={fee}
                             className={
                               errors.fee && touched.fee
                                 ? 'fee-width error'
@@ -394,7 +381,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         onClick={() =>
                           handleLastTimeData(
                             selectedCareGiver ? selectedCareGiver.id : '',
-                            props.values
+                            props.values,
                           )
                         }
                       >
@@ -423,7 +410,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'nightFee'}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={nightFee}
                             className={
                               errors.nightFee && touched.nightFee
                                 ? 'fee-width error'
@@ -636,85 +622,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
               </div>
             </Col>
 
-            {/* <Col lg={"12"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("FEE_PER_KM")}
-                    </Label>
-                  </Col>
-                  <Col sm="7">
-                    <div className="required-input">
-                      <InputGroup>
-                        <Input
-                          type="text"
-                          name={"distanceInKM"}
-                          value={distanceInKM}
-                          placeholder={languageTranslation("FEE_PER_KM")}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          className={
-                            errors.distanceInKM && touched.distanceInKM
-                              ? "width-common error"
-                              : "width-common"
-                          }
-                        />
-                        <InputGroupAddon addonType="append">
-                          <InputGroupText>km</InputGroupText>
-                        </InputGroupAddon>
-                        {errors.distanceInKM && touched.distanceInKM && (
-                          <div className="required-tooltip bottom-tooltip">
-                            {errors.distanceInKM}
-                          </div>
-                        )}
-                      </InputGroup>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col> 
-            <Col lg={"12"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("a")}
-                    </Label>
-                  </Col>
-                  <Col sm="7">
-                    <div className="required-input">
-                      <InputGroup>
-                        <Input
-                          type="text"
-                          name={"feePerKM"}
-                          value={feePerKM}
-                          placeholder={languageTranslation("a")}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          className={
-                            errors.feePerKM && touched.feePerKM
-                              ? "width-common error"
-                              : "width-common"
-                          }
-                        />
-                        <InputGroupAddon addonType="append">
-                          <InputGroupText>
-                            <i className="fa fa-euro" aria-hidden="true"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        {errors.feePerKM && touched.feePerKM && (
-                          <div className="required-tooltip bottom-tooltip">
-                            {errors.feePerKM}
-                          </div>
-                        )}
-                      </InputGroup>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>*/}
-
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
@@ -858,10 +765,45 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'workingProofRecieved'}
                             checked={workingProofRecieved}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
+                              e: React.ChangeEvent<HTMLInputElement>,
                             ) => {
                               const {
-                                target: { checked }
+                                target: { checked },
+                              } = e;
+                              setFieldValue('workingProofRecieved', checked);
+                            }}
+                          />
+                          <Label for='workingProofRecieved'></Label>
+                        </div>
+                      </FormGroup>
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
+            <Col lg={'12'}>
+              <FormGroup>
+                <Row>
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('WORKING_PROOF_NECESSARY')}
+                    </Label>
+                  </Col>
+                  <Col sm='8'>
+                    <div className='required-input'>
+                      <FormGroup check inline>
+                        <div className=' checkbox-custom mb-0'>
+                          <input
+                            type='checkbox'
+                            id='workingProofRecieved'
+                            className=''
+                            name={'workingProofRecieved'}
+                            checked={workingProofRecieved}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>,
+                            ) => {
+                              const {
+                                target: { checked },
                               } = e;
                               setFieldValue('workingProofRecieved', checked);
                             }}

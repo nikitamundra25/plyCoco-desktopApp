@@ -18,7 +18,10 @@ export const languageTranslation = (
   for (const k in replacement) {
     if (replacement.hasOwnProperty(k)) {
       const value = replacement[k];
-      languageMessages = languageMessages.replace(`:${k}`, `${value}`);
+      languageMessages = languageMessages.replace(
+        new RegExp(`:${k}`, "g"),
+        `${value}`
+      );
     }
   }
   return languageMessages;

@@ -50,13 +50,15 @@ const CellCareinstitution = ({
         'calender-col': true,
         'text-center': true,
         weekend: daysArr,
-        'cell-green-caregiver': isOffered && !isSelected ? isOffered : false,
+        'availability-bg': isOffered && !isSelected ? isOffered : false,
         'custom-appointment-col': true,
         'cursor-pointer': true,
-        'selected-cell':
+        'selecting-cell-bg':
           isSelected ||
-          (showAppointedCareGiver && caregiverId === showSelectedCaregiver.id),
-        'selecting-cell': isSelecting,
+          (showAppointedCareGiver &&
+            caregiverId === showSelectedCaregiver.id) ||
+          isSelecting,
+        // 'selecting-cell': isSelecting,
         'requirement-bg': isRequirment && !isSelected ? isRequirment : false,
         'matching-bg':
           isMatching &&
@@ -71,9 +73,9 @@ const CellCareinstitution = ({
           !showAppointedCareGiver &&
           caregiverId !== showSelectedCaregiver.id
             ? isConfirm
-            : false,
-        'cell-available-careinstitution':
-          isRequirment && !isSelected ? isRequirment : false
+            : false
+        // 'cell-available-careinstitution':
+        //   isRequirment && !isSelected ? isRequirment : false
       })}
       ref={selectableRef}
       // onClick={() => handleSelectedUser(list, day, 'caregiver')}

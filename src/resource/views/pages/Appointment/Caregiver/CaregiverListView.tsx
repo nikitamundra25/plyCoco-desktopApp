@@ -234,7 +234,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           });
         }
       });
-      // console.log('appointmentId', appointmentId);
       onLinkAppointment(appointmentId, 'unlink');
     } else {
       if (!toast.isActive(toastId)) {
@@ -428,11 +427,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       </div>
       <div className='position-relative'>
         <InfiniteScroll
-          loader={
-            <div className='appointment-list-loader'>
-              <Loader />
-            </div>
-          }
+          loader={<div className='appointment-list-loader'>{''}</div>}
           hasMore={careGiversList && careGiversList.length !== totalCaregiver}
           dataLength={
             careGiversList && careGiversList.length ? careGiversList.length : 0
@@ -701,7 +696,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         selectedCells={selectedCells}
-        fetchingCareGiverData={fetchingCareGiverData}
+        qualificationList={qualificationList}
       />
       <UnlinkAppointment
         show={showUnlinkModal}

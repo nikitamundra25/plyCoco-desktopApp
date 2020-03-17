@@ -61,10 +61,21 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           remarksCareGiver
           remarksInternal
           appointments {
-            id
-            date
             requirementId
             avabilityId
+            id
+            date
+            cr {
+              id
+              name
+              qualificationId
+              startTime
+              endTime
+              division {
+                id
+                name
+              }
+            }
           }
         }
         careinstitution_requirements {
@@ -90,11 +101,13 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           qualificationId
           startTime
           userId
+          division {
+            id
+            name
+          }
           appointments {
             id
             date
-            requirementId
-            avabilityId
             ca {
               userId
               id
@@ -111,7 +124,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
         }
         divisions {
           id
-          email
+          name
         }
         canstitution {
           city
@@ -250,5 +263,5 @@ export const AppointmentsQueries = [
   GET_USERS_BY_QUALIFICATION_ID,
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
-  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID
+  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
 ];

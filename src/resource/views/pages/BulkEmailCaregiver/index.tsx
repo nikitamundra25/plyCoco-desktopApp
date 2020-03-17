@@ -433,7 +433,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             }
           })
 
-          let mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
+          let mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br></br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
 
           const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
           setSubject(customSub);
@@ -453,11 +453,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           let customSub: string = 'Offer ';
           divisionArray.map((v: any, i: number) => {
             if (v.id) {
-              divRow += `<p>${v.date + " " + v.duration + "h " + (v.divisionId ? v.divisionId : " - ") + "  " + languageTranslation('APPOINTMENTID') + "=" + v.id}</p>`
+              divRow += `<p>${v.date + " " + v.shiftLabel + " " + v.duration + "h " + (v.divisionId ? v.divisionId : " - ") + "  " + languageTranslation('APPOINTMENTID') + "=" + v.id}</p>`
               if (i == 0) {
-                customSub += `${v.month + " " + v.day},`
+                customSub += `${v.month + " " + v.day + "." + v.shiftLabel},`
               } else {
-                customSub += `${" " + v.day},`
+                customSub += `${" " + v.day + "." + v.shiftLabel},`
               }
             }
           })

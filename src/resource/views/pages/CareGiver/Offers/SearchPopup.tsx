@@ -61,7 +61,7 @@ const OfferSearch = (props: any) => {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color='primary' type='submit'>
+            <Button color='primary' type='submit' disabled={!searchValue}>
               {languageTranslation('ADD')}
             </Button>
             <Button color='secondary' onClick={handleClose}>

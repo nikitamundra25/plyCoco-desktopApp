@@ -15,6 +15,7 @@ import {
   EmailTemplateQueries,
   ProfileQueries,
   AppointmentsQueries,
+  CareInstitutionQueries,
 } from '../../../../graphql/queries';
 import { BulkEmailCareGivers } from '../../../../graphql/Mutations';
 import {
@@ -33,6 +34,7 @@ import refresh from '../../../assets/img/refresh.svg';
 import './index.scss';
 import { useHistory } from 'react-router';
 import { AppRoutes, client } from '../../../../config';
+import moment from "moment";
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -40,9 +42,20 @@ const [BULK_EMAILS] = BulkEmailCareGivers;
 const [VIEW_PROFILE] = ProfileQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 
+const [
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  GET_DIVISION_DETAILS_BY_ID
+] = CareInstitutionQueries;
+
 let toastId: any = null;
 
 const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
+  const { selectedCellsCareinstitution } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const history = useHistory();
 
@@ -52,7 +65,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     userData = client.readQuery({
       query: VIEW_PROFILE,
     });
-  } catch (error) {}
+  } catch (error) { }
 
   const { viewAdminProfile }: any = userData ? userData : {};
   const { firstName = '', lastName = '', id = '' } = viewAdminProfile
@@ -344,158 +357,145 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     }
   };
 
+  const [getDepartmentById, { data: divisionDetails }] = useLazyQuery<any, any>(GET_DIVISION_DETAILS_BY_ID, { fetchPolicy: 'no-cache', });
+
+  useEffect(() => {
+    // console.log("In use effect",divisionDetails);
+  }, [divisionDetails]);
+
   //Use Effect for email template data
   useEffect(() => {
-    if (data && props.label === 'appointment') {
-      const {
-        getEmailtemplate: { email_templates },
-      } = data;
-      if (email_templates && email_templates.length) {
-        email_templates.map((emailData: IEmailTemplateData & any) => {
-          if (props.label === 'appointment') {
-            if (props.showButton) {
-              if (
-                emailData.menuEntry ===
-                  'Offer by care institution sort by Division (with button)' &&
-                props.sortBy === 'division'
-              ) {
-                const { subject, body, attachments } = emailData;
-                const editorState = body ? HtmlToDraftConverter(body) : '';
-                setSubject(subject);
-                setBody(editorState);
-                setAttachments(
-                  attachments
-                    ? attachments.map(
-                        ({ name, id, path, size }: INewEmailAttachments) => ({
-                          fileName: name,
-                          id,
-                          path,
-                          size,
-                        }),
-                      )
-                    : [],
-                );
+    if (props.label === 'appointment') {
+      if (props.sortBy === 'division' || props.sortBy === 'day') {
+        let qualificationArray: any = [];
+        let qualificationString: string = '';
+        let remarkRow: string = '';
+        let divisionArray: any = [];
+        for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
+          let object = selectedCellsCareinstitution[i];
+          if (object.item) {
+            let obj: any = {};
 
-                setTemplate({
-                  label: emailData.menuEntry,
-                  value: emailData,
-                });
-              }
-              if (
-                emailData.menuEntry ===
-                  'Offer By care institution Sort by Days (With Button)' &&
-                props.sortBy === 'day'
-              ) {
-                const { subject, body, attachments } = emailData;
-                const editorState = body ? HtmlToDraftConverter(body) : '';
-                setSubject(subject);
-                setBody(editorState);
-                setAttachments(
-                  attachments
-                    ? attachments.map(
-                        ({ name, id, path, size }: INewEmailAttachments) => ({
-                          fileName: name,
-                          id,
-                          path,
-                          size,
-                        }),
-                      )
-                    : [],
-                );
+            let shiftLabel = object.item.startTime === "06:00" ? "FD" : object.item.startTime === "14:00" ? "SD" : "ND"
 
-                setTemplate({
-                  label: emailData.menuEntry,
-                  value: emailData,
-                });
+            getDepartmentById({
+              variables: {
+                id: parseInt(object.item.divisionId)
               }
+            });
+            obj.id = object.item.id;
+            obj.divisionId = object.item.divisionId;
+            obj.shiftLabel = shiftLabel;
+            obj.day = moment(object.item.date).format('D');
+            obj.month = moment(object.item.date).format('MMM');
+            obj.date = moment(object.item.date).format('DD.MM');
+            obj.duration = moment.utc(moment(object.item.endTime, "HH:mm").diff(moment(object.item.startTime, "HH:mm"))).format("H.m")
+            divisionArray.push(obj);
+            if (object.item.departmentOfferRemarks) {
+              remarkRow += `<p>${object.item.departmentOfferRemarks}</p>`
             }
-            if (!props.showButton) {
-              if (
-                emailData.menuEntry ===
-                  'Offer by care institution sort by division (without button)' &&
-                props.sortBy === 'division'
-              ) {
-                const { subject, body, attachments } = emailData;
-                const editorState = body ? HtmlToDraftConverter(body) : '';
-                setSubject(subject);
-                setBody(editorState);
-                setAttachments(
-                  attachments
-                    ? attachments.map(
-                        ({ name, id, path, size }: INewEmailAttachments) => ({
-                          fileName: name,
-                          id,
-                          path,
-                          size,
-                        }),
-                      )
-                    : [],
-                );
-
-                setTemplate({
-                  label: emailData.menuEntry,
-                  value: emailData,
-                });
+            for (let j = 0; j < object.item.qualificationId.length; j++) {
+              let q = object.item.qualificationId[j];
+              if (!qualificationArray.includes(q)) {
+                qualificationArray.push(q);
               }
-              if (
-                emailData.menuEntry ===
-                  'offer by care institution sort by days (without button)' &&
-                props.sortBy === 'day'
-              ) {
-                const { subject, body, attachments } = emailData;
-                const editorState = body ? HtmlToDraftConverter(body) : '';
-                setSubject(subject);
-                setBody(editorState);
-                setAttachments(
-                  attachments
-                    ? attachments.map(
-                        ({ name, id, path, size }: INewEmailAttachments) => ({
-                          fileName: name,
-                          id,
-                          path,
-                          size,
-                        }),
-                      )
-                    : [],
-                );
-
-                setTemplate({
-                  label: emailData.menuEntry,
-                  value: emailData,
-                });
-              }
-            }
-
-            if (
-              emailData.menuEntry === 'Offers for care givers' &&
-              !props.showButton
-            ) {
-              const { subject, body, attachments } = emailData;
-              const editorState = body ? HtmlToDraftConverter(body) : '';
-              setSubject(subject);
-              setBody(editorState);
-              setAttachments(
-                attachments
-                  ? attachments.map(
-                      ({ name, id, path, size }: INewEmailAttachments) => ({
-                        fileName: name,
-                        id,
-                        path,
-                        size,
-                      }),
-                    )
-                  : [],
-              );
-
-              setTemplate({
-                label: emailData.menuEntry,
-                value: emailData,
-              });
             }
           }
-        });
+        }
+        let temp: any = [];
+        qualificationArray.map((i: any) => {
+          temp.push(i.label);
+        })
+        qualificationString = temp.join();
+
+        // console.log('divisionArray ', JSON.stringify(divisionArray));
+
+        if (props.showButton) {
+          if (props.sortBy === 'day') {
+            divisionArray = divisionArray.sort(function (a: any, b: any) {
+              return a.date - b.date;
+            });
+          } else {
+            divisionArray = divisionArray.sort(function (a: any, b: any) {
+              return a.date - b.date;
+            });
+          }
+          let divRow: string = '';
+          let customSub: string = 'Offer ';
+          divisionArray.map((v: any, i: number) => {
+            if (v.id) {
+              divRow += `<p>${v.date + " " + v.shiftLabel + " " + v.duration + "h " + (v.divisionId ? v.divisionId : " - ") + "  " + languageTranslation('APPOINTMENTID') + "=" + v.id}</p>`
+              if (i == 0) {
+                customSub += `${v.month + " " + v.day + "." + v.shiftLabel},`
+              } else {
+                customSub += `${" " + v.day + "." + v.shiftLabel},`
+              }
+            }
+          })
+
+          let mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
+
+          const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+          setSubject(customSub);
+          setBody(editorState);
+        }
+        if (!props.showButton) {
+          if (props.sortBy === 'day') {
+            divisionArray = divisionArray.sort(function (a: any, b: any) {
+              return a.date - b.date;
+            });
+          } else {
+            divisionArray = divisionArray.sort(function (a: any, b: any) {
+              return a.date - b.date;
+            });
+          }
+          let divRow: string = '';
+          let customSub: string = 'Offer ';
+          divisionArray.map((v: any, i: number) => {
+            if (v.id) {
+              divRow += `<p>${v.date + " " + v.duration + "h " + (v.divisionId ? v.divisionId : " - ") + "  " + languageTranslation('APPOINTMENTID') + "=" + v.id}</p>`
+              if (i == 0) {
+                customSub += `${v.month + " " + v.day},`
+              } else {
+                customSub += `${" " + v.day},`
+              }
+            }
+          })
+
+          let mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
+
+          const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+          setSubject(customSub);
+          setBody(editorState);
+        }
+      } else {
+        // if (emailData.menuEntry === 'Offers for care givers' && !props.showButton) {
+        //   const { subject, body, attachments } = emailData;
+        //   const editorState = body ? HtmlToDraftConverter(body) : '';
+        //   setSubject(subject);
+        //   setBody(editorState);
+        //   setAttachments(
+        //     attachments
+        //       ? attachments.map(
+        //         ({ name, id, path, size }: INewEmailAttachments) => ({
+        //           fileName: name,
+        //           id,
+        //           path,
+        //           size,
+        //         }),
+        //       )
+        //       : [],
+        //   );
+
+        //   setTemplate({
+        //     label: emailData.menuEntry,
+        //     value: emailData,
+        //   });
+        // }
       }
+
     }
+
   }, [data]);
 
   const handleSelectAll = async () => {
@@ -587,13 +587,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       setAttachments(
         attachments
           ? attachments.map(
-              ({ name, id, path, size }: INewEmailAttachments) => ({
-                fileName: name,
-                id,
-                path,
-                size,
-              }),
-            )
+            ({ name, id, path, size }: INewEmailAttachments) => ({
+              fileName: name,
+              id,
+              path,
+              size,
+            }),
+          )
           : [],
       );
     }
@@ -679,8 +679,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             files:
               attachments && attachments.length
                 ? attachments
-                    .map((item: IEmailAttachmentData) => item.file)
-                    .filter((file: File | null) => file)
+                  .map((item: IEmailAttachmentData) => item.file)
+                  .filter((file: File | null) => file)
                 : null,
             caregiver: careGiverIdList,
             senderUserId: id ? parseInt(id) : null,
@@ -734,11 +734,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   {bulkEmailLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
-                    <i
-                      className='fa fa-paper-plane mr-2'
-                      aria-hidden='true'
-                    ></i>
-                  )}
+                      <i
+                        className='fa fa-paper-plane mr-2'
+                        aria-hidden='true'
+                      ></i>
+                    )}
                   <span>{languageTranslation('SEND')}</span>
                 </Button>
               </div>

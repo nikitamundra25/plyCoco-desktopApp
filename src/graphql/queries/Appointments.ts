@@ -63,6 +63,19 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           appointments {
             id
             date
+            requirementId
+            avabilityId
+            cr {
+              id
+              name
+              qualificationId
+              startTime
+              endTime
+              division {
+                id
+                name
+              }
+            }
           }
         }
         careinstitution_requirements {
@@ -88,9 +101,20 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           qualificationId
           startTime
           userId
+          division {
+            id
+            name
+          }
           appointments {
             id
             date
+            requirementId
+            avabilityId
+            ca {
+              userId
+              id
+              name
+            }
           }
         }
         contacts {
@@ -99,6 +123,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           salutation
           mobileNumber
           email
+        }
+        divisions {
+          id
+          name
         }
         canstitution {
           city

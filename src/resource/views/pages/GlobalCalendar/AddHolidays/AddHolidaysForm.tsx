@@ -1,5 +1,13 @@
 import React, { FunctionComponent, useState } from "react";
-import { FormGroup, Col, Label, Row, Input, Button } from "reactstrap";
+import {
+  FormGroup,
+  Col,
+  Label,
+  Row,
+  Input,
+  Button,
+  UncontrolledTooltip
+} from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 import { FieldArray, Field } from "formik";
 import {
@@ -21,7 +29,13 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
     removeHoliday,
     isEditMode
   } = props;
-  const { values, handleBlur, handleChange, setFieldValue } = fieldsInfo;
+  const {
+    values,
+    handleBlur,
+    handleChange,
+    setFieldValue,
+    errors
+  } = fieldsInfo;
 
   const handleStateChange = (
     value: ValueType<IReactSelectInterface[]>,
@@ -77,151 +91,174 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
   };
   return (
     <>
-    <div className="holiday-section-wrap">
-    <div className="holiday-section-body custom-scrollbar">
-      <FieldArray
-        name={"inputs"}
-        render={() => {
-          return values.inputs.map(
-            (holidaysData: IAddHolidaysFormValues, index: number) => {
-              return (
-           
-                <React.Fragment key={index}>
-                  <Row className={"holiday-add-block form-section"}>
-                    <Col sm="6">
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              {languageTranslation("HOLIDAY_DATE")}{" "}
-                              <span className="required">*</span>
-                            </Label>
-                          </Col>
-                          <Col sm="8">
-                            <Field name={`inputs.${index}.date`}>
-                              {({ field, meta }: any) => {
-                                return (
-                                  <>
-                                    <MaskedInput
-                                      {...field}
-                                      placeholder={languageTranslation(
-                                        "HOLIDAY_DATE_PLACEHOLDER"
+      <div className="holiday-section-wrap">
+        <div className="holiday-section-body custom-scrollbar">
+          <FieldArray
+            name={"inputs"}
+            render={() => {
+              return values.inputs.map(
+                (holidaysData: IAddHolidaysFormValues, index: number) => {
+                  return (
+                    <React.Fragment key={index}>
+                      <Row className={"holiday-add-block form-section"}>
+                        <Col sm="6">
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("HOLIDAY_DATE")}{" "}
+                                  <span className="required">*</span>
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <Field name={`inputs.${index}.date`}>
+                                  {({ field, meta }: any) => {
+                                    return (
+                                      <>
+                                        <MaskedInput
+                                          {...field}
+                                          placeholder={languageTranslation(
+                                            "HOLIDAY_DATE_PLACEHOLDER"
+                                          )}
+                                          mask={DateMask}
+                                          className={
+                                            meta.touched && meta.error
+                                              ? "error form-control"
+                                              : "form-control"
+                                          }
+                                          onChange={handleChange}
+                                          onBlur={handleBlur}
+                                          value={holidaysData.date}
+                                          {...field}
+                                        />
+                                        {meta.touched && meta.error && (
+                                          <div className="required-tooltip">
+                                            {meta.error}
+                                          </div>
+                                        )}
+                                      </>
+                                    );
+                                  }}
+                                </Field>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col sm="6">
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("HOLIDAY_NOTE")}{" "}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <Field name={`inputs.${index}.note`}>
+                                  {({ field, meta }: any) => (
+                                    <>
+                                      <Input
+                                        type="text"
+                                        placeholder={languageTranslation(
+                                          "HOLIDAY_NOTE_PLACEHOLDER"
+                                        )}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        rows="4"
+                                        maxLength={255}
+                                        className={
+                                          meta.touched && meta.error
+                                            ? "error"
+                                            : ""
+                                        }
+                                        value={holidaysData.note}
+                                        {...field}
+                                      />
+                                      {meta.touched && meta.error && (
+                                        <div className="required-tooltip">
+                                          {meta.error}
+                                        </div>
                                       )}
-                                      mask={DateMask}
-                                      className={
-                                        meta.touched && meta.error
-                                          ? "error form-control"
-                                          : "form-control"
-                                      }
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={holidaysData.date}
-                                      {...field}
-                                    />
-                                    {meta.touched && meta.error && (
-                                      <div className="required-tooltip">
-                                        {meta.error}
-                                      </div>
-                                    )}
-                                  </>
-                                );
-                              }}
-                            </Field>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col sm="6">
-                      <FormGroup>
-                        <Row>
-                          <Col sm="4">
-                            <Label className="form-label col-form-label">
-                              {languageTranslation("HOLIDAY_NOTE")}{" "}
-                            </Label>
-                          </Col>
-                          <Col sm="8">
-                            <Field name={`inputs.${index}.note`}>
-                              {({ field, meta }: any) => (
-                                <>
-                                  <Input
-                                    type="text"
-                                    placeholder={languageTranslation(
-                                      "HOLIDAY_NOTE_PLACEHOLDER"
-                                    )}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    rows="4"
-                                    maxLength={255}
-                                    className={
-                                      meta.touched && meta.error ? "error" : ""
-                                    }
-                                    value={holidaysData.note}
-                                    {...field}
-                                  />
-                                  {meta.touched && meta.error && (
-                                    <div className="required-tooltip">
-                                      {meta.error}
+                                    </>
+                                  )}
+                                </Field>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col sm="12">
+                          <FormGroup>
+                            <Row>
+                              <Col sm="2">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("HOLIDAY_STATES")}{" "}
+                                  <span className="required">*</span>
+                                </Label>
+                              </Col>
+                              <Col sm="10">
+                                <Field name={`inputs.${index}.states`}>
+                                  {({ meta }: any) => (
+                                    <div className="required-input">
+                                      <Select
+                                        options={stateOptions as any}
+                                        classNamePrefix="custom-inner-reactselect"
+                                        onChange={(
+                                          value: ValueType<
+                                            IReactSelectInterface[]
+                                          >
+                                        ) => handleStateChange(value, index)}
+                                        className={
+                                          meta.touched && meta.error
+                                            ? "custom-reactselect error"
+                                            : "custom-reactselect"
+                                        }
+                                        // className={"custom-reactselect"}
+                                        placeholder={languageTranslation(
+                                          "HOLIDAY_STATES_PLACEHOLDER"
+                                        )}
+                                        isMulti
+                                        value={getSelectedStates(index)}
+                                      />
+                                      {meta.touched && meta.error && (
+                                        <div className="required-tooltip">
+                                          {meta.error}
+                                        </div>
+                                      )}
                                     </div>
                                   )}
-                                </>
-                              )}
-                            </Field>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col sm="12">
-                      <FormGroup>
-                        <Row>
-                          <Col sm="2">
-                            <Label className="form-label col-form-label">
-                              {languageTranslation("HOLIDAY_STATES")}{" "}
-                            </Label>
-                          </Col>
-                          <Col sm="10">
-                            <>
-                              <Select
-                                options={stateOptions as any}
-                                classNamePrefix="custom-inner-reactselect"
-                                onChange={(
-                                  value: ValueType<IReactSelectInterface[]>
-                                ) => handleStateChange(value, index)}
-                                className={"custom-reactselect"}
-                                placeholder={languageTranslation(
-                                  "HOLIDAY_STATES_PLACEHOLDER"
-                                )}
-                                isMulti
-                                value={getSelectedStates(index)}
-                              />
-                            </>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    {index > 0 && !isEditMode ? (
-                      <a
-                        className={"remove-icon"}
-                        onClick={() => removeHoliday(values, index)}
-                      >
-                        <i className={"fa fa-trash"} />
-                      </a>
-                    ) : null}
-                  </Row>
-                 
-                </React.Fragment>
-              
+                                </Field>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        {index > 0 && !isEditMode ? (
+                          <a
+                            className={"remove-icon"}
+                            id={`delete${index}`}
+                            onClick={() => removeHoliday(values, index)}
+                          >
+                            <UncontrolledTooltip
+                              placement="top"
+                              target={`delete${index}`}
+                            >
+                              {languageTranslation("DELETE")}
+                            </UncontrolledTooltip>
+                            <i className={"fa fa-trash"} />
+                          </a>
+                        ) : null}
+                      </Row>
+                    </React.Fragment>
+                  );
+                }
               );
-            }
-          );
-        }}
-      />
+            }}
+          />
         </div>
-      {isEditMode ? null : (
-        <Button color={"primary"} onClick={() => addNewHoliday(values)}>
-          <i className={"fa fa-plus"} />
-          &nbsp;&nbsp;New
-        </Button>
-      )}
+        {isEditMode ? null : (
+          <Button color={"primary"} onClick={() => addNewHoliday(values)}>
+            <i className={"fa fa-plus"} />
+            &nbsp;&nbsp;New
+          </Button>
+        )}
       </div>
     </>
   );

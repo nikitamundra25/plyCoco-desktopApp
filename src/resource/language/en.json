@@ -5,7 +5,7 @@
   "WOMAN": "Woman",
   "CAREGIVER_USERROLE": "caregiver",
   "EMPLOYEE_LABEL": "Employee",
-  "CAREINST_USERROLE": "careinstitution",
+  "CAREINST_USERROLE": "care Institution",
   "REMARK_LIMIT": "Text should be minimum of 255 characters",
   "REQUIRED_REGION": "Please enter the name of Region",
   "DELETE": "Delete",
@@ -781,7 +781,7 @@
   "HOLIDAY_DATE": "Choose Date",
   "HOLIDAY_DATE_PLACEHOLDER": "DD.MM.YYYY",
   "HOLIDAY_NOTE": "Enter Note",
-  "HOLIDAY_NOTE_PLACEHOLDER": "Describe the reason(Optional)",
+  "HOLIDAY_NOTE_PLACEHOLDER": "Describe the reason",
   "HOLIDAY_STATES": "Applicable States",
   "HOLIDAY_STATES_PLACEHOLDER": "Applicable States",
   "CLOSE": "Close",
@@ -917,5 +917,13 @@
   "CAREINST_REQUIREMENT": "Requirement",
   "RETRIVE_WORK_PROOF": "Retrieve new work proofs",
   "DOCUEMENT_FETCHED_SUCCESS": "Work proof fetched from successfully.",
-  "MAIN_CONTACT": "Main contact"
+  "MAIN_CONTACT": "Main contact",
+  "STATE_ERROR": "Please choose at least one state.",
+  "NO_DATA_FOUND": "No data found",
+  "FACTORING_CONTRACT": "Factoring Contracts",
+  "CAREINSTTITUTION_LINKED": "Care Institution must be linked with a caregiver",
+  "CAREGIVER_LINKED": "Caregiver must be linked with a care institution",
+  "REGENERATE_PASSWORD": "Generate new password.",
+  "CONFIRM_REGENERATE_PASSWORD_MESSAGE": "Old password will be removed and a new password will be set for this :userRole and a confirmation email with new password will sent out on the <b>:email</b>. Would you like to continue?",
+  "NEW_PASSWORD_SENT_SUCCESS": "New password is generated and sent to :email."
 }

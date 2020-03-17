@@ -49,6 +49,13 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
 
   const [attributeSearch, setShowAttribute] = useState<boolean>(false);
   const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
+  const [caregiverUser, setcaregiverUser] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+  const [careinstitutionUser, setcareinstitutionUser] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+
   const [user, setuser] = useState<string>('');
   const [userId, setuserId] = useState<string>('');
   const [dropdownOpen, setOpen] = useState<boolean>(false);
@@ -61,15 +68,22 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   ) => {
     const { result: caregiverArr } = careGiversListArr;
     const { result: careinstitutionArr } = careInstitutionListArr;
-
     let data: any = name === 'caregiver' ? caregiverArr : careinstitutionArr;
     if (selectedOption && selectedOption.value) {
       if (name === 'caregiver') {
         data = caregiverArr.filter((x: any) => x.id === selectedOption.value);
+        setcaregiverUser(selectedOption);
       } else {
         data = careinstitutionArr.filter(
           (x: any) => x.id === selectedOption.value
         );
+        setcareinstitutionUser(selectedOption);
+      }
+    } else {
+      if (name === 'caregiver') {
+        setcaregiverUser(selectedOption);
+      } else {
+        setcareinstitutionUser(selectedOption);
       }
     }
     handleSelectUserList(data, name);
@@ -97,7 +111,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
       onFilterByUserId(userId, userRole);
     }
   };
-
+  const handleAllResetFilters = () => {
+    setcaregiverUser(undefined);
+    setcareinstitutionUser(undefined);
+    handleResetFilters();
+  };
   return (
     <>
       <div className='sticky-common-header'>
@@ -137,7 +155,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               className={'custom-reactselect '}
               placeholder='Select'
               options={Without_Appointments}
-              isClearable={true}
               value={
                 filterByAppointments
                   ? filterByAppointments
@@ -187,13 +204,17 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               {languageTranslation('ATTRIBUTES')}
             </span>
           </div>
-
           <div className='user-select mx-1'>
             <Select
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect custom-reactselect-menu-width'}
               placeholder='Select Caregiver'
               options={careGiversList}
+              value={
+                caregiverUser && caregiverUser.value !== ''
+                  ? caregiverUser
+                  : null
+              }
               onChange={(value: any) => handleUserList(value, 'caregiver')}
               isClearable={true}
             />
@@ -223,6 +244,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect custom-reactselect-menu-width'}
               placeholder='Select Care Institution'
+              value={
+                careinstitutionUser && careinstitutionUser.value !== ''
+                  ? careinstitutionUser
+                  : null
+              }
               options={careInstitutionList}
               onChange={(value: any) =>
                 handleUserList(value, 'careinstitution')
@@ -230,7 +256,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               isClearable={true}
             />
           </div>
-          <div className='header-nav-item pt-1' onClick={handleResetFilters}>
+          <div className='header-nav-item pt-1' onClick={handleAllResetFilters}>
             <span className='header-nav-icon'>
               <i className='fa fa-refresh '></i>
             </span>
@@ -238,7 +264,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               {languageTranslation('RESET_LABEL')}
             </span>
           </div>
-          <div className='common-header-input pr-1 header-dropdown-wrap'>
+          <div className='common-header-input  mx-1 header-dropdown-wrap'>
             {/* <Select
                 classNamePrefix='custom-inner-reactselect'
                 className={'custom-reactselect '}
@@ -251,10 +277,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <ButtonDropdown
               isOpen={dropdownOpen}
               toggle={toggle}
-              className='button-group-dropdown'
+              className='button-group-dropdown custom-dropdown text-capitalize'
             >
               <Input
-                placeholder={user ? user : 'select user'}
+                placeholder={user ? user : 'Select user'}
                 type='text'
                 name='id'
                 value={userId}
@@ -262,6 +288,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 // onBlur={(e: any) => handleBlur()}
                 onKeyPress={(e: any) => handleKeyPress(e)}
               />
+
               <DropdownToggle caret color='primary' />
               <DropdownMenu onClick={(e: any) => handleSelect(e, 'dropdown')}>
                 <DropdownItem value='avability'>

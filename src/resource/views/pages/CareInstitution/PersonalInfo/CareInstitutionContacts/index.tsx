@@ -348,7 +348,6 @@ const CareInstitutionContacts: any = (props: any) => {
     stateId = undefined,
     countryId = undefined,
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
-  console.log('contacts[activeContact]', contacts[activeContact]);
   let countryData: Number;
   countryData = countryId ? countryId : '';
   let userSelectedCountry: IReactSelectInterface | undefined = undefined;
@@ -373,13 +372,10 @@ const CareInstitutionContacts: any = (props: any) => {
       };
     }
   }
-
-  console.log('attributes in contact', attributes);
   useEffect(() => {
     let attributesData: IReactSelectInterface[] = [];
     if (attributes && attributes.length) {
       attributes.map((attData: any) => {
-        console.log('attData in cont', attData);
         attributesData.push({
           label: attData.name,
           value: attData.id,

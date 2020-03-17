@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const UPDATE_ADMIN_PROFILE = gql`
   mutation UpdateAdminProfile($userInput: UserInput!) {
@@ -21,4 +21,16 @@ const CHANGE_PASSWORD = gql`
   }
 `;
 
-export const AdminProfileMutations = [UPDATE_ADMIN_PROFILE, CHANGE_PASSWORD];
+const GENERATE_NEW_PASSWORD = gql`
+  mutation GenerateNewPassword($userId: ID!) {
+    generateNewPassword(userId: $userId) {
+      id
+    }
+  }
+`;
+
+export const AdminProfileMutations = [
+  UPDATE_ADMIN_PROFILE,
+  CHANGE_PASSWORD,
+  GENERATE_NEW_PASSWORD
+];

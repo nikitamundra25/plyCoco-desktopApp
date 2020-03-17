@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import Select from 'react-select';
 import { FormikProps } from 'formik';
 import moment from 'moment';
@@ -28,7 +28,22 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   any> = (
   props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
-  // const { selectedCareGiver } = props;
+  const { addCaregiverLoading } = props;
+
+  //For saving both
+  useEffect(() => {
+    if (props.savingBoth) {
+      handleSubmit();
+    }
+  }, [props.savingBoth]);
+
+  //For Seting false for saving both on error handling
+  useEffect(() => {
+    if (props.errors) {
+      props.setsavingBoth();
+    }
+  }, [props.errors]);
+
   const {
     values: {
       name,
@@ -219,48 +234,37 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       {languageTranslation('DATE')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
-                    {/* <div className='required-input'>
-                      <Input
-                        placeholder={languageTranslation(
-                          'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
-                        )}
-                        disabled={true}
-                        className={'form-control mb-2'}
-                        value={
-                          activeDateCaregiver
-                            ? `${moment(activeDateCaregiver.isoString).format(
-                                defaultDateFormat
-                              )}, ${activeDateCaregiver.day}`
-                            : null
-                        }
-                      /> */}
-
-                    <div className='text-value mb-1'>
+                  <Col sm='8'>
+                    <div className='text-value'>
                       {activeDateCaregiver
                         ? activeDateCaregiver
-                            .map((dateString: string | undefined) =>
-                              dateString
-                                ? moment(dateString).format('dd DD.MM.YYYY')
-                                : // (
-                                  //     <span>
-                                  //       {moment(dateString).format(
-                                  //         'dd DD.MM.YYYY',
-                                  //       )}
-                                  //     </span>,
-                                  //   )
-                                  null
+                            .map(
+                              (dateString: string | undefined, index: number) =>
+                                dateString
+                                  ? moment(dateString).format(
+                                      index !== activeDateCaregiver.length - 1
+                                        ? 'dd DD.'
+                                        : 'dd DD.MM.YYYY'
+                                    )
+                                  : null
                             )
                             .join(', ')
                         : null}
-                      {/* {activeDateCaregiver && activeDateCaregiver.dateString
-                        ? moment(activeDateCaregiver.dateString).format(
-                            'dd DD.MM.YYYY'
-                          )
-                        : null} */}
                     </div>
-                    {/* </div> */}
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
 
+            <Col lg={'12'}>
+              <FormGroup>
+                <Row>
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('SHIFT')}
+                    </Label>
+                  </Col>
+                  <Col sm='8'>
                     <div>
                       <FormGroup check inline>
                         <div className=' checkbox-custom mb-1'>
@@ -354,7 +358,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'fee'}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={fee}
                             className={
                               errors.fee && touched.fee
                                 ? 'fee-width error'
@@ -407,7 +410,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'nightFee'}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={nightFee}
                             className={
                               errors.nightFee && touched.nightFee
                                 ? 'fee-width error'
@@ -447,6 +449,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
+
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
@@ -618,85 +621,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </FormGroup>
               </div>
             </Col>
-
-            {/* <Col lg={"12"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("FEE_PER_KM")}
-                    </Label>
-                  </Col>
-                  <Col sm="7">
-                    <div className="required-input">
-                      <InputGroup>
-                        <Input
-                          type="text"
-                          name={"distanceInKM"}
-                          value={distanceInKM}
-                          placeholder={languageTranslation("FEE_PER_KM")}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          className={
-                            errors.distanceInKM && touched.distanceInKM
-                              ? "width-common error"
-                              : "width-common"
-                          }
-                        />
-                        <InputGroupAddon addonType="append">
-                          <InputGroupText>km</InputGroupText>
-                        </InputGroupAddon>
-                        {errors.distanceInKM && touched.distanceInKM && (
-                          <div className="required-tooltip bottom-tooltip">
-                            {errors.distanceInKM}
-                          </div>
-                        )}
-                      </InputGroup>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col> 
-            <Col lg={"12"}>
-              <FormGroup>
-                <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("a")}
-                    </Label>
-                  </Col>
-                  <Col sm="7">
-                    <div className="required-input">
-                      <InputGroup>
-                        <Input
-                          type="text"
-                          name={"feePerKM"}
-                          value={feePerKM}
-                          placeholder={languageTranslation("a")}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          className={
-                            errors.feePerKM && touched.feePerKM
-                              ? "width-common error"
-                              : "width-common"
-                          }
-                        />
-                        <InputGroupAddon addonType="append">
-                          <InputGroupText>
-                            <i className="fa fa-euro" aria-hidden="true"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        {errors.feePerKM && touched.feePerKM && (
-                          <div className="required-tooltip bottom-tooltip">
-                            {errors.feePerKM}
-                          </div>
-                        )}
-                      </InputGroup>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>*/}
 
             <Col lg={'12'}>
               <FormGroup>
@@ -920,9 +844,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   className='btn-save'
                   color='primary'
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  disabled={addCaregiverLoading}
                 >
-                  {isSubmitting ? (
+                  {addCaregiverLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
                     ''

@@ -209,14 +209,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (careGiversList) {
         const { getUserByQualifications } = careGiversList;
         const { result } = getUserByQualifications;
-        console.log('result', result);
         if (result && result.length) {
           result.map((key: any) => {
-            console.log('key of data', key);
             return (list = [...list, key]);
           });
         }
-        console.log('list', list);
         setcareGiverData(list);
         let selectedId: any = [];
         if (bulkcareGivers) {
@@ -228,8 +225,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [careGiversList]);
-  console.log('setCaregiverConfirm', careGiverConfirm);
-
   useEffect(() => {
     let list: any = [...careGiverData];
     if (careGivers) {

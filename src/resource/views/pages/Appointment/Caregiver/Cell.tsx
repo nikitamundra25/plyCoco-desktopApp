@@ -8,7 +8,7 @@ const Cell = ({
   isSelecting,
   item,
   key,
-  daysArr,
+  daysArr
 }: any) => {
   let isBlocked: boolean = false;
   if (item) {
@@ -40,13 +40,13 @@ const Cell = ({
           'text-center': true,
           'custom-appointment-col': true,
           'cursor-pointer': true,
-          'selected-cell': isSelected,
-          'selecting-cell': isSelecting,
+          'selecting-cell-bg': isSelected || isSelecting,
+          // 'selecting-cell': isSelecting,
           weekend: daysArr,
-          'cell-block': item ? (isBlocked ? true : false) : false,
+          'block-bg': item ? (isBlocked ? true : false) : false,
           'matching-bg': isMatching && !isSelected ? isMatching : false,
           'confirmation-bg': isConfirm && !isSelected ? isConfirm : false,
-          'cell-available': !isSelected
+          'availability-dark-bg': !isSelected
             ? item
               ? item.f === 'available' ||
                 item.s === 'available' ||
@@ -54,7 +54,7 @@ const Cell = ({
                 ? true
                 : false
               : false
-            : false,
+            : false
         })}
         ref={selectableRef}
       >
@@ -74,7 +74,7 @@ const Cell = ({
         : null} */}
         {item ? (
           item.status === 'confirmed' ? (
-            'o'
+            <i className='fa fa-circle-o'></i>
           ) : isBlocked ? (
             <i className='fa fa-ban'></i>
           ) : (

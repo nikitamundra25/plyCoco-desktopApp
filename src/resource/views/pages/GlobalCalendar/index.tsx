@@ -46,7 +46,6 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
         ["AT", "DE"],
         "id"
       );
-      console.log(countryIds);
       if (countryIds.length) {
         // get states of Germany
         getStatesByCountry({
@@ -73,6 +72,8 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   // handle add modal
   const [showWeekendModal, setShowWeekendModal] = useState<boolean>(false);
   // returns JSX
+  const isLoading: boolean = statesLoading || countriesLoading;
+
   return (
     <Card>
       <CardHeader className="global-calendar-header">
@@ -80,24 +81,34 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
         <Button
           color={"primary"}
           className={"btn-add"}
-          onClick={() => setAddModal(true)}
+          onClick={() => (isLoading ? undefined : setAddModal(true))}
+          disabled={isLoading}
         >
-          <i className={"fa fa-plus"} />
+          {isLoading ? (
+            <i className="fa fa-spinner fa-spin mr-2" />
+          ) : (
+            <i className={"fa fa-plus"} />
+          )}
           &nbsp;{languageTranslation("UPDATE_CALEDAR")}
         </Button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <Button
           color={"primary"}
           className={"btn-add"}
-          onClick={() => setShowWeekendModal(true)}
+          onClick={() => (isLoading ? undefined : setShowWeekendModal(true))}
+          disabled={isLoading}
         >
-          <i className={"fa fa-refresh"} />
+          {isLoading ? (
+            <i className="fa fa-spinner fa-spin mr-2" />
+          ) : (
+            <i className={"fa fa-refresh"} />
+          )}
           &nbsp;{languageTranslation("UPDATE_WEEKENDS")}
         </Button>
       </CardHeader>
       <CardBody>
         <CalendarView
-          isLoading={statesLoading || countriesLoading}
+          isLoading={isLoading}
           states={states}
           refresh={(refetch: (variables?: any) => void): void => {
             if (!refreshList) {

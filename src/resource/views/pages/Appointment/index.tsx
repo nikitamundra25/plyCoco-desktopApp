@@ -423,6 +423,48 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (
+      addCareinstitutionRes &&
+      addCareinstitutionRes.addCareInstitutionRequirement
+    ) {
+      const { addCareInstitutionRequirement } = addCareinstitutionRes;
+      const { id, status } = addCareInstitutionRequirement;
+
+      const {
+        id: { Id } = '',
+        firstName = '',
+        lastName = '',
+        canstitution = {},
+        qualificationIds = [],
+        dateString = ''
+      } =
+        selectedCellsCareinstitution && selectedCellsCareinstitution.length
+          ? selectedCellsCareinstitution[0]
+          : {};
+
+      let careinstitutionvalue: any[] = [
+        {
+          id: Id ? Id : '',
+          firstName,
+          lastName,
+          canstitution: {
+            ...canstitution
+          },
+          qualificationIds,
+          dateString,
+          item: {
+            ...item,
+            appointmentId: id ? id : '',
+            status
+          }
+        }
+      ];
+      setselectedCellsCareinstitution(careinstitutionvalue);
+    }
+  }, [addCareinstitutionRes]);
+
   // To fetch qualification attributes list
   const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
   const qualificationList: IReactSelectInterface[] | undefined = [];
@@ -595,13 +637,25 @@ const Appointment: FunctionComponent = (props: any) => {
         remarksInternal = '',
         status = ''
       } = avabilityData ? avabilityData : {};
-      // const { caregiver } = selectedCells;
+      console.log('selectedCells', selectedCells);
 
-      let caregiverdata: ICareGiverValues[] = [
+      const {
+        id: ID = '',
+        firstName: firstname = '',
+        lastName: lastname = '',
+        caregiver: caregiverData = {},
+        dateString: dateData = '',
+        item: Item = ''
+      } = selectedCells && selectedCells.length ? selectedCells[0] : {};
+      let caregiverdata: any = [
         {
-          ...caregiver,
-          ...dateString,
-          ...firstName,
+          id: ID,
+          caregiver: {
+            ...caregiverData
+          },
+          dateString: dateData,
+          firstName: firstname,
+          lastName: lastname,
           item: {
             id: avabilityData && avabilityData.id ? avabilityData.id : '',
             name: avabilityData && avabilityData.name ? avabilityData.name : '',
@@ -622,10 +676,7 @@ const Appointment: FunctionComponent = (props: any) => {
             remarksInternal,
             travelAllowance,
             workingProofRecieved,
-            status:
-              requirementData && requirementData.status
-                ? requirementData.status
-                : ''
+            status: status ? status : ''
           }
         }
       ];
@@ -789,8 +840,8 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         });
         /*  */
-        setcareinstitutionList(result);
       }
+      setcareinstitutionList(result);
     }
   }, [careGiversList, careInstitutionList]);
 
@@ -858,9 +909,16 @@ const Appointment: FunctionComponent = (props: any) => {
       result.map((list: any, index: number) => {
         if (list.availabilityData && list.availabilityData.length) {
           list.availabilityData.map((item: any, i: number) => {
-            temp = item.filter((avabilityData: any) => {
-              return appointId[0].requirementId === avabilityData.id;
-            });
+            if (name === 'careinstitution') {
+              temp = item.filter((avabilityData: any) => {
+                return appointId[0].requirementId === avabilityData.id;
+              });
+            } else {
+              temp = item.filter((avabilityData: any) => {
+                return appointId[0].avabilityId === avabilityData.id;
+              });
+            }
+
             if (temp && temp.length) {
               const {
                 id = '',
@@ -905,7 +963,7 @@ const Appointment: FunctionComponent = (props: any) => {
           });
         }
       });
-      if (availData && availData.length && availData[0].id) {
+      if (availData && availData.length) {
         if (name === 'careinstitution') {
           setselectedCellsCareinstitution(availData);
         } else {
@@ -1266,6 +1324,8 @@ const Appointment: FunctionComponent = (props: any) => {
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
     let values = updateCanstitutionFormikValues;
     let time = timeData && !timeData.data ? timeData.value.split('-') : '';
+    console.log('values', values);
+
     const {
       id = '',
       firstName = '',
@@ -1287,6 +1347,7 @@ const Appointment: FunctionComponent = (props: any) => {
         dateString,
         item: {
           ...values,
+          id: values && values.appointmentId ? values.appointmentId : '',
           shift: careInstituionShift,
           startTime: timeData
             ? timeData.data && timeData.data.begin
@@ -1311,6 +1372,7 @@ const Appointment: FunctionComponent = (props: any) => {
       setselectedCellsCareinstitution(data);
     }
   }, [careInstituionShift]);
+
   const setOnConfirmedCareInst = async () => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
@@ -1511,15 +1573,82 @@ const Appointment: FunctionComponent = (props: any) => {
           appointmentInput: selectedOption
         }
       });
+      updateLinkedStatus(name);
     } else {
       await unLinkRequirement({
         variables: {
           appointmentInput: selectedOption
         }
       });
+      updateLinkedStatus(name);
     }
   };
 
+  const updateLinkedStatus = (name: string) => {
+    // Update status in careinstitution form
+    const {
+      id = '',
+      firstName = '',
+      lastName = '',
+      canstitution = {},
+      qualificationIds = [],
+      dateString = '',
+      item = {}
+    } =
+      selectedCellsCareinstitution && selectedCellsCareinstitution.length
+        ? selectedCellsCareinstitution[0]
+        : {};
+    let temp: any[] = [
+      {
+        id,
+        firstName,
+        lastName,
+        canstitution: {
+          ...canstitution
+        },
+        qualificationIds: qualificationIds,
+        dateString,
+        item: {
+          ...item,
+          status: name === 'link' ? 'linked' : 'default'
+        }
+      }
+    ];
+    setselectedCellsCareinstitution(temp);
+
+    // Update caregiver status
+    const {
+      id: ID = '',
+      firstName: firstname = '',
+      lastName: lastname = '',
+      caregiver = {},
+      qualificationIds: qualificationId = [],
+      dateString: date = '',
+      item: Item = ''
+    } = selectedCells && selectedCells.length ? selectedCells[0] : {};
+    console.log('Item', Item);
+
+    let stemp: any[] = [
+      {
+        id: ID,
+        firstName: firstname,
+        lastName: lastname,
+        caregiver: {
+          ...caregiver
+        },
+        qualificationIds: [],
+        dateString: date,
+        item: {
+          ...Item,
+          status: name === 'link' ? 'linked' : 'default',
+          f: Item && Item.f === 'available' ? 'available' : '',
+          n: Item && Item.n === 'available' ? 'available' : '',
+          s: Item && Item.s === 'available' ? 'available' : ''
+        }
+      }
+    ];
+    setSelectedCells(stemp);
+  };
   // select careGiver or careinstitution
   const handleSelectedUser = (
     list: any,
@@ -1669,10 +1798,8 @@ const Appointment: FunctionComponent = (props: any) => {
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
-    console.log('list', list);
 
     let temp = careinstitutionList.filter((dept: any) => dept.id === list.id);
-    console.log('temp', temp);
 
     //  setcareinstitutionList()
     setcareinstitutionDepartmentList(temp);
@@ -2770,13 +2897,7 @@ const Appointment: FunctionComponent = (props: any) => {
                           <i className='fa fa-save mr-2' />
                           {languageTranslation('SAVE_BOTH')}
                         </Button>
-                        {
-                          (console.log(
-                            'selectedCellsCareinstitution',
-                            selectedCellsCareinstitution
-                          ),
-                          console.log('selectedCells', selectedCells))
-                        }
+
                         <Button
                           className='btn-common mt-0 mb-2 mx-2'
                           color='secondary'

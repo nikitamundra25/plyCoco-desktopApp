@@ -358,7 +358,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink
+                onClick={() => {
+                  handleRightMenuToggle();
+                  // onSelectAppointmentCaregiver();
+                }}
+              >
                 <img src={all_list} className='mr-2' alt='' />
                 <span>Select all appointments of the caregiver</span>
               </NavLink>{' '}

@@ -184,7 +184,10 @@ const Appointment: FunctionComponent = (props: any) => {
   });
 
   // Mutation to add careGiver data
-  const [addCaregiver, { error, data: addCaregiverRes }] = useMutation<
+  const [
+    addCaregiver,
+    { error, data: addCaregiverRes, loading: addCaregiverLoading }
+  ] = useMutation<
     {
       addCareGiverAvability: IAddCargiverAppointmentRes;
     },
@@ -198,7 +201,10 @@ const Appointment: FunctionComponent = (props: any) => {
   });
 
   // Mutation to update careGiver data
-  const [updateCaregiver, { data: updateCaregiverRes }] = useMutation<
+  const [
+    updateCaregiver,
+    { data: updateCaregiverRes, loading: updateCaregiverLoading }
+  ] = useMutation<
     {
       CareGiverAvability: IAddCargiverAppointmentRes;
     },
@@ -245,7 +251,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // Mutation to add careinstitution data
   const [
     addCareinstitutionRequirment,
-    { data: addCareinstitutionRes }
+    { data: addCareinstitutionRes, loading: addCareinstLoading }
   ] = useMutation<
     { addCareInstitutionRequirement: IAddCargiverAppointmentRes },
     { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue[] }
@@ -258,7 +264,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // update Careinstitution Requirment
   const [
     updateCareinstitutionRequirment,
-    { data: updateCareinstitutionRes }
+    { data: updateCareinstitutionRes, loading: updateCareinstitutionLoading }
   ] = useMutation<
     {
       CareInstitutionRequirementType: IAddCargiverAppointmentRes;
@@ -2643,6 +2649,13 @@ const Appointment: FunctionComponent = (props: any) => {
                             <CaregiverFormView
                               {...props}
                               selectedCareGiver={{ id: selectedCaregiverId }}
+                              addCaregiverLoading={
+                                addCaregiverLoading
+                                  ? true
+                                  : updateCaregiverLoading
+                                  ? true
+                                  : false
+                              }
                               setsavingBoth={() => setsavingBoth(false)}
                               activeDateCaregiver={
                                 !multipleAvailability
@@ -2688,6 +2701,13 @@ const Appointment: FunctionComponent = (props: any) => {
                             <CareinstitutionFormView
                               {...props}
                               savingBoth={savingBoth}
+                              addCareinstLoading={
+                                addCareinstLoading
+                                  ? true
+                                  : updateCareinstitutionLoading
+                                  ? true
+                                  : false
+                              }
                               setsavingBoth={() => setsavingBoth(false)}
                               activeDateCareinstitution={
                                 !multipleRequirement

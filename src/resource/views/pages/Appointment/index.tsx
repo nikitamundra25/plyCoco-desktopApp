@@ -1353,7 +1353,7 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.warn('something wrong');
+            toast.warn('Only requirements can be set to "offered" ! ');
           }
         }
       });

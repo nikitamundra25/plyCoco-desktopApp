@@ -46,7 +46,7 @@ import { toast } from 'react-toastify';
 import UnlinkAppointment from '../unlinkModal';
 import '../index.scss';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { languageTranslation } from "../../../../../helpers";
+import { languageTranslation } from '../../../../../helpers';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -425,7 +425,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem> */}
         </Nav>
       </div>
-      <div className="position-relative">
+      <div className='position-relative'>
         <InfiniteScroll
           loader={
             <div className='appointment-list-loader'>
@@ -444,19 +444,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           // hasChildren
         >
           <div className='calender-section custom-scrollbar' id='scrollableDiv'>
-          <SelectableGroup
-            allowClickWithoutSelected
-            className='custom-row-selector'
-            clickClassName='tick'
-            resetOnStart={true}
-            duringSelection={(data: any) =>
-              console.log(data, 'duringSelection')
-            }
-            onSelectionFinish={onSelectFinish}
-            onSelectionClear={onSelectionClear}
-            ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
-          >
-            
+            <SelectableGroup
+              allowClickWithoutSelected
+              className='custom-row-selector'
+              clickClassName='tick'
+              resetOnStart={true}
+              duringSelection={(data: any) =>
+                console.log(data, 'duringSelection')
+              }
+              onSelectionFinish={onSelectFinish}
+              onSelectionClear={onSelectionClear}
+              ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
+            >
               <Table
                 hover
                 bordered
@@ -467,15 +466,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   <tr>
                     <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
                       <div className='all-star-wrap'>
-                      <div className="position-relative username-col align-self-center">
-                        <div className="calender-heading">Caregiver</div>
-                        <Button
-                          onClick={() => handleToggleMenuItem()}
-                          className='btn-more d-flex align-items-center justify-content-center'
-                        >
-                          <i className='icon-options-vertical' />
-                        </Button>
-                      </div>
+                        <div className='position-relative username-col align-self-center'>
+                          <div className='calender-heading'>Caregiver</div>
+                          <Button
+                            onClick={() => handleToggleMenuItem()}
+                            className='btn-more d-flex align-items-center justify-content-center'
+                          >
+                            <i className='icon-options-vertical' />
+                          </Button>
+                        </div>
 
                         <div className='thead-sticky h-col custom-appointment-col text-center'>
                           H
@@ -635,7 +634,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     <div
                                       className='v-col custom-appointment-col text-center cursor-pointer'
                                       onClick={e =>
-                                        onAddingRow(e, 'caregiver', index)
+                                       onAddingRow(e, 'caregiver', index)
                                       }
                                     >
                                       <i className='fa fa-arrow-down' />
@@ -644,8 +643,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                 </th>
 
                                 {daysArr.map((key: any, i: number) => {
-                                  console.log('++++++++key', key);
-
                                   return (
                                     <Cell
                                       key={`${key}-${i}`}
@@ -688,11 +685,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   )}
                 </tbody>
               </Table>
-           
-          </SelectableGroup>
+            </SelectableGroup>
           </div>
         </InfiniteScroll>
-        </div>
+      </div>
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}

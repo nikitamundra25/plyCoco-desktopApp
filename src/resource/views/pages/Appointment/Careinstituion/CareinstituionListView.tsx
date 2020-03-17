@@ -139,16 +139,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         const { item, list: careInstData, day } = cellProps;
 
         const {
+          userId = '',
           id = '',
-          name='',//department name on solo care institution
+          name = '', //department name on solo care institution
           firstName = '',
           lastName = '',
           caregiver = {},
           canstitution = {},
           qualificationId = [],
-          deptId=''
+          deptId = '',
         } = careInstData ? careInstData : {};
-        console.log(canstitution, 'canstitution');
+        console.log(canstitution, careInstData, 'canstitution');
 
         let qualification1: IReactSelectInterface[] = [];
         if (
@@ -167,7 +168,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         };
 
         return {
-          id,
+          id: deptId ? userId : id,
           firstName,
           lastName,
           name:
@@ -176,7 +177,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               : '',
           caregiver,
           canstitution,
-          dept:{id:deptId, name},
+          dept: { id: deptId, name },
           item: item ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : '',
@@ -309,6 +310,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [StatusTo, setStatusTo] = useState('');
 
   const renderTableRows = (listData: any) => {
+    console.log(listData, 'listData renderTableRows');
+
     if (starCanstitution.isStar && listData && !listData.length) {
       listData = careInstitutionList.filter(
         (item: any) => item.id === starCanstitution.id,

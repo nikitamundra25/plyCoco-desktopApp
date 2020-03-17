@@ -80,6 +80,7 @@ const Appointment: FunctionComponent = (props: any) => {
     false,
   );
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
+  const [fetchingDept, setFetchingDept] = useState<boolean>(false);
   const [activeMonth, setActiveMonth] = useState<number>(moment().month());
   const [activeYear, setActiveYear] = useState<number>(moment().year());
   const [qualification, setqualification] = useState<any>([]);
@@ -500,7 +501,6 @@ const Appointment: FunctionComponent = (props: any) => {
         startTime = '',
         userId = '',
       } = requirementData ? requirementData : {};
-
       let qualification: any = [],
         qualificationData: IReactSelectInterface[] = [];
       if (data && data.getQualifications && qualificationId) {
@@ -552,7 +552,8 @@ const Appointment: FunctionComponent = (props: any) => {
             shift: undefined,
             endTime,
             startTime,
-            qualificationId: qualificationData,
+            qualificationId,
+            // : qualificationData,
             address,
             contactPerson,
             department: divisionId
@@ -754,8 +755,6 @@ const Appointment: FunctionComponent = (props: any) => {
       if (result && result.length) {
         /*  */
         result.forEach((user: any, index: number) => {
-          console.log(user.canstitution, 'user.canstitution');
-
           user.name = user.canstitution ? user.canstitution.companyName : '';
           user.availabilityData = [];
           if (
@@ -791,8 +790,6 @@ const Appointment: FunctionComponent = (props: any) => {
             user.availabilityData.push([]);
           }
         });
-        console.log(result, 'result');
-
         /*  */
         setcareinstitutionList(result);
       }
@@ -837,6 +834,7 @@ const Appointment: FunctionComponent = (props: any) => {
       }
       setSelectedCells(selectedCells);
     } else {
+      setselectedCellsCareinstitution(selectedCells);
       if (checkCondition) {
         let appointId: any = selectedCells[0].item.appointments.filter(
           (appointment: any) => {
@@ -852,14 +850,19 @@ const Appointment: FunctionComponent = (props: any) => {
           await appointmentDataSort('caregiver', result, appointId);
         }
       }
-      // To default select department in case of selected solo careinstitution 
-      if (selectedCells && selectedCells.length && selectedCells[0] && selectedCells[0].dept,selectedCells[0].dept.id) {
+      // To default select department in case of selected solo careinstitution
+      if (
+        (selectedCells &&
+          selectedCells.length &&
+          selectedCells[0] &&
+          selectedCells[0].dept,
+        selectedCells[0].dept.id)
+      ) {
         setcareInstituionDept({
           label: selectedCells[0].dept.name,
           value: selectedCells[0].dept.id,
         });
       }
-      setselectedCellsCareinstitution(selectedCells);
     }
   };
 
@@ -1165,7 +1168,20 @@ const Appointment: FunctionComponent = (props: any) => {
     let values = updateCanstitutionFormikValues;
     let startTime: string = '';
     let endTime: string = '';
-    if (deptId) {
+    const {
+      id = '',
+      firstName = '',
+      lastName = '',
+      name = '',
+      item = undefined,
+      canstitution = {},
+      qualificationIds = [],
+      dateString = '',
+    } =
+      selectedCellsCareinstitution && selectedCellsCareinstitution.length
+        ? selectedCellsCareinstitution[0]
+        : {};
+    if (deptId && (updateCanstitutionFormikValues || !item)) {
       if (departmentList && departmentList.getDivision.length) {
         const { getDivision } = departmentList;
         departmentData = getDivision.filter(
@@ -1185,17 +1201,7 @@ const Appointment: FunctionComponent = (props: any) => {
           });
         }
         setshiftOption(careInstitutionTimesOptions);
-        const {
-          id = '',
-          firstName = '',
-          lastName = '',
-          canstitution = {},
-          qualificationIds = [],
-          dateString = '',
-        } =
-          selectedCellsCareinstitution && selectedCellsCareinstitution.length
-            ? selectedCellsCareinstitution[0]
-            : {};
+
         let temp: any[] = [
           {
             id,
@@ -1255,7 +1261,7 @@ const Appointment: FunctionComponent = (props: any) => {
       id = '',
       firstName = '',
       lastName = '',
-      name='',
+      name = '',
       canstitution = {},
       qualificationIds = [],
       dateString = '',
@@ -1274,6 +1280,7 @@ const Appointment: FunctionComponent = (props: any) => {
         dateString,
         item: {
           ...values,
+          id: values && values.appointmentId ? values.appointmentId : '',
           shift: careInstituionShift,
           startTime: timeData
             ? timeData.data && timeData.data.begin
@@ -1296,9 +1303,8 @@ const Appointment: FunctionComponent = (props: any) => {
       setselectedCellsCareinstitution(data);
     }
   }, [careInstituionShift]);
-  const setOnConfirmedCareInst = async () => {
-    console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
 
+  const setOnConfirmedCareInst = async () => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
@@ -1529,8 +1535,6 @@ const Appointment: FunctionComponent = (props: any) => {
       departmentList.getDivision.length &&
       starCanstitution.isStar
     ) {
-      console.log('in department suessssssssse');
-
       const { getDivision } = departmentList;
       const dept: any[] = [];
       let careInstData: any = careinstitutionList.filter(
@@ -1541,25 +1545,20 @@ const Appointment: FunctionComponent = (props: any) => {
           [],
           careInstData.availabilityData,
         );
-        console.log(
-          careInstData,
-          careInstData.availabilityData,
-          'careInstData useEffect',
-        );
         let temp: any[] = daysData ? [...daysData.daysArr] : [];
 
         getDivision
-          .filter((divison: any) => !divison.locked)
-          .forEach((divison: any) => {
-            divison.availabilityData = [];
-            divison.canstitution = careInstData.canstitution;
-            divison.careInstId = careInstData.id;
-            divison.deptId = divison.id;
+          .filter((division: any) => !division.locked)
+          .forEach((division: any) => {
+            division.availabilityData = [];
+            division.canstitution = careInstData.canstitution;
+            division.careInstId = careInstData.id;
+            division.isActive = careInstData.isActive;
+            division.deptId = division.id;
+            // To group availabilities by division
             let deptRequirement = requirements.filter(
-              (req: any) => req.divisionId === divison.id,
+              (req: any) => req.divisionId === division.id,
             );
-            console.log(divison, deptRequirement, 'deptRequirement');
-
             let result: any = deptRequirement.reduce(
               (acc: any, o: any) => (
                 (acc[moment(o.date).format(dbAcceptableFormat)] =
@@ -1568,37 +1567,31 @@ const Appointment: FunctionComponent = (props: any) => {
               ),
               {},
             );
-            result = Object.values(result);
+
+            result = Object.entries(result).length
+              ? Object.values(result)
+              : [1];
             result = Math.max(...result);
-            // user.availabilityData = Array(result).fill([]);
-            // console.log(user.availabilityData, 'dasdsad');
 
             for (let row = 0; row < result; row++) {
-              divison.availabilityData.push([]);
+              division.availabilityData.push([]);
             }
             temp.forEach((d: any, index: number) => {
               let records = deptRequirement.filter((available: any) =>
                 moment(d.dateString).isSame(moment(available.date), 'day'),
               );
-              console.log(records, 'recordsrecords');
-
               for (let i = 0; i < records.length; i++) {
-                divison.availabilityData[i].push(records[i]);
+                division.availabilityData[i].push(records[i]);
               }
             });
-            console.log(divison, 'after foreach');
           });
-        console.log(getDivision, 'getDivision+2323');
-
-        // getDivision.forEach((divison: any) => {
-        //   divison.availabilityData = [[]];
-        // });
+        setFetchingDept(false);
         setcareInstituionDeptData(
-          getDivision.filter((divison: any) => !divison.locked),
+          getDivision.filter((division: any) => !division.locked),
         );
       }
     }
-  }, [departmentList, starCanstitution.isStar]);
+  }, [departmentList, starCanstitution.isStar, careinstitutionList]);
 
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
@@ -1625,6 +1618,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
     if (list) {
       if (list.id && !starCanstitution.isStar) {
+        setFetchingDept(true);
         await getDepartmentList({
           variables: {
             userId: parseInt(list.id),
@@ -2218,7 +2212,9 @@ const Appointment: FunctionComponent = (props: any) => {
     caregiver = undefined,
     item = undefined,
   } =
-    selectedCells && (selectedCells.length === 1 || multipleAvailability) && selectedCells[0]
+    selectedCells &&
+    (selectedCells.length === 1 || multipleAvailability) &&
+    selectedCells[0]
       ? selectedCells[0]
       : {};
 
@@ -2258,8 +2254,6 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
-
-  console.log(careInstName,Item,selectedCellsCareinstitution, 'careInstName');
 
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : '',
@@ -2463,8 +2457,6 @@ const Appointment: FunctionComponent = (props: any) => {
       },
     });
   };
-  console.log(selectedCellsCareinstitution,'selectedCellsCareinstitution');
-  
 
   const isUnLinkable =
     selectedCells &&
@@ -2517,7 +2509,6 @@ const Appointment: FunctionComponent = (props: any) => {
             onFilterByUserId={onFilterByUserId}
             handleResetFilters={handleResetFilters}
           />
-
           <div className='common-content flex-grow-1'>
             <div>
               <Row>
@@ -2567,7 +2558,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     careInstituionDeptData={careInstituionDeptData}
                     starCanstitution={starCanstitution}
                     secondStarCanstitution={secondStarCanstitution}
-                    deptLoading={deptLoading}
+                    deptLoading={fetchingDept}
                     onhandleSecondStarCanstitution={
                       onhandleSecondStarCanstitution
                     }
@@ -2731,13 +2722,6 @@ const Appointment: FunctionComponent = (props: any) => {
                           <i className='fa fa-save mr-2' />
                           {languageTranslation('SAVE_BOTH')}
                         </Button>
-                        {
-                          (console.log(
-                            'selectedCellsCareinstitution',
-                            selectedCellsCareinstitution,
-                          ),
-                          console.log('selectedCells', selectedCells))
-                        }
                         <Button
                           className='btn-common mt-0 mb-2 mx-2'
                           color='secondary'

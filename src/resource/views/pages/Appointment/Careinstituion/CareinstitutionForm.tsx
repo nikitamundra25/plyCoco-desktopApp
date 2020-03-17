@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 
 import "../index.scss";
 import {
@@ -36,6 +36,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     IAppointmentCareInstitutionForm &
     any
 ) => {
+  useEffect(() => {
+    if (props.savingBoth) {
+      handleSubmit();
+    }
+  }, [props.savingBoth]);
   const {
     values: {
       appointmentId,
@@ -148,6 +153,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     handleSelectUserList(data, name);
   };
 
+  const DepartmentError: any = errors.department;
   return (
     <>
       <div className="form-section ">
@@ -479,19 +485,35 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <Select
                         placeholder="Select Department"
                         options={careInstitutionDepartment}
-                        isDisabled={secondStarCanstitution ? true : false}
+                        isDisabled={
+                          careInstitutionDepartment.length <= 0
+                            ? true
+                            : secondStarCanstitution
+                            ? true
+                            : false
+                        }
                         classNamePrefix="custom-inner-reactselect"
-                        className={"custom-reactselect"}
+                        // className={'custom-reactselect'}
+                        className={
+                          errors.department && touched.department
+                            ? "custom-reactselect error"
+                            : "custom-reactselect"
+                        }
                         onChange={(value: any) =>
                           handleSelect(value, "department")
                         }
-                        value={department}
-                        // value={
-                        //   department && department.value
-                        //     ? department
-                        //     : { label: "Select Department", value: "" }
-                        // }
+                        value={
+                          department
+                          // department && department.value
+                          //   ? department
+                          //   : { label: ' ', value: '' }
+                        }
                       />
+                      {errors.department && touched.department && (
+                        <div className="required-tooltip">
+                          {DepartmentError}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>

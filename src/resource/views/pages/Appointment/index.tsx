@@ -1468,9 +1468,10 @@ const Appointment: FunctionComponent = (props: any) => {
                 languageTranslation('CARE_INST_SET_ON_OFFERED_SUCCESS_MSG')
               );
             }
-          } else {
-            toast.warn('something wrong');
-          }
+          } 
+          // else {
+          //   toast.warn('Only requirements can be set to "offered" ! ');
+          // }
         }
       });
     }

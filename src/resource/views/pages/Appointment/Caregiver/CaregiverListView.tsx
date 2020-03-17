@@ -628,7 +628,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     <div
                                       className='v-col custom-appointment-col text-center cursor-pointer'
                                       onClick={e =>
-                                        onAddingRow(e, 'caregiver', index)
+                                       onAddingRow(e, 'caregiver', index)
                                       }
                                     >
                                       <i className='fa fa-arrow-down' />

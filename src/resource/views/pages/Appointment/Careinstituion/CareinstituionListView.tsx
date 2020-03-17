@@ -605,7 +605,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <span>Create prepayment invoice</span>
               </NavLink>
             </NavItem>
-            <NavItem className="bordernav" />
           </Nav>
         </div>
       </div>

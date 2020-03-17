@@ -417,8 +417,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               <span className="align-middle">Create termination agreement</span>
             </NavLink>{" "}
           </NavItem>
-          <NavItem className="bordernav" />
-          {/* <NavItem>
+          {/*<NavItem className="bordernav" />
+           <NavItem>
             <NavLink>
               <img src={refresh} className='mr-2' alt='' />
               <span className='align-middle'>Refresh</span>

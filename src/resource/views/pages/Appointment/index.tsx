@@ -1822,6 +1822,7 @@ const Appointment: FunctionComponent = (props: any) => {
       f,
       s,
       n,
+      status
     } = values;
 
     try {
@@ -1861,7 +1862,7 @@ const Appointment: FunctionComponent = (props: any) => {
               f: f ? 'available' : 'default',
               s: s ? 'available' : 'default',
               n: n ? 'available' : 'default',
-              status: 'default',
+              status: status ? status : 'default'
             };
             if (appointmentId) {
               await updateCaregiver({
@@ -2360,6 +2361,7 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCells[0]
       ? selectedCells[0]
       : {};
+  console.log('selectedCells in index', selectedCells);
 
   let departmentData: any =
     selectedCellsCareinstitution &&
@@ -2383,7 +2385,6 @@ const Appointment: FunctionComponent = (props: any) => {
         dept.value === selectedCellsCareinstitution[0].item.divisionId,
     );
   }
-
   const {
     id: Id = '',
     firstName: FirstName = '',
@@ -2424,7 +2425,9 @@ const Appointment: FunctionComponent = (props: any) => {
     status: Item ? Item.status : '',
     careInstitutionDepartment,
   };
-  // end
+  console.log('name in index', item);
+  console.log('caregiver caregiver', caregiver);
+
   const {
     name = '',
     id = '',
@@ -2447,6 +2450,7 @@ const Appointment: FunctionComponent = (props: any) => {
     n = '',
     status = '',
   } = item ? item : caregiver ? caregiver : {};
+  console.log('lastName', lastName);
 
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,

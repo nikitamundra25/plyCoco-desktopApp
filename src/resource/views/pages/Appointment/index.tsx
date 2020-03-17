@@ -8,7 +8,7 @@ import {
   getDaysArrayByMonth,
   germanNumberFormat,
   languageTranslation,
-  timeDiffernce
+  timeDiffernce,
 } from '../../../../helpers';
 import AppointmentNav from './AppointmentNav';
 import CaregiverListView from './Caregiver/CaregiverListView';
@@ -29,19 +29,19 @@ import {
   IAttributeOptions,
   ICareGiverValues,
   IUnlinkAppointmentInput,
-  IlinkAppointmentInput
+  IlinkAppointmentInput,
 } from '../../../../interfaces';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   AppointmentsQueries,
   CareInstitutionQueries,
-  CareGiverQueries
+  CareGiverQueries,
 } from '../../../../graphql/queries';
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
 import {
   CareGiverValidationSchema,
-  CareInstitutionValidationSchema
+  CareInstitutionValidationSchema,
 } from '../../../validations/AppointmentsFormValidationSchema';
 import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { dbAcceptableFormat } from '../../../../config';
@@ -487,7 +487,7 @@ const Appointment: FunctionComponent = (props: any) => {
         canstitution = {},
         qualificationIds = [],
         dateString = '',
-        item = undefined
+        item = undefined,
       } =
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
@@ -552,7 +552,7 @@ const Appointment: FunctionComponent = (props: any) => {
         offerRemarks = '',
         qualificationId = [],
         startTime = '',
-        userId = ''
+        userId = '',
       } = requirementData ? requirementData : {};
       let qualification: any = [],
         qualificationData: IReactSelectInterface[] = [];
@@ -1827,7 +1827,7 @@ const Appointment: FunctionComponent = (props: any) => {
       f,
       s,
       n,
-      status
+      status,
     } = values;
 
     try {
@@ -1867,7 +1867,7 @@ const Appointment: FunctionComponent = (props: any) => {
               f: f ? 'available' : 'default',
               s: s ? 'available' : 'default',
               n: n ? 'available' : 'default',
-              status: status ? status : 'default'
+              status: status ? status : 'default',
             };
             if (appointmentId) {
               await updateCaregiver({
@@ -2502,11 +2502,12 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleSaveBoth = () => {
     setsavingBoth(true);
   };
-  const isCareinstituionData: boolean = selectedCellsCareinstitution
-    ? !selectedCellsCareinstitution[0].id
-      ? true
-      : false
-    : false;
+  const isCareinstituionData: boolean =
+    selectedCellsCareinstitution && selectedCellsCareinstitution[0]
+      ? !selectedCellsCareinstitution[0].id
+        ? true
+        : false
+      : false;
 
   // get next page caregivers
   const getNext = (skip: number): void => {
@@ -2569,10 +2570,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   ),
                   {},
                 );
-                console.log(
-                  '^^^^^^^^^^^^^^^^^result',
-                  result
-                );
+                console.log('^^^^^^^^^^^^^^^^^result', result);
                 result = Object.values(result);
                 result = Math.max(...result);
                 // user.availabilityData = Array(result).fill([]);

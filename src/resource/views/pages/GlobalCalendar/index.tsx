@@ -77,34 +77,36 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   return (
     <Card>
       <CardHeader className="global-calendar-header">
-        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-        <Button
-          color={"primary"}
-          className={"btn-add"}
-          onClick={() => (isLoading ? undefined : setAddModal(true))}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <i className="fa fa-spinner fa-spin mr-2" />
-          ) : (
-            <i className={"fa fa-plus"} />
-          )}
-          &nbsp;{languageTranslation("UPDATE_CALEDAR")}
-        </Button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <Button
-          color={"primary"}
-          className={"btn-add"}
-          onClick={() => (isLoading ? undefined : setShowWeekendModal(true))}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <i className="fa fa-spinner fa-spin mr-2" />
-          ) : (
-            <i className={"fa fa-refresh"} />
-          )}
-          &nbsp;{languageTranslation("UPDATE_WEEKENDS")}
-        </Button>
+        <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
+        <div>
+          <Button
+            color={"primary"}
+            className={"btn-add mr-3"}
+            onClick={() => (isLoading ? undefined : setAddModal(true))}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <i className="fa fa-spinner fa-spin mr-2" />
+            ) : (
+              <i className={"fa fa-plus"} />
+            )}
+            &nbsp;{languageTranslation("UPDATE_CALEDAR")}
+          </Button>
+
+          <Button
+            color={"primary"}
+            className={"btn-add"}
+            onClick={() => (isLoading ? undefined : setShowWeekendModal(true))}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <i className="fa fa-spinner fa-spin mr-2" />
+            ) : (
+              <i className={"fa fa-refresh"} />
+            )}
+            &nbsp;{languageTranslation("UPDATE_WEEKENDS")}
+          </Button>
+        </div>
       </CardHeader>
       <CardBody>
         <CalendarView

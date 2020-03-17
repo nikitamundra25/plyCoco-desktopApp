@@ -426,6 +426,10 @@ body {
       padding: 8px 10px;
       background-color: $white;
       border-bottom: 1px solid $card_header_border;
+      @media only screen and (max-width: 575px) {
+        flex-flow: column;
+        align-items: stretch;
+      }
       h4 {
         margin: 0px;
         font-size: $font_14;
@@ -435,6 +439,10 @@ body {
         padding: 4px 30px;
         font-weight: 600;
         font-size: $font_12;
+        @media only screen and (max-width: 575px) {
+          margin-top: 5px;
+          padding: 4px 20px;
+        }
       }
       .btn-add {
         white-space: nowrap;
@@ -451,11 +459,6 @@ body {
       @media only screen and (max-width: 600px) {
         flex-wrap: wrap;
         justify-content: flex-start;
-      }
-    }
-    .btn {
-      @media only screen and (max-width: 600px) {
-        margin-top: 5px;
       }
     }
   }

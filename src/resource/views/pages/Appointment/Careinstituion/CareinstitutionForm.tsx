@@ -160,11 +160,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       <div className='form-section '>
         <div
           className={classnames({
-            'form-card custom-height custom-scrollbar': true,
-            'requirement-bg': isRequirment,
-            'matching-bg': isMatching,
-            'contract-bg': isConfirm,
-            'cell-green-caregiver': isOffered,
+            "form-card custom-height custom-scrollbar": true,
+            "requirement-bg": isRequirment,
+            "matching-bg": isMatching,
+            "contract-bg": isConfirm,
+            "availability-bg": isOffered
           })}
         >
           <h5 className='content-title'>

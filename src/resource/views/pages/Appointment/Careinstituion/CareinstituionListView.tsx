@@ -76,6 +76,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnOfferedCareInst,
     handleSelectedAppoitment,
     setOnNotOfferedCareInst,
+    careinstitutionDepartmentList,
     onNewRequirement,
     showSelectedCaregiver,
   } = props;
@@ -675,6 +676,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <span>Create prepayment invoice</span>
               </NavLink>
             </NavItem>
+            {/*  <NavItem className='bordernav' />
+            <NavItem>
+              <NavLink>
+                <img src={refresh} className='mr-2' alt='' />
+                <span>Refresh </span>
+              </NavLink>
+            </NavItem> */}
           </Nav>
         </div>
       </div>

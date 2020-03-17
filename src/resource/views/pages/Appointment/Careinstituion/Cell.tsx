@@ -8,12 +8,27 @@ const CellCareinstitution = ({
   item,
   daysArr,
   key,
+  showSelectedCaregiver
 }: any) => {
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false,
     isConfirm: boolean = false,
-    isOffered: boolean = false;
+    isOffered: boolean = false,
+    showAppointedCareGiver: boolean = false;
+
+  let caregiverId: string = '';
+  if (item) {
+    const { appointments = [] } = item;
+    const { ca = {} } =
+      appointments && appointments.length ? appointments[0] : {};
+    caregiverId = ca ? ca.userId : '';
+  }
+  if (caregiverId) {
+    if (caregiverId === showSelectedCaregiver.id) {
+      showAppointedCareGiver = true;
+    }
+  }
 
   if (item) {
     if (item.status === 'default') {
@@ -38,13 +53,27 @@ const CellCareinstitution = ({
         'cell-green-caregiver': isOffered && !isSelected ? isOffered : false,
         'custom-appointment-col': true,
         'cursor-pointer': true,
-        'selected-cell': isSelected,
+        'selected-cell':
+          isSelected ||
+          (showAppointedCareGiver && caregiverId === showSelectedCaregiver.id),
         'selecting-cell': isSelecting,
         'requirement-bg': isRequirment && !isSelected ? isRequirment : false,
-        'matching-bg': isMatching && !isSelected ? isMatching : false,
-        'contract-bg': isConfirm && !isSelected ? isConfirm : false,
+        'matching-bg':
+          isMatching &&
+          !isSelected &&
+          !showAppointedCareGiver &&
+          caregiverId !== showSelectedCaregiver.id
+            ? isMatching
+            : false,
+        'contract-bg':
+          isConfirm &&
+          !isSelected &&
+          !showAppointedCareGiver &&
+          caregiverId !== showSelectedCaregiver.id
+            ? isConfirm
+            : false,
         'cell-available-careinstitution':
-          isRequirment && !isSelected ? isRequirment : false,
+          isRequirment && !isSelected ? isRequirment : false
       })}
       ref={selectableRef}
       // onClick={() => handleSelectedUser(list, day, 'caregiver')}

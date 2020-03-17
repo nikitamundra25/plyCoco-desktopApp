@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Table,
+  Nav,
+  NavItem,
+  NavLink
+} from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
 import { defaultDateFormat } from '../../../../../config';
 import close from '../../../../assets/img/cancel.svg';
@@ -57,42 +65,76 @@ const DetailListCaregiver = (props: any) => {
         <ModalBody>
           <div className='common-detail-page'>
             <div className='common-detail-section'>
-              <div className='common-sidnav'>
-                <ul className='common-ul nav nav-tabs'>
-                  <li className='nav-item'>
+              <Nav tabs className='contact-tabs mb-1'>
+                <NavItem className='text-capitalize'>
+                  <NavLink
+                    className={`mb-2 ${!workingHourTab ? 'active' : ''}`}
+                    onClick={() => setWorkingHourTab(false)}
+                  >
+                    {languageTranslation('BOOKING_DETAILS')}
+                  </NavLink>
+                </NavItem>
+                <NavItem className='text-capitalize'>
+                  <NavLink
+                    className={`mb-2 ${workingHourTab ? 'active' : ''}`}
+                    onClick={() => setWorkingHourTab(true)}
+                  >
+                    {languageTranslation('PRICE_AND_WORKING')}
+                  </NavLink>
+                </NavItem>
+              </Nav>
+              {/* <div className="common-sidnav">
+                <ul className="common-ul nav nav-tabs">
+                  <li className="nav-item">
                     <a
-                      className={`nav-link ${!workingHourTab ? 'active' : ''}`}
+                      className={`nav-link ${!workingHourTab ? "active" : ""}`}
                     >
                       <span
-                        className='nav-text text-capitalize'
+                        className="nav-text text-capitalize"
                         onClick={() => setWorkingHourTab(false)}
                       >
-                        {languageTranslation('BOOKING_DETAILS')}
+                        {languageTranslation("BOOKING_DETAILS")}
                       </span>
                     </a>
                   </li>
-                  <li className='nav-item'>
-                    <a className={`nav-link ${workingHourTab ? 'active' : ''}`}>
+                  <li className="nav-item">
+                    <a className={`nav-link ${workingHourTab ? "active" : ""}`}>
                       <span
-                        className='nav-text text-capitalize'
+                        className="nav-text text-capitalize"
                         onClick={() => setWorkingHourTab(true)}
                       >
-                        {languageTranslation('PRICE_AND_WORKING')}
+                        {languageTranslation("PRICE_AND_WORKING")}
                       </span>
                     </a>
                   </li>
                 </ul>
-              </div>
-              <div className='common-content flex-grow-1 px-0 bg-white'>
+              </div> */}
+              <div className='common-content flex-grow-1 p-0 pb-1 mb-2 bg-white'>
                 {!workingHourTab ? (
-                  <div className='table-minheight '>
-                    <Table bordered hover responsive>
+                  <div className='table-detail-list-caregiver'>
+                    <Table
+                      bordered
+                      hover
+                      responsive
+                      className='detail-table mb-0'
+                    >
                       <thead className='thead-bg'>
                         <tr>
-                          <th> {languageTranslation('ID')}</th>
-                          <th> {languageTranslation('MENU_CAREGIVER')}</th>
-                          <th> {languageTranslation('MENU_INSTITUTION')}</th>
-                          <th> {languageTranslation('QUALIFICATION')}</th>
+                          <th className='text-center'>
+                            {' '}
+                            {languageTranslation('ID')}
+                          </th>
+                          <th className='whitespace-nowrap caregiver-col'>
+                            {' '}
+                            {languageTranslation('MENU_CAREGIVER')}
+                          </th>
+                          <th className='whitespace-nowrap careinstitution-col'>
+                            {' '}
+                            {languageTranslation('MENU_INSTITUTION')}
+                          </th>
+                          <th className='qualification-col'>
+                            {languageTranslation('QUALIFICATION')}
+                          </th>
                           <th>{languageTranslation('DATE')}</th>
                           <th>{languageTranslation('BEGIN')}</th>
                           <th>{languageTranslation('END')}</th>
@@ -143,19 +185,19 @@ const DetailListCaregiver = (props: any) => {
                                     ? 'matching-bg'
                                     : elem.item.status === 'confirmed'
                                     ? 'contract-bg'
-                                    : 'cell-green-caregiver'
+                                    : 'availability-bg'
                                 }
                               >
                                 <td> {elem.item.id ? elem.item.id : null}</td>
-                                <td>
+                                <td className='caregiver-col word-wrap text-capitalize'>
                                   {elem.lastName && elem.firstName
                                     ? [elem.lastName, elem.firstName].join(' ')
                                     : '-'}
                                 </td>
-                                <td>
+                                <td className='careinstitution-col word-wrap text-capitalize'>
                                   {elem.item.status === 'default' ? '-' : name}
                                 </td>
-                                <td>
+                                <td className='qualification-col word-wrap text-capitalize'>
                                   {elem.item.status === 'default'
                                     ? '-'
                                     : quali && qualificationList
@@ -197,7 +239,7 @@ const DetailListCaregiver = (props: any) => {
                                     ? '-'
                                     : endTime}
                                 </td>
-                                <td>
+                                <td className='text-capitalize'>
                                   {elem.item.status === 'default' ? '-' : dept}
                                 </td>
                                 <td>
@@ -225,7 +267,7 @@ const DetailListCaregiver = (props: any) => {
                                     <label className=''> </label>
                                   </span>
                                 </td>
-                                <td>
+                                <td className='comment-col word-wrap'>
                                   {elem.item.remarksCareGiver
                                     ? elem.item.remarksCareGiver
                                     : '-'}
@@ -234,170 +276,240 @@ const DetailListCaregiver = (props: any) => {
                             ) : null;
                           })
                         ) : (
-                          <p>{languageTranslation('NO_DATA_FOUND')}</p>
+                          <tr className={'text-center no-hover-row'}>
+                            <td colSpan={11} className={'pt-5 pb-5'}>
+                              <div className='no-data-section'>
+                                <div className='no-data-icon'>
+                                  <i className='icon-ban' />
+                                </div>
+                                <h4 className='mb-1'>
+                                  Currently there are no data found.{' '}
+                                </h4>
+                              </div>
+                            </td>
+                          </tr>
                         )}
                       </tbody>
                     </Table>
                   </div>
                 ) : null}
                 {workingHourTab ? (
-                  <div className='table-minheight '>
-                    <Table bordered hover responsive>
+                  <div className='table-detail-list-caregiver'>
+                    <Table
+                      bordered
+                      hover
+                      responsive
+                      className='detail-table mb-0'
+                    >
                       <thead className='thead-bg'>
                         <tr>
-                          <th> {languageTranslation('ID')}</th>
-                          <th> {languageTranslation('MENU_CAREGIVER')}</th>
-                          <th> {languageTranslation('MENU_INSTITUTION')}</th>
-                          <th> {languageTranslation('DATE')}</th>
-                          <th>{languageTranslation('FEE')}</th>
-                          <th>{languageTranslation('NIGHT_FEE')}</th>
-                          <th>{languageTranslation('WEEKEND_FEE')}</th>
-                          <th>{languageTranslation('HOLIDAY_FEE')}</th>
-                          <th>
+                          <th className='text-center'>
+                            {' '}
+                            {languageTranslation('ID')}
+                          </th>
+                          <th className='whitespace-nowrap caregiver-col'>
+                            {' '}
+                            {languageTranslation('MENU_CAREGIVER')}
+                          </th>
+                          <th className='whitespace-nowrap careinstitution-col'>
+                            {' '}
+                            {languageTranslation('MENU_INSTITUTION')}
+                          </th>
+                          <th className='whitespace-nowrap '>
+                            {' '}
+                            {languageTranslation('DATE')}
+                          </th>
+                          <th className='whitespace-nowrap text-center'>
+                            {languageTranslation('FEE')}
+                          </th>
+                          <th className='whitespace-nowrap text-center'>
+                            {languageTranslation('NIGHT_FEE')}
+                          </th>
+                          <th className='whitespace-nowrap text-center'>
+                            {languageTranslation('WEEKEND_FEE')}
+                          </th>
+                          <th className='whitespace-nowrap text-center'>
+                            {languageTranslation('HOLIDAY_FEE')}
+                          </th>
+                          <th className='whitespace-nowrap '>
                             {languageTranslation('WORKING_HOURS')}{' '}
                             {languageTranslation('BEGIN')}
                           </th>
-                          <th>
+                          <th className='whitespace-nowrap '>
                             {languageTranslation('WORKING_HOURS')}{' '}
                             {languageTranslation('END')}
                           </th>
-                          <th>
+                          <th className='whitespace-nowrap '>
                             {languageTranslation('BREAK')}{' '}
                             {languageTranslation('BEGIN')}
                           </th>
-                          <th>
+                          <th className='whitespace-nowrap '>
                             {languageTranslation('BREAK')}{' '}
                             {languageTranslation('END')}
                           </th>
 
-                          <th>{languageTranslation('KILOMETER')}</th>
-                          <th>{languageTranslation('FEE_PER_KM')}</th>
+                          <th className='whitespace-nowrap text-center'>
+                            {languageTranslation('KILOMETER')}
+                          </th>
+                          <th className='whitespace-nowrap text-center'>
+                            {languageTranslation('FEE_PER_KM')}
+                          </th>
 
-                          <th>{languageTranslation('DLN_REQUIRED')}</th>
-                          <th>{languageTranslation('DLN_AVAILABLE')}</th>
-                          <th>{languageTranslation('NIGHT_ALLOWANCE')}</th>
-                          <th>{languageTranslation('FACTORING_CONTRACT')}</th>
-                          <th>{languageTranslation('FACTORING')}</th>
+                          <th className='whitespace-nowrap '>
+                            {languageTranslation('DLN_REQUIRED')}
+                          </th>
+                          <th className='whitespace-nowrap '>
+                            {languageTranslation('DLN_AVAILABLE')}
+                          </th>
+                          <th className='whitespace-nowrap '>
+                            {languageTranslation('NIGHT_ALLOWANCE')}
+                          </th>
+                          <th className='whitespace-nowrap '>
+                            {languageTranslation('FACTORING_CONTRACT')}
+                          </th>
+                          <th className='whitespace-nowrap '>
+                            {languageTranslation('FACTORING')}
+                          </th>
                         </tr>
                       </thead>
-                      {selectedCells ? (
-                        selectedCells.map((elem: any, index: number) => {
-                          elem.item && elem.item.appointments
-                            ? elem.item.appointments.map((a: any) => {
-                                name =
-                                  a && a.cr && a.cr.name ? a.cr.name : null;
-                                startTime =
-                                  a && a.cr && a.cr.startTime
-                                    ? a.cr.startTime
-                                    : null;
-                                endTime =
-                                  a && a.cr && a.cr.endTime
-                                    ? a.cr.endTime
-                                    : null;
-                              })
-                            : null;
-                          return elem &&
-                            elem.item &&
-                            (elem.item.f === 'available' ||
-                              elem.item.s === 'available' ||
-                              elem.item.n === 'available') ? (
-                            <tr
-                              key={index}
-                              className={
-                                elem.item.status === 'linked'
-                                  ? 'matching-bg'
-                                  : elem.item.status === 'confirmed'
-                                  ? 'contract-bg'
-                                  : 'cell-green-caregiver'
-                              }
-                            >
-                              <td> {elem.item.id ? elem.item.id : null}</td>
-                              <td>
-                                {elem.lastName && elem.firstName
-                                  ? [elem.lastName, elem.firstName].join(' ')
-                                  : '-'}
-                              </td>
-                              <td>
-                                {elem.item.status === 'default' ? '-' : name}
-                              </td>
-                              <td>
-                                {elem.item.date
-                                  ? moment(elem.item.date).format(
-                                      defaultDateFormat
-                                    )
-                                  : '-'}
-                              </td>
-                              <td>{elem.item.fee ? elem.item.fee : '-'}</td>
-                              <td>
-                                {elem.item.nightFee ? elem.item.nightFee : '-'}
-                              </td>
-                              <td>
-                                {elem.item.weekendAllowance
-                                  ? elem.item.weekendAllowance
-                                  : '-'}
-                              </td>
-                              <td>
-                                {elem.item.holidayAllowance
-                                  ? elem.item.holidayAllowance
-                                  : '-'}
-                              </td>
-                              <td>
-                                {elem.item.status === 'default'
-                                  ? '-'
-                                  : startTime}
-                              </td>
-                              <td>
-                                {elem.item.status === 'default' ? '-' : endTime}
-                              </td>
-                              <td>-</td>
-                              <td>-</td>
-                              <td>
-                                {elem.item.distanceInKM
-                                  ? elem.item.distanceInKM
-                                  : '-'}
-                              </td>
-                              <td>
-                                {elem.item.feePerKM ? elem.item.feePerKM : '-'}
-                              </td>
-                              <td>
-                                <span className='checkbox-custom '>
-                                  <input
-                                    type='checkbox'
-                                    id='checkAll'
-                                    className=''
-                                    checked={
-                                      elem.item.workingProofRecieved
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  <label className=''> </label>
-                                </span>
-                              </td>
-                              <td>
-                                <span className='checkbox-custom '>
-                                  <input
-                                    type='checkbox'
-                                    id='checkAll'
-                                    className=''
-                                  />
-                                  <label className=''> </label>
-                                </span>
-                              </td>
-                              <td>
-                                {elem.item.nightAllowance
-                                  ? elem.item.nightAllowance
-                                  : "From 22'o clock"}
-                              </td>
-                              <td>-</td>
-                              <td>-</td>
-                            </tr>
-                          ) : null;
-                        })
-                      ) : (
-                        <p>{languageTranslation('NO_DATA_FOUND')}</p>
-                      )}
-                      <tbody></tbody>
+                      <tbody>
+                        {selectedCells ? (
+                          selectedCells.map((elem: any, index: number) => {
+                            elem.item && elem.item.appointments
+                              ? elem.item.appointments.map((a: any) => {
+                                  name =
+                                    a && a.cr && a.cr.name ? a.cr.name : null;
+                                  startTime =
+                                    a && a.cr && a.cr.startTime
+                                      ? a.cr.startTime
+                                      : null;
+                                  endTime =
+                                    a && a.cr && a.cr.endTime
+                                      ? a.cr.endTime
+                                      : null;
+                                })
+                              : null;
+                            return elem &&
+                              elem.item &&
+                              (elem.item.f === 'available' ||
+                                elem.item.s === 'available' ||
+                                elem.item.n === 'available') ? (
+                              <tr
+                                key={index}
+                                className={
+                                  elem.item.status === 'linked'
+                                    ? 'matching-bg'
+                                    : elem.item.status === 'confirmed'
+                                    ? 'contract-bg'
+                                    : 'availability-bg'
+                                }
+                              >
+                                <td> {elem.item.id ? elem.item.id : null}</td>
+                                <td className='caregiver-col word-wrap text-capitalize'>
+                                  {elem.lastName && elem.firstName
+                                    ? [elem.lastName, elem.firstName].join(' ')
+                                    : '-'}
+                                </td>
+                                <td className='careinstitution-col word-wrap text-capitalize'>
+                                  {elem.item.status === 'default' ? '-' : name}
+                                </td>
+                                <td>
+                                  {elem.item.date
+                                    ? moment(elem.item.date).format(
+                                        defaultDateFormat
+                                      )
+                                    : '-'}
+                                </td>
+                                <td className='text-center'>
+                                  {elem.item.fee ? elem.item.fee : '-'}
+                                </td>
+                                <td className='text-center'>
+                                  {elem.item.nightFee
+                                    ? elem.item.nightFee
+                                    : '-'}
+                                </td>
+                                <td className='text-center'>
+                                  {elem.item.weekendAllowance
+                                    ? elem.item.weekendAllowance
+                                    : '-'}
+                                </td>
+                                <td className='text-center'>
+                                  {elem.item.holidayAllowance
+                                    ? elem.item.holidayAllowance
+                                    : '-'}
+                                </td>
+                                <td>
+                                  {elem.item.status === 'default'
+                                    ? '-'
+                                    : startTime}
+                                </td>
+                                <td>
+                                  {elem.item.status === 'default'
+                                    ? '-'
+                                    : endTime}
+                                </td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td className='text-center'>
+                                  {elem.item.distanceInKM
+                                    ? elem.item.distanceInKM
+                                    : '-'}
+                                </td>
+                                <td className='text-center'>
+                                  {elem.item.feePerKM
+                                    ? elem.item.feePerKM
+                                    : '-'}
+                                </td>
+                                <td>
+                                  <span className='checkbox-custom '>
+                                    <input
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
+                                      checked={
+                                        elem.item.workingProofRecieved
+                                          ? true
+                                          : false
+                                      }
+                                    />
+                                    <label className=''> </label>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span className='checkbox-custom '>
+                                    <input
+                                      type='checkbox'
+                                      id='checkAll'
+                                      className=''
+                                    />
+                                    <label className=''> </label>
+                                  </span>
+                                </td>
+                                <td>
+                                  {elem.item.nightAllowance
+                                    ? elem.item.nightAllowance
+                                    : 'From 10 p.m.'}
+                                </td>
+                                <td>-</td>
+                                <td>-</td>
+                              </tr>
+                            ) : null;
+                          })
+                        ) : (
+                          <tr className={'text-center no-hover-row'}>
+                            <td colSpan={20} className={'pt-5 pb-5'}>
+                              <div className='no-data-section'>
+                                <div className='no-data-icon'>
+                                  <i className='icon-ban' />
+                                </div>
+                                <h4 className='mb-1'>
+                                  {languageTranslation('NO_DATA_FOUND')}
+                                </h4>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
                     </Table>
                   </div>
                 ) : null}

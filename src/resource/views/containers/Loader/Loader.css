@@ -140,3 +140,11 @@
   position: relative;
   min-height: 150px;
 }
+.appointment-list-loader{
+  position: absolute;
+  display: block;
+  min-height: 100px;
+  bottom:0px;
+  left:50%;
+  transform:translateX(-50%);
+}

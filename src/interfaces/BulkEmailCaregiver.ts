@@ -1,11 +1,11 @@
-import { IReactSelectInterface } from './Constant';
-import { ActionMeta, ValueType } from 'react-select';
-import { FormEvent } from 'react';
-import { EditorState } from 'draft-js';
+import { IReactSelectInterface } from "./Constant";
+import { ActionMeta, ValueType } from "react-select";
+import { FormEvent } from "react";
+import { EditorState } from "draft-js";
 import {
   IEmailAttachmentData,
   IEmailInputAttachmenttypes
-} from './EmailTemplate';
+} from "./EmailTemplate";
 
 export interface IEmailEditorComponentProps {
   templateOptions: any[] | undefined;

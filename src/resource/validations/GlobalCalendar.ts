@@ -36,7 +36,7 @@ export const AddHolidayValidations: Yup.ObjectSchema<Yup.Shape<
       note: Yup.string().notRequired(),
       states: Yup.array()
         .of(Yup.number().required())
-        .notRequired()
+        .required(languageTranslation("STATE_ERROR"))
     })
   )
 });

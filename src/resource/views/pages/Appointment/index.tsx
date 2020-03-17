@@ -1168,7 +1168,7 @@ const Appointment: FunctionComponent = (props: any) => {
       // To check row added on solo careinstitution or all
       if (
         starCanstitution &&
-        starCanstitution.isStar &&
+        (starCanstitution.isStar || secondStarCanstitution.isStar) &&
         careInstituionDeptData &&
         careInstituionDeptData.length
       ) {
@@ -1776,18 +1776,23 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //  handle second star of careinstitution and autoselect department
   const onhandleSecondStarCanstitution = (dept: any) => {
-    setsecondStarCanstitution({
-      isStar: !secondStarCanstitution.isStar,
-      setIndex: -1,
-      id: dept && dept.id ? dept.id : ''
-    });
-    let data: any = [];
-    data.push(dept);
-    // setcareInstituionDeptData(data);
-    setcareInstituionDept({
-      label: dept.name,
-      value: dept.id
-    });
+    // To check whether first star is clicked or not
+    if (!secondStarCanstitution.isStar && !starCanstitution.isStar) {
+      handleFirstStarCanstitution({ id: dept ? dept.id : '' }, 1);
+    } else {
+      setsecondStarCanstitution({
+        isStar: !secondStarCanstitution.isStar,
+        setIndex: -1,
+        id: dept && dept.id ? dept.id : '',
+      });
+      let data: any = [];
+      data.push(dept);
+      // setcareInstituionDeptData(data);
+      setcareInstituionDept({
+        label: dept.name,
+        value: dept.id,
+      });
+    }
   };
 
   // Select single user from list and hide the rest
@@ -2633,6 +2638,7 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCellsCareinstitution[0].item.appointments[0].id
       ? true
       : false;
+
   return (
     <>
       <div className='common-detail-page'>
@@ -2716,7 +2722,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     careInstituionDeptData={careInstituionDeptData}
                     starCanstitution={starCanstitution}
                     secondStarCanstitution={secondStarCanstitution}
-                    deptLoading={fetchingDept}
+                    deptLoading={deptLoading /* fetchingDept */}
                     onhandleSecondStarCanstitution={
                       onhandleSecondStarCanstitution
                     }

@@ -90,6 +90,10 @@ const Appointment: FunctionComponent = (props: any) => {
   const [selectedCareinstitution, setselectedCareinstitution] = useState<any>(
     {}
   );
+  const [showSelectedCaregiver, setShowSelectedCaregiver] = useState<Object>({
+    id: '',
+    isShow: false
+  });
   const [shiftOption, setshiftOption] = useState<
     IReactSelectTimeInterface[] | undefined
   >([]);
@@ -841,6 +845,7 @@ const Appointment: FunctionComponent = (props: any) => {
           await appointmentDataSort('caregiver', result, appointId);
         }
       }
+      setShowSelectedCaregiver({ id: '', isShow: false });
       setselectedCellsCareinstitution(selectedCells);
     }
   };
@@ -1255,8 +1260,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   }, [careInstituionShift]);
   const setOnConfirmedCareInst = async () => {
-    console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
-
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
@@ -2335,6 +2338,19 @@ const Appointment: FunctionComponent = (props: any) => {
     });
   };
 
+  const handleSelectedAppoitment = () => {
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      const { item } = selectedCellsCareinstitution[0];
+      const { appointments = [] } = item ? item : {};
+      const { ca = {} } =
+        appointments && appointments.length ? appointments[0] : [];
+      setShowSelectedCaregiver({
+        id: ca.userId,
+        isShow: true
+      });
+    }
+  };
+
   const isUnLinkable =
     selectedCells &&
     selectedCells.length &&
@@ -2428,10 +2444,12 @@ const Appointment: FunctionComponent = (props: any) => {
                     careInstitutionList={
                       careinstitutionList ? careinstitutionList : []
                     }
+                    handleSelectedAppoitment={() => handleSelectedAppoitment()}
                     fetchCareinstitutionList={fetchCareinstitutionList}
                     onAddingRow={onAddingRow}
                     handleSecondStar={handleSecondStar}
                     handleReset={handleReset}
+                    showSelectedCaregiver={showSelectedCaregiver}
                     handleFirstStarCanstitution={handleFirstStarCanstitution}
                     careInstituionDeptData={careInstituionDeptData}
                     starCanstitution={starCanstitution}
@@ -2600,13 +2618,6 @@ const Appointment: FunctionComponent = (props: any) => {
                           <i className='fa fa-save mr-2' />
                           {languageTranslation('SAVE_BOTH')}
                         </Button>
-                        {
-                          (console.log(
-                            'selectedCellsCareinstitution',
-                            selectedCellsCareinstitution
-                          ),
-                          console.log('selectedCells', selectedCells))
-                        }
                         <Button
                           className='btn-common mt-0 mb-2 mx-2'
                           color='secondary'

@@ -74,61 +74,22 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnConfirmedCareInst,
     setOnNotConfirmedCareInst,
     setOnOfferedCareInst,
+    handleSelectedAppoitment,
     setOnNotOfferedCareInst,
-    onNewRequirement
+    onNewRequirement,
+    showSelectedCaregiver
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
-
-  // const handleFirstStar = (list: object, index: number, name: string) => {
-  //   if (starMarkIndex !== index) {
-  //     setstarMarkIndex(index);
-  //     handleSelectedUser(list, null, name);
-  //   } else {
-  //     setstarMarkIndex(-1);
-  //   }
-  // };
-
-  // const onhandleSecondStar = (list: object, index: number, name: string) => {
-  //   if (!starMark) {
-  //     if (starMarkIndex === index) {
-  //       setstarMark(!starMark);
-  //       handleSecondStar(list, index, name);
-  //     }
-  //   } else {
-  //     setstarMark(!starMark);
-  //     handleReset(name);
-  //   }
-  // };
-
   //use state for toggel menu item
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
 
   const handleRightMenuToggle = () => {
-    // alert("zdfsadfsa");
     settoggleMenuButton(!toggleMenuButton);
   };
   const { daysArr = [] } = daysData ? daysData : {};
 
   const [onEnterMenu, setonEnterMenu] = useState(false);
-
-  // window.addEventListener('click', function(e) {
-  //   const rightMenuOption: any = document.getElementById('clickbox');
-  //   console.log('onEnterMenu', onEnterMenu);
-
-  //   if (onEnterMenu && toggleMenuButton) {
-  //     if (rightMenuOption.contains(e.target)) {
-  //       // Clicked in box
-  //       console.log('inside');
-  //     } else{
-  //       setonEnterMenu(false);
-  //       handleRightMenuToggle();
-  //       console.log('outside');
-  //     }
-  //   }
-  // });
-
-  // select multiple
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCells: any[]) => {
@@ -343,7 +304,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink onClick={() => handleSelectedAppoitment()}>
                 <img src={all_list} className='mr-2' alt='' />
                 <span>Select all appointments of the caregiver</span>
               </NavLink>{' '}
@@ -770,6 +731,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                   day={key}
                                   list={list}
                                   daysArr={key.isWeekend}
+                                  showSelectedCaregiver={showSelectedCaregiver}
                                   item={
                                     item
                                       ? item.filter((avabilityData: any) => {

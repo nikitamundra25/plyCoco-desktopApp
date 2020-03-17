@@ -257,7 +257,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                   ? moment(dateString).format(
                                       index !==
                                         activeDateCareinstitution.length - 1
-                                        ? 'dd DD.'
+                                        ? 'dd DD'
                                         : 'dd DD.MM.YYYY',
                                     )
                                   : null,

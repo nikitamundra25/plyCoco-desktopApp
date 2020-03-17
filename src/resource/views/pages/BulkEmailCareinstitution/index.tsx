@@ -270,7 +270,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             }
             if (props.statusTo === 'confirmed') {
               if (emailData.menuEntry === 'Appointment Confirmation') {
-                console.log('In temp opt', emailData);
                 const { subject, body, attachments } = emailData;
                 const editorState = body ? HtmlToDraftConverter(body) : '';
                 setSubject(subject);
@@ -298,7 +297,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
               emailData.menuEntry === 'Acknowledge for offer sent' &&
               props.statusTo === ''
             ) {
-              console.log('In temp opt', emailData);
               const { subject, body, attachments } = emailData;
               const editorState = body ? HtmlToDraftConverter(body) : '';
               setSubject(subject);

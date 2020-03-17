@@ -4,7 +4,7 @@ import '../index.scss';
 import {
   IAppointmentCareInstitutionForm,
   ICareinstitutionFormValue,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../../interfaces';
 import {
   FormGroup,
@@ -15,7 +15,7 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
 } from 'reactstrap';
 import '../index.scss';
 import { languageTranslation } from '../../../../../helpers';
@@ -34,7 +34,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   any> = (
   props: FormikProps<ICareinstitutionFormValue> &
     IAppointmentCareInstitutionForm &
-    any
+    any,
 ) => {
   useEffect(() => {
     if (props.savingBoth) {
@@ -59,7 +59,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       offerRemarks,
       bookingRemarks,
       comments,
-      status
+      status,
     },
     touched,
     errors,
@@ -81,7 +81,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     handleQualification,
     onhandleDelete,
     careInstitutionListArr,
-    handleSelectUserList
+    handleSelectUserList,
+    addCareinstLoading,
   } = props;
 
   let d = moment().format('L');
@@ -159,11 +160,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       <div className='form-section '>
         <div
           className={classnames({
-            'form-card custom-height custom-scrollbar': true,
-            'requirement-bg': isRequirment,
-            'matching-bg': isMatching,
-            'contract-bg': isConfirm,
-            'cell-green-caregiver': isOffered
+            "form-card custom-height custom-scrollbar": true,
+            "requirement-bg": isRequirment,
+            "matching-bg": isMatching,
+            "contract-bg": isConfirm,
+            "availability-bg": isOffered
           })}
         >
           <h5 className='content-title'>
@@ -225,7 +226,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                       selectedCareinstitution
                                         ? selectedCareinstitution.id
                                         : '',
-                                      'careinstitution'
+                                      'careinstitution',
                                     )
                                   : ''
                               }
@@ -247,13 +248,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    <div className='text-value mb-1'>
+                    <div className='text-value '>
                       {activeDateCareinstitution
                         ? activeDateCareinstitution
                             .map((dateString: string | undefined) =>
                               dateString
                                 ? moment(dateString).format('dd DD.MM.YYYY')
-                                : null
+                                : null,
                             )
                             .join(', ')
                         : null}
@@ -413,10 +414,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         <ReactMultiSelectCheckboxes
                           options={qualificationList}
                           placeholderButtonLabel={languageTranslation(
-                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER',
                           )}
                           placeholder={languageTranslation(
-                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER',
                           )}
                           // placeholder="Select Qualifications"
                           className={'custom-reactselect '}
@@ -486,11 +487,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         placeholder='Select Department'
                         options={careInstitutionDepartment}
                         isDisabled={
-                          careInstitutionDepartment.length <= 0
-                            ? true
-                            : secondStarCanstitution
-                            ? true
-                            : false
+                          careInstitutionDepartment.length <= 0 ? true : false
                         }
                         classNamePrefix='custom-inner-reactselect'
                         // className={'custom-reactselect'}
@@ -621,7 +618,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='5'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation(
-                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
+                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY',
                       )}
                     </Label>
                   </Col>
@@ -660,10 +657,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             className=''
                             checked={isWorkingProof}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
+                              e: React.ChangeEvent<HTMLInputElement>,
                             ) => {
                               const {
-                                target: { checked }
+                                target: { checked },
                               } = e;
                               setFieldValue('isWorkingProof', checked);
                             }}
@@ -767,9 +764,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   className='btn-save'
                   color='primary'
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  disabled={addCareinstLoading}
                 >
-                  {isSubmitting ? (
+                  {addCareinstLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
                     ''

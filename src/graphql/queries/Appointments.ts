@@ -61,6 +61,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           remarksCareGiver
           remarksInternal
           appointments {
+            requirementId
+            avabilityId
             id
             date
             cr {
@@ -107,6 +109,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
             id
             date
             ca {
+              userId
+              id
               name
             }
           }

@@ -72,7 +72,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
     setOnConfirmedCaregiver,
     setOnNotConfirmedCaregiver,
     qualificationList,
-    onNewAvailability,
+    onNewAvailability
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -111,6 +111,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCellsData: any[]) => {
+    console.log(selectedCellsData, 'onSelectFinish');
     let selectedRows: any[] = [];
     if (selectedCellsData && selectedCellsData.length) {
       selectedRows = selectedCellsData.map((selectedCell: any) => {
@@ -415,8 +416,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
               <span className='align-middle'>Create termination agreement</span>
             </NavLink>{' '}
           </NavItem>
-          <NavItem className='bordernav' />
-          {/* <NavItem>
+          {/* <NavItem className='bordernav' />
+          <NavItem>
             <NavLink>
               <img src={refresh} className='mr-2' alt='' />
               <span className='align-middle'>Refresh</span>
@@ -543,12 +544,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                         : ''
                                       : ''
                                   }}
+                                  title={[list.lastName, list.firstName]
+                                    .filter(Boolean)
+                                    .join(' ')}
                                 >
                                   <div
                                     className='calender-heading'
                                     id={`caregiver-${list.id}`}
                                   >
-                                    {row === 0 ? (
+                                    {/* {row === 0 ? (
                                       <UncontrolledTooltip
                                         placement='right'
                                         target={`caregiver-${list.id}`}
@@ -557,7 +561,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList & any> = (
                                           ' '
                                         )}
                                       </UncontrolledTooltip>
-                                    ) : null}
+                                    ) : null} */}
                                     {row === 0
                                       ? `${
                                           list.lastName ? list.lastName : ''

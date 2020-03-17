@@ -5,7 +5,7 @@
   "WOMAN": "Woman",
   "CAREGIVER_USERROLE": "caregiver",
   "EMPLOYEE_LABEL": "Employee",
-  "CAREINST_USERROLE": "careinstitution",
+  "CAREINST_USERROLE": "care Institution",
   "REMARK_LIMIT": "Text should be minimum of 255 characters",
   "REQUIRED_REGION": "Please enter the name of Region",
   "DELETE": "Delete",

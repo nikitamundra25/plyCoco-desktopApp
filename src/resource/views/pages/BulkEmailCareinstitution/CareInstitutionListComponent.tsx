@@ -83,7 +83,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
     });
   }
   return (
-    <Col lg={"5"} className="pr-lg-0">
+    <Col lg={"6"} className="pr-lg-0">
       <Table bordered hover responsive className="mb-0">
         <thead className="thead-bg">
           <tr>

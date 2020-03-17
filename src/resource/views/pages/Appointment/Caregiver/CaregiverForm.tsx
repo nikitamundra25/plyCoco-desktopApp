@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import Select from 'react-select';
 import { FormikProps } from 'formik';
 import moment from 'moment';
@@ -29,6 +29,21 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   // const { selectedCareGiver } = props;
+
+  //For saving both
+  useEffect(() => {
+    if (props.savingBoth) {
+      handleSubmit();
+    }
+  }, [props.savingBoth]);
+
+  //For Seting false for saving both on error handling
+  useEffect(() => {
+    if (props.errors) {
+      props.setsavingBoth();
+    }
+  }, [props.errors]);
+
   const {
     values: {
       name,
@@ -219,7 +234,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       {languageTranslation('DATE')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     {/* <div className='required-input'>
                       <Input
                         placeholder={languageTranslation(
@@ -447,6 +462,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
+
             <Col lg={'12'}>
               <FormGroup>
                 <Row>

@@ -243,6 +243,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
 
   const [showList, setShowList] = useState<boolean>(false);
+  console.log('selectedCells in caregiverform', selectedCells);
+
   return (
     <div>
       <div
@@ -262,6 +264,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         <Nav vertical>
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 onNewAvailability ? onNewAvailability() : undefined;
@@ -628,7 +631,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     <div
                                       className='v-col custom-appointment-col text-center cursor-pointer'
                                       onClick={e =>
-                                       onAddingRow(e, 'caregiver', index)
+                                        onAddingRow(e, 'caregiver', index)
                                       }
                                     >
                                       <i className='fa fa-arrow-down' />

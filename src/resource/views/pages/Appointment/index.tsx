@@ -468,8 +468,6 @@ const Appointment: FunctionComponent = (props: any) => {
     positiveId: number[],
     negativeId: number[]
   ) => {
-    console.log('positiveId', positiveId);
-    console.log('negativeId', negativeId);
     setPositive(positiveId);
     setNegative(negativeId);
     if (userRole === 'caregiver') {
@@ -841,9 +839,6 @@ const Appointment: FunctionComponent = (props: any) => {
             );
             result = Object.values(result);
             result = Math.max(...result);
-            // user.availabilityData = Array(result).fill([]);
-            // console.log(user.availabilityData, 'dasdsad');
-
             for (let row = 0; row < result; row++) {
               user.availabilityData.push([]);
             }
@@ -1391,6 +1386,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete item.id;
             delete item.__typename;
             delete item.appointments;
+            delete item.division;
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
@@ -1425,6 +1421,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete item.id;
             delete item.__typename;
             delete item.appointments;
+            delete item.division;
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
@@ -1456,11 +1453,15 @@ const Appointment: FunctionComponent = (props: any) => {
             delete item.id;
             delete item.__typename;
             delete item.appointments;
+            delete item.division;
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
                 careInstitutionRequirementInput: {
                   ...item,
+                  qualificationId: item.qualificationId.map((item: any) => {
+                    item.id;
+                  }),
                   status: 'offered'
                 }
               }
@@ -1488,11 +1489,15 @@ const Appointment: FunctionComponent = (props: any) => {
             delete item.id;
             delete item.__typename;
             delete item.appointments;
+            delete item.division;
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
                 careInstitutionRequirementInput: {
                   ...item,
+                  // qualificationId: item.qualificationId.map((item: any) => {
+                  //   item.id;
+                  // }),
                   status: 'default'
                 }
               }
@@ -1502,9 +1507,10 @@ const Appointment: FunctionComponent = (props: any) => {
                 languageTranslation('CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG')
               );
             }
-          } else {
-            toast.warn('something wrong');
           }
+          //  else {
+          //   toast.warn('something wrong');
+          // }
         }
       });
     }
@@ -1514,12 +1520,14 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
+        console.log('item.division', item.division);
         if (item && item.id) {
           if (item.status === 'linked') {
             let availabilityId: number = item.id ? parseInt(item.id) : 0;
             delete item.id;
             delete item.__typename;
             delete item.appointments;
+            delete item.division;
             await updateCaregiver({
               variables: {
                 id: availabilityId,
@@ -2371,8 +2379,6 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCells[0]
       ? selectedCells[0]
       : {};
-  console.log('selectedCells in index', selectedCells);
-
   let departmentData: any =
     selectedCellsCareinstitution &&
     selectedCellsCareinstitution.length &&
@@ -2435,9 +2441,6 @@ const Appointment: FunctionComponent = (props: any) => {
     status: Item ? Item.status : '',
     careInstitutionDepartment
   };
-  console.log('name in index', item);
-  console.log('caregiver caregiver', caregiver);
-
   const {
     name = '',
     id = '',
@@ -2460,7 +2463,6 @@ const Appointment: FunctionComponent = (props: any) => {
     n = '',
     status = ''
   } = item ? item : caregiver ? caregiver : {};
-  console.log('lastName', lastName);
 
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
@@ -2574,12 +2576,9 @@ const Appointment: FunctionComponent = (props: any) => {
                   ),
                   {}
                 );
-                console.log('^^^^^^^^^^^^^^^^^result', result);
+
                 result = Object.values(result);
                 result = Math.max(...result);
-                // user.availabilityData = Array(result).fill([]);
-                // console.log(user.availabilityData, 'dasdsad');
-
                 for (let row = 0; row < result; row++) {
                   user.availabilityData.push([]);
                 }
@@ -2589,8 +2588,6 @@ const Appointment: FunctionComponent = (props: any) => {
                       moment(d.dateString).isSame(moment(available.date), 'day')
                   );
                   for (let i = 0; i < records.length; i++) {
-                    console.log('recordsrecords', records);
-
                     user.availabilityData[i].push(records[i]);
                   }
                 });

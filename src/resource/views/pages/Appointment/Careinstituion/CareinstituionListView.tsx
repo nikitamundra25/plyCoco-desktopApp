@@ -171,7 +171,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         if (!toast.isActive(toastId)) {
           toastId = toast.error('Please select same length cells');
         }
-      } 
+      }
       // else if (
       //   selectedCellsCareinstitution &&
       //   selectedCellsCareinstitution.item &&
@@ -179,7 +179,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       // ) {
       //   return true;
       // }
-       else {
+      else {
         selectedCells.map((key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
           if (
@@ -654,7 +654,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <img src={set_confirm} className='mr-2' alt='' />
                 <span
                   onClick={() => {
-                    setopenToggleMenu(false);
+                    handleRightMenuToggle();
                     setOnConfirmedCareInst();
                   }}
                 >

@@ -81,7 +81,6 @@ const DetailListCareinstitution = (props: any) => {
                       {selectedCellsCareinstitution ? (
                         selectedCellsCareinstitution.map(
                           (elem: any, index: number) => {
-                            logger('elem in careinst dfdf', elem);
                             return elem && elem.item ? (
                               <tr
                                 key={index}
@@ -96,16 +95,6 @@ const DetailListCareinstitution = (props: any) => {
                                 }
                               >
                                 <td>{elem.item.id ? elem.item.id : '-'}</td>
-                                {console.log(
-                                  'name   ',
-                                  elem.item && elem.item.appointments
-                                    ? elem.item.appointments[0] &&
-                                      elem.item.appointments[0].ca &&
-                                      elem.item.appointments[0].ca.name
-                                      ? elem.item.appointments[0].ca.name
-                                      : null
-                                    : null
-                                )}
                                 <td className='caregiver-col word-wrap text-capitalize'>
                                   {elem.item.status === 'offered' ||
                                   elem.item.status === 'default'

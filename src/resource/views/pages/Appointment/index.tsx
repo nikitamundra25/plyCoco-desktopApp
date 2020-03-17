@@ -1186,7 +1186,7 @@ const Appointment: FunctionComponent = (props: any) => {
       // To check row added on solo careinstitution or all
       if (
         starCanstitution &&
-        starCanstitution.isStar &&
+        (starCanstitution.isStar || secondStarCanstitution.isStar) &&
         careInstituionDeptData &&
         careInstituionDeptData.length
       ) {
@@ -1480,9 +1480,10 @@ const Appointment: FunctionComponent = (props: any) => {
                 languageTranslation('CARE_INST_SET_ON_OFFERED_SUCCESS_MSG')
               );
             }
-          } else {
-            toast.warn('something wrong');
           }
+          // else {
+          //   toast.warn('Only requirements can be set to "offered" ! ');
+          // }
         }
       });
     }
@@ -1795,18 +1796,23 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //  handle second star of careinstitution and autoselect department
   const onhandleSecondStarCanstitution = (dept: any) => {
-    setsecondStarCanstitution({
-      isStar: !secondStarCanstitution.isStar,
-      setIndex: -1,
-      id: dept && dept.id ? dept.id : ''
-    });
-    let data: any = [];
-    data.push(dept);
-    // setcareInstituionDeptData(data);
-    setcareInstituionDept({
-      label: dept.name,
-      value: dept.id
-    });
+    // To check whether first star is clicked or not
+    if (!secondStarCanstitution.isStar && !starCanstitution.isStar) {
+      handleFirstStarCanstitution({ id: dept ? dept.id : '' }, 1);
+    } else {
+      setsecondStarCanstitution({
+        isStar: !secondStarCanstitution.isStar,
+        setIndex: -1,
+        id: dept && dept.id ? dept.id : ''
+      });
+      let data: any = [];
+      data.push(dept);
+      // setcareInstituionDeptData(data);
+      setcareInstituionDept({
+        label: dept.name,
+        value: dept.id
+      });
+    }
   };
 
   // Select single user from list and hide the rest
@@ -2466,7 +2472,6 @@ const Appointment: FunctionComponent = (props: any) => {
     n = '',
     status = ''
   } = item ? item : caregiver ? caregiver : {};
-
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
     name: name ? name : firstName ? `${lastName} ${firstName}` : '',
@@ -2512,11 +2517,12 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleSaveBoth = () => {
     setsavingBoth(true);
   };
-  const isCareinstituionData: boolean = selectedCellsCareinstitution
-    ? !selectedCellsCareinstitution[0].id
-      ? true
-      : false
-    : false;
+  const isCareinstituionData: boolean =
+    selectedCellsCareinstitution && selectedCellsCareinstitution[0]
+      ? !selectedCellsCareinstitution[0].id
+        ? true
+        : false
+      : false;
 
   // get next page caregivers
   const getNext = (skip: number): void => {
@@ -2562,6 +2568,7 @@ const Appointment: FunctionComponent = (props: any) => {
         if (prev.getUserByQualifications) {
           let list = [...fetchMoreResult.getUserByQualifications.result];
           if (list && list.length) {
+            let dayDetails: any[] = daysData ? [...daysData.daysArr] : [];
             list.forEach((user: any, index: number) => {
               user.availabilityData = [];
               user.attribute = [];
@@ -2586,7 +2593,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 for (let row = 0; row < result; row++) {
                   user.availabilityData.push([]);
                 }
-                temp.forEach((d: any, index: number) => {
+                dayDetails.forEach((d: any, index: number) => {
                   let records = user.caregiver_avabilities.filter(
                     (available: any) =>
                       moment(d.dateString).isSame(moment(available.date), 'day')
@@ -2734,7 +2741,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     careInstituionDeptData={careInstituionDeptData}
                     starCanstitution={starCanstitution}
                     secondStarCanstitution={secondStarCanstitution}
-                    deptLoading={fetchingDept}
+                    deptLoading={deptLoading /* fetchingDept */}
                     onhandleSecondStarCanstitution={
                       onhandleSecondStarCanstitution
                     }

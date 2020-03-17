@@ -125,6 +125,7 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       city
       zip
       countryId
+      stateId
       phoneNumber
       phoneNumber2
       fax

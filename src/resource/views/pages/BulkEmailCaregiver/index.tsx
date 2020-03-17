@@ -357,11 +357,18 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     }
   };
 
-  const [getDepartmentById, { data: divisionDetails }] = useLazyQuery<any, any>(GET_DIVISION_DETAILS_BY_ID, { fetchPolicy: 'no-cache', });
-
-  useEffect(() => {
-    // console.log("In use effect",divisionDetails);
-  }, [divisionDetails]);
+  const sortByDivision = (a: any, b: any) => {
+    // Use toUpperCase() to ignore character casing
+    const bandA = a.division.toUpperCase();
+    const bandB = b.division.toUpperCase();
+    let comparison = 0;
+    if (bandA > bandB) {
+      comparison = 1;
+    } else if (bandA < bandB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
 
   //Use Effect for email template data
   useEffect(() => {
@@ -371,20 +378,18 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let qualificationString: string = '';
         let remarkRow: string = '';
         let divisionArray: any = [];
+        let subjectDivisions: any = [];
         for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
           let object = selectedCellsCareinstitution[i];
           if (object.item) {
             let obj: any = {};
-
+            if (object.item.id && object.item.division && object.item.division.name) {
+              subjectDivisions.push(object.item.division.name);
+            }
             let shiftLabel = object.item.startTime === "06:00" ? "FD" : object.item.startTime === "14:00" ? "SD" : "ND"
 
-            getDepartmentById({
-              variables: {
-                id: parseInt(object.item.divisionId)
-              }
-            });
             obj.id = object.item.id;
-            obj.divisionId = object.item.divisionId;
+            obj.division = object.item.division ? object.item.division.name : '';
             obj.shiftLabel = shiftLabel;
             obj.day = moment(object.item.date).format('D');
             obj.month = moment(object.item.date).format('MMM');
@@ -408,66 +413,47 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         })
         qualificationString = temp.join();
 
-        // console.log('divisionArray ', JSON.stringify(divisionArray));
+        let uniqueDivisions = subjectDivisions.filter((item: any, i: any, ar: any) => ar.indexOf(item) === i);
+
+        // console.log('divisionArray ',JSON.stringify(divisionArray));
+
+        if (props.sortBy === 'day') {
+          divisionArray = divisionArray.sort(function (a: any, b: any) {
+            return a.date - b.date;
+          });
+        } else {
+          divisionArray = divisionArray.sort(sortByDivision);
+        }
+
+        let divRow: string = '';
+        let customSub: string = 'Offer ';
+        divisionArray.map((v: any, i: number) => {
+          if (v.id) {
+            divRow += `<p>${v.date + " " + v.shiftLabel + " " + v.duration + "h " + (v.division ? v.division : " - ") + "  " + languageTranslation('APPOINTMENTID') + "=" + v.id}</p>`
+            if (i == 0) {
+              customSub += `${v.month + " " + v.day + "." + v.shiftLabel},`
+            } else {
+              customSub += `${" " + v.day + "." + v.shiftLabel},`
+            }
+          }
+        });
+
+        if (uniqueDivisions.length == 1) {
+          customSub += `${" " + uniqueDivisions[0]}`
+        }
+
+        let mailBody: any = '';
 
         if (props.showButton) {
-          if (props.sortBy === 'day') {
-            divisionArray = divisionArray.sort(function (a: any, b: any) {
-              return a.date - b.date;
-            });
-          } else {
-            divisionArray = divisionArray.sort(function (a: any, b: any) {
-              return a.date - b.date;
-            });
-          }
-          let divRow: string = '';
-          let customSub: string = 'Offer ';
-          divisionArray.map((v: any, i: number) => {
-            if (v.id) {
-              divRow += `<p>${v.date + " " + v.shiftLabel + " " + v.duration + "h " + (v.divisionId ? v.divisionId : " - ") + "  " + languageTranslation('APPOINTMENTID') + "=" + v.id}</p>`
-              if (i == 0) {
-                customSub += `${v.month + " " + v.day + "." + v.shiftLabel},`
-              } else {
-                customSub += `${" " + v.day + "." + v.shiftLabel},`
-              }
-            }
-          })
-
-          let mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br></br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
-
-          const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
-          setSubject(customSub);
-          setBody(editorState);
+          mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br></br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
+        } else {
+          mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
         }
-        if (!props.showButton) {
-          if (props.sortBy === 'day') {
-            divisionArray = divisionArray.sort(function (a: any, b: any) {
-              return a.date - b.date;
-            });
-          } else {
-            divisionArray = divisionArray.sort(function (a: any, b: any) {
-              return a.date - b.date;
-            });
-          }
-          let divRow: string = '';
-          let customSub: string = 'Offer ';
-          divisionArray.map((v: any, i: number) => {
-            if (v.id) {
-              divRow += `<p>${v.date + " " + v.shiftLabel + " " + v.duration + "h " + (v.divisionId ? v.divisionId : " - ") + "  " + languageTranslation('APPOINTMENTID') + "=" + v.id}</p>`
-              if (i == 0) {
-                customSub += `${v.month + " " + v.day + "." + v.shiftLabel},`
-              } else {
-                customSub += `${" " + v.day + "." + v.shiftLabel},`
-              }
-            }
-          })
 
-          let mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
+        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        setSubject(customSub);
+        setBody(editorState);
 
-          const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
-          setSubject(customSub);
-          setBody(editorState);
-        }
       } else {
         // if (emailData.menuEntry === 'Offers for care givers' && !props.showButton) {
         //   const { subject, body, attachments } = emailData;

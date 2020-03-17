@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 const GET_USERS_BY_QUALIFICATION_ID = gql`
   query getUserByQualifications(
     $qualificationId: [ID]
@@ -107,6 +107,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           surName
           salutation
           mobileNumber
+          email
+        }
+        divisions {
+          id
           email
         }
         canstitution {

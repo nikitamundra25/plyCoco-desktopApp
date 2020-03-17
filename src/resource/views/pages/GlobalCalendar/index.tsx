@@ -46,7 +46,6 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
         ["AT", "DE"],
         "id"
       );
-      console.log(countryIds);
       if (countryIds.length) {
         // get states of Germany
         getStatesByCountry({

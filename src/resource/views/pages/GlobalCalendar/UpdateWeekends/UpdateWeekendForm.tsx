@@ -37,39 +37,37 @@ const UpdateWeekendForm: FunctionComponent<IUpdateWeekendFormProps> = ({
   };
 
   return (
-    <FormGroup>
-      <Row>
-        <Col sm="2">
-          <Label className="form-label col-form-label">
-            {languageTranslation("CHOOSE_YEAR")}{" "}
-            <span className="required">*</span>
-          </Label>
-        </Col>
-        <Col sm="10">
-          <Field name={`year`}>
-            {({ meta }: any) => (
-              <>
-                <Select
-                  options={yearOptions}
-                  classNamePrefix="custom-inner-reactselect"
-                  className={"custom-reactselect"}
-                  placeholder={languageTranslation("CHOOSE_YEAR_PLACEHOLDER")}
-                  value={getSelectedValue()}
-                  onChange={onYearChange}
-                />
+    <div className="form-section">
+      <FormGroup>
+        <Row>
+          <Col sm="2">
+            <Label className="form-label col-form-label">
+              {languageTranslation("CHOOSE_YEAR")}{" "}
+              <span className="required">*</span>
+            </Label>
+          </Col>
+          <Col sm="10">
+            <Field name={`year`}>
+              {({ meta }: any) => (
+                <div className="mb-2">
+                  <Select
+                    options={yearOptions}
+                    classNamePrefix="custom-inner-reactselect"
+                    className={"custom-reactselect"}
+                    placeholder={languageTranslation("CHOOSE_YEAR_PLACEHOLDER")}
+                    value={getSelectedValue()}
+                    onChange={onYearChange}
+                  />
 
-                {meta.touched && meta.error && (
-                  <div className="required-tooltip text-danger">
-                    {meta.error}
-                  </div>
-                )}
-              </>
-            )}
-          </Field>
-        </Col>
-        <Col sm="2"></Col>
-        <Col sm="10">
-          <div className="checkbox-th-column">
+                  {meta.touched && meta.error && (
+                    <div className="required-tooltip text-danger">
+                      {meta.error}
+                    </div>
+                  )}
+                </div>
+              )}
+            </Field>
+
             <span className=" checkbox-custom ">
               <input
                 type="checkbox"
@@ -83,10 +81,10 @@ const UpdateWeekendForm: FunctionComponent<IUpdateWeekendFormProps> = ({
                 {languageTranslation("OVERWRITE_EXISTING_HOLIDAYS")}
               </Label>
             </span>
-          </div>
-        </Col>
-      </Row>
-    </FormGroup>
+          </Col>
+        </Row>
+      </FormGroup>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
-import React from 'react';
-import { createSelectable } from 'react-selectable-fast';
-import classnames from 'classnames';
+import React from "react";
+import { createSelectable } from "react-selectable-fast";
+import classnames from "classnames";
 
 const Cell = ({
   selectableRef,
@@ -8,11 +8,11 @@ const Cell = ({
   isSelecting,
   item,
   key,
-  daysArr,
+  daysArr
 }: any) => {
   let isBlocked: boolean = false;
   if (item) {
-    isBlocked = item.f === 'block' || item.s === 'block' || item.n === 'block';
+    isBlocked = item.f === "block" || item.s === "block" || item.n === "block";
   }
 
   let isRequirment: boolean = false,
@@ -20,13 +20,13 @@ const Cell = ({
     isContract: boolean = false,
     isConfirm: boolean = false;
   if (item) {
-    if (item.status === 'default') {
+    if (item.status === "default") {
       isRequirment = true;
-    } else if (item.status === 'linked') {
+    } else if (item.status === "linked") {
       isMatching = true;
-    } else if (item.status === 'contract') {
+    } else if (item.status === "contract") {
       isContract = true;
-    } else if (item.status === 'confirmed') {
+    } else if (item.status === "confirmed") {
       isConfirm = true;
     }
   }
@@ -36,25 +36,25 @@ const Cell = ({
       <td
         key={key}
         className={classnames({
-          'calender-col': true,
-          'text-center': true,
-          'custom-appointment-col': true,
-          'cursor-pointer': true,
-          'selected-cell': isSelected,
-          'selecting-cell': isSelecting,
+          "calender-col": true,
+          "text-center": true,
+          "custom-appointment-col": true,
+          "cursor-pointer": true,
+          "selected-cell": isSelected,
+          "selecting-cell": isSelecting,
           weekend: daysArr,
-          'cell-block': item ? (isBlocked ? true : false) : false,
-          'matching-bg': isMatching && !isSelected ? isMatching : false,
-          'confirmation-bg': isConfirm && !isSelected ? isConfirm : false,
-          'cell-available': !isSelected
+          "cell-block": item ? (isBlocked ? true : false) : false,
+          "matching-bg": isMatching && !isSelected ? isMatching : false,
+          "confirmation-bg": isConfirm && !isSelected ? isConfirm : false,
+          "cell-available": !isSelected
             ? item
-              ? item.f === 'available' ||
-                item.s === 'available' ||
-                item.n === 'available'
+              ? item.f === "available" ||
+                item.s === "available" ||
+                item.n === "available"
                 ? true
                 : false
               : false
-            : false,
+            : false
         })}
         ref={selectableRef}
       >
@@ -73,15 +73,15 @@ const Cell = ({
           )
         : null} */}
         {item ? (
-          item.status === 'confirmed' ? (
-            'o'
+          item.status === "confirmed" ? (
+            <i className="fa fa-circle-o"></i>
           ) : isBlocked ? (
-            <i className='fa fa-ban'></i>
+            <i className="fa fa-ban"></i>
           ) : (
             <>
-              {item.f === 'available' ? 'f' : null}
-              {item.s === 'available' ? 's' : null}
-              {item.n === 'available' ? 'n' : null}
+              {item.f === "available" ? "f" : null}
+              {item.s === "available" ? "s" : null}
+              {item.n === "available" ? "n" : null}
             </>
           )
         ) : null}

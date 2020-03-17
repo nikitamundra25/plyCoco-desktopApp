@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 export const ConfirmBox = async (obj: object | any) => {
   if (!obj) {
@@ -10,15 +10,15 @@ export const ConfirmBox = async (obj: object | any) => {
     type,
     confirmButtonColor,
     cancelButtonColor,
-    confirmButtonText,
+    confirmButtonText
   } = obj;
   return await Swal.fire({
-    title: title || 'Are you sure?',
-    text: text || 'You want to be able to revert this!',
-    type: type || 'warning',
+    title: title || "Are you sure?",
+    html: text || "You want to be able to revert this!",
+    type: type || "warning",
     showCancelButton: true,
-    confirmButtonColor: confirmButtonColor || '#3085d6',
-    cancelButtonColor: cancelButtonColor || '#d33',
-    confirmButtonText: confirmButtonText || 'Yes!',
+    confirmButtonColor: confirmButtonColor || "#3085d6",
+    cancelButtonColor: cancelButtonColor || "#d33",
+    confirmButtonText: confirmButtonText || "Yes!"
   });
 };

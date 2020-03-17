@@ -13,7 +13,7 @@ import {
 import AppointmentNav from './AppointmentNav';
 import CaregiverListView from './Caregiver/CaregiverListView';
 import CarinstituionListView from './Careinstituion/CareinstituionListView';
-import { PAGE_LIMIT } from './../../../../config';
+import { PAGE_LIMIT, NightAllowancePerHour } from './../../../../config';
 import {
   IGetDaysArrayByMonthRes,
   IQualifications,
@@ -734,10 +734,12 @@ const Appointment: FunctionComponent = (props: any) => {
 
       let data: any[] = [
         {
-          id,
+          id: selectedCaregiverId,
           firstName,
           lastName,
-          canstitution,
+          caregiver: {
+            ...caregiver
+          },
           qualificationIds,
           dateString,
           item: {
@@ -2346,7 +2348,7 @@ const Appointment: FunctionComponent = (props: any) => {
             value: nightAllowance,
             label: nightAllowance
           }
-        : undefined,
+        : NightAllowancePerHour[0],
     holidayAllowance: holidayAllowance
       ? germanNumberFormat(holidayAllowance)
       : holiday
@@ -2423,7 +2425,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
         if (!fetchMoreResult) return prev;
-
         if (prev.getUserByQualifications) {
           let list = [...fetchMoreResult.getUserByQualifications.result];
           if (list && list.length) {

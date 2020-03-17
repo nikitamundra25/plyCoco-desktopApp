@@ -61,10 +61,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           remarksCareGiver
           remarksInternal
           appointments {
-            requirementId
-            avabilityId
             id
             date
+            requirementId
+            avabilityId
             cr {
               id
               name
@@ -108,6 +108,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           appointments {
             id
             date
+            requirementId
+            avabilityId
             ca {
               userId
               id
@@ -263,5 +265,5 @@ export const AppointmentsQueries = [
   GET_USERS_BY_QUALIFICATION_ID,
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
-  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
+  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID
 ];

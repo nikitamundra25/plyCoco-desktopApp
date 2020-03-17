@@ -375,6 +375,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           let object = selectedCellsCareinstitution[i];
           if (object.item) {
             let obj: any = {};
+
+            let shiftLabel = object.item.startTime === "06:00" ? "FD" : object.item.startTime === "14:00" ? "SD" : "ND"
+
             getDepartmentById({
               variables: {
                 id: parseInt(object.item.divisionId)
@@ -382,6 +385,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             });
             obj.id = object.item.id;
             obj.divisionId = object.item.divisionId;
+            obj.shiftLabel = shiftLabel;
             obj.day = moment(object.item.date).format('D');
             obj.month = moment(object.item.date).format('MMM');
             obj.date = moment(object.item.date).format('DD.MM');
@@ -420,11 +424,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           let customSub: string = 'Offer ';
           divisionArray.map((v: any, i: number) => {
             if (v.id) {
-              divRow += `<p>${v.date + " " + v.duration + "h " + (v.divisionId ? v.divisionId : " - ") + "  " + languageTranslation('APPOINTMENTID') + "=" + v.id}</p>`
+              divRow += `<p>${v.date + " " + v.shiftLabel + " " + v.duration + "h " + (v.divisionId ? v.divisionId : " - ") + "  " + languageTranslation('APPOINTMENTID') + "=" + v.id}</p>`
               if (i == 0) {
-                customSub += `${v.month + " " + v.day},`
+                customSub += `${v.month + " " + v.day + "." + v.shiftLabel},`
               } else {
-                customSub += `${" " + v.day},`
+                customSub += `${" " + v.day + "." + v.shiftLabel},`
               }
             }
           })

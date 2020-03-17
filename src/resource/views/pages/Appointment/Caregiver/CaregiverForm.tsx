@@ -28,7 +28,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   any> = (
   props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any,
 ) => {
-  // const { selectedCareGiver } = props;
+  const { addCaregiverLoading } = props;
 
   //For saving both
   useEffect(() => {
@@ -879,9 +879,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   className='btn-save'
                   color='primary'
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  disabled={addCaregiverLoading}
                 >
-                  {isSubmitting ? (
+                  {addCaregiverLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
                     ''

@@ -82,6 +82,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     onhandleDelete,
     careInstitutionListArr,
     handleSelectUserList,
+    addCareinstLoading,
   } = props;
 
   let d = moment().format('L');
@@ -763,9 +764,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   className='btn-save'
                   color='primary'
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  disabled={addCareinstLoading}
                 >
-                  {isSubmitting ? (
+                  {addCareinstLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
                     ''

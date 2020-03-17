@@ -959,6 +959,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}
         handleClose={() => handleCareGiverBulkEmail('', false)}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
         gte={props.gte}
         lte={props.lte}
         sortBy={sortBy}

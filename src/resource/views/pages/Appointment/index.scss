@@ -1,4 +1,4 @@
-@import '../../../assets/scss/variables';
+@import "../../../assets/scss/variables";
 
 .common-header-input {
   &.header-dropdown-wrap {
@@ -18,7 +18,7 @@
         border-bottom: 7px solid #ccc;
         border-left: 7px solid transparent;
         border-bottom-color: #c8ced3;
-        content: '';
+        content: "";
       }
       &:after {
         position: absolute;
@@ -28,7 +28,7 @@
         border-right: 6px solid transparent;
         border-bottom: 6px solid #fff;
         border-left: 6px solid transparent;
-        content: '';
+        content: "";
       }
     }
   }
@@ -177,6 +177,10 @@
           min-width: 150px;
           border-right: 1px solid #dedede;
           padding: 4px;
+          &.name-text {
+            font-family: "FrutigerNeueLTPro-Regular", sans-serif;
+            font-weight: normal;
+          }
         }
         .h-col,
         .s-col,
@@ -269,9 +273,7 @@
 }
 
 // custom-color for matching
-.selecting-cell-bg {
-  background: $selected_color !important;
-}
+
 .availability-bg {
   background: $availability_color !important;
 }
@@ -301,6 +303,9 @@
 }
 .invoice-bg {
   background: $invoice_color !important;
+}
+.selecting-cell-bg {
+  background: $selected_color !important;
 }
 .custom-height {
   height: calc(100vh - 165px);
@@ -366,7 +371,7 @@
       text-align: left;
       display: block;
       padding: 0px;
-      font-family: 'FrutigerNeueLTPro-Bold', sans-serif;
+      font-family: "FrutigerNeueLTPro-Bold", sans-serif;
     }
   }
   .arrow-btn {

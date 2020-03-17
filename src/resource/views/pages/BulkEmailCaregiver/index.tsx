@@ -415,8 +415,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
         let uniqueDivisions = subjectDivisions.filter((item: any, i: any, ar: any) => ar.indexOf(item) === i);
 
-        // console.log('divisionArray ',JSON.stringify(divisionArray));
-
         if (props.sortBy === 'day') {
           divisionArray = divisionArray.sort(function (a: any, b: any) {
             return a.date - b.date;

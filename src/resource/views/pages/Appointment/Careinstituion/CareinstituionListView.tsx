@@ -113,7 +113,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           divisions = []
         } = careInstData ? careInstData : {};
         console.log('qualificationId', qualificationId);
-
         let qualification1: IReactSelectInterface[] = [];
         if (
           qualificationList &&
@@ -129,14 +128,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             qualificationId.includes(value)
           );
         }
-        console.log('qualification1', qualification1);
-
         let temp = {
           ...item,
           qualificationId: qualification1 ? qualification1 : []
         };
-        console.log('temp', temp);
-
         return {
           id: deptId ? userId : id,
           firstName,
@@ -148,13 +143,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           caregiver,
           canstitution,
           dept: { id: deptId, name },
-          item: item ? temp : item,
+          item: temp ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : '',
           divisions
         };
       });
-      console.log(selectedRows, 'selectedRows');
 
       handleSelection(selectedRows, 'careinstitution');
     }

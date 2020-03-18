@@ -170,17 +170,29 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         if (!toast.isActive(toastId)) {
           toastId = toast.error('Please select same length cells');
         }
-      }
-      // else if (
-      //   selectedCellsCareinstitution &&
-      //   selectedCellsCareinstitution.item &&
-      //   selectedCellsCareinstitution.item.status === 'linked'||selectedCellsCareinstitution.item.status === 'default'
-      // ) {
-      //   return true;
-      // }
-      else {
+      } else {
+        let qualiCheck: any[] = [];
         selectedCells.map((key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
+          if (
+            key.qualificationIds &&
+            key.qualificationIds.length &&
+            element.qualificationIds &&
+            element.qualificationIds.length
+          ) {
+            qualiCheck = key.qualificationIds.filter((e: any) =>
+              element.qualificationIds.includes(e)
+            );
+          }
+          if (qualiCheck && qualiCheck.length <= 0) {
+            if (!toast.isActive(toastId)) {
+              toastId = toast.error(
+                languageTranslation('QUALIFICATION_UNMATCH')
+              );
+            }
+            checkError = true;
+            return true;
+          }
           if (
             moment(key.dateString).format(dbAcceptableFormat) !==
             moment(element.dateString).format(dbAcceptableFormat)
@@ -227,16 +239,19 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
-        let appointId: any = key.item.appointments.filter(
-          (appointment: any) => {
-            return (
-              moment(key.dateString).format('DD.MM.YYYY') ===
-              moment(appointment.date).format('DD.MM.YYYY')
-            );
-          }
-        );
+        // let appointId: any = key.item.appointments.filter(
+        //   (appointment: any) => {
+        //     return (
+        //       moment(key.dateString).format(dbAcceptableFormat) ===
+        //       moment(appointment.date).format(dbAcceptableFormat)
+        //     );
+        //   }
+        // );
+        // console.log('appointId', appointId);
         return appointmentId.push({
-          appointmentId: parseInt(appointId[0].id),
+          appointmentId: parseInt(
+            key.item.appointments ? key.item.appointments[0].id : ''
+          ),
           unlinkedBy: likedBy,
           deleteAll: check
         });
@@ -470,7 +485,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
                   setOnOfferedCareInst();
-
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -599,6 +613,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
                   setopenToggleMenu(false);
+                  setSortBy('day');
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -611,6 +626,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
                   handleRightMenuToggle();
+                  setSortBy('division');
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -625,6 +641,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   setStatusTo('confirmed');
                   handleRightMenuToggle();
                   setOnConfirmedCareInst();
+                  setSortBy('day');
                 }}
               >
                 <img src={confirm_appointment} className='mr-2' alt='' />
@@ -638,6 +655,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   setStatusTo('confirmed');
                   handleRightMenuToggle();
                   setOnConfirmedCareInst();
+                  setSortBy('division');
                 }}
               >
                 <img src={confirm_appointment} className='mr-2' alt='' />
@@ -794,6 +812,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         gte={props.gte}
         lte={props.lte}
         statusTo={StatusTo}
+        sortBy={sortBy}
       />
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}

@@ -168,8 +168,28 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           toastId = toast.error('Please select same length cells');
         }
       } else {
+        let qualiCheck: any[] = [];
         selectedCells.map((key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
+          if (
+            key.qualificationIds &&
+            key.qualificationIds.length &&
+            element.qualificationIds &&
+            element.qualificationIds.length
+          ) {
+            qualiCheck = key.qualificationIds.filter((e: any) =>
+              element.qualificationIds.includes(e)
+            );
+          }
+          if (qualiCheck && qualiCheck.length <= 0) {
+            if (!toast.isActive(toastId)) {
+              toastId = toast.error(
+                languageTranslation('QUALIFICATION_UNMATCH')
+              );
+            }
+            checkError = true;
+            return true;
+          }
           if (
             moment(key.dateString).format(dbAcceptableFormat) !==
             moment(element.dateString).format(dbAcceptableFormat)
@@ -219,16 +239,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     if (selectedCells && selectedCells.length) {
       selectedCells.map((key: any, index: number) => {
         if (key.item && key.item.appointments && key.item.appointments.length) {
-          let appointId: any = key.item.appointments.filter(
-            (appointment: any) => {
-              return (
-                moment(key.dateString).format('DD.MM.YYYY') ===
-                moment(appointment.date).format('DD.MM.YYYY')
-              );
-            }
-          );
+          // let appointId: any = key.item.appointments.filter(
+          //   (appointment: any) => {
+          //     return (
+          //       moment(key.dateString).format('DD.MM.YYYY') ===
+          //       moment(appointment.date).format('DD.MM.YYYY')
+          //     );
+          //   }
+          // );
           return appointmentId.push({
-            appointmentId: parseInt(appointId[0].id),
+            appointmentId: parseInt(
+              key.item.appointments ? key.item.appointments[0].id : ''
+            ),
             unlinkedBy: likedBy,
             deleteAll: check
           });
@@ -437,10 +459,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             getNext(careGiversList.length);
           }}
           // endMessage={<p />}
-          scrollableTarget={'scrollableDiv'}
+          scrollableTarget={'scrollableDiv-1'}
           // hasChildren
         >
-          <div className='calender-section custom-scrollbar' id='scrollableDiv'>
+          <div
+            className='calender-section custom-scrollbar'
+            id='scrollableDiv-1'
+          >
             <SelectableGroup
               allowClickWithoutSelected
               className='custom-row-selector'
@@ -678,6 +703,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         lte={props.lte}
         selectedCells={selectedCells}
         confirmApp={confirmApp}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

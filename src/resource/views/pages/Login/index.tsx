@@ -106,9 +106,9 @@ export const Login: FunctionComponent = () => {
         )}
         validationSchema={LoginValidationSchema}
       />
-      <button className={"btn btn-primary"} onClick={onOutlookLogin}>
+      {/* <button className={"btn btn-primary"} onClick={onOutlookLogin}>
         Login With Outlook
-      </button>
+      </button> */}
     </>
   );
 };

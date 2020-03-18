@@ -247,11 +247,6 @@
         background: $white;
         border-left: 0px;
       }
-      // &.head-name-col {
-      //   // .all-star-wrap {
-      //   //   height: 41px;
-      //   // }
-      // }
     }
     th + td,
     th + th {
@@ -355,6 +350,9 @@
   .form-group {
     .nightfee-input {
       width: 98px;
+    }
+    .clockshift-input {
+      width: 105px;
     }
     .nightallowance-input {
       // min-width: 125px;

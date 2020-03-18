@@ -677,6 +677,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         lte={props.lte}
         selectedCells={selectedCells}
         confirmApp={confirmApp}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

@@ -443,9 +443,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let mailBody: any = '';
 
         if (props.showButton) {
-          mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br></br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
+          mailBody = `<p>${languageTranslation('CAREGIVER_LEASING_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br></br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
         } else {
-          mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
+          mailBody = `<p>${languageTranslation('CAREGIVER_LEASING_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p>`
         }
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
@@ -453,29 +453,63 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         setBody(editorState);
 
       } else {
-        // if (emailData.menuEntry === 'Offers for care givers' && !props.showButton) {
-        //   const { subject, body, attachments } = emailData;
-        //   const editorState = body ? HtmlToDraftConverter(body) : '';
-        //   setSubject(subject);
-        //   setBody(editorState);
-        //   setAttachments(
-        //     attachments
-        //       ? attachments.map(
-        //         ({ name, id, path, size }: INewEmailAttachments) => ({
-        //           fileName: name,
-        //           id,
-        //           path,
-        //           size,
-        //         }),
-        //       )
-        //       : [],
-        //   );
 
-        //   setTemplate({
-        //     label: emailData.menuEntry,
-        //     value: emailData,
-        //   });
-        // }
+        let qualificationArray: any = [];
+        let qualificationString: string = '';
+        let remarkRow: string = '';
+        let divisionArray: any = [];
+
+        for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
+          let object = selectedCellsCareinstitution[i];
+          if (object.item) {
+            let obj: any = {};
+            let shiftLabel = object.item.startTime === "06:00" ? "FD" : object.item.startTime === "14:00" ? "SD" : "ND"
+
+            obj.id = object.item.id;
+            obj.division = object.item.division ? object.item.division.name : '';
+            obj.shiftLabel = shiftLabel;
+            obj.day = moment(object.item.date).format('D');
+            obj.month = moment(object.item.date).format('MMM');
+            obj.date = moment(object.item.date).format('DD.MM');
+            obj.duration = moment.utc(moment(object.item.endTime, "HH:mm").diff(moment(object.item.startTime, "HH:mm"))).format("H.m")
+            divisionArray.push(obj);
+            if (object.item.departmentOfferRemarks) {
+              remarkRow += `<p>${object.item.departmentOfferRemarks}</p>`
+            }
+            for (let j = 0; j < object.item.qualificationId.length; j++) {
+              let q = object.item.qualificationId[j];
+              if (!qualificationArray.includes(q)) {
+                qualificationArray.push(q);
+              }
+            }
+          }
+        }
+        let temp: any = [];
+        qualificationArray.map((i: any) => {
+          temp.push(i.label);
+        })
+        qualificationString = temp.join();
+
+        if (props.sortBy === 'day') {
+          divisionArray = divisionArray.sort(function (a: any, b: any) {
+            return a.date - b.date;
+          });
+        } else {
+          divisionArray = divisionArray.sort(sortByDivision);
+        }
+
+        let divRow: string = '';
+        divisionArray.map((v: any, i: number) => {
+          if (v.id) {
+            divRow += `<p>${v.date + " " + v.shiftLabel + " " + v.duration + "h " + (v.division ? v.division : " - ") + "  " + languageTranslation('APPOINTMENTID') + "=" + v.id}</p>`
+          }
+        });
+
+        let mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}</p><br/><p>${languageTranslation('LEASING_OFFER')}</p></BR><p>${languageTranslation('CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED') + " " + qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation('FEE') + ":" + languageTranslation('FEE_TEXT')}</p><p>${languageTranslation('LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER')}</p>`
+
+        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        setSubject(languageTranslation('CAREGIVER_OFFER_EMAIL_SUBJECT'));
+        setBody(editorState);
       }
 
     }

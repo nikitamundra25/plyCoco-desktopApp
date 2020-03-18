@@ -430,9 +430,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         <InfiniteScroll
           loader={<div className='appointment-list-loader'>{''}</div>}
           hasMore={careGiversList && careGiversList.length !== totalCaregiver}
-          dataLength={
-            careGiversList && careGiversList.length ? careGiversList.length : 0
-          }
+          dataLength={10}
           next={() => {
             getNext(careGiversList.length);
           }}
@@ -678,6 +676,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         lte={props.lte}
         selectedCells={selectedCells}
         confirmApp={confirmApp}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

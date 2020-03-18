@@ -2609,7 +2609,6 @@ const Appointment: FunctionComponent = (props: any) => {
                   ),
                   {},
                 );
-
                 result = Object.values(result);
                 result = Math.max(...result);
                 for (let row = 0; row < result; row++) {

@@ -156,8 +156,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const onSelectionClear = () => {
     setSelectedDays([]);
   };
-  console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
-
   // Link appointments
   const handleLinkAppointments = (name: string) => {
     let selectedData: any = [],

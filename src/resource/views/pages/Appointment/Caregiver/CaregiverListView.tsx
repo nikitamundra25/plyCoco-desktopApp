@@ -243,8 +243,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
 
   const [showList, setShowList] = useState<boolean>(false);
-  console.log('selectedCells in caregiverform', selectedCells);
-
   return (
     <div>
       <div

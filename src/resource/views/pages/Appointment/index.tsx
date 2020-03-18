@@ -777,8 +777,6 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         }
       ];
-      console.log('data', data);
-
       setSelectedCells(data);
     }
   }, [caregiverLastTimeData]);
@@ -1539,7 +1537,6 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-        console.log('item.division', item.division);
         if (item && item.id) {
           if (item.status === 'linked') {
             let availabilityId: number = item.id ? parseInt(item.id) : 0;

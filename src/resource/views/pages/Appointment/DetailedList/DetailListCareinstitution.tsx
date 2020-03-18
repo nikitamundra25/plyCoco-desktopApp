@@ -83,7 +83,6 @@ const DetailListCareinstitution = (props: any) => {
                       {selectedCellsCareinstitution ? (
                         selectedCellsCareinstitution.map(
                           (elem: any, index: number) => {
-                            console.log('elem.item', elem);
                             return elem && elem.item ? (
                               <tr
                                 key={index}

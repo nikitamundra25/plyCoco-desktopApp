@@ -534,5 +534,15 @@ body {
       min-width: 100px;
       max-width: 150px;
     }
+    &.dln-col {
+      width: 50px;
+      min-width: 50px;
+      max-width: 50px;
+    }
+    &.id-col {
+      width: 60px;
+      min-width: 60px;
+      max-width: 60px;
+    }
   }
 }

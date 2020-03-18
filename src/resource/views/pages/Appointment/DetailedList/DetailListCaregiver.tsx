@@ -83,32 +83,6 @@ const DetailListCaregiver = (props: any) => {
                   </NavLink>
                 </NavItem>
               </Nav>
-              {/* <div className="common-sidnav">
-                <ul className="common-ul nav nav-tabs">
-                  <li className="nav-item">
-                    <a
-                      className={`nav-link ${!workingHourTab ? "active" : ""}`}
-                    >
-                      <span
-                        className="nav-text text-capitalize"
-                        onClick={() => setWorkingHourTab(false)}
-                      >
-                        {languageTranslation("BOOKING_DETAILS")}
-                      </span>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className={`nav-link ${workingHourTab ? "active" : ""}`}>
-                      <span
-                        className="nav-text text-capitalize"
-                        onClick={() => setWorkingHourTab(true)}
-                      >
-                        {languageTranslation("PRICE_AND_WORKING")}
-                      </span>
-                    </a>
-                  </li>
-                </ul>
-              </div> */}
               <div className='common-content flex-grow-1 p-0 pb-1 mb-2 bg-white'>
                 {!workingHourTab ? (
                   <div className='table-detail-list-caregiver'>
@@ -120,7 +94,7 @@ const DetailListCaregiver = (props: any) => {
                     >
                       <thead className='thead-bg'>
                         <tr>
-                          <th className='text-center'>
+                          <th className='text-center id-col'>
                             {' '}
                             {languageTranslation('ID')}
                           </th>
@@ -188,7 +162,10 @@ const DetailListCaregiver = (props: any) => {
                                     : 'availability-bg'
                                 }
                               >
-                                <td> {elem.item.id ? elem.item.id : null}</td>
+                                <td className='text-center id-col'>
+                                  {' '}
+                                  {elem.item.id ? elem.item.id : null}
+                                </td>
                                 <td className='caregiver-col word-wrap text-capitalize'>
                                   {elem.lastName && elem.firstName
                                     ? [elem.lastName, elem.firstName].join(' ')
@@ -303,7 +280,7 @@ const DetailListCaregiver = (props: any) => {
                     >
                       <thead className='thead-bg'>
                         <tr>
-                          <th className='text-center'>
+                          <th className='text-center id-col'>
                             {' '}
                             {languageTranslation('ID')}
                           </th>
@@ -404,7 +381,10 @@ const DetailListCaregiver = (props: any) => {
                                     : 'availability-bg'
                                 }
                               >
-                                <td> {elem.item.id ? elem.item.id : null}</td>
+                                <td className='text-center id-col'>
+                                  {' '}
+                                  {elem.item.id ? elem.item.id : null}
+                                </td>
                                 <td className='caregiver-col word-wrap text-capitalize'>
                                   {elem.lastName && elem.firstName
                                     ? [elem.lastName, elem.firstName].join(' ')

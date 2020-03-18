@@ -280,7 +280,13 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               className="button-group-dropdown custom-dropdown text-capitalize"
             >
               <Input
-                placeholder={user ? user : "Select user"}
+                placeholder={
+                  user
+                    ? user === "avability"
+                      ? "availability"
+                      : "requirement"
+                    : "Select user"
+                }
                 type="text"
                 name="id"
                 value={userId}

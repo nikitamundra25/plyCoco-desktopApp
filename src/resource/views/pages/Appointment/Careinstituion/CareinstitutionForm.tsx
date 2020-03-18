@@ -159,6 +159,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   };
 
   const DepartmentError: any = errors.department;
+  const qualificationError: any = errors.qualificationId;
+  console.log("gggggggggggg", qualificationError);
+
   return (
     <>
       <div className="form-section ">
@@ -255,10 +258,16 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     <div className="text-value ">
                       {activeDateCareinstitution
                         ? activeDateCareinstitution
-                            .map((dateString: string | undefined) =>
-                              dateString
-                                ? moment(dateString).format("dd DD.MM.YYYY")
-                                : null
+                            .map(
+                              (dateString: string | undefined, index: number) =>
+                                dateString
+                                  ? moment(dateString).format(
+                                      index !==
+                                        activeDateCareinstitution.length - 1
+                                        ? "dd DD"
+                                        : "dd DD.MM.YYYY"
+                                    )
+                                  : null
                             )
                             .join(", ")
                         : null}
@@ -285,7 +294,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             ? careInstitutionTimesOptions
                             : ShiftTime
                         }
-                        value={shift ? shift : ""}
+                        value={shift ? shift : undefined}
                         classNamePrefix="custom-inner-reactselect"
                         className={"custom-reactselect"}
                         onChange={(value: any) => handleSelect(value, "shift")}
@@ -312,15 +321,18 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             render={({ field }: any) => (
                               <MaskedInput
                                 {...field}
+                                placeholder={languageTranslation(
+                                  "START_WORKING"
+                                )}
                                 mask={TimeMask}
                                 className={
                                   errors.startTime && touched.startTime
-                                    ? "fee-width form-control error"
-                                    : "fee-width form-control"
+                                    ? "text-input error form-control"
+                                    : "text-input form-control"
                                 }
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={startTime}
+                                value={startTime ? startTime : ""}
                               />
                             )}
                           />
@@ -358,7 +370,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm="7">
-                    <div className="required-input">
+                    <div className="required-input clockshift-input">
                       <InputGroup className="flex-nowrap">
                         <Field
                           name={"endTime"}
@@ -373,7 +385,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               }
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              value={endTime}
+                              value={endTime ? endTime : ""}
                             />
                           )}
                         />
@@ -424,7 +436,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         <i className="fa fa-arrow-up" aria-hidden="true" />
                       </Button>
 
-                      <div className="custom-select-checkbox select-right-bottom">
+                      <div
+                        className={`custom-select-checkbox select-right-bottom ${
+                          errors.qualificationId && touched.qualificationId
+                            ? "error"
+                            : " "
+                        }`}
+                      >
                         <ReactMultiSelectCheckboxes
                           options={qualificationList}
                           placeholderButtonLabel={languageTranslation(
@@ -434,7 +452,12 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                           )}
                           // placeholder="Select Qualifications"
-                          className={"custom-reactselect "}
+
+                          className={
+                            errors.qualificationId && touched.qualificationId
+                              ? "custom-reactselect error"
+                              : "custom-reactselect"
+                          }
                           classNamePrefix="custom-inner-reactselect"
                           onChange={(value: any) =>
                             handleSelect(value, "qualificationId")
@@ -445,6 +468,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               : []
                           }
                         />
+                        {errors.qualificationId && touched.qualificationId && (
+                          <div className="required-tooltip">
+                            {qualificationError}
+                          </div>
+                        )}
                         {/* <Select
                         placeholder='Select Qualifications'
                         options={qualificationList}
@@ -546,7 +574,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         name={"address"}
                         disabled={true}
                         placeholder={languageTranslation("ADDRESS")}
-                        value={address}
+                        value={address ? address : ""}
                         className="textarea-custom form-control"
                         rows="2"
                       />
@@ -571,7 +599,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         name={"contactPerson"}
                         placeholder={languageTranslation("CONTACT_PERSON")}
                         className="width-common"
-                        value={contactPerson}
+                        value={contactPerson ? contactPerson : ""}
                       />
                     </div>
                   </Col>
@@ -595,7 +623,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type="textarea"
                         name="departmentOfferRemarks"
                         id="exampleText"
-                        value={departmentOfferRemarks}
+                        value={
+                          departmentOfferRemarks ? departmentOfferRemarks : ""
+                        }
                       />
                     </div>
                   </Col>
@@ -619,7 +649,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type="textarea"
                         name="departmentBookingRemarks"
                         id="exampleText"
-                        value={departmentBookingRemarks}
+                        value={
+                          departmentBookingRemarks
+                            ? departmentBookingRemarks
+                            : ""
+                        }
                       />
                     </div>
                   </Col>
@@ -645,7 +679,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type="textarea"
                         name="departmentRemarks"
                         id="exampleText"
-                        value={departmentRemarks}
+                        value={departmentRemarks ? departmentRemarks : ""}
                       />
                     </div>
                   </Col>

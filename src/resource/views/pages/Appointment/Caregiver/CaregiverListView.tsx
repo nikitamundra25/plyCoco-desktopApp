@@ -1,12 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-  Table,
-  Nav,
-  NavItem,
-  NavLink,
-  Button,
-  UncontrolledTooltip
-} from 'reactstrap';
+import { Table, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import moment from 'moment';
 import classnames from 'classnames';
 import {
@@ -48,6 +41,7 @@ import '../index.scss';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { languageTranslation } from '../../../../../helpers';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
+import { Link } from 'react-router-dom';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -73,7 +67,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onNewAvailability,
     totalCaregiver,
     getNext,
-    fetchingCareGiverData,
+
     qualificationList
   } = props;
 
@@ -182,11 +176,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           if (
             key.qualificationIds &&
             key.qualificationIds.length &&
-            element.qualificationIds &&
-            element.qualificationIds.length
+            element.item.qualificationId &&
+            element.item.qualificationId.length
           ) {
-            qualiCheck = key.qualificationIds.filter((e: any) =>
-              element.qualificationIds.includes(e)
+            qualiCheck = element.item.qualificationId.filter((e: any) =>
+              key.qualificationIds.includes(e.value)
             );
           }
           if (qualiCheck && qualiCheck.length <= 0) {
@@ -285,6 +279,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
 
   const [showList, setShowList] = useState<boolean>(false);
+  let status: any;
+  selectedCells
+    ? selectedCells.filter((elem: any) => {
+        elem && elem.item ? console.log('elemmmmmm', elem.item) : null;
+      })
+    : null;
+
   return (
     <div>
       <div
@@ -316,6 +317,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 onReserve ? onReserve() : undefined;
@@ -327,6 +329,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 onDeleteEntries ? onDeleteEntries('caregiver') : undefined;
@@ -341,6 +344,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem className='bordernav' />
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 setShowList(true);
@@ -352,6 +356,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem className='bordernav' />
           <NavItem
+            disabled={selectedCells ? selectedCells.length === 0 : true}
             onClick={() => {
               setopenToggleMenu(false);
               onCaregiverQualificationFilter
@@ -359,7 +364,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 : undefined;
             }}
           >
-            <NavLink>
+            <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
+            >
               <img src={filter} className='mr-2' alt='' />
               <span className='align-middle'>
                 Filter by qualifications of caregiver
@@ -368,6 +375,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 handleCareGiverBulkEmail();
@@ -382,6 +390,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem className='bordernav' />
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 handleLinkAppointments('link');
@@ -393,6 +402,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 handleUnLinkAppointments();
@@ -405,6 +415,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem className='bordernav' />
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setOnConfirmedCaregiver();
                 setconfirmApp(true);
@@ -418,7 +429,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (selectedCells[0].item &&
+                      selectedCells[0].item.status !== 'linked')
+                  : true
+              }
+            >
               <img src={set_confirm} className='mr-2' alt='' />
               <span
                 className='align-middle'
@@ -432,7 +451,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (selectedCells[0].item &&
+                      selectedCells[0].item.status !== 'confirmed')
+                  : true
+              }
+            >
               <img src={unset_confirm} className='mr-2' alt='' />
               <span
                 className='align-middle'
@@ -446,7 +473,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
+            >
               <img src={leasing_contact} className='mr-2' alt='' />
               <span className='align-middle'>
                 Request temporary leasing contract
@@ -454,7 +483,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
+            >
               <img src={termination} className='mr-2' alt='' />
               <span className='align-middle'>Create termination agreement</span>
             </NavLink>{' '}
@@ -586,15 +617,16 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                 <th className='name-col custom-appointment-col thead-sticky'>
                                   <div className='all-star-wrap'>
                                     <div
-                                      className='text-capitalize view-more-link one-line-text  username-col name-text'
-                                      onClick={() =>
-                                        history.push(
-                                          AppRoutes.CARE_GIVER_VIEW.replace(
-                                            ':id',
-                                            list.id
-                                          )
-                                        )
-                                      }
+                                      className='text-capitalize one-line-text  username-col name-text'
+                                      // onClick={() =>
+                                      //   history.push(
+                                      //     AppRoutes.CARE_GIVER_VIEW.replace(
+                                      //       ':id',
+                                      //       list.id
+                                      //     )
+                                      //   )
+                                      // }
+
                                       style={{
                                         backgroundColor: !list.isActive
                                           ? deactivatedListColor
@@ -616,13 +648,24 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                         .join(' ')}
                                       id={`caregiver-${list.id}`}
                                     >
-                                      {row === 0
-                                        ? `${
-                                            list.lastName ? list.lastName : ''
-                                          } ${
-                                            list.firstName ? list.firstName : ''
-                                          }`
-                                        : ''}
+                                      <Link
+                                        to={AppRoutes.CARE_GIVER_VIEW.replace(
+                                          ':id',
+                                          list.id
+                                        )}
+                                        target='_blank'
+                                        className='text-body'
+                                      >
+                                        {row === 0
+                                          ? `${
+                                              list.lastName ? list.lastName : ''
+                                            } ${
+                                              list.firstName
+                                                ? list.firstName
+                                                : ''
+                                            }`
+                                          : ''}
+                                      </Link>
                                     </div>
                                     <div className='h-col custom-appointment-col text-center'></div>
                                     <div

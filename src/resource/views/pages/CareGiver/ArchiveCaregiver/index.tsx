@@ -1,36 +1,36 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Button, Card, CardHeader, CardBody, Table } from 'reactstrap';
-import { useHistory, useLocation } from 'react-router-dom';
-import { AppBreadcrumb } from '@coreui/react';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
-import * as qs from 'query-string';
-import { toast } from 'react-toastify';
-import moment from 'moment';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { Button, Card, CardHeader, CardBody, Table } from "reactstrap";
+import { useHistory, useLocation } from "react-router-dom";
+import { AppBreadcrumb } from "@coreui/react";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import * as qs from "query-string";
+import { toast } from "react-toastify";
+import moment from "moment";
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import {
   sortFilter,
   dateFormat,
   defaultDateTimeFormat
-} from '../../../../../config';
-import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../../config';
-import routes from '../../../../../routes/routes';
-import Search from '../../../components/SearchFilter';
-import { languageTranslation, logger } from '../../../../../helpers';
-import { EmployeeQueries } from '../../../../../graphql/queries';
-import { EmployeeMutations } from '../../../../../graphql/Mutations';
-import PaginationComponent from '../../../components/Pagination';
+} from "../../../../../config";
+import { AppRoutes, ARCHIVE_PAGE_LIMIT } from "../../../../../config";
+import routes from "../../../../../routes/routes";
+import Search from "../../../components/SearchFilter";
+import { languageTranslation, logger } from "../../../../../helpers";
+import { EmployeeQueries } from "../../../../../graphql/queries";
+import { EmployeeMutations } from "../../../../../graphql/Mutations";
+import PaginationComponent from "../../../components/Pagination";
 
-import { UncontrolledTooltip } from 'reactstrap';
+import { UncontrolledTooltip } from "reactstrap";
 import {
   ISearchValues,
   IReactSelectInterface,
   IObjectType
-} from '../../../../../interfaces';
-import { ConfirmBox } from '../../../components/ConfirmBox';
-import defaultProfile from '../../../assets/avatars/default-profile.png';
-import Loader from '../../../containers/Loader/Loader';
-import { NoSearchFound } from '../../../components/SearchFilter/NoSearchFound';
-import archive from '../../../../assets/img/restore.svg';
+} from "../../../../../interfaces";
+import { ConfirmBox } from "../../../components/ConfirmBox";
+import defaultProfile from "../../../assets/avatars/default-profile.png";
+import Loader from "../../../containers/Loader/Loader";
+import { NoSearchFound } from "../../../components/SearchFilter/NoSearchFound";
+import archive from "../../../../assets/img/restore.svg";
 let toastId: any = null;
 
 const [, , GET_ARCHIVE_EMPLOYEES] = EmployeeQueries;
@@ -50,7 +50,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
     fetchArchiveEmployeeList,
     { data, called, loading, refetch }
   ] = useLazyQuery<any>(GET_ARCHIVE_EMPLOYEES, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: "no-cache"
   });
 
   // To restore archive user
@@ -68,11 +68,11 @@ const ArchiveCaregiver: FunctionComponent = () => {
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     const query = qs.parse(search);
-    let searchBy: string = '';
-    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
-    let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
+    let searchBy: string = "";
+    let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
+    let isActive: IReactSelectInterface | undefined = { label: "", value: "" };
     // To handle display and query param text
-    let sortByValue: string | undefined = '1';
+    let sortByValue: string | undefined = "1";
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
         (key: string) => sortFilter[key] === query.sortBy
@@ -80,34 +80,34 @@ const ArchiveCaregiver: FunctionComponent = () => {
     }
     logger(sortByValue);
     logger(typeof sortByValue);
-    if (sortByValue === '3') {
-      sortBy.label = 'A-Z';
+    if (sortByValue === "3") {
+      sortBy.label = "A-Z";
     }
-    if (sortByValue === '4') {
-      sortBy.label = 'Z-A';
+    if (sortByValue === "4") {
+      sortBy.label = "Z-A";
     }
-    if (sortByValue === '2') {
-      sortBy.label = 'Oldest';
+    if (sortByValue === "2") {
+      sortBy.label = "Oldest";
     }
-    if (sortByValue === '1') {
-      sortBy.label = 'Newest';
+    if (sortByValue === "1") {
+      sortBy.label = "Newest";
     }
     if (query) {
-      searchBy = query.search ? (query.search as string) : '';
+      searchBy = query.search ? (query.search as string) : "";
       sortBy = sortByValue
         ? {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
                 (key: any) => sortFilter[key] === query.sortBy
-              ) || '1'
+              ) || "1"
           }
-        : { label: 'Newest', value: '1' };
+        : { label: "Newest", value: "1" };
       isActive = query.status
-        ? query.status === 'active'
-          ? { label: languageTranslation('ACTIVE'), value: 'true' }
-          : { label: languageTranslation('DISABLE'), value: 'false' }
-        : { label: '', value: '' };
+        ? query.status === "active"
+          ? { label: languageTranslation("ACTIVE"), value: "true" }
+          : { label: languageTranslation("DISABLE"), value: "false" }
+        : { label: "", value: "" };
       setSearchValues({
         searchValue: searchBy,
         sortBy,
@@ -115,7 +115,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       setIsFilter(
-        searchBy !== '' ||
+        searchBy !== "" ||
           query.status !== undefined ||
           query.sortBy !== undefined
       );
@@ -124,7 +124,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
     // call query
     fetchArchiveEmployeeList({
       variables: {
-        userRole: 'caregiver',
+        userRole: "caregiver",
         searchBy,
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
         limit: ARCHIVE_PAGE_LIMIT,
@@ -134,7 +134,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
   }, [search]); // It will run when the search value gets changed
 
   const {
-    searchValue = '',
+    searchValue = "",
     sortBy = undefined,
     isActive = undefined
   } = searchValues ? searchValues : {};
@@ -148,30 +148,30 @@ const ArchiveCaregiver: FunctionComponent = () => {
     if (searchValue) {
       params.search = searchValue;
     }
-    if (isActive && isActive.value !== '') {
-      params.status = isActive.value === 'true' ? 'active' : 'disable';
+    if (isActive && isActive.value !== "") {
+      params.status = isActive.value === "true" ? "active" : "disable";
     }
-    if (sortBy && sortBy.value !== '') {
-      params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
+    if (sortBy && sortBy.value !== "") {
+      params.sortBy = sortBy.value !== "" ? sortFilter[sortBy.value] : "";
     }
-    const path = [pathname, qs.stringify(params)].join('?');
+    const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
-    logger('path', path);
+    logger("path", path);
   };
 
   const onPageChanged = (currentPage: number) => {
-    logger('onPageChanged', currentPage);
+    logger("onPageChanged", currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      "?"
     );
     history.push(path);
   };
 
   const onRestoreEmployee = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CAREGIVER_RESTORE_MSG')
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_CAREGIVER_RESTORE_MSG")
     });
     if (!value) {
       return;
@@ -186,14 +186,14 @@ const ArchiveCaregiver: FunctionComponent = () => {
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CAREGIVER_RESTORED_SUCCESS')
+            languageTranslation("CAREGIVER_RESTORED_SUCCESS")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -202,8 +202,8 @@ const ArchiveCaregiver: FunctionComponent = () => {
   };
   const onPermanentlyDeleteEmployee = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CG_PERMANENT_DELETE_MSG')
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_CG_PERMANENT_DELETE_MSG")
     });
     if (!value) {
       return;
@@ -218,14 +218,14 @@ const ArchiveCaregiver: FunctionComponent = () => {
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CG_PERMANENT_DEL_SUCCESS')
+            languageTranslation("CG_PERMANENT_DEL_SUCCESS")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -242,16 +242,18 @@ const ArchiveCaregiver: FunctionComponent = () => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-        <Button
-          color={'primary'}
-          className={'btn-add'}
-          id={'add-new-pm-tooltip'}
-          onClick={() => history.push(AppRoutes.CARE_GIVER)}
-        >
-          <i className={'fa fa-arrow-left'} />
-          &nbsp; {languageTranslation('BACK_TO_LIST')}
-        </Button>
+        <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
+        <div>
+          <Button
+            color={"primary"}
+            className={"btn-add"}
+            id={"add-new-pm-tooltip"}
+            onClick={() => history.push(AppRoutes.CARE_GIVER)}
+          >
+            <i className={"fa fa-arrow-left"} />
+            &nbsp; {languageTranslation("BACK_TO_LIST")}
+          </Button>
+        </div>
       </CardHeader>
       <CardBody>
         <div>
@@ -262,7 +264,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
             children={(props: FormikProps<ISearchValues>) => (
               <Search
                 {...props}
-                label={'archive'}
+                label={"archive"}
                 setSearchValues={setSearchValues}
               />
             )}
@@ -274,23 +276,23 @@ const ArchiveCaregiver: FunctionComponent = () => {
             <thead className="thead-bg">
               <tr>
                 <th className="sno-th-column text-center">
-                  {languageTranslation('S_NO')}
+                  {languageTranslation("S_NO")}
                 </th>
-                <th>{languageTranslation('CAREGIVER_NAME')}</th>
-                <th>{languageTranslation('USERNAME')}</th>
-                <th>{languageTranslation('EMAIL')}</th>
+                <th>{languageTranslation("CAREGIVER_NAME")}</th>
+                <th>{languageTranslation("USERNAME")}</th>
+                <th>{languageTranslation("EMAIL")}</th>
                 <th className="date-th-column">
-                  {languageTranslation('DELETED_DATE')}
+                  {languageTranslation("DELETED_DATE")}
                 </th>
                 <th className="text-center">
-                  {languageTranslation('TABLE_HEAD_ACTION')}
+                  {languageTranslation("TABLE_HEAD_ACTION")}
                 </th>
               </tr>
             </thead>
             <tbody>
               {!called || loading ? (
                 <tr>
-                  <td className={'table-loader'} colSpan={7}>
+                  <td className={"table-loader"} colSpan={7}>
                     <Loader />
                   </td>
                 </tr>
@@ -300,7 +302,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
                 data.trashUserList.result.length ? (
                 data.trashUserList.result.map(
                   (trashUser: any, index: number) => {
-                    var elements = [trashUser.lastName,trashUser.firstName];
+                    var elements = [trashUser.lastName, trashUser.firstName];
                     let trashLength = data.trashUserList.result.length;
 
                     return (
@@ -310,17 +312,17 @@ const ArchiveCaregiver: FunctionComponent = () => {
                         </td>
                         <td>
                           <div className="info-column">
-                            {elements.join(' ')}
+                            {elements.join(" ")}
                           </div>
                         </td>
-                        <td>{trashUser.userName.split('-')[0]}</td>
-                        <td>{trashUser.email.split('-')[0]}</td>
+                        <td>{trashUser.userName.split("-")[0]}</td>
+                        <td>{trashUser.email.split("-")[0]}</td>
                         <td className="date-th-column ">
                           {trashUser.deletedAt
                             ? moment(trashUser.deletedAt).format(
                                 defaultDateTimeFormat
                               )
-                            : ''}
+                            : ""}
                         </td>
                         <td>
                           <div className={`action-btn `}>
@@ -333,7 +335,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
                                 placement="top"
                                 target={`restore${index}`}
                               >
-                                {languageTranslation('RESTORE_TOOLTIP')}
+                                {languageTranslation("RESTORE_TOOLTIP")}
                               </UncontrolledTooltip>
                               <i className="fa fa-undo"></i>
                             </span>
@@ -349,7 +351,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
                                 target={`delete${index}`}
                               >
                                 {languageTranslation(
-                                  'DELETE_PERMANENTALY_TOOLTIP'
+                                  "DELETE_PERMANENTALY_TOOLTIP"
                                 )}
                               </UncontrolledTooltip>
                               <i className="fa fa-trash"></i>
@@ -361,8 +363,8 @@ const ArchiveCaregiver: FunctionComponent = () => {
                   }
                 )
               ) : (
-                <tr className={'text-center no-hover-row'}>
-                  <td colSpan={7} className={'pt-5 pb-5'}>
+                <tr className={"text-center no-hover-row"}>
+                  <td colSpan={7} className={"pt-5 pb-5"}>
                     {isFilterApplied ? (
                       <NoSearchFound />
                     ) : (

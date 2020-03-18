@@ -430,6 +430,18 @@ body {
         flex-flow: column;
         align-items: stretch;
       }
+      &.global-calendar-header {
+        @media only screen and (max-width: 650px) {
+          flex-flow: column;
+          align-items: stretch;
+        }
+        .btn {
+          @media only screen and (max-width: 650px) {
+            margin-top: 5px;
+            padding: 4px 20px;
+          }
+        }
+      }
       h4 {
         margin: 0px;
         font-size: $font_14;
@@ -454,20 +466,6 @@ body {
       background: $card_header_bg;
     }
   }
-  .card-header {
-    &.global-calendar-header {
-      @media only screen and (max-width: 600px) {
-        flex-wrap: wrap;
-        justify-content: flex-start;
-      }
-    }
-  }
-  .calender-event-wrap {
-    width: 148px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 }
 // new css
 .auth-page {
@@ -487,6 +485,9 @@ body {
     margin: 0 auto 0px;
     text-align: center;
     background: $theme_color;
+    @media only screen and (max-width: 500px) {
+      width: 100%;
+    }
     img {
       max-width: 100%;
       height: auto;
@@ -495,6 +496,9 @@ body {
   .card-group {
     width: 450px;
     margin: 0 auto;
+    @media only screen and (max-width: 500px) {
+      width: 100%;
+    }
   }
   .login-card {
     border-radius: 0px;
@@ -569,9 +573,6 @@ body {
     img {
       width: 150px;
       height: auto;
-    }
-    @media only screen and (max-width: 480px) {
-      display: none;
     }
   }
 }
@@ -890,6 +891,9 @@ body {
         max-height: 210px !important;
         overflow-y: auto;
         overflow-x: hidden;
+        @media only screen and (max-height: 699px) {
+          bottom: 35px;
+        }
         &::-webkit-scrollbar {
           width: 7px;
           height: 7px;
@@ -1001,9 +1005,15 @@ body {
 .sidebar-show {
   .app-header {
     @media (max-width: 991.98px) {
-      padding-left: 200px;
+      padding-left: 230px;
+    }
+    .brand-logo {
+      @media only screen and (max-width: 510px) {
+        display: none;
+      }
     }
   }
+
   .main {
     &:before {
       @media (max-width: 991.98px) {
@@ -4017,6 +4027,9 @@ html:not([dir="rtl"]) {
     &.leave-applicable {
       background-color: #22a226cc;
     }
+    .holiday-text-wrap {
+      width: 215px;
+    }
     .action-btn {
       position: absolute;
       right: -10px;
@@ -4026,11 +4039,7 @@ html:not([dir="rtl"]) {
       a {
         font-size: $font_16;
         margin-right: 6px;
-      }
-      &.dark-action-btn {
-        a {
-          color: #ba790c;
-        }
+        color: $theme_color_hover;
       }
     }
     &:hover {

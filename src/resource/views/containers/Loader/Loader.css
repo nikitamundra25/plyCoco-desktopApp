@@ -140,11 +140,16 @@
   position: relative;
   min-height: 150px;
 }
-.appointment-list-loader{
+.appointment-list-loader {
   position: absolute;
   display: block;
   min-height: 100px;
-  bottom:0px;
-  left:50%;
-  transform:translateX(-50%);
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.global-calendar-table-loader {
+  position: relative;
+  height: 150px;
 }

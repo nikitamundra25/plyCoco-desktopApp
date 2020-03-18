@@ -2768,7 +2768,11 @@ const Appointment: FunctionComponent = (props: any) => {
                 </Col>
                 <Col lg={"6"} md={"12"}>
                   <Row>
-                    <Col lg={"6"} md={"6"} className="px-lg-0 mt-2 mt-lg-0">
+                    <Col
+                      lg={"6"}
+                      md={"6"}
+                      className="px-lg-0 pr-md-0 mt-2 mt-lg-0"
+                    >
                       <Formik
                         initialValues={valuesForCaregiver}
                         onSubmit={handleSubmitCaregiverForm}
@@ -2818,7 +2822,7 @@ const Appointment: FunctionComponent = (props: any) => {
                         }}
                       />
                     </Col>
-                    <Col lg={"6"} md={"6"} className="px-lg-0  mt-md-2 mt-lg-0">
+                    <Col lg={"6"} md={"6"} className=" mt-md-2 mt-lg-0">
                       <Formik
                         initialValues={valuesForCareIntituionForm}
                         onSubmit={handleSubmitCareinstitutionForm}

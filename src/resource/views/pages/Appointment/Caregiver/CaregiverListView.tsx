@@ -426,8 +426,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem> */}
         </Nav>
       </div>
-      {console.log('careGiversList.length', careGiversList.length)}
-      {console.log('totalCaregiver', totalCaregiver)}
       <div className='position-relative'>
         <InfiniteScroll
           loader={<div className='appointment-list-loader'>{''}</div>}
@@ -436,7 +434,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             careGiversList && careGiversList.length ? careGiversList.length : 0
           }
           next={() => {
-            console.log('In next contains');
             getNext(careGiversList.length);
           }}
           // endMessage={<p />}

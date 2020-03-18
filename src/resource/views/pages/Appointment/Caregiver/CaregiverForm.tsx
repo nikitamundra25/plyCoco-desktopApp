@@ -12,12 +12,12 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
+  InputGroupText
 } from 'reactstrap';
 import {
   IAppointmentCareGiverForm,
   ICaregiverFormValue,
-  IReactSelectInterface,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 import { NightAllowancePerHour, State } from '../../../../../config';
@@ -26,7 +26,7 @@ import '../index.scss';
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm &
   any> = (
-  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any,
+  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   const { addCaregiverLoading } = props;
 
@@ -67,7 +67,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       f,
       s,
       n,
-      status,
+      status
     },
     touched,
     errors,
@@ -86,7 +86,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     onhandleDelete,
     careGiversListArr,
     handleSelectUserList,
-    handleLastTimeData,
+    handleLastTimeData
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -149,7 +149,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             'form-card custom-height custom-scrollbar': true,
             'availability-bg': isAvailability,
             'matching-bg': isMatching,
-            'confirmation-bg': isConfirm,
+            'confirmation-bg': isConfirm
           })}
         >
           <h5 className='content-title'>
@@ -213,7 +213,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                       selectedCareGiver
                                         ? selectedCareGiver.id
                                         : '',
-                                      'caregiver',
+                                      'caregiver'
                                     )
                                   : ''
                               }
@@ -244,9 +244,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                   ? moment(dateString).format(
                                       index !== activeDateCaregiver.length - 1
                                         ? 'dd DD'
-                                        : 'dd DD.MM.YYYY',
+                                        : 'dd DD.MM.YYYY'
                                     )
-                                  : null,
+                                  : null
                             )
                             .join(', ')
                         : null}
@@ -275,10 +275,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'f'}
                             checked={f ? true : false}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('f', checked);
                             }}
@@ -297,10 +297,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'s'}
                             checked={s}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('s', checked);
                             }}
@@ -319,10 +319,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'n'}
                             checked={n}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('n', checked);
                             }}
@@ -358,7 +358,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'fee'}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={fee}
+                            value={fee ? fee : ''}
                             className={
                               errors.fee && touched.fee
                                 ? 'fee-width error'
@@ -382,7 +382,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         onClick={() =>
                           handleLastTimeData(
                             selectedCareGiver ? selectedCareGiver.id : '',
-                            props.values,
+                            props.values
                           )
                         }
                       >
@@ -409,7 +409,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           <Input
                             type='text'
                             name={'nightFee'}
-                            value={nightFee}
+                            value={nightFee ? nightFee : ''}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className={
@@ -466,7 +466,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <Input
                           type='text'
                           name={'weekendAllowance'}
-                          value={weekendAllowance}
+                          value={weekendAllowance ? weekendAllowance : ''}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           className={
@@ -506,7 +506,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <Input
                           type='text'
                           name={'holidayAllowance'}
-                          value={holidayAllowance}
+                          value={holidayAllowance ? holidayAllowance : ''}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           className={
@@ -544,7 +544,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <Input
                         type='text'
                         name={'distanceInKM'}
-                        value={distanceInKM}
+                        value={distanceInKM ? distanceInKM : ''}
                         placeholder={languageTranslation('FEE_PER_KM')}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -575,7 +575,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <Input
                         type='text'
                         name={'feePerKM'}
-                        value={feePerKM}
+                        value={feePerKM ? feePerKM : ''}
                         placeholder={languageTranslation('a')}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -617,7 +617,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       disabled={true}
                       name={'travelAllowance'}
                       className='width-common'
-                      value={travelAllowance}
+                      value={travelAllowance ? travelAllowance : ''}
                     />
                   </div>
                 </FormGroup>
@@ -637,7 +637,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <Input
                         type='text'
                         name={'otherExpenses'}
-                        value={otherExpenses}
+                        value={otherExpenses ? otherExpenses : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         placeholder={languageTranslation('EXPENSES')}
@@ -767,10 +767,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'workingProofRecieved'}
                             checked={workingProofRecieved}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('workingProofRecieved', checked);
                             }}
@@ -799,7 +799,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         rows='3'
                         type='textarea'
                         name='remarksCareGiver'
-                        value={remarksCareGiver ? remarksCareGiver : undefined}
+                        value={remarksCareGiver ? remarksCareGiver : ''}
                         onChange={handleChange}
                         id='exampleText1'
                       />
@@ -823,7 +823,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         rows='3'
                         type='textarea'
                         name='remarksInternal'
-                        value={remarksInternal ? remarksInternal : undefined}
+                        value={remarksInternal ? remarksInternal : ''}
                         onChange={handleChange}
                         id='exampleText2'
                       />

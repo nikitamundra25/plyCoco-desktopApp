@@ -1008,6 +1008,7 @@ const Appointment: FunctionComponent = (props: any) => {
           });
         }
       });
+      console.log('availData', availData);
 
       if (availData && availData.length) {
         if (name === 'careinstitution') {
@@ -1419,8 +1420,6 @@ const Appointment: FunctionComponent = (props: any) => {
                 languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG')
               );
             }
-          } else {
-            toast.warn(languageTranslation('CAREINSTTITUTION_LINKED'));
           }
         }
       });
@@ -2230,6 +2229,7 @@ const Appointment: FunctionComponent = (props: any) => {
       if (value) {
         temp.forEach(async (element: any) => {
           const { id, item } = element;
+          console.log(item, 'item in foreach');
           if (item && item.id) {
             if (userRole === 'caregiver') {
               await deleteCaregiverRequirement({
@@ -2252,17 +2252,42 @@ const Appointment: FunctionComponent = (props: any) => {
               );
               if (index > -1) {
                 let list: any = [...caregiversList];
-                list[index].availabilityData = [];
+                // To remove all the empty rows
+                list[index].availabilityData = list[
+                  index
+                ].availabilityData.filter((item: any) => !item.length);
                 setcaregiversList(list);
               }
             } else {
-              index = careinstitutionList.findIndex(
-                (careInst: any) => careInst.id === id
-              );
-              if (index > -1) {
-                let list: any = [...careinstitutionList];
-                list[index].availabilityData = [];
-                setcaregiversList(list);
+              // If solo careInstitution is selected
+              if (
+                starCanstitution &&
+                secondStarCanstitution &&
+                (starCanstitution.isStar || secondStarCanstitution.isStar) &&
+                careInstituionDeptData &&
+                careInstituionDeptData.length
+              ) {
+                index = careInstituionDeptData.findIndex(
+                  (careInst: any) => careInst.userId === id,
+                );
+                if (index > -1) {
+                  let list: any = [...careInstituionDeptData];
+                  list[index].availabilityData = list[
+                    index
+                  ].availabilityData.filter((item: any) => item.length);
+                  setcareInstituionDeptData(list);
+                }
+              } else {
+                index = careinstitutionList.findIndex(
+                  (careInst: any) => careInst.id === id,
+                );
+                if (index > -1) {
+                  let list: any = [...careinstitutionList];
+                  list[index].availabilityData = list[
+                    index
+                  ].availabilityData.filter((item: any) => item.length);
+                  setcareinstitutionList(list);
+                }
               }
             }
           }
@@ -2292,8 +2317,26 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCells &&
       selectedCells.length
     ) {
+      let qualiCheck: any[] = [];
       selectedCells.map((key: any, index: number) => {
         const element = selectedCellsCareinstitution[index];
+        if (
+          key.qualificationIds &&
+          key.qualificationIds.length &&
+          element.qualificationIds &&
+          element.qualificationIds.length
+        ) {
+          qualiCheck = key.qualificationIds.filter((e: any) =>
+            element.qualificationIds.includes(e),
+          );
+        }
+        if (qualiCheck && qualiCheck.length <= 0) {
+          if (!toast.isActive(toastId)) {
+            toastId = toast.error(languageTranslation('QUALIFICATION_UNMATCH'));
+          }
+          checkError = true;
+          return true;
+        }
         if (
           moment(key.dateString).format(dbAcceptableFormat) !==
           moment(element.dateString).format(dbAcceptableFormat)
@@ -2339,16 +2382,18 @@ const Appointment: FunctionComponent = (props: any) => {
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
-        let appointId: any = key.item.appointments.filter(
-          (appointment: any) => {
-            return (
-              moment(key.dateString).format('DD.MM.YYYY') ===
-              moment(appointment.date).format('DD.MM.YYYY')
-            );
-          }
-        );
+        // let appointId: any = key.item.appointments.filter(
+        //   (appointment: any) => {
+        //     return (
+        //       moment(key.dateString).format('DD.MM.YYYY') ===
+        //       moment(appointment.date).format('DD.MM.YYYY')
+        //     );
+        //   }
+        // );
         return appointmentId.push({
-          appointmentId: parseInt(appointId[0].id),
+          appointmentId: parseInt(
+            key.item.appointments ? key.item.appointments[0].id : '',
+          ),
           unlinkedBy: likedBy,
           deleteAll: check
         });
@@ -2495,6 +2540,7 @@ const Appointment: FunctionComponent = (props: any) => {
     n = '',
     status = ''
   } = item ? item : caregiver ? caregiver : {};
+
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
     name: name ? name : firstName ? `${lastName} ${firstName}` : '',
@@ -2535,6 +2581,7 @@ const Appointment: FunctionComponent = (props: any) => {
     n: n === 'available' ? true : false,
     status: status ? status : ''
   };
+  console.log('valuesForCaregiver', valuesForCaregiver);
 
   const [savingBoth, setsavingBoth] = useState(false);
   const handleSaveBoth = () => {
@@ -2608,7 +2655,6 @@ const Appointment: FunctionComponent = (props: any) => {
                   ),
                   {}
                 );
-
                 result = Object.values(result);
                 result = Math.max(...result);
                 for (let row = 0; row < result; row++) {

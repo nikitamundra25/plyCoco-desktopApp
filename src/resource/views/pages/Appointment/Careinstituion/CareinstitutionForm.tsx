@@ -4,7 +4,7 @@ import '../index.scss';
 import {
   IAppointmentCareInstitutionForm,
   ICareinstitutionFormValue,
-  IReactSelectInterface,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import {
   FormGroup,
@@ -15,7 +15,7 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
+  InputGroupText
 } from 'reactstrap';
 import '../index.scss';
 import { languageTranslation } from '../../../../../helpers';
@@ -34,7 +34,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   any> = (
   props: FormikProps<ICareinstitutionFormValue> &
     IAppointmentCareInstitutionForm &
-    any,
+    any
 ) => {
   useEffect(() => {
     if (props.savingBoth) {
@@ -59,7 +59,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       offerRemarks,
       bookingRemarks,
       comments,
-      status,
+      status
     },
     touched,
     errors,
@@ -82,7 +82,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     onhandleDelete,
     careInstitutionListArr,
     handleSelectUserList,
-    addCareinstLoading,
+    addCareinstLoading
   } = props;
 
   let d = moment().format('L');
@@ -155,6 +155,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   };
 
   const DepartmentError: any = errors.department;
+  const qualificationError: any = errors.qualificationId;
+  console.log('gggggggggggg', qualificationError);
+
   return (
     <>
       <div className='form-section '>
@@ -164,7 +167,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             'requirement-bg': isRequirment,
             'matching-bg': isMatching,
             'contract-bg': isConfirm,
-            'availability-bg': isOffered,
+            'availability-bg': isOffered
           })}
         >
           <h5 className='content-title'>
@@ -226,7 +229,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                       selectedCareinstitution
                                         ? selectedCareinstitution.id
                                         : '',
-                                      'careinstitution',
+                                      'careinstitution'
                                     )
                                   : ''
                               }
@@ -258,9 +261,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                       index !==
                                         activeDateCareinstitution.length - 1
                                         ? 'dd DD'
-                                        : 'dd DD.MM.YYYY',
+                                        : 'dd DD.MM.YYYY'
                                     )
-                                  : null,
+                                  : null
                             )
                             .join(', ')
                         : null}
@@ -287,7 +290,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             ? careInstitutionTimesOptions
                             : ShiftTime
                         }
-                        value={shift ? shift : ''}
+                        value={shift ? shift : undefined}
                         classNamePrefix='custom-inner-reactselect'
                         className={'custom-reactselect'}
                         onChange={(value: any) => handleSelect(value, 'shift')}
@@ -322,7 +325,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               }
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              value={startTime}
+                              value={startTime ? startTime : ''}
                             />
                           )}
                         />
@@ -365,7 +368,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               }
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              value={endTime}
+                              value={endTime ? endTime : ''}
                             />
                           )}
                         />
@@ -416,17 +419,28 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         <i className='fa fa-arrow-up' aria-hidden='true' />
                       </Button>
 
-                      <div className='custom-select-checkbox select-right-bottom'>
+                      <div
+                        className={`custom-select-checkbox select-right-bottom ${
+                          errors.qualificationId && touched.qualificationId
+                            ? 'error'
+                            : ' '
+                        }`}
+                      >
                         <ReactMultiSelectCheckboxes
                           options={qualificationList}
                           placeholderButtonLabel={languageTranslation(
-                            'CAREGIVER_QUALIFICATION_PLACEHOLDER',
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                           )}
                           placeholder={languageTranslation(
-                            'CAREGIVER_QUALIFICATION_PLACEHOLDER',
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                           )}
                           // placeholder="Select Qualifications"
-                          className={'custom-reactselect '}
+
+                          className={
+                            errors.qualificationId && touched.qualificationId
+                              ? 'custom-reactselect error'
+                              : 'custom-reactselect'
+                          }
                           classNamePrefix='custom-inner-reactselect'
                           onChange={(value: any) =>
                             handleSelect(value, 'qualificationId')
@@ -437,6 +451,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               : []
                           }
                         />
+                        {errors.qualificationId && touched.qualificationId && (
+                          <div className='required-tooltip'>
+                            {qualificationError}
+                          </div>
+                        )}
                         {/* <Select
                         placeholder='Select Qualifications'
                         options={qualificationList}
@@ -538,7 +557,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         name={'address'}
                         disabled={true}
                         placeholder={languageTranslation('ADDRESS')}
-                        value={address}
+                        value={address ? address : ''}
                         className='textarea-custom form-control'
                         rows='2'
                       />
@@ -563,7 +582,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         name={'contactPerson'}
                         placeholder={languageTranslation('CONTACT_PERSON')}
                         className='width-common'
-                        value={contactPerson}
+                        value={contactPerson ? contactPerson : ''}
                       />
                     </div>
                   </Col>
@@ -587,7 +606,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='textarea'
                         name='departmentOfferRemarks'
                         id='exampleText'
-                        value={departmentOfferRemarks}
+                        value={
+                          departmentOfferRemarks ? departmentOfferRemarks : ''
+                        }
                       />
                     </div>
                   </Col>
@@ -611,7 +632,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='textarea'
                         name='departmentBookingRemarks'
                         id='exampleText'
-                        value={departmentBookingRemarks}
+                        value={
+                          departmentBookingRemarks
+                            ? departmentBookingRemarks
+                            : ''
+                        }
                       />
                     </div>
                   </Col>
@@ -624,7 +649,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='5'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation(
-                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY',
+                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
                       )}
                     </Label>
                   </Col>
@@ -637,7 +662,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         type='textarea'
                         name='departmentRemarks'
                         id='exampleText'
-                        value={departmentRemarks}
+                        value={departmentRemarks ? departmentRemarks : ''}
                       />
                     </div>
                   </Col>
@@ -663,10 +688,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             className=''
                             checked={isWorkingProof}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('isWorkingProof', checked);
                             }}

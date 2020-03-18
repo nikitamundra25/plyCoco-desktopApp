@@ -428,7 +428,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       </div>
       <div className='position-relative'>
         <InfiniteScroll
-          loader={<div className='appointment-list-loader'>{<Loader />}</div>}
+          loader={<div className='appointment-list-loader'>{''}</div>}
           hasMore={careGiversList && careGiversList.length !== totalCaregiver}
           dataLength={10}
           next={() => {

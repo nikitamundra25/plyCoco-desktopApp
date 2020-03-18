@@ -907,6 +907,8 @@ const Appointment: FunctionComponent = (props: any) => {
       }
       setSelectedCells(selectedCells);
     } else {
+      console.log('selectedCellsselectedCells', selectedCells);
+
       setselectedCellsCareinstitution(selectedCells);
       if (checkCondition) {
         let appointId: any = selectedCells[0].item.appointments.filter(
@@ -1422,7 +1424,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG')
               );
             }
-          } 
+          }
         }
       });
     }
@@ -1459,24 +1461,26 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
   };
+
   const setOnOfferedCareInst = async () => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        if (item && item.id) {
-          if (item.status === 'default' || item.status === 'requirement') {
-            let availabilityId: number = item.id ? parseInt(item.id) : 0;
-            delete item.id;
-            delete item.__typename;
-            delete item.appointments;
-            delete item.division;
+        const Item = { ...item };
+        if (Item && Item.id) {
+          if (Item.status === 'default' || Item.status === 'requirement') {
+            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+            delete Item.id;
+            delete Item.__typename;
+            delete Item.appointments;
+            delete Item.division;
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
                 careInstitutionRequirementInput: {
-                  ...item,
-                  qualificationId: item.qualificationId.map((item: any) => {
-                    item.id;
+                  ...Item,
+                  qualificationId: Item.qualificationId.map((Item: any) => {
+                    Item.id;
                   }),
                   status: 'offered'
                 }

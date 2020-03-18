@@ -40,7 +40,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
       handleCheckElement(e, id);
     }
   };
-  
+
   return (
     <Col lg={'5'} className='pr-lg-0'>
       <div id='scrollableDiv' className='caregiver-list custom-scroll'>
@@ -53,7 +53,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
           }}
           scrollableTarget='scrollableDiv'
           hasMore={
-            props.confirmApp
+            props.confirmApp || props.unlinkedBy
               ? false
               : props.label !== 'appointment'
               ? careGivers &&

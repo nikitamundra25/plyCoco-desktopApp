@@ -458,9 +458,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     : true
                 }
                 onClick={() => {
+                  setOnOfferedCareInst();
                   handleCareGiverBulkEmail('division', true);
                   handleCareInstitutionBulkEmail();
-                  setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
               >

@@ -932,5 +932,6 @@
   "NEW_PASSWORD_SENT_SUCCESS": "New password is generated and sent to :email.",
   "SELECT_APPOINTMENT_IN_UNLINK": "Please select appointment/s.",
   "QUALIFICATION_REQUIRED": "Qualification is required",
-  "DEPARTMENT_REQUIRED": "Department is required"
+  "DEPARTMENT_REQUIRED": "Department is required",
+  "QUALIFICATION_UNMATCH": "Qualifications Didnot match."
 }

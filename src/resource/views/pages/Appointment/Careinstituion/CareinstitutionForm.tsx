@@ -419,7 +419,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         <i className='fa fa-arrow-up' aria-hidden='true' />
                       </Button>
 
-                      <div className='custom-select-checkbox select-right-bottom'>
+                      <div
+                        className={`custom-select-checkbox select-right-bottom ${
+                          errors.qualificationId && touched.qualificationId
+                            ? 'error'
+                            : ' '
+                        }`}
+                      >
                         <ReactMultiSelectCheckboxes
                           options={qualificationList}
                           placeholderButtonLabel={languageTranslation(
@@ -429,6 +435,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                           )}
                           // placeholder="Select Qualifications"
+
                           className={
                             errors.qualificationId && touched.qualificationId
                               ? 'custom-reactselect error'

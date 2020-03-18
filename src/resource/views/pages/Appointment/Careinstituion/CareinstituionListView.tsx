@@ -174,8 +174,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         let qualiCheck: any[] = [];
         selectedCells.map((key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
-          console.log('selectedCellsCareinstitution', element);
-          console.log('selectedCells', key.qualificationIds);
           if (
             key.qualificationIds &&
             key.qualificationIds.length &&
@@ -186,10 +184,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               element.qualificationIds.includes(e)
             );
           }
-          console.log('qualiCheck', qualiCheck);
           if (qualiCheck && qualiCheck.length <= 0) {
             if (!toast.isActive(toastId)) {
-              toastId = toast.error('Qualifications did not match.');
+              toastId = toast.error(
+                languageTranslation('QUALIFICATION_UNMATCH')
+              );
             }
             checkError = true;
             return true;
@@ -240,16 +239,19 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
-        let appointId: any = key.item.appointments.filter(
-          (appointment: any) => {
-            return (
-              moment(key.dateString).format('DD.MM.YYYY') ===
-              moment(appointment.date).format('DD.MM.YYYY')
-            );
-          }
-        );
+        // let appointId: any = key.item.appointments.filter(
+        //   (appointment: any) => {
+        //     return (
+        //       moment(key.dateString).format(dbAcceptableFormat) ===
+        //       moment(appointment.date).format(dbAcceptableFormat)
+        //     );
+        //   }
+        // );
+        // console.log('appointId', appointId);
         return appointmentId.push({
-          appointmentId: parseInt(appointId[0].id),
+          appointmentId: parseInt(
+            key.item.appointments ? key.item.appointments[0].id : ''
+          ),
           unlinkedBy: likedBy,
           deleteAll: check
         });

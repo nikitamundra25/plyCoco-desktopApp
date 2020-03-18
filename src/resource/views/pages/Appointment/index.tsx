@@ -1105,7 +1105,6 @@ const Appointment: FunctionComponent = (props: any) => {
           });
         }
       });
-      console.log('availData', availData);
 
       if (availData && availData.length) {
         if (name === 'careinstitution') {

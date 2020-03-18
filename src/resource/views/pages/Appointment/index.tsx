@@ -770,8 +770,6 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         }
       ];
-      console.log('data', data);
-
       setSelectedCells(data);
     }
   }, [caregiverLastTimeData]);
@@ -1008,6 +1006,7 @@ const Appointment: FunctionComponent = (props: any) => {
           });
         }
       });
+      console.log('availData', availData);
 
       if (availData && availData.length) {
         if (name === 'careinstitution') {
@@ -2472,6 +2471,7 @@ const Appointment: FunctionComponent = (props: any) => {
     n = '',
     status = ''
   } = item ? item : caregiver ? caregiver : {};
+
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
     name: name ? name : firstName ? `${lastName} ${firstName}` : '',
@@ -2512,6 +2512,7 @@ const Appointment: FunctionComponent = (props: any) => {
     n: n === 'available' ? true : false,
     status: status ? status : ''
   };
+  console.log('valuesForCaregiver', valuesForCaregiver);
 
   const [savingBoth, setsavingBoth] = useState(false);
   const handleSaveBoth = () => {

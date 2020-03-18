@@ -171,8 +171,29 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           toastId = toast.error('Please select same length cells');
         }
       } else {
+        let qualiCheck: any[] = [];
         selectedCells.map((key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
+          console.log('selectedCellsCareinstitution', element);
+          console.log('selectedCells', key.qualificationIds);
+          if (
+            key.qualificationIds &&
+            key.qualificationIds.length &&
+            element.qualificationIds &&
+            element.qualificationIds.length
+          ) {
+            qualiCheck = key.qualificationIds.filter((e: any) =>
+              element.qualificationIds.includes(e)
+            );
+          }
+          console.log('qualiCheck', qualiCheck);
+          if (qualiCheck && qualiCheck.length <= 0) {
+            if (!toast.isActive(toastId)) {
+              toastId = toast.error('Qualifications did not match.');
+            }
+            checkError = true;
+            return true;
+          }
           if (
             moment(key.dateString).format(dbAcceptableFormat) !==
             moment(element.dateString).format(dbAcceptableFormat)

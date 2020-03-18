@@ -160,6 +160,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 
   const DepartmentError: any = errors.department;
   const qualificationError: any = errors.qualificationId;
+  const shiftOptions =
+    careInstitutionTimesOptions && careInstitutionTimesOptions.length
+      ? careInstitutionTimesOptions
+      : ShiftTime;
 
   return (
     <>
@@ -347,6 +351,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           <i className='fa fa-clock-o' aria-hidden='true' />
                         </DropdownToggle>
                         <DropdownMenu>
+                          {shiftOptions && shiftOptions.length}
                           <DropdownItem>Header</DropdownItem>
                           <DropdownItem>Some Action</DropdownItem>
                           <DropdownItem>Action (disabled)</DropdownItem>

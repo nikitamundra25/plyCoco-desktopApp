@@ -442,9 +442,10 @@ const Appointment: FunctionComponent = (props: any) => {
   // to get list of all caregivers
   const getCaregiverData = (
     page: number,
-    positive: number[] = [],
-    negative: number[] = []
+    positiveAttr: number[] = [],
+    negativeAttr: number[] = []
   ) => {
+
     let temp: any = [];
     qualification.map((key: any, index: number) => {
       temp.push(parseInt(key.value));
@@ -465,7 +466,7 @@ const Appointment: FunctionComponent = (props: any) => {
       variables: {
         qualificationId: temp ? temp : null,
         userRole: 'caregiver',
-        negativeAttributeId: negative,
+        negativeAttributeId: negativeAttr ? negativeAttr : negative,
         limit: 10,
         page: page ? page : 1,
         showAppointments:
@@ -474,7 +475,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ? ''
               : filterByAppointments.value
             : null,
-        positiveAttributeId: positive,
+        positiveAttributeId: positiveAttr ? positiveAttr : positive,
         gte,
         lte
       }

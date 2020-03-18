@@ -160,11 +160,11 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       <div className='form-section '>
         <div
           className={classnames({
-            "form-card custom-height custom-scrollbar": true,
-            "requirement-bg": isRequirment,
-            "matching-bg": isMatching,
-            "contract-bg": isConfirm,
-            "availability-bg": isOffered
+            'form-card custom-height custom-scrollbar': true,
+            'requirement-bg': isRequirment,
+            'matching-bg': isMatching,
+            'contract-bg': isConfirm,
+            'availability-bg': isOffered,
           })}
         >
           <h5 className='content-title'>
@@ -251,10 +251,16 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     <div className='text-value '>
                       {activeDateCareinstitution
                         ? activeDateCareinstitution
-                            .map((dateString: string | undefined) =>
-                              dateString
-                                ? moment(dateString).format('dd DD.MM.YYYY')
-                                : null,
+                            .map(
+                              (dateString: string | undefined, index: number) =>
+                                dateString
+                                  ? moment(dateString).format(
+                                      index !==
+                                        activeDateCareinstitution.length - 1
+                                        ? 'dd DD'
+                                        : 'dd DD.MM.YYYY',
+                                    )
+                                  : null,
                             )
                             .join(', ')
                         : null}

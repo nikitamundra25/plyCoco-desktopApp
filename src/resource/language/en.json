@@ -858,7 +858,7 @@
   "WEEKEND_ALLOWANCE_REQUIRED": "Weekend allowance required",
   "HOLIDAY_ALLOWANCE_REQUIRED": "Holiday allowance required",
   "DETAIL_LIST_CAREGIVER": "Detail List Caregiver",
-  "DETAIL_LIST_CAREINSTITUTION": "Detail List CareInstitution",
+  "DETAIL_LIST_CAREINSTITUTION": "Detail List Care Institution",
   "KILOMETER": "Kilometer",
   "ALWAYS_IN_BACKGROUND": "Always in background",
   "DLN": "DLN",
@@ -929,5 +929,6 @@
   "CAREGIVER_LINKED": "Caregiver must be linked with a care institution",
   "REGENERATE_PASSWORD": "Generate new password.",
   "CONFIRM_REGENERATE_PASSWORD_MESSAGE": "Old password will be removed and a new password will be set for this :userRole and a confirmation email with new password will sent out on the <b>:email</b>. Would you like to continue?",
-  "NEW_PASSWORD_SENT_SUCCESS": "New password is generated and sent to :email."
+  "NEW_PASSWORD_SENT_SUCCESS": "New password is generated and sent to :email.",
+  "SELECT_APPOINTMENT_IN_UNLINK": "Please select appointment/s."
 }

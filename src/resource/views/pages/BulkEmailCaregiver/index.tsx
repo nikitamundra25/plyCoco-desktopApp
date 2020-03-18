@@ -182,16 +182,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   useEffect(() => {
     let list: any = [...careGiverData];
-    // let data: any = [...careGiverConfirm];
-    // if (selectedCells) {
-    //   console.log('in if');
-    //   if (selectedCells && selectedCells.length) {
-    //     console.log('selectedCells ');
-    //     selectedCells.map((key: any) => {
-    //       console.log('key ', key);
-    //       return (data = [...data, key]);
-    //     });
-    //   } setCaregiverConfirm(data);
     if (selectedCells && props.confirmApp) {
       if (selectedCells && selectedCells.length) {
         selectedCells.map((key: any) => {

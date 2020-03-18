@@ -156,7 +156,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 
   const DepartmentError: any = errors.department;
   const qualificationError: any = errors.qualificationId;
-  console.log('gggggggggggg', qualificationError);
 
   return (
     <>

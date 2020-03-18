@@ -20,6 +20,7 @@ import caregiver from '../../../assets/img/caregiver.svg';
 import careinstitution from '../../../assets/img/careinstitution.svg';
 import 'react-day-picker/lib/style.css';
 import './index.scss';
+import CustomOption from '../../components/CustomOptions';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
@@ -149,16 +150,18 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               <img src={right_arrow} alt='' />
             </span>
           </div>
+          {console.log('filterByAppointments', filterByAppointments)}
           <div className='user-select mx-1'>
             <Select
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect '}
-              placeholder='Select'
+              placeholder='Select appointment'
               options={Without_Appointments}
               value={
                 filterByAppointments
-                  ? filterByAppointments
-                  : { label: 'Select', value: 'Select' }
+                // filterByAppointments && filterByAppointments.value !== undefined
+                //   ? { label: 'hello', value: 'hy' }
+                //   : undefined
               }
               onChange={(value: any) =>
                 handleSelectAppointment(value, 'appointments')
@@ -215,6 +218,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                   ? caregiverUser
                   : null
               }
+              components={{ Option: CustomOption }}
               onChange={(value: any) => handleUserList(value, 'caregiver')}
               isClearable={true}
             />
@@ -250,6 +254,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                   : null
               }
               options={careInstitutionList}
+              components={{ Option: CustomOption }}
               onChange={(value: any) =>
                 handleUserList(value, 'careinstitution')
               }
@@ -285,7 +290,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                     ? user === 'avability'
                       ? 'availability'
                       : 'requirement'
-                    : 'Select user'
+                    : languageTranslation('SELECT_USER')
                 }
                 type='text'
                 name='id'

@@ -47,6 +47,7 @@ import UnlinkAppointment from '../unlinkModal';
 import '../index.scss';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { languageTranslation } from '../../../../../helpers';
+import { Link } from 'react-router-dom';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -563,15 +564,16 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                 <th className='name-col custom-appointment-col thead-sticky'>
                                   <div className='all-star-wrap'>
                                     <div
-                                      className='text-capitalize view-more-link one-line-text  username-col name-text'
-                                      onClick={() =>
-                                        history.push(
-                                          AppRoutes.CARE_GIVER_VIEW.replace(
-                                            ':id',
-                                            list.id
-                                          )
-                                        )
-                                      }
+                                      className='text-capitalize one-line-text  username-col name-text'
+                                      // onClick={() =>
+                                      //   history.push(
+                                      //     AppRoutes.CARE_GIVER_VIEW.replace(
+                                      //       ':id',
+                                      //       list.id
+                                      //     )
+                                      //   )
+                                      // }
+
                                       style={{
                                         backgroundColor: !list.isActive
                                           ? deactivatedListColor
@@ -593,13 +595,24 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                         .join(' ')}
                                       id={`caregiver-${list.id}`}
                                     >
-                                      {row === 0
-                                        ? `${
-                                            list.lastName ? list.lastName : ''
-                                          } ${
-                                            list.firstName ? list.firstName : ''
-                                          }`
-                                        : ''}
+                                      <Link
+                                        to={AppRoutes.CARE_GIVER_VIEW.replace(
+                                          ':id',
+                                          list.id
+                                        )}
+                                        target='_blank'
+                                        className='text-body'
+                                      >
+                                        {row === 0
+                                          ? `${
+                                              list.lastName ? list.lastName : ''
+                                            } ${
+                                              list.firstName
+                                                ? list.firstName
+                                                : ''
+                                            }`
+                                          : ''}
+                                      </Link>
                                     </div>
                                     <div className='h-col custom-appointment-col text-center'></div>
                                     <div

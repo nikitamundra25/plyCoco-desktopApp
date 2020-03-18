@@ -47,6 +47,7 @@ import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router';
 import UnlinkAppointment from '../unlinkModal';
+import { Link } from 'react-router-dom';
 
 let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
@@ -333,16 +334,25 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             : ''
                           : ''
                       }}
-                      onClick={() =>
-                        history.push(
-                          AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
-                        )
-                      }
+                      // onClick={() =>
+                      //   history.push(
+                      //     AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
+                      //   )
+                      // }
                       title={list.name}
                       className='text-capitalize view-more-link one-line-text username-col name-text'
                       id={`careinst-${list.id}`}
                     >
-                      {row === 0 ? list.name : null}
+                      <Link
+                        to={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                          ':id',
+                          list.id
+                        )}
+                        target='_blank'
+                        className='text-body'
+                      >
+                        {row === 0 ? list.name : null}
+                      </Link>
                     </div>
                     <div className='h-col custom-appointment-col text-center'></div>
                     <div

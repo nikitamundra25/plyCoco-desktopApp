@@ -1,27 +1,21 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router';
-import {
-  Row,
-  Col,
-  Card,
-  CardHeader,
-  CardBody,
-} from "reactstrap";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { RouteComponentProps } from "react-router";
+import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 import { AppBreadcrumb } from "@coreui/react";
 import Select from "react-select";
 import routes from "../../../../routes/routes";
 import "./index.scss";
-import { languageTranslation } from '../../../../helpers';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { languageTranslation } from "../../../../helpers";
+import { useLazyQuery } from "@apollo/react-hooks";
 
-import { DashboardQueries } from '../../../../graphql/queries';
-import { DayOptions } from '../../../../config';
-import RegistrationList from './RegistrationList';
-import DocumentList from './DocumentList';
-import AppointmentList from './AppointmentList';
-import ConfirmBookingList from './ConfirmBookingList';
-import IncorrectLoginList from './IncorrectLoginList';
-import SuccessfulLoginList from './SuccessfulLoginList';
+import { DashboardQueries } from "../../../../graphql/queries";
+import { DayOptions } from "../../../../config";
+import RegistrationList from "./RegistrationList";
+import DocumentList from "./DocumentList";
+import AppointmentList from "./AppointmentList";
+import ConfirmBookingList from "./ConfirmBookingList";
+import IncorrectLoginList from "./IncorrectLoginList";
+import SuccessfulLoginList from "./SuccessfulLoginList";
 
 const [
   GET_DASHBOARD_REGISTRATIONS_LIST,
@@ -30,7 +24,6 @@ const [
 ] = DashboardQueries;
 
 const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
-
   const [daysValue, setDaysValue] = useState<any>({ value: 1, label: "1 Day" });
 
   const appointmentListLoading = false;
@@ -39,25 +32,41 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
   // To get registrations list
   const [
     getDashboardRegistrations,
-    { data: registrationList, refetch: refetchRegistrationList, loading: registrationListLoading }
+    {
+      data: registrationList,
+      refetch: refetchRegistrationList,
+      loading: registrationListLoading
+    }
   ] = useLazyQuery<any>(GET_DASHBOARD_REGISTRATIONS_LIST);
 
   // To get documents list
   const [
     getDashboardNewDocuments,
-    { data: documentList, refetch: refetchDocumentList, loading: documentListLoading }
+    {
+      data: documentList,
+      refetch: refetchDocumentList,
+      loading: documentListLoading
+    }
   ] = useLazyQuery<any>(GET_DASHBOARD_DOCUMENTS_LIST);
 
   // To get incorrect login list
   const [
     getDashboardIncorrectLoginHistory,
-    { data: incorrectLoginList, refetch: refetchIncorrectLoginList, loading: incorrectLoginListLoading }
+    {
+      data: incorrectLoginList,
+      refetch: refetchIncorrectLoginList,
+      loading: incorrectLoginListLoading
+    }
   ] = useLazyQuery<any>(GET_DASHBOARD_LOGIN_HISTORY_LIST);
 
   // To get successful login list
   const [
     getDashboardSuccessFulLoginHistory,
-    { data: successfulLoginList, refetch: refetchSuccessfulLoginList, loading: successfulLoginListLoading }
+    {
+      data: successfulLoginList,
+      refetch: refetchSuccessfulLoginList,
+      loading: successfulLoginListLoading
+    }
   ] = useLazyQuery<any>(GET_DASHBOARD_LOGIN_HISTORY_LIST);
 
   useEffect(() => {
@@ -97,7 +106,7 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
 
     await getDashboardNewDocuments({
       variables: {
-        days: value,
+        days: value
       }
     });
 
@@ -124,16 +133,16 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-        <div className="d-flex align-items-center">
+        <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
+        <div className="d-flex align-items-center  mt-1 mt-sm-0">
           <div className="common-label one-line-text mr-3">
             {languageTranslation("SHOW_DAY")}
           </div>
           <div className="day-select">
             <Select
-              placeholder={languageTranslation('SELECT_DAY')}
-              classNamePrefix='custom-inner-reactselect'
-              className='custom-reactselect'
+              placeholder={languageTranslation("SELECT_DAY")}
+              classNamePrefix="custom-inner-reactselect"
+              className="custom-reactselect"
               options={DayOptions}
               value={daysValue}
               onChange={(item: any) => {
@@ -148,27 +157,35 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
         <div className="dashboard-section">
           <Row>
             <Col lg="4" className="pr-lg-0">
-              <RegistrationList {...props}
+              <RegistrationList
+                {...props}
                 registrationListLoading={registrationListLoading}
                 registrationList={registrationList}
               />
-              <DocumentList  {...props}
+              <DocumentList
+                {...props}
                 documentListLoading={documentListLoading}
                 documentList={documentList}
               />
             </Col>
             <Col lg="4">
-              <AppointmentList  {...props}
-                appointmentListLoading={appointmentListLoading} />
-              <ConfirmBookingList  {...props}
-                confirmBookingListLoading={confirmBookingListLoading} />
+              <AppointmentList
+                {...props}
+                appointmentListLoading={appointmentListLoading}
+              />
+              <ConfirmBookingList
+                {...props}
+                confirmBookingListLoading={confirmBookingListLoading}
+              />
             </Col>
             <Col lg="4" className="pl-lg-0">
-              <IncorrectLoginList  {...props}
+              <IncorrectLoginList
+                {...props}
                 incorrectLoginListLoading={incorrectLoginListLoading}
                 incorrectLoginList={incorrectLoginList}
               />
-              <SuccessfulLoginList  {...props}
+              <SuccessfulLoginList
+                {...props}
                 successfulLoginListLoading={successfulLoginListLoading}
                 successfulLoginList={successfulLoginList}
               />

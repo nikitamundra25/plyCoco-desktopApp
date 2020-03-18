@@ -15,7 +15,11 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import '../index.scss';
 import { languageTranslation } from '../../../../../helpers';
@@ -156,7 +160,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 
   const DepartmentError: any = errors.department;
   const qualificationError: any = errors.qualificationId;
-  console.log('gggggggggggg', qualificationError);
 
   return (
     <>
@@ -309,35 +312,46 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    <div className='required-input'>
-                      <InputGroup>
-                        <Field
-                          name={'startTime'}
-                          render={({ field }: any) => (
-                            <MaskedInput
-                              {...field}
-                              placeholder={languageTranslation('START_WORKING')}
-                              mask={TimeMask}
-                              className={
-                                errors.startTime && touched.startTime
-                                  ? 'text-input error form-control'
-                                  : 'text-input form-control'
-                              }
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={startTime ? startTime : ''}
-                            />
+                    <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                      <div className='required-input clockshift-input'>
+                        <InputGroup className='flex-nowrap'>
+                          <Field
+                            name={'startTime'}
+                            render={({ field }: any) => (
+                              <MaskedInput
+                                {...field}
+                                mask={TimeMask}
+                                className={
+                                  errors.startTime && touched.startTime
+                                    ? 'text-input error form-control'
+                                    : 'text-input form-control'
+                                }
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={startTime ? startTime : ''}
+                              />
+                            )}
+                          />
+                          {errors.startTime && touched.startTime && (
+                            <div className='required-tooltip'>
+                              {errors.startTime}
+                            </div>
                           )}
-                        />
-                        {errors.startTime && touched.startTime && (
-                          <div className='required-tooltip'>
-                            {errors.startTime}
-                          </div>
-                        )}
-                        <InputGroupAddon addonType='append'>
-                          <InputGroupText>Uhr</InputGroupText>
-                        </InputGroupAddon>
-                      </InputGroup>
+                          <InputGroupAddon addonType='append'>
+                            <InputGroupText>Uhr</InputGroupText>
+                          </InputGroupAddon>
+                        </InputGroup>
+                      </div>
+                      <UncontrolledDropdown className='custom-dropdown'>
+                        <DropdownToggle className={'add-new-btn'}>
+                          <i className='fa fa-clock-o' aria-hidden='true' />
+                        </DropdownToggle>
+                        <DropdownMenu>
+                          <DropdownItem>Header</DropdownItem>
+                          <DropdownItem>Some Action</DropdownItem>
+                          <DropdownItem>Action (disabled)</DropdownItem>
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
                     </div>
                   </Col>
                 </Row>
@@ -352,19 +366,18 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    <div className='required-input'>
-                      <InputGroup>
+                    <div className='required-input clockshift-input'>
+                      <InputGroup className='flex-nowrap'>
                         <Field
                           name={'endTime'}
                           render={({ field }: any) => (
                             <MaskedInput
                               {...field}
-                              placeholder={languageTranslation('END_WORKING')}
                               mask={TimeMask}
                               className={
                                 errors.endTime && touched.endTime
-                                  ? 'text-input error form-control'
-                                  : 'text-input form-control'
+                                  ? 'fee-width form-control error'
+                                  : 'fee-width form-control'
                               }
                               onChange={handleChange}
                               onBlur={handleBlur}

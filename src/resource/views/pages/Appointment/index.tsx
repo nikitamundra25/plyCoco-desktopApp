@@ -1421,9 +1421,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG'),
               );
             }
-          } else {
-            toast.warn(languageTranslation('CAREINSTTITUTION_LINKED'));
-          }
+          } 
         }
       });
     }

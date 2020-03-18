@@ -235,6 +235,20 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     setBulkCareGivers(false);
   };
 
+  //Sort by division
+  const sortByDivision = (a: any, b: any) => {
+    // Use toUpperCase() to ignore character casing
+    const bandA = a.division.toUpperCase();
+    const bandB = b.division.toUpperCase();
+    let comparison = 0;
+    if (bandA > bandB) {
+      comparison = 1;
+    } else if (bandA < bandB) {
+      comparison = -1;
+    }
+    return comparison;
+  };
+
   //Use Effect for set default email template data
   useEffect(() => {
     if (data && props.label === 'appointment') {
@@ -279,7 +293,16 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   });
                 }
                 let divRow: string = '';
-
+                if (props.sortBy === 'day') {
+                  apointedCareGiver = apointedCareGiver.sort(function(
+                    a: any,
+                    b: any
+                  ) {
+                    return a.date - b.date;
+                  });
+                } else {
+                  apointedCareGiver = apointedCareGiver.sort(sortByDivision);
+                }
                 apointedCareGiver.map((data: any) => {
                   divRow += `<span><b>${moment(data.date).format(
                     'DD/MM'
@@ -301,22 +324,61 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             }
             if (props.statusTo === 'confirmed') {
               if (emailData.menuEntry === 'Appointment Confirmation') {
-                const { subject, body, attachments } = emailData;
-                const editorState = body ? HtmlToDraftConverter(body) : '';
+                const { subject } = emailData;
                 setSubject(subject);
+                let apointedCareGiver: any[] = [];
+                if (
+                  selectedCellsCareinstitution &&
+                  selectedCellsCareinstitution.length
+                ) {
+                  selectedCellsCareinstitution.forEach((element: any) => {
+                    const {
+                      item = {},
+                      firstName = '',
+                      lastName = ''
+                    } = element;
+                    const { appointments = [], division = {} } = item;
+                    if (appointments && appointments.length) {
+                      const { ca = {}, date = '' } =
+                        appointments && appointments.length
+                          ? appointments[0]
+                          : {};
+                      if (ca) {
+                        let divisionData: string = division
+                          ? division.name
+                          : `${firstName}${' '}${lastName}`;
+                        apointedCareGiver.push({
+                          caregivername: ca && ca.name ? ca.name : 'caregiver',
+                          date: date,
+                          division: divisionData
+                        });
+                      }
+                    }
+                  });
+                }
+                let divRow: string = '';
+                if (props.sortBy === 'day') {
+                  apointedCareGiver = apointedCareGiver.sort(function(
+                    a: any,
+                    b: any
+                  ) {
+                    return a.date - b.date;
+                  });
+                } else {
+                  apointedCareGiver = apointedCareGiver.sort(sortByDivision);
+                }
+                apointedCareGiver.map((data: any) => {
+                  divRow += `<span><b>${moment(data.date).format(
+                    'DD/MM'
+                  )}${' '}${' '}${data.division}:${' '}${' '}${
+                    data.caregivername
+                  }</b></span></br>`;
+                });
+                const bodyData: any = `<span>Appointment confirmation:-</br></br>${divRow}</br>Please note that each self-employed caregiver and assistant has their own fee. The caregiver is informed to contact you by phone before the assignment..</span>`;
+                const editorState = bodyData
+                  ? HtmlToDraftConverter(bodyData)
+                  : '';
                 setBody(editorState);
-                setAttachments(
-                  attachments
-                    ? attachments.map(
-                        ({ name, id, path, size }: INewEmailAttachments) => ({
-                          fileName: name,
-                          id,
-                          path,
-                          size
-                        })
-                      )
-                    : []
-                );
 
                 setTemplate({
                   label: emailData.menuEntry,

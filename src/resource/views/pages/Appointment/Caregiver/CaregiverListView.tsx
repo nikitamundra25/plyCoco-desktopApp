@@ -437,10 +437,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             getNext(careGiversList.length);
           }}
           // endMessage={<p />}
-          scrollableTarget={'scrollableDiv'}
+          scrollableTarget={'scrollableDiv-1'}
           // hasChildren
         >
-          <div className='calender-section custom-scrollbar' id='scrollableDiv'>
+          <div
+            className='calender-section custom-scrollbar'
+            id='scrollableDiv-1'
+          >
             <SelectableGroup
               allowClickWithoutSelected
               className='custom-row-selector'

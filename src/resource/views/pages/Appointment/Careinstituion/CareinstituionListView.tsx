@@ -626,6 +626,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   setStatusTo('confirmed');
                   handleRightMenuToggle();
                   setOnConfirmedCareInst();
+                  setSortBy('day');
                 }}
               >
                 <img src={confirm_appointment} className='mr-2' alt='' />
@@ -639,6 +640,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   setStatusTo('confirmed');
                   handleRightMenuToggle();
                   setOnConfirmedCareInst();
+                  setSortBy('division');
                 }}
               >
                 <img src={confirm_appointment} className='mr-2' alt='' />
@@ -795,6 +797,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         gte={props.gte}
         lte={props.lte}
         statusTo={StatusTo}
+        sortBy={sortBy}
       />
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}

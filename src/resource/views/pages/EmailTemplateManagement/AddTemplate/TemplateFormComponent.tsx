@@ -292,7 +292,7 @@ export const TemplateFormComponent: FunctionComponent<FormikProps<
         </div>
       </div>
       {attachment && attachment.length ? (
-        <div className="attach-document-list custom-scrollbar mb-2">
+        <div className="attach-document-list custom-scrollbar mb-2 mb-lg-1">
           <AttachmentList
             attachment={attachment}
             onDelteDocument={onDelteDocument}

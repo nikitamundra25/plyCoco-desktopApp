@@ -14,7 +14,6 @@ import AppointmentNav from './AppointmentNav';
 import CaregiverListView from './Caregiver/CaregiverListView';
 import CarinstituionListView from './Careinstituion/CareinstituionListView';
 import {
-  PAGE_LIMIT,
   NightAllowancePerHour,
   CaregiverTIMyoCYAttrId,
   deactivatedListColor,
@@ -1536,8 +1535,6 @@ const Appointment: FunctionComponent = (props: any) => {
                 languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG')
               );
             }
-          } else {
-            toast.warn(languageTranslation('CAREINSTTITUTION_LINKED'));
           }
         }
       });

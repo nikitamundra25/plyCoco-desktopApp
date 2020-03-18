@@ -120,7 +120,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   return (
     <>
       <div className='sticky-common-header'>
-        <div className='common-topheader d-flex align-items-center px-2 mb-1 appointment-commonheader'>
+        <div className='common-topheader d-flex flex-wrap align-items-center px-2 mb-1 appointment-commonheader'>
           <div
             className='common-label px-1 cursor-pointer'
             onClick={handleToday}
@@ -150,7 +150,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               <img src={right_arrow} alt='' />
             </span>
           </div>
-          {console.log('filterByAppointments', filterByAppointments)}
           <div className='user-select mx-1'>
             <Select
               classNamePrefix='custom-inner-reactselect'

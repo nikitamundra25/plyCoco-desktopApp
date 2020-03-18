@@ -51,6 +51,7 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
             gte={props.gte}
             lte={props.lte}
             statusTo={props.statusTo}
+            sortBy={props.sortBy}
             handleClose={() => handleClose()}
           />
         </ModalBody>

@@ -262,6 +262,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         <Nav vertical>
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 onNewAvailability ? onNewAvailability() : undefined;
@@ -677,6 +678,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         lte={props.lte}
         selectedCells={selectedCells}
         confirmApp={confirmApp}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

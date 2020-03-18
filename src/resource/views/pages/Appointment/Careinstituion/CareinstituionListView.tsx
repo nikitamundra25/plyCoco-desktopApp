@@ -479,10 +479,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     : true
                 }
                 onClick={() => {
-                  setOnOfferedCareInst();
                   handleCareGiverBulkEmail('division', true);
                   handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
+                  setOnOfferedCareInst();
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -611,6 +611,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
                   setopenToggleMenu(false);
+                  setSortBy('day');
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -623,6 +624,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
                   handleRightMenuToggle();
+                  setSortBy('division');
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -661,7 +663,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <img src={set_confirm} className='mr-2' alt='' />
                 <span
                   onClick={() => {
-                    setopenToggleMenu(false);
+                    handleRightMenuToggle();
                     setOnConfirmedCareInst();
                   }}
                 >

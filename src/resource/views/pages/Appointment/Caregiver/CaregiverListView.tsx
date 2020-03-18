@@ -463,7 +463,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               >
                 <thead className='thead-bg'>
                   <tr>
-                    <th className='thead-sticky name-col custom-appointment-col  head-name-col'>
+                    <th className='thead-sticky name-col custom-appointment-col '>
                       <div className='all-star-wrap'>
                         <div className='position-relative username-col align-self-center'>
                           <div className='calender-heading'>Caregiver</div>
@@ -543,7 +543,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                 <th className='name-col custom-appointment-col thead-sticky'>
                                   <div className='all-star-wrap'>
                                     <div
-                                      className='text-capitalize view-more-link one-line-text  username-col '
+                                      className='text-capitalize view-more-link one-line-text  username-col name-text'
                                       onClick={() =>
                                         history.push(
                                           AppRoutes.CARE_GIVER_VIEW.replace(
@@ -568,32 +568,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                             : ''
                                           : ''
                                       }}
+                                      title={[list.lastName, list.firstName]
+                                        .filter(Boolean)
+                                        .join(' ')}
+                                      id={`caregiver-${list.id}`}
                                     >
-                                      <div
-                                        className='calender-heading'
-                                        id={`caregiver-${list.id}`}
-                                      >
-                                        {row === 0 ? (
-                                          <UncontrolledTooltip
-                                            placement='right'
-                                            target={`caregiver-${list.id}`}
-                                          >
-                                            {[
-                                              list.lastName,
-                                              list.firstName
-                                            ].join(' ')}
-                                          </UncontrolledTooltip>
-                                        ) : null}
-                                        {row === 0
-                                          ? `${
-                                              list.lastName ? list.lastName : ''
-                                            } ${
-                                              list.firstName
-                                                ? list.firstName
-                                                : ''
-                                            }`
-                                          : ''}
-                                      </div>
+                                      {row === 0
+                                        ? `${
+                                            list.lastName ? list.lastName : ''
+                                          } ${
+                                            list.firstName ? list.firstName : ''
+                                          }`
+                                        : ''}
                                     </div>
                                     <div className='h-col custom-appointment-col text-center'></div>
                                     <div

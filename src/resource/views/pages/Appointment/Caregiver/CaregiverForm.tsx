@@ -243,7 +243,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                 dateString
                                   ? moment(dateString).format(
                                       index !== activeDateCaregiver.length - 1
-                                        ? 'dd DD.'
+                                        ? 'dd DD'
                                         : 'dd DD.MM.YYYY',
                                     )
                                   : null,
@@ -358,6 +358,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'fee'}
                             onChange={handleChange}
                             onBlur={handleBlur}
+                            value={fee}
                             className={
                               errors.fee && touched.fee
                                 ? 'fee-width error'
@@ -408,6 +409,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           <Input
                             type='text'
                             name={'nightFee'}
+                            value={nightFee}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className={
@@ -746,41 +748,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             ) : (
               ''
             )}
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('WORKING_PROOF_NECESSARY')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
-                      <FormGroup check inline>
-                        <div className=' checkbox-custom mb-0'>
-                          <input
-                            type='checkbox'
-                            id='workingProofRecieved'
-                            className=''
-                            name={'workingProofRecieved'}
-                            checked={workingProofRecieved}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => {
-                              const {
-                                target: { checked },
-                              } = e;
-                              setFieldValue('workingProofRecieved', checked);
-                            }}
-                          />
-                          <Label for='workingProofRecieved'></Label>
-                        </div>
-                      </FormGroup>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
             <Col lg={'12'}>
               <FormGroup>
                 <Row>

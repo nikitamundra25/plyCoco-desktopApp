@@ -13,7 +13,7 @@ import {
 import AppointmentNav from './AppointmentNav';
 import CaregiverListView from './Caregiver/CaregiverListView';
 import CarinstituionListView from './Careinstituion/CareinstituionListView';
-import { PAGE_LIMIT } from './../../../../config';
+import { PAGE_LIMIT, NightAllowancePerHour } from './../../../../config';
 import {
   IGetDaysArrayByMonthRes,
   IQualifications,
@@ -582,6 +582,7 @@ const Appointment: FunctionComponent = (props: any) => {
           );
         }
       }
+
       const {
         id: { Id } = '',
         firstName = '',
@@ -612,8 +613,7 @@ const Appointment: FunctionComponent = (props: any) => {
             shift: undefined,
             endTime,
             startTime,
-            qualificationId,
-            // : qualificationData,
+            qualificationId: qualificationData ? qualificationData : undefined,
             address,
             contactPerson,
             department: divisionId
@@ -719,7 +719,6 @@ const Appointment: FunctionComponent = (props: any) => {
       feePerKM = '',
       lastName: { lastname } = '',
       n = '',
-      nightAllowance = '',
       otherExpenses = '',
       remarksCareGiver = '',
       remarksInternal = '',
@@ -743,23 +742,30 @@ const Appointment: FunctionComponent = (props: any) => {
     // selectedCells
     if (caregiverLastTimeData) {
       const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
-
+      const {
+        fee = '',
+        nightFee = '',
+        weekendAllowance = '',
+        holidayAllowance = ''
+      } = getCareGiverAvabilityLastTimeById
+        ? getCareGiverAvabilityLastTimeById
+        : {};
       let data: any[] = [
         {
           id: selectedCaregiverId,
           firstName,
           lastName,
-          canstitution,
+          caregiver: {
+            ...caregiver
+          },
           qualificationIds,
           dateString,
           item: {
             ...item,
-            fee: getCareGiverAvabilityLastTimeById.fee,
-            nightFee: getCareGiverAvabilityLastTimeById.nightFee,
-            weekendAllowance:
-              getCareGiverAvabilityLastTimeById.weekendAllowance,
-            holidayAllowance:
-              getCareGiverAvabilityLastTimeById.holidayAllowance,
+            fee,
+            nightFee,
+            weekendAllowance,
+            holidayAllowance,
             workingProofRecieved,
             distanceInKM,
             feePerKM,
@@ -771,6 +777,8 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         }
       ];
+      console.log('data', data);
+
       setSelectedCells(data);
     }
   }, [caregiverLastTimeData]);
@@ -890,7 +898,9 @@ const Appointment: FunctionComponent = (props: any) => {
         );
         if (
           careInstitutionList &&
-          careInstitutionList.getUserByQualifications
+          careInstitutionList.getUserByQualifications &&
+          selectedCells &&
+          selectedCells.length <= 1
         ) {
           const { getUserByQualifications } = careInstitutionList;
           const { result } = getUserByQualifications;
@@ -909,7 +919,12 @@ const Appointment: FunctionComponent = (props: any) => {
             );
           }
         );
-        if (careGiversList && careGiversList.getUserByQualifications) {
+        if (
+          careGiversList &&
+          careGiversList.getUserByQualifications &&
+          selectedCells &&
+          selectedCells.length <= 1
+        ) {
           const { getUserByQualifications } = careGiversList;
           const { result } = getUserByQualifications;
           await appointmentDataSort('caregiver', result, appointId);
@@ -934,7 +949,9 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // Function to select appointment data
   const appointmentDataSort = (name: string, result: any, appointId: any) => {
-    let temp: any, availData: any, stemp: any;
+    let temp: any,
+      availData: any = [],
+      stemp: any;
     if (result && result.length && appointId && appointId.length) {
       result.map((list: any, index: number) => {
         if (list.availabilityData && list.availabilityData.length) {
@@ -995,6 +1012,7 @@ const Appointment: FunctionComponent = (props: any) => {
           });
         }
       });
+
       if (availData && availData.length) {
         if (name === 'careinstitution') {
           setselectedCellsCareinstitution(availData);
@@ -1172,7 +1190,7 @@ const Appointment: FunctionComponent = (props: any) => {
       // To check row added on solo careinstitution or all
       if (
         starCanstitution &&
-        starCanstitution.isStar &&
+        (starCanstitution.isStar || secondStarCanstitution.isStar) &&
         careInstituionDeptData &&
         careInstituionDeptData.length
       ) {
@@ -1341,6 +1359,7 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCellsCareinstitution && selectedCellsCareinstitution.length
         ? selectedCellsCareinstitution[0]
         : {};
+
     let data: any[] = [
       {
         id,
@@ -1794,18 +1813,23 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //  handle second star of careinstitution and autoselect department
   const onhandleSecondStarCanstitution = (dept: any) => {
-    setsecondStarCanstitution({
-      isStar: !secondStarCanstitution.isStar,
-      setIndex: -1,
-      id: dept && dept.id ? dept.id : ''
-    });
-    let data: any = [];
-    data.push(dept);
-    // setcareInstituionDeptData(data);
-    setcareInstituionDept({
-      label: dept.name,
-      value: dept.id
-    });
+    // To check whether first star is clicked or not
+    if (!secondStarCanstitution.isStar && !starCanstitution.isStar) {
+      handleFirstStarCanstitution({ id: dept ? dept.id : '' }, 1);
+    } else {
+      setsecondStarCanstitution({
+        isStar: !secondStarCanstitution.isStar,
+        setIndex: -1,
+        id: dept && dept.id ? dept.id : ''
+      });
+      let data: any = [];
+      data.push(dept);
+      // setcareInstituionDeptData(data);
+      setcareInstituionDept({
+        label: dept.name,
+        value: dept.id
+      });
+    }
   };
 
   // Select single user from list and hide the rest
@@ -2463,7 +2487,6 @@ const Appointment: FunctionComponent = (props: any) => {
     n = '',
     status = ''
   } = item ? item : caregiver ? caregiver : {};
-
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
     name: name ? name : firstName ? `${lastName} ${firstName}` : '',
@@ -2479,7 +2502,7 @@ const Appointment: FunctionComponent = (props: any) => {
             value: nightAllowance,
             label: nightAllowance
           }
-        : undefined,
+        : NightAllowancePerHour[0],
     holidayAllowance: holidayAllowance
       ? germanNumberFormat(holidayAllowance)
       : holiday
@@ -2509,11 +2532,12 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleSaveBoth = () => {
     setsavingBoth(true);
   };
-  const isCareinstituionData: boolean = selectedCellsCareinstitution
-    ? !selectedCellsCareinstitution[0].id
-      ? true
-      : false
-    : false;
+  const isCareinstituionData: boolean =
+    selectedCellsCareinstitution && selectedCellsCareinstitution[0]
+      ? !selectedCellsCareinstitution[0].id
+        ? true
+        : false
+      : false;
 
   // get next page caregivers
   const getNext = (skip: number): void => {
@@ -2556,10 +2580,10 @@ const Appointment: FunctionComponent = (props: any) => {
 
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
         if (!fetchMoreResult) return prev;
-
         if (prev.getUserByQualifications) {
           let list = [...fetchMoreResult.getUserByQualifications.result];
           if (list && list.length) {
+            let dayDetails: any[] = daysData ? [...daysData.daysArr] : [];
             list.forEach((user: any, index: number) => {
               user.availabilityData = [];
               user.attribute = [];
@@ -2582,7 +2606,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 for (let row = 0; row < result; row++) {
                   user.availabilityData.push([]);
                 }
-                temp.forEach((d: any, index: number) => {
+                dayDetails.forEach((d: any, index: number) => {
                   let records = user.caregiver_avabilities.filter(
                     (available: any) =>
                       moment(d.dateString).isSame(moment(available.date), 'day')
@@ -2628,11 +2652,13 @@ const Appointment: FunctionComponent = (props: any) => {
   const isUnLinkable =
     selectedCells &&
     selectedCells.length &&
+    selectedCells[0] &&
     selectedCells[0].item &&
     selectedCells[0].item.appointments &&
     selectedCells[0].item.appointments.length &&
     selectedCellsCareinstitution &&
     selectedCellsCareinstitution.length &&
+    selectedCellsCareinstitution[0] &&
     selectedCellsCareinstitution[0].item &&
     selectedCellsCareinstitution[0].item.appointments &&
     selectedCells[0].item.appointments.length &&
@@ -2644,6 +2670,7 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCellsCareinstitution[0].item.appointments[0].id
       ? true
       : false;
+
   return (
     <>
       <div className='common-detail-page'>
@@ -2727,7 +2754,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     careInstituionDeptData={careInstituionDeptData}
                     starCanstitution={starCanstitution}
                     secondStarCanstitution={secondStarCanstitution}
-                    deptLoading={fetchingDept}
+                    deptLoading={deptLoading /* fetchingDept */}
                     onhandleSecondStarCanstitution={
                       onhandleSecondStarCanstitution
                     }

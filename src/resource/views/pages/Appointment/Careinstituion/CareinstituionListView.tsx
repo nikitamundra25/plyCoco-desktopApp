@@ -258,8 +258,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       });
       onLinkAppointment(appointmentId, 'unlink');
       if (likedBy !== 'employee') {
-        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
-        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+        // setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        // setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
       }
     } else {
       if (!toast.isActive(toastId)) {

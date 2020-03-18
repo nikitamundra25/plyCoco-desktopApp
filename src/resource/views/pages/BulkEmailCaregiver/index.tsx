@@ -182,16 +182,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   useEffect(() => {
     let list: any = [...careGiverData];
-    // let data: any = [...careGiverConfirm];
-    // if (selectedCells) {
-    //   console.log('in if');
-    //   if (selectedCells && selectedCells.length) {
-    //     console.log('selectedCells ');
-    //     selectedCells.map((key: any) => {
-    //       console.log('key ', key);
-    //       return (data = [...data, key]);
-    //     });
-    //   } setCaregiverConfirm(data);
     if (selectedCells && props.confirmApp) {
       if (selectedCells && selectedCells.length) {
         selectedCells.map((key: any) => {
@@ -360,7 +350,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   const [getDepartmentById, { data: divisionDetails }] = useLazyQuery<any, any>(GET_DIVISION_DETAILS_BY_ID, { fetchPolicy: 'no-cache', });
 
   useEffect(() => {
-    // console.log("In use effect",divisionDetails);
   }, [divisionDetails]);
 
   //Use Effect for email template data
@@ -407,9 +396,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           temp.push(i.label);
         })
         qualificationString = temp.join();
-
-        // console.log('divisionArray ', JSON.stringify(divisionArray));
-
         if (props.showButton) {
           if (props.sortBy === 'day') {
             divisionArray = divisionArray.sort(function (a: any, b: any) {

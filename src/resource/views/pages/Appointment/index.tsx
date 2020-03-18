@@ -155,8 +155,9 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution,
     setselectedCellsCareinstitution
   ] = useState<any[]>();
+  const [positive, setPositive] = useState<number[]>([]);
+  const [negative, setNegative] = useState<number[]>([]);
 
-  /*  */
   // store the previous entered value in state
   const [caregiverLastTimeValues, setcaregiverLastTimeValues] = useState<any>();
 
@@ -435,9 +436,6 @@ const Appointment: FunctionComponent = (props: any) => {
     setqualification([]);
     setfilterByAppointments(undefined);
   };
-
-  const [positive, setPositive] = useState<number[]>([]);
-  const [negative, setNegative] = useState<number[]>([]);
 
   // to get list of all caregivers
   const getCaregiverData = (
@@ -2403,6 +2401,7 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
+          delete item.appointments;
           await updateCaregiver({
             variables: {
               id: availabilityId,
@@ -2473,6 +2472,7 @@ const Appointment: FunctionComponent = (props: any) => {
       if (value) {
         temp.forEach(async (element: any) => {
           const { id, item } = element;
+          console.log(item, 'item in foreach');
           if (item && item.id) {
             if (userRole === 'caregiver') {
               await deleteCaregiverRequirement({
@@ -2495,17 +2495,42 @@ const Appointment: FunctionComponent = (props: any) => {
               );
               if (index > -1) {
                 let list: any = [...caregiversList];
-                list[index].availabilityData = [];
+                // To remove all the empty rows
+                list[index].availabilityData = list[
+                  index
+                ].availabilityData.filter((item: any) => !item.length);
                 setcaregiversList(list);
               }
             } else {
-              index = careinstitutionList.findIndex(
-                (careInst: any) => careInst.id === id
-              );
-              if (index > -1) {
-                let list: any = [...careinstitutionList];
-                list[index].availabilityData = [];
-                setcaregiversList(list);
+              // If solo careInstitution is selected
+              if (
+                starCanstitution &&
+                secondStarCanstitution &&
+                (starCanstitution.isStar || secondStarCanstitution.isStar) &&
+                careInstituionDeptData &&
+                careInstituionDeptData.length
+              ) {
+                index = careInstituionDeptData.findIndex(
+                  (careInst: any) => careInst.userId === id,
+                );
+                if (index > -1) {
+                  let list: any = [...careInstituionDeptData];
+                  list[index].availabilityData = list[
+                    index
+                  ].availabilityData.filter((item: any) => item.length);
+                  setcareInstituionDeptData(list);
+                }
+              } else {
+                index = careinstitutionList.findIndex(
+                  (careInst: any) => careInst.id === id,
+                );
+                if (index > -1) {
+                  let list: any = [...careinstitutionList];
+                  list[index].availabilityData = list[
+                    index
+                  ].availabilityData.filter((item: any) => item.length);
+                  setcareinstitutionList(list);
+                }
               }
             }
           }

@@ -46,7 +46,7 @@ const DetailListCareinstitution = (props: any) => {
                   >
                     <thead className='thead-bg'>
                       <tr>
-                        <th className='text-center'>
+                        <th className='text-center id-col'>
                           {' '}
                           {languageTranslation('ID')}
                         </th>
@@ -71,7 +71,9 @@ const DetailListCareinstitution = (props: any) => {
                         <th className='datetime-col'>
                           {languageTranslation('END')}
                         </th>
-                        <th>{languageTranslation('DLN')}</th>
+                        <th className='dln-col'>
+                          {languageTranslation('DLN')}
+                        </th>
                         <th className='comment-col'>
                           {languageTranslation('COMMENTS')}
                         </th>
@@ -81,6 +83,7 @@ const DetailListCareinstitution = (props: any) => {
                       {selectedCellsCareinstitution ? (
                         selectedCellsCareinstitution.map(
                           (elem: any, index: number) => {
+                            console.log('elem.item', elem);
                             return elem && elem.item ? (
                               <tr
                                 key={index}
@@ -94,7 +97,9 @@ const DetailListCareinstitution = (props: any) => {
                                     : 'requirement-bg'
                                 }
                               >
-                                <td>{elem.item.id ? elem.item.id : '-'}</td>
+                                <td className='text-center id-col'>
+                                  {elem.item.id ? elem.item.id : '-'}
+                                </td>
                                 <td className='caregiver-col word-wrap text-capitalize'>
                                   {elem.item.status === 'offered' ||
                                   elem.item.status === 'default'
@@ -150,7 +155,7 @@ const DetailListCareinstitution = (props: any) => {
                                       elem.item.endTime
                                     : '-'}
                                 </td>
-                                <td>
+                                <td className='dln-col'>
                                   <span className='checkbox-custom '>
                                     <input
                                       type='checkbox'

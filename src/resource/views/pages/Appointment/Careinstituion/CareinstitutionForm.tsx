@@ -321,9 +321,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             render={({ field }: any) => (
                               <MaskedInput
                                 {...field}
-                                placeholder={languageTranslation(
-                                  "START_WORKING"
-                                )}
                                 mask={TimeMask}
                                 className={
                                   errors.startTime && touched.startTime

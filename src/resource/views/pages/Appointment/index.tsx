@@ -130,6 +130,8 @@ const Appointment: FunctionComponent = (props: any) => {
   //For selected Availability
   const [selctedAvailability, setselctedAvailability] = useState<any>({});
   const [selectedCells, setSelectedCells] = useState<any[]>();
+  const [positive, setPositive] = useState<number[]>([]);
+  const [negative, setNegative] = useState<number[]>([]);
 
   /*  */
   //For selected Requirement setSelectedCellsCareinstitution
@@ -203,6 +205,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(ADD_CAREGIVER_AVABILITY, {
     onCompleted() {
+      setPage(1);
       fetchingCareGiverData();
     },
   });
@@ -221,6 +224,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_CAREGIVER_AVABILITY, {
     onCompleted() {
+      setPage(1);
       fetchingCareGiverData();
     },
   });
@@ -233,6 +237,7 @@ const Appointment: FunctionComponent = (props: any) => {
     { id: number }
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted() {
+      setPage(1);
       fetchingCareGiverData();
       setselctedAvailability({});
       setactiveDateCaregiver([]);
@@ -374,14 +379,12 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // Reset applied filter
   const handleResetFilters = () => {
+    setPage(1);
     setPositive([]);
     setNegative([]);
     setqualification([]);
     setfilterByAppointments(undefined);
   };
-
-  const [positive, setPositive] = useState<number[]>([]);
-  const [negative, setNegative] = useState<number[]>([]);
 
   // to get list of all caregivers
   const getCaregiverData = (
@@ -470,6 +473,7 @@ const Appointment: FunctionComponent = (props: any) => {
   ) => {
     setPositive(positiveId);
     setNegative(negativeId);
+    setPage(1);
     if (userRole === 'caregiver') {
       // get careGivers list
       getCaregiverData(1, positiveId, negativeId);
@@ -1059,6 +1063,8 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // To fetch users according to qualification selected
   useEffect(() => {
+    console.log('in fetch data useffect', page);
+
     fetchData();
   }, [qualification]);
 
@@ -2598,6 +2604,8 @@ const Appointment: FunctionComponent = (props: any) => {
   // get next page caregivers
   const getNext = (skip: number): void => {
     setPage(page + 1);
+    console.log(skip, page, 'pagegegee');
+
     // getCaregiverData(page);
     let temp: any = [];
     qualification.map((key: any, index: number) => {
@@ -2616,6 +2624,8 @@ const Appointment: FunctionComponent = (props: any) => {
       gte = daysData.daysArr[0].dateString || '';
       lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
     }
+    console.log(page, 'page above fetchMoreCareGiverList');
+
     fetchMoreCareGiverList({
       variables: {
         qualificationId: temp ? temp : null,
@@ -2636,7 +2646,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
         if (!fetchMoreResult) return prev;
-        if (prev.getUserByQualifications) {
+        if (prev && prev.getUserByQualifications) {
           let list = [...fetchMoreResult.getUserByQualifications.result];
           if (list && list.length) {
             let dayDetails: any[] = daysData ? [...daysData.daysArr] : [];

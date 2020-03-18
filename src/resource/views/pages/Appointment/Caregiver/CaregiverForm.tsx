@@ -12,12 +12,12 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
+  InputGroupText
 } from 'reactstrap';
 import {
   IAppointmentCareGiverForm,
   ICaregiverFormValue,
-  IReactSelectInterface,
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 import { NightAllowancePerHour, State } from '../../../../../config';
@@ -26,7 +26,7 @@ import '../index.scss';
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm &
   any> = (
-  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any,
+  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   const { addCaregiverLoading } = props;
 
@@ -67,7 +67,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       f,
       s,
       n,
-      status,
+      status
     },
     touched,
     errors,
@@ -86,7 +86,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     onhandleDelete,
     careGiversListArr,
     handleSelectUserList,
-    handleLastTimeData,
+    handleLastTimeData
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
 
@@ -102,8 +102,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
   if (selctedAvailability || status) {
     if (
-      (selctedAvailability && selctedAvailability.status === 'default') ||
-      status === 'default'
+      (selctedAvailability &&
+        selctedAvailability.status === 'default' &&
+        (selctedAvailability.f !== 'block' ||
+          selctedAvailability.s !== 'block' ||
+          selctedAvailability.n !== 'block')) ||
+      (status === 'default' &&
+        (selctedAvailability.f !== 'block' ||
+          selctedAvailability.s !== 'block' ||
+          selctedAvailability.n !== 'block'))
     ) {
       isAvailability = true;
     } else if (
@@ -140,6 +147,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     }
     handleSelectUserList(data, name);
   };
+  console.log('selctedAvailability in form', selctedAvailability);
 
   return (
     <>
@@ -149,7 +157,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             'form-card custom-height custom-scrollbar': true,
             'availability-bg': isAvailability,
             'matching-bg': isMatching,
-            'confirmation-bg': isConfirm,
+            'confirmation-bg': isConfirm
           })}
         >
           <h5 className='content-title'>
@@ -213,7 +221,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                       selectedCareGiver
                                         ? selectedCareGiver.id
                                         : '',
-                                      'caregiver',
+                                      'caregiver'
                                     )
                                   : ''
                               }
@@ -244,9 +252,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                   ? moment(dateString).format(
                                       index !== activeDateCaregiver.length - 1
                                         ? 'dd DD'
-                                        : 'dd DD.MM.YYYY',
+                                        : 'dd DD.MM.YYYY'
                                     )
-                                  : null,
+                                  : null
                             )
                             .join(', ')
                         : null}
@@ -275,10 +283,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'f'}
                             checked={f ? true : false}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('f', checked);
                             }}
@@ -297,10 +305,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'s'}
                             checked={s}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('s', checked);
                             }}
@@ -319,10 +327,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'n'}
                             checked={n}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('n', checked);
                             }}
@@ -340,29 +348,283 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
+            {selctedAvailability &&
+            (selctedAvailability.f === 'block' ||
+              selctedAvailability.s === 'block' ||
+              selctedAvailability.n === 'block') ? (
+              <div className='blocked-minheight'></div>
+            ) : (
+              <>
+                <Col lg={'12'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('FEE')}
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                          <div className='required-input nightfee-input mb-1'>
+                            <InputGroup className='flex-nowrap'>
+                              <Input
+                                type='text'
+                                name={'fee'}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={fee}
+                                className={
+                                  errors.fee && touched.fee
+                                    ? 'fee-width error'
+                                    : 'fee-width'
+                                }
+                              />
+                              <InputGroupAddon addonType='append'>
+                                <InputGroupText>
+                                  <i
+                                    className='fa fa-euro'
+                                    aria-hidden='true'
+                                  ></i>
+                                </InputGroupText>
+                              </InputGroupAddon>
+                              {errors.fee && touched.fee && (
+                                <div className='required-tooltip bottom-tooltip'>
+                                  {errors.fee}
+                                </div>
+                              )}
+                            </InputGroup>
+                          </div>
+                          <span
+                            className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'
+                            onClick={() =>
+                              handleLastTimeData(
+                                selectedCareGiver ? selectedCareGiver.id : '',
+                                props.values
+                              )
+                            }
+                          >
+                            Last Time
+                          </span>
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
 
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('FEE')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                      <div className='required-input nightfee-input mb-1'>
-                        <InputGroup className='flex-nowrap'>
+                <Col lg={'12'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('NIGHT_FEE')}
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div className='d-flex align-items-center flex-wrap justify-content-between'>
+                          <div className='required-input nightfee-input mb-1'>
+                            <InputGroup className='flex-nowrap'>
+                              <Input
+                                type='text'
+                                name={'nightFee'}
+                                value={nightFee}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className={
+                                  errors.nightFee && touched.nightFee
+                                    ? 'fee-width error'
+                                    : 'fee-width'
+                                }
+                              />
+                              <InputGroupAddon addonType='append'>
+                                <InputGroupText>
+                                  <i
+                                    className='fa fa-euro'
+                                    aria-hidden='true'
+                                  ></i>
+                                </InputGroupText>
+                              </InputGroupAddon>
+                              {errors.nightFee && touched.nightFee && (
+                                <div className='required-tooltip bottom-tooltip'>
+                                  {errors.nightFee}
+                                </div>
+                              )}
+                            </InputGroup>
+                          </div>
+                          <div className='flex-grow-1 nightallowance-input mb-1'>
+                            <Select
+                              placeholder={languageTranslation(
+                                'NIGHT_ALLOWANCE'
+                              )}
+                              options={NightAllowancePerHour}
+                              onChange={(value: any) =>
+                                handleSelect(value, 'nightAllowance')
+                              }
+                              value={
+                                nightAllowance
+                                  ? nightAllowance
+                                  : NightAllowancePerHour[0]
+                              }
+                              classNamePrefix='custom-inner-reactselect'
+                              className={'custom-reactselect'}
+                            />
+                          </div>
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+
+                <Col lg={'12'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('WEEKEND_FEE')}
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div className='required-input nightfee-input'>
+                          <InputGroup>
+                            <Input
+                              type='text'
+                              name={'weekendAllowance'}
+                              value={weekendAllowance}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              className={
+                                errors.weekendAllowance &&
+                                touched.weekendAllowance
+                                  ? 'fee-width error'
+                                  : 'fee-width'
+                              }
+                            />
+                            <InputGroupAddon addonType='append'>
+                              <InputGroupText>
+                                <i
+                                  className='fa fa-euro'
+                                  aria-hidden='true'
+                                ></i>
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            {errors.weekendAllowance &&
+                              touched.weekendAllowance && (
+                                <div className='required-tooltip bottom-tooltip'>
+                                  {errors.weekendAllowance}
+                                </div>
+                              )}
+                          </InputGroup>
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={'12'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('HOLIDAY_FEE')}
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div className='required-input nightfee-input'>
+                          <InputGroup>
+                            <Input
+                              type='text'
+                              name={'holidayAllowance'}
+                              value={holidayAllowance}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              className={
+                                errors.holidayAllowance &&
+                                touched.holidayAllowance
+                                  ? 'fee-width error'
+                                  : 'fee-width'
+                              }
+                            />
+                            <InputGroupAddon addonType='append'>
+                              <InputGroupText>
+                                <i
+                                  className='fa fa-euro'
+                                  aria-hidden='true'
+                                ></i>
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            {errors.holidayAllowance &&
+                              touched.holidayAllowance && (
+                                <div className='required-tooltip bottom-tooltip'>
+                                  {errors.holidayAllowance}
+                                </div>
+                              )}
+                          </InputGroup>
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+                <Col lg={'12'}>
+                  <div className='d-flex align-items-center flex-wrap distance-section'>
+                    <FormGroup className='fee-input'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('FEE_PER_KM')}
+                      </Label>
+
+                      <div className='required-input'>
+                        <InputGroup>
                           <Input
                             type='text'
-                            name={'fee'}
+                            name={'distanceInKM'}
+                            value={distanceInKM}
+                            placeholder={languageTranslation('FEE_PER_KM')}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={fee}
                             className={
-                              errors.fee && touched.fee
+                              errors.distanceInKM && touched.distanceInKM
                                 ? 'fee-width error'
                                 : 'fee-width'
+                            }
+                            disabled={
+                              selctedAvailability &&
+                              (selctedAvailability.f === 'block' ||
+                                selctedAvailability.s === 'block' ||
+                                selctedAvailability.n === 'block')
+                            }
+                          />
+                          <InputGroupAddon addonType='append'>
+                            <InputGroupText>km</InputGroupText>
+                          </InputGroupAddon>
+                          {errors.distanceInKM && touched.distanceInKM && (
+                            <div className='required-tooltip bottom-tooltip'>
+                              {errors.distanceInKM}
+                            </div>
+                          )}
+                        </InputGroup>
+                      </div>
+                    </FormGroup>
+                    <FormGroup className='a-input'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('a')}
+                      </Label>
+
+                      <div className='required-input'>
+                        <InputGroup>
+                          <Input
+                            type='text'
+                            name={'feePerKM'}
+                            value={feePerKM}
+                            placeholder={languageTranslation('a')}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={
+                              errors.feePerKM && touched.feePerKM
+                                ? 'fee-width error'
+                                : 'fee-width'
+                            }
+                            disabled={
+                              selctedAvailability &&
+                              (selctedAvailability.f === 'block' ||
+                                selctedAvailability.s === 'block' ||
+                                selctedAvailability.n === 'block')
                             }
                           />
                           <InputGroupAddon addonType='append'>
@@ -370,293 +632,81 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               <i className='fa fa-euro' aria-hidden='true'></i>
                             </InputGroupText>
                           </InputGroupAddon>
-                          {errors.fee && touched.fee && (
+                          {errors.feePerKM && touched.feePerKM && (
                             <div className='required-tooltip bottom-tooltip'>
-                              {errors.fee}
+                              {errors.feePerKM}
                             </div>
                           )}
                         </InputGroup>
                       </div>
-                      <span
-                        className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'
-                        onClick={() =>
-                          handleLastTimeData(
-                            selectedCareGiver ? selectedCareGiver.id : '',
-                            props.values,
-                          )
-                        }
+                    </FormGroup>
+                    <FormGroup className='totalbtn-input'>
+                      <div className='label-height'></div>
+
+                      <Button
+                        className='add-new-btn'
+                        color=''
+                        onClick={handleTravelAllowance}
                       >
-                        Last Time
-                      </span>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
+                        <i className='fa fa-arrow-right' aria-hidden='true' />
+                      </Button>
+                    </FormGroup>
+                    <FormGroup className='total-input flex-grow-1'>
+                      <Label className='form-label col-form-label'>Total</Label>
+                      <div className='required-input'>
+                        <Input
+                          type='text'
+                          disabled={true}
+                          name={'travelAllowance'}
+                          className='width-common'
+                          value={travelAllowance}
+                        />
+                      </div>
+                    </FormGroup>
+                  </div>
+                </Col>
 
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('NIGHT_FEE')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div className='d-flex align-items-center flex-wrap justify-content-between'>
-                      <div className='required-input nightfee-input mb-1'>
-                        <InputGroup className='flex-nowrap'>
+                <Col lg={'12'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('EXPENSES')}
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div className='required-input'>
                           <Input
                             type='text'
-                            name={'nightFee'}
-                            value={nightFee}
+                            name={'otherExpenses'}
+                            value={otherExpenses}
                             onChange={handleChange}
                             onBlur={handleBlur}
+                            placeholder={languageTranslation('EXPENSES')}
                             className={
-                              errors.nightFee && touched.nightFee
-                                ? 'fee-width error'
-                                : 'fee-width'
+                              errors.otherExpenses && touched.otherExpenses
+                                ? 'width-common error'
+                                : 'width-common'
+                            }
+                            disabled={
+                              selctedAvailability &&
+                              (selctedAvailability.f === 'block' ||
+                                selctedAvailability.s === 'block' ||
+                                selctedAvailability.n === 'block')
                             }
                           />
-                          <InputGroupAddon addonType='append'>
-                            <InputGroupText>
-                              <i className='fa fa-euro' aria-hidden='true'></i>
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          {errors.nightFee && touched.nightFee && (
+                          {errors.otherExpenses && touched.otherExpenses && (
                             <div className='required-tooltip bottom-tooltip'>
-                              {errors.nightFee}
+                              {errors.otherExpenses}
                             </div>
                           )}
-                        </InputGroup>
-                      </div>
-                      <div className='flex-grow-1 nightallowance-input mb-1'>
-                        <Select
-                          placeholder={languageTranslation('NIGHT_ALLOWANCE')}
-                          options={NightAllowancePerHour}
-                          onChange={(value: any) =>
-                            handleSelect(value, 'nightAllowance')
-                          }
-                          value={
-                            nightAllowance
-                              ? nightAllowance
-                              : NightAllowancePerHour[0]
-                          }
-                          classNamePrefix='custom-inner-reactselect'
-                          className={'custom-reactselect'}
-                        />
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('WEEKEND_FEE')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div className='required-input nightfee-input'>
-                      <InputGroup>
-                        <Input
-                          type='text'
-                          name={'weekendAllowance'}
-                          value={weekendAllowance}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          className={
-                            errors.weekendAllowance && touched.weekendAllowance
-                              ? 'fee-width error'
-                              : 'fee-width'
-                          }
-                        />
-                        <InputGroupAddon addonType='append'>
-                          <InputGroupText>
-                            <i className='fa fa-euro' aria-hidden='true'></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        {errors.weekendAllowance &&
-                          touched.weekendAllowance && (
-                            <div className='required-tooltip bottom-tooltip'>
-                              {errors.weekendAllowance}
-                            </div>
-                          )}
-                      </InputGroup>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('HOLIDAY_FEE')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div className='required-input nightfee-input'>
-                      <InputGroup>
-                        <Input
-                          type='text'
-                          name={'holidayAllowance'}
-                          value={holidayAllowance}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          className={
-                            errors.holidayAllowance && touched.holidayAllowance
-                              ? 'fee-width error'
-                              : 'fee-width'
-                          }
-                        />
-                        <InputGroupAddon addonType='append'>
-                          <InputGroupText>
-                            <i className='fa fa-euro' aria-hidden='true'></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        {errors.holidayAllowance &&
-                          touched.holidayAllowance && (
-                            <div className='required-tooltip bottom-tooltip'>
-                              {errors.holidayAllowance}
-                            </div>
-                          )}
-                      </InputGroup>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col lg={'12'}>
-              <div className='d-flex align-items-center flex-wrap distance-section'>
-                <FormGroup className='fee-input'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('FEE_PER_KM')}
-                  </Label>
-
-                  <div className='required-input'>
-                    <InputGroup>
-                      <Input
-                        type='text'
-                        name={'distanceInKM'}
-                        value={distanceInKM}
-                        placeholder={languageTranslation('FEE_PER_KM')}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className={
-                          errors.distanceInKM && touched.distanceInKM
-                            ? 'fee-width error'
-                            : 'fee-width'
-                        }
-                      />
-                      <InputGroupAddon addonType='append'>
-                        <InputGroupText>km</InputGroupText>
-                      </InputGroupAddon>
-                      {errors.distanceInKM && touched.distanceInKM && (
-                        <div className='required-tooltip bottom-tooltip'>
-                          {errors.distanceInKM}
                         </div>
-                      )}
-                    </InputGroup>
-                  </div>
-                </FormGroup>
-                <FormGroup className='a-input'>
-                  <Label className='form-label col-form-label'>
-                    {languageTranslation('a')}
-                  </Label>
-
-                  <div className='required-input'>
-                    <InputGroup>
-                      <Input
-                        type='text'
-                        name={'feePerKM'}
-                        value={feePerKM}
-                        placeholder={languageTranslation('a')}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className={
-                          errors.feePerKM && touched.feePerKM
-                            ? 'fee-width error'
-                            : 'fee-width'
-                        }
-                      />
-                      <InputGroupAddon addonType='append'>
-                        <InputGroupText>
-                          <i className='fa fa-euro' aria-hidden='true'></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      {errors.feePerKM && touched.feePerKM && (
-                        <div className='required-tooltip bottom-tooltip'>
-                          {errors.feePerKM}
-                        </div>
-                      )}
-                    </InputGroup>
-                  </div>
-                </FormGroup>
-                <FormGroup className='totalbtn-input'>
-                  <div className='label-height'></div>
-
-                  <Button
-                    className='add-new-btn'
-                    color=''
-                    onClick={handleTravelAllowance}
-                  >
-                    <i className='fa fa-arrow-right' aria-hidden='true' />
-                  </Button>
-                </FormGroup>
-                <FormGroup className='total-input flex-grow-1'>
-                  <Label className='form-label col-form-label'>Total</Label>
-                  <div className='required-input'>
-                    <Input
-                      type='text'
-                      disabled={true}
-                      name={'travelAllowance'}
-                      className='width-common'
-                      value={travelAllowance}
-                    />
-                  </div>
-                </FormGroup>
-              </div>
-            </Col>
-
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('EXPENSES')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
-                      <Input
-                        type='text'
-                        name={'otherExpenses'}
-                        value={otherExpenses}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder={languageTranslation('EXPENSES')}
-                        className={
-                          errors.otherExpenses && touched.otherExpenses
-                            ? 'width-common error'
-                            : 'width-common'
-                        }
-                      />
-                      {errors.otherExpenses && touched.otherExpenses && (
-                        <div className='required-tooltip bottom-tooltip'>
-                          {errors.otherExpenses}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
+              </>
+            )}
             {selctedAvailability &&
             selctedAvailability.status === 'confirmed' ? (
               <>
@@ -748,6 +798,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             ) : (
               ''
             )}
+
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
@@ -767,10 +818,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             name={'workingProofRecieved'}
                             checked={workingProofRecieved}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked },
+                                target: { checked }
                               } = e;
                               setFieldValue('workingProofRecieved', checked);
                             }}

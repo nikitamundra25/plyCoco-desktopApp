@@ -1,12 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-  Table,
-  Nav,
-  NavItem,
-  NavLink,
-  Button,
-  UncontrolledTooltip
-} from 'reactstrap';
+import { Table, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import moment from 'moment';
 import classnames from 'classnames';
 import {
@@ -46,7 +39,6 @@ import { toast } from 'react-toastify';
 import UnlinkAppointment from '../unlinkModal';
 import '../index.scss';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { languageTranslation } from '../../../../../helpers';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -72,7 +64,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onNewAvailability,
     totalCaregiver,
     getNext,
-    fetchingCareGiverData,
+
     qualificationList
   } = props;
 
@@ -243,6 +235,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
 
   const [showList, setShowList] = useState<boolean>(false);
+  let status: any;
+  selectedCells
+    ? selectedCells.filter((elem: any) => {
+        elem && elem.item ? console.log('elemmmmmm', elem.item) : null;
+      })
+    : null;
+
   return (
     <div>
       <div
@@ -274,6 +273,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 onReserve ? onReserve() : undefined;
@@ -285,6 +285,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 onDeleteEntries ? onDeleteEntries('caregiver') : undefined;
@@ -299,6 +300,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem className='bordernav' />
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 setShowList(true);
@@ -310,6 +312,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem className='bordernav' />
           <NavItem
+            disabled={selectedCells ? selectedCells.length === 0 : true}
             onClick={() => {
               setopenToggleMenu(false);
               onCaregiverQualificationFilter
@@ -317,7 +320,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 : undefined;
             }}
           >
-            <NavLink>
+            <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
+            >
               <img src={filter} className='mr-2' alt='' />
               <span className='align-middle'>
                 Filter by qualifications of caregiver
@@ -326,6 +331,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 handleCareGiverBulkEmail();
@@ -340,6 +346,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem className='bordernav' />
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 handleLinkAppointments('link');
@@ -351,6 +358,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 handleUnLinkAppointments();
@@ -363,6 +371,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem className='bordernav' />
           <NavItem>
             <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setOnConfirmedCaregiver();
                 setconfirmApp(true);
@@ -376,7 +385,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (selectedCells[0].item &&
+                      selectedCells[0].item.status !== 'linked')
+                  : true
+              }
+            >
               <img src={set_confirm} className='mr-2' alt='' />
               <span
                 className='align-middle'
@@ -390,7 +407,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (selectedCells[0].item &&
+                      selectedCells[0].item.status !== 'confirmed')
+                  : true
+              }
+            >
               <img src={unset_confirm} className='mr-2' alt='' />
               <span
                 className='align-middle'
@@ -404,7 +429,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
+            >
               <img src={leasing_contact} className='mr-2' alt='' />
               <span className='align-middle'>
                 Request temporary leasing contract
@@ -412,7 +439,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             </NavLink>{' '}
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink
+              disabled={selectedCells ? selectedCells.length === 0 : true}
+            >
               <img src={termination} className='mr-2' alt='' />
               <span className='align-middle'>Create termination agreement</span>
             </NavLink>{' '}

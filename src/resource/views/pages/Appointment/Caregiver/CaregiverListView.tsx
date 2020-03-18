@@ -175,11 +175,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           if (
             key.qualificationIds &&
             key.qualificationIds.length &&
-            element.qualificationIds &&
-            element.qualificationIds.length
+            element.item.qualificationId &&
+            element.item.qualificationId.length
           ) {
-            qualiCheck = key.qualificationIds.filter((e: any) =>
-              element.qualificationIds.includes(e)
+            qualiCheck = element.item.qualificationId.filter((e: any) =>
+              key.qualificationIds.includes(e.value)
             );
           }
           if (qualiCheck && qualiCheck.length <= 0) {

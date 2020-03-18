@@ -246,57 +246,48 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           if (props.label === 'appointment') {
             if (props.statusTo === 'offered') {
               if (emailData.menuEntry === 'offer appointments by day') {
-                const { subject, body, attachments } = emailData;
+                const { subject } = emailData;
                 setSubject(subject);
-                console.log(
-                  'selectedCellsCareinstitution',
-                  selectedCellsCareinstitution
-                );
                 let apointedCareGiver: any[] = [];
                 if (
                   selectedCellsCareinstitution &&
                   selectedCellsCareinstitution.length
                 ) {
                   selectedCellsCareinstitution.forEach((element: any) => {
-                    const { item = {} } = element;
-                    const { appointments = [], qualificationId = [] } = item;
+                    const {
+                      item = {},
+                      firstName = '',
+                      lastName = ''
+                    } = element;
+                    const { appointments = [], division = {} } = item;
                     if (appointments && appointments.length) {
                       const { ca = {}, date = '' } =
                         appointments && appointments.length
                           ? appointments[0]
                           : {};
-                      if (ca.name) {
-                        let qualifications: string[] = [];
-                        if (qualificationId && qualificationId.length) {
-                          qualificationId.forEach((data: any) => {
-                            qualifications.push(data.label);
-                          });
-                        }
+                      if (ca) {
+                        let divisionData: string = division
+                          ? division.name
+                          : `${firstName}${' '}${lastName}`;
                         apointedCareGiver.push({
-                          caregivername: ca.name,
+                          caregivername: ca && ca.name ? ca.name : 'caregiver',
                           date: date,
-                          qualification: qualifications
+                          division: divisionData
                         });
                       }
                     }
                   });
                 }
-                console.log(
-                  'caregivernamecaregivernamecaregivername',
-                  apointedCareGiver
-                );
-
                 let divRow: string = '';
 
                 apointedCareGiver.map((data: any) => {
-                  divRow += `<span><b>${moment(data.date).format('DD/MM')}${' '}${' '}${
-                    data.qualification[0]
-                  }:${' '}${' '}${data.caregivername}</b></span></br>`;
+                  divRow += `<span><b>${moment(data.date).format(
+                    'DD/MM'
+                  )}${' '}${' '}${data.division}:${' '}${' '}${
+                    data.caregivername
+                  }</b></span></br>`;
                 });
-                console.log('divRowdivRowdivRow', divRow);
-
                 const bodyData: any = `<span>We are able to fill your request as follows:-</br></br>${divRow}</br>Please note that each independent caregiver has their own fee. We ask for a short-term confirmation.</span>`;
-                console.log('++++++++++++++body data', bodyData);
                 const editorState = bodyData
                   ? HtmlToDraftConverter(bodyData)
                   : '';

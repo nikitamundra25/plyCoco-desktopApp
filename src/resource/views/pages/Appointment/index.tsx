@@ -2575,7 +2575,6 @@ const Appointment: FunctionComponent = (props: any) => {
                   ),
                   {}
                 );
-                console.log('^^^^^^^^^^^^^^^^^result', result);
                 result = Object.values(result);
                 result = Math.max(...result);
                 // user.availabilityData = Array(result).fill([]);

@@ -2194,7 +2194,6 @@ const Appointment: FunctionComponent = (props: any) => {
   const onDeleteEntries = async (userRole: string) => {
     let temp: any =
       userRole === 'caregiver' ? selectedCells : selectedCellsCareinstitution;
-
     if (temp && temp.length) {
       const { value } = await ConfirmBox({
         title: languageTranslation('CONFIRM_LABEL'),
@@ -2222,12 +2221,25 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           } else {
             let index: number = -1;
-            index = caregiversList.findIndex(
-              (caregiver: any) => caregiver.id === id,
-            );
-            let temp: any = [...caregiversList];
-            temp[index].availabilityData = [];
-            setcaregiversList(temp);
+            if (userRole === 'caregiver') {
+              index = caregiversList.findIndex(
+                (caregiver: any) => caregiver.id === id,
+              );
+              if (index > -1) {
+                let list: any = [...caregiversList];
+                list[index].availabilityData = [];
+                setcaregiversList(list);
+              }
+            } else {
+              index = careinstitutionList.findIndex(
+                (careInst: any) => careInst.id === id,
+              );
+              if (index > -1) {
+                let list: any = [...careinstitutionList];
+                list[index].availabilityData = [];
+                setcaregiversList(list);
+              }
+            }
           }
         });
         if (!toast.isActive(toastId)) {

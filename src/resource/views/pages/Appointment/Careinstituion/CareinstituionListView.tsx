@@ -47,6 +47,7 @@ import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router';
 import UnlinkAppointment from '../unlinkModal';
+import { Link } from 'react-router-dom';
 
 let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
@@ -177,11 +178,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           if (
             key.qualificationIds &&
             key.qualificationIds.length &&
-            element.qualificationIds &&
-            element.qualificationIds.length
+            element.item.qualificationId &&
+            element.item.qualificationId.length
           ) {
-            qualiCheck = key.qualificationIds.filter((e: any) =>
-              element.qualificationIds.includes(e)
+            qualiCheck = element.item.qualificationId.filter((e: any) =>
+              key.qualificationIds.includes(e.value)
             );
           }
           if (qualiCheck && qualiCheck.length <= 0) {
@@ -247,7 +248,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         //     );
         //   }
         // );
-        // console.log('appointId', appointId);
         return appointmentId.push({
           appointmentId: parseInt(
             key.item.appointments ? key.item.appointments[0].id : ''
@@ -258,8 +258,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       });
       onLinkAppointment(appointmentId, 'unlink');
       if (likedBy !== 'employee') {
-        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
-        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+        // setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        // setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
       }
     } else {
       if (!toast.isActive(toastId)) {
@@ -333,16 +333,25 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             : ''
                           : ''
                       }}
-                      onClick={() =>
-                        history.push(
-                          AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
-                        )
-                      }
+                      // onClick={() =>
+                      //   history.push(
+                      //     AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
+                      //   )
+                      // }
                       title={list.name}
                       className='text-capitalize view-more-link one-line-text username-col name-text'
                       id={`careinst-${list.id}`}
                     >
-                      {row === 0 ? list.name : null}
+                      <Link
+                        to={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                          ':id',
+                          list.id
+                        )}
+                        target='_blank'
+                        className='text-body'
+                      >
+                        {row === 0 ? list.name : null}
+                      </Link>
                     </div>
                     <div className='h-col custom-appointment-col text-center'></div>
                     <div

@@ -40,7 +40,13 @@ const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 const [BULK_EMAILS] = BulkEmailCareGivers;
 const [VIEW_PROFILE] = ProfileQueries;
-const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
+const [
+  GET_USERS_BY_QUALIFICATION_ID,
+  ,
+  ,
+  ,
+  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
+] = AppointmentsQueries;
 
 const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
 
@@ -85,6 +91,33 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     fetchPolicy: 'no-cache'
   });
 
+  // To fetch requirments by selected caregiver qualification id
+  const [
+    fetchRequirmentFromQualification,
+    { data: requirmentList, loading: requirmentListLoading }
+  ] = useLazyQuery<any, any>(GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION, {
+    fetchPolicy: 'no-cache'
+  });
+
+  //Get requirment list data for qualificationid
+  useEffect(() => {
+    console.log('requirmentList', requirmentList);
+  }, [requirmentList]);
+
+  //Get Data for selecte cell
+  useEffect(() => {
+    if (selectedCells && selectedCells.length) {
+      const { qualificationIds = [] } = selectedCells[0];
+      console.log("");
+      
+      fetchRequirmentFromQualification({
+        variables: {
+          qualificationId: qualificationIds
+        }
+      });
+    }
+  }, [selectedCells]);
+
   // To fetch users according to qualification selected
   useEffect(() => {
     if (props.label === 'appointment') {
@@ -108,6 +141,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       });
     }
+    console.log('props.qualificationprops.qualification', selectedCells[0]);
   }, [props.qualification]);
 
   // To get all the types of email template

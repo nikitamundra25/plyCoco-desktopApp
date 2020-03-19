@@ -214,15 +214,15 @@ const Appointment: FunctionComponent = (props: any) => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     // Fetch list of caregivers
-    // fetchCareGivers({
-    //   variables: {
-    //     searchBy: '',
-    //     sortBy: 3,
-    //     limit: 500,
-    //     page: 1,
-    //     isActive: ''
-    //   }
-    // });
+    fetchCareGivers({
+      variables: {
+        searchBy: '',
+        sortBy: 3,
+        limit: 500,
+        page: 1,
+        isActive: ''
+      }
+    });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -3118,6 +3118,9 @@ const Appointment: FunctionComponent = (props: any) => {
                         qualificationList={qualificationList}
                         activeDateCaregiver={activeDateCaregiver}
                         onReserve={onReserve}
+                        careInstitutionList={
+                          careinstitutionList ? careinstitutionList : []
+                        }
                         onDeleteEntries={onDeleteEntries}
                         onCaregiverQualificationFilter={
                           onCaregiverQualificationFilter

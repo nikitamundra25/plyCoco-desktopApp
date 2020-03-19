@@ -283,39 +283,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
 
   const [showList, setShowList] = useState<boolean>(false);
-
+  //to apply condition on disconnect appointments
   let disconnectAppCond: any;
-  let connectAppCondition: any;
-  let confirmAppCond: any;
-
   if (selectedCells && selectedCells.length) {
     disconnectAppCond = selectedCells.filter((x: any) => {
-      console.log('x.item', x);
       if (x.item) {
-        console.log('inside item');
         return x.item && x.item.status !== 'linked';
       } else {
         return ['abc'];
       }
     });
   }
+  //to apply condition on connect appointments
+  let connectAppCondition: any;
   if (selectedCells && selectedCells.length) {
     connectAppCondition = selectedCells.filter((x: any) => {
-      console.log('x.item', x);
       if (x.item) {
-        console.log('inside item');
         return x.item && x.item.status !== 'default';
-      } else {
-        return ['abc'];
-      }
-    });
-  }
-  if (selectedCells && selectedCells.length) {
-    confirmAppCond = selectedCells.filter((x: any) => {
-      console.log('x.item', x);
-      if (x.item) {
-        console.log('inside item');
-        return x.item && x.item.status !== 'linked';
       } else {
         return ['abc'];
       }
@@ -365,7 +349,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (connectAppCondition && connectAppCondition.length !== 0)
+                  : true
+              }
               onClick={() => {
                 setopenToggleMenu(false);
                 onDeleteEntries ? onDeleteEntries('caregiver') : undefined;
@@ -411,7 +400,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 handleCareGiverBulkEmail();
@@ -797,7 +785,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                             <i className='icon-ban' />
                           </div>
                           <h4 className='mb-1'>
-                            Currently there are no Caregiver added.{' '}
+                            There are currently no Caregivers added
                           </h4>
                         </div>
                       </td>

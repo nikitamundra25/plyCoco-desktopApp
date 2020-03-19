@@ -57,6 +57,9 @@ import { ConfirmBox } from '../../components/ConfirmBox';
 import './index.scss';
 import UnlinkAppointment from './unlinkModal';
 import Loader from '../../containers/Loader/Loader';
+import { useLocation } from 'react-router';
+import BulkEmailCareGiverModal from './BulkEmailCareGiver';
+import BulkEmailCareInstitutionModal from './BulkEmailCareInstitution';
 const [GET_CAREGIVERS] = CareGiverQueries;
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [
@@ -86,6 +89,9 @@ const [
 let toastId: any = null;
 
 const Appointment: FunctionComponent = (props: any) => {
+  // To fetch id from display appointments
+  const { state: locationState }: any = useLocation();
+
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null
   );
@@ -95,6 +101,19 @@ const Appointment: FunctionComponent = (props: any) => {
   const [multipleRequirement, setMultipleRequirement] = useState<boolean>(
     false
   );
+
+  const [unlinkedBy, setunlinkedBy] = useState<string>('');
+  const [isFromUnlink, setisFromUnlink] = useState(false);
+  // state for care giver bulk email
+  const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
+    false
+  );
+
+  // state for care institution bulk email
+  const [
+    openCareInstitutionBulkEmail,
+    setopenCareInstitutionBulkEmail
+  ] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [fetchingDept, setFetchingDept] = useState<boolean>(false);
   const [activeMonth, setActiveMonth] = useState<number>(moment().month());
@@ -131,10 +150,6 @@ const Appointment: FunctionComponent = (props: any) => {
   ] = useState<any>();
 
   const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
-  const [
-    careinstitutionDepartmentList,
-    setcareinstitutionDepartmentList
-  ] = useState<any>([]);
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
     IDate[]
@@ -197,15 +212,15 @@ const Appointment: FunctionComponent = (props: any) => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     // Fetch list of caregivers
-    // fetchCareGivers({
-    //   variables: {
-    //     searchBy: '',
-    //     sortBy: 3,
-    //     limit: 500,
-    //     page: 1,
-    //     isActive: ''
-    //   }
-    // });
+    fetchCareGivers({
+      variables: {
+        searchBy: '',
+        sortBy: 3,
+        limit: 500,
+        page: 1,
+        isActive: ''
+      }
+    });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -458,6 +473,7 @@ const Appointment: FunctionComponent = (props: any) => {
       gte = daysData.daysArr[0].dateString || '';
       lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
     }
+
     // get careGivers list
     fetchCaregiverList({
       variables: {
@@ -465,8 +481,8 @@ const Appointment: FunctionComponent = (props: any) => {
         userRole: 'caregiver',
         negativeAttributeId:
           negativeAttr && negativeAttr.length ? negativeAttr : negative,
-        limit: 10,
-        page: page ? page : 1,
+        limit: locationState && locationState.caregiver ? null : 10,
+        page: locationState && locationState.caregiver ? null : page ? page : 1,
         showAppointments:
           filterByAppointments && filterByAppointments.value
             ? filterByAppointments.value === 'showAll'
@@ -917,7 +933,14 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         });
       }
-      setcaregiversList(result);
+      if (locationState && locationState.caregiver) {
+        let list: any = result.filter(
+          (list: any) => list.id === locationState.caregiver
+        );
+        setcaregiversList(list);
+      } else {
+        setcaregiversList(result);
+      }
     }
 
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
@@ -960,7 +983,17 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
-      setcareinstitutionList(result);
+      if (locationState && locationState.canstitution) {
+        let list: any = result.filter(
+          (list: any) => list.id === locationState.canstitution
+        );
+        setcareinstitutionList(list);
+        if (list && list.length && list[0]) {
+          handleFirstStarCanstitution(list[0], 1);
+        }
+      } else {
+        setcareinstitutionList(result);
+      }
     }
   }, [careGiversList, careInstitutionList]);
 
@@ -1149,7 +1182,6 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const fetchData = () => {
-    console.log('positive');
     // get careGivers list
     getCaregiverData(1);
     // get careInstitution list
@@ -1906,12 +1938,9 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
+    console.log('hereeeee', starCanstitution);
     // setselectedCareinstitution(list);
-
-    let temp = careinstitutionList.filter((dept: any) => dept.id === list.id);
-
     //  setcareinstitutionList()
-    setcareinstitutionDepartmentList(temp);
     if (!starCanstitution.isStar) {
       setstarCanstitution({
         isStar: true,
@@ -2631,6 +2660,7 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const handleUnlinkData = (likedBy: string, check: boolean) => {
+    setunlinkedBy(likedBy);
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
@@ -2651,6 +2681,11 @@ const Appointment: FunctionComponent = (props: any) => {
         });
       });
       onLinkAppointment(appointmentId, 'unlink');
+      if (likedBy !== 'employee') {
+        setisFromUnlink(true);
+        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+      }
     } else {
       if (!toast.isActive(toastId)) {
         toastId = toast.error('Please select appointment/s.');
@@ -3108,9 +3143,6 @@ const Appointment: FunctionComponent = (props: any) => {
                         setOnOfferedCareInst={setOnOfferedCareInst}
                         setOnNotOfferedCareInst={setOnNotOfferedCareInst}
                         onNewRequirement={() => setMultipleRequirement(true)}
-                        careinstitutionDepartmentList={
-                          careinstitutionDepartmentList
-                        }
                       />
                     </Col>
                     <Col lg={'6'}>
@@ -3303,6 +3335,24 @@ const Appointment: FunctionComponent = (props: any) => {
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
+      />
+      <BulkEmailCareInstitutionModal
+        openModal={openCareInstitutionBulkEmail}
+        handleClose={() =>
+          setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail)
+        }
+        qualification={props.qualification}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
+      />
+      <BulkEmailCareGiverModal
+        openModal={openCareGiverBulkEmail}
+        qualification={props.qualification}
+        handleClose={() => setopenCareGiverBulkEmail(!openCareGiverBulkEmail)}
+        selectedCells={selectedCells}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        unlinkedBy={unlinkedBy}
       />
     </>
   );

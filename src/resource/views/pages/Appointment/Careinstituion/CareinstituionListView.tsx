@@ -414,7 +414,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
     return temp /* firstStarData */;
   };
-  // to apply condition on email options
+  // to apply condition on email options and delete
   let emailOptionCond: any;
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     emailOptionCond = selectedCellsCareinstitution.filter((x: any) => {

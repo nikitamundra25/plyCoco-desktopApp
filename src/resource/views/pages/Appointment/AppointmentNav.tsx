@@ -287,8 +287,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 placeholder={
                   user
                     ? user === 'avability'
-                      ? 'availability'
-                      : 'requirement'
+                      ? 'Availability'
+                      : 'Requirement'
                     : languageTranslation('SELECT_USER')
                 }
                 type='text'

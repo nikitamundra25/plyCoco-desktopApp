@@ -291,7 +291,7 @@ const Appointment: FunctionComponent = (props: any) => {
     },
   });
 
-  // Mutation to delete careinstitution
+  // Mutation to delete careinstitution requirement
   const [deleteCareinstitutionRequirement] = useMutation<
     {
       deleteCareinstitution: any;
@@ -380,6 +380,8 @@ const Appointment: FunctionComponent = (props: any) => {
   // Reset applied filter
   const handleResetFilters = () => {
     setPage(1);
+    setcaregiversList([]);
+    setcareinstitutionList([]);
     setPositive([]);
     setNegative([]);
     setqualification([]);
@@ -473,6 +475,8 @@ const Appointment: FunctionComponent = (props: any) => {
   ) => {
     setPositive(positiveId);
     setNegative(negativeId);
+    setcaregiversList([]);
+    setcareinstitutionList([]);
     setPage(1);
     if (userRole === 'caregiver') {
       // get careGivers list
@@ -780,6 +784,7 @@ const Appointment: FunctionComponent = (props: any) => {
             n: n ? 'available' : 'default',
           },
         },
+        ``,
       ];
       setSelectedCells(data);
     }
@@ -787,6 +792,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // To store users list into state
   useEffect(() => {
+    console.log('in caregiver list useeffecttttttttttttttttttttt');
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
     if (careGiversList && careGiversList.getUserByQualifications) {
       const { getUserByQualifications } = careGiversList;
@@ -2223,6 +2229,8 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const onDeleteEntries = async (userRole: string) => {
+    console.log(userRole, 'userRole');
+
     let temp: any =
       userRole === 'caregiver' ? selectedCells : selectedCellsCareinstitution;
     if (temp && temp.length) {
@@ -2645,8 +2653,18 @@ const Appointment: FunctionComponent = (props: any) => {
       },
 
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
-        if (!fetchMoreResult) return prev;
+        console.log(fetchMoreResult, 'fetchMoreResult');
+        if (!fetchMoreResult) {
+          return prev;
+        }
         if (prev && prev.getUserByQualifications) {
+          console.log(
+            prev.getUserByQualifications.result,
+            fetchMoreResult.getUserByQualifications.result,
+            caregiversList,
+            'inside fetch more',
+          );
+
           let list = [...fetchMoreResult.getUserByQualifications.result];
           if (list && list.length) {
             let dayDetails: any[] = daysData ? [...daysData.daysArr] : [];

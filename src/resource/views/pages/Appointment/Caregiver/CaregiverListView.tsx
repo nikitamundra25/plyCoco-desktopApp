@@ -40,6 +40,7 @@ import UnlinkAppointment from '../unlinkModal';
 import '../index.scss';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { languageTranslation } from '../../../../../helpers';
+import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { Link } from 'react-router-dom';
 
 let toastId: any = null;
@@ -92,10 +93,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
     false
   );
+
+  // state for care institution bulk email
+  const [
+    openCareInstitutionBulkEmail,
+    setopenCareInstitutionBulkEmail
+  ] = useState<boolean>(false);
+
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
     if (openCareGiverBulkEmail === true) {
       setconfirmApp(false);
+      setunlinkedBy('');
     }
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
@@ -222,13 +231,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
 
   const [confirmApp, setconfirmApp] = useState<boolean>(false);
-
+  //unLinked by
+  const [unlinkedBy, setunlinkedBy] = useState('');
   //  UnLink appointmnets
   const handleUnLinkAppointments = () => {
     setshowUnlinkModal(!showUnlinkModal);
   };
-
+  const [isFromUnlink, setisFromUnlink] = useState(false);
   const handleUnlinkData = (likedBy: string, check: boolean) => {
+    setunlinkedBy(likedBy);
     let appointmentId: any = [];
     if (selectedCells && selectedCells.length) {
       selectedCells.map((key: any, index: number) => {
@@ -251,10 +262,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         }
       });
       onLinkAppointment(appointmentId, 'unlink');
+      if (likedBy !== 'employee') {
+        setisFromUnlink(true);
+        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+      }
     } else {
       if (!toast.isActive(toastId)) {
         toastId = toast.error('Please select appointment/s.');
       }
+    }
+  };
+
+  // open care institution bulk Email section
+  const handleCareInstitutionBulkEmail = () => {
+    setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+    if (openCareInstitutionBulkEmail) {
+      setunlinkedBy('');
     }
   };
 
@@ -782,6 +806,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         selectedCells={selectedCells}
         confirmApp={confirmApp}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
+      />
+      <BulkEmailCareInstitutionModal
+        openModal={openCareInstitutionBulkEmail}
+        handleClose={() => handleCareInstitutionBulkEmail()}
+        qualification={props.qualification}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        gte={props.gte}
+        lte={props.lte}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

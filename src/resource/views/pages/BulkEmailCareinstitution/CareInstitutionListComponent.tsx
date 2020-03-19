@@ -82,6 +82,8 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
       });
     });
   }
+
+  
   return (
     <Col lg={"6"} className="pr-lg-0">
       <Table bordered hover responsive className="mb-0">

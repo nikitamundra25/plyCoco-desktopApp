@@ -160,6 +160,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 
   const DepartmentError: any = errors.department;
   const qualificationError: any = errors.qualificationId;
+  const shiftOptions =
+    careInstitutionTimesOptions && careInstitutionTimesOptions.length
+      ? careInstitutionTimesOptions
+      : ShiftTime;
 
   return (
     <>
@@ -275,7 +279,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col sm={'12'} lg={'12'}>
+            {/* <Col sm={'12'} lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm={'5'}>
@@ -302,7 +306,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   </Col>
                 </Row>
               </FormGroup>
-            </Col>
+            </Col> */}
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
@@ -343,13 +347,33 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         </InputGroup>
                       </div>
                       <UncontrolledDropdown className='custom-dropdown'>
-                        <DropdownToggle className={'add-new-btn'}>
+                        <DropdownToggle
+                          className={'add-new-btn'}
+                          value={shift ? shift : undefined}
+                        >
                           <i className='fa fa-clock-o' aria-hidden='true' />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Header</DropdownItem>
-                          <DropdownItem>Some Action</DropdownItem>
-                          <DropdownItem>Action (disabled)</DropdownItem>
+                          {shiftOptions && shiftOptions.length
+                            ? shiftOptions.map(
+                                (
+                                  option: IReactSelectInterface,
+                                  index: number
+                                ) => {
+                                  return (
+                                    <DropdownItem
+                                      key={index}
+                                      value={option.value}
+                                      onClick={(e: any) =>
+                                        handleSelect(option, 'shift')
+                                      }
+                                    >
+                                      {option.label}
+                                    </DropdownItem>
+                                  );
+                                }
+                              )
+                            : ''}
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </div>

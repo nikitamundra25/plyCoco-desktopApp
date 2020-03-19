@@ -104,6 +104,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const handleCareGiverBulkEmail = () => {
     if (openCareGiverBulkEmail === true) {
       setconfirmApp(false);
+      setunlinkedBy('');
     }
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
@@ -276,6 +277,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+    if (openCareInstitutionBulkEmail) {
+      setunlinkedBy('');
+    }
   };
 
   const [showList, setShowList] = useState<boolean>(false);

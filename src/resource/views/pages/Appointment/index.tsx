@@ -1534,20 +1534,21 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        if (item && item.id) {
-          if (item.status === 'linked') {
-            let availabilityId: number = item.id ? parseInt(item.id) : 0;
-            delete item.id;
-            delete item.__typename;
-            delete item.appointments;
-            delete item.division;
+        const Item = { ...item };
+        if (Item && Item.id) {
+          if (Item.status === 'linked') {
+            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+            delete Item.id;
+            delete Item.__typename;
+            delete Item.appointments;
+            delete Item.division;
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
                 careInstitutionRequirementInput: {
-                  ...item,
-                  qualificationId: item.qualificationId.map((item: any) => {
-                    item.id;
+                  ...Item,
+                  qualificationId: Item.qualificationId.map((Item: any) => {
+                    Item.id;
                   }),
                   status: 'confirmed'
                 }

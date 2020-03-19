@@ -443,7 +443,6 @@ const Appointment: FunctionComponent = (props: any) => {
     positiveAttr: number[] = [],
     negativeAttr: number[] = []
   ) => {
-
     let temp: any = [];
     qualification.map((key: any, index: number) => {
       temp.push(parseInt(key.value));
@@ -464,7 +463,8 @@ const Appointment: FunctionComponent = (props: any) => {
       variables: {
         qualificationId: temp ? temp : null,
         userRole: 'caregiver',
-        negativeAttributeId: negativeAttr ? negativeAttr : negative,
+        negativeAttributeId:
+          negativeAttr && negativeAttr.length ? negativeAttr : negative,
         limit: 10,
         page: page ? page : 1,
         showAppointments:
@@ -473,7 +473,8 @@ const Appointment: FunctionComponent = (props: any) => {
               ? ''
               : filterByAppointments.value
             : null,
-        positiveAttributeId: positiveAttr ? positiveAttr : positive,
+        positiveAttributeId:
+          positiveAttr && positiveAttr.length ? positiveAttr : positive,
         gte,
         lte
       }
@@ -481,8 +482,8 @@ const Appointment: FunctionComponent = (props: any) => {
   };
   //to get list of all the careinstitutions
   const getCareInstituionData = (
-    positive: number[] = [],
-    negative: number[] = []
+    positiveAttr: number[] = [],
+    negativeAttr: number[] = []
   ) => {
     let temp: any = [];
     qualification.map((key: any, index: number) => {
@@ -510,8 +511,10 @@ const Appointment: FunctionComponent = (props: any) => {
               ? ''
               : filterByAppointments.value
             : null,
-        negativeAttributeId: negative,
-        positiveAttributeId: positive,
+        negativeAttributeId:
+          negativeAttr && negativeAttr.length ? negativeAttr : negative,
+        positiveAttributeId:
+          positiveAttr && positiveAttr.length ? positiveAttr : positive,
         gte,
         lte
       }
@@ -1144,6 +1147,7 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const fetchData = () => {
+    console.log('positive');
     // get careGivers list
     getCaregiverData(1);
     // get careInstitution list
@@ -2511,7 +2515,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 careInstituionDeptData.length
               ) {
                 index = careInstituionDeptData.findIndex(
-                  (careInst: any) => careInst.userId === id,
+                  (careInst: any) => careInst.userId === id
                 );
                 if (index > -1) {
                   let list: any = [...careInstituionDeptData];
@@ -2522,7 +2526,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               } else {
                 index = careinstitutionList.findIndex(
-                  (careInst: any) => careInst.id === id,
+                  (careInst: any) => careInst.id === id
                 );
                 if (index > -1) {
                   let list: any = [...careinstitutionList];

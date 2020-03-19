@@ -156,12 +156,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               className={'custom-reactselect '}
               placeholder='Select appointment'
               options={Without_Appointments}
-              value={
-                filterByAppointments
-                // filterByAppointments && filterByAppointments.value !== undefined
-                //   ? { label: 'hello', value: 'hy' }
-                //   : undefined
-              }
+              value={filterByAppointments ? filterByAppointments : null}
               onChange={(value: any) =>
                 handleSelectAppointment(value, 'appointments')
               }

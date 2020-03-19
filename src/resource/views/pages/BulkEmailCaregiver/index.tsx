@@ -89,9 +89,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     if (props.label === 'appointment') {
       let temp: any = [];
-      props.qualification.map((key: any, index: number) => {
-        temp.push(parseInt(key.value));
-      });
+      if (props.qualification && props.qualification.length) {
+        props.qualification.map((key: any, index: number) => {
+          temp.push(parseInt(key.value));
+        });
+      }
       // get careGivers list
       fetchCaregiverListFromQualification({
         variables: {

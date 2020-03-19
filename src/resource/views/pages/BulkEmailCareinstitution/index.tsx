@@ -163,9 +163,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         }
       }
       let temp: any = [];
-      props.qualification.map((key: any, index: number) => {
-        temp.push(parseInt(key.value));
-      });
+      if (props.qualification && props.qualification.length) {
+        props.qualification.map((key: any, index: number) => {
+          temp.push(parseInt(key.value));
+        });
+      }
 
       // get careInstitutions list
       fetchCaregiverListFromQualification({

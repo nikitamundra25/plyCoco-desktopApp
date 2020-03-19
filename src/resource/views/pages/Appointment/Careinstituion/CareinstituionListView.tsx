@@ -232,7 +232,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   };
 
   //unLinked by
-  const [unlinkedBy, setunlinkedBy] = useState('');
+  const [unlinkedBy, setunlinkedBy] = useState<string>('');
 
   //  UnLink appointmnets
   const handleUnLinkAppointments = (name: string) => {

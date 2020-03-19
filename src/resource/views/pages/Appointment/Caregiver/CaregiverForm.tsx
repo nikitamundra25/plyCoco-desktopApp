@@ -148,7 +148,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     }
     handleSelectUserList(data, name);
   };
-  console.log('selctedAvailability in form', selctedAvailability);
 
   return (
     <>

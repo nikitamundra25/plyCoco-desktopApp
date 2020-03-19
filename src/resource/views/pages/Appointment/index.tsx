@@ -57,6 +57,9 @@ import { ConfirmBox } from '../../components/ConfirmBox';
 import './index.scss';
 import UnlinkAppointment from './unlinkModal';
 import Loader from '../../containers/Loader/Loader';
+import { useLocation } from 'react-router';
+import BulkEmailCareGiverModal from './BulkEmailCareGiver';
+import BulkEmailCareInstitutionModal from './BulkEmailCareInstitution';
 const [GET_CAREGIVERS] = CareGiverQueries;
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [
@@ -86,6 +89,9 @@ const [
 let toastId: any = null;
 
 const Appointment: FunctionComponent = (props: any) => {
+  // To fetch id from display appointments
+  const { state: locationState }: any = useLocation();
+
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null
   );
@@ -95,6 +101,19 @@ const Appointment: FunctionComponent = (props: any) => {
   const [multipleRequirement, setMultipleRequirement] = useState<boolean>(
     false
   );
+
+  const [unlinkedBy, setunlinkedBy] = useState<string>('');
+  const [isFromUnlink, setisFromUnlink] = useState(false);
+  // state for care giver bulk email
+  const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
+    false
+  );
+
+  // state for care institution bulk email
+  const [
+    openCareInstitutionBulkEmail,
+    setopenCareInstitutionBulkEmail
+  ] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [fetchingDept, setFetchingDept] = useState<boolean>(false);
   const [activeMonth, setActiveMonth] = useState<number>(moment().month());
@@ -458,6 +477,7 @@ const Appointment: FunctionComponent = (props: any) => {
       gte = daysData.daysArr[0].dateString || '';
       lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
     }
+
     // get careGivers list
     fetchCaregiverList({
       variables: {
@@ -465,8 +485,9 @@ const Appointment: FunctionComponent = (props: any) => {
         userRole: 'caregiver',
         negativeAttributeId:
           negativeAttr && negativeAttr.length ? negativeAttr : negative,
-        limit: 10,
-        page: page ? page : 1,
+        limit: !locationState && !locationState.caregiver ? 10 : null,
+        page:
+          !locationState && !locationState.caregiver ? (page ? page : 1) : null,
         showAppointments:
           filterByAppointments && filterByAppointments.value
             ? filterByAppointments.value === 'showAll'
@@ -917,7 +938,14 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         });
       }
-      setcaregiversList(result);
+      if (locationState && locationState.caregiver) {
+        let list: any = result.filter(
+          (list: any) => list.id === locationState.caregiver
+        );
+        setcaregiversList(list);
+      } else {
+        setcaregiversList(result);
+      }
     }
 
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
@@ -960,7 +988,14 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
-      setcareinstitutionList(result);
+      if (locationState && locationState.canstitution) {
+        let list: any = result.filter(
+          (list: any) => list.id === locationState.canstitution
+        );
+        setcareinstitutionList(list);
+      } else {
+        setcareinstitutionList(result);
+      }
     }
   }, [careGiversList, careInstitutionList]);
 
@@ -1149,7 +1184,6 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const fetchData = () => {
-    console.log('positive');
     // get careGivers list
     getCaregiverData(1);
     // get careInstitution list
@@ -2630,6 +2664,7 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const handleUnlinkData = (likedBy: string, check: boolean) => {
+    setunlinkedBy(likedBy);
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
@@ -2650,6 +2685,11 @@ const Appointment: FunctionComponent = (props: any) => {
         });
       });
       onLinkAppointment(appointmentId, 'unlink');
+      if (likedBy !== 'employee') {
+        setisFromUnlink(true);
+        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+      }
     } else {
       if (!toast.isActive(toastId)) {
         toastId = toast.error('Please select appointment/s.');
@@ -3299,6 +3339,24 @@ const Appointment: FunctionComponent = (props: any) => {
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
+      />
+      <BulkEmailCareInstitutionModal
+        openModal={openCareInstitutionBulkEmail}
+        handleClose={() =>
+          setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail)
+        }
+        qualification={props.qualification}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
+      />
+      <BulkEmailCareGiverModal
+        openModal={openCareGiverBulkEmail}
+        qualification={props.qualification}
+        handleClose={() => setopenCareGiverBulkEmail(!openCareGiverBulkEmail)}
+        selectedCells={selectedCells}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        unlinkedBy={unlinkedBy}
       />
     </>
   );

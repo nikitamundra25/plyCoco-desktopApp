@@ -150,10 +150,6 @@ const Appointment: FunctionComponent = (props: any) => {
   ] = useState<any>();
 
   const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
-  const [
-    careinstitutionDepartmentList,
-    setcareinstitutionDepartmentList
-  ] = useState<any>([]);
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
     IDate[]
@@ -992,6 +988,9 @@ const Appointment: FunctionComponent = (props: any) => {
           (list: any) => list.id === locationState.canstitution
         );
         setcareinstitutionList(list);
+        if (list && list.length && list[0]) {
+          handleFirstStarCanstitution(list[0], 1);
+        }
       } else {
         setcareinstitutionList(result);
       }
@@ -1939,12 +1938,9 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
+    console.log('hereeeee', starCanstitution);
     // setselectedCareinstitution(list);
-
-    let temp = careinstitutionList.filter((dept: any) => dept.id === list.id);
-
     //  setcareinstitutionList()
-    setcareinstitutionDepartmentList(temp);
     if (!starCanstitution.isStar) {
       setstarCanstitution({
         isStar: true,
@@ -3144,9 +3140,6 @@ const Appointment: FunctionComponent = (props: any) => {
                         setOnOfferedCareInst={setOnOfferedCareInst}
                         setOnNotOfferedCareInst={setOnNotOfferedCareInst}
                         onNewRequirement={() => setMultipleRequirement(true)}
-                        careinstitutionDepartmentList={
-                          careinstitutionDepartmentList
-                        }
                       />
                     </Col>
                     <Col lg={'6'}>

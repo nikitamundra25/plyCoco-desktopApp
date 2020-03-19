@@ -77,7 +77,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnOfferedCareInst,
     handleSelectedAppoitment,
     setOnNotOfferedCareInst,
-    careinstitutionDepartmentList,
     onNewRequirement,
     showSelectedCaregiver
   } = props;
@@ -432,8 +431,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     emailOptionCond = selectedCellsCareinstitution.filter((x: any) => {
       if (x.item && x.item.id) {
-        console.log('x.item', x.item);
-        console.log('inside item');
         return (
           x.item && x.item.status !== 'default' && x.item.status !== 'offered'
         );
@@ -442,7 +439,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       }
     });
   }
-  console.log('emailOptionCond', emailOptionCond && emailOptionCond.length);
   return (
     <>
       <div

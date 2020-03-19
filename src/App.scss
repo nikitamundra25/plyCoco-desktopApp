@@ -1350,6 +1350,12 @@ html:not([dir="rtl"]) {
       position: absolute;
       bottom: 0px;
     }
+    .required-checkbox-error {
+      color: #ff2e4b;
+      font-size: 11px;
+      position: absolute;
+      bottom: -6px;
+    }
 
     .form-control {
       border-radius: 0px;
@@ -1846,6 +1852,7 @@ html:not([dir="rtl"]) {
     .custom-inner-reactselect__option {
       padding: 2px 12px;
       font-size: 12px;
+      font-weight: normal;
       &:first-letter {
         text-transform: capitalize;
       }

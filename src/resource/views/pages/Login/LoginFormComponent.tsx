@@ -42,7 +42,7 @@ const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
             </div>
             <CardGroup>
               <Card className="login-card p-4">
-                <CardBody className="px-4 py-0">
+                <CardBody className="px-0 px-sm-4  py-0">
                   <Form onSubmit={handleSubmit} className="form-section">
                     <h1 className="auth-title text-center">
                       {languageTranslation("SIGNIN")}

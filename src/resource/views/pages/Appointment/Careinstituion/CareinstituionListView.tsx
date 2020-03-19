@@ -47,6 +47,7 @@ import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router';
 import UnlinkAppointment from '../unlinkModal';
+import { Link } from 'react-router-dom';
 
 let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
@@ -65,7 +66,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     deptLoading,
     onhandleSecondStarCanstitution,
     secondStarCanstitution,
-    activeDateCaregiver,
     handleSelection,
     selectedCellsCareinstitution,
     selectedCells,
@@ -76,7 +76,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setOnOfferedCareInst,
     handleSelectedAppoitment,
     setOnNotOfferedCareInst,
-    careinstitutionDepartmentList,
     onNewRequirement,
     showSelectedCaregiver
   } = props;
@@ -177,11 +176,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           if (
             key.qualificationIds &&
             key.qualificationIds.length &&
-            element.qualificationIds &&
-            element.qualificationIds.length
+            element.item.qualificationId &&
+            element.item.qualificationId.length
           ) {
-            qualiCheck = key.qualificationIds.filter((e: any) =>
-              element.qualificationIds.includes(e)
+            qualiCheck = element.item.qualificationId.filter((e: any) =>
+              key.qualificationIds.includes(e.value)
             );
           }
           if (qualiCheck && qualiCheck.length <= 0) {
@@ -247,7 +246,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         //     );
         //   }
         // );
-        // console.log('appointId', appointId);
         return appointmentId.push({
           appointmentId: parseInt(
             key.item.appointments ? key.item.appointments[0].id : ''
@@ -258,8 +256,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       });
       onLinkAppointment(appointmentId, 'unlink');
       if (likedBy !== 'employee') {
-        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
-        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+        // setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        // setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
       }
     } else {
       if (!toast.isActive(toastId)) {
@@ -333,16 +331,25 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             : ''
                           : ''
                       }}
-                      onClick={() =>
-                        history.push(
-                          AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
-                        )
-                      }
+                      // onClick={() =>
+                      //   history.push(
+                      //     AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
+                      //   )
+                      // }
                       title={list.name}
                       className='text-capitalize view-more-link one-line-text username-col name-text'
                       id={`careinst-${list.id}`}
                     >
-                      {row === 0 ? list.name : null}
+                      <Link
+                        to={AppRoutes.CARE_INSTITUION_VIEW.replace(
+                          ':id',
+                          list.id
+                        )}
+                        target='_blank'
+                        className='text-body'
+                      >
+                        {row === 0 ? list.name : null}
+                      </Link>
                     </div>
                     <div className='h-col custom-appointment-col text-center'></div>
                     <div
@@ -407,7 +414,74 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
     return temp /* firstStarData */;
   };
-
+  // to apply condition on email options
+  let emailOptionCond: any;
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    emailOptionCond = selectedCellsCareinstitution.filter((x: any) => {
+      if (x.item && x.item.id) {
+        return (
+          x.item && x.item.status !== 'default' && x.item.status !== 'offered'
+        );
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+  //to apply conditions on set on offered
+  let setOnOfferCond: any;
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    setOnOfferCond = selectedCellsCareinstitution.filter((x: any) => {
+      if (x.item && x.item.id) {
+        return x.item && x.item.status !== 'default';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+  // to apply condition on reset offered
+  let resetOffCond: any;
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    resetOffCond = selectedCellsCareinstitution.filter((x: any) => {
+      if (x.item && x.item.id) {
+        return x.item && x.item.status !== 'offered';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+  //to apply condition on all offer options
+  let offerAppCond: any;
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    offerAppCond = selectedCellsCareinstitution.filter((x: any) => {
+      if (x.item && x.item.id) {
+        return x.item.status !== 'linked' && x.item.status !== 'confirmed';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+  //to apply condition on disconnect appointments
+  let disconnectAppCond: any;
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    disconnectAppCond = selectedCellsCareinstitution.filter((x: any) => {
+      if (x.item && x.item.id) {
+        return x.item && x.item.status !== 'linked';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+  //to apply condition on connect appointments
+  let connectAppCondition: any;
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    connectAppCondition = selectedCellsCareinstitution.filter((x: any) => {
+      if (x.item && x.item.id) {
+        return x.item && x.item.status !== 'default';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
   return (
     <>
       <div
@@ -433,6 +507,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           <Nav vertical>
             <NavItem>
               <NavLink
+                disabled={
+                  selectedCellsCareinstitution &&
+                  selectedCellsCareinstitution.length &&
+                  selectedCellsCareinstitution[0].id === ''
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleRightMenuToggle();
                   onNewRequirement();
@@ -444,6 +525,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink
+                disabled={
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (emailOptionCond && emailOptionCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleRightMenuToggle();
                   onDeleteEntries();
@@ -455,7 +544,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={() => handleSelectedAppoitment()}>
+              <NavLink
+                disabled={
+                  offerAppCond && offerAppCond.length !== 0 ? true : false
+                }
+                onClick={() => handleSelectedAppoitment()}
+              >
                 <img src={all_list} className='mr-2' alt='' />
                 <span>Select all appointments of the caregiver</span>
               </NavLink>{' '}
@@ -463,6 +557,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem className='bordernav' />
             <NavItem>
               <NavLink
+                disabled={
+                  selectedCellsCareinstitution &&
+                  selectedCellsCareinstitution.length &&
+                  selectedCellsCareinstitution[0].id === ''
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleRightMenuToggle();
                   setShowList(true);
@@ -476,9 +577,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution
-                    ? selectedCellsCareinstitution.length === 0
-                    : true
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (emailOptionCond && emailOptionCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
                 }
                 onClick={() => {
                   handleCareGiverBulkEmail('division', true);
@@ -497,9 +601,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution
-                    ? selectedCellsCareinstitution.length === 0
-                    : true
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (emailOptionCond && emailOptionCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
                 }
                 onClick={() => {
                   handleCareGiverBulkEmail('day', true);
@@ -518,9 +625,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution
-                    ? selectedCellsCareinstitution.length === 0
-                    : true
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (emailOptionCond && emailOptionCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
                 }
                 onClick={() => {
                   handleCareGiverBulkEmail('division', false);
@@ -539,9 +649,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution
-                    ? selectedCellsCareinstitution.length === 0
-                    : true
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (emailOptionCond && emailOptionCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
                 }
                 onClick={() => {
                   handleCareGiverBulkEmail('day', false);
@@ -558,7 +671,16 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink
+                disabled={
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (setOnOfferCond && setOnOfferCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
+                }
+              >
                 <img src={set_confirm} className='mr-2' alt='' />
                 <span
                   onClick={() => {
@@ -571,7 +693,16 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>{' '}
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink
+                disabled={
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (resetOffCond && resetOffCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
+                }
+              >
                 <img src={unset_confirm} className='mr-2' alt='' />
                 <span
                   onClick={() => {
@@ -586,6 +717,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem className='bordernav' />
             <NavItem>
               <NavLink
+                disabled={
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (connectAppCondition && connectAppCondition.length !== 0)
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleRightMenuToggle();
                   handleLinkAppointments('link');
@@ -597,6 +736,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink
+                disabled={
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (disconnectAppCond && disconnectAppCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleRightMenuToggle();
                   handleUnLinkAppointments('unlink');
@@ -609,6 +756,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem className='bordernav' />
             <NavItem>
               <NavLink
+                disabled={
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (offerAppCond && offerAppCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
@@ -622,6 +777,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink
+                disabled={
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (offerAppCond && offerAppCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
@@ -636,6 +799,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem className='bordernav' />
             <NavItem>
               <NavLink
+                disabled={
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (offerAppCond && offerAppCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
@@ -650,6 +821,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink
+                disabled={
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (offerAppCond && offerAppCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
@@ -663,7 +842,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>{' '}
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink
+                disabled={
+                  selectedCellsCareinstitution &&
+                  ((selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                    (selectedCellsCareinstitution[0].item &&
+                      selectedCellsCareinstitution[0].item.status !== 'linked'))
+                    ? 'disabled-class'
+                    : ''
+                }
+              >
                 <img src={set_confirm} className='mr-2' alt='' />
                 <span
                   onClick={() => {
@@ -676,7 +865,18 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink>
+              <NavLink
+                disabled={
+                  selectedCellsCareinstitution &&
+                  ((selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                    (selectedCellsCareinstitution[0].item &&
+                      selectedCellsCareinstitution[0].item.status !==
+                        'confirmed'))
+                    ? 'disabled-class'
+                    : ''
+                }
+              >
                 <img src={unset_confirm} className='mr-2' alt='' />
                 <span
                   onClick={() => {
@@ -691,7 +891,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem className='bordernav' />
             <NavItem>
-              <NavLink>
+              <NavLink
+                disabled={
+                  selectedCellsCareinstitution &&
+                  selectedCellsCareinstitution.length &&
+                  selectedCellsCareinstitution[0].id === ''
+                    ? 'disabled-class'
+                    : ''
+                }
+              >
                 <img src={invoice} className='mr-2' alt='' />
                 <span>Create prepayment invoice</span>
               </NavLink>

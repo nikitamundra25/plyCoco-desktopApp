@@ -354,7 +354,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             }}
                           </Dropzone>
                         </div>
-                        <div className="document-list custom-scrollbar position-relative">
+                        <div className="workingproof-list custom-scrollbar position-relative">
                           <div className="archieve-table-minheight ">
                             <Table bordered hover responsive className="mb-0">
                               <thead className="thead-bg thead-sticky">

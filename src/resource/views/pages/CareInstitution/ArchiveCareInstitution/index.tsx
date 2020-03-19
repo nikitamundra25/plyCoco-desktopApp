@@ -7,11 +7,7 @@ import * as qs from 'query-string';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import {
-  sortFilter,
-  dateFormat,
-  defaultDateTimeFormat,
-} from '../../../../../config';
+import { sortFilter, defaultDateTimeFormat } from '../../../../../config';
 import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../../config';
 import routes from '../../../../../routes/routes';
 import Search from '../../../components/SearchFilter';
@@ -27,10 +23,9 @@ import {
   IObjectType,
 } from '../../../../../interfaces';
 import { ConfirmBox } from '../../../components/ConfirmBox';
-import defaultProfile from '../../../assets/avatars/default-profile.png';
-import Loader from '../../../containers/Loader/Loader';
 import { NoSearchFound } from '../../../components/SearchFilter/NoSearchFound';
 import archive from '../../../../assets/img/restore.svg';
+import Loader from '../../../containers/Loader/Loader';
 let toastId: any = null;
 
 const [, , GET_ARCHIVE_EMPLOYEES] = EmployeeQueries;
@@ -244,16 +239,18 @@ const ArchiveCareInstitution: FunctionComponent = () => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
-        <Button
-          color={'primary'}
-          className={'btn-add'}
-          id={'add-new-pm-tooltip'}
-          onClick={() => history.push(AppRoutes.CARE_INSTITUTION)}
-        >
-          <i className={'fa fa-arrow-left'} />
-          &nbsp; {languageTranslation('BACK_TO_LIST')}
-        </Button>
+        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
+        <div>
+          <Button
+            color={'primary'}
+            className={'btn-add'}
+            id={'add-new-pm-tooltip'}
+            onClick={() => history.push(AppRoutes.CARE_INSTITUTION)}
+          >
+            <i className={'fa fa-arrow-left'} />
+            &nbsp; {languageTranslation('BACK_TO_LIST')}
+          </Button>
+        </div>
       </CardHeader>
       <CardBody>
         <div>

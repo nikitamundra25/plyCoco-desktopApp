@@ -533,28 +533,30 @@ const CareInstitution = (props: RouteComponentProps) => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
-        <Button
-          color={'primary'}
-          className={'btn-add mr-3'}
-          disabled={Loading}
-          id={'add-new-pm-tooltip'}
-          onClick={() => history.push(AppRoutes.CAREINSTITUTION_ARCHIVE)}
-        >
-          <i className={'fa fa-archive'} />
-          &nbsp; {languageTranslation('VIEW_ARCHIVE')}
-        </Button>
+        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
+        <div>
+          <Button
+            color={'primary'}
+            className={'btn-add mr-3'}
+            disabled={Loading}
+            id={'add-new-pm-tooltip'}
+            onClick={() => history.push(AppRoutes.CAREINSTITUTION_ARCHIVE)}
+          >
+            <i className={'fa fa-archive'} />
+            &nbsp; {languageTranslation('VIEW_ARCHIVE')}
+          </Button>
 
-        <Button
-          color={'primary'}
-          className={'btn-add'}
-          disabled={Loading}
-          id={'add-new-pm-tooltip'}
-          onClick={() => handleAddNewCareInstitution()}
-        >
-          <i className={'fa fa-plus'} />
-          &nbsp; Add New Care Institution
-        </Button>
+          <Button
+            color={'primary'}
+            className={'btn-add'}
+            disabled={Loading}
+            id={'add-new-pm-tooltip'}
+            onClick={() => handleAddNewCareInstitution()}
+          >
+            <i className={'fa fa-plus'} />
+            &nbsp; Add New Care Institution
+          </Button>
+        </div>
       </CardHeader>
       <CardBody>
         <div>

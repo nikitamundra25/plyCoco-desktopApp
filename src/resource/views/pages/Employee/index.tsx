@@ -410,25 +410,27 @@ const Employee: FunctionComponent = () => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
-        <Button
-          color={'primary'}
-          className={'btn-add mr-3'}
-          id={'add-new-pm-tooltip'}
-          onClick={() => history.push(AppRoutes.EMPLOYEE_ARCHIVE)}
-        >
-          <i className={'fa fa-archive'} />
-          &nbsp; {languageTranslation('VIEW_ARCHIVE')}
-        </Button>
-        <Button
-          color={'primary'}
-          className={'btn-add'}
-          id={'add-new-pm-tooltip'}
-          onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
-        >
-          <i className={'fa fa-plus'} />
-          &nbsp;{languageTranslation('ADD_NEW_EMPLOYEE_BUTTON')}
-        </Button>
+        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
+        <div>
+          <Button
+            color={'primary'}
+            className={'btn-add mr-3'}
+            id={'add-new-pm-tooltip'}
+            onClick={() => history.push(AppRoutes.EMPLOYEE_ARCHIVE)}
+          >
+            <i className={'fa fa-archive'} />
+            &nbsp; {languageTranslation('VIEW_ARCHIVE')}
+          </Button>
+          <Button
+            color={'primary'}
+            className={'btn-add'}
+            id={'add-new-pm-tooltip'}
+            onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
+          >
+            <i className={'fa fa-plus'} />
+            &nbsp;{languageTranslation('ADD_NEW_EMPLOYEE_BUTTON')}
+          </Button>
+        </div>
       </CardHeader>
       <CardBody>
         <div>

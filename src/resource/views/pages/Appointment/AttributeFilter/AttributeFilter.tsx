@@ -10,7 +10,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  UncontrolledTooltip,
+  UncontrolledTooltip
 } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
 import close from '../../../../assets/img/cancel.svg';
@@ -60,15 +60,13 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
     activePreset,
     addPresetLoading,
 
-    setActivePreset,
+    setActivePreset
   } = props;
   const externalCloseBtn = (
     <button
       className='close modal-close'
       onClick={() => {
         setActivePreset(null);
-        setIsPositive([]);
-        setIsNegative([]);
         handleClose();
       }}
     >
@@ -88,15 +86,15 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
           {languageTranslation('ATTRIBUTES')}
         </ModalHeader>
         <ModalBody>
-          <div className='d-flex align-items-center mb-2'>
+          <div
+            className='d-flex align-items-center mb-2'
+            onClick={onApplyingFilter}
+          >
             <div className='custom-header-nav-item mr-3'>
               <span className='custom-header-nav-icon'>
                 <img src={filter} alt='' />
               </span>
-              <span
-                className='custom-header-nav-text'
-                onClick={onApplyingFilter}
-              >
+              <span className='custom-header-nav-text'>
                 {languageTranslation('APPLY_FILTER')}
               </span>
             </div>
@@ -119,7 +117,8 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                 <li
                                   className={`cursor-pointer list-item text-capitalize ${
                                     activePreset === item.id ? 'active' : ''
-                                  }`} key={index}
+                                  }`}
+                                  key={index}
                                 >
                                   <div
                                     className='list-item-text one-line-text'
@@ -144,7 +143,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                   </div>
                                 </li>
                               );
-                            },
+                            }
                           )
                         : null}
                     </ul>
@@ -249,11 +248,11 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                           onChange={(
                                             e: React.ChangeEvent<
                                               HTMLInputElement
-                                            >,
+                                            >
                                           ) =>
                                             handleCheckPositiveElement(
                                               e,
-                                              list.id,
+                                              list.id
                                             )
                                           }
                                         />
@@ -266,7 +265,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                       </span>
                                     </li>
                                   );
-                                },
+                                }
                               )
                             : null}
                         </ul>
@@ -316,11 +315,11 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                           onChange={(
                                             e: React.ChangeEvent<
                                               HTMLInputElement
-                                            >,
+                                            >
                                           ) =>
                                             handleCheckPositiveElement(
                                               e,
-                                              list.id,
+                                              list.id
                                             )
                                           }
                                         />
@@ -333,7 +332,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                       </span>
                                     </li>
                                   );
-                                },
+                                }
                               )
                             : null}
                         </ul>
@@ -385,11 +384,11 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                           onChange={(
                                             e: React.ChangeEvent<
                                               HTMLInputElement
-                                            >,
+                                            >
                                           ) =>
                                             handleCheckPositiveElement(
                                               e,
-                                              list.id,
+                                              list.id
                                             )
                                           }
                                         />
@@ -402,7 +401,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                       </span>
                                     </li>
                                   );
-                                },
+                                }
                               )
                             : null}
                         </ul>
@@ -508,11 +507,11 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                           onChange={(
                                             e: React.ChangeEvent<
                                               HTMLInputElement
-                                            >,
+                                            >
                                           ) =>
                                             handleCheckNegativeElement(
                                               e,
-                                              list.id,
+                                              list.id
                                             )
                                           }
                                         />
@@ -525,7 +524,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                       </span>
                                     </li>
                                   );
-                                },
+                                }
                               )
                             : null}
                         </ul>
@@ -574,11 +573,11 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                           onChange={(
                                             e: React.ChangeEvent<
                                               HTMLInputElement
-                                            >,
+                                            >
                                           ) =>
                                             handleCheckNegativeElement(
                                               e,
-                                              list.id,
+                                              list.id
                                             )
                                           }
                                         />
@@ -591,7 +590,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                       </span>
                                     </li>
                                   );
-                                },
+                                }
                               )
                             : null}
                         </ul>
@@ -642,11 +641,11 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                           onChange={(
                                             e: React.ChangeEvent<
                                               HTMLInputElement
-                                            >,
+                                            >
                                           ) =>
                                             handleCheckNegativeElement(
                                               e,
-                                              list.id,
+                                              list.id
                                             )
                                           }
                                         />
@@ -659,7 +658,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                       </span>
                                     </li>
                                   );
-                                },
+                                }
                               )
                             : null}
                         </ul>

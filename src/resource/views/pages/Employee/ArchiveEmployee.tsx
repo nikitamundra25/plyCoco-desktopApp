@@ -245,16 +245,18 @@ const ArchiveEmployee: FunctionComponent = () => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
-        <Button
-          color={'primary'}
-          className={'btn-add'}
-          id={'add-new-pm-tooltip'}
-          onClick={() => history.push(AppRoutes.EMPLOYEE)}
-        >
-          <i className={'fa fa-arrow-left'} />
-          &nbsp; {languageTranslation('BACK_TO_LIST')}
-        </Button>
+        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
+        <div>
+          <Button
+            color={'primary'}
+            className={'btn-add'}
+            id={'add-new-pm-tooltip'}
+            onClick={() => history.push(AppRoutes.EMPLOYEE)}
+          >
+            <i className={'fa fa-arrow-left'} />
+            &nbsp; {languageTranslation('BACK_TO_LIST')}
+          </Button>
+        </div>
       </CardHeader>
       <CardBody>
         <div>

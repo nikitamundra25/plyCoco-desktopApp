@@ -152,7 +152,7 @@ export const Region: FunctionComponent = () => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
         <div>
           <Button
             color={!isOpen ? 'primary' : 'danger'}

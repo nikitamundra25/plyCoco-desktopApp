@@ -47,5 +47,6 @@ export const AppRoutes: IAppRoutes = {
   ALLINVOICES: "/invoices",
   INVOICESOLONA: "/invoice-solona",
   DROWINVOICE: "/drow-invoice",
-  CREATEINVOICES: "/create-invoices"
+  CREATEINVOICES: "/create-invoice",
+  PRINTINVOICES: "/print-invoice"
 };

@@ -10,13 +10,16 @@ import {
   Col,
   Card,
   CardBody,
-  
+  CardHeader,
   Nav
 } from "reactstrap";
 import Select from "react-select";
-
+import logger from "redux-logger";
 import { languageTranslation } from "../../../../helpers";
-
+import Search from "../../components/SearchFilter/index";
+import { State } from "../../../../config";
+import close from "../../../assets/img/cancel.svg";
+import closehover from "../../../assets/img/cancel-hover.svg";
 import refresh from "../../../assets/img/refresh.svg";
 import PlyCocoreceipt from "../../../assets/img/header-icons/plyCoco-receipt.svg";
 import SpecialistInvoice from "../../../assets/img/header-icons/specialist-invoice.svg";
@@ -28,7 +31,16 @@ import appendToPlycoco from "../../../assets/img/header-icons/tab-icons/append-t
 import attachReminder from "../../../assets/img/header-icons/tab-icons/attach-reminder.svg";
 import AttachSpeacilistInvoice from "../../../assets/img/header-icons/tab-icons/attach-speacilist-invoice.svg";
 import clear from "../../../assets/img/header-icons/tab-icons/clear.svg";
+
 import edit from "../../../assets/img/header-icons/tab-icons/edit.svg";
+import pen from "../../../assets/img/header-icons/pen.svg";
+import paperclip from "../../../assets/img/header-icons/tab-icons/paperclip.svg";
+import CompleteTime from "../../../assets/img/header-icons/tab-icons/complete-time.svg";
+import idea from "../../../assets/img/header-icons/tab-icons/idea.svg";
+import weekly from "../../../assets/img/header-icons/tab-icons/weekly.svg";
+import everySixMonths from "../../../assets/img/header-icons/tab-icons/every-six-months.svg";
+import massege from "../../../assets/img/header-icons/tab-icons/massege.svg";
+import monthCalendar from "../../../assets/img/header-icons/tab-icons/month-calendar.svg";
 import sendLawyer from "../../../assets/img/header-icons/tab-icons/send-lawyer.svg";
 import sendReminder from "../../../assets/img/header-icons/tab-icons/send-reminder.svg";
 import showReminder from "../../../assets/img/header-icons/tab-icons/show-reminder.svg";
@@ -39,11 +51,11 @@ import createReminder from "../../../assets/img/header-icons/tab-icons/create-re
 import { FormikHelpers, FormikProps, Formik } from "formik";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
-
+import { TODO_PAGE_LIMIT, AppRoutes } from "../../../../config";
 import "./index.scss";
+import filter from "../../../assets/img/filter.svg";
 
-
-const CreateInvoices: FunctionComponent<RouteComponentProps> & any = (
+const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
   const options = [
@@ -51,303 +63,96 @@ const CreateInvoices: FunctionComponent<RouteComponentProps> & any = (
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" }
   ];
-  const [tabChange, setTabChange] = useState(1);
-  const tabChangehandler = (currentTab: any) => {
-    setTabChange(currentTab)
-  }
+
   return (
     <>
       <Card>
         <div className="common-detail-page">
           <div className="common-detail-section">
-            <div className="common-sidnav">
-              <Nav className="common-ul" tabs>
-                <li className="nav-item">
-                  <a
-                    className={`nav-link ${tabChange == 1 ? "active" : ""}`}
-                    onClick={() => tabChangehandler(1)}>
-                    <span className="nav-text text-capitalize">
-                      General
-                    </span>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className={`nav-link ${tabChange == 2 ? "active" : ""}`}
-                    onClick={() => tabChangehandler(2)}>
-                    <span className="nav-text text-capitalize">
-                      Dunning and export
-                    </span>
-                  </a>
-                </li>
-              </Nav>
+            <div className="common-topheader d-flex  px-2 mb-1">
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={refresh} alt="" />
+                </span>
+                <span className="header-nav-text">Refresh</span>
+              </div>
+
+              <div className="user-select mx-1 ">
+                <Select
+                  classNamePrefix="custom-inner-reactselect"
+                  className={"custom-reactselect "}
+                  placeholder="Maiwald Jacqueline"
+                  options={options}
+                  isClearable={true}
+                />
+              </div>
+              <div className="user-select mx-1 ">
+                <Select
+                  classNamePrefix="custom-inner-reactselect"
+                  className={"custom-reactselect "}
+                  placeholder="Nursing service at Treptower Park"
+                  options={options}
+                  isClearable={true}
+                />
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={pen} alt="" />
+                </span>
+                <span className="header-nav-text">Create</span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={CompleteTime} alt="" />
+                </span>
+                <span className="header-nav-text">Times completely</span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={idea} alt="" />
+                </span>
+                <span className="header-nav-text">Create all specialist</span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={massege} alt="" />
+                </span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={monthCalendar} alt="" />
+                </span>
+                <span className="header-nav-text">Weekly</span>
+              </div>
+
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={monthCalendar} alt="" />
+                </span>
+                <span className="header-nav-text">Every six months</span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={monthCalendar} alt="" />
+                </span>
+                <span className="header-nav-text">Per month</span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={monthCalendar} alt="" />
+                </span>
+                <span className="header-nav-text">All</span>
+              </div>
+              <div className="user-select mx-1 ">
+                <Select
+                  classNamePrefix="custom-inner-reactselect"
+                  className={"custom-reactselect "}
+                  placeholder="Nursing service at Treptower Park"
+                  options={options}
+                  isClearable={true}
+                />
+              </div>
             </div>
-            {tabChange == 1 ?
-              <div className="common-topheader d-flex  px-2 mb-1">
-
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Filter</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={refresh} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      {languageTranslation("REFRESH")}
-                    </span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-text">Offer</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-text">Not sent</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1"></div>
-
-                  <div className="user-select mx-1 ">
-                    <Select
-                      classNamePrefix="custom-inner-reactselect"
-                      className={"custom-reactselect "}
-                      placeholder="Facilities"
-                      options={options}
-                      isClearable={true}
-                    />
-                  </div>
-                  <div className="user-select mx-1 ">
-                    <Select
-                      classNamePrefix="custom-inner-reactselect"
-                      className={"custom-reactselect "}
-                      placeholder="Broadcast date"
-                      options={options}
-                      isClearable={true}
-                    />
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">View Invoice PDFs</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={PlyCocoreceipt} alt="" />
-                    </span>
-                    <span className="header-nav-text">show receipt</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={SpecialistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Save invoice
-               </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Sent &amp; Unsent</div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={Again} alt="" />
-                    </span>
-                    <span className="header-nav-text">send again</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-text">Sent today</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-text">Unsent</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Paid &amp; Unpaid</div>
-
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={paid} alt="" />
-                    </span>
-                    <span className="header-nav-text">Paid on</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={"unPaid"} alt="" />
-                    </span>
-                    <span className="header-nav-text">Unpaid</span>
-                  </div>
-                  <div className="user-select mx-1 ">
-                    <Select
-                      classNamePrefix="custom-inner-reactselect"
-                      className={"custom-reactselect "}
-                      placeholder="professional"
-                      options={options}
-                      isClearable={true}
-                    />
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items profile-section">
-                  <div className="header-nav-heading mx-1">User Profile</div>
-
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={professaionalProfile} alt="" />
-                    </span>
-                    <span className="header-nav-text">Furnishing profile</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={interierDesign} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      interior design professional
-               </span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={showAppointment} alt="" />
-                    </span>
-                    <span className="header-nav-text">Show appointments</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items profile-section">
-                  <div className="header-nav-heading mx-1"></div>
-
-                  <div className="header-nav-item">
-                    <span className="header-nav-text">Solo setup</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-text">Release</span>
-                  </div>
-                </div>
-              </div>
-              :
-
-              <div className="common-topheader d-flex  px-2 mb-1">
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Reminders</div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={sendReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Send reminder</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={createReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Create a reminder</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={showReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Show reminder</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Warning</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={uploadReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Upload reminder</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={attachReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">attach reminder</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={sendLawyer} alt="" />
-                    </span>
-                    <span className="header-nav-text">Send to lawyer</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Export</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={taxConsultant} alt="" />
-                    </span>
-                    <span className="header-nav-text">Tax consultant</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={vicantPosition} alt="" />
-                    </span>
-                    <span className="header-nav-text">Vacant positions</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Invoices</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={SpecialistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">Create new invoice</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={SpecialistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Create cancellation invoice
-     </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">attachment</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={AttachSpeacilistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">Bill again</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={AttachSpeacilistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Attach to specialist invoice
-     </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1"></div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={Again} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Append order number Plycoco
-     </span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={Again} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Append order number specialist
-     </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Other tool</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={edit} alt="" />
-                    </span>
-                    <span className="header-nav-text">To edit</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={clear} alt="" />
-                    </span>
-                    <span className="header-nav-text">Clear</span>
-                  </div>
-                </div>
-              </div>
-
-            }
-
             <CardBody>
               <div className="filter-form form-section mb-2">
                 <Form>
@@ -429,64 +234,44 @@ const CreateInvoices: FunctionComponent<RouteComponentProps> & any = (
                   <Table bordered hover responsive>
                     <thead className="thead-bg">
                       <tr>
-                        <th className="all-invoice-number">
-                          RchngNr
-                        </th>
-                        <th className="all-invoice-facility">
-                          {" "}
-                          {languageTranslation("FACILITY")}
-                        </th>
-                        <th className="all-invoice-cancellation-for">
-                          {" "}
-                          {languageTranslation("CANCELLATION_FOR")}{" "}
-                        </th>
-                        <th className="all-invoice-canceled-by">
-                          {" "}
-                          {languageTranslation("CANCELED_BY")}
-                        </th>
-                        <th className="all-invoice-rchng"> RchngnR. F</th>
-                        <th className="all-invoice-date">
-                          {languageTranslation("DATE")}
-                        </th>
-                        <th className="all-invoice-amount">
-                          {languageTranslation("AMOUNT")}
-                        </th>
-                        <th className="all-invoice-posted">
-                          {languageTranslation("POSTED")}
-                        </th>
-                        <th className="all-invoice-sent-mail">
-                          {languageTranslation("SENT_MAIL")}
-                        </th>
-
-                        <th className="all-invoice-paid">
-                          {languageTranslation("PAID")}
-                        </th>
-                        <th className="all-invoice-remind">
-                          {languageTranslation("REMIND")}
-                        </th>
-                        <th className="all-invoice-reminded">
-                          {languageTranslation("REMINDED")}
-                        </th>
-                        <th className="all-invoice-lawyer">
-                          Attorney
-                        </th>
-                        <th className="all-invoice-doudful">
-                          {languageTranslation("DOUBTFUL")}
-                        </th>
-                        <th className="all-invoice-uncollectible">
-                          {languageTranslation("UNCOLLECTIBLE")}
-                        </th>
+                        <th className="all-invoice-number">Nr</th>
+                        <th className="all-invoice-facility"> ID</th>
+                        <th className="all-invoice-cancellation-for"> H</th>
+                        <th className="all-invoice-canceled-by"> Text</th>
+                        <th className="all-invoice-rchng">Beginning</th>
+                        <th className="all-invoice-date">The End</th>
+                        <th className="all-invoice-amount">End of beginning</th>
+                        <th className="all-invoice-posted">Price</th>
+                        <th className="all-invoice-sent-mail">Night</th>
+                        <th className="all-invoice-paid">Night</th>
+                        <th className="all-invoice-remind">We</th>
+                        <th className="all-invoice-reminded">We</th>
+                        <th className="all-invoice-lawyer">Celebration</th>
+                        <th className="all-invoice-doudful">Celebration</th>
+                        <th className="all-invoice-uncollectible">KM</th>
                         <th className="all-invoice-still-open">
                           {languageTranslation("STILL_OPEN")}
                         </th>
-                        <th className="all-invoice-comment">
-                          {languageTranslation("COMMENT")}
-                        </th>
+                        <th className="all-invoice-comment">expenses</th>
+                        <th className="all-invoice-comment">overall</th>
+                        <th className="all-invoice-comment">Provide</th>
+                        <th className="all-invoice-comment">total</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td> 3143156</td>
+                        <td className="checkbox-th-column text-center">
+                          <span className=" checkbox-custom ">
+                            <input
+                              type="checkbox"
+                              id="check"
+                              className=""
+                              name={"status"}
+                              // checked={"true"}
+                            />
+                            <label className=""> </label>
+                          </span>
+                        </td>
                         <td> Work at service</td>
                         <td> Testwerk</td>
                         <td> 03.03.2020</td>
@@ -570,4 +355,4 @@ const CreateInvoices: FunctionComponent<RouteComponentProps> & any = (
     </>
   );
 };
-export default CreateInvoices;
+export default CreateInvoice;

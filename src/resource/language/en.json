@@ -934,5 +934,7 @@
   "QUALIFICATION_REQUIRED": "Qualification is required",
   "DEPARTMENT_REQUIRED": "Department is required",
   "QUALIFICATION_UNMATCH": "Qualifications Didnot match.",
-  "SELECT_USER": "Select user"
+  "SELECT_USER": "Select user",
+  "SELECT_ALL_BY_EMAIL": "Select all by email",
+  "SELECT_ALL_BY_POST": "select all by post"
 }

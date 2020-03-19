@@ -55,24 +55,19 @@ const CareInstitutionTodoLayout = React.lazy(() =>
   )
 );
 const AllInvoices = React.lazy(() =>
-  import(
-    "../resource/views/pages/AllInvoices"
-  )
+  import("../resource/views/pages/AllInvoices")
 );
 const InvoiceSolona = React.lazy(() =>
-  import(
-    "../resource/views/pages/AllInvoices/InvoiceSolona"
-  )
+  import("../resource/views/pages/AllInvoices/InvoiceSolona")
 );
 const DrowInvoice = React.lazy(() =>
-  import(
-    "../resource/views/pages/AllInvoices/DrowInvoice"
-  )
+  import("../resource/views/pages/AllInvoices/DrowInvoice")
 );
 const CreateInvoices = React.lazy(() =>
-  import(
-    "../resource/views/pages/AllInvoices/CreateInvoices"
-  )
+  import("../resource/views/pages/AllInvoices/CreateInvoices")
+);
+const PrintInvoices = React.lazy(() =>
+  import("../resource/views/pages/AllInvoices/PrintInvoices")
 );
 
 const DocumentTemplateWorkingProof = React.lazy(() =>
@@ -410,6 +405,12 @@ const routes = [
     path: AppRoutes.CREATEINVOICES,
     name: "CreateInvoices",
     component: CreateInvoices,
+    exact: true
+  },
+  {
+    path: AppRoutes.PRINTINVOICES,
+    name: "PrintInvoices",
+    component: PrintInvoices,
     exact: true
   }
 ];

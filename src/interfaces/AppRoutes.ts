@@ -45,4 +45,5 @@ export interface IAppRoutes {
   INVOICESOLONA: string;
   CREATEINVOICES: string;
   DROWINVOICE: string;
+  PRINTINVOICES: string;
 }

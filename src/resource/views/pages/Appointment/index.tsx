@@ -197,15 +197,15 @@ const Appointment: FunctionComponent = (props: any) => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     // Fetch list of caregivers
-    // fetchCareGivers({
-    //   variables: {
-    //     searchBy: '',
-    //     sortBy: 3,
-    //     limit: 500,
-    //     page: 1,
-    //     isActive: ''
-    //   }
-    // });
+    fetchCareGivers({
+      variables: {
+        searchBy: '',
+        sortBy: 3,
+        limit: 500,
+        page: 1,
+        isActive: ''
+      }
+    });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -2510,7 +2510,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 careInstituionDeptData.length
               ) {
                 index = careInstituionDeptData.findIndex(
-                  (careInst: any) => careInst.userId === id,
+                  (careInst: any) => careInst.userId === id
                 );
                 if (index > -1) {
                   let list: any = [...careInstituionDeptData];
@@ -2521,7 +2521,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               } else {
                 index = careinstitutionList.findIndex(
-                  (careInst: any) => careInst.id === id,
+                  (careInst: any) => careInst.id === id
                 );
                 if (index > -1) {
                   let list: any = [...careinstitutionList];

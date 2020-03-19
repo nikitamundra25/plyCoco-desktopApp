@@ -156,7 +156,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
         <div
           className={classnames({
             'form-card custom-height custom-scrollbar': true,
-            'availability-bg': isAvailability,
+            'availability-dark-bg': isAvailability,
             'matching-bg': isMatching,
             'confirmation-bg': isConfirm
           })}

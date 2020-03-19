@@ -93,7 +93,7 @@
   "STATUS_PLACEHOLDER": "Status",
   "RESET_LABEL": "Reset",
   "MENU_DASHBOARD": "Dashboard",
-  "EMPLOYEE": "employee",
+  "EMPLOYEE": "Employee",
   "MENU_EMPLOYEE": "Employee",
   "MENU_CAREGIVER": "Caregiver",
   "MENU_INSTITUTION": "Care Institution",
@@ -364,7 +364,7 @@
   "DEFAULT_QAULIFICATION": "Default Qualification",
   "IBAN": "IBAN",
   "WEBSITE": "Website",
-  "LIKED_TO": "linked to",
+  "LINKED_TO": "Linked to",
   "REMARKS": "Remarks",
   "FOR_CANSTITUTION_VIEWBLE": "For Care Institution viewable",
   "HEALTH_CARE_FEE": "Health care fee",
@@ -934,5 +934,10 @@
   "QUALIFICATION_REQUIRED": "Qualification is required",
   "DEPARTMENT_REQUIRED": "Department is required",
   "QUALIFICATION_UNMATCH": "Qualifications Didnot match.",
-  "SELECT_USER": "Select user"
+  "SELECT_USER": "Select user",
+  "SELECT_ALL_BY_EMAIL": "Select all by email",
+  "SELECT_ALL_BY_POST": "select all by post",
+  "PRINT": "Print",
+  "ONLY_COMPLETE": "Only Complete",
+  "ALL_PER_POST_IN_PDF": "All per post in PDF"
 }

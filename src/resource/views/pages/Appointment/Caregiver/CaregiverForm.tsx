@@ -243,7 +243,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     </Label>
                   </Col>
                   <Col sm='8'>
-                    <div className='text-value'>
+                    <div className='text-value one-line-text'>
                       {activeDateCaregiver
                         ? activeDateCaregiver
                             .map(
@@ -282,7 +282,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <Col sm='8'>
                         <div>
                           <FormGroup check inline>
-                            <div className=' checkbox-custom mb-1'>
+                            <div className=' checkbox-custom mb-2'>
                               <input
                                 type='checkbox'
                                 id='early'
@@ -304,7 +304,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             </div>
                           </FormGroup>
                           <FormGroup check inline>
-                            <div className=' checkbox-custom mb-1'>
+                            <div className=' checkbox-custom mb-2'>
                               <input
                                 type='checkbox'
                                 id='late'
@@ -326,7 +326,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             </div>
                           </FormGroup>
                           <FormGroup check inline>
-                            <div className=' checkbox-custom mb-1'>
+                            <div className=' checkbox-custom mb-2'>
                               <input
                                 type='checkbox'
                                 id='night'
@@ -348,14 +348,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             </div>
                           </FormGroup>
                           {timeSlotError && (
-                            <div className='required'>{timeSlotError}</div>
+                            <div className='required-checkbox-error'>
+                              {timeSlotError}
+                            </div>
                           )}
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
-
                 <Col lg={'12'}>
                   <FormGroup>
                     <Row>

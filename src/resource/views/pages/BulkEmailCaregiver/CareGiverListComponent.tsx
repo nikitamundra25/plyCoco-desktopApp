@@ -40,6 +40,8 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
       handleCheckElement(e, id);
     }
   };
+  console.log('props.confirmApp', props.confirmApp);
+  console.log('props.confirmApp', props.unlinkedBy);
 
   return (
     <Col lg={'5'} className='pr-lg-0'>

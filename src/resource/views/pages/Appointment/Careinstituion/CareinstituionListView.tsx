@@ -300,10 +300,16 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setSortBy(sortBy);
     setShowButton(showButton);
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+    if (openCareGiverBulkEmail) {
+      setunlinkedBy('');
+    }
   };
 
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
+    if (openCareInstitutionBulkEmail) {
+      setunlinkedBy('');
+    }
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
   const [StatusTo, setStatusTo] = useState('');
@@ -422,7 +428,21 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
     return temp /* firstStarData */;
   };
-
+  let emailOptionCond: any;
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    emailOptionCond = selectedCellsCareinstitution.filter((x: any) => {
+      if (x.item && x.item.id) {
+        console.log('x.item', x.item);
+        console.log('inside item');
+        return (
+          x.item && x.item.status !== 'default' && x.item.status !== 'offered'
+        );
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+  console.log('emailOptionCond', emailOptionCond && emailOptionCond.length);
   return (
     <>
       <div
@@ -448,6 +468,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           <Nav vertical>
             <NavItem>
               <NavLink
+                disabled={
+                  selectedCellsCareinstitution &&
+                  selectedCellsCareinstitution.length &&
+                  selectedCellsCareinstitution[0].id === ''
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleRightMenuToggle();
                   onNewRequirement();
@@ -459,6 +486,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink
+                disabled={
+                  selectedCellsCareinstitution &&
+                  selectedCellsCareinstitution.length &&
+                  selectedCellsCareinstitution[0].id === ''
+                    ? 'disabled-class'
+                    : ''
+                }
                 onClick={() => {
                   handleRightMenuToggle();
                   onDeleteEntries();
@@ -491,9 +525,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution
-                    ? selectedCellsCareinstitution.length === 0
-                    : true
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (emailOptionCond && emailOptionCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
                 }
                 onClick={() => {
                   handleCareGiverBulkEmail('division', true);
@@ -512,9 +549,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution
-                    ? selectedCellsCareinstitution.length === 0
-                    : true
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (emailOptionCond && emailOptionCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
                 }
                 onClick={() => {
                   handleCareGiverBulkEmail('day', true);
@@ -533,9 +573,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution
-                    ? selectedCellsCareinstitution.length === 0
-                    : true
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (emailOptionCond && emailOptionCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
                 }
                 onClick={() => {
                   handleCareGiverBulkEmail('division', false);
@@ -554,9 +597,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution
-                    ? selectedCellsCareinstitution.length === 0
-                    : true
+                  (selectedCellsCareinstitution &&
+                    selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0].id === '') ||
+                  (emailOptionCond && emailOptionCond.length !== 0)
+                    ? 'disabled-class'
+                    : ''
                 }
                 onClick={() => {
                   handleCareGiverBulkEmail('day', false);

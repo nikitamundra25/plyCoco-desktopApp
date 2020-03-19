@@ -594,6 +594,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         setBody(editorState);
       }
       if (props.unlinkedBy) {
+        console.log('unlinkedByunlinkedBy', props.unlinkedBy);
+
         if (props.unlinkedBy === 'canstitution') {
           let apointedCareGiver: any[] = [];
           if (
@@ -672,10 +674,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               data.caregivername
             }</b></span></br>`;
           });
-          const bodyData: any = `<span>The specialist has unfortunately canceled the following dates:-</br></br>${divRow}</span>`;
+          const bodyData: any = `<span>We have informed the institution of your cancellation for the following dates:-</br></br>${divRow}</span>`;
           const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
 
-          let subject: string = `Appointment cancellation for ${moment(
+          let subject: string = `Appointment cancellation confirmation for ${moment(
             apointedCareGiver[0].date
           ).format('MMM Do')},${' '}1:1 ${apointedCareGiver[0].division}`;
           setBody(editorState);
@@ -969,6 +971,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   label={props.label}
                   bulkcareGivers={bulkcareGivers}
                   confirmApp={props.confirmApp}
+                  unlinkedBy={props.unlinkedBy}
                 />
 
                 <EmailEditorComponent

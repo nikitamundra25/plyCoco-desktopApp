@@ -329,6 +329,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 const { subject } = emailData;
                 setSubject(subject);
                 let apointedCareGiver: any[] = [];
+                console.log("selectedCellsCareinstitution)))))))))))))",selectedCellsCareinstitution);
+                
                 if (
                   selectedCellsCareinstitution &&
                   selectedCellsCareinstitution.length
@@ -481,7 +483,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     data.caregivername
                   }</b></span></br>`;
                 });
-                const bodyData: any = `<span>The specialist has unfortunately canceled the following dates:-</br></br>${divRow}</span>`;
+                const bodyData: any = `<span>The specialist has unfortunately canceled the following dates:-</br></br>${divRow}</span></br>We will immediately look for a replacement and contact you as soon as possible.`;
                 const editorState = bodyData
                   ? HtmlToDraftConverter(bodyData)
                   : '';

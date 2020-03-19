@@ -89,9 +89,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     if (props.label === 'appointment') {
       let temp: any = [];
-      props.qualification.map((key: any, index: number) => {
-        temp.push(parseInt(key.value));
-      });
+      if (props.qualification && props.qualification.length) {
+        props.qualification.map((key: any, index: number) => {
+          temp.push(parseInt(key.value));
+        });
+      }
       // get careGivers list
       fetchCaregiverListFromQualification({
         variables: {
@@ -174,6 +176,19 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     let list: any = [...careGiverData];
     if (selectedCells && props.confirmApp) {
+      if (selectedCells && selectedCells.length) {
+        selectedCells.map((key: any) => {
+          if (list && list.length) {
+            if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
+              return (list = [...list, key]);
+            }
+          } else {
+            return (list = [...list, key]);
+          }
+        });
+        setcareGiverData(list);
+      }
+    } else if (selectedCells && props.unlinkedBy) {
       if (selectedCells && selectedCells.length) {
         selectedCells.map((key: any) => {
           if (list && list.length) {
@@ -451,10 +466,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
 
         let mailBody: any = '';
-
         if (props.showButton) {
           mailBody = `<p>${languageTranslation(
-            'CAREGIVER_LEASING_OFFER_EMAIL_HEADING'
+            'CAREGIVER_OFFER_EMAIL_HEADING'
           )}</p><br/><p>${languageTranslation(
             'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
           ) +
@@ -466,7 +480,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             languageTranslation('FEE_TEXT')}</p>`;
         } else {
           mailBody = `<p>${languageTranslation(
-            'CAREGIVER_LEASING_OFFER_EMAIL_HEADING'
+            'CAREGIVER_OFFER_EMAIL_HEADING'
           )}</p><br/><p>${languageTranslation(
             'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
           ) +
@@ -578,6 +592,101 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         setSubject(languageTranslation('CAREGIVER_OFFER_EMAIL_SUBJECT'));
         setBody(editorState);
+      }
+      if (props.unlinkedBy) {
+        console.log('unlinkedByunlinkedBy', props.unlinkedBy);
+
+        if (props.unlinkedBy === 'canstitution') {
+          let apointedCareGiver: any[] = [];
+          if (
+            selectedCellsCareinstitution &&
+            selectedCellsCareinstitution.length
+          ) {
+            selectedCellsCareinstitution.forEach((element: any) => {
+              const { item = {}, firstName = '', lastName = '' } = element;
+              const { appointments = [], division = {} } = item;
+              if (appointments && appointments.length) {
+                const { ca = {}, date = '' } =
+                  appointments && appointments.length ? appointments[0] : {};
+                if (ca) {
+                  let divisionData: string = division
+                    ? division.name
+                    : `${firstName}${' '}${lastName}`;
+                  apointedCareGiver.push({
+                    caregivername: ca && ca.name ? ca.name : 'caregiver',
+                    date: date,
+                    division: divisionData
+                  });
+                }
+              }
+            });
+          }
+          let divRow: string = '';
+          apointedCareGiver.map((data: any) => {
+            divRow += `<span><b>${moment(data.date).format(
+              'DD/MM'
+            )}${' '}${' '}${data.division}:${' '}${' '}${
+              data.caregivername
+            }</b></span></br>`;
+          });
+          const bodyData: any = `<span>The facility has unfortunately canceled the following dates::-</br></br>${divRow}</br>The canceled dates have been marked as "free" and you will immediately receive offers for these days</span>`;
+          const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+
+          let subject: string = `Appointment cancellation for ${moment(
+            apointedCareGiver[0].date
+          ).format('DD.MM')}`;
+          setBody(editorState);
+          setSubject(subject);
+          setTemplate({
+            label: '',
+            value: ''
+          });
+        } else {
+          let apointedCareGiver: any[] = [];
+          if (
+            selectedCellsCareinstitution &&
+            selectedCellsCareinstitution.length
+          ) {
+            selectedCellsCareinstitution.forEach((element: any) => {
+              const { item = {}, firstName = '', lastName = '' } = element;
+              const { appointments = [], division = {} } = item;
+              if (appointments && appointments.length) {
+                const { ca = {}, date = '' } =
+                  appointments && appointments.length ? appointments[0] : {};
+                if (ca) {
+                  let divisionData: string = division
+                    ? division.name
+                    : `${firstName}${' '}${lastName}`;
+                  apointedCareGiver.push({
+                    caregivername: ca && ca.name ? ca.name : 'caregiver',
+                    date: date,
+                    division: divisionData
+                  });
+                }
+              }
+            });
+          }
+          let divRow: string = '';
+          apointedCareGiver.map((data: any) => {
+            divRow += `<span><b>${moment(data.date).format(
+              'DD/MM'
+            )}${' '}${' '}${data.division}:${' '}${' '}${
+              data.caregivername
+            }</b></span></br>`;
+          });
+          const bodyData: any = `<span>We have informed the institution of your cancellation for the following dates:-</br></br>${divRow}</span>`;
+          const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+
+          let subject: string = `Appointment cancellation confirmation for ${moment(
+            apointedCareGiver[0].date
+          ).format('MMM Do')},${' '}1:1 ${apointedCareGiver[0].division}`;
+          setBody(editorState);
+          setSubject(subject);
+          setTemplate({
+            label: '',
+            value: ''
+          });
+        }
       }
     }
   }, [data]);
@@ -862,6 +971,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   label={props.label}
                   bulkcareGivers={bulkcareGivers}
                   confirmApp={props.confirmApp}
+                  unlinkedBy={props.unlinkedBy}
                 />
 
                 <EmailEditorComponent

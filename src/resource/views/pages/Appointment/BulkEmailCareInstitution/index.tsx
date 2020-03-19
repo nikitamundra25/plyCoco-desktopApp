@@ -53,6 +53,7 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
             statusTo={props.statusTo}
             sortBy={props.sortBy}
             handleClose={() => handleClose()}
+            unlinkedBy={props.unlinkedBy}
           />
         </ModalBody>
       </Modal>

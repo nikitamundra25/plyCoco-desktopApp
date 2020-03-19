@@ -40,6 +40,7 @@ import UnlinkAppointment from '../unlinkModal';
 import '../index.scss';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { languageTranslation } from '../../../../../helpers';
+import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { Link } from 'react-router-dom';
 
 let toastId: any = null;
@@ -92,10 +93,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
     false
   );
+
+  // state for care institution bulk email
+  const [
+    openCareInstitutionBulkEmail,
+    setopenCareInstitutionBulkEmail
+  ] = useState<boolean>(false);
+
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
     if (openCareGiverBulkEmail === true) {
       setconfirmApp(false);
+      setunlinkedBy('');
     }
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
@@ -222,13 +231,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
 
   const [confirmApp, setconfirmApp] = useState<boolean>(false);
-
+  //unLinked by
+  const [unlinkedBy, setunlinkedBy] = useState('');
   //  UnLink appointmnets
   const handleUnLinkAppointments = () => {
     setshowUnlinkModal(!showUnlinkModal);
   };
-
+  const [isFromUnlink, setisFromUnlink] = useState(false);
   const handleUnlinkData = (likedBy: string, check: boolean) => {
+    setunlinkedBy(likedBy);
     let appointmentId: any = [];
     if (selectedCells && selectedCells.length) {
       selectedCells.map((key: any, index: number) => {
@@ -251,6 +262,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         }
       });
       onLinkAppointment(appointmentId, 'unlink');
+      if (likedBy !== 'employee') {
+        setisFromUnlink(true);
+        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+      }
     } else {
       if (!toast.isActive(toastId)) {
         toastId = toast.error('Please select appointment/s.');
@@ -258,13 +274,37 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     }
   };
 
+  // open care institution bulk Email section
+  const handleCareInstitutionBulkEmail = () => {
+    setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+    if (openCareInstitutionBulkEmail) {
+      setunlinkedBy('');
+    }
+  };
+
   const [showList, setShowList] = useState<boolean>(false);
-  let status: any;
-  selectedCells
-    ? selectedCells.filter((elem: any) => {
-        elem && elem.item ? console.log('elemmmmmm', elem.item) : null;
-      })
-    : null;
+  //to apply condition on disconnect appointments
+  let disconnectAppCond: any;
+  if (selectedCells && selectedCells.length) {
+    disconnectAppCond = selectedCells.filter((x: any) => {
+      if (x.item) {
+        return x.item && x.item.status !== 'linked';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+  //to apply condition on connect appointments
+  let connectAppCondition: any;
+  if (selectedCells && selectedCells.length) {
+    connectAppCondition = selectedCells.filter((x: any) => {
+      if (x.item) {
+        return x.item && x.item.status !== 'default';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
 
   return (
     <div>
@@ -309,7 +349,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (connectAppCondition && connectAppCondition.length !== 0)
+                  : true
+              }
               onClick={() => {
                 setopenToggleMenu(false);
                 onDeleteEntries ? onDeleteEntries('caregiver') : undefined;
@@ -355,7 +400,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 handleCareGiverBulkEmail();
@@ -370,7 +414,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem className='bordernav' />
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (connectAppCondition && connectAppCondition.length !== 0)
+                  : true
+              }
               onClick={() => {
                 setopenToggleMenu(false);
                 handleLinkAppointments('link');
@@ -382,7 +431,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (disconnectAppCond && disconnectAppCond.length !== 0)
+                  : true
+              }
               onClick={() => {
                 setopenToggleMenu(false);
                 handleUnLinkAppointments();
@@ -395,7 +449,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem className='bordernav' />
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (disconnectAppCond && disconnectAppCond.length !== 0)
+                  : true
+              }
               onClick={() => {
                 setOnConfirmedCaregiver();
                 setconfirmApp(true);
@@ -726,7 +785,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                             <i className='icon-ban' />
                           </div>
                           <h4 className='mb-1'>
-                            Currently there are no Caregiver added.{' '}
+                            There are currently no Caregivers added
                           </h4>
                         </div>
                       </td>
@@ -747,6 +806,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         selectedCells={selectedCells}
         confirmApp={confirmApp}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
+      />
+      <BulkEmailCareInstitutionModal
+        openModal={openCareInstitutionBulkEmail}
+        handleClose={() => handleCareInstitutionBulkEmail()}
+        qualification={props.qualification}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        gte={props.gte}
+        lte={props.lte}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

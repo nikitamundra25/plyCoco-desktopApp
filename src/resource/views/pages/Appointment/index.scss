@@ -1,38 +1,39 @@
-@import "../../../assets/scss/variables";
+@import '../../../assets/scss/variables';
 
 .common-header-input {
   &.header-dropdown-wrap {
-    .dropdown-menu.show {
-      display: block;
-      right: 0px !important;
-      left: auto !important;
-      top: -3px !important;
-      transform: translate3d(0px, 32px, 0px) !important;
+    // .dropdown-menu.show {
+    //   display: block;
+    //   right: 0px !important;
+    //   left: auto !important;
+    //   top: -3px !important;
+    //   transform: translate3d(0px, 32px, 0px) !important;
 
-      &:before {
-        position: absolute;
-        top: -7px;
-        right: 9px;
-        display: inline-block;
-        border-right: 7px solid transparent;
-        border-bottom: 7px solid #ccc;
-        border-left: 7px solid transparent;
-        border-bottom-color: #c8ced3;
-        content: "";
-      }
-      &:after {
-        position: absolute;
-        top: -6px;
-        right: 10px;
-        display: inline-block;
-        border-right: 6px solid transparent;
-        border-bottom: 6px solid #fff;
-        border-left: 6px solid transparent;
-        content: "";
-      }
-    }
+    //   &:before {
+    //     position: absolute;
+    //     top: -7px;
+    //     right: 9px;
+    //     display: inline-block;
+    //     border-right: 7px solid transparent;
+    //     border-bottom: 7px solid #ccc;
+    //     border-left: 7px solid transparent;
+    //     border-bottom-color: #c8ced3;
+    //     content: '';
+    //   }
+    //   &:after {
+    //     position: absolute;
+    //     top: -6px;
+    //     right: 10px;
+    //     display: inline-block;
+    //     border-right: 6px solid transparent;
+    //     border-bottom: 6px solid #fff;
+    //     border-left: 6px solid transparent;
+    //     content: '';
+    //   }
+    // }
   }
   .form-control {
+    width: 115px;
     border-radius: 0px;
     color: $light_black;
     font-size: $font_12;
@@ -178,7 +179,7 @@
           border-right: 1px solid #dedede;
           padding: 4px;
           &.name-text {
-            font-family: "FrutigerNeueLTPro-Regular", sans-serif;
+            font-family: 'FrutigerNeueLTPro-Regular', sans-serif;
             font-weight: normal;
           }
         }
@@ -369,7 +370,7 @@
       text-align: left;
       display: block;
       padding: 0px;
-      font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+      font-family: 'FrutigerNeueLTPro-Bold', sans-serif;
     }
   }
   .arrow-btn {
@@ -476,6 +477,7 @@ body {
         }
       }
       .user-select {
+        width: 170px;
         @media only screen and (max-width: 1200px) {
           margin: 3px 0px;
         }
@@ -545,4 +547,8 @@ body {
       max-width: 60px;
     }
   }
+}
+
+.blocked-minheight {
+  min-height: 190px;
 }

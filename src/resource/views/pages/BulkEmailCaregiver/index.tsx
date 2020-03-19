@@ -678,7 +678,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
 
           let subject: string = `Appointment cancellation confirmation for ${moment(
-            apointedCareGiver[0].date
+            apointedCareGiver[0] ? apointedCareGiver[0].date : ''
           ).format('MMM Do')},${' '}1:1 ${apointedCareGiver[0].division}`;
           setBody(editorState);
           setSubject(subject);

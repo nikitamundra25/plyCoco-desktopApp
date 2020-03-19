@@ -290,9 +290,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
 
   if (selectedCells && selectedCells.length) {
     disconnectAppCond = selectedCells.filter((x: any) => {
-      console.log('x.item', x);
       if (x.item) {
-        console.log('inside item');
         return x.item && x.item.status !== 'linked';
       } else {
         return ['abc'];
@@ -301,9 +299,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   }
   if (selectedCells && selectedCells.length) {
     connectAppCondition = selectedCells.filter((x: any) => {
-      console.log('x.item', x);
       if (x.item) {
-        console.log('inside item');
         return x.item && x.item.status !== 'default';
       } else {
         return ['abc'];
@@ -312,9 +308,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   }
   if (selectedCells && selectedCells.length) {
     confirmAppCond = selectedCells.filter((x: any) => {
-      console.log('x.item', x);
       if (x.item) {
-        console.log('inside item');
         return x.item && x.item.status !== 'linked';
       } else {
         return ['abc'];
@@ -573,9 +567,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               className='custom-row-selector'
               clickClassName='tick'
               resetOnStart={true}
-              duringSelection={(data: any) =>
-                console.log(data, 'duringSelection')
-              }
+              // duringSelection={(data: any) =>
+              //   console.log(data, 'duringSelection')
+              // }
               onSelectionFinish={onSelectFinish}
               onSelectionClear={onSelectionClear}
               ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}

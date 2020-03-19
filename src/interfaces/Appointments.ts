@@ -263,3 +263,8 @@ export interface IlinkAppointmentInput {
   date: any;
   status: string;
 }
+
+export interface IunlinkResponse {
+  deleteAppointment?: any;
+  deleteAll?: string;
+}

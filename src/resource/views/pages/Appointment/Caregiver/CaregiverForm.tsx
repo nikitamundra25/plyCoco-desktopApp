@@ -243,7 +243,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     </Label>
                   </Col>
                   <Col sm="8">
-                    <div className="text-value">
+                    <div className="text-value one-line-text">
                       {activeDateCaregiver
                         ? activeDateCaregiver
                             .map(

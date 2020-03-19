@@ -19,36 +19,10 @@ import logger from "redux-logger";
 import { languageTranslation } from "../../../../helpers";
 import Search from "../../components/SearchFilter/index";
 import { State } from "../../../../config";
-import close from "../../../assets/img/cancel.svg";
-import closehover from "../../../assets/img/cancel-hover.svg";
 import refresh from "../../../assets/img/refresh.svg";
-import PlyCocoreceipt from "../../../assets/img/header-icons/plyCoco-receipt.svg";
-import SpecialistInvoice from "../../../assets/img/header-icons/specialist-invoice.svg";
-import professaionalProfile from "../../../assets/img/header-icons/professaional-profile.svg";
-import paid from "../../../assets/img/header-icons/paid.svg";
-import interierDesign from "../../../assets/img/header-icons/interier-design-professional.svg";
-import Again from "../../../assets/img/header-icons/again.svg";
-import appendToPlycoco from "../../../assets/img/header-icons/tab-icons/append-to-plycoco.svg";
-import attachReminder from "../../../assets/img/header-icons/tab-icons/attach-reminder.svg";
-import AttachSpeacilistInvoice from "../../../assets/img/header-icons/tab-icons/attach-speacilist-invoice.svg";
-import clear from "../../../assets/img/header-icons/tab-icons/clear.svg";
 
-import edit from "../../../assets/img/header-icons/tab-icons/edit.svg";
-import pen from "../../../assets/img/header-icons/pen.svg";
-import paperclip from "../../../assets/img/header-icons/tab-icons/paperclip.svg";
-import CompleteTime from "../../../assets/img/header-icons/tab-icons/complete-time.svg";
-import idea from "../../../assets/img/header-icons/tab-icons/idea.svg";
-import weekly from "../../../assets/img/header-icons/tab-icons/weekly.svg";
-import everySixMonths from "../../../assets/img/header-icons/tab-icons/every-six-months.svg";
-import massege from "../../../assets/img/header-icons/tab-icons/massege.svg";
-import monthCalendar from "../../../assets/img/header-icons/tab-icons/month-calendar.svg";
-import sendLawyer from "../../../assets/img/header-icons/tab-icons/send-lawyer.svg";
-import sendReminder from "../../../assets/img/header-icons/tab-icons/send-reminder.svg";
-import showReminder from "../../../assets/img/header-icons/tab-icons/show-reminder.svg";
-import taxConsultant from "../../../assets/img/header-icons/tab-icons/tax-consultant.svg";
-import uploadReminder from "../../../assets/img/header-icons/tab-icons/upload-reminder.svg";
-import vicantPosition from "../../../assets/img/header-icons/tab-icons/vicant-position.svg";
-import createReminder from "../../../assets/img/header-icons/tab-icons/create-reminder.svg";
+import printer from "../../../assets/img/printer.svg";
+
 import { FormikHelpers, FormikProps, Formik } from "formik";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
@@ -75,26 +49,28 @@ const PrintInvoice: FunctionComponent<RouteComponentProps> & any = (
                 <span className="header-nav-icon">
                   <img src={refresh} alt="" />
                 </span>
-                <span className="header-nav-text">Refresh</span>
+                <span className="header-nav-text">
+                  {languageTranslation("REFRESH")}
+                </span>
               </div>
 
               <div className="header-nav-item">
                 <span className="header-nav-icon">
-                  <img src={pen} alt="" />
+                  <img src={printer} alt="" />
                 </span>
-                <span className="header-nav-text">Create</span>
+                <span className="header-nav-text">
+                  {languageTranslation("PRINT")}
+                </span>
               </div>
               <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={CompleteTime} alt="" />
+                <span className="header-nav-text">
+                  {languageTranslation("ONLY_COMPLETE")}
                 </span>
-                <span className="header-nav-text">Times completely</span>
               </div>
               <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={idea} alt="" />
+                <span className="header-nav-text">
+                  {languageTranslation("ALL_PER_POST_IN_PDF")}
                 </span>
-                <span className="header-nav-text">Create all specialist</span>
               </div>
             </div>
             <CardBody>
@@ -106,12 +82,7 @@ const PrintInvoice: FunctionComponent<RouteComponentProps> & any = (
                         <Label for="search" className="col-form-label">
                           {languageTranslation("SEARCH_LABEL")} :
                         </Label>
-                        <Input
-                          type="text"
-                          name="searchValue"
-                          id="search"
-                          value={"searchValue"}
-                        />
+                        <Input type="text" name="searchValue" id="search" />
                       </FormGroup>
                     </Col>
                     <Col lg={"2"} md={"3"}>
@@ -169,21 +140,21 @@ const PrintInvoice: FunctionComponent<RouteComponentProps> & any = (
                     <tbody>
                       <tr>
                         <td className="careinstitution-col">
-                          <Link to="" className="view-more-link">
+                          <Link to="#" className="view-more-link">
                             Careinstitution
                           </Link>
                         </td>
                         <td className="open-col">18</td>
-                        <td className="type-col">per email mit DLn</td>
+                        <td className="type-col">per email mit DLN</td>
                       </tr>
                       <tr>
                         <td className="careinstitution-col">
-                          <Link to="" className="view-more-link">
+                          <Link to="#" className="view-more-link">
                             Careinstitution
                           </Link>
                         </td>
                         <td className="open-col">18</td>
-                        <td className="type-col">per post mit DLn</td>
+                        <td className="type-col">per post mit DLN</td>
                       </tr>
                     </tbody>
                   </Table>

@@ -1952,7 +1952,13 @@ html:not([dir="rtl"]) {
       width: 500px;
     }
   }
-  &.custom-reactselect {
+  &.custom-reactselect-menu-width-appointment {
+    .custom-inner-reactselect__menu {
+      width: 250px;
+      @media only screen and (max-width: 515px) {
+        width: 190px;
+      }
+    }
   }
 }
 
@@ -1990,6 +1996,13 @@ html:not([dir="rtl"]) {
   &.error {
     button {
       border-color: $red;
+    }
+  }
+  .custom-reactselect {
+    .custom-inner-reactselect__control--menu-is-open {
+      @media only screen and (max-width: 515px) {
+        width: 190px;
+      }
     }
   }
 }

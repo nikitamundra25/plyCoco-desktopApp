@@ -386,9 +386,119 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 });
               }
             }
+            if (props.unlinkedBy) {
+              if (props.unlinkedBy === 'canstitution') {
+                let apointedCareGiver: any[] = [];
+                if (
+                  selectedCellsCareinstitution &&
+                  selectedCellsCareinstitution.length
+                ) {
+                  selectedCellsCareinstitution.forEach((element: any) => {
+                    const {
+                      item = {},
+                      firstName = '',
+                      lastName = ''
+                    } = element;
+                    const { appointments = [], division = {} } = item;
+                    if (appointments && appointments.length) {
+                      const { ca = {}, date = '' } =
+                        appointments && appointments.length
+                          ? appointments[0]
+                          : {};
+                      if (ca) {
+                        let divisionData: string = division
+                          ? division.name
+                          : `${firstName}${' '}${lastName}`;
+                        apointedCareGiver.push({
+                          caregivername: ca && ca.name ? ca.name : 'caregiver',
+                          date: date,
+                          division: divisionData
+                        });
+                      }
+                    }
+                  });
+                }
+                let divRow: string = '';
+                apointedCareGiver.map((data: any) => {
+                  divRow += `<span><b>${moment(data.date).format(
+                    'DD/MM'
+                  )}${' '}${' '}${data.division}:${' '}${' '}${
+                    data.caregivername
+                  }</b></span></br>`;
+                });
+                const bodyData: any = `<span>We have informed the specialists of your cancellation for the following dates:-</br></br>${divRow}</span>`;
+                const editorState = bodyData
+                  ? HtmlToDraftConverter(bodyData)
+                  : '';
+
+                let subject: string = `Cancellation confirmation for ${moment(
+                  apointedCareGiver[0].date
+                ).format('DD.MM')},${' '}${apointedCareGiver[0].division}`;
+                setBody(editorState);
+                setSubject(subject);
+                setTemplate({
+                  label: emailData.menuEntry,
+                  value: emailData
+                });
+              } else {
+                let apointedCareGiver: any[] = [];
+                if (
+                  selectedCellsCareinstitution &&
+                  selectedCellsCareinstitution.length
+                ) {
+                  selectedCellsCareinstitution.forEach((element: any) => {
+                    const {
+                      item = {},
+                      firstName = '',
+                      lastName = ''
+                    } = element;
+                    const { appointments = [], division = {} } = item;
+                    if (appointments && appointments.length) {
+                      const { ca = {}, date = '' } =
+                        appointments && appointments.length
+                          ? appointments[0]
+                          : {};
+                      if (ca) {
+                        let divisionData: string = division
+                          ? division.name
+                          : `${firstName}${' '}${lastName}`;
+                        apointedCareGiver.push({
+                          caregivername: ca && ca.name ? ca.name : 'caregiver',
+                          date: date,
+                          division: divisionData
+                        });
+                      }
+                    }
+                  });
+                }
+                let divRow: string = '';
+                apointedCareGiver.map((data: any) => {
+                  divRow += `<span><b>${moment(data.date).format(
+                    'DD/MM'
+                  )}${' '}${' '}${data.division}:${' '}${' '}${
+                    data.caregivername
+                  }</b></span></br>`;
+                });
+                const bodyData: any = `<span>The specialist has unfortunately canceled the following dates:-</br></br>${divRow}</span>`;
+                const editorState = bodyData
+                  ? HtmlToDraftConverter(bodyData)
+                  : '';
+
+                let subject: string = `Appointment cancellation for ${moment(
+                  apointedCareGiver[0].date
+                ).format('MMM Do')},${' '}1:1 ${apointedCareGiver[0].division}`;
+                setBody(editorState);
+                setSubject(subject);
+                setTemplate({
+                  label: '',
+                  value: ''
+                });
+              }
+            }
             if (
               emailData.menuEntry === 'Acknowledge for offer sent' &&
-              props.statusTo === ''
+              props.statusTo === '' &&
+              !props.unlinkedBy
             ) {
               const { subject, body, attachments } = emailData;
               const editorState = body ? HtmlToDraftConverter(body) : '';

@@ -231,12 +231,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
   };
 
+  //unLinked by
+  const [unlinkedBy, setunlinkedBy] = useState('');
+
   //  UnLink appointmnets
   const handleUnLinkAppointments = (name: string) => {
     setshowUnlinkModal(!showUnlinkModal);
   };
 
+  const [isFromUnlink, setisFromUnlink] = useState(false);
   const handleUnlinkData = (likedBy: string, check: boolean) => {
+    setunlinkedBy(likedBy);
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
@@ -258,8 +263,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       });
       onLinkAppointment(appointmentId, 'unlink');
       if (likedBy !== 'employee') {
-        // setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
-        // setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+        setisFromUnlink(true);
+        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
       }
     } else {
       if (!toast.isActive(toastId)) {
@@ -513,7 +519,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('day', true);
                   handleCareInstitutionBulkEmail();
-                  setOnOfferedCareInst();
+                  // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
               >
@@ -534,7 +540,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('division', false);
                   handleCareInstitutionBulkEmail();
-                  setOnOfferedCareInst();
+                  // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
               >
@@ -555,7 +561,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('day', false);
                   handleCareInstitutionBulkEmail();
-                  setOnOfferedCareInst();
+                  // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
               >
@@ -822,6 +828,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         lte={props.lte}
         statusTo={StatusTo}
         sortBy={sortBy}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
       />
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
@@ -833,6 +841,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         lte={props.lte}
         sortBy={sortBy}
         showButton={showButton}
+        unlinkedBy={unlinkedBy}
       />
       <DetaillistCareinstitutionPopup
         show={showList ? true : false}

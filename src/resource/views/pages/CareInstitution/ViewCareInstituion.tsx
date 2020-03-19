@@ -34,6 +34,7 @@ import password from "../../../assets/img/password.svg";
 import appointment from "../../../assets/img/appointment.svg";
 import clear from "../../../assets/img/clear.svg";
 import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
+import { useHistory } from "react-router";
 
 const PersonalInformation = React.lazy(() => import("./PersonalInfo"));
 const Offers = React.lazy(() => import("./Offers"));
@@ -83,7 +84,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   let { id } = useParams();
   const Id: any | undefined = id;
   const [showToDo, setShowToDo] = useState<boolean>(false);
-
+  let history = useHistory();
   let sortBy: IReactSelectInterface | undefined = {
     label: "3",
     value: "Sort by A-Z"
@@ -332,7 +333,15 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                         {languageTranslation("CG_MENU_NEW_PASSWORD")}
                       </span>
                     </div>
-                    <div className="header-nav-item">
+                    <div
+                      className="header-nav-item"
+                      onClick={() =>
+                        history.push({
+                          pathname: AppRoutes.APPOINTMENT,
+                          state: { canstitution: Id }
+                        })
+                      }
+                    >
                       <span className="header-nav-icon">
                         <img src={appointment} alt="" />
                       </span>

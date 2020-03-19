@@ -3036,6 +3036,9 @@ const Appointment: FunctionComponent = (props: any) => {
                         qualificationList={qualificationList}
                         activeDateCaregiver={activeDateCaregiver}
                         onReserve={onReserve}
+                        careInstitutionList={
+                          careinstitutionList ? careinstitutionList : []
+                        }
                         onDeleteEntries={onDeleteEntries}
                         onCaregiverQualificationFilter={
                           onCaregiverQualificationFilter

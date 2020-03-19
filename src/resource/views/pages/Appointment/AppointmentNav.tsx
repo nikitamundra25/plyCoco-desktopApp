@@ -20,6 +20,7 @@ import caregiver from '../../../assets/img/caregiver.svg';
 import careinstitution from '../../../assets/img/careinstitution.svg';
 import 'react-day-picker/lib/style.css';
 import './index.scss';
+import CustomOption from '../../components/CustomOptions';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
@@ -119,7 +120,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   return (
     <>
       <div className='sticky-common-header'>
-        <div className='common-topheader d-flex align-items-center px-2 mb-1 appointment-commonheader'>
+        <div className='common-topheader d-flex  align-items-center px-2 mb-1 appointment-commonheader'>
           <div
             className='common-label px-1 cursor-pointer'
             onClick={handleToday}
@@ -153,12 +154,13 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <Select
               classNamePrefix='custom-inner-reactselect'
               className={'custom-reactselect '}
-              placeholder='Select'
+              placeholder='Select appointment'
               options={Without_Appointments}
               value={
                 filterByAppointments
-                  ? filterByAppointments
-                  : { label: 'Select', value: 'Select' }
+                // filterByAppointments && filterByAppointments.value !== undefined
+                //   ? { label: 'hello', value: 'hy' }
+                //   : undefined
               }
               onChange={(value: any) =>
                 handleSelectAppointment(value, 'appointments')
@@ -215,6 +217,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                   ? caregiverUser
                   : null
               }
+              components={{ Option: CustomOption }}
               onChange={(value: any) => handleUserList(value, 'caregiver')}
               isClearable={true}
             />
@@ -250,6 +253,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                   : null
               }
               options={careInstitutionList}
+              components={{ Option: CustomOption }}
               onChange={(value: any) =>
                 handleUserList(value, 'careinstitution')
               }
@@ -280,7 +284,13 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               className='button-group-dropdown custom-dropdown text-capitalize'
             >
               <Input
-                placeholder={user ? user : 'Select user'}
+                placeholder={
+                  user
+                    ? user === 'avability'
+                      ? 'availability'
+                      : 'requirement'
+                    : languageTranslation('SELECT_USER')
+                }
                 type='text'
                 name='id'
                 value={userId}

@@ -25,7 +25,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
   const [_, DELETE_HOLIDAY] = GlobalCalendarMutations;
   const [
     getGlobalHolidays,
-    { data: holidays, loading, refetch }
+    { data: holidays, loading, refetch, called }
   ] = useLazyQuery<any>(GET_GLOBAL_HOLIDAYS);
   const [deleteGlobalCalendarHoliday] = useMutation<
     { deleteGlobalCalendarHoliday: any },
@@ -79,27 +79,27 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
             <th className="text-center">
               {languageTranslation("DATE_AND_EVENT")}
             </th>
-            {isLoading ? (
+            {/* {isLoading ? (
               <th colSpan={8}>
                 <Loader />
               </th>
-            ) : (
-              states.map((state: IState, index: number) => (
-                <th className="text-center" key={index}>
-                  {state.name}
-                </th>
-              ))
-            )}
+            ) : ( */}
+            {states.map((state: IState, index: number) => (
+              <th className="text-center" key={index}>
+                {state.name}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {isLoading || loading ? (
+          {/* {isLoading || loading ? (
             <tr className="text-center">
               <td colSpan={states.length || 8}>
                 <Loader />
               </td>
             </tr>
-          ) : !holidaysData.length ? (
+          ) : */
+          !(isLoading || loading || !called) && !holidaysData.length ? (
             <tr className="text-center">
               <td colSpan={states.length || 8}>
                 Currently there are no holiday Details found
@@ -112,11 +112,11 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                   <tr>
                     <th>
                       <div className="position-relative word-wrap">
-                        <div className="calender-event-wrap">
+                        <div className="holiday-text-wrap one-line-text">
                           {moment(holiday.date).format(defaultDateFormat)}
                           {holiday.note ? ` - ${holiday.note}` : null}
                         </div>
-                        <div className="action-btn dark-action-btn">
+                        <div className="action-btn ">
                           <a
                             href=""
                             onClick={(e: any) => {
@@ -180,6 +180,12 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
           )}
         </tbody>
       </table>
+
+      {isLoading || loading ? (
+        <div className="global-calendar-table-loader">
+          <Loader />
+        </div>
+      ) : null}
     </div>
   );
 };

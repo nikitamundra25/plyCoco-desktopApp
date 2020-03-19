@@ -132,13 +132,18 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
         <FormGroup className="mb-0">
           <Select
             placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
-            options={careInstOptions}
+            options={careInstOptions && careInstOptions.length > 1 ? careInstOptions : []}
             menuPlacement={"top"}
             className="attribute-select"
             classNamePrefix="attribute-inner-select"
             onChange={value => {
               handleSelect(value);
               setSelectedOption(null);
+            }}
+            noOptionsMessage={() => {
+              return careInstOptions && careInstOptions.length > 1
+                ? 'No Care Institution'
+                : 'No Care Institution';
             }}
             value={selectedOption}
             components={{ Option: CareInstCustomOption }}

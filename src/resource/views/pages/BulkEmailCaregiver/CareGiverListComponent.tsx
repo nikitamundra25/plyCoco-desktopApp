@@ -40,7 +40,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
       handleCheckElement(e, id);
     }
   };
-
+  
   return (
     <Col lg={'5'} className='pr-lg-0'>
       <div id='scrollableDiv' className='caregiver-list custom-scroll'>
@@ -63,14 +63,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                   ? true
                   : false
                 : false
-              : careGivers &&
-                careGivers.getUserByQualifications &&
-                careGivers.getUserByQualifications.totalCount
-              ? careGivers.getUserByQualifications.totalCount !==
-                careGiverData.length
-                ? true
-                : false
-              : false
+              : true
           }
           loader={
             <div className='infinite-loader'>

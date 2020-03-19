@@ -83,6 +83,9 @@ export const CareInstitutionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   department: Yup.mixed().when('careInstitutionDepartment', {
     is: careInstitutionDepartment =>
       careInstitutionDepartment && careInstitutionDepartment.length > 0,
-    then: Yup.string().required('Department is required')
-  })
+    then: Yup.string().required(languageTranslation('DEPARTMENT_REQUIRED'))
+  }),
+  qualificationId: Yup.mixed().required(
+    languageTranslation('QUALIFICATION_REQUIRED')
+  )
 });

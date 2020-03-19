@@ -485,9 +485,8 @@ const Appointment: FunctionComponent = (props: any) => {
         userRole: 'caregiver',
         negativeAttributeId:
           negativeAttr && negativeAttr.length ? negativeAttr : negative,
-        limit: !locationState && !locationState.caregiver ? 10 : null,
-        page:
-          !locationState && !locationState.caregiver ? (page ? page : 1) : null,
+        limit: locationState && locationState.caregiver ? null : 10,
+        page: locationState && locationState.caregiver ? null : page ? page : 1,
         showAppointments:
           filterByAppointments && filterByAppointments.value
             ? filterByAppointments.value === 'showAll'

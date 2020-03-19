@@ -42,5 +42,6 @@ export const AppRoutes: IAppRoutes = {
   FURTHER: "/further",
   GLOBAL_CALENDAR: "/further/global-calendar",
   ATTRIBUTE_MANAGEMENT: "/further/attribute",
-  EMAIL_TEMPLATE_MANAGEMENT: "/further/email-templates"
+  EMAIL_TEMPLATE_MANAGEMENT: "/further/email-templates",
+  ALLINVOICES: "/invoices"
 };

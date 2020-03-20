@@ -108,13 +108,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     if (selectedCells && selectedCells.length) {
       const { qualificationIds = [] } = selectedCells[0];
-      console.log("");
-      
-      fetchRequirmentFromQualification({
-        variables: {
-          qualificationId: qualificationIds
-        }
-      });
+      if (qualificationIds && qualificationIds.length) {
+        fetchRequirmentFromQualification({
+          variables: {
+            qualificationId: qualificationIds
+          }
+        });
+      }
     }
   }, [selectedCells]);
 
@@ -275,19 +275,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [careGivers]);
-
-  // const handleInfiniteScroll = () => {
-  //   setPage(page + 1);
-  //   fetchCareGiverList({
-  //     variables: {
-  //       searchBy: "",
-  //       sortBy: 3,
-  //       limit: 30,
-  //       page: page + 1,
-  //       isActive: ""
-  //     }
-  //   });
-  // };
 
   // Refresh component
   const onRefresh = () => {

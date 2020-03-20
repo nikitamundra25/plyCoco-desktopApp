@@ -808,6 +808,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         selectedCellsCareinstitution={selectedCellsCareinstitution}
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
+        qualificationList={qualificationList}
       />
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}

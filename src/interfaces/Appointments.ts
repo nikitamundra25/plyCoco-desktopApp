@@ -73,6 +73,7 @@ export interface IAppointmentCareGiverList {
   setOnConfirmedCaregiver?: any;
   setOnNotConfirmedCaregiver?: any;
   fetchingCareGiverData?: () => void;
+  careInstitutionList?: any[];
 }
 
 export interface IAppointmentCareInstitutionList {
@@ -262,4 +263,10 @@ export interface IlinkAppointmentInput {
   requirementId: number;
   date: any;
   status: string;
+}
+
+export interface IunlinkResponse {
+  deleteAppointment?: any;
+  deleteAll?: string;
+  unlinkedBy: string;
 }

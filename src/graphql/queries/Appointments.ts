@@ -253,17 +253,23 @@ const GET_CAREGIVER_AVABILITY_DETAILS_BY_ID = gql`
     }
   }
 `;
-// negativeAttributeId:[ID],positiveAttributeId: [ID],gte:String, lte:String
-// qualificationId: $qualificationId
-//       userRole: $userRole
-//        negativeAttributeId: $negativeAttributeId
-//         positiveAttributeId: $positiveAttributeId
-//          gte:$gte
-//          lte:$lte
 
+const GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION = gql`
+  query getQualificationMatching($qualificationId: [ID]) {
+    getQualificationMatching(qualificationId: $qualificationId) {
+      id
+      name
+      date
+      divisionId
+      status
+      qualificationId
+    }
+  }
+`;
 export const AppointmentsQueries = [
   GET_USERS_BY_QUALIFICATION_ID,
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
-  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID
+  GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
+  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
 ];

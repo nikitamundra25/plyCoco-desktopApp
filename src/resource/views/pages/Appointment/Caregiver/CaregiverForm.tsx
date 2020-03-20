@@ -206,7 +206,18 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           placeholder={languageTranslation('NAME')}
                           value={name ? name : ''}
                         />
-                        <InputGroupAddon addonType='append'>
+                        <InputGroupAddon
+                          addonType='append'
+                          className='cursor-pointer'
+                          onClick={() =>
+                            name
+                              ? handleUserList(
+                                  selectedCareGiver ? selectedCareGiver.id : '',
+                                  'caregiver'
+                                )
+                              : ''
+                          }
+                        >
                           <InputGroupText>
                             <i
                               className={
@@ -215,16 +226,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                   : 'fa fa-star'
                               }
                               aria-hidden='true'
-                              onClick={() =>
-                                name
-                                  ? handleUserList(
-                                      selectedCareGiver
-                                        ? selectedCareGiver.id
-                                        : '',
-                                      'caregiver'
-                                    )
-                                  : ''
-                              }
                             ></i>
                           </InputGroupText>
                         </InputGroupAddon>

@@ -934,11 +934,6 @@
   "SELECT_APPOINTMENT_IN_UNLINK": "Please select appointment/s.",
   "QUALIFICATION_REQUIRED": "Qualification is required",
   "DEPARTMENT_REQUIRED": "Department is required",
-  "QUALIFICATION_UNMATCH": "Qualifications Didnot match.",
-  "SELECT_USER": "Select user",
-  "SELECT_ALL_BY_EMAIL": "Select all by email",
-  "SELECT_ALL_BY_POST": "select all by post",
-  "PRINT": "Print",
-  "ONLY_COMPLETE": "Only Complete",
-  "ALL_PER_POST_IN_PDF": "All per post in PDF"
+  "QUALIFICATION_UNMATCH": "Qualifications did not match",
+  "SELECT_USER": "Select user"
 }

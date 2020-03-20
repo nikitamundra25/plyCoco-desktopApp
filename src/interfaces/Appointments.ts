@@ -268,4 +268,5 @@ export interface IlinkAppointmentInput {
 export interface IunlinkResponse {
   deleteAppointment?: any;
   deleteAll?: string;
+  unlinkedBy: string;
 }

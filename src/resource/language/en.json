@@ -933,6 +933,6 @@
   "SELECT_APPOINTMENT_IN_UNLINK": "Please select appointment/s.",
   "QUALIFICATION_REQUIRED": "Qualification is required",
   "DEPARTMENT_REQUIRED": "Department is required",
-  "QUALIFICATION_UNMATCH": "Qualifications Didnot match.",
+  "QUALIFICATION_UNMATCH": "Qualifications did not match",
   "SELECT_USER": "Select user"
 }

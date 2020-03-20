@@ -306,6 +306,26 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     });
   }
 
+  let sortedQualificationList: any = [];
+  if (selectedCells && selectedCells.length) {
+    selectedCells.map((list: any, index: number) => {
+      if (list && list.item && list.item.qualificationId) {
+        let qualificationId = list.item.qualificationId;
+        qualificationId.map((key: any, i: number) => {
+          if (
+            sortedQualificationList.findIndex(
+              (item: any) => item && item === key.value
+            ) < 0
+          ) {
+            return (sortedQualificationList = [
+              ...sortedQualificationList,
+              key.value
+            ]);
+          }
+        });
+      }
+    });
+  }
   return (
     <div>
       <div
@@ -799,7 +819,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       </div>
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
-        qualification={props.qualification}
+        qualification={
+          sortedQualificationList && sortedQualificationList
+            ? sortedQualificationList
+            : props.qualification
+        }
         handleClose={() => handleCareGiverBulkEmail()}
         gte={props.gte}
         lte={props.lte}
@@ -813,7 +837,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() => handleCareInstitutionBulkEmail()}
-        qualification={props.qualification}
+        qualification={
+          sortedQualificationList && sortedQualificationList
+            ? sortedQualificationList
+            : props.qualification
+        }
         selectedCellsCareinstitution={selectedCellsCareinstitution}
         gte={props.gte}
         lte={props.lte}

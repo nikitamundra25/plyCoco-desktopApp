@@ -44,6 +44,10 @@ export interface IAppointmentNav {
   handleUserList: (value: any, name: string) => void;
   careinstitutionSoloFilter: IReactSelectInterface | undefined;
   caregiverSoloFilter: IReactSelectInterface | undefined;
+  isPositive: number[];
+  setIsPositive: React.Dispatch<React.SetStateAction<number[]>>;
+  isNegative: number[];
+  setIsNegative: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export interface IAppointmentCareGiverList {

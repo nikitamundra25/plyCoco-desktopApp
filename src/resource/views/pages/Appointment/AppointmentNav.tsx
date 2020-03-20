@@ -43,7 +43,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     onFilterByUserId,
     handleResetFilters,
     filterByAppointments,
-    handleUserList
+    handleUserList,
+    isPositive,
+    setIsPositive,
+    isNegative,
+    setIsNegative
   } = props;
 
   const { month = '', year = '' } = daysData ? daysData : {};
@@ -315,6 +319,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
         setAttributeFilter={setAttributeFilter}
         attributeFilter={attributeFilter}
         applyFilter={applyFilter}
+        isPositive={isPositive}
+        setIsPositive={setIsPositive}
+        isNegative={isNegative}
+        setIsNegative={setIsNegative}
       />
     </>
   );

@@ -565,10 +565,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           handleSelect(value, 'department')
                         }
                         value={
-                          department
-                          // department && department.value
-                          //   ? department
-                          //   : { label: ' ', value: '' }
+                          // department
+                          department && department.value ? department : null
                         }
                       />
                       {errors.department && touched.department && (

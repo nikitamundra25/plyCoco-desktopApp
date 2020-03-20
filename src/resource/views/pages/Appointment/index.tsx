@@ -103,6 +103,14 @@ const Appointment: FunctionComponent = (props: any) => {
     false
   );
 
+  const [caregiverSoloFilter, setcaregiverSoloFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+
+  const [careinstitutionSoloFilter, setcareinstitutionSoloFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+
   const [unlinkedBy, setunlinkedBy] = useState<string>('');
   const [isFromUnlink, setisFromUnlink] = useState(false);
   // state for care giver bulk email
@@ -444,6 +452,8 @@ const Appointment: FunctionComponent = (props: any) => {
     setPositive([]);
     setNegative([]);
     setqualification([]);
+    setcaregiverSoloFilter(undefined);
+    setcareinstitutionSoloFilter(undefined);
     setfilterByAppointments(undefined);
   };
 
@@ -487,7 +497,11 @@ const Appointment: FunctionComponent = (props: any) => {
         positiveAttributeId:
           positiveAttr && positiveAttr.length ? positiveAttr : positive,
         gte,
-        lte
+        lte,
+        caregiverId:
+          caregiverSoloFilter && caregiverSoloFilter.value
+            ? parseInt(caregiverSoloFilter.value)
+            : null
       }
     });
   };
@@ -527,7 +541,11 @@ const Appointment: FunctionComponent = (props: any) => {
         positiveAttributeId:
           positiveAttr && positiveAttr.length ? positiveAttr : positive,
         gte,
-        lte
+        lte,
+        careInstitutionId:
+          careinstitutionSoloFilter && careinstitutionSoloFilter.value
+            ? parseInt(careinstitutionSoloFilter.value)
+            : null
       }
     });
   };
@@ -1183,12 +1201,31 @@ const Appointment: FunctionComponent = (props: any) => {
     setqualification(selectedOption);
   };
 
+  // select solo user
+  const handleUserList = (value: IReactSelectInterface, name: string) => {
+    if (name === 'caregiver') {
+      setcaregiverSoloFilter(value);
+    } else {
+      setcareinstitutionSoloFilter(value);
+    }
+  };
+
   const fetchData = () => {
     // get careGivers list
     getCaregiverData(1);
     // get careInstitution list
     getCareInstituionData();
   };
+
+  // Fetch single data of particular caregiver
+  useEffect(() => {
+    getCaregiverData(1);
+  }, [caregiverSoloFilter]);
+
+  // Fetch single data of particular careinstitution
+  useEffect(() => {
+    getCareInstituionData();
+  }, [careinstitutionSoloFilter]);
 
   // To fetch users according to qualification selected
   useEffect(() => {
@@ -2665,14 +2702,6 @@ const Appointment: FunctionComponent = (props: any) => {
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
-        // let appointId: any = key.item.appointments.filter(
-        //   (appointment: any) => {
-        //     return (
-        //       moment(key.dateString).format('DD.MM.YYYY') ===
-        //       moment(appointment.date).format('DD.MM.YYYY')
-        //     );
-        //   }
-        // );
         return appointmentId.push({
           appointmentId: parseInt(
             key.item.appointments ? key.item.appointments[0].id : ''
@@ -2806,6 +2835,7 @@ const Appointment: FunctionComponent = (props: any) => {
     status: Item ? Item.status : '',
     careInstitutionDepartment
   };
+
   const {
     name = '',
     id = '',
@@ -3043,6 +3073,9 @@ const Appointment: FunctionComponent = (props: any) => {
             filterByAppointments={filterByAppointments}
             onFilterByUserId={onFilterByUserId}
             handleResetFilters={handleResetFilters}
+            handleUserList={handleUserList}
+            caregiverSoloFilter={caregiverSoloFilter}
+            careinstitutionSoloFilter={careinstitutionSoloFilter}
           />
           <div className='common-content flex-grow-1'>
             <div>

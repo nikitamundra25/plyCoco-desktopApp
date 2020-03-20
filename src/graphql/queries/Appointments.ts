@@ -11,6 +11,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     $lte: String
     $userId: [ID]
     $showAppointments: String
+    $caregiverId: ID
+    $careInstitutionId: ID
   ) {
     getUserByQualifications(
       qualificationId: $qualificationId
@@ -23,6 +25,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
       lte: $lte
       userId: $userId
       showAppointments: $showAppointments
+      caregiverId: $caregiverId
+      careInstitutionId: $careInstitutionId
     ) {
       totalCount
       result {

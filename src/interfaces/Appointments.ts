@@ -41,6 +41,9 @@ export interface IAppointmentNav {
   ) => void;
   onFilterByUserId: (userId: string, userRole: string) => void;
   handleResetFilters: () => void;
+  handleUserList: (value: any, name: string) => void;
+  careinstitutionSoloFilter: IReactSelectInterface | undefined;
+  caregiverSoloFilter: IReactSelectInterface | undefined;
 }
 
 export interface IAppointmentCareGiverList {

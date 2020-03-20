@@ -198,7 +198,7 @@ const GET_CAREGIVER_BY_ID = gql`
         bankName
         IBAN
       }
-      attributes{
+      attributes {
         id
         name
       }

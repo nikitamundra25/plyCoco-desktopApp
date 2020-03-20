@@ -70,7 +70,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     careInstitutionList,
     qualificationList
   } = props;
- 
+
   const [starMark, setstarMark] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
@@ -561,9 +561,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               className='custom-row-selector'
               clickClassName='tick'
               resetOnStart={true}
-              duringSelection={(data: any) =>
-                console.log(data, 'duringSelection')
-              }
+              // duringSelection={(data: any) =>
+              //   console.log(data, 'duringSelection')
+              // }
               onSelectionFinish={onSelectFinish}
               onSelectionClear={onSelectionClear}
               ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}

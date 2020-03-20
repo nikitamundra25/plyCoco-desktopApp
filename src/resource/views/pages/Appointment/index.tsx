@@ -37,7 +37,8 @@ import {
   IAttributeOptions,
   ICareGiverValues,
   IUnlinkAppointmentInput,
-  IlinkAppointmentInput
+  IlinkAppointmentInput,
+  IunlinkResponse
 } from '../../../../interfaces';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
@@ -172,6 +173,7 @@ const Appointment: FunctionComponent = (props: any) => {
   ] = useState<any[]>();
   const [positive, setPositive] = useState<number[]>([]);
   const [negative, setNegative] = useState<number[]>([]);
+  const [unlinkedDelete, setunlinkedDelete] = useState<boolean>(false);
 
   // store the previous entered value in state
   const [caregiverLastTimeValues, setcaregiverLastTimeValues] = useState<any>();
@@ -308,7 +310,7 @@ const Appointment: FunctionComponent = (props: any) => {
       fetchingCareGiverData();
       setselctedAvailability({});
       setactiveDateCaregiver([]);
-      setselectedCareGiver({});
+      setSelectedCells([]);
     }
   });
 
@@ -386,16 +388,55 @@ const Appointment: FunctionComponent = (props: any) => {
   });
 
   // Mutation to unLink Requirement
-  const [unLinkRequirement, {}] = useMutation<{
+  const [unLinkRequirement, { data: unlinkResponse }] = useMutation<{
+    deleteAppointment: IunlinkResponse;
     appointmentInput: IUnlinkAppointmentInput;
   }>(UN_LINK_REQUIREMENT, {
-    onCompleted() {
+    onCompleted(unlinkResponse) {
+      fetchData();
+      console.log('deleteAppointment', unlinkResponse);
+      if (unlinkResponse && unlinkResponse.deleteAppointment) {
+        const { deleteAppointment } = unlinkResponse;
+        const { deleteAll } = deleteAppointment;
+        if (deleteAll) {
+          setunlinkedDelete(true);
+          console.log('unlinkedBy', unlinkedBy);
+          if (unlinkedBy === 'caregiver') {
+            console.log('caregivercaregiver');
+            setSelectedCells([]);
+          } else if (unlinkedBy === 'canstitution') {
+            console.log('unlinkedcanstitutionedByunlinkedBy', unlinkedBy);
+            setselectedCellsCareinstitution([]);
+          }
+        }
+      }
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('UN_LINKED_APPOINTMENTS'));
       }
-      fetchData();
     }
   });
+
+  // Blank form when unlink appointments
+  // useEffect(() => {
+  //   // console.log('unlinkResponse ', unlinkResponse);
+  //   if (unlinkResponse && unlinkResponse.deleteAppointment) {
+  //     const { deleteAppointment } = unlinkResponse;
+  //     const { deleteAll } = deleteAppointment;
+  //     if (deleteAll) {
+  //       setunlinkedDelete(true);
+  //       console.log('unlinkedBy', unlinkedBy);
+  //       if (unlinkedBy === 'caregiver') {
+  //         console.log('caregivercaregiver');
+  //         setSelectedCells([]);
+  //       } else if (unlinkedBy === 'canstitution') {
+  //         console.log('unlinkedcanstitutionedByunlinkedBy', unlinkedBy);
+  //         setselectedCellsCareinstitution([]);
+  //       }
+  //     }
+  //   }
+  // }, [unlinkResponse]);
+
+  console.log('selectedCellsCareinstitution', selectedCells);
 
   // To get caregiver list from db
   const [
@@ -587,6 +628,7 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         }
       ];
+
       setSelectedCells(caregiverdata);
     }
   }, [addCaregiverRes]);
@@ -990,6 +1032,13 @@ const Appointment: FunctionComponent = (props: any) => {
         setcareinstitutionList(list);
         if (list && list.length && list[0]) {
           handleFirstStarCanstitution(list[0], 1);
+        } else {
+          setstarCanstitution({
+            isStar: false,
+            setIndex: -1,
+            id: ''
+          });
+          // setcareInstituionDeptData([]);
         }
       } else {
         setcareinstitutionList(result);
@@ -1035,10 +1084,9 @@ const Appointment: FunctionComponent = (props: any) => {
           await appointmentDataSort('careinstitution', result, appointId);
         }
       }
+
       setSelectedCells(selectedCells);
     } else {
-      console.log('selectedCellsselectedCells', selectedCells);
-
       setselectedCellsCareinstitution(selectedCells);
       if (checkCondition) {
         let appointId: any = selectedCells[0].item.appointments.filter(
@@ -1778,13 +1826,13 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       });
       updateLinkedStatus(name);
-    } else {
+    } else {                                                                  
+      updateLinkedStatus(name);                                           
       await unLinkRequirement({
         variables: {
           appointmentInput: selectedOption
         }
       });
-      updateLinkedStatus(name);
     }
   };
 
@@ -1938,7 +1986,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
-    console.log('hereeeee', starCanstitution);
     // setselectedCareinstitution(list);
     //  setcareinstitutionList()
     if (!starCanstitution.isStar) {

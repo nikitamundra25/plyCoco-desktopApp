@@ -6,6 +6,7 @@
   "CAREGIVER_USERROLE": "caregiver",
   "EMPLOYEE_LABEL": "Employee",
   "CAREINST_USERROLE": "care Institution",
+  "DOCUMENT_TYPE_CAREINST": "careinstitution",
   "REMARK_LIMIT": "Text should be minimum of 255 characters",
   "REQUIRED_REGION": "Please enter the name of Region",
   "DELETE": "Delete",
@@ -93,7 +94,7 @@
   "STATUS_PLACEHOLDER": "Status",
   "RESET_LABEL": "Reset",
   "MENU_DASHBOARD": "Dashboard",
-  "EMPLOYEE": "employee",
+  "EMPLOYEE": "Employee",
   "MENU_EMPLOYEE": "Employee",
   "MENU_CAREGIVER": "Caregiver",
   "MENU_INSTITUTION": "Care Institution",
@@ -364,7 +365,7 @@
   "DEFAULT_QAULIFICATION": "Default Qualification",
   "IBAN": "IBAN",
   "WEBSITE": "Website",
-  "LIKED_TO": "linked to",
+  "LINKED_TO": "Linked to",
   "REMARKS": "Remarks",
   "FOR_CANSTITUTION_VIEWBLE": "For Care Institution viewable",
   "HEALTH_CARE_FEE": "Health care fee",
@@ -936,6 +937,6 @@
   "SELECT_APPOINTMENT_IN_UNLINK": "Please select appointment/s.",
   "QUALIFICATION_REQUIRED": "Qualification is required",
   "DEPARTMENT_REQUIRED": "Department is required",
-  "QUALIFICATION_UNMATCH": "Qualifications Didnot match.",
+  "QUALIFICATION_UNMATCH": "Qualifications did not match",
   "SELECT_USER": "Select user"
 }

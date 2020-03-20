@@ -1231,6 +1231,17 @@ export const ShiftTime: IReactSelectInterface[] = [
   },
   { value: "22:00-06:00", label: "22:00-06:00 Night" }
 ];
+export const InvoiceFilter: IReactSelectInterface[] = [
+  {
+    value: "Select all by email",
+    label: languageTranslation("SELECT_ALL_BY_EMAIL")
+  },
+  {
+    value: "select all by post",
+    label: languageTranslation("SELECT_ALL_BY_POST")
+  },
+  { value: "Select all", label: languageTranslation("SELECT_ALL") }
+];
 
 export const CaregiverTIMyoCYAttrId: number = 9;
 export const CareInstTIMyoCYAttrId: number = 73;

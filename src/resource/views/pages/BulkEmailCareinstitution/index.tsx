@@ -165,7 +165,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       let temp: any = [];
       if (props.qualification && props.qualification.length) {
         props.qualification.map((key: any, index: number) => {
-          temp.push(parseInt(key.value));
+          if (key.value) {
+            temp.push(parseInt(key.value));
+          } else {
+            temp.push(parseInt(key));
+          }
         });
       }
 
@@ -329,8 +333,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 const { subject } = emailData;
                 setSubject(subject);
                 let apointedCareGiver: any[] = [];
-                console.log("selectedCellsCareinstitution)))))))))))))",selectedCellsCareinstitution);
-                
+                console.log(
+                  'selectedCellsCareinstitution)))))))))))))',
+                  selectedCellsCareinstitution
+                );
+
                 if (
                   selectedCellsCareinstitution &&
                   selectedCellsCareinstitution.length
@@ -739,7 +746,14 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         <div className='common-detail-section'>
           <div className='sticky-common-header'>
             <div className='common-topheader d-flex align-items-center px-2 mb-1'>
-              <div className='header-nav-item' onClick={onRefresh}>
+              <div
+                className={
+                  props.label === 'appointment'
+                    ? 'header-nav-item disabled-class'
+                    : 'header-nav-item'
+                }
+                onClick={props.label !== 'appointment' ? onRefresh : undefined}
+              >
                 <span className='header-nav-icon'>
                   <img src={refresh} alt='' />
                 </span>

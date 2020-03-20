@@ -149,6 +149,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     handleSelectUserList(data, name);
   };
 
+  let dateCondition: any =
+    activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]
+      ? moment(activeDateCaregiver[0]).isSameOrAfter()
+      : '';
+  // console.log('dateCondition', dateCondition);
+
   return (
     <>
       <div className='form-section'>
@@ -244,7 +250,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     </Label>
                   </Col>
                   <Col sm='8'>
-                    <div className='text-value'>
+                    <div className='text-value one-line-text'>
                       {activeDateCaregiver
                         ? activeDateCaregiver
                             .map(
@@ -265,90 +271,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
               </FormGroup>
             </Col>
 
-            <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('SHIFT')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div>
-                      <FormGroup check inline>
-                        <div className=' checkbox-custom mb-1'>
-                          <input
-                            type='checkbox'
-                            id='early'
-                            className=''
-                            name={'f'}
-                            checked={f ? true : false}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
-                              const {
-                                target: { checked }
-                              } = e;
-                              setFieldValue('f', checked);
-                            }}
-                          />
-                          <Label for='early'>
-                            {languageTranslation('EARLY')}
-                          </Label>
-                        </div>
-                      </FormGroup>
-                      <FormGroup check inline>
-                        <div className=' checkbox-custom mb-1'>
-                          <input
-                            type='checkbox'
-                            id='late'
-                            className=''
-                            name={'s'}
-                            checked={s}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
-                              const {
-                                target: { checked }
-                              } = e;
-                              setFieldValue('s', checked);
-                            }}
-                          />
-                          <Label for='late'>
-                            {languageTranslation('LATE')}
-                          </Label>
-                        </div>
-                      </FormGroup>
-                      <FormGroup check inline>
-                        <div className=' checkbox-custom mb-1'>
-                          <input
-                            type='checkbox'
-                            id='night'
-                            className=''
-                            name={'n'}
-                            checked={n}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
-                              const {
-                                target: { checked }
-                              } = e;
-                              setFieldValue('n', checked);
-                            }}
-                          />
-                          <Label for='night'>
-                            {languageTranslation('NIGHT')}
-                          </Label>
-                        </div>
-                      </FormGroup>
-                      {timeSlotError && (
-                        <div className='required'>{timeSlotError}</div>
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
             {selctedAvailability &&
             (selctedAvailability.f === 'block' ||
               selctedAvailability.s === 'block' ||
@@ -356,6 +278,92 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
               <div className='blocked-minheight'></div>
             ) : (
               <>
+                <Col lg={'12'}>
+                  <FormGroup>
+                    <Row>
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('SHIFT')}
+                        </Label>
+                      </Col>
+                      <Col sm='8'>
+                        <div>
+                          <FormGroup check inline>
+                            <div className=' checkbox-custom mb-2'>
+                              <input
+                                type='checkbox'
+                                id='early'
+                                className=''
+                                name={'f'}
+                                checked={f ? true : false}
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                  const {
+                                    target: { checked }
+                                  } = e;
+                                  setFieldValue('f', checked);
+                                }}
+                              />
+                              <Label for='early'>
+                                {languageTranslation('EARLY')}
+                              </Label>
+                            </div>
+                          </FormGroup>
+                          <FormGroup check inline>
+                            <div className=' checkbox-custom mb-2'>
+                              <input
+                                type='checkbox'
+                                id='late'
+                                className=''
+                                name={'s'}
+                                checked={s}
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                  const {
+                                    target: { checked }
+                                  } = e;
+                                  setFieldValue('s', checked);
+                                }}
+                              />
+                              <Label for='late'>
+                                {languageTranslation('LATE')}
+                              </Label>
+                            </div>
+                          </FormGroup>
+                          <FormGroup check inline>
+                            <div className=' checkbox-custom mb-2'>
+                              <input
+                                type='checkbox'
+                                id='night'
+                                className=''
+                                name={'n'}
+                                checked={n}
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                  const {
+                                    target: { checked }
+                                  } = e;
+                                  setFieldValue('n', checked);
+                                }}
+                              />
+                              <Label for='night'>
+                                {languageTranslation('NIGHT')}
+                              </Label>
+                            </div>
+                          </FormGroup>
+                          {timeSlotError && (
+                            <div className='required-checkbox-error'>
+                              {timeSlotError}
+                            </div>
+                          )}
+                        </div>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                </Col>
                 <Col lg={'12'}>
                   <FormGroup>
                     <Row>

@@ -1,4 +1,4 @@
-@import '../../../assets/scss/variables';
+@import "../../../assets/scss/variables";
 
 .common-header-input {
   &.header-dropdown-wrap {
@@ -89,6 +89,7 @@
     top: 30px;
   }
   ul {
+    background: $white;
     li {
       .nav-link {
         position: relative;
@@ -188,7 +189,7 @@
           border-right: 1px solid #dedede;
           padding: 4px;
           &.name-text {
-            font-family: 'FrutigerNeueLTPro-Regular', sans-serif;
+            font-family: "FrutigerNeueLTPro-Regular", sans-serif;
             font-weight: normal;
           }
         }
@@ -379,7 +380,7 @@
       text-align: left;
       display: block;
       padding: 0px;
-      font-family: 'FrutigerNeueLTPro-Bold', sans-serif;
+      font-family: "FrutigerNeueLTPro-Bold", sans-serif;
     }
   }
   .arrow-btn {

@@ -11,6 +11,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     $lte: String
     $userId: [ID]
     $showAppointments: String
+    $caregiverId: ID
+    $careInstitutionId: ID
   ) {
     getUserByQualifications(
       qualificationId: $qualificationId
@@ -23,6 +25,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
       lte: $lte
       userId: $userId
       showAppointments: $showAppointments
+      caregiverId: $caregiverId
+      careInstitutionId: $careInstitutionId
     ) {
       totalCount
       result {
@@ -260,7 +264,13 @@ const GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION = gql`
       id
       name
       date
+      startTime
+      endTime
       divisionId
+      division {
+        id
+        name
+      }
       status
       qualificationId
     }
@@ -271,5 +281,5 @@ export const AppointmentsQueries = [
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
   GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
-  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
+  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION,
 ];

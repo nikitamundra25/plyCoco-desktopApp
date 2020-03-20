@@ -149,6 +149,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     handleSelectUserList(data, name);
   };
 
+  let dateCondition: any =
+    activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]
+      ? moment(activeDateCaregiver[0]).isSameOrAfter()
+      : '';
+  // console.log('dateCondition', dateCondition);
+
   return (
     <>
       <div className='form-section'>

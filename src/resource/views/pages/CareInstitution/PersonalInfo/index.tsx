@@ -476,8 +476,8 @@ const PersonalInformation: any = (props: any) => {
       id: Id,
       createdAt,
       email,
-      firstName,
-      lastName,
+      firstName: firstName || '',
+      lastName: lastName || '',
       gender: gender
         ? Gender.filter(
             ({ value }: IReactSelectInterface) => value === gender,

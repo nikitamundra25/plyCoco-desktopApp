@@ -7,7 +7,7 @@ import { ToDoQueries } from '../../../../graphql/queries';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   IReactSelectInterface,
-  ISearchToDoValues
+  ISearchToDoValues,
 } from '../../../../interfaces';
 import { FormikHelpers, FormikProps, Formik } from 'formik';
 import { TODO_PAGE_LIMIT, AppRoutes } from '../../../../config';
@@ -21,12 +21,12 @@ const [
   ,
   ,
   UPDATE_CARE_INSTITUTION_TODO_STATUS,
-  DELETE_CARE_INSTITUTION_TODO_STATUS
+  DELETE_CARE_INSTITUTION_TODO_STATUS,
 ] = ToDoMutations;
 const [GET_TO_DOS] = ToDoQueries;
 let toastId: any = null;
 const ToDoList: FunctionComponent<RouteComponentProps> & any = (
-  mainProps: any
+  mainProps: any,
 ) => {
   const { userRole } = mainProps;
   const userType =
@@ -46,7 +46,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     any,
     any
   >(GET_TO_DOS, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   // Mutation to delete careInstitution todo status
@@ -71,7 +71,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   const deleteToDo = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('DELETE_CARE_INSTITUTION_TODO')
+      text: languageTranslation('DELETE_CARE_INSTITUTION_TODO'),
     });
     if (!value) {
       return;
@@ -80,8 +80,8 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         toast.dismiss();
         await deleteStatus({
           variables: {
-            id: parseInt(id)
-          }
+            id: parseInt(id),
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
@@ -115,7 +115,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
     let sortByDate: IReactSelectInterface | undefined = {
       label: '',
-      value: ''
+      value: '',
     };
     let priority: IReactSelectInterface | undefined = { label: '', value: '' };
 
@@ -147,8 +147,8 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
           priority: searchData.priority,
           limit: TODO_PAGE_LIMIT,
-          page: query.page ? parseInt(query.page as string) : 1
-        }
+          page: query.page ? parseInt(query.page as string) : 1,
+        },
       });
 
       setSearchValues({
@@ -157,7 +157,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
               label:
                 searchData.toDoFilter.charAt(0).toUpperCase() +
                 searchData.toDoFilter.slice(1),
-              value: searchData.toDoFilter
+              value: searchData.toDoFilter,
             }
           : undefined,
         searchValue: searchData.search,
@@ -165,11 +165,11 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           ? searchData.priority === 'normal'
             ? {
                 label: languageTranslation('NORMAL'),
-                value: searchData.priority
+                value: searchData.priority,
               }
             : {
                 label: searchData.priority,
-                value: searchData.priority
+                value: searchData.priority,
               }
           : undefined,
         sortByDate: searchData.sortByDate
@@ -177,9 +177,9 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
               label:
                 searchData.sortByDate.charAt(0).toUpperCase() +
                 searchData.sortByDate.slice(1),
-              value: searchData.sortByDate
+              value: searchData.sortByDate,
             }
-          : undefined
+          : undefined,
       });
     }
   }, [search]); // It will run when the search value gets changed
@@ -187,7 +187,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   // To search data
   const handleSubmit = async (
     values: ISearchToDoValues,
-    {}: FormikHelpers<ISearchToDoValues>
+    {}: FormikHelpers<ISearchToDoValues>,
   ) => {
     let params: any = qs.parse(search);
     params.page = 1;
@@ -225,7 +225,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      '?',
     );
     history.push(path);
   };
@@ -236,7 +236,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     sortByDate = undefined,
     toDoFilter = undefined,
     priority = undefined,
-    futureOnly = false
+    futureOnly = false,
   } = searchValues ? searchValues : {};
 
   const values: ISearchToDoValues = {
@@ -245,7 +245,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     sortByDate,
     toDoFilter,
     priority,
-    futureOnly
+    futureOnly,
   };
 
   const handleStatusChange = async (id: any, status: string, priority: any) => {
@@ -254,7 +254,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
       text:
         status === 'pending'
           ? languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG')
-          : languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG')
+          : languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG'),
     });
     if (!value) {
       return;
@@ -265,13 +265,13 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           variables: {
             id: parseInt(id),
             status: status === 'pending' ? 'completed' : 'pending',
-            priority: null
-          }
+            priority: null,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('TODO_STATUS_UPDATED_SUCCESSFULLY')
+            languageTranslation('TODO_STATUS_UPDATED_SUCCESSFULLY'),
           );
         }
       } catch (error) {
@@ -289,11 +289,11 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   const handlePriorityChange = async (
     id: any,
     status: string,
-    priority: string
+    priority: string,
   ) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG')
+      text: languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG'),
     });
     if (!value) {
       return;
@@ -304,13 +304,13 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           variables: {
             id: parseInt(id),
             status: null,
-            priority: priority
-          }
+            priority: priority,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('TODO_PRIORITY_UPDATED_SUCCESSFULLY')
+            languageTranslation('TODO_PRIORITY_UPDATED_SUCCESSFULLY'),
           );
         }
       } catch (error) {
@@ -339,16 +339,17 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
             <Search
               {...props}
               label={'toDos'}
+              filterbyStatus={true}
               isTab={true}
               pushTo={
                 userRole === 'careinstitution'
                   ? `${AppRoutes.CARE_INSTITUION_VIEW.replace(
                       ':id',
-                      mainProps.Id
+                      mainProps.Id,
                     )}?tab=${encodeURIComponent('reminders/todos')}`
                   : `${AppRoutes.CARE_GIVER_VIEW.replace(
                       ':id',
-                      mainProps.Id
+                      mainProps.Id,
                     )}?tab=${encodeURIComponent('reminders/todos')}`
               }
             />

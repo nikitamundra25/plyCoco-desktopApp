@@ -44,5 +44,4 @@ export interface IAppRoutes {
   ALLINVOICES: string;
   INVOICESOLONA: string;
   CREATEINVOICES: string;
-  DROWINVOICE: string;
 }

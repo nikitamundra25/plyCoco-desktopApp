@@ -64,11 +64,11 @@ const InvoiceSolona = React.lazy(() =>
     "../resource/views/pages/AllInvoices/InvoiceSolona"
   )
 );
-const DrowInvoice = React.lazy(() =>
-  import(
-    "../resource/views/pages/AllInvoices/DrowInvoice"
-  )
-);
+// const DrowInvoice = React.lazy(() =>
+//   import(
+//     "../resource/views/pages/AllInvoices/DrowInvoice"
+//   )
+// );
 const CreateInvoices = React.lazy(() =>
   import(
     "../resource/views/pages/AllInvoices/CreateInvoices"
@@ -400,12 +400,12 @@ const routes = [
     component: InvoiceSolona,
     exact: true
   },
-  {
-    path: AppRoutes.DROWINVOICE,
-    name: "DrowInvoice",
-    component: DrowInvoice,
-    exact: true
-  },
+  // {
+  //   path: AppRoutes.DROWINVOICE,
+  //   name: "DrowInvoice",
+  //   component: DrowInvoice,
+  //   exact: true
+  // },
   {
     path: AppRoutes.CREATEINVOICES,
     name: "CreateInvoices",

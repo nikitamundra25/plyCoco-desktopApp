@@ -423,6 +423,19 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           );
         }
       });
+    } else {
+      temp.push(
+        <tr className={'text-center no-hover-row'}>
+          <td colSpan={40} className={'pt-5 pb-5'}>
+            <div className='no-data-section'>
+              <div className='no-data-icon'>
+                <i className='icon-ban' />
+              </div>
+              <h4 className='mb-1'>{'No Data found with related search'}</h4>
+            </div>
+          </td>
+        </tr>
+      );
     }
     return temp /* firstStarData */;
   };
@@ -858,6 +871,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 disabled={
                   selectedCellsCareinstitution &&
                   ((selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0] &&
                     selectedCellsCareinstitution[0].id === '') ||
                     (selectedCellsCareinstitution[0].item &&
                       selectedCellsCareinstitution[0].item.status !== 'linked'))
@@ -1001,6 +1015,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </tr>
             </thead>
             <tbody>
+              {console.log('starCanstitution', starCanstitution)}
+              {console.log('careInstitutionList', careInstitutionList)}
+
               {loading || (starCanstitution.isStar && deptLoading) ? (
                 <tr>
                   <td className={'table-loader'} colSpan={40}>

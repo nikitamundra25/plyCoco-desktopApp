@@ -40,7 +40,13 @@ const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 const [BULK_EMAILS] = BulkEmailCareGivers;
 const [VIEW_PROFILE] = ProfileQueries;
-const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
+const [
+  GET_USERS_BY_QUALIFICATION_ID,
+  ,
+  ,
+  ,
+  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
+] = AppointmentsQueries;
 
 const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
 
@@ -85,6 +91,33 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     fetchPolicy: 'no-cache'
   });
 
+  // To fetch requirments by selected caregiver qualification id
+  const [
+    fetchRequirmentFromQualification,
+    { data: requirmentList, loading: requirmentListLoading }
+  ] = useLazyQuery<any, any>(GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION, {
+    fetchPolicy: 'no-cache'
+  });
+
+  //Get requirment list data for qualificationid
+  useEffect(() => {
+    console.log('requirmentList', requirmentList);
+  }, [requirmentList]);
+
+  //Get Data for selecte cell
+  useEffect(() => {
+    if (selectedCells && selectedCells.length) {
+      const { qualificationIds = [] } = selectedCells[0];
+      if (qualificationIds && qualificationIds.length) {
+        fetchRequirmentFromQualification({
+          variables: {
+            qualificationId: qualificationIds
+          }
+        });
+      }
+    }
+  }, [selectedCells]);
+
   // To fetch users according to qualification selected
   useEffect(() => {
     if (props.label === 'appointment') {
@@ -108,6 +141,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       });
     }
+    console.log('props.qualificationprops.qualification', selectedCells[0]);
   }, [props.qualification]);
 
   // To get all the types of email template
@@ -241,19 +275,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [careGivers]);
-
-  // const handleInfiniteScroll = () => {
-  //   setPage(page + 1);
-  //   fetchCareGiverList({
-  //     variables: {
-  //       searchBy: "",
-  //       sortBy: 3,
-  //       limit: 30,
-  //       page: page + 1,
-  //       isActive: ""
-  //     }
-  //   });
-  // };
 
   // Refresh component
   const onRefresh = () => {
@@ -678,7 +699,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
 
           let subject: string = `Appointment cancellation confirmation for ${moment(
-            apointedCareGiver[0].date
+            apointedCareGiver[0] ? apointedCareGiver[0].date : ''
           ).format('MMM Do')},${' '}1:1 ${apointedCareGiver[0].division}`;
           setBody(editorState);
           setSubject(subject);

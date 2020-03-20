@@ -40,9 +40,6 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
       handleCheckElement(e, id);
     }
   };
-  console.log('****************', careGivers);
-  console.log('careGiverData.length', careGiverData.length);
-
   return (
     <Col lg={'5'} className='pr-lg-0'>
       <div id='scrollableDiv' className='caregiver-list custom-scroll'>

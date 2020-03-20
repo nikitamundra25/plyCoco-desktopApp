@@ -67,7 +67,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onNewAvailability,
     totalCaregiver,
     getNext,
-
+    careInstitutionList,
     qualificationList
   } = props;
 
@@ -561,9 +561,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               className='custom-row-selector'
               clickClassName='tick'
               resetOnStart={true}
-              duringSelection={(data: any) =>
-                console.log(data, 'duringSelection')
-              }
+              // duringSelection={(data: any) =>
+              //   console.log(data, 'duringSelection')
+              // }
               onSelectionFinish={onSelectFinish}
               onSelectionClear={onSelectionClear}
               ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
@@ -808,6 +808,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         selectedCellsCareinstitution={selectedCellsCareinstitution}
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
+        qualificationList={qualificationList}
       />
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}

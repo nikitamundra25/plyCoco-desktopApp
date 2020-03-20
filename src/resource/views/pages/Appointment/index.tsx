@@ -1534,6 +1534,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete item.__typename;
             delete item.appointments;
             delete item.division;
+            updateLinkedStatus('confirmed');
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
@@ -1546,7 +1547,6 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               }
             });
-            updateLinkedStatus('confirmed');
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
                 languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG')
@@ -1685,8 +1685,6 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               }
             });
-            console.log('kuch bhi');
-            updateLinkedStatus('confirmed');
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
                 languageTranslation('CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG')
@@ -1737,19 +1735,19 @@ const Appointment: FunctionComponent = (props: any) => {
   // On link requirement
   const onLinkAppointment = async (selectedOption: any, name: string) => {
     if (name === 'link') {
+      updateLinkedStatus(name);
       await linkRequirement({
         variables: {
           appointmentInput: selectedOption
         }
       });
-      updateLinkedStatus(name);
     } else {
+      updateLinkedStatus(name);
       await unLinkRequirement({
         variables: {
           appointmentInput: selectedOption
         }
       });
-      updateLinkedStatus(name);
     }
   };
 
@@ -2801,17 +2799,25 @@ const Appointment: FunctionComponent = (props: any) => {
     n = '',
     status = ''
   } = item ? item : caregiver ? caregiver : {};
-  console.log('fee', fee);
+  console.log('item', item);
 
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
     name: name ? name : firstName ? `${lastName} ${firstName}` : '',
-    fee: fee ? germanNumberFormat(fee) : '',
-    nightFee: night
-      ? germanNumberFormat(night)
-      : nightFee
-      ? germanNumberFormat(nightFee)
-      : '',
+    fee:
+      item && (item.f === 'block' || item.s === 'block' || item.n === 'block')
+        ? '0'
+        : fee
+        ? germanNumberFormat(fee)
+        : '',
+    nightFee:
+      item && (item.f === 'block' || item.s === 'block' || item.n === 'block')
+        ? '0'
+        : night
+        ? germanNumberFormat(night)
+        : nightFee
+        ? germanNumberFormat(nightFee)
+        : '',
     nightAllowance:
       caregiver && nightAllowance
         ? {
@@ -2819,14 +2825,20 @@ const Appointment: FunctionComponent = (props: any) => {
             label: nightAllowance
           }
         : NightAllowancePerHour[0],
-    holidayAllowance: holidayAllowance
-      ? germanNumberFormat(holidayAllowance)
-      : holiday
-      ? germanNumberFormat(holiday)
-      : '',
-    weekendAllowance: weekendAllowance
-      ? germanNumberFormat(weekendAllowance)
-      : '',
+    holidayAllowance:
+      item && (item.f === 'block' || item.s === 'block' || item.n === 'block')
+        ? '0'
+        : holidayAllowance
+        ? germanNumberFormat(holidayAllowance)
+        : holiday
+        ? germanNumberFormat(holiday)
+        : '',
+    weekendAllowance:
+      item && (item.f === 'block' || item.s === 'block' || item.n === 'block')
+        ? '0'
+        : weekendAllowance
+        ? germanNumberFormat(weekendAllowance)
+        : '',
     workingProofRecieved: workingProofRecieved ? true : false,
     distanceInKM: distanceInKM ? distanceInKM : '',
     feePerKM: feePerKM ? feePerKM : '',
@@ -2843,7 +2855,7 @@ const Appointment: FunctionComponent = (props: any) => {
     n: n === 'available' ? true : false,
     status: status ? status : ''
   };
-
+  console.log('fee', fee);
   const [savingBoth, setsavingBoth] = useState(false);
   const handleSaveBoth = () => {
     setsavingBoth(true);

@@ -157,7 +157,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       }
     });
     setUserId(Id);
-  }, [departmentList]);
+  }, [Id]);
 
   if (userId && userId !== Id) {
     setUserId(Id);

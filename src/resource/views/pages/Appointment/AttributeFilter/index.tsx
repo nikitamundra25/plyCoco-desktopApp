@@ -21,8 +21,8 @@ const [
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 let toastId: any = '';
 const AttributeFilter = (props: IAttributeFilter) => {
-  // const [isPositive, setIsPositive] = useState<number[]>([]);
-  // const [isNegative, setIsNegative] = useState<number[]>([]);
+  const [isPositive, setIsPositive] = useState<number[]>([]);
+  const [isNegative, setIsNegative] = useState<number[]>([]);
   const [preset, setPreset] = useState<string | null>(null);
   const [showPreset, setShowPreset] = useState<boolean>(false);
   const [presetNames, setPresetNames] = useState<any>(null);
@@ -32,11 +32,7 @@ const AttributeFilter = (props: IAttributeFilter) => {
     handleClose,
     setAttributeFilter,
     attributeFilter,
-    applyFilter,
-    isPositive,
-    setIsPositive,
-    isNegative,
-    setIsNegative
+    applyFilter
   } = props;
   // To get list of presets
   const [

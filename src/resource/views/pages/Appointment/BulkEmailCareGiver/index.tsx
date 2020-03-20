@@ -52,6 +52,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
             selectedCells={selectedCells}
             confirmApp={props.confirmApp}
             selectedCellsCareinstitution={props.selectedCellsCareinstitution}
+            unlinkedBy={props.unlinkedBy}
           />
         </ModalBody>
       </Modal>

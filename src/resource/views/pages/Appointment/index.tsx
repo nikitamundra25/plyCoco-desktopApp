@@ -38,6 +38,7 @@ import {
   ICareGiverValues,
   IUnlinkAppointmentInput,
   IlinkAppointmentInput,
+  IunlinkResponse
 } from '../../../../interfaces';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
@@ -57,6 +58,9 @@ import { ConfirmBox } from '../../components/ConfirmBox';
 import './index.scss';
 import UnlinkAppointment from './unlinkModal';
 import Loader from '../../containers/Loader/Loader';
+import { useLocation } from 'react-router';
+import BulkEmailCareGiverModal from './BulkEmailCareGiver';
+import BulkEmailCareInstitutionModal from './BulkEmailCareInstitution';
 const [GET_CAREGIVERS] = CareGiverQueries;
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [
@@ -86,6 +90,9 @@ const [
 let toastId: any = null;
 
 const Appointment: FunctionComponent = (props: any) => {
+  // To fetch id from display appointments
+  const { state: locationState }: any = useLocation();
+
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null,
   );
@@ -95,6 +102,27 @@ const Appointment: FunctionComponent = (props: any) => {
   const [multipleRequirement, setMultipleRequirement] = useState<boolean>(
     false,
   );
+
+  const [caregiverSoloFilter, setcaregiverSoloFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+
+  const [careinstitutionSoloFilter, setcareinstitutionSoloFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+
+  const [unlinkedBy, setunlinkedBy] = useState<string>('');
+  const [isFromUnlink, setisFromUnlink] = useState(false);
+  // state for care giver bulk email
+  const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
+    false
+  );
+
+  // state for care institution bulk email
+  const [
+    openCareInstitutionBulkEmail,
+    setopenCareInstitutionBulkEmail
+  ] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [fetchingDept, setFetchingDept] = useState<boolean>(false);
   const [activeMonth, setActiveMonth] = useState<number>(moment().month());
@@ -131,10 +159,6 @@ const Appointment: FunctionComponent = (props: any) => {
   ] = useState<any>();
 
   const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
-  const [
-    careinstitutionDepartmentList,
-    setcareinstitutionDepartmentList,
-  ] = useState<any>([]);
   const [activeDateCaregiver, setactiveDateCaregiver] = useState<IDate[]>([]);
   const [activeDateCareinstitution, setactiveDateCareinstitution] = useState<
     IDate[]
@@ -187,12 +211,12 @@ const Appointment: FunctionComponent = (props: any) => {
   });
 
   // To fetch the list of all caregiver
-  const [
-    fetchCareGivers,
-    { data: careGivers, loading: allCaregiverLoading, refetch },
-  ] = useLazyQuery<any>(GET_CAREGIVERS, {
-    fetchPolicy: 'no-cache',
-  });
+  const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
+    GET_CAREGIVERS,
+    {
+      fetchPolicy: 'no-cache'
+    }
+  );
 
   useEffect(() => {
     // Fetch list of caregivers
@@ -206,20 +230,6 @@ const Appointment: FunctionComponent = (props: any) => {
       },
     });
   }, []);
-
-  const handleScroll = () => {
-    const scrollPositionY = window.scrollY;
-    const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn',
-    );
-    if (buttonDiv) {
-      if (scrollPositionY >= 12) {
-        buttonDiv.classList.add('sticky-save-btn');
-      } else {
-        buttonDiv.classList.remove('sticky-save-btn');
-      }
-    }
-  };
   /* 
   /* 
    */
@@ -292,8 +302,8 @@ const Appointment: FunctionComponent = (props: any) => {
       fetchingCareGiverData();
       setselctedAvailability({});
       setactiveDateCaregiver([]);
-      setselectedCareGiver({});
-    },
+      setSelectedCells([]);
+    }
   });
 
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
@@ -370,10 +380,22 @@ const Appointment: FunctionComponent = (props: any) => {
   });
 
   // Mutation to unLink Requirement
-  const [unLinkRequirement, {}] = useMutation<{
+  const [unLinkRequirement, { data: unlinkResponse }] = useMutation<{
+    deleteAppointment: IunlinkResponse;
     appointmentInput: IUnlinkAppointmentInput;
   }>(UN_LINK_REQUIREMENT, {
-    onCompleted() {
+    onCompleted(unlinkResponse) {
+      if (unlinkResponse && unlinkResponse.deleteAppointment) {
+        const { deleteAppointment } = unlinkResponse;
+        const { deleteAll, unlinkedBy } = deleteAppointment;
+        if (deleteAll) {
+          if (unlinkedBy === 'caregiver') {
+            setSelectedCells([]);
+          } else if (unlinkedBy === 'canstitution') {
+            setselectedCellsCareinstitution([]);
+          }
+        }
+      }
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('UN_LINKED_APPOINTMENTS'));
       }
@@ -436,14 +458,16 @@ const Appointment: FunctionComponent = (props: any) => {
     setPositive([]);
     setNegative([]);
     setqualification([]);
+    setcaregiverSoloFilter(undefined);
+    setcareinstitutionSoloFilter(undefined);
     setfilterByAppointments(undefined);
   };
 
   // to get list of all caregivers
   const getCaregiverData = (
     page: number,
-    positive: number[] = [],
-    negative: number[] = [],
+    positiveAttr: number[] = [],
+    negativeAttr: number[] = []
   ) => {
     let temp: any = [];
     qualification.map((key: any, index: number) => {
@@ -460,30 +484,37 @@ const Appointment: FunctionComponent = (props: any) => {
       gte = daysData.daysArr[0].dateString || '';
       lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
     }
+
     // get careGivers list
     fetchCaregiverList({
       variables: {
         qualificationId: temp ? temp : null,
         userRole: 'caregiver',
-        negativeAttributeId: negative,
-        limit: 10,
-        page: page ? page : 1,
+        negativeAttributeId:
+          negativeAttr && negativeAttr.length ? negativeAttr : negative,
+        limit: locationState && locationState.caregiver ? null : 10,
+        page: locationState && locationState.caregiver ? null : page ? page : 1,
         showAppointments:
           filterByAppointments && filterByAppointments.value
             ? filterByAppointments.value === 'showAll'
               ? ''
               : filterByAppointments.value
             : null,
-        positiveAttributeId: positive,
+        positiveAttributeId:
+          positiveAttr && positiveAttr.length ? positiveAttr : positive,
         gte,
         lte,
-      },
+        caregiverId:
+          caregiverSoloFilter && caregiverSoloFilter.value
+            ? parseInt(caregiverSoloFilter.value)
+            : null
+      }
     });
   };
   //to get list of all the careinstitutions
   const getCareInstituionData = (
-    positive: number[] = [],
-    negative: number[] = [],
+    positiveAttr: number[] = [],
+    negativeAttr: number[] = []
   ) => {
     let temp: any = [];
     qualification.map((key: any, index: number) => {
@@ -511,11 +542,17 @@ const Appointment: FunctionComponent = (props: any) => {
               ? ''
               : filterByAppointments.value
             : null,
-        negativeAttributeId: negative,
-        positiveAttributeId: positive,
+        negativeAttributeId:
+          negativeAttr && negativeAttr.length ? negativeAttr : negative,
+        positiveAttributeId:
+          positiveAttr && positiveAttr.length ? positiveAttr : positive,
         gte,
         lte,
-      },
+        careInstitutionId:
+          careinstitutionSoloFilter && careinstitutionSoloFilter.value
+            ? parseInt(careinstitutionSoloFilter.value)
+            : null
+      }
     });
   };
   // by clicking on apply filter to get care giver and care institution list accordingly
@@ -572,6 +609,7 @@ const Appointment: FunctionComponent = (props: any) => {
           },
         },
       ];
+
       setSelectedCells(caregiverdata);
     }
   }, [addCaregiverRes]);
@@ -920,7 +958,14 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         });
       }
-      setcaregiversList(result);
+      if (locationState && locationState.caregiver) {
+        let list: any = result.filter(
+          (list: any) => list.id === locationState.caregiver
+        );
+        setcaregiversList(list);
+      } else {
+        setcaregiversList(result);
+      }
     }
 
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
@@ -963,7 +1008,24 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
-      setcareinstitutionList(result);
+      if (locationState && locationState.canstitution) {
+        let list: any = result.filter(
+          (list: any) => list.id === locationState.canstitution
+        );
+        setcareinstitutionList(list);
+        if (list && list.length && list[0]) {
+          handleFirstStarCanstitution(list[0], 1);
+        } else {
+          setstarCanstitution({
+            isStar: false,
+            setIndex: -1,
+            id: ''
+          });
+          // setcareInstituionDeptData([]);
+        }
+      } else {
+        setcareinstitutionList(result);
+      }
     }
   }, [careGiversList, careInstitutionList]);
 
@@ -1005,6 +1067,7 @@ const Appointment: FunctionComponent = (props: any) => {
           await appointmentDataSort('careinstitution', result, appointId);
         }
       }
+
       setSelectedCells(selectedCells);
     } else {
       setselectedCellsCareinstitution(selectedCells);
@@ -1149,12 +1212,31 @@ const Appointment: FunctionComponent = (props: any) => {
     setqualification(selectedOption);
   };
 
+  // select solo user
+  const handleUserList = (value: IReactSelectInterface, name: string) => {
+    if (name === 'caregiver') {
+      setcaregiverSoloFilter(value);
+    } else {
+      setcareinstitutionSoloFilter(value);
+    }
+  };
+
   const fetchData = () => {
     // get careGivers list
     getCaregiverData(1);
     // get careInstitution list
     getCareInstituionData();
   };
+
+  // Fetch single data of particular caregiver
+  useEffect(() => {
+    getCaregiverData(1);
+  }, [caregiverSoloFilter]);
+
+  // Fetch single data of particular careinstitution
+  useEffect(() => {
+    getCareInstituionData();
+  }, [careinstitutionSoloFilter]);
 
   // To fetch users according to qualification selected
   useEffect(() => {
@@ -1465,6 +1547,8 @@ const Appointment: FunctionComponent = (props: any) => {
             },
           },
         ];
+        console.log('temp', temp);
+
         if (
           selectedCellsCareinstitution &&
           selectedCellsCareinstitution.length
@@ -1536,20 +1620,21 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        if (item && item.id) {
-          if (item.status === 'linked') {
-            let availabilityId: number = item.id ? parseInt(item.id) : 0;
-            delete item.id;
-            delete item.__typename;
-            delete item.appointments;
-            delete item.division;
+        const Item = { ...item };
+        if (Item && Item.id) {
+          if (Item.status === 'linked') {
+            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+            delete Item.id;
+            delete Item.__typename;
+            delete Item.appointments;
+            delete Item.division;
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
                 careInstitutionRequirementInput: {
-                  ...item,
-                  qualificationId: item.qualificationId.map((item: any) => {
-                    item.id;
+                  ...Item,
+                  qualificationId: Item.qualificationId.map((Item: any) => {
+                    Item.id;
                   }),
                   status: 'confirmed',
                 },
@@ -1597,24 +1682,26 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
   };
+
   const setOnOfferedCareInst = async () => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
-        if (item && item.id) {
-          if (item.status === 'default' || item.status === 'requirement') {
-            let availabilityId: number = item.id ? parseInt(item.id) : 0;
-            delete item.id;
-            delete item.__typename;
-            delete item.appointments;
-            delete item.division;
+        const Item = { ...item };
+        if (Item && Item.id) {
+          if (Item.status === 'default' || Item.status === 'requirement') {
+            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+            delete Item.id;
+            delete Item.__typename;
+            delete Item.appointments;
+            delete Item.division;
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
                 careInstitutionRequirementInput: {
-                  ...item,
-                  qualificationId: item.qualificationId.map((item: any) => {
-                    item.id;
+                  ...Item,
+                  qualificationId: Item.qualificationId.map((Item: any) => {
+                    Item.id;
                   }),
                   status: 'offered',
                 },
@@ -1746,12 +1833,12 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       updateLinkedStatus(name);
     } else {
+      updateLinkedStatus(name);
       await unLinkRequirement({
         variables: {
           appointmentInput: selectedOption,
         },
       });
-      updateLinkedStatus(name);
     }
   };
 
@@ -1906,11 +1993,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
-
-    let temp = careinstitutionList.filter((dept: any) => dept.id === list.id);
-
     //  setcareinstitutionList()
-    setcareinstitutionDepartmentList(temp);
     if (!starCanstitution.isStar) {
       setstarCanstitution({
         isStar: true,
@@ -1958,6 +2041,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       let data: any = [];
       data.push(dept);
+      console.log('data', data);
       // setcareInstituionDeptData(data);
       setcareInstituionDept({
         label: dept.name,
@@ -2726,17 +2810,10 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const handleUnlinkData = (likedBy: string, check: boolean) => {
+    setunlinkedBy(likedBy);
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
-        // let appointId: any = key.item.appointments.filter(
-        //   (appointment: any) => {
-        //     return (
-        //       moment(key.dateString).format('DD.MM.YYYY') ===
-        //       moment(appointment.date).format('DD.MM.YYYY')
-        //     );
-        //   }
-        // );
         return appointmentId.push({
           appointmentId: parseInt(
             key.item.appointments ? key.item.appointments[0].id : '',
@@ -2746,6 +2823,11 @@ const Appointment: FunctionComponent = (props: any) => {
         });
       });
       onLinkAppointment(appointmentId, 'unlink');
+      if (likedBy !== 'employee') {
+        setisFromUnlink(true);
+        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+      }
     } else {
       if (!toast.isActive(toastId)) {
         toastId = toast.error('Please select appointment/s.');
@@ -2865,6 +2947,7 @@ const Appointment: FunctionComponent = (props: any) => {
     status: Item ? Item.status : '',
     careInstitutionDepartment,
   };
+
   const {
     name = '',
     id = '',
@@ -2891,12 +2974,20 @@ const Appointment: FunctionComponent = (props: any) => {
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
     name: name ? name : firstName ? `${lastName} ${firstName}` : '',
-    fee: fee ? germanNumberFormat(fee) : '',
-    nightFee: night
-      ? germanNumberFormat(night)
-      : nightFee
-      ? germanNumberFormat(nightFee)
-      : '',
+    fee:
+      item && (item.f === 'block' || item.s === 'block' || item.n === 'block')
+        ? '0'
+        : fee
+        ? germanNumberFormat(fee)
+        : '',
+    nightFee:
+      item && (item.f === 'block' || item.s === 'block' || item.n === 'block')
+        ? '0'
+        : night
+        ? germanNumberFormat(night)
+        : nightFee
+        ? germanNumberFormat(nightFee)
+        : '',
     nightAllowance:
       caregiver && nightAllowance
         ? {
@@ -2904,14 +2995,20 @@ const Appointment: FunctionComponent = (props: any) => {
             label: nightAllowance,
           }
         : NightAllowancePerHour[0],
-    holidayAllowance: holidayAllowance
-      ? germanNumberFormat(holidayAllowance)
-      : holiday
-      ? germanNumberFormat(holiday)
-      : '',
-    weekendAllowance: weekendAllowance
-      ? germanNumberFormat(weekendAllowance)
-      : '',
+    holidayAllowance:
+      item && (item.f === 'block' || item.s === 'block' || item.n === 'block')
+        ? '0'
+        : holidayAllowance
+        ? germanNumberFormat(holidayAllowance)
+        : holiday
+        ? germanNumberFormat(holiday)
+        : '',
+    weekendAllowance:
+      item && (item.f === 'block' || item.s === 'block' || item.n === 'block')
+        ? '0'
+        : weekendAllowance
+        ? germanNumberFormat(weekendAllowance)
+        : '',
     workingProofRecieved: workingProofRecieved ? true : false,
     distanceInKM: distanceInKM ? distanceInKM : '',
     feePerKM: feePerKM ? feePerKM : '',
@@ -3090,328 +3187,323 @@ const Appointment: FunctionComponent = (props: any) => {
 
   return (
     <>
-      {allCaregiverLoading ? (
-        <div className='detailview-loader'>
-          <Loader />
-        </div>
-      ) : (
-        <>
-          <div className='common-detail-page'>
-            <div className='common-detail-section'>
-              <AppointmentNav
-                handlePrevious={handlePrevious}
-                handleNext={handleNext}
-                daysData={daysData}
-                qualificationList={qualificationList}
-                handleQualification={handleQualification}
-                careInstitutionList={careInstitutionOptions}
-                careGiversList={careGiversOptions}
-                handleDayClick={handleDayClick}
-                handleToday={handleToday}
-                qualification={qualification}
-                handleSelectUserList={handleSelectUserList}
-                careGiversListArr={
-                  careGiversList && careGiversList.getUserByQualifications
-                    ? careGiversList && careGiversList.getUserByQualifications
-                    : []
-                }
-                careInstitutionListArr={
-                  careInstitutionList &&
-                  careInstitutionList.getUserByQualifications
-                    ? careInstitutionList.getUserByQualifications
-                    : []
-                }
-                applyFilter={applyFilter}
-                handleSelectAppointment={handleSelectAppointment}
-                filterByAppointments={filterByAppointments}
-                onFilterByUserId={onFilterByUserId}
-                handleResetFilters={handleResetFilters}
-              />
-              <div className='common-content flex-grow-1'>
-                <div>
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
+          <AppointmentNav
+            handlePrevious={handlePrevious}
+            handleNext={handleNext}
+            daysData={daysData}
+            qualificationList={qualificationList}
+            handleQualification={handleQualification}
+            careInstitutionList={careInstitutionOptions}
+            careGiversList={careGiversOptions}
+            handleDayClick={handleDayClick}
+            handleToday={handleToday}
+            qualification={qualification}
+            handleSelectUserList={handleSelectUserList}
+            careGiversListArr={
+              careGiversList && careGiversList.getUserByQualifications
+                ? careGiversList && careGiversList.getUserByQualifications
+                : []
+            }
+            careInstitutionListArr={
+              careInstitutionList && careInstitutionList.getUserByQualifications
+                ? careInstitutionList.getUserByQualifications
+                : []
+            }
+            applyFilter={applyFilter}
+            handleSelectAppointment={handleSelectAppointment}
+            filterByAppointments={filterByAppointments}
+            onFilterByUserId={onFilterByUserId}
+            handleResetFilters={handleResetFilters}
+            handleUserList={handleUserList}
+            caregiverSoloFilter={caregiverSoloFilter}
+            careinstitutionSoloFilter={careinstitutionSoloFilter}
+          />
+          <div className='common-content flex-grow-1'>
+            <div>
+              <Row>
+                <Col lg={'6'}>
+                  {/* caregiver list view */}
+                  <CaregiverListView
+                    fetchingCareGiverData={fetchingCareGiverData}
+                    daysData={daysData}
+                    loading={caregiverLoading}
+                    careGiversList={caregiversList ? caregiversList : []}
+                    onAddingRow={onAddingRow}
+                    selectedCells={selectedCells}
+                    handleSecondStar={handleSecondStar}
+                    handleReset={handleReset}
+                    qualification={qualification}
+                    gte={gteDayData}
+                    lte={lteDayData}
+                    selctedAvailability={selctedAvailability}
+                    qualificationList={qualificationList}
+                    activeDateCaregiver={activeDateCaregiver}
+                    onReserve={onReserve}
+                    careInstitutionList={
+                      careinstitutionList ? careinstitutionList : []
+                    }
+                    onDeleteEntries={onDeleteEntries}
+                    onCaregiverQualificationFilter={
+                      onCaregiverQualificationFilter
+                    }
+                    onNewAvailability={() => setMultipleAvailability(true)}
+                    handleSelection={handleSelection}
+                    selectedCellsCareinstitution={selectedCellsCareinstitution}
+                    onLinkAppointment={onLinkAppointment}
+                    setOnConfirmedCaregiver={setOnConfirmedCaregiver}
+                    setOnNotConfirmedCaregiver={setOnNotConfirmedCaregiver}
+                    totalCaregiver={totalCaregiver}
+                    getNext={getNext}
+                  />
+                  {/* care insitution list */}
+                  <CarinstituionListView
+                    daysData={daysData}
+                    loading={careinstitutionLoading}
+                    careInstitutionList={
+                      careinstitutionList ? careinstitutionList : []
+                    }
+                    handleSelectedAppoitment={() => handleSelectedAppoitment()}
+                    fetchCareinstitutionList={fetchCareinstitutionList}
+                    onAddingRow={onAddingRow}
+                    handleSecondStar={handleSecondStar}
+                    handleReset={handleReset}
+                    showSelectedCaregiver={showSelectedCaregiver}
+                    handleFirstStarCanstitution={handleFirstStarCanstitution}
+                    careInstituionDeptData={careInstituionDeptData}
+                    starCanstitution={starCanstitution}
+                    secondStarCanstitution={secondStarCanstitution}
+                    deptLoading={deptLoading /* fetchingDept */}
+                    onhandleSecondStarCanstitution={
+                      onhandleSecondStarCanstitution
+                    }
+                    qualificationList={qualificationList}
+                    selectedCareGiver={selectedCareGiver}
+                    selectedCareinstitution={selectedCareinstitution}
+                    activeDateCaregiver={
+                      activeDateCaregiver && activeDateCaregiver.length
+                        ? activeDateCaregiver[0]
+                        : undefined
+                    }
+                    activeDateCareinstitution={
+                      activeDateCareinstitution &&
+                      activeDateCareinstitution.length
+                        ? activeDateCareinstitution[0]
+                        : undefined
+                    }
+                    handleSelection={handleSelection}
+                    qualification={qualification}
+                    gte={gteDayData}
+                    lte={lteDayData}
+                    selectedCellsCareinstitution={selectedCellsCareinstitution}
+                    selectedCells={selectedCells}
+                    onLinkAppointment={onLinkAppointment}
+                    onDeleteEntries={onDeleteEntries}
+                    setOnConfirmedCareInst={setOnConfirmedCareInst}
+                    setOnNotConfirmedCareInst={setOnNotConfirmedCareInst}
+                    setOnOfferedCareInst={setOnOfferedCareInst}
+                    setOnNotOfferedCareInst={setOnNotOfferedCareInst}
+                    onNewRequirement={() => setMultipleRequirement(true)}
+                  />
+                </Col>
+                <Col lg={'6'}>
                   <Row>
-                    <Col lg={'6'}>
-                      {/* caregiver list view */}
-                      <CaregiverListView
-                        fetchingCareGiverData={fetchingCareGiverData}
-                        daysData={daysData}
-                        loading={caregiverLoading}
-                        careGiversList={caregiversList ? caregiversList : []}
-                        onAddingRow={onAddingRow}
-                        selectedCells={selectedCells}
-                        handleSecondStar={handleSecondStar}
-                        handleReset={handleReset}
-                        qualification={qualification}
-                        gte={gteDayData}
-                        lte={lteDayData}
-                        selctedAvailability={selctedAvailability}
-                        qualificationList={qualificationList}
-                        activeDateCaregiver={activeDateCaregiver}
-                        onReserve={onReserve}
-                        onDeleteEntries={onDeleteEntries}
-                        onCaregiverQualificationFilter={
-                          onCaregiverQualificationFilter
-                        }
-                        onNewAvailability={() => setMultipleAvailability(true)}
-                        handleSelection={handleSelection}
-                        selectedCellsCareinstitution={
-                          selectedCellsCareinstitution
-                        }
-                        onLinkAppointment={onLinkAppointment}
-                        setOnConfirmedCaregiver={setOnConfirmedCaregiver}
-                        setOnNotConfirmedCaregiver={setOnNotConfirmedCaregiver}
-                        totalCaregiver={totalCaregiver}
-                        getNext={getNext}
-                      />
-                      {/* care insitution list */}
-                      <CarinstituionListView
-                        daysData={daysData}
-                        loading={careinstitutionLoading}
-                        careInstitutionList={
-                          careinstitutionList ? careinstitutionList : []
-                        }
-                        handleSelectedAppoitment={() =>
-                          handleSelectedAppoitment()
-                        }
-                        fetchCareinstitutionList={fetchCareinstitutionList}
-                        onAddingRow={onAddingRow}
-                        handleSecondStar={handleSecondStar}
-                        handleReset={handleReset}
-                        showSelectedCaregiver={showSelectedCaregiver}
-                        handleFirstStarCanstitution={
-                          handleFirstStarCanstitution
-                        }
-                        careInstituionDeptData={careInstituionDeptData}
-                        starCanstitution={starCanstitution}
-                        secondStarCanstitution={secondStarCanstitution}
-                        deptLoading={deptLoading /* fetchingDept */}
-                        onhandleSecondStarCanstitution={
-                          onhandleSecondStarCanstitution
-                        }
-                        qualificationList={qualificationList}
-                        selectedCareGiver={selectedCareGiver}
-                        selectedCareinstitution={selectedCareinstitution}
-                        activeDateCaregiver={
-                          activeDateCaregiver && activeDateCaregiver.length
-                            ? activeDateCaregiver[0]
-                            : undefined
-                        }
-                        activeDateCareinstitution={
-                          activeDateCareinstitution &&
-                          activeDateCareinstitution.length
-                            ? activeDateCareinstitution[0]
-                            : undefined
-                        }
-                        handleSelection={handleSelection}
-                        qualification={qualification}
-                        gte={gteDayData}
-                        lte={lteDayData}
-                        selectedCellsCareinstitution={
-                          selectedCellsCareinstitution
-                        }
-                        selectedCells={selectedCells}
-                        onLinkAppointment={onLinkAppointment}
-                        onDeleteEntries={onDeleteEntries}
-                        setOnConfirmedCareInst={setOnConfirmedCareInst}
-                        setOnNotConfirmedCareInst={setOnNotConfirmedCareInst}
-                        setOnOfferedCareInst={setOnOfferedCareInst}
-                        setOnNotOfferedCareInst={setOnNotOfferedCareInst}
-                        onNewRequirement={() => setMultipleRequirement(true)}
-                        careinstitutionDepartmentList={
-                          careinstitutionDepartmentList
-                        }
+                    <Col
+                      lg={'6'}
+                      className='px-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'
+                    >
+                      <Formik
+                        initialValues={valuesForCaregiver}
+                        onSubmit={handleSubmitCaregiverForm}
+                        enableReinitialize={true}
+                        validationSchema={CareGiverValidationSchema}
+                        children={(props: FormikProps<ICaregiverFormValue>) => {
+                          return (
+                            <CaregiverFormView
+                              {...props}
+                              selectedCareGiver={{
+                                id: selectedCaregiverId
+                              }}
+                              addCaregiverLoading={
+                                addCaregiverLoading
+                                  ? true
+                                  : updateCaregiverLoading
+                                  ? true
+                                  : false
+                              }
+                              setsavingBoth={() => setsavingBoth(false)}
+                              activeDateCaregiver={
+                                !multipleAvailability
+                                  ? [dateString]
+                                  : selectedCells
+                                  ? selectedCells.map(cell => cell.dateString)
+                                  : []
+                              }
+                              addCaregiverRes={
+                                addCaregiverRes &&
+                                addCaregiverRes.addCareGiverAvability
+                                  ? addCaregiverRes.addCareGiverAvability
+                                  : ''
+                              }
+                              timeSlotError={timeSlotError}
+                              selctedAvailability={item}
+                              onhandleDelete={onhandleDelete}
+                              handleSelectUserList={handleSelectUserList}
+                              savingBoth={savingBoth}
+                              careGiversListArr={
+                                careGiversList &&
+                                careGiversList.getUserByQualifications
+                                  ? careGiversList &&
+                                    careGiversList.getUserByQualifications
+                                  : []
+                              }
+                              handleLastTimeData={handleLastTimeData}
+                            />
+                          );
+                        }}
                       />
                     </Col>
                     <Col lg={'6'}>
-                      <Row>
-                        <Col
-                          lg={'6'}
-                          className='px-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'
+                      <Formik
+                        initialValues={valuesForCareIntituionForm}
+                        onSubmit={handleSubmitCareinstitutionForm}
+                        enableReinitialize={true}
+                        validationSchema={CareInstitutionValidationSchema}
+                        children={(
+                          props: FormikProps<ICareinstitutionFormValue>
+                        ) => {
+                          return (
+                            <CareinstitutionFormView
+                              {...props}
+                              savingBoth={savingBoth}
+                              addCareinstLoading={
+                                addCareinstLoading
+                                  ? true
+                                  : updateCareinstitutionLoading
+                                  ? true
+                                  : false
+                              }
+                              setsavingBoth={() => setsavingBoth(false)}
+                              activeDateCareinstitution={
+                                !multipleRequirement
+                                  ? [careInstitutiondateString]
+                                  : selectedCellsCareinstitution
+                                  ? selectedCellsCareinstitution.map(
+                                      cell => cell.dateString
+                                    )
+                                  : []
+                              }
+                              setcareInstituionDept={(
+                                deptData: any,
+                                values: any
+                              ) => {
+                                setcareInstituionDept(deptData);
+                                setupdateCanstitutionFormikValues(values);
+                              }}
+                              setcareInstituionShift={(
+                                shiftData: any,
+                                values: any
+                              ) => {
+                                setcareInstituionShift(shiftData);
+                                setupdateCanstitutionFormikValues(values);
+                              }}
+                              selectedCareinstitution={{ id: Id }}
+                              addCareinstitutionRes={
+                                addCareinstitutionRes &&
+                                addCareinstitutionRes.addCareInstitutionRequirement
+                                  ? addCareinstitutionRes.addCareInstitutionRequirement
+                                  : ''
+                              }
+                              qualificationList={qualificationList}
+                              careInstitutionDepartment={
+                                careInstitutionDepartment
+                              }
+                              careInstitutionTimesOptions={shiftOption}
+                              secondStarCanstitution={secondStarCanstitution}
+                              selctedRequirement={Item}
+                              handleQualification={handleQualification}
+                              onhandleDelete={onhandleDelete}
+                              handleSelectUserList={handleSelectUserList}
+                              careInstitutionListArr={
+                                careInstitutionList &&
+                                careInstitutionList.getUserByQualifications
+                                  ? careInstitutionList.getUserByQualifications
+                                  : []
+                              }
+                            />
+                          );
+                        }}
+                      />
+                    </Col>
+                    <Col lg={'12'}>
+                      <div className='d-flex align-items-center justify-content-center'>
+                        <Button
+                          className='btn-common  mt-0 mb-2 mx-2'
+                          color='primary'
+                          disabled={
+                            selectedCells !== undefined && !isCareinstituionData
+                              ? false
+                              : true
+                          }
+                          onClick={() => handleSaveBoth()}
                         >
-                          <Formik
-                            initialValues={valuesForCaregiver}
-                            onSubmit={handleSubmitCaregiverForm}
-                            enableReinitialize={true}
-                            validationSchema={CareGiverValidationSchema}
-                            children={(
-                              props: FormikProps<ICaregiverFormValue>,
-                            ) => {
-                              return (
-                                <CaregiverFormView
-                                  {...props}
-                                  selectedCareGiver={{
-                                    id: selectedCaregiverId,
-                                  }}
-                                  addCaregiverLoading={
-                                    addCaregiverLoading
-                                      ? true
-                                      : updateCaregiverLoading
-                                      ? true
-                                      : false
-                                  }
-                                  setsavingBoth={() => setsavingBoth(false)}
-                                  activeDateCaregiver={
-                                    !multipleAvailability
-                                      ? [dateString]
-                                      : selectedCells
-                                      ? selectedCells.map(
-                                          cell => cell.dateString,
-                                        )
-                                      : []
-                                  }
-                                  addCaregiverRes={
-                                    addCaregiverRes &&
-                                    addCaregiverRes.addCareGiverAvability
-                                      ? addCaregiverRes.addCareGiverAvability
-                                      : ''
-                                  }
-                                  timeSlotError={timeSlotError}
-                                  selctedAvailability={item}
-                                  onhandleDelete={onhandleDelete}
-                                  handleSelectUserList={handleSelectUserList}
-                                  savingBoth={savingBoth}
-                                  careGiversListArr={
-                                    careGiversList &&
-                                    careGiversList.getUserByQualifications
-                                      ? careGiversList &&
-                                        careGiversList.getUserByQualifications
-                                      : []
-                                  }
-                                  handleLastTimeData={handleLastTimeData}
-                                />
-                              );
-                            }}
-                          />
-                        </Col>
-                        <Col lg={'6'}>
-                          <Formik
-                            initialValues={valuesForCareIntituionForm}
-                            onSubmit={handleSubmitCareinstitutionForm}
-                            enableReinitialize={true}
-                            validationSchema={CareInstitutionValidationSchema}
-                            children={(
-                              props: FormikProps<ICareinstitutionFormValue>,
-                            ) => {
-                              return (
-                                <CareinstitutionFormView
-                                  {...props}
-                                  savingBoth={savingBoth}
-                                  addCareinstLoading={
-                                    addCareinstLoading
-                                      ? true
-                                      : updateCareinstitutionLoading
-                                      ? true
-                                      : false
-                                  }
-                                  setsavingBoth={() => setsavingBoth(false)}
-                                  activeDateCareinstitution={
-                                    !multipleRequirement
-                                      ? [careInstitutiondateString]
-                                      : selectedCellsCareinstitution
-                                      ? selectedCellsCareinstitution.map(
-                                          cell => cell.dateString,
-                                        )
-                                      : []
-                                  }
-                                  setcareInstituionDept={(
-                                    deptData: any,
-                                    values: any,
-                                  ) => {
-                                    setcareInstituionDept(deptData);
-                                    setupdateCanstitutionFormikValues(values);
-                                  }}
-                                  setcareInstituionShift={(
-                                    shiftData: any,
-                                    values: any,
-                                  ) => {
-                                    setcareInstituionShift(shiftData);
-                                    setupdateCanstitutionFormikValues(values);
-                                  }}
-                                  selectedCareinstitution={{ id: Id }}
-                                  addCareinstitutionRes={
-                                    addCareinstitutionRes &&
-                                    addCareinstitutionRes.addCareInstitutionRequirement
-                                      ? addCareinstitutionRes.addCareInstitutionRequirement
-                                      : ''
-                                  }
-                                  qualificationList={qualificationList}
-                                  careInstitutionDepartment={
-                                    careInstitutionDepartment
-                                  }
-                                  careInstitutionTimesOptions={shiftOption}
-                                  secondStarCanstitution={
-                                    secondStarCanstitution
-                                  }
-                                  selctedRequirement={Item}
-                                  handleQualification={handleQualification}
-                                  onhandleDelete={onhandleDelete}
-                                  handleSelectUserList={handleSelectUserList}
-                                  careInstitutionListArr={
-                                    careInstitutionList &&
-                                    careInstitutionList.getUserByQualifications
-                                      ? careInstitutionList.getUserByQualifications
-                                      : []
-                                  }
-                                />
-                              );
-                            }}
-                          />
-                        </Col>
-                        <Col lg={'12'}>
-                          <div className='d-flex align-items-center justify-content-center'>
-                            <Button
-                              className='btn-common  mt-0 mb-2 mx-2'
-                              color='primary'
-                              disabled={
-                                selectedCells !== undefined &&
-                                !isCareinstituionData
-                                  ? false
-                                  : true
-                              }
-                              onClick={() => handleSaveBoth()}
-                            >
-                              <i className='fa fa-save mr-2' />
-                              {languageTranslation('SAVE_BOTH')}
-                            </Button>
-                            <Button
-                              className='btn-common mt-0 mb-2 mx-2'
-                              color='secondary'
-                              disabled={
-                                selectedCells !== undefined &&
-                                !isCareinstituionData
-                                  ? false
-                                  : true
-                              }
-                              onClick={() =>
-                                isUnLinkable
-                                  ? handleUnlinkBoth()
-                                  : handleLinkBoth()
-                              }
-                            >
-                              {linkLoading ? (
-                                <i className='fa fa-spinner fa-spin mr-2' />
-                              ) : (
-                                <i className='fa fa-link mr-2' />
-                              )}
-                              {isUnLinkable
-                                ? 'Unlink'
-                                : languageTranslation('LINK')}
-                            </Button>
-                          </div>
-                        </Col>
-                      </Row>
+                          <i className='fa fa-save mr-2' />
+                          {languageTranslation('SAVE_BOTH')}
+                        </Button>
+                        <Button
+                          className='btn-common mt-0 mb-2 mx-2'
+                          color='secondary'
+                          disabled={
+                            selectedCells !== undefined && !isCareinstituionData
+                              ? false
+                              : true
+                          }
+                          onClick={() =>
+                            isUnLinkable ? handleUnlinkBoth() : handleLinkBoth()
+                          }
+                        >
+                          {linkLoading ? (
+                            <i className='fa fa-spinner fa-spin mr-2' />
+                          ) : (
+                            <i className='fa fa-link mr-2' />
+                          )}
+                          {isUnLinkable
+                            ? 'Unlink'
+                            : languageTranslation('LINK')}
+                        </Button>
+                      </div>
                     </Col>
                   </Row>
-                </div>
-              </div>
+                </Col>
+              </Row>
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </div>
+
       <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
+      />
+      <BulkEmailCareInstitutionModal
+        openModal={openCareInstitutionBulkEmail}
+        handleClose={() =>
+          setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail)
+        }
+        qualification={props.qualification}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
+      />
+      <BulkEmailCareGiverModal
+        openModal={openCareGiverBulkEmail}
+        qualification={props.qualification}
+        handleClose={() => setopenCareGiverBulkEmail(!openCareGiverBulkEmail)}
+        selectedCells={selectedCells}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        unlinkedBy={unlinkedBy}
       />
     </>
   );

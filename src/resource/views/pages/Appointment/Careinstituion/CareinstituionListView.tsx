@@ -229,12 +229,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
   };
 
+  //unLinked by
+  const [unlinkedBy, setunlinkedBy] = useState<string>('');
+
   //  UnLink appointmnets
   const handleUnLinkAppointments = (name: string) => {
     setshowUnlinkModal(!showUnlinkModal);
   };
 
+  const [isFromUnlink, setisFromUnlink] = useState(false);
   const handleUnlinkData = (likedBy: string, check: boolean) => {
+    setunlinkedBy(likedBy);
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
@@ -256,8 +261,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       });
       onLinkAppointment(appointmentId, 'unlink');
       if (likedBy !== 'employee') {
-        // setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
-        // setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+        setisFromUnlink(true);
+        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
       }
     } else {
       if (!toast.isActive(toastId)) {
@@ -292,10 +298,16 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setSortBy(sortBy);
     setShowButton(showButton);
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+    if (openCareGiverBulkEmail) {
+      setunlinkedBy('');
+    }
   };
 
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
+    if (openCareInstitutionBulkEmail) {
+      setunlinkedBy('');
+    }
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
   const [StatusTo, setStatusTo] = useState('');
@@ -411,10 +423,23 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           );
         }
       });
+    } else {
+      temp.push(
+        <tr className={'text-center no-hover-row'}>
+          <td colSpan={40} className={'pt-5 pb-5'}>
+            <div className='no-data-section'>
+              <div className='no-data-icon'>
+                <i className='icon-ban' />
+              </div>
+              <h4 className='mb-1'>{'No Data found with related search'}</h4>
+            </div>
+          </td>
+        </tr>
+      );
     }
     return temp /* firstStarData */;
   };
-  // to apply condition on email options
+  // to apply condition on email options and delete
   let emailOptionCond: any;
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     emailOptionCond = selectedCellsCareinstitution.filter((x: any) => {
@@ -476,13 +501,35 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     connectAppCondition = selectedCellsCareinstitution.filter((x: any) => {
       if (x.item && x.item.id) {
-        return x.item && x.item.status !== 'default';
+        return (
+          x.item && x.item.status !== 'default' && x.item.status !== 'offered'
+        );
       } else {
         return ['abc'];
       }
     });
   }
-  console.log(selectedCellsCareinstitution, 'selectedCellsCareinstitution++++');
+
+  let sortedQualificationList: any = [];
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    selectedCellsCareinstitution.map((list: any, index: number) => {
+      if (list && list.item && list.item.qualificationId) {
+        let qualificationId = list.item.qualificationId;
+        qualificationId.map((key: any, i: number) => {
+          if (
+            sortedQualificationList.findIndex(
+              (item: any) => item && item === key.value
+            ) < 0
+          ) {
+            return (sortedQualificationList = [
+              ...sortedQualificationList,
+              key.value
+            ]);
+          }
+        });
+      }
+    });
+  }
 
   return (
     <>
@@ -628,7 +675,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('day', true);
                   handleCareInstitutionBulkEmail();
-                  setOnOfferedCareInst();
+                  // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
               >
@@ -652,7 +699,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('division', false);
                   handleCareInstitutionBulkEmail();
-                  setOnOfferedCareInst();
+                  // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
               >
@@ -676,7 +723,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('day', false);
                   handleCareInstitutionBulkEmail();
-                  setOnOfferedCareInst();
+                  // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
               >
@@ -862,13 +909,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               <NavLink
                 disabled={
                   selectedCellsCareinstitution &&
-                  ((selectedCellsCareinstitution.length &&
+                  selectedCellsCareinstitution.length &&
+                  ((selectedCellsCareinstitution.length === 0 &&
+                    selectedCellsCareinstitution[0] &&
                     selectedCellsCareinstitution[0].id === '') ||
                     (selectedCellsCareinstitution[0] &&
                       selectedCellsCareinstitution[0].item &&
                       selectedCellsCareinstitution[0].item.status !== 'linked'))
-                    ? 'disabled-class'
-                    : ''
+                    ? true
+                    : false
                 }
               >
                 <img src={set_confirm} className='mr-2' alt='' />
@@ -886,6 +935,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               <NavLink
                 disabled={
                   selectedCellsCareinstitution &&
+                  selectedCellsCareinstitution.length &&
                   ((selectedCellsCareinstitution.length &&
                     selectedCellsCareinstitution[0].id === '') ||
                     (selectedCellsCareinstitution[0] &&
@@ -1034,16 +1084,26 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() => handleCareInstitutionBulkEmail()}
-        qualification={props.qualification}
+        qualification={
+          sortedQualificationList && sortedQualificationList.length
+            ? sortedQualificationList
+            : props.qualification
+        }
         selectedCellsCareinstitution={selectedCellsCareinstitution}
         gte={props.gte}
         lte={props.lte}
         statusTo={StatusTo}
         sortBy={sortBy}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
       />
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
-        qualification={props.qualification}
+        qualification={
+          sortedQualificationList && sortedQualificationList.length
+            ? sortedQualificationList
+            : props.qualification
+        }
         handleClose={() => handleCareGiverBulkEmail('', false)}
         selectedCells={selectedCells}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
@@ -1051,6 +1111,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         lte={props.lte}
         sortBy={sortBy}
         showButton={showButton}
+        unlinkedBy={unlinkedBy}
       />
       <DetaillistCareinstitutionPopup
         show={showList ? true : false}

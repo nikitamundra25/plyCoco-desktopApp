@@ -36,59 +36,52 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     handleDayClick,
     handleToday,
     qualification,
-    handleSelectUserList,
-    careGiversListArr,
-    careInstitutionListArr,
+    careinstitutionSoloFilter,
+    caregiverSoloFilter,
     applyFilter,
     handleSelectAppointment,
     onFilterByUserId,
     handleResetFilters,
-    filterByAppointments
+    filterByAppointments,
+    handleUserList
   } = props;
 
   const { month = '', year = '' } = daysData ? daysData : {};
 
   const [attributeSearch, setShowAttribute] = useState<boolean>(false);
   const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
-  const [caregiverUser, setcaregiverUser] = useState<
-    IReactSelectInterface | undefined
-  >(undefined);
-  const [careinstitutionUser, setcareinstitutionUser] = useState<
-    IReactSelectInterface | undefined
-  >(undefined);
-
   const [user, setuser] = useState<string>('');
   const [userId, setuserId] = useState<string>('');
   const [dropdownOpen, setOpen] = useState<boolean>(false);
 
   const toggle = () => setOpen(!dropdownOpen);
 
-  const handleUserList = (
-    selectedOption: IReactSelectInterface,
-    name: string
-  ) => {
-    const { result: caregiverArr } = careGiversListArr;
-    const { result: careinstitutionArr } = careInstitutionListArr;
-    let data: any = name === 'caregiver' ? caregiverArr : careinstitutionArr;
-    if (selectedOption && selectedOption.value) {
-      if (name === 'caregiver') {
-        data = caregiverArr.filter((x: any) => x.id === selectedOption.value);
-        setcaregiverUser(selectedOption);
-      } else {
-        data = careinstitutionArr.filter(
-          (x: any) => x.id === selectedOption.value
-        );
-        setcareinstitutionUser(selectedOption);
-      }
-    } else {
-      if (name === 'caregiver') {
-        setcaregiverUser(selectedOption);
-      } else {
-        setcareinstitutionUser(selectedOption);
-      }
-    }
-    handleSelectUserList(data, name);
-  };
+  // const handleUserList = (
+  //   selectedOption: IReactSelectInterface,
+  //   name: string
+  // ) => {
+  //   const { result: caregiverArr } = careGiversListArr;
+  //   const { result: careinstitutionArr } = careInstitutionListArr;
+  //   let data: any = name === 'caregiver' ? caregiverArr : careinstitutionArr;
+  //   if (selectedOption && selectedOption.value) {
+  //     if (name === 'caregiver') {
+  //       data = caregiverArr.filter((x: any) => x.id === selectedOption.value);
+  //       setcaregiverUser(selectedOption);
+  //     } else {
+  //       data = careinstitutionArr.filter(
+  //         (x: any) => x.id === selectedOption.value
+  //       );
+  //       setcareinstitutionUser(selectedOption);
+  //     }
+  //   } else {
+  //     if (name === 'caregiver') {
+  //       setcaregiverUser(selectedOption);
+  //     } else {
+  //       setcareinstitutionUser(selectedOption);
+  //     }
+  //   }
+  //   handleSelectUserList(data, name);
+  // };
 
   const handleSelect = (e: any, name: string) => {
     if (name === 'dropdown') {
@@ -113,8 +106,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     }
   };
   const handleAllResetFilters = () => {
-    setcaregiverUser(undefined);
-    setcareinstitutionUser(undefined);
     handleResetFilters();
   };
   return (
@@ -156,12 +147,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               className={'custom-reactselect '}
               placeholder='Select appointment'
               options={Without_Appointments}
-              value={
-                filterByAppointments
-                // filterByAppointments && filterByAppointments.value !== undefined
-                //   ? { label: 'hello', value: 'hy' }
-                //   : undefined
-              }
+              value={filterByAppointments ? filterByAppointments : null}
               onChange={(value: any) =>
                 handleSelectAppointment(value, 'appointments')
               }
@@ -179,7 +165,9 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                   'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                 )}
                 value={qualification ? qualification : undefined}
-                className={'custom-reactselect custom-reactselect-menu-width'}
+                className={
+                  'custom-reactselect custom-reactselect-menu-width-appointment'
+                }
                 classNamePrefix='custom-inner-reactselect'
                 onChange={handleQualification}
               />
@@ -209,12 +197,14 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           <div className='user-select mx-1'>
             <Select
               classNamePrefix='custom-inner-reactselect'
-              className={'custom-reactselect custom-reactselect-menu-width'}
+              className={
+                'custom-reactselect custom-reactselect-menu-width-appointment'
+              }
               placeholder='Select Caregiver'
               options={careGiversList}
               value={
-                caregiverUser && caregiverUser.value !== ''
-                  ? caregiverUser
+                caregiverSoloFilter && caregiverSoloFilter.value !== ''
+                  ? caregiverSoloFilter
                   : null
               }
               components={{ Option: CustomOption }}
@@ -245,11 +235,14 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           <div className='user-select mx-1'>
             <Select
               classNamePrefix='custom-inner-reactselect'
-              className={'custom-reactselect custom-reactselect-menu-width'}
+              className={
+                'custom-reactselect custom-reactselect-menu-width-appointment'
+              }
               placeholder='Select Care Institution'
               value={
-                careinstitutionUser && careinstitutionUser.value !== ''
-                  ? careinstitutionUser
+                careinstitutionSoloFilter &&
+                careinstitutionSoloFilter.value !== ''
+                  ? careinstitutionSoloFilter
                   : null
               }
               options={careInstitutionList}
@@ -287,8 +280,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 placeholder={
                   user
                     ? user === 'avability'
-                      ? 'availability'
-                      : 'requirement'
+                      ? 'Availability'
+                      : 'Requirement'
                     : languageTranslation('SELECT_USER')
                 }
                 type='text'

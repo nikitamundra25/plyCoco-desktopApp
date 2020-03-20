@@ -48,6 +48,7 @@ import leasing_contact from '../../../../assets/img/dropdown/leasing.svg';
 import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 import '../index.scss';
+import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -74,6 +75,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     totalCaregiver,
     getNext,
     fetchingCareGiverData,
+    careInstitutionList,
     qualificationList
   } = props;
 
@@ -101,10 +103,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
     false
   );
+
+  // state for care institution bulk email
+  const [
+    openCareInstitutionBulkEmail,
+    setopenCareInstitutionBulkEmail
+  ] = useState<boolean>(false);
+
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
     if (openCareGiverBulkEmail === true) {
       setconfirmApp(false);
+      setunlinkedBy('');
     }
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
@@ -231,13 +241,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   };
 
   const [confirmApp, setconfirmApp] = useState<boolean>(false);
-
+  //unLinked by
+  const [unlinkedBy, setunlinkedBy] = useState('');
   //  UnLink appointmnets
   const handleUnLinkAppointments = () => {
     setshowUnlinkModal(!showUnlinkModal);
   };
-
+  const [isFromUnlink, setisFromUnlink] = useState(false);
   const handleUnlinkData = (likedBy: string, check: boolean) => {
+    setunlinkedBy(likedBy);
     let appointmentId: any = [];
     if (selectedCells && selectedCells.length) {
       selectedCells.map((key: any, index: number) => {
@@ -260,10 +272,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         }
       });
       onLinkAppointment(appointmentId, 'unlink');
+      if (likedBy !== 'employee') {
+        setisFromUnlink(true);
+        setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+        setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+      }
     } else {
       if (!toast.isActive(toastId)) {
         toastId = toast.error('Please select appointment/s.');
       }
+    }
+  };
+
+  // open care institution bulk Email section
+  const handleCareInstitutionBulkEmail = () => {
+    setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
+    if (openCareInstitutionBulkEmail) {
+      setunlinkedBy('');
     }
   };
 
@@ -291,6 +316,26 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     });
   }
 
+  let sortedQualificationList: any = [];
+  if (selectedCells && selectedCells.length) {
+    selectedCells.map((list: any, index: number) => {
+      if (list && list.item && list.item.qualificationId) {
+        let qualificationId = list.item.qualificationId;
+        qualificationId.map((key: any, i: number) => {
+          if (
+            sortedQualificationList.findIndex(
+              (item: any) => item && item === key.value
+            ) < 0
+          ) {
+            return (sortedQualificationList = [
+              ...sortedQualificationList,
+              key.value
+            ]);
+          }
+        });
+      }
+    });
+  }
   return (
     <div>
       <div
@@ -562,9 +607,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               className='custom-row-selector'
               clickClassName='tick'
               resetOnStart={true}
-              duringSelection={(data: any) =>
-                console.log(data, 'duringSelection')
-              }
+              // duringSelection={(data: any) =>
+              //   console.log(data, 'duringSelection')
+              // }
               onSelectionFinish={onSelectFinish}
               onSelectionClear={onSelectionClear}
               ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
@@ -800,13 +845,34 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       </div>
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
-        qualification={props.qualification}
+        qualification={
+          sortedQualificationList && sortedQualificationList
+            ? sortedQualificationList
+            : props.qualification
+        }
         handleClose={() => handleCareGiverBulkEmail()}
         gte={props.gte}
         lte={props.lte}
         selectedCells={selectedCells}
         confirmApp={confirmApp}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
+        qualificationList={qualificationList}
+      />
+      <BulkEmailCareInstitutionModal
+        openModal={openCareInstitutionBulkEmail}
+        handleClose={() => handleCareInstitutionBulkEmail()}
+        qualification={
+          sortedQualificationList && sortedQualificationList
+            ? sortedQualificationList
+            : props.qualification
+        }
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        gte={props.gte}
+        lte={props.lte}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
       />
       <DetaillistCaregiverPopup
         show={showList ? true : false}

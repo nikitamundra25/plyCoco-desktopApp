@@ -80,12 +80,12 @@ export const CareInstitutionValidationSchema: Yup.ObjectSchema<Yup.Shape<
         return !val || isValid || createError({ path, message });
       }
     }),
+  qualificationId: Yup.string().required(
+    languageTranslation('QUALIFICATION_REQUIRED')
+  ),
   department: Yup.mixed().when('careInstitutionDepartment', {
     is: careInstitutionDepartment =>
       careInstitutionDepartment && careInstitutionDepartment.length > 0,
     then: Yup.string().required(languageTranslation('DEPARTMENT_REQUIRED'))
-  }),
-  qualificationId: Yup.mixed().required(
-    languageTranslation('QUALIFICATION_REQUIRED')
-  )
+  })
 });

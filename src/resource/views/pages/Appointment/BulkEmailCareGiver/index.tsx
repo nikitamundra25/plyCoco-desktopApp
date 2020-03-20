@@ -11,7 +11,7 @@ import {
   Col,
   Row,
   Form,
-  CustomInput
+  CustomInput,
 } from 'reactstrap';
 import '../index.scss';
 import BulkEmailCaregiver from '../../BulkEmailCaregiver';
@@ -19,7 +19,13 @@ import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 
 const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
-  const { openModal, handleClose, selectedCells } = props;
+  const {
+    openModal,
+    handleClose,
+    selectedCells,
+    offerRequirements,
+    qualificationList,
+  } = props;
   const externalCloseBtn = (
     <button
       className='close modal-close'
@@ -53,6 +59,8 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
             confirmApp={props.confirmApp}
             selectedCellsCareinstitution={props.selectedCellsCareinstitution}
             unlinkedBy={props.unlinkedBy}
+            offerRequirements={offerRequirements}
+            qualificationList={qualificationList}
           />
         </ModalBody>
       </Modal>

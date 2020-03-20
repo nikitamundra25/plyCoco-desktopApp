@@ -260,7 +260,13 @@ const GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION = gql`
       id
       name
       date
+      startTime
+      endTime
       divisionId
+      division {
+        id
+        name
+      }
       status
       qualificationId
     }
@@ -271,5 +277,5 @@ export const AppointmentsQueries = [
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
   GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
-  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
+  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION,
 ];

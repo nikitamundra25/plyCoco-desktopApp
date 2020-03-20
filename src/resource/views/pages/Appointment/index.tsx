@@ -1012,27 +1012,27 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
-      // if (locationState && locationState.canstitution) {
-      //   let list: any = result.filter(
-      //     (list: any) => list.id === locationState.canstitution
-      //   );
-      //   setcareinstitutionList(list);
-      //   if (list && list.length && list[0]) {
-      //     handleFirstStarCanstitution(list[0], 1);
-      //   } else {
-      //     setstarCanstitution({
-      //       isStar: false,
-      //       setIndex: -1,
-      //       id: ''
-      //     });
-      //     // setcareInstituionDeptData([]);
-      //   }
-      // } else {
       if (locationState && locationState.canstitution) {
-        handleFirstStarCanstitution(result, 1);
-      }
-      setcareinstitutionList(result);
+        let list: any = result.filter(
+          (list: any) => list.id === locationState.canstitution
+        );
+        setcareinstitutionList(list);
+        if (list && list.length && list[0]) {
+          handleFirstStarCanstitution(list[0], 1);
+        } else {
+          setstarCanstitution({
+            isStar: false,
+            setIndex: -1,
+            id: ''
+          });
+          // setcareInstituionDeptData([]);
+        }
+      } else {
+      // if (locationState && locationState.canstitution) {
+      //   handleFirstStarCanstitution(result, 1);
       // }
+      setcareinstitutionList(result);
+      }
     }
   }, [careGiversList, careInstitutionList]);
 

@@ -318,7 +318,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         (item: any) => item.id === starCanstitution.id
       );
     }
-
     let temp: any[] = [];
     if (listData && listData.length) {
       listData.forEach((list: any, index: number) => {
@@ -425,13 +424,18 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
       });
     } else {
-      console.log('fgdfhgjdhfgbj');
-      // <tr>
-      //   {' '}
-      //   <th>
-      //     <div>'No data'</div>
-      //   </th>
-      // </tr>;
+      temp.push(
+        <tr className={'text-center no-hover-row'}>
+          <td colSpan={40} className={'pt-5 pb-5'}>
+            <div className='no-data-section'>
+              <div className='no-data-icon'>
+                <i className='icon-ban' />
+              </div>
+              <h4 className='mb-1'>{'No Data found with related search'}</h4>
+            </div>
+          </td>
+        </tr>
+      );
     }
     return temp /* firstStarData */;
   };
@@ -867,6 +871,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 disabled={
                   selectedCellsCareinstitution &&
                   ((selectedCellsCareinstitution.length &&
+                    selectedCellsCareinstitution[0] &&
                     selectedCellsCareinstitution[0].id === '') ||
                     (selectedCellsCareinstitution[0].item &&
                       selectedCellsCareinstitution[0].item.status !== 'linked'))

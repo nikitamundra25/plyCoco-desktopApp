@@ -173,7 +173,6 @@ const Appointment: FunctionComponent = (props: any) => {
   ] = useState<any[]>();
   const [positive, setPositive] = useState<number[]>([]);
   const [negative, setNegative] = useState<number[]>([]);
-  const [unlinkedDelete, setunlinkedDelete] = useState<boolean>(false);
 
   // store the previous entered value in state
   const [caregiverLastTimeValues, setcaregiverLastTimeValues] = useState<any>();
@@ -214,15 +213,15 @@ const Appointment: FunctionComponent = (props: any) => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     // Fetch list of caregivers
-    fetchCareGivers({
-      variables: {
-        searchBy: '',
-        sortBy: 3,
-        limit: 500,
-        page: 1,
-        isActive: ''
-      }
-    });
+    // fetchCareGivers({
+    //   variables: {
+    //     searchBy: '',
+    //     sortBy: 3,
+    //     limit: 500,
+    //     page: 1,
+    //     isActive: ''
+    //   }
+    // });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -393,19 +392,17 @@ const Appointment: FunctionComponent = (props: any) => {
     appointmentInput: IUnlinkAppointmentInput;
   }>(UN_LINK_REQUIREMENT, {
     onCompleted(unlinkResponse) {
-      fetchData();
-      console.log('deleteAppointment', unlinkResponse);
+      // console.log('deleteAppointment', unlinkResponse);
       if (unlinkResponse && unlinkResponse.deleteAppointment) {
         const { deleteAppointment } = unlinkResponse;
         const { deleteAll } = deleteAppointment;
         if (deleteAll) {
-          setunlinkedDelete(true);
-          console.log('unlinkedBy', unlinkedBy);
+          // console.log('unlinkedBy', unlinkedBy);
           if (unlinkedBy === 'caregiver') {
-            console.log('caregivercaregiver');
+            // console.log('caregivercaregiver');
             setSelectedCells([]);
           } else if (unlinkedBy === 'canstitution') {
-            console.log('unlinkedcanstitutionedByunlinkedBy', unlinkedBy);
+            // console.log('unlinkedcanstitutionedByunlinkedBy', unlinkedBy);
             setselectedCellsCareinstitution([]);
           }
         }
@@ -413,30 +410,9 @@ const Appointment: FunctionComponent = (props: any) => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('UN_LINKED_APPOINTMENTS'));
       }
+      fetchData();
     }
   });
-
-  // Blank form when unlink appointments
-  // useEffect(() => {
-  //   // console.log('unlinkResponse ', unlinkResponse);
-  //   if (unlinkResponse && unlinkResponse.deleteAppointment) {
-  //     const { deleteAppointment } = unlinkResponse;
-  //     const { deleteAll } = deleteAppointment;
-  //     if (deleteAll) {
-  //       setunlinkedDelete(true);
-  //       console.log('unlinkedBy', unlinkedBy);
-  //       if (unlinkedBy === 'caregiver') {
-  //         console.log('caregivercaregiver');
-  //         setSelectedCells([]);
-  //       } else if (unlinkedBy === 'canstitution') {
-  //         console.log('unlinkedcanstitutionedByunlinkedBy', unlinkedBy);
-  //         setselectedCellsCareinstitution([]);
-  //       }
-  //     }
-  //   }
-  // }, [unlinkResponse]);
-
-  console.log('selectedCellsCareinstitution', selectedCells);
 
   // To get caregiver list from db
   const [
@@ -1826,8 +1802,8 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       });
       updateLinkedStatus(name);
-    } else {                                                                  
-      updateLinkedStatus(name);                                           
+    } else {
+      updateLinkedStatus(name);
       await unLinkRequirement({
         variables: {
           appointmentInput: selectedOption

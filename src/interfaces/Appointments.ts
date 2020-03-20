@@ -41,6 +41,10 @@ export interface IAppointmentNav {
   ) => void;
   onFilterByUserId: (userId: string, userRole: string) => void;
   handleResetFilters: () => void;
+  isPositive: number[];
+  setIsPositive: React.Dispatch<React.SetStateAction<number[]>>;
+  isNegative: number[];
+  setIsNegative: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export interface IAppointmentCareGiverList {

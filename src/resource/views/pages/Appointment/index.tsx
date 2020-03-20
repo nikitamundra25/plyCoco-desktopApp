@@ -88,8 +88,8 @@ const [
 let toastId: any = null;
 
 const Appointment: FunctionComponent = (props: any) => {
- // To fetch id from display appointments
- const { state: locationState }: any = useLocation()
+  // To fetch id from display appointments
+  const { state: locationState }: any = useLocation();
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null
   );
@@ -162,6 +162,8 @@ const Appointment: FunctionComponent = (props: any) => {
   const [positive, setPositive] = useState<number[]>([]);
   const [negative, setNegative] = useState<number[]>([]);
 
+  const [isPositive, setIsPositive] = useState<number[]>([]);
+  const [isNegative, setIsNegative] = useState<number[]>([]);
   // store the previous entered value in state
   const [caregiverLastTimeValues, setcaregiverLastTimeValues] = useState<any>();
 
@@ -3046,6 +3048,10 @@ const Appointment: FunctionComponent = (props: any) => {
             filterByAppointments={filterByAppointments}
             onFilterByUserId={onFilterByUserId}
             handleResetFilters={handleResetFilters}
+            isPositive={isPositive}
+            setIsPositive={setIsPositive}
+            isNegative={isNegative}
+            setIsNegative={setIsNegative}
           />
           <div className='common-content flex-grow-1'>
             <div>

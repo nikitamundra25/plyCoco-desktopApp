@@ -335,11 +335,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem>
             <NavLink
               disabled={
-                selectedCells
-                  ? selectedCells.length === 0 ||
-                    (connectAppCondition && connectAppCondition.length !== 0)
+                selectedCells && selectedCells.length
+                  ? selectedCells.filter(
+                      (availability: any) =>
+                        (availability && !availability.item) ||
+                        (availability.item &&
+                          availability.item.status === 'default'),
+                    ).length
+                    ? false
+                    : true
                   : true
               }
+              // disabled={
+              //   selectedCells
+              //     ? selectedCells.length === 0 ||
+              //       (connectAppCondition && connectAppCondition.length !== 0)
+              //     : true
+              // }
               onClick={() => {
                 setopenToggleMenu(false);
                 onDeleteEntries ? onDeleteEntries('caregiver') : undefined;

@@ -195,7 +195,6 @@ const Appointment: FunctionComponent = (props: any) => {
   });
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
     // Fetch list of caregivers
     fetchCareGivers({
       variables: {
@@ -206,9 +205,6 @@ const Appointment: FunctionComponent = (props: any) => {
         isActive: '',
       },
     });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
   }, []);
 
   const handleScroll = () => {
@@ -289,7 +285,7 @@ const Appointment: FunctionComponent = (props: any) => {
     {
       deleteCaregiver: any;
     },
-    { id: number }
+    { id: number[] }
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted() {
       setPage(1);
@@ -351,7 +347,7 @@ const Appointment: FunctionComponent = (props: any) => {
     {
       deleteCareinstitution: any;
     },
-    { id: number }
+    { id: number[] }
   >(DELETE_CAREINSTITUTION_REQUIREMENT, {
     onCompleted() {
       canstitutionRefetch();
@@ -1364,14 +1360,14 @@ const Appointment: FunctionComponent = (props: any) => {
         if (name === 'careinstitution') {
           await deleteCareinstitutionRequirement({
             variables: {
-              id: parseInt(id),
+              id: [parseInt(id)],
             },
           });
           // canstitutionRefetch();
         } else {
           await deleteCaregiverRequirement({
             variables: {
-              id: parseInt(id),
+              id: [parseInt(id)],
             },
           });
         }
@@ -2471,96 +2467,190 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const onDeleteEntries = async (userRole: string) => {
-    console.log(userRole, 'userRole');
-
     let temp: any =
-      userRole === 'caregiver' ? selectedCells : selectedCellsCareinstitution;
+      userRole === 'caregiver'
+        ? selectedCells
+          ? [...selectedCells]
+          : []
+        : selectedCellsCareinstitution
+        ? [...selectedCellsCareinstitution]
+        : [];
     if (temp && temp.length) {
-      const { value } = await ConfirmBox({
-        title: languageTranslation('CONFIRM_LABEL'),
-        text:
-          userRole === 'caregiver'
-            ? languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY')
-            : languageTranslation('CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT'),
-      });
-      if (value) {
-        temp.forEach(async (element: any) => {
-          const { id, item } = element;
-          console.log(item, 'item in foreach');
-          if (item && item.id) {
-            if (userRole === 'caregiver') {
-              await deleteCaregiverRequirement({
-                variables: {
-                  id: parseInt(item.id),
-                },
-              });
-            } else {
-              await deleteCareinstitutionRequirement({
-                variables: {
-                  id: parseInt(item.id),
-                },
-              });
+      let freeEntries = temp.filter(
+        (element: any) =>
+          !element.item || (element.item && !element.item.status),
+      );
+      let reservedEntries = temp.filter(
+        (element: any) =>
+          element.item &&
+          (element.item.status === 'default' ||
+            (userRole === 'careInstitution' &&
+              element.item.status === 'offered')),
+      );
+      freeEntries.forEach(async (element: any) => {
+        const { id } = element;
+        console.log(id, 'idddd');
+
+        let index: number = -1;
+        if (!item) {
+          if (userRole === 'caregiver') {
+            index = caregiversList.findIndex(
+              (caregiver: any) => caregiver.id === id,
+            );
+            if (index > -1) {
+              let list: any = [...caregiversList];
+              // To remove all the empty rows
+              list[index].availabilityData = list[
+                index
+              ].availabilityData.filter((ele: any) => ele.length);
+              setcaregiversList(list);
             }
           } else {
-            let index: number = -1;
-            if (userRole === 'caregiver') {
-              index = caregiversList.findIndex(
-                (caregiver: any) => caregiver.id === id,
+            // If solo careInstitution is selected
+            if (
+              starCanstitution &&
+              secondStarCanstitution &&
+              (starCanstitution.isStar || secondStarCanstitution.isStar) &&
+              careInstituionDeptData &&
+              careInstituionDeptData.length
+            ) {
+              console.log('in iffff');
+
+              index = careInstituionDeptData.findIndex(
+                (careInst: any) => careInst.userId === id,
               );
               if (index > -1) {
-                let list: any = [...caregiversList];
-                // To remove all the empty rows
+                let list: any = [...careInstituionDeptData];
                 list[index].availabilityData = list[
                   index
-                ].availabilityData.filter((item: any) => !item.length);
-                setcaregiversList(list);
+                ].availabilityData.filter((item: any) => item.length);
+                setcareInstituionDeptData(list);
               }
             } else {
-              // If solo careInstitution is selected
-              if (
-                starCanstitution &&
-                secondStarCanstitution &&
-                (starCanstitution.isStar || secondStarCanstitution.isStar) &&
-                careInstituionDeptData &&
-                careInstituionDeptData.length
-              ) {
-                index = careInstituionDeptData.findIndex(
-                  (careInst: any) => careInst.userId === id,
-                );
-                if (index > -1) {
-                  let list: any = [...careInstituionDeptData];
-                  list[index].availabilityData = list[
-                    index
-                  ].availabilityData.filter((item: any) => item.length);
-                  setcareInstituionDeptData(list);
-                }
-              } else {
-                index = careinstitutionList.findIndex(
-                  (careInst: any) => careInst.id === id,
-                );
-                if (index > -1) {
-                  let list: any = [...careinstitutionList];
-                  list[index].availabilityData = list[
-                    index
-                  ].availabilityData.filter((item: any) => item.length);
-                  setcareinstitutionList(list);
-                }
+              console.log('in else');
+
+              index = careinstitutionList.findIndex(
+                (careInst: any) => careInst.id === id,
+              );
+              if (index > -1) {
+                let list: any = [...careinstitutionList];
+                list[index].availabilityData = list[
+                  index
+                ].availabilityData.filter((item: any) => item.length);
+                setcareinstitutionList(list);
               }
             }
           }
-        });
-        if (!toast.isActive(toastId)) {
-          toastId = toast.success(
-            userRole === 'caregiver'
-              ? languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
-              : languageTranslation(
-                  'DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS',
-                ),
-          );
         }
-      } else {
-        return;
+      });
+      if (reservedEntries && reservedEntries.length) {
+        const { value } = await ConfirmBox({
+          title: languageTranslation('CONFIRM_LABEL'),
+          text:
+            userRole === 'caregiver'
+              ? languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY')
+              : languageTranslation(
+                  'CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT',
+                ),
+        });
+        if (value) {
+          if (userRole === 'caregiver') {
+            await deleteCaregiverRequirement({
+              variables: {
+                id: reservedEntries.map((element: any) =>
+                  parseInt(element.item.id),
+                ),
+                // parseInt(item.id),
+              },
+            });
+          } else {
+            await deleteCareinstitutionRequirement({
+              variables: {
+                id: reservedEntries.map((element: any) =>
+                  parseInt(element.item.id),
+                ),
+              },
+            });
+          }
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              userRole === 'caregiver'
+                ? languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
+                : languageTranslation(
+                    'DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS',
+                  ),
+            );
+          }
+        } else {
+          return;
+        }
       }
+
+      // temp.forEach(async (element: any) => {
+      //   const { id, item } = element;
+      //   console.log(item, 'item in foreach');
+      //   if (item && item.id) {
+      //     if (userRole === 'caregiver') {
+      //       await deleteCaregiverRequirement({
+      //         variables: {
+      //           id: parseInt(item.id),
+      //         },
+      //       });
+      //     } else {
+      //       await deleteCareinstitutionRequirement({
+      //         variables: {
+      //           id: parseInt(item.id),
+      //         },
+      //       });
+      //     }
+      //   } else {
+      //     let index: number = -1;
+      //     if (userRole === 'caregiver') {
+      //       index = caregiversList.findIndex(
+      //         (caregiver: any) => caregiver.id === id,
+      //       );
+      //       if (index > -1) {
+      //         let list: any = [...caregiversList];
+      //         // To remove all the empty rows
+      //         list[index].availabilityData = list[
+      //           index
+      //         ].availabilityData.filter((item: any) => !item.length);
+      //         setcaregiversList(list);
+      //       }
+      //     } else {
+      //       // If solo careInstitution is selected
+      //       if (
+      //         starCanstitution &&
+      //         secondStarCanstitution &&
+      //         (starCanstitution.isStar || secondStarCanstitution.isStar) &&
+      //         careInstituionDeptData &&
+      //         careInstituionDeptData.length
+      //       ) {
+      //         index = careInstituionDeptData.findIndex(
+      //           (careInst: any) => careInst.userId === id,
+      //         );
+      //         if (index > -1) {
+      //           let list: any = [...careInstituionDeptData];
+      //           list[index].availabilityData = list[
+      //             index
+      //           ].availabilityData.filter((item: any) => item.length);
+      //           setcareInstituionDeptData(list);
+      //         }
+      //       } else {
+      //         index = careinstitutionList.findIndex(
+      //           (careInst: any) => careInst.id === id,
+      //         );
+      //         if (index > -1) {
+      //           let list: any = [...careinstitutionList];
+      //           list[index].availabilityData = list[
+      //             index
+      //           ].availabilityData.filter((item: any) => item.length);
+      //           setcareinstitutionList(list);
+      //         }
+      //       }
+      //     }
+      //   }
+      // });
     }
   };
 

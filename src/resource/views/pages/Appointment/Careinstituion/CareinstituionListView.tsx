@@ -501,7 +501,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     connectAppCondition = selectedCellsCareinstitution.filter((x: any) => {
       if (x.item && x.item.id) {
-        return x.item && x.item.status !== 'default';
+        return (
+          x.item && x.item.status !== 'default' && x.item.status !== 'offered'
+        );
       } else {
         return ['abc'];
       }

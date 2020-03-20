@@ -114,7 +114,7 @@ const Documents = () => {
   // To fecth document type list
   const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES, {
     variables: {
-      userRole: languageTranslation('CAREINST_USERROLE')
+      userRole: languageTranslation('DOCUMENT_TYPE_CAREINST')
     }
   });
   // To set document type into label value pair

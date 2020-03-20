@@ -165,7 +165,9 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                   'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                 )}
                 value={qualification ? qualification : undefined}
-                className={'custom-reactselect custom-reactselect-menu-width'}
+                className={
+                  'custom-reactselect custom-reactselect-menu-width-appointment'
+                }
                 classNamePrefix='custom-inner-reactselect'
                 onChange={handleQualification}
               />
@@ -195,7 +197,9 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           <div className='user-select mx-1'>
             <Select
               classNamePrefix='custom-inner-reactselect'
-              className={'custom-reactselect custom-reactselect-menu-width'}
+              className={
+                'custom-reactselect custom-reactselect-menu-width-appointment'
+              }
               placeholder='Select Caregiver'
               options={careGiversList}
               value={
@@ -231,7 +235,9 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           <div className='user-select mx-1'>
             <Select
               classNamePrefix='custom-inner-reactselect'
-              className={'custom-reactselect custom-reactselect-menu-width'}
+              className={
+                'custom-reactselect custom-reactselect-menu-width-appointment'
+              }
               placeholder='Select Care Institution'
               value={
                 careinstitutionSoloFilter &&

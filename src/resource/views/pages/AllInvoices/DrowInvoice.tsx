@@ -55,7 +55,7 @@ import { TODO_PAGE_LIMIT, AppRoutes } from "../../../../config";
 import "./index.scss";
 import filter from "../../../assets/img/filter.svg";
 
-const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
+const DrowInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
   const options = [
@@ -69,12 +69,16 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       <Card>
         <div className="common-detail-page">
           <div className="common-detail-section">
+
+
             <div className="common-topheader d-flex  px-2 mb-1">
               <div className="header-nav-item">
                 <span className="header-nav-icon">
                   <img src={refresh} alt="" />
                 </span>
-                <span className="header-nav-text">Refresh</span>
+                <span className="header-nav-text">
+                  Refresh
+                  </span>
               </div>
 
               <div className="user-select mx-1 ">
@@ -99,49 +103,64 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                 <span className="header-nav-icon">
                   <img src={pen} alt="" />
                 </span>
-                <span className="header-nav-text">Create</span>
+                <span className="header-nav-text">
+                  Create
+                  </span>
               </div>
               <div className="header-nav-item">
                 <span className="header-nav-icon">
                   <img src={CompleteTime} alt="" />
                 </span>
-                <span className="header-nav-text">Times completely</span>
+                <span className="header-nav-text">
+                  Times completely
+                  </span>
               </div>
               <div className="header-nav-item">
                 <span className="header-nav-icon">
                   <img src={idea} alt="" />
                 </span>
-                <span className="header-nav-text">Create all specialist</span>
+                <span className="header-nav-text">
+                  Create all specialist
+                  </span>
               </div>
               <div className="header-nav-item">
                 <span className="header-nav-icon">
                   <img src={massege} alt="" />
                 </span>
+
               </div>
               <div className="header-nav-item">
                 <span className="header-nav-icon">
                   <img src={monthCalendar} alt="" />
                 </span>
-                <span className="header-nav-text">Weekly</span>
+                <span className="header-nav-text">
+                  Weekly
+                  </span>
               </div>
 
               <div className="header-nav-item">
                 <span className="header-nav-icon">
                   <img src={monthCalendar} alt="" />
                 </span>
-                <span className="header-nav-text">Every six months</span>
+                <span className="header-nav-text">
+                  Every six months
+                  </span>
               </div>
               <div className="header-nav-item">
                 <span className="header-nav-icon">
                   <img src={monthCalendar} alt="" />
                 </span>
-                <span className="header-nav-text">Per month</span>
+                <span className="header-nav-text">
+                  Per month
+                  </span>
               </div>
               <div className="header-nav-item">
                 <span className="header-nav-icon">
                   <img src={monthCalendar} alt="" />
                 </span>
-                <span className="header-nav-text">All</span>
+                <span className="header-nav-text">
+                  All
+                  </span>
               </div>
               <div className="user-select mx-1 ">
                 <Select
@@ -234,42 +253,81 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                   <Table bordered hover responsive>
                     <thead className="thead-bg">
                       <tr>
-                        <th className="all-invoice-number">Nr</th>
-                        <th className="all-invoice-facility"> ID</th>
-                        <th className="all-invoice-cancellation-for"> H</th>
-                        <th className="all-invoice-canceled-by"> Text</th>
+                        <th className="all-invoice-number">
+                          Nr
+                        </th>
+                        <th className="all-invoice-facility">
+                          {" "}
+                         ID
+                        </th>
+                        <th className="all-invoice-cancellation-for">
+                          {" "}
+                         H
+                        </th>
+                        <th className="all-invoice-canceled-by">
+                          {" "}
+                         Text
+                        </th>
                         <th className="all-invoice-rchng">Beginning</th>
-                        <th className="all-invoice-date">The End</th>
-                        <th className="all-invoice-amount">End of beginning</th>
-                        <th className="all-invoice-posted">Price</th>
-                        <th className="all-invoice-sent-mail">Night</th>
-                        <th className="all-invoice-paid">Night</th>
-                        <th className="all-invoice-remind">We</th>
-                        <th className="all-invoice-reminded">We</th>
-                        <th className="all-invoice-lawyer">Celebration</th>
-                        <th className="all-invoice-doudful">Celebration</th>
-                        <th className="all-invoice-uncollectible">KM</th>
+                        <th className="all-invoice-date">
+                          The End
+                        </th>
+                        <th className="all-invoice-amount">
+                          End of beginning
+                        </th>
+                        <th className="all-invoice-posted">
+                          Price
+                        </th>
+                        <th className="all-invoice-sent-mail">
+                          Night
+                        </th>
+                        <th className="all-invoice-paid">
+                          Night
+                        </th>
+                        <th className="all-invoice-remind">
+                          We
+                        </th>
+                        <th className="all-invoice-reminded">
+                          We
+                        </th>
+                        <th className="all-invoice-lawyer">
+                          Celebration
+                        </th>
+                        <th className="all-invoice-doudful">
+                          Celebration
+                        </th>
+                        <th className="all-invoice-uncollectible">
+                          KM
+                        </th>
                         <th className="all-invoice-still-open">
                           {languageTranslation("STILL_OPEN")}
                         </th>
-                        <th className="all-invoice-comment">expenses</th>
-                        <th className="all-invoice-comment">overall</th>
-                        <th className="all-invoice-comment">Provide</th>
-                        <th className="all-invoice-comment">total</th>
+                        <th className="all-invoice-comment">
+                          expenses
+                        </th>
+                        <th className="all-invoice-comment">
+                          overall
+                        </th>
+                        <th className="all-invoice-comment">
+                          Provide
+                        </th>
+                        <th className="all-invoice-comment">
+                          total
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td className="checkbox-th-column text-center">
-                          <span className=" checkbox-custom ">
+                        <td className='checkbox-th-column text-center'>
+                          <span className=' checkbox-custom '>
                             <input
-                              type="checkbox"
-                              id="check"
-                              className=""
-                              name={"status"}
+                              type='checkbox'
+                              id='check'
+                              className=''
+                              name={'status'}
                               // checked={"true"}
                             />
-                            <label className=""> </label>
+                            <label className='' > </label>
                           </span>
                         </td>
                         <td> Work at service</td>
@@ -355,4 +413,4 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     </>
   );
 };
-export default CreateInvoice;
+export default DrowInvoice;

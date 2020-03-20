@@ -261,7 +261,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    <div className='text-value '>
+                    <div className='text-value one-line-text'>
                       {activeDateCareinstitution
                         ? activeDateCareinstitution
                             .map(
@@ -565,7 +565,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           handleSelect(value, 'department')
                         }
                         value={
-                          // department
                           department && department.value ? department : null
                         }
                       />

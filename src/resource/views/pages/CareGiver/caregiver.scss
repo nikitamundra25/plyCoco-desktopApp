@@ -51,23 +51,23 @@
     width: 45px;
     text-align: center;
   }
-  .institution-col {
-    width: 100px;
+  .invoiceid-col {
+    width: 110px;
   }
   .cancellation-col {
     width: 110px;
   }
-  .cancell-col {
+  .cancel-col {
     width: 100px;
   }
-  .facility-col {
-    width: 80px;
+  .careinstitution-col {
+    width: 150px;
   }
   .date-col {
     width: 100px;
   }
   .amount-col {
-    width: 100px;
+    width: 110px;
   }
   .vat-col {
     width: 100px;
@@ -76,10 +76,18 @@
     width: 100px;
   }
   .factoring-col {
-    width: 100px;
+    width: 70px;
   }
   .sent-col {
     width: 100px;
+  }
+  .remarks-col {
+    min-width: 150px;
+    max-width: 250px;
+  }
+  .action-col {
+    width: 150px;
+    max-width: 150px;
   }
 }
 

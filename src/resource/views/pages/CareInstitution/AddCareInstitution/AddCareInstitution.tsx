@@ -861,13 +861,13 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                   <Row className="align-items-center">
                     <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                       <Label className="form-label col-form-label">
-                        {languageTranslation("LIKED_TO")}
+                        {languageTranslation("LINKED_TO")}
                       </Label>
                     </Col>
                     <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                       <div>
                         <Select
-                          placeholder={languageTranslation("LIKED_TO")}
+                          placeholder={languageTranslation("LINKED_TO")}
                           options={CareInstitutionList}
                           value={linkedTo}
                           onChange={(value: any) =>
@@ -882,7 +882,7 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                         />
                         {/* 
                       <Select
-                        placeholder={languageTranslation('LIKED_TO')}
+                        placeholder={languageTranslation('LINKED_TO')}
                         onChange={(value: any) =>
                           handleSelect(value, 'linkedTo')
                         }

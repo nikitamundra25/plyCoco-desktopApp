@@ -581,8 +581,12 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <th className="date-th-column">
                   {languageTranslation("CREATED_DATE")}
                 </th>
-                <th className="text-center status-column">Status</th>
-                <th className="text-center">Action</th>
+                <th className="text-center status-column">
+                  {languageTranslation("TABEL_HEAD_CG_STATUS")}
+                </th>
+                <th className="text-center">
+                  {languageTranslation("TABEL_HEAD_CG_ACTION")}
+                </th>
               </tr>
             </thead>
             <tbody>

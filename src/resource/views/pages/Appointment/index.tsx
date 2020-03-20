@@ -38,7 +38,7 @@ import {
   ICareGiverValues,
   IUnlinkAppointmentInput,
   IlinkAppointmentInput,
-  IunlinkResponse
+  IunlinkResponse,
 } from '../../../../interfaces';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
@@ -115,13 +115,13 @@ const Appointment: FunctionComponent = (props: any) => {
   const [isFromUnlink, setisFromUnlink] = useState(false);
   // state for care giver bulk email
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
-    false
+    false,
   );
 
   // state for care institution bulk email
   const [
     openCareInstitutionBulkEmail,
-    setopenCareInstitutionBulkEmail
+    setopenCareInstitutionBulkEmail,
   ] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [fetchingDept, setFetchingDept] = useState<boolean>(false);
@@ -214,8 +214,8 @@ const Appointment: FunctionComponent = (props: any) => {
   const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
     GET_CAREGIVERS,
     {
-      fetchPolicy: 'no-cache'
-    }
+      fetchPolicy: 'no-cache',
+    },
   );
 
   useEffect(() => {
@@ -303,7 +303,7 @@ const Appointment: FunctionComponent = (props: any) => {
       setselctedAvailability({});
       setactiveDateCaregiver([]);
       setSelectedCells([]);
-    }
+    },
   });
 
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
@@ -467,7 +467,7 @@ const Appointment: FunctionComponent = (props: any) => {
   const getCaregiverData = (
     page: number,
     positiveAttr: number[] = [],
-    negativeAttr: number[] = []
+    negativeAttr: number[] = [],
   ) => {
     let temp: any = [];
     qualification.map((key: any, index: number) => {
@@ -507,14 +507,16 @@ const Appointment: FunctionComponent = (props: any) => {
         caregiverId:
           caregiverSoloFilter && caregiverSoloFilter.value
             ? parseInt(caregiverSoloFilter.value)
-            : null
-      }
+            : locationState && locationState.caregiver
+            ? locationState.caregiver
+            : null,
+      },
     });
   };
   //to get list of all the careinstitutions
   const getCareInstituionData = (
     positiveAttr: number[] = [],
-    negativeAttr: number[] = []
+    negativeAttr: number[] = [],
   ) => {
     let temp: any = [];
     qualification.map((key: any, index: number) => {
@@ -551,8 +553,10 @@ const Appointment: FunctionComponent = (props: any) => {
         careInstitutionId:
           careinstitutionSoloFilter && careinstitutionSoloFilter.value
             ? parseInt(careinstitutionSoloFilter.value)
-            : null
-      }
+            : locationState && locationState.canstitution
+            ? locationState.canstitution
+            : null,
+      },
     });
   };
   // by clicking on apply filter to get care giver and care institution list accordingly
@@ -912,7 +916,6 @@ const Appointment: FunctionComponent = (props: any) => {
             n: n ? 'available' : 'default',
           },
         },
-        ``,
       ];
       setSelectedCells(data);
     }
@@ -958,14 +961,14 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         });
       }
-      if (locationState && locationState.caregiver) {
-        let list: any = result.filter(
-          (list: any) => list.id === locationState.caregiver
-        );
-        setcaregiversList(list);
-      } else {
-        setcaregiversList(result);
-      }
+      // if (locationState && locationState.caregiver) {
+      //   let list: any = result.filter(
+      //     (list: any) => list.id === locationState.caregiver
+      //   );
+      //   setcaregiversList(list);
+      // } else {
+      setcaregiversList(result);
+      // }
     }
 
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
@@ -1008,24 +1011,27 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
+      // if (locationState && locationState.canstitution) {
+      //   let list: any = result.filter(
+      //     (list: any) => list.id === locationState.canstitution
+      //   );
+      //   setcareinstitutionList(list);
+      //   if (list && list.length && list[0]) {
+      //     handleFirstStarCanstitution(list[0], 1);
+      //   } else {
+      //     setstarCanstitution({
+      //       isStar: false,
+      //       setIndex: -1,
+      //       id: ''
+      //     });
+      //     // setcareInstituionDeptData([]);
+      //   }
+      // } else {
       if (locationState && locationState.canstitution) {
-        let list: any = result.filter(
-          (list: any) => list.id === locationState.canstitution
-        );
-        setcareinstitutionList(list);
-        if (list && list.length && list[0]) {
-          handleFirstStarCanstitution(list[0], 1);
-        } else {
-          setstarCanstitution({
-            isStar: false,
-            setIndex: -1,
-            id: ''
-          });
-          // setcareInstituionDeptData([]);
-        }
-      } else {
-        setcareinstitutionList(result);
+        handleFirstStarCanstitution(result, 1);
       }
+      setcareinstitutionList(result);
+      // }
     }
   }, [careGiversList, careInstitutionList]);
 
@@ -3256,6 +3262,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     setOnNotConfirmedCaregiver={setOnNotConfirmedCaregiver}
                     totalCaregiver={totalCaregiver}
                     getNext={getNext}
+                    locationState={locationState}
                   />
                   {/* care insitution list */}
                   <CarinstituionListView
@@ -3323,7 +3330,7 @@ const Appointment: FunctionComponent = (props: any) => {
                             <CaregiverFormView
                               {...props}
                               selectedCareGiver={{
-                                id: selectedCaregiverId
+                                id: selectedCaregiverId,
                               }}
                               addCaregiverLoading={
                                 addCaregiverLoading
@@ -3371,7 +3378,7 @@ const Appointment: FunctionComponent = (props: any) => {
                         enableReinitialize={true}
                         validationSchema={CareInstitutionValidationSchema}
                         children={(
-                          props: FormikProps<ICareinstitutionFormValue>
+                          props: FormikProps<ICareinstitutionFormValue>,
                         ) => {
                           return (
                             <CareinstitutionFormView
@@ -3390,20 +3397,20 @@ const Appointment: FunctionComponent = (props: any) => {
                                   ? [careInstitutiondateString]
                                   : selectedCellsCareinstitution
                                   ? selectedCellsCareinstitution.map(
-                                      cell => cell.dateString
+                                      cell => cell.dateString,
                                     )
                                   : []
                               }
                               setcareInstituionDept={(
                                 deptData: any,
-                                values: any
+                                values: any,
                               ) => {
                                 setcareInstituionDept(deptData);
                                 setupdateCanstitutionFormikValues(values);
                               }}
                               setcareInstituionShift={(
                                 shiftData: any,
-                                values: any
+                                values: any,
                               ) => {
                                 setcareInstituionShift(shiftData);
                                 setupdateCanstitutionFormikValues(values);

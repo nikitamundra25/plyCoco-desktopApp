@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Button, Card, CardHeader, CardBody } from "reactstrap";
+import { Button, Card, CardHeader, CardBody, Input } from "reactstrap";
 import { AppBreadcrumb } from "@coreui/react";
 import routes from "../../../../routes/routes";
 import { languageTranslation } from "../../../../helpers";
@@ -67,6 +67,7 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
     setEditInfo(details);
     setAddModal(true);
   };
+
   // handle add modal
   const [showAddModal, setAddModal] = useState<boolean>(false);
   // handle add modal
@@ -92,7 +93,6 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
             )}
             &nbsp;{languageTranslation("UPDATE_CALEDAR")}
           </Button>
-
           <Button
             color={"primary"}
             className={"btn-add"}

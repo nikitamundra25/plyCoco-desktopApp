@@ -68,7 +68,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     totalCaregiver,
     getNext,
     careInstitutionList,
-    qualificationList
+    qualificationList,
+    locationState
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);

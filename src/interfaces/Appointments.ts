@@ -77,6 +77,7 @@ export interface IAppointmentCareGiverList {
   setOnNotConfirmedCaregiver?: any;
   fetchingCareGiverData?: () => void;
   careInstitutionList?: any[];
+  locationState: any;
 }
 
 export interface IAppointmentCareInstitutionList {

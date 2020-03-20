@@ -501,6 +501,8 @@ const Appointment: FunctionComponent = (props: any) => {
         caregiverId:
           caregiverSoloFilter && caregiverSoloFilter.value
             ? parseInt(caregiverSoloFilter.value)
+            : locationState && locationState.caregiver
+            ? locationState.caregiver
             : null
       }
     });
@@ -545,6 +547,8 @@ const Appointment: FunctionComponent = (props: any) => {
         careInstitutionId:
           careinstitutionSoloFilter && careinstitutionSoloFilter.value
             ? parseInt(careinstitutionSoloFilter.value)
+            : locationState && locationState.canstitution
+            ? locationState.canstitution
             : null
       }
     });
@@ -947,14 +951,14 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         });
       }
-      if (locationState && locationState.caregiver) {
-        let list: any = result.filter(
-          (list: any) => list.id === locationState.caregiver
-        );
-        setcaregiversList(list);
-      } else {
-        setcaregiversList(result);
-      }
+      // if (locationState && locationState.caregiver) {
+      //   let list: any = result.filter(
+      //     (list: any) => list.id === locationState.caregiver
+      //   );
+      //   setcaregiversList(list);
+      // } else {
+      setcaregiversList(result);
+      // }
     }
 
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
@@ -997,24 +1001,27 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
+      // if (locationState && locationState.canstitution) {
+      //   let list: any = result.filter(
+      //     (list: any) => list.id === locationState.canstitution
+      //   );
+      //   setcareinstitutionList(list);
+      //   if (list && list.length && list[0]) {
+      //     handleFirstStarCanstitution(list[0], 1);
+      //   } else {
+      //     setstarCanstitution({
+      //       isStar: false,
+      //       setIndex: -1,
+      //       id: ''
+      //     });
+      //     // setcareInstituionDeptData([]);
+      //   }
+      // } else {
       if (locationState && locationState.canstitution) {
-        let list: any = result.filter(
-          (list: any) => list.id === locationState.canstitution
-        );
-        setcareinstitutionList(list);
-        if (list && list.length && list[0]) {
-          handleFirstStarCanstitution(list[0], 1);
-        } else {
-          setstarCanstitution({
-            isStar: false,
-            setIndex: -1,
-            id: ''
-          });
-          // setcareInstituionDeptData([]);
-        }
-      } else {
-        setcareinstitutionList(result);
+        handleFirstStarCanstitution(result, 1);
       }
+      setcareinstitutionList(result);
+      // }
     }
   }, [careGiversList, careInstitutionList]);
 
@@ -3130,6 +3137,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     setOnNotConfirmedCaregiver={setOnNotConfirmedCaregiver}
                     totalCaregiver={totalCaregiver}
                     getNext={getNext}
+                    locationState={locationState}
                   />
                   {/* care insitution list */}
                   <CarinstituionListView

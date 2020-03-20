@@ -262,6 +262,7 @@ const GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION = gql`
       date
       divisionId
       status
+      qualificationId
     }
   }
 `;

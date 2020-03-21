@@ -80,7 +80,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     setFieldError,
     selectedCareGiver,
     activeDateCaregiver,
-    addCaregiverRes,
     timeSlotError,
     selctedAvailability,
     onhandleDelete,

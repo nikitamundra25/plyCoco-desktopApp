@@ -321,8 +321,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                       <div className='required-input clockshift-input'>
                         <InputGroup className='flex-nowrap'>
                           <Field
-                            name={'startTime'}
-                            render={({ field }: any) => (
+                            name={'startTime'}>
+                            {({ field }: any) => (
                               <MaskedInput
                                 {...field}
                                 mask={TimeMask}
@@ -336,7 +336,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                 value={startTime ? startTime : ''}
                               />
                             )}
-                          />
+                          </Field>
                           {errors.startTime && touched.startTime && (
                             <div className='required-tooltip'>
                               {errors.startTime}

@@ -20,7 +20,7 @@ import {
   IReactSelectInterface
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
-import { NightAllowancePerHour, State } from '../../../../../config';
+import { NightAllowancePerHour, State, defaultDateFormat, appointmentDayFormat } from '../../../../../config';
 import '../index.scss';
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
@@ -259,7 +259,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                   ? moment(dateString).format(
                                       index !== activeDateCaregiver.length - 1
                                         ? 'dd DD'
-                                        : 'dd DD.MM.YYYY'
+                                        : `${appointmentDayFormat} ${defaultDateFormat}`
                                     )
                                   : null
                             )

@@ -1,11 +1,9 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-
-import '../index.scss';
-import {
-  IAppointmentCareInstitutionForm,
-  ICareinstitutionFormValue,
-  IReactSelectInterface
-} from '../../../../../interfaces';
+import Select from 'react-select';
+import { FormikProps, Field } from 'formik';
+import moment from 'moment';
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import classnames from 'classnames';
 import {
   FormGroup,
   Label,
@@ -21,15 +19,15 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import '../index.scss';
-import { languageTranslation } from '../../../../../helpers';
 import MaskedInput from 'react-text-mask';
-import { ShiftTime, TimeMask } from '../../../../../config';
-import Select from 'react-select';
-import { FormikProps, Field } from 'formik';
-import moment from 'moment';
-import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
-import classnames from 'classnames';
+import { languageTranslation } from '../../../../../helpers';
+import {
+  IAppointmentCareInstitutionForm,
+  ICareinstitutionFormValue,
+  IReactSelectInterface
+} from '../../../../../interfaces';
+import { ShiftTime, TimeMask, appointmentDayFormat, defaultDateFormat } from '../../../../../config';
+import '../index.scss';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -271,7 +269,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                       index !==
                                         activeDateCareinstitution.length - 1
                                         ? 'dd DD'
-                                        : 'dd DD.MM.YYYY'
+                                        : `${appointmentDayFormat} ${defaultDateFormat}`
                                     )
                                   : null
                             )
@@ -395,23 +393,22 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='7'>
                     <div className='required-input clockshift-input'>
                       <InputGroup className='flex-nowrap'>
-                        <Field
-                          name={'endTime'}
-                          render={({ field }: any) => (
+                        <Field name={'endTime'}>
+                          {({ field }: any) => (
                             <MaskedInput
-                              {...field}
-                              mask={TimeMask}
-                              className={
-                                errors.endTime && touched.endTime
-                                  ? 'fee-width form-control error'
-                                  : 'fee-width form-control'
-                              }
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={endTime ? endTime : ''}
-                            />
+                            {...field}
+                            mask={TimeMask}
+                            className={
+                              errors.endTime && touched.endTime
+                                ? 'fee-width form-control error'
+                                : 'fee-width form-control'
+                            }
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={endTime ? endTime : ''}
+                          />
                           )}
-                        />
+                          </Field>
                         {errors.endTime ? (
                           errors.endTime &&
                           touched.endTime && (

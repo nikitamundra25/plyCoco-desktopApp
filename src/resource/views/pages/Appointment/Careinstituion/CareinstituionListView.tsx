@@ -1,11 +1,10 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import {
   Table,
   Button,
   Nav,
   NavItem,
   NavLink,
-  UncontrolledTooltip,
 } from 'reactstrap';
 import '../index.scss';
 import {
@@ -14,7 +13,7 @@ import {
   IReactSelectInterface,
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
-import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
+import { SelectableGroup} from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 import moment from 'moment';
 import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';

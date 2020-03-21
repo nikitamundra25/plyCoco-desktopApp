@@ -55,12 +55,13 @@ import {
 import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { dbAcceptableFormat } from '../../../../config';
 import { ConfirmBox } from '../../components/ConfirmBox';
-import './index.scss';
 import UnlinkAppointment from './unlinkModal';
 import Loader from '../../containers/Loader/Loader';
 import { useLocation } from 'react-router';
 import BulkEmailCareGiverModal from './BulkEmailCareGiver';
 import BulkEmailCareInstitutionModal from './BulkEmailCareInstitution';
+import './index.scss';
+
 const [GET_CAREGIVERS] = CareGiverQueries;
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [
@@ -101,15 +102,12 @@ const Appointment: FunctionComponent = (props: any) => {
   const [multipleRequirement, setMultipleRequirement] = useState<boolean>(
     false,
   );
-
   const [caregiverSoloFilter, setcaregiverSoloFilter] = useState<
     IReactSelectInterface | undefined
   >(undefined);
-
   const [careinstitutionSoloFilter, setcareinstitutionSoloFilter] = useState<
     IReactSelectInterface | undefined
   >(undefined);
-
   const [unlinkedBy, setunlinkedBy] = useState<string>('');
   const [isFromUnlink, setisFromUnlink] = useState(false);
   // state for care giver bulk email
@@ -2438,8 +2436,8 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  // Filter by appointments & userId in navbar
-  const handleSelectAppointment = (selectOption: any, name: string) => {
+  // Filter by with/without/all appointments in navbar
+  const handleSelectAppointment = (selectOption: any) => {
     setfilterByAppointments(selectOption);
   };
 

@@ -38,7 +38,7 @@ const AddPreset = (props: any) => {
           {languageTranslation('SET_PRESET_NAME')}
         </ModalHeader>
         <Form
-          onSubmit={(e: any) => {
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             onSavingPreset();
           }}

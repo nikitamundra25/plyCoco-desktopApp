@@ -1,17 +1,8 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import {
-  Button,
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
-  FormGroup,
-  Label,
-  Input,
-  Col,
-  Row,
-  Form,
-  CustomInput,
 } from 'reactstrap';
 import '../index.scss';
 import BulkEmailCaregiver from '../../BulkEmailCaregiver';

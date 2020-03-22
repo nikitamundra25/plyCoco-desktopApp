@@ -22,6 +22,7 @@ import {
   selfEmployesListColor,
   CareInstTIMyoCYAttrId,
   CareInstPlycocoAttrId,
+  CareInstInActiveAttrId,
 } from './../../../../config';
 import {
   IGetDaysArrayByMonthRes,
@@ -1276,8 +1277,9 @@ const Appointment: FunctionComponent = (props: any) => {
       careInstitutionOptions.push({
         label: `${data.lastName}${' '}${data.firstName}`,
         value: data.id,
-        color: !data.isActive
-          ? deactivatedListColor
+        color: attributes.includes(
+          CareInstInActiveAttrId,
+        ) ? deactivatedListColor
           : attributes.includes(CareInstTIMyoCYAttrId)
           ? leasingListColor
           : attributes.includes(CareInstPlycocoAttrId)

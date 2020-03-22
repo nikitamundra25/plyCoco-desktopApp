@@ -26,6 +26,7 @@ import {
   leasingListColor,
   selfEmployesListColor,
   deactivatedListColor,
+  CareInstInActiveAttrId,
 } from '../../../../../config';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import all_list from '../../../../assets/img/dropdown/all_list.svg';
@@ -328,10 +329,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   <div className='all-star-wrap'>
                     <div
                       style={{
-                        backgroundColor: !list.isActive
-                          ? deactivatedListColor
-                          : list.canstitution && list.canstitution.attributes
+                        backgroundColor: 
+                          list.canstitution && list.canstitution.attributes
                           ? list.canstitution.attributes.includes(
+                            CareInstInActiveAttrId,
+                          ) ? deactivatedListColor :
+                          list.canstitution.attributes.includes(
                               CareInstTIMyoCYAttrId,
                             )
                             ? leasingListColor

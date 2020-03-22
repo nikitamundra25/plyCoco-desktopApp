@@ -743,13 +743,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                         className='text-body'
                                       >
                                         {row === 0
-                                          ? `${
-                                              list.lastName ? list.lastName : ''
-                                            } ${
-                                              list.firstName
-                                                ? list.firstName
-                                                : ''
-                                            }`
+                                          ? [list.lastName, list.firstName]
+                                            .filter(Boolean)
+                                            .join(' ')
                                           : ''}
                                       </Link>
                                     </div>

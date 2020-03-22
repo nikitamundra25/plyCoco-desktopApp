@@ -820,16 +820,12 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // push last time data into the caregiver field
   useEffect(() => {
-    let data: any = {};
     const {
       distanceInKM = '',
       f = '',
       feePerKM = '',
-      lastName: { lastname } = '',
       n = '',
       otherExpenses = '',
-      remarksCareGiver = '',
-      remarksInternal = '',
       s = '',
       travelAllowance = '',
       workingProofRecieved = false,

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Button, Card, CardHeader, CardBody } from 'reactstrap';
+import { Button, Card, CardHeader, CardBody, Input } from 'reactstrap';
 import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../../../routes/routes';
 import { languageTranslation } from '../../../../helpers';
@@ -8,7 +8,7 @@ import {
   ICountries,
   IStates,
   IState,
-  IAddHolidaysFormValues
+  IAddHolidaysFormValues,
 } from '../../../../interfaces';
 import { CountryQueries } from '../../../../graphql/queries';
 import CalendarView from './CalendarView';
@@ -21,10 +21,10 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   // initial states
   const [states, setStates] = useState<IState[]>([]);
   const defaultEditInfo: IAddHolidaysFormValues = {
-    date: ''
+    date: '',
   };
   const [editInfo, setEditInfo] = useState<IAddHolidaysFormValues>(
-    defaultEditInfo
+    defaultEditInfo,
   );
   // fech country list
   const { data: allCountries, loading: countriesLoading } = useQuery<
@@ -33,7 +33,7 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   // To fetch the states of selected contry & don't want to query on initial load
   const [
     getStatesByCountry,
-    { data: statesData, loading: statesLoading }
+    { data: statesData, loading: statesLoading },
   ] = useLazyQuery<IStates>(GET_STATES_BY_COUNTRY);
   // check if companies are loaded
   useEffect(() => {
@@ -44,14 +44,14 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
       const countryIds: string[] = resCountries.findInfo(
         'sortname',
         ['AT', 'DE'],
-        'id'
+        'id',
       );
       if (countryIds.length) {
         // get states of Germany
         getStatesByCountry({
           variables: {
-            countryid: countryIds
-          }
+            countryid: countryIds,
+          },
         });
       }
     }
@@ -67,6 +67,7 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
     setEditInfo(details);
     setAddModal(true);
   };
+
   // handle add modal
   const [showAddModal, setAddModal] = useState<boolean>(false);
   // handle add modal
@@ -92,7 +93,6 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
             )}
             &nbsp;{languageTranslation('UPDATE_CALEDAR')}
           </Button>
-
           <Button
             color={'primary'}
             className={'btn-add'}

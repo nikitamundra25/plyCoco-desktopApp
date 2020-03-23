@@ -1246,6 +1246,7 @@ export const InvoiceFilter: IReactSelectInterface[] = [
 export const CaregiverTIMyoCYAttrId: number = 9;
 export const CareInstTIMyoCYAttrId: number = 73;
 export const CareInstPlycocoAttrId: number = 72;
+export const CareInstInActiveAttrId: number = 101;
 
 export const deactivatedListColor: string = "#cacaca";
 export const leasingListColor: string = "#f7d158";

@@ -43,6 +43,7 @@ const CellCareinstitution = ({
       isOffered = true;
     }
   }
+
   return (
     <td
       key={key}
@@ -87,22 +88,6 @@ const CellCareinstitution = ({
           {item.n ? item.n : null}
         </>
       ) : null}
-      {/* {list &&
-      list.careinstitution_requirements &&
-      list.careinstitution_requirements.length
-        ? list.careinstitution_requirements.map(
-            (avabilityData: any, index: number) => {
-              return moment(day.isoString).format('DD.MM.YYYY') ===
-                moment(avabilityData.date).format('DD.MM.YYYY') ? (
-                <>
-                  {avabilityData.f ? avabilityData.f : null}
-                  {avabilityData.s ? avabilityData.s : null}
-                  {avabilityData.n ? avabilityData.n : null}
-                </>
-              ) : null;
-            }
-          )
-        : null} */}
     </td>
   );
 };

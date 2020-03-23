@@ -18,9 +18,10 @@ import { useMutation } from '@apollo/react-hooks';
 import { GlobalCalendarMutations } from '../../../../../graphql/Mutations';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import { CardBody } from 'reactstrap';
 import { defaultDateFormat } from '../../../../../config';
 let isEditValueSet = false;
-const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
+const AddHolidays: FunctionComponent<IAddHolidayProps> = ({ 
   isOpen,
   handleClose,
   states,
@@ -170,6 +171,7 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
     isEditValueSet = true;
   }
   return (
+    <CardBody>
     <Formik
       key={'add-holiday'}
       initialValues={holidaysData}
@@ -232,6 +234,7 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
         );
       }}
     />
+  </CardBody>
   );
 };
 

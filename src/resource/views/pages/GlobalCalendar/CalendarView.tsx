@@ -154,7 +154,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                     Hide Weekends
                   </label>
                 </span>
-                <Input type="text" readonly className="form-control header-input-wrap ml-3" />
+                {/* <Input type="text" readonly className="form-control header-input-wrap ml-3" /> */}
               </div>
             </div>
           </div>

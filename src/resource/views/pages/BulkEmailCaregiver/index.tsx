@@ -404,8 +404,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let remarkRow: string = '';
         let divisionArray: any = [];
         let subjectDivisions: any = [];
+        let isLeasing:boolean = false
         for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
           let object = selectedCellsCareinstitution[i];
+          // If careInstitution has leasing attribute
+          isLeasing = object.isLeasing
           if (object.item) {
             let obj: any = {};
             if (
@@ -510,7 +513,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         } else {
           mailBody = `<p>${languageTranslation(
             'CAREGIVER_OFFER_EMAIL_HEADING',
-          )}</p><br/><p>${languageTranslation(
+          )}
+          </p><br/><p>${languageTranslation(
             'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED',
           ) +
           ' ' +

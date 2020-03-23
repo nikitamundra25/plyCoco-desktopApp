@@ -1019,26 +1019,22 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
-      if (locationState && locationState.canstitution) {
-        let list: any = result.filter(
-          (list: any) => list.id === locationState.canstitution
-        );
-        setcareinstitutionList(list);
-        if (list && list.length && list[0]) {
-          handleFirstStarCanstitution(list[0], 1);
-        } else {
-          setstarCanstitution({
-            isStar: false,
-            setIndex: -1,
-            id: ''
-          });
-          // setcareInstituionDeptData([]);
-        }
+
+      setcareinstitutionList(result);
+      if (
+        locationState &&
+        locationState.canstitution &&
+        result &&
+        result.length &&
+        result[0]
+      ) {
+        handleFirstStarCanstitution(result[0], 1);
       } else {
-        // if (locationState && locationState.canstitution) {
-        //   handleFirstStarCanstitution(result, 1);
-        // }
-        setcareinstitutionList(result);
+        setstarCanstitution({
+          isStar: false,
+          setIndex: -1,
+          id: ''
+        });
       }
     }
   }, [careGiversList, careInstitutionList]);
@@ -1939,6 +1935,9 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // useEffect for filtering department data in careinstitution list
   useEffect(() => {
+    console.log(' starCanstitution ', starCanstitution);
+    console.log('careinstitutionList', careinstitutionList);
+
     if (
       departmentList &&
       departmentList.getDivision.length &&
@@ -1949,6 +1948,8 @@ const Appointment: FunctionComponent = (props: any) => {
       let careInstData: any = careinstitutionList.filter(
         (item: any) => item.id === starCanstitution.id
       )[0];
+      console.log('careInstData', careInstData);
+
       if (careInstData) {
         let requirements: any[] = [].concat.apply(
           [],
@@ -2007,6 +2008,8 @@ const Appointment: FunctionComponent = (props: any) => {
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
+    console.log('list', list);
+
     //  setcareinstitutionList()
     if (!starCanstitution.isStar) {
       setstarCanstitution({
@@ -2029,6 +2032,8 @@ const Appointment: FunctionComponent = (props: any) => {
     }
     if (list) {
       if (list.id && !starCanstitution.isStar) {
+        console.log('ifffffff');
+
         setFetchingDept(true);
         await getDepartmentList({
           variables: {

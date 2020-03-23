@@ -321,6 +321,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         (item: any) => item.id === starCanstitution.id
       );
     }
+
+    console.log('listData', listData);
+
     let temp: any[] = [];
     if (listData && listData.length) {
       listData.forEach((list: any, index: number) => {

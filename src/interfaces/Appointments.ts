@@ -37,7 +37,6 @@ export interface IAppointmentNav {
   ) => void;
   handleSelectAppointment: (
     selectOption: IReactSelectInterface,
-    name: string
   ) => void;
   onFilterByUserId: (userId: string, userRole: string) => void;
   handleResetFilters: () => void;

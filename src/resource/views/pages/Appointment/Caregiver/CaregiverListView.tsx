@@ -5,13 +5,11 @@ import {
   NavItem,
   NavLink,
   Button,
-  UncontrolledTooltip
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classnames from 'classnames';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import { SelectableGroup } from 'react-selectable-fast';
 import {
@@ -54,7 +52,6 @@ let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList
 ) => {
-  let history = useHistory();
   const {
     daysData,
     careGiversList,
@@ -74,8 +71,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onNewAvailability,
     totalCaregiver,
     getNext,
-    fetchingCareGiverData,
-    careInstitutionList,
     qualificationList,
     locationState
   } = props;
@@ -124,7 +119,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
 
   const { daysArr = [] } = daysData ? daysData : {};
   // select multiple
-  const [selectedDays, setSelectedDays] = useState<any[]>([]);
+  // const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCellsData: any[]) => {
     let selectedRows: any[] = [];
@@ -165,9 +160,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       // }
     }
   };
-  const onSelectionClear = () => {
-    setSelectedDays([]);
-  };
+  // const onSelectionClear = () => {
+  //   setSelectedDays([]);
+  // };
 
   // Link appointments
   const handleLinkAppointments = (name: string) => {
@@ -615,7 +610,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               //   console.log(data, 'duringSelection')
               // }
               onSelectionFinish={onSelectFinish}
-              onSelectionClear={onSelectionClear}
+              // onSelectionClear={onSelectionClear}
               ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
             >
               <Table
@@ -746,13 +741,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                         className='text-body'
                                       >
                                         {row === 0
-                                          ? `${
-                                              list.lastName ? list.lastName : ''
-                                            } ${
-                                              list.firstName
-                                                ? list.firstName
-                                                : ''
-                                            }`
+                                          ? [list.lastName, list.firstName]
+                                            .filter(Boolean)
+                                            .join(' ')
                                           : ''}
                                       </Link>
                                     </div>

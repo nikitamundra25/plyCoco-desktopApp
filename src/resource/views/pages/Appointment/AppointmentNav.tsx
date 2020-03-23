@@ -18,9 +18,9 @@ import left_arrow from '../../../assets/img/leftarrow.svg';
 import filter from '../../../assets/img/filter.svg';
 import caregiver from '../../../assets/img/caregiver.svg';
 import careinstitution from '../../../assets/img/careinstitution.svg';
+import CustomOption from '../../components/CustomOptions';
 import 'react-day-picker/lib/style.css';
 import './index.scss';
-import CustomOption from '../../components/CustomOptions';
 import moment from 'moment';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
@@ -160,9 +160,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               placeholder='Select appointment'
               options={Without_Appointments}
               value={filterByAppointments ? filterByAppointments : null}
-              onChange={(value: any) =>
-                handleSelectAppointment(value, 'appointments')
-              }
+              onChange={(value: any) => handleSelectAppointment(value)}
             />
           </div>
 

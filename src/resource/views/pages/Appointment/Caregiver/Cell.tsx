@@ -85,20 +85,6 @@ const Cell = ({
         })}
         ref={selectableRef}
       >
-        {/* {list && list.caregiver_avabilities && list.caregiver_avabilities.length
-        ? list.caregiver_avabilities.map(
-            (avabilityData: any, index: number) => {
-              return moment(day.isoString).format('DD.MM.YYYY') ===
-                moment(avabilityData.date).format('DD.MM.YYYY') ? (
-                <>
-                  {avabilityData.f === 'available' ? 'f' : null}
-                  {avabilityData.s === 'available' ? 's' : null}
-                  {avabilityData.n === 'available' ? 'n' : null}
-                </>
-              ) : null;
-            },
-          )
-        : null} */}
         {item ? (
           item.status === 'confirmed' ? (
             <i className='fa fa-circle-o'></i>

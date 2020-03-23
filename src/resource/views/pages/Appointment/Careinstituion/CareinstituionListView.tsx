@@ -318,6 +318,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         (item: any) => item.id === starCanstitution.id
       );
     }
+
+    console.log('listData', listData);
+
     let temp: any[] = [];
     if (listData && listData.length) {
       listData.forEach((list: any, index: number) => {
@@ -1042,6 +1045,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </tr>
             </thead>
             <tbody>
+              {console.log('starCanstitution', starCanstitution)}
+              {console.log('secondStarCanstitution', secondStarCanstitution)}
+              {console.log('careInstituionDeptData', careInstituionDeptData)}
+
               {loading || (starCanstitution.isStar && deptLoading) ? (
                 <tr>
                   <td className={'table-loader'} colSpan={40}>

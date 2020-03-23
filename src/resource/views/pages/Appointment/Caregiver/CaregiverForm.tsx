@@ -20,7 +20,12 @@ import {
   IReactSelectInterface
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
-import { NightAllowancePerHour, State, defaultDateFormat, appointmentDayFormat } from '../../../../../config';
+import {
+  NightAllowancePerHour,
+  State,
+  defaultDateFormat,
+  appointmentDayFormat
+} from '../../../../../config';
 import '../index.scss';
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
@@ -855,6 +860,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         value={remarksCareGiver ? remarksCareGiver : ''}
                         onChange={handleChange}
                         id='exampleText1'
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -878,6 +884,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         name='remarksInternal'
                         value={remarksInternal ? remarksInternal : ''}
                         onChange={handleChange}
+                        maxLength={255}
                         id='exampleText2'
                       />
                     </div>

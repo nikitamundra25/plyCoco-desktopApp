@@ -184,13 +184,7 @@ const DetailListCaregiver = (props: any) => {
                                             qualification.value
                                           );
                                         })
-                                        .map((q: any) => {
-                                          return (
-                                            <span>
-                                              {q.label ? q.label + ' ' : '-'}
-                                            </span>
-                                          );
-                                        })
+                                        .map((q: any,i:number) => (q.label)).join(', ')
                                     : null}
                                 </td>
                                 <td>

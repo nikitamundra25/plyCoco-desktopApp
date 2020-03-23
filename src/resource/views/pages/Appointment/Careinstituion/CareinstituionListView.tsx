@@ -1,11 +1,10 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import {
   Table,
   Button,
   Nav,
   NavItem,
   NavLink,
-  UncontrolledTooltip,
 } from 'reactstrap';
 import '../index.scss';
 import {
@@ -14,7 +13,7 @@ import {
   IReactSelectInterface,
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
-import { SelectableGroup, SelectAll, DeselectAll } from 'react-selectable-fast';
+import { SelectableGroup} from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 import moment from 'moment';
 import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
@@ -27,6 +26,7 @@ import {
   leasingListColor,
   selfEmployesListColor,
   deactivatedListColor,
+  CareInstInActiveAttrId,
 } from '../../../../../config';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import all_list from '../../../../assets/img/dropdown/all_list.svg';
@@ -329,10 +329,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   <div className='all-star-wrap'>
                     <div
                       style={{
-                        backgroundColor: !list.isActive
-                          ? deactivatedListColor
-                          : list.canstitution && list.canstitution.attributes
+                        backgroundColor: 
+                          list.canstitution && list.canstitution.attributes
                           ? list.canstitution.attributes.includes(
+                            CareInstInActiveAttrId,
+                          ) ? deactivatedListColor :
+                          list.canstitution.attributes.includes(
                               CareInstTIMyoCYAttrId,
                             )
                             ? leasingListColor

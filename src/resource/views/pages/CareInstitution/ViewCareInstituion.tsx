@@ -1,57 +1,58 @@
-import React, { FunctionComponent, useState, Suspense, useEffect } from 'react';
-import { RouteComponentProps, useLocation, useParams } from 'react-router';
-import qs from 'query-string';
-import { Button } from 'reactstrap';
-import Select from 'react-select';
-import { FormikProps } from 'formik';
-import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
+import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
+import { RouteComponentProps, useLocation, useParams } from "react-router";
+import qs from "query-string";
+import { Button } from "reactstrap";
+import Select from "react-select";
+import { FormikProps } from "formik";
+import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import {
   AppRoutes,
   deactivatedListColor,
   leasingListColor,
   selfEmployesListColor,
   CareInstTIMyoCYAttrId,
-  CareInstPlycocoAttrId,
-} from '../../../../config';
-import { careInstitutionRoutes } from './Sidebar/SidebarRoutes/ConstitutionRoutes';
+  CareInstPlycocoAttrId
+} from "../../../../config";
+import { careInstitutionRoutes } from "./Sidebar/SidebarRoutes/ConstitutionRoutes";
 import {
   ICareInstitutionFormValues,
   IHandleSubmitInterface,
   IReactSelectInterface,
-  IQualifications,
-} from '../../../../interfaces';
+  IQualifications
+} from "../../../../interfaces";
 import {
   CareInstitutionQueries,
-  GET_QUALIFICATION_ATTRIBUTE,
-} from '../../../../graphql/queries';
-import { CareInstitutionMutation } from '../../../../graphql/Mutations';
-import Loader from '../../containers/Loader/Loader';
-import { languageTranslation } from '../../../../helpers';
-import CustomOption from '../../components/CustomOptions';
-import add from '../../../assets/img/add.svg';
-import reminder from '../../../assets/img/reminder.svg';
-import password from '../../../assets/img/password.svg';
-import appointment from '../../../assets/img/appointment.svg';
-import clear from '../../../assets/img/clear.svg';
-import CareInstCustomOption from '../../components/CustomOptions/CustomCareInstOptions';
+  GET_QUALIFICATION_ATTRIBUTE
+} from "../../../../graphql/queries";
+import { CareInstitutionMutation } from "../../../../graphql/Mutations";
+import Loader from "../../containers/Loader/Loader";
+import { languageTranslation } from "../../../../helpers";
+import CustomOption from "../../components/CustomOptions";
+import add from "../../../assets/img/add.svg";
+import reminder from "../../../assets/img/reminder.svg";
+import password from "../../../assets/img/password.svg";
+import appointment from "../../../assets/img/appointment.svg";
+import clear from "../../../assets/img/clear.svg";
+import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
+import { useHistory } from "react-router";
 
-const PersonalInformation = React.lazy(() => import('./PersonalInfo'));
-const Offers = React.lazy(() => import('./Offers'));
-const Login = React.lazy(() => import('./Login/CareInstitutionLogin'));
-const InvoiceMenu = React.lazy(() => import('./invoiceMenu'));
-const Documents = React.lazy(() => import('./Documents'));
-const Departments = React.lazy(() => import('./Departments'));
-const Email = React.lazy(() => import('../CareGiver/Emails'));
+const PersonalInformation = React.lazy(() => import("./PersonalInfo"));
+const Offers = React.lazy(() => import("./Offers"));
+const Login = React.lazy(() => import("./Login/CareInstitutionLogin"));
+const InvoiceMenu = React.lazy(() => import("./invoiceMenu"));
+const Documents = React.lazy(() => import("./Documents"));
+const Departments = React.lazy(() => import("./Departments"));
+const Email = React.lazy(() => import("../CareGiver/Emails"));
 // const Reminders = React.lazy(() => import('./Reminders'));
-const Reminders = React.lazy(() => import('../../components/ToDosInnerList'));
+const Reminders = React.lazy(() => import("../../components/ToDosInnerList"));
 const CreateTodo = React.lazy(() =>
-  import('../../components/CreateTodo/index'),
+  import("../../components/CreateTodo/index")
 );
 
 const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
-  GET_DEPARTMENT_LIST,
+  GET_DEPARTMENT_LIST
 ] = CareInstitutionQueries;
 
 const [
@@ -64,11 +65,11 @@ const [
   ADD_NEW_CONTACT_CARE_INSTITUTION,
   ADD_NEW_CARE_INTITUTION,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT,
+  DELETE_DEPARTMENT
 ] = CareInstitutionMutation;
 
 const CareInstitutionSidebar = React.lazy(() =>
-  import('./Sidebar/SidebarLayout/CareInstitutionLayout'),
+  import("./Sidebar/SidebarLayout/CareInstitutionLayout")
 );
 
 const CareInstitutionTabs = careInstitutionRoutes;
@@ -78,54 +79,54 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 > &
   RouteComponentProps &
   IHandleSubmitInterface> = (
-  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps,
+  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
 ) => {
   let { id } = useParams();
   const Id: any | undefined = id;
   const [showToDo, setShowToDo] = useState<boolean>(false);
-
+  let history = useHistory();
   let sortBy: IReactSelectInterface | undefined = {
-    label: '3',
-    value: 'Sort by A-Z',
+    label: "3",
+    value: "Sort by A-Z"
   };
 
   const [isnewDataUpdate, setisnewDataUpdate] = useState(false);
 
   const [
     addUser,
-    { error: addUserError, data: CareIntitutionId, loading: Loading },
+    { error: addUserError, data: CareIntitutionId, loading: Loading }
   ] = useMutation<{ addUser: any }>(ADD_NEW_CARE_INTITUTION);
 
   const [
     fetchCareInstitutionList,
-    { data: careInstituition, loading, refetch },
+    { data: careInstituition, loading, refetch }
   ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache"
   });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
-    label: '',
-    value: '',
-    color: '',
+    label: "",
+    value: "",
+    color: ""
   });
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
     const buttonDiv: HTMLElement | null = document.getElementById(
-      'caregiver-add-btn',
+      "caregiver-add-btn"
     );
     if (buttonDiv) {
       if (scrollPositionY >= 12) {
-        buttonDiv.classList.add('sticky-save-btn');
+        buttonDiv.classList.add("sticky-save-btn");
       } else {
-        buttonDiv.classList.remove('sticky-save-btn');
+        buttonDiv.classList.remove("sticky-save-btn");
       }
     }
   };
@@ -137,8 +138,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: '',
-      },
+        isActive: ""
+      }
     });
   }, []);
 
@@ -147,19 +148,19 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     const { getCareInstitutions } = careInstituition;
     const { careInstitutionData, canstitution } = getCareInstitutions;
     CareInstitutionList.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID'),
-      companyName: languageTranslation('COMPANY_NAME'),
+      label: languageTranslation("NAME"),
+      value: languageTranslation("ID"),
+      companyName: languageTranslation("COMPANY_NAME")
     });
     careInstitutionData.map((data: any, index: any) => {
       const { canstitution } = data;
-      let { attributes = [], companyName = '' } = canstitution
+      let { attributes = [], companyName = "" } = canstitution
         ? canstitution
         : {};
       attributes = attributes ? attributes : [];
 
       CareInstitutionList.push({
-        label: `${data.lastName}${' '}${data.firstName}`,
+        label: `${data.lastName}${" "}${data.firstName}`,
         value: data.id,
         color: !data.isActive
           ? deactivatedListColor
@@ -167,8 +168,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
           ? leasingListColor
           : attributes.includes(CareInstPlycocoAttrId)
           ? selfEmployesListColor
-          : '',
-        companyName,
+          : "",
+        companyName
       });
       return true;
     });
@@ -181,7 +182,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     data.getQualifications.forEach((quali: any) => {
       qualificationList.push({
         label: quali.name,
-        value: quali.id,
+        value: quali.id
       });
     });
   }
@@ -195,16 +196,16 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     setactiveTab(
       query.tab
         ? CareInstitutionTabs.findIndex(
-            d => d.name === decodeURIComponent(query.tab),
+            d => d.name === decodeURIComponent(query.tab)
           )
-        : 0,
+        : 0
     );
   }, [search]);
 
   // Set selected care institution
   useEffect(() => {
     const currenCareInstitution: any = CareInstitutionList.filter(
-      (careInstitution: any) => careInstitution.value === id,
+      (careInstitution: any) => careInstitution.value === id
     )[0];
     setselectUser(currenCareInstitution);
   }, [careInstituition, pathname]);
@@ -212,9 +213,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   const onTabChange = (activeTab: number) => {
     props.history.push(
       `${AppRoutes.CARE_INSTITUION_VIEW.replace(
-        ':id',
-        Id,
-      )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`,
+        ":id",
+        Id
+      )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
     );
   };
   let [isUserChange, setisUserChange] = useState(false);
@@ -232,15 +233,15 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       const data: IReactSelectInterface = {
         label: e.label,
         value: e.value,
-        color: e.color,
+        color: e.color
       };
       setselectUser((selectUser = data));
       if (e.value !== Id) {
         props.history.push(
           `${AppRoutes.CARE_INSTITUION_VIEW.replace(
-            ':id',
-            e.value,
-          )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`,
+            ":id",
+            e.value
+          )}?tab=${encodeURIComponent(CareInstitutionTabs[activeTab].name)}`
         );
         setisUserChange((isUserChange = true));
       }
@@ -251,7 +252,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     if (CareIntitutionId) {
       const { addUser } = CareIntitutionId;
       props.history.push(
-        AppRoutes.ADD_CARE_INSTITUTION.replace(':id', addUser.id),
+        AppRoutes.ADD_CARE_INSTITUTION.replace(":id", addUser.id)
       );
     }
   }, [CareIntitutionId]);
@@ -260,92 +261,100 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     addUser({
       variables: {
         careInstInput: {
-          firstName: '',
-        },
-      },
+          firstName: ""
+        }
+      }
     });
   };
   return (
     <div>
-      <div className='common-detail-page'>
-        <div className='common-detail-section'>
+      <div className="common-detail-page">
+        <div className="common-detail-section">
           {loading ? (
-            <div className='detailview-loader'>
+            <div className="detailview-loader">
               <Loader />
             </div>
           ) : (
             <>
-              <Suspense fallback={''}>
-                <div className='sticky-common-header'>
-                  <div className='common-topheader d-flex align-items-center '>
-                    <div className='user-select'>
+              <Suspense fallback={""}>
+                <div className="sticky-common-header">
+                  <div className="common-topheader d-flex align-items-center ">
+                    <div className="user-select">
                       <Select
-                        classNamePrefix='custom-inner-reactselect'
+                        classNamePrefix="custom-inner-reactselect"
                         className={
-                          'custom-reactselect custom-reactselect-careinst-menu-width'
+                          "custom-reactselect custom-reactselect-careinst-menu-width"
                         }
                         defaultValue={selectUser}
-                        placeholder='Select Caregiver'
+                        placeholder="Select Caregiver"
                         value={selectUser}
                         onChange={(e: any) => handleSelect(e)}
                         options={CareInstitutionList}
                         components={{ Option: CareInstCustomOption }}
                         isOptionDisabled={(option: any) =>
-                          option.value === languageTranslation('ID')
+                          option.value === languageTranslation("ID")
                         }
                       />
                     </div>
                     <Button
                       onClick={handleAddNewCareInstitution}
                       disabled={Loading}
-                      className='header-nav-item'
+                      className="header-nav-item"
                     >
                       {Loading ? (
-                        <span className='header-nav-icon'>
-                          <i className='fa fa-spinner fa-spin ' />
+                        <span className="header-nav-icon">
+                          <i className="fa fa-spinner fa-spin " />
                         </span>
                       ) : (
-                        <span className='header-nav-icon'>
-                          <img src={add} alt='' />
+                        <span className="header-nav-icon">
+                          <img src={add} alt="" />
                         </span>
                       )}
-                      <span className='header-nav-text'>
-                        {languageTranslation('NEW_CAREINSTITUTION')}
+                      <span className="header-nav-text">
+                        {languageTranslation("NEW_CAREINSTITUTION")}
                       </span>
                     </Button>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={reminder} alt='' />
+                    <div
+                      className="header-nav-item"
+                      onClick={() => setShowToDo(true)}
+                    >
+                      <span className="header-nav-icon">
+                        <img src={reminder} alt="" />
                       </span>
-                      <span
-                        className='header-nav-text'
-                        onClick={() => setShowToDo(true)}
-                      >
-                        {languageTranslation('CG_MENU_CREATE_TODO')}
-                      </span>
-                    </div>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={password} alt='' />
-                      </span>
-                      <span className='header-nav-text'>
-                        {languageTranslation('CG_MENU_NEW_PASSWORD')}
+                      <span className="header-nav-text">
+                        {languageTranslation("CG_MENU_CREATE_TODO")}
                       </span>
                     </div>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={appointment} alt='' />
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={password} alt="" />
                       </span>
-                      <span className='header-nav-text'>
-                        {languageTranslation('CG_MENU_DISPLAY_APPOINTMENTS_')}
+                      <span className="header-nav-text">
+                        {languageTranslation("CG_MENU_NEW_PASSWORD")}
                       </span>
                     </div>
-                    <div className='header-nav-item'>
-                      <span className='header-nav-icon'>
-                        <img src={clear} alt='' />
+                    <div
+                      className="header-nav-item"
+                      onClick={() =>
+                        history.push({
+                          pathname: AppRoutes.APPOINTMENT,
+                          state: { canstitution: Id }
+                        })
+                      }
+                    >
+                      <span className="header-nav-icon">
+                        <img src={appointment} alt="" />
                       </span>
-                      <span className='header-nav-text'>
-                        {languageTranslation('CLEAR')}
+                      <span className="header-nav-text">
+                        {languageTranslation("CG_MENU_DISPLAY_APPOINTMENTS_")}
+                      </span>
+                    </div>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={clear} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        {languageTranslation("CLEAR")}
                       </span>
                     </div>
                   </div>
@@ -358,12 +367,12 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
               </Suspense>
               <Suspense
                 fallback={
-                  <div className='overview-loader'>
+                  <div className="overview-loader">
                     <Loader />
                   </div>
                 }
               >
-                <div className='common-content flex-grow-1'>
+                <div className="common-content flex-grow-1">
                   {activeTab === 0 ? (
                     <PersonalInformation
                       CareInstitutionList={CareInstitutionList}
@@ -387,7 +396,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                   {activeTab === 6 ? (
                     <Email
                       selectedUserName={
-                        selectUser && selectUser.label ? selectUser.label : ''
+                        selectUser && selectUser.label ? selectUser.label : ""
                       }
                       userRole={
                         careInstituition &&
@@ -398,16 +407,16 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                         selectUser.value
                           ? careInstituition.getCareInstitutions.careInstitutionData.find(
                               (careInstitutionData: any) =>
-                                careInstitutionData.id === selectUser.value,
+                                careInstitutionData.id === selectUser.value
                             ).userRole
-                          : ''
+                          : ""
                       }
                     />
                   ) : null}
                   {activeTab === 7 ? (
                     <Reminders
                       {...props}
-                      userRole='careinstitution'
+                      userRole="careinstitution"
                       isnewDataUpdate={isnewDataUpdate}
                       Id={Id}
                     />
@@ -421,7 +430,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
           show={showToDo}
           handleClose={() => setShowToDo(false)}
           name={selectUser ? selectUser.label : null}
-          userRole={'careInstitution'}
+          userRole={"careInstitution"}
           newDataUpdate={() => setisnewDataUpdate(true)}
           setisnewDataUpdate={() => setisnewDataUpdate(false)}
           newContactAdded={newContactAdded}

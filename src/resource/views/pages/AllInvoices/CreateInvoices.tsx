@@ -10,564 +10,317 @@ import {
   Col,
   Card,
   CardBody,
-  
+  CardHeader,
   Nav
 } from "reactstrap";
 import Select from "react-select";
-
+import DayPickerInput from "react-day-picker/DayPickerInput";
 import { languageTranslation } from "../../../../helpers";
-
 import refresh from "../../../assets/img/refresh.svg";
-import PlyCocoreceipt from "../../../assets/img/header-icons/plyCoco-receipt.svg";
-import SpecialistInvoice from "../../../assets/img/header-icons/specialist-invoice.svg";
-import professaionalProfile from "../../../assets/img/header-icons/professaional-profile.svg";
-import paid from "../../../assets/img/header-icons/paid.svg";
-import interierDesign from "../../../assets/img/header-icons/interier-design-professional.svg";
-import Again from "../../../assets/img/header-icons/again.svg";
-import appendToPlycoco from "../../../assets/img/header-icons/tab-icons/append-to-plycoco.svg";
-import attachReminder from "../../../assets/img/header-icons/tab-icons/attach-reminder.svg";
-import AttachSpeacilistInvoice from "../../../assets/img/header-icons/tab-icons/attach-speacilist-invoice.svg";
-import clear from "../../../assets/img/header-icons/tab-icons/clear.svg";
-import edit from "../../../assets/img/header-icons/tab-icons/edit.svg";
-import sendLawyer from "../../../assets/img/header-icons/tab-icons/send-lawyer.svg";
-import sendReminder from "../../../assets/img/header-icons/tab-icons/send-reminder.svg";
-import showReminder from "../../../assets/img/header-icons/tab-icons/show-reminder.svg";
-import taxConsultant from "../../../assets/img/header-icons/tab-icons/tax-consultant.svg";
-import uploadReminder from "../../../assets/img/header-icons/tab-icons/upload-reminder.svg";
-import vicantPosition from "../../../assets/img/header-icons/tab-icons/vicant-position.svg";
-import createReminder from "../../../assets/img/header-icons/tab-icons/create-reminder.svg";
-import { FormikHelpers, FormikProps, Formik } from "formik";
+
+import pen from "../../../assets/img/header-icons/pen.svg";
+import CompleteTime from "../../../assets/img/header-icons/tab-icons/complete-time.svg";
+import idea from "../../../assets/img/header-icons/tab-icons/idea.svg";
+import massege from "../../../assets/img/header-icons/tab-icons/massege.svg";
+
 import { RouteComponentProps } from "react-router";
-import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
-
 import "./index.scss";
+import right_arrow from "../../../assets/img/rightarrow.svg";
+import left_arrow from "../../../assets/img/leftarrow.svg";
+import "react-day-picker/lib/style.css";
+import {
+  InvoiceSummaryFilter,
+  StatusOptions,
+  SortOptions
+} from "../../../../config";
 
-
-const CreateInvoices: FunctionComponent<RouteComponentProps> & any = (
+const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
-  ];
-  const [tabChange, setTabChange] = useState(1);
-  const tabChangehandler = (currentTab: any) => {
-    setTabChange(currentTab)
-  }
   return (
     <>
-      <Card>
-        <div className="common-detail-page">
-          <div className="common-detail-section">
-            <div className="common-sidnav">
-              <Nav className="common-ul" tabs>
-                <li className="nav-item">
-                  <a
-                    className={`nav-link ${tabChange == 1 ? "active" : ""}`}
-                    onClick={() => tabChangehandler(1)}>
-                    <span className="nav-text text-capitalize">
-                      General
-                    </span>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className={`nav-link ${tabChange == 2 ? "active" : ""}`}
-                    onClick={() => tabChangehandler(2)}>
-                    <span className="nav-text text-capitalize">
-                      Dunning and export
-                    </span>
-                  </a>
-                </li>
-              </Nav>
+      <div className="common-detail-page">
+        <div className="common-detail-section">
+          <div className="common-topheader d-flex  px-2 pb-1">
+            <div className="header-nav-item">
+              <span className="header-nav-icon">
+                <img src={refresh} alt="" />
+              </span>
+              <span className="header-nav-text">Refresh</span>
             </div>
-            {tabChange == 1 ?
-              <div className="common-topheader d-flex  px-2 mb-1">
 
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Filter</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={refresh} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      {languageTranslation("REFRESH")}
-                    </span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-text">Offer</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-text">Not sent</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1"></div>
+            <div className="user-select mx-1 ">
+              <Select
+                classNamePrefix="custom-inner-reactselect"
+                className={"custom-reactselect "}
+                placeholder="Maiwald Jacqueline"
+                // options={options}
+                isClearable={true}
+              />
+            </div>
+            <div className="user-select mx-1 ">
+              <Select
+                classNamePrefix="custom-inner-reactselect"
+                className={"custom-reactselect "}
+                placeholder="Maiwald Jacqueline"
+                // options={options}
+                isClearable={true}
+              />
+            </div>
+            <div className="user-select mx-1 ">
+              <Select
+                classNamePrefix="custom-inner-reactselect"
+                className={"custom-reactselect "}
+                placeholder="Nursing service at Treptower Park"
+                // options={options}
+                isClearable={true}
+              />
+            </div>
+            <div className="header-nav-item">
+              <span className="header-nav-icon">
+                <img src={pen} alt="" />
+              </span>
+              <span className="header-nav-text">Create</span>
+            </div>
+            <div className="header-nav-item">
+              <span className="header-nav-icon">
+                <img src={CompleteTime} alt="" />
+              </span>
+              <span className="header-nav-text">Times completely</span>
+            </div>
+            <div className="header-nav-item">
+              <span className="header-nav-icon">
+                <img src={idea} alt="" />
+              </span>
+              <span className="header-nav-text">Create all caregiver</span>
+            </div>
+            <div className="header-nav-item">
+              <span className="header-nav-icon pr-0">
+                <img src={massege} alt="" />
+              </span>
+            </div>
+            <div className="user-select mx-1 ">
+              <Select
+                classNamePrefix="custom-inner-reactselect"
+                className={"custom-reactselect "}
+                placeholder="Select Month Summary"
+                options={InvoiceSummaryFilter}
+                isClearable={true}
+              />
+            </div>
 
-                  <div className="user-select mx-1 ">
-                    <Select
-                      classNamePrefix="custom-inner-reactselect"
-                      className={"custom-reactselect "}
-                      placeholder="Facilities"
-                      options={options}
-                      isClearable={true}
-                    />
-                  </div>
-                  <div className="user-select mx-1 ">
-                    <Select
-                      classNamePrefix="custom-inner-reactselect"
-                      className={"custom-reactselect "}
-                      placeholder="Broadcast date"
-                      options={options}
-                      isClearable={true}
-                    />
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">View Invoice PDFs</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={PlyCocoreceipt} alt="" />
-                    </span>
-                    <span className="header-nav-text">show receipt</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={SpecialistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Save invoice
-               </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Sent &amp; Unsent</div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={Again} alt="" />
-                    </span>
-                    <span className="header-nav-text">send again</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-text">Sent today</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-text">Unsent</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Paid &amp; Unpaid</div>
-
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={paid} alt="" />
-                    </span>
-                    <span className="header-nav-text">Paid on</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={"unPaid"} alt="" />
-                    </span>
-                    <span className="header-nav-text">Unpaid</span>
-                  </div>
-                  <div className="user-select mx-1 ">
-                    <Select
-                      classNamePrefix="custom-inner-reactselect"
-                      className={"custom-reactselect "}
-                      placeholder="professional"
-                      options={options}
-                      isClearable={true}
-                    />
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items profile-section">
-                  <div className="header-nav-heading mx-1">User Profile</div>
-
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={professaionalProfile} alt="" />
-                    </span>
-                    <span className="header-nav-text">Furnishing profile</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={interierDesign} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      interior design professional
-               </span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={showAppointment} alt="" />
-                    </span>
-                    <span className="header-nav-text">Show appointments</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items profile-section">
-                  <div className="header-nav-heading mx-1"></div>
-
-                  <div className="header-nav-item">
-                    <span className="header-nav-text">Solo setup</span>
-                  </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-text">Release</span>
-                  </div>
-                </div>
-              </div>
-              :
-
-              <div className="common-topheader d-flex  px-2 mb-1">
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Reminders</div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={sendReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Send reminder</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={createReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Create a reminder</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={showReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Show reminder</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Warning</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={uploadReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Upload reminder</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={attachReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">attach reminder</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={sendLawyer} alt="" />
-                    </span>
-                    <span className="header-nav-text">Send to lawyer</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Export</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={taxConsultant} alt="" />
-                    </span>
-                    <span className="header-nav-text">Tax consultant</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={vicantPosition} alt="" />
-                    </span>
-                    <span className="header-nav-text">Vacant positions</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Invoices</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={SpecialistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">Create new invoice</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={SpecialistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Create cancellation invoice
-     </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">attachment</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={AttachSpeacilistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">Bill again</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={AttachSpeacilistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Attach to specialist invoice
-     </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1"></div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={Again} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Append order number Plycoco
-     </span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={Again} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Append order number specialist
-     </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Other tool</div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={edit} alt="" />
-                    </span>
-                    <span className="header-nav-text">To edit</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={clear} alt="" />
-                    </span>
-                    <span className="header-nav-text">Clear</span>
-                  </div>
-                </div>
-              </div>
-
-            }
-
-            <CardBody>
-              <div className="filter-form form-section mb-2">
-                <Form>
-                  <Row>
-                    <Col lg={"3"} md={"3"}>
-                      <FormGroup>
-                        <Label for="search" className="col-form-label">
-                          {languageTranslation("SEARCH_LABEL")} :
-                        </Label>
-                        <Input
-                          type="text"
-                          name="searchValue"
-                          id="search"
-                          value={"searchValue"}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col lg={"2"} md={"3"}>
-                      <FormGroup>
-                        <Label for="Selectregion" className="col-form-label">
-                          {languageTranslation("STATUS_LABEL")} :
-                        </Label>
-                        <Select
-                          placeholder={languageTranslation(
-                            "STATUS_PLACEHOLDER"
-                          )}
-                          options={options}
-                          isClearable={true}
-                          isSearchable={false}
-                          classNamePrefix="custom-inner-reactselect"
-                          className={"custom-reactselect"}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col lg={"2"} md={"3"}>
-                      <FormGroup>
-                        <Label for="Selectregion" className="col-form-label">
-                          {languageTranslation("FILTER_BY_STATUS")} :
-                        </Label>
-                        <Select
-                          placeholder={languageTranslation(
-                            "STATUS_PLACEHOLDER"
-                          )}
-                          options={options}
-                          isClearable={true}
-                          isSearchable={false}
-                          classNamePrefix="custom-inner-reactselect"
-                          className={"custom-reactselect"}
-                        />
-                      </FormGroup>
-                    </Col>
-
-                    <Col lg={"2"} md={"3"}>
-                      <div className="label-height"></div>
-                      <div className="filter-btn-wrap">
-                        <Button
-                          className="btn-filter mr-2"
-                          type="submit"
-                          id="search1"
-                        >
-                          <i className="fa fa-search"></i>
-                          <span className="search-text">
-                            {languageTranslation("SEARCH_LABEL")}
-                          </span>
-                        </Button>
-                        <Button className="btn-filter mr-2" id="reset">
-                          <i className="fa fa-refresh "></i>
-                          <span className="search-text">
-                            {languageTranslation("RESET_LABEL")}
-                          </span>
-                        </Button>
-                      </div>
-                    </Col>
-                  </Row>
-                </Form>
-              </div>
-              <div className="common-content flex-grow-1  p-0 all-invoice">
-                <div className="table-minheight invoices-table">
-                  <Table bordered hover responsive>
-                    <thead className="thead-bg">
-                      <tr>
-                        <th className="all-invoice-number">
-                          RchngNr
-                        </th>
-                        <th className="all-invoice-facility">
-                          {" "}
-                          {languageTranslation("FACILITY")}
-                        </th>
-                        <th className="all-invoice-cancellation-for">
-                          {" "}
-                          {languageTranslation("CANCELLATION_FOR")}{" "}
-                        </th>
-                        <th className="all-invoice-canceled-by">
-                          {" "}
-                          {languageTranslation("CANCELED_BY")}
-                        </th>
-                        <th className="all-invoice-rchng"> RchngnR. F</th>
-                        <th className="all-invoice-date">
-                          {languageTranslation("DATE")}
-                        </th>
-                        <th className="all-invoice-amount">
-                          {languageTranslation("AMOUNT")}
-                        </th>
-                        <th className="all-invoice-posted">
-                          {languageTranslation("POSTED")}
-                        </th>
-                        <th className="all-invoice-sent-mail">
-                          {languageTranslation("SENT_MAIL")}
-                        </th>
-
-                        <th className="all-invoice-paid">
-                          {languageTranslation("PAID")}
-                        </th>
-                        <th className="all-invoice-remind">
-                          {languageTranslation("REMIND")}
-                        </th>
-                        <th className="all-invoice-reminded">
-                          {languageTranslation("REMINDED")}
-                        </th>
-                        <th className="all-invoice-lawyer">
-                          Attorney
-                        </th>
-                        <th className="all-invoice-doudful">
-                          {languageTranslation("DOUBTFUL")}
-                        </th>
-                        <th className="all-invoice-uncollectible">
-                          {languageTranslation("UNCOLLECTIBLE")}
-                        </th>
-                        <th className="all-invoice-still-open">
-                          {languageTranslation("STILL_OPEN")}
-                        </th>
-                        <th className="all-invoice-comment">
-                          {languageTranslation("COMMENT")}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td> 3143156</td>
-                        <td> Work at service</td>
-                        <td> Testwerk</td>
-                        <td> 03.03.2020</td>
-                        <td>230004</td>
-                        <td>16-09-2013</td>
-                        <td>234.02</td>
-                        <td>17-09-2013</td>
-                        <td></td>
-                        <td></td>
-                        <td>16-09-2013</td>
-                        <td>16-09-2013</td>
-                        <td>16-09-2013</td>
-                        <td>
-                          <span className="checkbox-custom ">
-                            <input type="checkbox" id="checkAll" className="" />
-                            <label className=""> </label>
-                          </span>
-                        </td>
-                        <td>
-                          <span className="checkbox-custom ">
-                            <input type="checkbox" id="checkAll" className="" />
-                            <label className=""> </label>
-                          </span>
-                        </td>
-                        <td>234.02</td>
-                        <td>am 16.00</td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                </div>
-                <div></div>
-              </div>
-            </CardBody>
+            <div className="user-select mx-1 ">
+              <Select
+                classNamePrefix="custom-inner-reactselect"
+                className={"custom-reactselect "}
+                placeholder="Nursing service at Treptower Park"
+                // options={options}
+                isClearable={true}
+              />
+            </div>
+            <div className="header-nav-item">
+              <span className="header-nav-icon pr-0">
+                <img src={left_arrow} alt="" />
+              </span>
+            </div>
+            <div className="common-header-input pr-1">
+              <DayPickerInput />
+            </div>
+            <div className="header-nav-item">
+              <span className="header-nav-icon pr-0">
+                <img src={right_arrow} alt="" />
+              </span>
+            </div>
           </div>
-          <Form className="form-section total-form-section">
-            <div className="d-flex flex-wrap total-form-block">
-              <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
-                <FormGroup>
-                  <Row className="align-items-center">
-                    <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                      <Label className="form-label col-form-label">Total</Label>
-                    </Col>
-                    <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                      <div className="required-input">
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Enter Total"}
-                          className="text-input text-capitalize"
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
-                <FormGroup>
-                  <Row className="align-items-center">
-                    <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                      <Label className="form-label col-form-label">
-                        total selection
+          <div className="common-content flex-grow-1">
+            <div className="filter-form form-section mb-2">
+              <Form>
+                <Row>
+                  <Col lg={"3"} md={"3"}>
+                    <FormGroup>
+                      <Label for="search" className="col-form-label">
+                        {languageTranslation("SEARCH_LABEL")} :
                       </Label>
-                    </Col>
-                    <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                      <div className="required-input">
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Enter total selection"}
-                          className="text-input text-capitalize"
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
+                      <Input type="text" name="searchValue" id="search" />
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"2"} md={"3"}>
+                    <FormGroup>
+                      <Label for="Selectregion" className="col-form-label">
+                        {languageTranslation("SORTBY_LABEL")} :
+                      </Label>
+                      <Select
+                        placeholder={languageTranslation("SORTBY_PLACEHOLDER")}
+                        options={SortOptions}
+                        isClearable={true}
+                        isSearchable={false}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={"custom-reactselect"}
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col lg={"2"} md={"3"}>
+                    <FormGroup>
+                      <Label for="Selectregion" className="col-form-label">
+                        {languageTranslation("STATUS_LABEL")} :
+                      </Label>
+                      <Select
+                        placeholder={languageTranslation("STATUS_PLACEHOLDER")}
+                        options={StatusOptions}
+                        isClearable={true}
+                        isSearchable={false}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={"custom-reactselect"}
+                      />
+                    </FormGroup>
+                  </Col>
+
+                  <Col lg={"2"} md={"3"}>
+                    <div className="label-height"></div>
+                    <div className="filter-btn-wrap">
+                      <Button
+                        className="btn-filter mr-2"
+                        type="submit"
+                        id="search1"
+                      >
+                        <i className="fa fa-search"></i>
+                        <span className="search-text">
+                          {languageTranslation("SEARCH_LABEL")}
+                        </span>
+                      </Button>
+                      <Button className="btn-filter mr-2" id="reset">
+                        <i className="fa fa-refresh "></i>
+                        <span className="search-text">
+                          {languageTranslation("RESET_LABEL")}
+                        </span>
+                      </Button>
+                    </div>
+                  </Col>
+                </Row>
+              </Form>
             </div>
-          </Form>
+            <div className="common-content flex-grow-1  p-0 all-invoice">
+              <div className="table-minheight invoices-table">
+                <Table bordered hover responsive>
+                  <thead className="thead-bg">
+                    <tr>
+                      <th className="">{languageTranslation("S_NO")}</th>
+                      <th className=""> {languageTranslation("ID")}</th>
+                      <th className="">h</th>
+                      <th className=""> {languageTranslation("TEXT")}</th>
+                      <th className="">{languageTranslation("BEGIN")}</th>
+                      <th className="">{languageTranslation("THE_END")}</th>
+                      <th className="">
+                        {languageTranslation("BREAK")}{" "}
+                        {languageTranslation("BEGIN")}
+                      </th>
+                      <th>
+                        {languageTranslation("BREAK")}{" "}
+                        {languageTranslation("END")}
+                      </th>
+                      <th className=""> {languageTranslation("PRICE")}</th>
+                      <th className="">{languageTranslation("NIGHT")}</th>
+                      <th className="">{languageTranslation("NIGHT")}</th>
+                      <th className="">{languageTranslation("WEEKEND")}</th>
+                      <th className="">{languageTranslation("WEEKEND")}</th>
+                      <th className="">{languageTranslation("HOLIDAY")}</th>
+                      <th className="">{languageTranslation("HOLIDAY")}</th>
+                      <th className=""> {languageTranslation("KM")}</th>
+                      <th className="">{languageTranslation("KM_PRICE")}</th>
+                      <th className="">{languageTranslation("EXPENSES")}</th>
+                      <th className="">{languageTranslation("TOTAL")}</th>
+                      <th className="">{languageTranslation("COMMISSION")}</th>
+                      <th className="">{languageTranslation("TOTAL")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="checkbox-th-column text-center">
+                        <span className=" checkbox-custom ">
+                          <input
+                            type="checkbox"
+                            id="check"
+                            className=""
+                            name={"status"}
+                            // checked={"true"}
+                          />
+                          <label className="">1</label>
+                        </span>
+                      </td>
+                      <td> 5465465</td>
+                      <td> 12.00</td>
+
+                      <td>WG in leipzig</td>
+                      <td>Mon 03.03.2020 19:00</td>
+                      <td>Mon 03.03.2020 19:00</td>
+                      <td>Mon 03.03.2020 19:00</td>
+                      <td>Mon 03.03.2020 19:00</td>
+                      <td>3,200.00 &euro;</td>
+                      <td>00.00 &euro;</td>
+                      <td>00.00 &euro;</td>
+                      <td>00.00 &euro;</td>
+                      <td>00.00 &euro;</td>
+                      <td>00.00 &euro;</td>
+                      <td>00.00 &euro;</td>
+                      <td>00.00 </td>
+                      <td>00.30 &euro;</td>
+                      <td>00.00 &euro;</td>
+                      <td>384.00 &euro;</td>
+                      <td>384.00 &euro;</td>
+                      <td>34584.00 &euro;</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
+            </div>
+          </div>
         </div>
-      </Card>
+        <Form className="form-section total-form-section">
+          <div className="d-flex flex-wrap total-form-block">
+            <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+              <FormGroup>
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">Total</Label>
+                  </Col>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <div className="required-input">
+                      <Input
+                        type="text"
+                        name={"firstName"}
+                        placeholder={"Enter Total"}
+                        className="text-input text-capitalize"
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
+            <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+              <FormGroup>
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      total selection
+                    </Label>
+                  </Col>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <div className="required-input">
+                      <Input
+                        type="text"
+                        name={"firstName"}
+                        placeholder={"Enter total selection"}
+                        className="text-input text-capitalize"
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Col>
+          </div>
+        </Form>
+      </div>
     </>
   );
 };
-export default CreateInvoices;
+export default CreateInvoice;

@@ -160,6 +160,10 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
 
   const DepartmentError: any = errors.department;
   const qualificationError: any = errors.qualificationId;
+  const shiftOptions =
+    careInstitutionTimesOptions && careInstitutionTimesOptions.length
+      ? careInstitutionTimesOptions
+      : ShiftTime;
 
   return (
     <>
@@ -217,7 +221,20 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           disabled
                           value={name ? name : languageTranslation('NAME')}
                         />
-                        <InputGroupAddon addonType='append'>
+                        <InputGroupAddon
+                          addonType='append'
+                          className='cursor-pointer'
+                          onClick={() =>
+                            name
+                              ? handleUserList(
+                                  selectedCareinstitution
+                                    ? selectedCareinstitution.id
+                                    : '',
+                                  'careinstitution'
+                                )
+                              : ''
+                          }
+                        >
                           <InputGroupText>
                             <i
                               className={
@@ -226,16 +243,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                   : 'fa fa-star'
                               }
                               aria-hidden='true'
-                              onClick={() =>
-                                name
-                                  ? handleUserList(
-                                      selectedCareinstitution
-                                        ? selectedCareinstitution.id
-                                        : '',
-                                      'careinstitution'
-                                    )
-                                  : ''
-                              }
                             ></i>
                           </InputGroupText>
                         </InputGroupAddon>
@@ -254,7 +261,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     </Label>
                   </Col>
                   <Col sm='7'>
-                    <div className='text-value '>
+                    <div className='text-value one-line-text'>
                       {activeDateCareinstitution
                         ? activeDateCareinstitution
                             .map(
@@ -275,7 +282,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col sm={'12'} lg={'12'}>
+            {/* <Col sm={'12'} lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm={'5'}>
@@ -302,7 +309,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   </Col>
                 </Row>
               </FormGroup>
-            </Col>
+            </Col> */}
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
@@ -343,13 +350,33 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         </InputGroup>
                       </div>
                       <UncontrolledDropdown className='custom-dropdown'>
-                        <DropdownToggle className={'add-new-btn'}>
+                        <DropdownToggle
+                          className={'add-new-btn'}
+                          value={shift ? shift : undefined}
+                        >
                           <i className='fa fa-clock-o' aria-hidden='true' />
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>Header</DropdownItem>
-                          <DropdownItem>Some Action</DropdownItem>
-                          <DropdownItem>Action (disabled)</DropdownItem>
+                          {shiftOptions && shiftOptions.length
+                            ? shiftOptions.map(
+                                (
+                                  option: IReactSelectInterface,
+                                  index: number
+                                ) => {
+                                  return (
+                                    <DropdownItem
+                                      key={index}
+                                      value={option.value}
+                                      onClick={(e: any) =>
+                                        handleSelect(option, 'shift')
+                                      }
+                                    >
+                                      {option.label}
+                                    </DropdownItem>
+                                  );
+                                }
+                              )
+                            : ''}
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </div>
@@ -538,10 +565,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           handleSelect(value, 'department')
                         }
                         value={
-                          department
-                          // department && department.value
-                          //   ? department
-                          //   : { label: ' ', value: '' }
+                          department && department.value ? department : null
                         }
                       />
                       {errors.department && touched.department && (

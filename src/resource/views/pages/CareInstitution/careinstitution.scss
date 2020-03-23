@@ -85,14 +85,14 @@
     width: 45px;
     text-align: center;
   }
-  .invoice-number-col {
+  .invoiceid-col {
     width: 110px;
   }
-  .invoice-date-col {
-    width: 110px;
+  .date-col {
+    width: 100px;
   }
-  .caregiver-name-col {
-    width: 150px;
+  .caregiver-col {
+    width: 200px;
   }
   .amount-col {
     width: 110px;
@@ -100,11 +100,16 @@
   .due-date-col {
     width: 110px;
   }
-  .status-col {
-    width: 80px;
-  }
-  .supported-documents-col {
+  .dln-col {
     width: 200px;
+  }
+  .remarks-col {
+    min-width: 150px;
+    max-width: 250px;
+  }
+  .action-col {
+    width: 100px;
+    max-width: 100px;
   }
 }
 

@@ -1,19 +1,19 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { Button, Card, CardHeader, CardBody } from "reactstrap";
-import { AppBreadcrumb } from "@coreui/react";
-import routes from "../../../../routes/routes";
-import { languageTranslation } from "../../../../helpers";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Button, Card, CardHeader, CardBody } from 'reactstrap';
+import { AppBreadcrumb } from '@coreui/react';
+import routes from '../../../../routes/routes';
+import { languageTranslation } from '../../../../helpers';
+import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 import {
   ICountries,
   IStates,
   IState,
   IAddHolidaysFormValues
-} from "../../../../interfaces";
-import { CountryQueries } from "../../../../graphql/queries";
-import CalendarView from "./CalendarView";
-import AddHolidays from "./AddHolidays";
-import UpdateWeekends from "./UpdateWeekends";
+} from '../../../../interfaces';
+import { CountryQueries } from '../../../../graphql/queries';
+import CalendarView from './CalendarView';
+import AddHolidays from './AddHolidays';
+import UpdateWeekends from './UpdateWeekends';
 
 let refreshList: any = undefined;
 const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
@@ -21,7 +21,7 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
   // initial states
   const [states, setStates] = useState<IState[]>([]);
   const defaultEditInfo: IAddHolidaysFormValues = {
-    date: ""
+    date: ''
   };
   const [editInfo, setEditInfo] = useState<IAddHolidaysFormValues>(
     defaultEditInfo
@@ -42,9 +42,9 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
       const { countries: resCountries } = allCountries;
       // get index of Germany for initial load
       const countryIds: string[] = resCountries.findInfo(
-        "sortname",
-        ["AT", "DE"],
-        "id"
+        'sortname',
+        ['AT', 'DE'],
+        'id'
       );
       if (countryIds.length) {
         // get states of Germany
@@ -76,35 +76,35 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
 
   return (
     <Card>
-      <CardHeader className="global-calendar-header">
-        <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
+      <CardHeader className='global-calendar-header'>
+        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
         <div>
           <Button
-            color={"primary"}
-            className={"btn-add mr-3"}
+            color={'primary'}
+            className={'btn-add mr-3'}
             onClick={() => (isLoading ? undefined : setAddModal(true))}
             disabled={isLoading}
           >
             {isLoading ? (
-              <i className="fa fa-spinner fa-spin mr-2" />
+              <i className='fa fa-spinner fa-spin mr-2' />
             ) : (
-              <i className={"fa fa-plus"} />
+              <i className={'fa fa-plus'} />
             )}
-            &nbsp;{languageTranslation("UPDATE_CALEDAR")}
+            &nbsp;{languageTranslation('UPDATE_CALEDAR')}
           </Button>
 
           <Button
-            color={"primary"}
-            className={"btn-add"}
+            color={'primary'}
+            className={'btn-add'}
             onClick={() => (isLoading ? undefined : setShowWeekendModal(true))}
             disabled={isLoading}
           >
             {isLoading ? (
-              <i className="fa fa-spinner fa-spin mr-2" />
+              <i className='fa fa-spinner fa-spin mr-2' />
             ) : (
-              <i className={"fa fa-refresh"} />
+              <i className={'fa fa-refresh'} />
             )}
-            &nbsp;{languageTranslation("UPDATE_WEEKENDS")}
+            &nbsp;{languageTranslation('UPDATE_WEEKENDS')}
           </Button>
         </div>
       </CardHeader>
@@ -119,7 +119,6 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
           }}
           onEdit={editHoliday}
         />
-        {/*  */}
         <AddHolidays
           isOpen={showAddModal}
           handleClose={() => {
@@ -127,7 +126,11 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
             setAddModal(false);
           }}
           states={states}
-          refresh={refreshList}
+          refresh={(refetch: (variables?: any) => void): void => {
+            if (!refreshList) {
+              refreshList = refetch;
+            }
+          }}
           editInfo={editInfo}
         />
         <UpdateWeekends

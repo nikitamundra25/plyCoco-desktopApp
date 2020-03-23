@@ -2,7 +2,7 @@ import React, {
   Component,
   FunctionComponent,
   useEffect,
-  useState
+  useState,
 } from 'react';
 import {
   Col,
@@ -11,7 +11,7 @@ import {
   Input,
   Table,
   Label,
-  UncontrolledTooltip
+  UncontrolledTooltip,
 } from 'reactstrap';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { languageTranslation } from '../../../../helpers';
@@ -19,7 +19,7 @@ import {
   defaultDateFormat,
   PAGE_LIMIT,
   AppRoutes,
-  TODO_PAGE_LIMIT
+  TODO_PAGE_LIMIT,
 } from '../../../../config';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { ToDoQueries } from '../../../../graphql/queries';
@@ -35,7 +35,7 @@ import * as qs from 'query-string';
 import {
   ISearchValues,
   ISearchToDoValues,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../interfaces';
 import { Formik, FormikHelpers, FormikProps } from 'formik';
 import Search from '../../components/SearchFilter';
@@ -45,7 +45,7 @@ const [
   ,
   ,
   UPDATE_CARE_INSTITUTION_TODO_STATUS,
-  DELETE_CARE_INSTITUTION_TODO_STATUS
+  DELETE_CARE_INSTITUTION_TODO_STATUS,
 ] = ToDoMutations;
 let toastId: any = null;
 
@@ -94,8 +94,8 @@ const CareInstitutionTodo: FunctionComponent = () => {
         priority: '',
         sortBy: '',
         futureOnly: false,
-        limit: TODO_PAGE_LIMIT
-      }
+        limit: TODO_PAGE_LIMIT,
+      },
     });
   }, []);
 
@@ -107,7 +107,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
     let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
     let sortByDate: IReactSelectInterface | undefined = {
       label: '',
-      value: ''
+      value: '',
     };
     let priority: IReactSelectInterface | undefined = { label: '', value: '' };
 
@@ -136,7 +136,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
               label:
                 searchData.toDoFilter.charAt(0).toUpperCase() +
                 searchData.toDoFilter.slice(1),
-              value: searchData.toDoFilter
+              value: searchData.toDoFilter,
             }
           : undefined,
         searchValue: searchData.search,
@@ -144,11 +144,11 @@ const CareInstitutionTodo: FunctionComponent = () => {
           ? searchData.priority === 'normal'
             ? {
                 label: languageTranslation('NORMAL'),
-                value: searchData.priority
+                value: searchData.priority,
               }
             : {
                 label: searchData.priority,
-                value: searchData.priority
+                value: searchData.priority,
               }
           : undefined,
         sortByDate: searchData.sortByDate
@@ -156,9 +156,9 @@ const CareInstitutionTodo: FunctionComponent = () => {
               label:
                 searchData.sortByDate.charAt(0).toUpperCase() +
                 searchData.sortByDate.slice(1),
-              value: searchData.sortByDate
+              value: searchData.sortByDate,
             }
-          : undefined
+          : undefined,
       });
 
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
@@ -173,8 +173,8 @@ const CareInstitutionTodo: FunctionComponent = () => {
           sortByDate: searchData.sortByDate ? searchData.sortByDate : null,
           priority: searchData.priority,
           limit: TODO_PAGE_LIMIT,
-          page: query.page ? parseInt(query.page as string) : 1
-        }
+          page: query.page ? parseInt(query.page as string) : 1,
+        },
       });
     }
   }, [search]);
@@ -182,7 +182,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      '?',
     );
     history.push(path);
   };
@@ -199,7 +199,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
 
   const handleSubmit = async (
     { searchValue, toDoFilter, priority, sortByDate }: ISearchToDoValues,
-    { setSubmitting }: FormikHelpers<ISearchToDoValues>
+    { setSubmitting }: FormikHelpers<ISearchToDoValues>,
   ) => {
     let params: {
       [key: string]: any;
@@ -228,7 +228,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
       text:
         status === 'pending'
           ? languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG')
-          : languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG')
+          : languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG'),
     });
     if (!value) {
       return;
@@ -239,13 +239,13 @@ const CareInstitutionTodo: FunctionComponent = () => {
           variables: {
             id: parseInt(id),
             status: status === 'pending' ? 'completed' : 'pending',
-            priority
-          }
+            priority,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('TODO_STATUS_UPDATED_SUCCESSFULLY')
+            languageTranslation('TODO_STATUS_UPDATED_SUCCESSFULLY'),
           );
         }
       } catch (error) {
@@ -263,7 +263,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const deleteToDo = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('DELETE_CARE_INSTITUTION_TODO')
+      text: languageTranslation('DELETE_CARE_INSTITUTION_TODO'),
     });
     if (!value) {
       return;
@@ -272,8 +272,8 @@ const CareInstitutionTodo: FunctionComponent = () => {
         toast.dismiss();
         await deleteStatus({
           variables: {
-            id: parseInt(id)
-          }
+            id: parseInt(id),
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
@@ -295,15 +295,15 @@ const CareInstitutionTodo: FunctionComponent = () => {
       history.push(
         `${AppRoutes.CARE_INSTITUION_VIEW.replace(
           ':id',
-          id
-        )}?tab=${encodeURIComponent('reminders/todos')}`
+          id,
+        )}?tab=${encodeURIComponent('reminders/todos')}`,
       );
     } else {
       history.push(
         `${AppRoutes.CARE_GIVER_VIEW.replace(
           ':id',
-          id
-        )}?tab=${encodeURIComponent('reminders/todos')}`
+          id,
+        )}?tab=${encodeURIComponent('reminders/todos')}`,
       );
     }
   };
@@ -316,7 +316,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
     sortByDate = undefined,
     toDoFilter = undefined,
     priority = undefined,
-    futureOnly = false
+    futureOnly = false,
   } = searchValues ? searchValues : {};
 
   const values: ISearchToDoValues = {
@@ -325,7 +325,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
     sortByDate,
     toDoFilter,
     priority,
-    futureOnly
+    futureOnly,
   };
   return (
     <>
@@ -343,7 +343,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                 enableReinitialize={true}
                 onSubmit={handleSubmit}
                 children={(props: FormikProps<ISearchToDoValues>) => (
-                  <Search {...props} label={'toDos'} />
+                  <Search {...props} label={'toDos'} filterbyStatus={true} />
                 )}
               />
             </div>
@@ -460,7 +460,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
                                   handleChange(
                                     list.id,
                                     list.status,
-                                    list.priority
+                                    list.priority,
                                   )
                                 }
                               />

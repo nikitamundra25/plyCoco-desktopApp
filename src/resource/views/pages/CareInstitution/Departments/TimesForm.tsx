@@ -22,8 +22,16 @@ const TimesForm: FunctionComponent<FormikProps<IAddTimeFormValues> & any> = (
     errors,
     handleChange,
     handleBlur,
-    handleSubmit
+    handleSubmit,
+    resetTimeForm,
+    setResetTimeForm,
+    resetForm
   } = props;
+
+  if (resetTimeForm) {
+    resetForm();
+    setResetTimeForm(false);
+  }
 
   let d = moment().format('L');
   let dtStart: any = new Date(d + " " + begin);

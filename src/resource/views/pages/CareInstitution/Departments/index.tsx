@@ -64,6 +64,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   const [departmentDetails, setDepartmentDetails] = useState<any>();
   const [isActive, setIsActive] = useState<any>();
   const [filterValue, setFilterValue] = useState<any>(null);
+  let [resetTimeForm, setResetTimeForm] = useState<any>(false);
   let { id } = useParams();
   const Id: any | undefined = id;
 
@@ -161,8 +162,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setUserId(Id);
   }
   const onDepartmentClick = (item: any) => {
-    console.log('item', item);
     setIsActive(item.id);
+    setResetTimeForm(true);
     getDepartmentById({
       variables: {
         id: parseInt(item.id)
@@ -194,8 +195,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         attributes:
           attributes && attributes.length
             ? attributes.map(({ value }: IReactSelectInterface) =>
-                parseInt(value)
-              )
+              parseInt(value)
+            )
             : []
       };
 
@@ -217,6 +218,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
           }
         });
         resetForm();
+        setResetTimeForm(true);
         setTimesData([]);
         setQualifications([]);
         setAttributes([]);
@@ -226,10 +228,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       }
       setSubmitting(false);
       refetch();
-      // resetForm();
-      // setTimesData([]);
-      // setQualifications([]);
-      // setAttributes([]);
     } catch (error) {
       const message = error.message
         .replace('SequelizeValidationError: ', '')
@@ -343,11 +341,12 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       locked: false,
       times: []
     });
+    setResetTimeForm(true);
     setTimesData([]);
     setQualifications([]);
     setAttributes([]);
     setIsActive(-1);
-    setInterval(function() {
+    setInterval(function () {
       setIsLoading(false);
     }, 1000);
   };
@@ -383,6 +382,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         locked: false,
         times: []
       });
+      setResetTimeForm(true);
       setTimesData([]);
       setQualifications([]);
       setAttributes([]);
@@ -419,6 +419,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       locked: false,
       times: []
     });
+    setResetTimeForm(true);
     setTimesData([]);
     setQualifications([]);
     setAttributes([]);
@@ -460,7 +461,9 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                   color={'primary'}
                   className={'btn-department mb-2 '}
                   id={'add-new-pm-tooltip'}
-                  onClick={addNewDepartment}
+                  onClick={() => {
+                    addNewDepartment();
+                  }}
                 >
                   <i className={'fa fa-plus'} />
                   &nbsp;
@@ -482,39 +485,39 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                     <ul className='common-list list-unstyled mb-0'>
                       {departmentList && departmentList.getDivision.length
                         ? departmentList.getDivision.map(
-                            (item: any, index: number) => {
-                              return (
-                                <li
-                                  key={index}
-                                  className={
-                                    'cursor-pointer list-item text-capitalize ' +
-                                    (isActive === item.id ? 'active' : '')                                  }
+                          (item: any, index: number) => {
+                            return (
+                              <li
+                                key={index}
+                                className={
+                                  'cursor-pointer list-item text-capitalize ' +
+                                  (isActive === item.id ? 'active' : '')}
+                              >
+                                <span
+                                  onClick={() => {
+                                    onDepartmentClick(item);
+                                  }}
+                                  className='list-item-text'
                                 >
-                                  <span
-                                    onClick={() => {
-                                      onDepartmentClick(item);
-                                    }}
-                                    className='list-item-text'
+                                  {item.name}
+                                </span>{' '}
+                                <span
+                                  id={`delete${index}`}
+                                  className='list-item-icon'
+                                  onClick={() => onDelete(item.id)}
+                                >
+                                  <UncontrolledTooltip
+                                    placement={'top'}
+                                    target={`delete${index}`}
                                   >
-                                    {item.name}
-                                  </span>{' '}
-                                  <span
-                                    id={`delete${index}`}
-                                    className='list-item-icon'
-                                    onClick={() => onDelete(item.id)}
-                                  >
-                                    <UncontrolledTooltip
-                                      placement={'top'}
-                                      target={`delete${index}`}
-                                    >
-                                      {languageTranslation('DEPARTMENT_DELETE')}
-                                    </UncontrolledTooltip>
-                                    <i className='fa fa-trash'></i>
-                                  </span>
-                                </li>
-                              );
-                            }
-                          )
+                                    {languageTranslation('DEPARTMENT_DELETE')}
+                                  </UncontrolledTooltip>
+                                  <i className='fa fa-trash'></i>
+                                </span>
+                              </li>
+                            );
+                          }
+                        )
                         : null}
                     </ul>
                   </div>
@@ -542,6 +545,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                   {...props}
                   timesData={timesData}
                   setTimesData={setTimesData}
+                  resetTimeForm={resetTimeForm}
+                  setResetTimeForm={setResetTimeForm}
                 />
               )}
               validationSchema={AddTimeValidationSchema}

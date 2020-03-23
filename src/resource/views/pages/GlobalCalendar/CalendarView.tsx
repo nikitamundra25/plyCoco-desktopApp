@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { UncontrolledTooltip, Input } from "reactstrap";
+import { UncontrolledTooltip, Input, CardBody } from "reactstrap";
 import Loader from "../../containers/Loader/Loader";
 import { languageTranslation } from "../../../../helpers";
 import {
@@ -141,7 +141,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                   </span>
                 </div>
                 &nbsp;&nbsp;
-                <span className=" checkbox-custom ">
+                <span className=" checkbox-custom pl-4">
                   <input
                     type="checkbox"
                     id="check"
@@ -154,12 +154,15 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                     Hide Weekends
                   </label>
                 </span>
+                <Input type="text" readonly className="form-control header-input-wrap ml-3" />
               </div>
             </div>
           </div>
         </div>
+        
       </>
-      <Input type="text" readonly />
+      <CardBody>
+    
       <div className="sticky-table table-responsive">
         <table className={"main-table table table-hover"}>
           <thead className="thead-bg">
@@ -263,6 +266,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
           </div>
         ) : null}
       </div>
+ </CardBody>
     </>
   );
 };

@@ -53,7 +53,6 @@ const Cell = ({
       isConfirm = true;
     }
   }
-  console.log('isSelected', isSelected);
 
   return (
     <>

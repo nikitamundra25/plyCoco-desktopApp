@@ -1460,6 +1460,7 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCellsCareinstitution[0]
         ? selectedCellsCareinstitution[0]
         : {};
+        
     if (deptId && (updateCanstitutionFormikValues || !item)) {
       if (departmentList && departmentList.getDivision.length) {
         const { getDivision } = departmentList;

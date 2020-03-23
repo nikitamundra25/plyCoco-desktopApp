@@ -11,7 +11,8 @@ import {
   leasingListColor,
   selfEmployesListColor,
   CareInstTIMyoCYAttrId,
-  CareInstPlycocoAttrId
+  CareInstPlycocoAttrId,
+  CareInstInActiveAttrId
 } from "../../../../config";
 import { careInstitutionRoutes } from "./Sidebar/SidebarRoutes/ConstitutionRoutes";
 import {
@@ -162,8 +163,9 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       CareInstitutionList.push({
         label: `${data.lastName}${" "}${data.firstName}`,
         value: data.id,
-        color: !data.isActive
-          ? deactivatedListColor
+        color: attributes.includes(
+          CareInstInActiveAttrId,
+        ) ? deactivatedListColor
           : attributes.includes(CareInstTIMyoCYAttrId)
           ? leasingListColor
           : attributes.includes(CareInstPlycocoAttrId)

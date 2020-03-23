@@ -115,7 +115,15 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   const handleAllResetFilters = () => {
     handleResetFilters();
   };
-  console.log('jjjjjjjjjjjj', moment().month(month));
+
+  console.log(
+    'pppppp',
+    parseInt(
+      moment()
+        .month(month)
+        .format('M')
+    )
+  );
 
   return (
     <>
@@ -144,7 +152,16 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               onDayChange={handleDayClick}
               value={`${month} ${year}`}
               dayPickerProps={{
-                month: year ? new Date(parseInt(year), 2) : new Date()
+                month: year
+                  ? new Date(
+                      parseInt(year),
+                      parseInt(
+                        moment()
+                          .month(month)
+                          .format('M')
+                      )
+                    )
+                  : new Date()
               }}
             />
           </div>

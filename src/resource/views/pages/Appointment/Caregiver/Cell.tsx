@@ -30,13 +30,12 @@ const Cell = ({
     item && item.appointments && item.appointments[0]
       ? item.appointments[0].id
       : '';
+
   let showAppointedCareGiver: boolean = false;
   if (canstitutionCell && caregiverCell) {
     if (canstitutionCell === caregiverCell) {
       showAppointedCareGiver = true;
     }
-  } else {
-    showAppointedCareGiver = false;
   }
 
   let isRequirment: boolean = false,
@@ -54,6 +53,7 @@ const Cell = ({
       isConfirm = true;
     }
   }
+  console.log('isSelected', isSelected);
 
   return (
     <>
@@ -64,10 +64,10 @@ const Cell = ({
           'text-center': true,
           'custom-appointment-col': true,
           'cursor-pointer': true,
-          'selecting-cell-bg': isSelected
-            ? isSelected
-            : (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
-              isSelecting,
+          'selecting-cell-bg': !isSelected
+            ? (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
+              isSelecting
+            : true,
           // 'selecting-cell': isSelecting,
           weekend: daysArr,
           'block-bg': item ? (isBlocked ? true : false) : false,

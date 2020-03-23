@@ -74,7 +74,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     onNewRequirement,
     showSelectedCaregiver,
     totalCareinstituion,
-    getMoreCareInstituionList
+    getMoreCareInstituionList,
+    locationState
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
@@ -988,8 +989,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         <InfiniteScroll
           loader={<div className='appointment-list-loader'>{}</div>}
           hasMore={
-            careInstitutionList &&
-            careInstitutionList.length !== totalCareinstituion
+            !starCanstitution.isStar || locationState
+              ? careInstitutionList &&
+                careInstitutionList.length !== totalCareinstituion
+              : false
           }
           dataLength={
             careInstitutionList && careInstitutionList.length
@@ -997,7 +1000,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               : 0
           }
           next={() => {
-            console.log('In next');
             getMoreCareInstituionList(careInstitutionList.length);
           }}
           // endMessage={<p />}

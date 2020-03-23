@@ -3359,6 +3359,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     setOnOfferedCareInst={setOnOfferedCareInst}
                     setOnNotOfferedCareInst={setOnNotOfferedCareInst}
                     onNewRequirement={() => setMultipleRequirement(true)}
+                    locationState={locationState}
                   />
                 </Col>
                 <Col lg={'6'}>

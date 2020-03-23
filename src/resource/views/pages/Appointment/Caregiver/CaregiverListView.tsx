@@ -1,16 +1,38 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Table, Nav, NavItem, NavLink, Button } from 'reactstrap';
+import {
+  Table,
+  Nav,
+  NavItem,
+  NavLink,
+  Button,
+  UncontrolledTooltip
+} from 'reactstrap';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classnames from 'classnames';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
+import { SelectableGroup } from 'react-selectable-fast';
 import {
   IAppointmentCareGiverList,
   IDaysArray
 } from '../../../../../interfaces';
+import {
+  appointmentDateFormat,
+  AppRoutes,
+  selfEmployesListColor,
+  leasingListColor,
+  CaregiverTIMyoCYAttrId,
+  deactivatedListColor
+} from '../../../../../config';
+import { dbAcceptableFormat } from '../../../../../config';
+import { languageTranslation } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
-import { SelectableGroup } from 'react-selectable-fast';
 import Cell from './Cell';
 import DetaillistCaregiverPopup from '../DetailedList/DetailListCaregiver';
 import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
+import UnlinkAppointment from '../unlinkModal';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import reserve from '../../../../assets/img/dropdown/block.svg';
 import delete_appointment from '../../../../assets/img/dropdown/delete.svg';
@@ -25,23 +47,8 @@ import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
 import leasing_contact from '../../../../assets/img/dropdown/leasing.svg';
 import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
-import {
-  appointmentDateFormat,
-  AppRoutes,
-  selfEmployesListColor,
-  leasingListColor,
-  CaregiverTIMyoCYAttrId,
-  deactivatedListColor
-} from '../../../../../config';
-import { useHistory } from 'react-router';
-import { dbAcceptableFormat } from '../../../../../config';
-import { toast } from 'react-toastify';
-import UnlinkAppointment from '../unlinkModal';
 import '../index.scss';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { languageTranslation } from '../../../../../helpers';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
-import { Link } from 'react-router-dom';
 
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -67,12 +74,16 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onNewAvailability,
     totalCaregiver,
     getNext,
+    fetchingCareGiverData,
     careInstitutionList,
     qualificationList,
     locationState
   } = props;
 
+  console.log(careGiversList, 'careGiversList above infinite');
+
   const [starMark, setstarMark] = useState<boolean>(false);
+  const [offerRequirements, setOfferRequirements] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
@@ -106,6 +117,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     if (openCareGiverBulkEmail === true) {
       setconfirmApp(false);
       setunlinkedBy('');
+    }
+    if (offerRequirements) {
+      setOfferRequirements(false);
     }
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
@@ -274,7 +288,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     }
   };
-
+ 
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
@@ -371,11 +385,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem>
             <NavLink
               disabled={
-                selectedCells
-                  ? selectedCells.length === 0 ||
-                    (connectAppCondition && connectAppCondition.length !== 0)
+                selectedCells && selectedCells.length
+                  ? selectedCells.filter(
+                      (availability: any) =>
+                        (availability && !availability.item) ||
+                        (availability.item &&
+                          availability.item.status === 'default')
+                    ).length
+                    ? false
+                    : true
                   : true
               }
+              // disabled={
+              //   selectedCells
+              //     ? selectedCells.length === 0 ||
+              //       (connectAppCondition && connectAppCondition.length !== 0)
+              //     : true
+              // }
               onClick={() => {
                 setopenToggleMenu(false);
                 onDeleteEntries ? onDeleteEntries('caregiver') : undefined;
@@ -423,6 +449,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             <NavLink
               onClick={() => {
                 setopenToggleMenu(false);
+                setOfferRequirements(true);
                 handleCareGiverBulkEmail();
               }}
             >
@@ -561,8 +588,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       </div>
       <div className='position-relative'>
         <InfiniteScroll
-          loader={<div className='appointment-list-loader'>{''}</div>}
-          hasMore={careGiversList && careGiversList.length !== totalCaregiver}
+          loader={<div className='appointment-list-loader'>{}</div>}
+          hasMore={
+            !starMark || locationState
+              ? careGiversList && careGiversList.length !== totalCaregiver
+              : false
+          }
           dataLength={
             careGiversList && careGiversList.length ? careGiversList.length : 0
           }
@@ -834,6 +865,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
         qualificationList={qualificationList}
+        offerRequirements={offerRequirements}
       />
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}

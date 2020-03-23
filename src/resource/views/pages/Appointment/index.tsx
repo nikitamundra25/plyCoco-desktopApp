@@ -92,7 +92,6 @@ let toastId: any = null;
 const Appointment: FunctionComponent = (props: any) => {
   // To fetch id from display appointments
   const { state: locationState }: any = useLocation();
-
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null
   );
@@ -182,6 +181,8 @@ const Appointment: FunctionComponent = (props: any) => {
   const [positive, setPositive] = useState<number[]>([]);
   const [negative, setNegative] = useState<number[]>([]);
 
+  const [isPositive, setIsPositive] = useState<number[]>([]);
+  const [isNegative, setIsNegative] = useState<number[]>([]);
   // store the previous entered value in state
   const [caregiverLastTimeValues, setcaregiverLastTimeValues] = useState<any>();
 
@@ -266,6 +267,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(ADD_CAREGIVER_AVABILITY, {
     onCompleted() {
+      setPage(1);
       fetchingCareGiverData();
     }
   });
@@ -284,6 +286,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_CAREGIVER_AVABILITY, {
     onCompleted() {
+      setPage(1);
       fetchingCareGiverData();
     }
   });
@@ -293,9 +296,10 @@ const Appointment: FunctionComponent = (props: any) => {
     {
       deleteCaregiver: any;
     },
-    { id: number }
+    { id: number[] }
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted() {
+      setPage(1);
       fetchingCareGiverData();
       setselctedAvailability({});
       setactiveDateCaregiver([]);
@@ -349,12 +353,12 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   });
 
-  // Mutation to delete careinstitution
+  // Mutation to delete careinstitution requirement
   const [deleteCareinstitutionRequirement] = useMutation<
     {
       deleteCareinstitution: any;
     },
-    { id: number }
+    { id: number[] }
   >(DELETE_CAREINSTITUTION_REQUIREMENT, {
     onCompleted() {
       canstitutionRefetch();
@@ -449,6 +453,9 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // Reset applied filter
   const handleResetFilters = () => {
+    setPage(1);
+    setcaregiversList([]);
+    setcareinstitutionList([]);
     setPositive([]);
     setNegative([]);
     setqualification([]);
@@ -561,6 +568,9 @@ const Appointment: FunctionComponent = (props: any) => {
   ) => {
     setPositive(positiveId);
     setNegative(negativeId);
+    setcaregiversList([]);
+    setcareinstitutionList([]);
+    setPage(1);
     if (userRole === 'caregiver') {
       // get careGivers list
       getCaregiverData(1, positiveId, negativeId);
@@ -914,6 +924,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // To store users list into state
   useEffect(() => {
+    console.log('in caregiver list useeffecttttttttttttttttttttt');
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
     if (careGiversList && careGiversList.getUserByQualifications) {
       const { getUserByQualifications } = careGiversList;
@@ -1001,22 +1012,7 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
-      // if (locationState && locationState.canstitution) {
-      //   let list: any = result.filter(
-      //     (list: any) => list.id === locationState.canstitution
-      //   );
-      //   setcareinstitutionList(list);
-      //   if (list && list.length && list[0]) {
-      //     handleFirstStarCanstitution(list[0], 1);
-      //   } else {
-      //     setstarCanstitution({
-      //       isStar: false,
-      //       setIndex: -1,
-      //       id: ''
-      //     });
-      //     // setcareInstituionDeptData([]);
-      //   }
-      // } else {
+
       setcareinstitutionList(result);
       if (
         locationState &&
@@ -1033,7 +1029,6 @@ const Appointment: FunctionComponent = (props: any) => {
           id: ''
         });
       }
-      // }
     }
   }, [careGiversList, careInstitutionList]);
 
@@ -1248,6 +1243,8 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // To fetch users according to qualification selected
   useEffect(() => {
+    console.log('in fetch data useffect', page);
+
     fetchData();
   }, [qualification]);
 
@@ -1448,14 +1445,14 @@ const Appointment: FunctionComponent = (props: any) => {
         if (name === 'careinstitution') {
           await deleteCareinstitutionRequirement({
             variables: {
-              id: parseInt(id)
+              id: [parseInt(id)]
             }
           });
           // canstitutionRefetch();
         } else {
           await deleteCaregiverRequirement({
             variables: {
-              id: parseInt(id)
+              id: [parseInt(id)]
             }
           });
         }
@@ -2567,93 +2564,189 @@ const Appointment: FunctionComponent = (props: any) => {
 
   const onDeleteEntries = async (userRole: string) => {
     let temp: any =
-      userRole === 'caregiver' ? selectedCells : selectedCellsCareinstitution;
+      userRole === 'caregiver'
+        ? selectedCells
+          ? [...selectedCells]
+          : []
+        : selectedCellsCareinstitution
+        ? [...selectedCellsCareinstitution]
+        : [];
     if (temp && temp.length) {
-      const { value } = await ConfirmBox({
-        title: languageTranslation('CONFIRM_LABEL'),
-        text:
-          userRole === 'caregiver'
-            ? languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY')
-            : languageTranslation('CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT')
-      });
-      if (value) {
-        temp.forEach(async (element: any) => {
-          const { id, item } = element;
-          console.log(item, 'item in foreach');
-          if (item && item.id) {
-            if (userRole === 'caregiver') {
-              await deleteCaregiverRequirement({
-                variables: {
-                  id: parseInt(item.id)
-                }
-              });
-            } else {
-              await deleteCareinstitutionRequirement({
-                variables: {
-                  id: parseInt(item.id)
-                }
-              });
+      let freeEntries = temp.filter(
+        (element: any) =>
+          !element.item || (element.item && !element.item.status)
+      );
+      let reservedEntries = temp.filter(
+        (element: any) =>
+          element.item &&
+          (element.item.status === 'default' ||
+            (userRole === 'careInstitution' &&
+              element.item.status === 'offered'))
+      );
+      freeEntries.forEach(async (element: any) => {
+        const { id } = element;
+        console.log(id, 'idddd');
+
+        let index: number = -1;
+        if (!item) {
+          if (userRole === 'caregiver') {
+            index = caregiversList.findIndex(
+              (caregiver: any) => caregiver.id === id
+            );
+            if (index > -1) {
+              let list: any = [...caregiversList];
+              // To remove all the empty rows
+              list[index].availabilityData = list[
+                index
+              ].availabilityData.filter((ele: any) => ele.length);
+              setcaregiversList(list);
             }
           } else {
-            let index: number = -1;
-            if (userRole === 'caregiver') {
-              index = caregiversList.findIndex(
-                (caregiver: any) => caregiver.id === id
+            // If solo careInstitution is selected
+            if (
+              starCanstitution &&
+              secondStarCanstitution &&
+              (starCanstitution.isStar || secondStarCanstitution.isStar) &&
+              careInstituionDeptData &&
+              careInstituionDeptData.length
+            ) {
+              console.log('in iffff');
+
+              index = careInstituionDeptData.findIndex(
+                (careInst: any) => careInst.userId === id
               );
               if (index > -1) {
-                let list: any = [...caregiversList];
-                // To remove all the empty rows
+                let list: any = [...careInstituionDeptData];
                 list[index].availabilityData = list[
                   index
-                ].availabilityData.filter((item: any) => !item.length);
-                setcaregiversList(list);
+                ].availabilityData.filter((item: any) => item.length);
+                setcareInstituionDeptData(list);
               }
             } else {
-              // If solo careInstitution is selected
-              if (
-                starCanstitution &&
-                secondStarCanstitution &&
-                (starCanstitution.isStar || secondStarCanstitution.isStar) &&
-                careInstituionDeptData &&
-                careInstituionDeptData.length
-              ) {
-                index = careInstituionDeptData.findIndex(
-                  (careInst: any) => careInst.userId === id
-                );
-                if (index > -1) {
-                  let list: any = [...careInstituionDeptData];
-                  list[index].availabilityData = list[
-                    index
-                  ].availabilityData.filter((item: any) => item.length);
-                  setcareInstituionDeptData(list);
-                }
-              } else {
-                index = careinstitutionList.findIndex(
-                  (careInst: any) => careInst.id === id
-                );
-                if (index > -1) {
-                  let list: any = [...careinstitutionList];
-                  list[index].availabilityData = list[
-                    index
-                  ].availabilityData.filter((item: any) => item.length);
-                  setcareinstitutionList(list);
-                }
+              console.log('in else');
+
+              index = careinstitutionList.findIndex(
+                (careInst: any) => careInst.id === id
+              );
+              if (index > -1) {
+                let list: any = [...careinstitutionList];
+                list[index].availabilityData = list[
+                  index
+                ].availabilityData.filter((item: any) => item.length);
+                setcareinstitutionList(list);
               }
             }
           }
-        });
-        if (!toast.isActive(toastId)) {
-          toastId = toast.success(
-            userRole === 'caregiver'
-              ? languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
-              : languageTranslation(
-                  'DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS'
-                )
-          );
         }
-      } else {
-        return;
+      });
+      if (reservedEntries && reservedEntries.length) {
+        const { value } = await ConfirmBox({
+          title: languageTranslation('CONFIRM_LABEL'),
+          text:
+            userRole === 'caregiver'
+              ? languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY')
+              : languageTranslation(
+                  'CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT'
+                )
+        });
+        if (value) {
+          if (userRole === 'caregiver') {
+            await deleteCaregiverRequirement({
+              variables: {
+                id: reservedEntries.map((element: any) =>
+                  parseInt(element.item.id)
+                )
+                // parseInt(item.id),
+              }
+            });
+          } else {
+            await deleteCareinstitutionRequirement({
+              variables: {
+                id: reservedEntries.map((element: any) =>
+                  parseInt(element.item.id)
+                )
+              }
+            });
+          }
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              userRole === 'caregiver'
+                ? languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
+                : languageTranslation(
+                    'DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS'
+                  )
+            );
+          }
+        } else {
+          return;
+        }
       }
+
+      // temp.forEach(async (element: any) => {
+      //   const { id, item } = element;
+      //   console.log(item, 'item in foreach');
+      //   if (item && item.id) {
+      //     if (userRole === 'caregiver') {
+      //       await deleteCaregiverRequirement({
+      //         variables: {
+      //           id: parseInt(item.id),
+      //         },
+      //       });
+      //     } else {
+      //       await deleteCareinstitutionRequirement({
+      //         variables: {
+      //           id: parseInt(item.id),
+      //         },
+      //       });
+      //     }
+      //   } else {
+      //     let index: number = -1;
+      //     if (userRole === 'caregiver') {
+      //       index = caregiversList.findIndex(
+      //         (caregiver: any) => caregiver.id === id,
+      //       );
+      //       if (index > -1) {
+      //         let list: any = [...caregiversList];
+      //         // To remove all the empty rows
+      //         list[index].availabilityData = list[
+      //           index
+      //         ].availabilityData.filter((item: any) => !item.length);
+      //         setcaregiversList(list);
+      //       }
+      //     } else {
+      //       // If solo careInstitution is selected
+      //       if (
+      //         starCanstitution &&
+      //         secondStarCanstitution &&
+      //         (starCanstitution.isStar || secondStarCanstitution.isStar) &&
+      //         careInstituionDeptData &&
+      //         careInstituionDeptData.length
+      //       ) {
+      //         index = careInstituionDeptData.findIndex(
+      //           (careInst: any) => careInst.userId === id,
+      //         );
+      //         if (index > -1) {
+      //           let list: any = [...careInstituionDeptData];
+      //           list[index].availabilityData = list[
+      //             index
+      //           ].availabilityData.filter((item: any) => item.length);
+      //           setcareInstituionDeptData(list);
+      //         }
+      //       } else {
+      //         index = careinstitutionList.findIndex(
+      //           (careInst: any) => careInst.id === id,
+      //         );
+      //         if (index > -1) {
+      //           let list: any = [...careinstitutionList];
+      //           list[index].availabilityData = list[
+      //             index
+      //           ].availabilityData.filter((item: any) => item.length);
+      //           setcareinstitutionList(list);
+      //         }
+      //       }
+      //     }
+      //   }
+      // });
     }
   };
 
@@ -2959,6 +3052,8 @@ const Appointment: FunctionComponent = (props: any) => {
   // get next page caregivers
   const getNext = (skip: number): void => {
     setPage(page + 1);
+    console.log(skip, page, 'pagegegee');
+
     // getCaregiverData(page);
     let temp: any = [];
     qualification.map((key: any, index: number) => {
@@ -2977,6 +3072,8 @@ const Appointment: FunctionComponent = (props: any) => {
       gte = daysData.daysArr[0].dateString || '';
       lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
     }
+    console.log(page, 'page above fetchMoreCareGiverList');
+
     fetchMoreCareGiverList({
       variables: {
         qualificationId: temp ? temp : null,
@@ -2996,8 +3093,18 @@ const Appointment: FunctionComponent = (props: any) => {
       },
 
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
-        if (!fetchMoreResult) return prev;
-        if (prev.getUserByQualifications) {
+        console.log(fetchMoreResult, 'fetchMoreResult');
+        if (!fetchMoreResult) {
+          return prev;
+        }
+        if (prev && prev.getUserByQualifications) {
+          console.log(
+            prev.getUserByQualifications.result,
+            fetchMoreResult.getUserByQualifications.result,
+            caregiversList,
+            'inside fetch more'
+          );
+
           let list = [...fetchMoreResult.getUserByQualifications.result];
           if (list && list.length) {
             let dayDetails: any[] = daysData ? [...daysData.daysArr] : [];
@@ -3121,6 +3228,10 @@ const Appointment: FunctionComponent = (props: any) => {
             handleUserList={handleUserList}
             caregiverSoloFilter={caregiverSoloFilter}
             careinstitutionSoloFilter={careinstitutionSoloFilter}
+            isPositive={isPositive}
+            setIsPositive={setIsPositive}
+            isNegative={isNegative}
+            setIsNegative={setIsNegative}
           />
           <div className='common-content flex-grow-1'>
             <div>

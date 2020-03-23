@@ -8,21 +8,21 @@ import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
 import {
   languageTranslation,
   HtmlToDraftConverter,
-  stripHtml
+  stripHtml,
 } from '../../../../helpers';
 import {
   CareGiverQueries,
   EmailTemplateQueries,
   ProfileQueries,
   AppointmentsQueries,
-  CareInstitutionQueries
+  CareInstitutionQueries,
 } from '../../../../graphql/queries';
 import { BulkEmailCareGivers } from '../../../../graphql/Mutations';
 import {
   IReactSelectInterface,
   IEmailTemplateData,
   INewEmailAttachments,
-  IEmailAttachmentData
+  IEmailAttachmentData,
 } from '../../../../interfaces';
 import { EmailEditorComponent } from './EmailFormComponent';
 import { ConfirmBox } from '../../components/ConfirmBox';
@@ -45,7 +45,7 @@ const [
   ,
   ,
   ,
-  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
+  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION,
 ] = AppointmentsQueries;
 
 const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
@@ -53,7 +53,12 @@ const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
 let toastId: any = null;
 
 const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
-  const { selectedCellsCareinstitution, selectedCells } = props;
+  const {
+    selectedCellsCareinstitution,
+    selectedCells,
+    offerRequirements,
+    qualificationList,
+  } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const history = useHistory();
 
@@ -61,7 +66,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   let userData: any = '';
   try {
     userData = client.readQuery({
-      query: VIEW_PROFILE
+      query: VIEW_PROFILE,
     });
   } catch (error) {}
 
@@ -72,9 +77,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   // To get caregiver list from db
   const [
     fetchCareGiverList,
-    { data: careGivers, called, loading, refetch, fetchMore }
+    { data: careGivers, called, loading, refetch, fetchMore },
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   // To fetch caregivers by qualification id
@@ -85,18 +90,18 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       called: careGiverListCalled,
       loading: caregiverLoading,
       refetch: caregiverQulliRefetch,
-      fetchMore: caregiverListFetch
-    }
+      fetchMore: caregiverListFetch,
+    },
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   // To fetch requirments by selected caregiver qualification id
   const [
     fetchRequirmentFromQualification,
-    { data: requirmentList, loading: requirmentListLoading }
+    { data: requirmentList, loading: requirmentListLoading },
   ] = useLazyQuery<any, any>(GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   //Get requirment list data for qualificationid
@@ -111,8 +116,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (qualificationIds && qualificationIds.length) {
         fetchRequirmentFromQualification({
           variables: {
-            qualificationId: qualificationIds
-          }
+            qualificationId: qualificationIds,
+          },
         });
       }
     }
@@ -141,8 +146,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           limit: 30,
           page,
           gte: props.gte,
-          lte: props.lte
-        }
+          lte: props.lte,
+        },
       });
     }
   }, [props.qualification]);
@@ -154,9 +159,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     GET_CAREGIVER_EMAIL_TEMPLATES,
     {
       variables: {
-        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE')
-      }
-    }
+        type: languageTranslation('CAREGIVER_EMAIL_TEMPLATE_TYPE'),
+      },
+    },
   );
 
   const [page, setPage] = useState<number>(1);
@@ -188,7 +193,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    }
+    },
   });
 
   useEffect(() => {
@@ -200,8 +205,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           sortBy: 3,
           limit: 30,
           page,
-          isActive: ''
-        }
+          isActive: '',
+        },
       });
     }
   }, []);
@@ -212,7 +217,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   useEffect(() => {
     let list: any = [...careGiverData];
-    if (selectedCells && props.confirmApp) {
+    if (selectedCells && (props.confirmApp || offerRequirements)) {
       if (selectedCells && selectedCells.length) {
         selectedCells.map((key: any) => {
           if (list && list.length) {
@@ -288,8 +293,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         sortBy: 3,
         limit: 30,
         page: 1,
-        isActive: ''
-      }
+        isActive: '',
+      },
     });
     setSubject('');
     setBody(undefined);
@@ -307,18 +312,18 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     if (props.label !== 'appointment') {
       fetchMore({
         variables: {
-          page: page + 1
+          page: page + 1,
         },
         updateQuery: (prev: any, { fetchMoreResult }: any) => {
           if (!fetchMoreResult) return prev;
           if (prev.getCaregivers) {
             let list = [
               ...careGiverData,
-              ...fetchMoreResult.getCaregivers.result
+              ...fetchMoreResult.getCaregivers.result,
             ];
             setcareGiverData((prevArray: any) => [
               ...prevArray,
-              ...fetchMoreResult.getCaregivers.result
+              ...fetchMoreResult.getCaregivers.result,
             ]);
             let selectedId: any = [];
             if (bulkcareGivers) {
@@ -332,28 +337,28 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 ...prev.getCaregivers,
                 result: [
                   ...prev.getCaregivers.result,
-                  ...fetchMoreResult.getCaregivers.result
-                ]
-              }
+                  ...fetchMoreResult.getCaregivers.result,
+                ],
+              },
             });
           }
-        }
+        },
       });
     } else {
       caregiverListFetch({
         variables: {
-          page: page + 1
+          page: page + 1,
         },
         updateQuery: (prev: any, { fetchMoreResult }: any) => {
           if (!fetchMoreResult) return prev;
           if (prev.getUserByQualifications) {
             let list = [
               ...careGiverData,
-              ...fetchMoreResult.getUserByQualifications.result
+              ...fetchMoreResult.getUserByQualifications.result,
             ];
             setcareGiverData((prevArray: any) => [
               ...prevArray,
-              ...fetchMoreResult.getUserByQualifications.result
+              ...fetchMoreResult.getUserByQualifications.result,
             ]);
             let selectedId: any = [];
             if (bulkcareGivers) {
@@ -367,12 +372,12 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 ...prev.getUserByQualifications,
                 result: [
                   ...prev.getUserByQualifications.result,
-                  ...fetchMoreResult.getUserByQualifications.result
-                ]
-              }
+                  ...fetchMoreResult.getUserByQualifications.result,
+                ],
+              },
             });
           }
-        }
+        },
       });
     }
   };
@@ -392,7 +397,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   //Use Effect for email template data
   useEffect(() => {
-    if (props.label === 'appointment') {
+    if (props.label === 'appointment' && !offerRequirements) {
       if (props.sortBy === 'division' || props.sortBy === 'day') {
         let qualificationArray: any = [];
         let qualificationString: string = '';
@@ -428,8 +433,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             obj.duration = moment
               .utc(
                 moment(object.item.endTime, 'HH:mm').diff(
-                  moment(object.item.startTime, 'HH:mm')
-                )
+                  moment(object.item.startTime, 'HH:mm'),
+                ),
               )
               .format('H.m');
             divisionArray.push(obj);
@@ -451,7 +456,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         qualificationString = temp.join();
 
         let uniqueDivisions = subjectDivisions.filter(
-          (item: any, i: any, ar: any) => ar.indexOf(item) === i
+          (item: any, i: any, ar: any) => ar.indexOf(item) === i,
         );
 
         if (props.sortBy === 'day') {
@@ -492,25 +497,25 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let mailBody: any = '';
         if (props.showButton) {
           mailBody = `<p>${languageTranslation(
-            'CAREGIVER_OFFER_EMAIL_HEADING'
+            'CAREGIVER_OFFER_EMAIL_HEADING',
           )}</p><br/><p>${languageTranslation(
-            'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
+            'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED',
           ) +
             ' ' +
             qualificationString}</p><br/>${divRow}</br></br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>${remarkRow}</br><p>${languageTranslation(
-            'FEE'
+            'FEE',
           ) +
             ':' +
             languageTranslation('FEE_TEXT')}</p>`;
         } else {
           mailBody = `<p>${languageTranslation(
-            'CAREGIVER_OFFER_EMAIL_HEADING'
+            'CAREGIVER_OFFER_EMAIL_HEADING',
           )}</p><br/><p>${languageTranslation(
-            'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
+            'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED',
           ) +
             ' ' +
             qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation(
-            'FEE'
+            'FEE',
           ) +
             ':' +
             languageTranslation('FEE_TEXT')}</p>`;
@@ -547,8 +552,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             obj.duration = moment
               .utc(
                 moment(object.item.endTime, 'HH:mm').diff(
-                  moment(object.item.startTime, 'HH:mm')
-                )
+                  moment(object.item.startTime, 'HH:mm'),
+                ),
               )
               .format('H.m');
             divisionArray.push(obj);
@@ -598,24 +603,27 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         });
 
         let mailBody = `<p>${languageTranslation(
-          'CAREGIVER_OFFER_EMAIL_HEADING'
+          'CAREGIVER_OFFER_EMAIL_HEADING',
         )}</p><br/><p>${languageTranslation(
-          'LEASING_OFFER'
+          'LEASING_OFFER',
         )}</p></BR><p>${languageTranslation(
-          'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
+          'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED',
         ) +
           ' ' +
           qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation(
-          'FEE'
+          'FEE',
         ) +
           ':' +
           languageTranslation('FEE_TEXT')}</p><p>${languageTranslation(
-          'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
+          'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER',
         )}</p>`;
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         setSubject(languageTranslation('CAREGIVER_OFFER_EMAIL_SUBJECT'));
         setBody(editorState);
+      }
+      if (props.confirmApp) {
+        console.log('dsfjsdhjfdshfkj');
       }
       if (props.unlinkedBy) {
         console.log('unlinkedByunlinkedBy', props.unlinkedBy);
@@ -639,7 +647,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   apointedCareGiver.push({
                     caregivername: ca && ca.name ? ca.name : 'caregiver',
                     date: date,
-                    division: divisionData
+                    division: divisionData,
                   });
                 }
               }
@@ -648,7 +656,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           let divRow: string = '';
           apointedCareGiver.map((data: any) => {
             divRow += `<span><b>${moment(data.date).format(
-              'DD/MM'
+              'DD/MM',
             )}${' '}${' '}${data.division}:${' '}${' '}${
               data.caregivername
             }</b></span></br>`;
@@ -657,15 +665,15 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
 
           let subject: string = `Appointment cancellation for ${moment(
-            apointedCareGiver[0].date
+            apointedCareGiver[0].date,
           ).format('DD.MM')}`;
           setBody(editorState);
           setSubject(subject);
           setTemplate({
             label: '',
-            value: ''
+            value: '',
           });
-        } else {
+        } else if (!props.confirmApp) {
           let apointedCareGiver: any[] = [];
           if (
             selectedCellsCareinstitution &&
@@ -684,7 +692,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   apointedCareGiver.push({
                     caregivername: ca && ca.name ? ca.name : 'caregiver',
                     date: date,
-                    division: divisionData
+                    division: divisionData,
                   });
                 }
               }
@@ -693,7 +701,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           let divRow: string = '';
           apointedCareGiver.map((data: any) => {
             divRow += `<span><b>${moment(data.date).format(
-              'DD/MM'
+              'DD/MM',
             )}${' '}${' '}${data.division}:${' '}${' '}${
               data.caregivername
             }</b></span></br>`;
@@ -702,18 +710,92 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
 
           let subject: string = `Appointment cancellation confirmation for ${moment(
-            apointedCareGiver[0] ? apointedCareGiver[0].date : ''
+            apointedCareGiver[0] ? apointedCareGiver[0].date : '',
           ).format('MMM Do')},${' '}1:1 ${apointedCareGiver[0].division}`;
           setBody(editorState);
           setSubject(subject);
           setTemplate({
             label: '',
-            value: ''
+            value: '',
           });
         }
       }
     }
   }, [data]);
+
+  useEffect(() => {
+    const { qualificationIds = [] } = selectedCells[0];
+    const { getQualificationMatching = [] } = requirmentList
+      ? requirmentList
+      : {};
+    let mailBody = '';
+    let qualificationReq = '';
+    if (
+      (getQualificationMatching && getQualificationMatching.length) ||
+      offerRequirements
+    ) {
+      if (qualificationIds && qualificationIds.length) {
+        console.log(qualificationIds, qualificationList, 'qualificationIds');
+
+        qualificationIds.forEach((qId: string) => {
+          qualificationReq += `<br /><p>${languageTranslation(
+            'QUALIFICATION_HEAD',
+          )}: ${
+            qualificationList && qualificationList.length
+              ? qualificationList.filter(
+                  (qualification: any) => qualification.value === qId,
+                )[0].label
+              : ''
+          }</p>`;
+          let temp = getQualificationMatching.filter((requirement: any) =>
+            requirement.qualificationId.includes(qId),
+          );
+          if (temp && temp.length) {
+            temp
+              .sort((a: any, b: any) => b.date - a.date)
+              .forEach((requirement: any) => {
+                const { startTime = '', endTime = '', date = '' } = requirement
+                  ? requirement
+                  : {};
+                let shiftLabel =
+                  startTime === '06:00'
+                    ? 'FD'
+                    : startTime === '14:00'
+                    ? 'SD'
+                    : 'ND';
+                let duration = moment
+                  .utc(
+                    moment(endTime, 'HH:mm').diff(moment(startTime, 'HH:mm')),
+                  )
+                  .format('H.m');
+                qualificationReq += `<p>${
+                  date ? moment(date).format('DD.MM') : ''
+                } ${shiftLabel} ${duration} ${
+                  requirement && requirement.division
+                    ? requirement.division.name
+                    : ''
+                }</p>`;
+              });
+          }
+        });
+      }
+
+      mailBody = `<p>${languageTranslation(
+        'OFFER_REQUIREMENTS_TO_CG',
+      )}</p><p>${languageTranslation(
+        'CAREGIVER_OFFER_EMAIL_HEADING',
+      )}</p><br/><p>${languageTranslation(
+        'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED',
+      )}</p>${qualificationReq}<br/><p>${languageTranslation('FEE') +
+        ':' +
+        languageTranslation('FEE_TEXT')}<br/>${languageTranslation(
+        'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER',
+      )}`;
+      const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+      setSubject(languageTranslation('OFFER_REQUIREMENTS_SUB'));
+      setBody(editorState);
+    }
+  }, [requirmentList]);
 
   const handleSelectAll = async () => {
     if (careGiverData && careGiverData.length) {
@@ -733,7 +815,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   const handleCheckElement = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: string
+    id: string,
   ) => {
     const { target } = e;
     const { checked } = target;
@@ -741,7 +823,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     if (checked) {
       setselectedCareGiver((selectedCareGiver: any) => [
         ...selectedCareGiver,
-        parseInt(id)
+        parseInt(id),
       ]);
       if (
         careGiverData &&
@@ -767,14 +849,14 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   const templateOptions: IReactSelectInterface[] | undefined = [];
   if (data && data.getEmailtemplate) {
     const {
-      getEmailtemplate: { email_templates }
+      getEmailtemplate: { email_templates },
     } = data;
 
     if (email_templates && email_templates.length) {
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
           label: menuEntry,
-          value: id ? id.toString() : ''
+          value: id ? id.toString() : '',
         });
       });
     }
@@ -790,11 +872,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   // set subject & body on template selection
   const onTemplateSelection = (selectedOption: any) => {
     const {
-      getEmailtemplate: { email_templates }
+      getEmailtemplate: { email_templates },
     } = data;
     setTemplate(selectedOption);
     const templateData = email_templates.filter(
-      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value)
+      ({ id }: IEmailTemplateData) => id === parseInt(selectedOption.value),
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
@@ -808,10 +890,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 fileName: name,
                 id,
                 path,
-                size
-              })
+                size,
+              }),
             )
-          : []
+          : [],
       );
     }
   };
@@ -826,17 +908,17 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   const onDelteDocument = async (
     attachmentId: string,
-    attachmentIndex?: number
+    attachmentIndex?: number,
   ) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG')
+      text: languageTranslation('CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG'),
     });
     if (!value) {
       return;
     } else {
       setAttachments((prevArray: any) =>
-        prevArray.filter((_: any, index: number) => attachmentIndex !== index)
+        prevArray.filter((_: any, index: number) => attachmentIndex !== index),
       );
     }
   };
@@ -861,7 +943,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let uniqueUser = selectedCareGiver.reduce((unique: any, key: any) => {
           if (
             !unique.some(
-              (obj: any) => obj.label === key.label && obj.value === key.value
+              (obj: any) => obj.label === key.label && obj.value === key.value,
             )
           ) {
             unique.push(key);
@@ -900,14 +982,14 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     .filter((file: File | null) => file)
                 : null,
             caregiver: careGiverIdList,
-            senderUserId: id ? parseInt(id) : null
+            senderUserId: id ? parseInt(id) : null,
           };
           bulkEmails({ variables: { bulkEmailsInput } });
         }
       } else {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(
-            languageTranslation('EMAIL_SELECT_CARE_GIVERS')
+            languageTranslation('EMAIL_SELECT_CARE_GIVERS'),
           );
         }
       }
@@ -990,6 +1072,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             <div className='bulk-email-section'>
               <Row>
                 <CareGiverListComponent
+                  offerRequirements={offerRequirements}
                   careGivers={
                     props.label !== 'appointment' ? careGivers : careGiversList
                   }

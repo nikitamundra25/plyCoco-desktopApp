@@ -17,25 +17,25 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
     handleCheckElement,
     handleInfiniteScroll,
     page,
-    bulkcareGivers
+    bulkcareGivers,
   } = props;
 
   const handleChecked = (id: string) => {
     if (selectedCareGiver && selectedCareGiver.length) {
       const found = selectedCareGiver.some(
-        (el: any) => parseInt(el) === parseInt(id)
+        (el: any) => parseInt(el) === parseInt(id),
       );
       const e = {
         target: {
-          checked: !found
-        }
+          checked: !found,
+        },
       };
       handleCheckElement(e, id);
     } else {
       const e = {
         target: {
-          checked: true
-        }
+          checked: true,
+        },
       };
       handleCheckElement(e, id);
     }
@@ -52,7 +52,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
           }}
           scrollableTarget='scrollableDiv'
           hasMore={
-            props.confirmApp || props.unlinkedBy
+            props.confirmApp || props.unlinkedBy || props.offerRequirements
               ? false
               : props.label !== 'appointment'
               ? careGivers &&
@@ -65,7 +65,8 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
               : careGivers &&
                 careGivers.getUserByQualifications &&
                 careGivers.getUserByQualifications.totalCount
-              ? careGivers.getUserByQualifications.totalCount !== careGiverData.length
+              ? careGivers.getUserByQualifications.totalCount !==
+                careGiverData.length
                 ? true
                 : false
               : false
@@ -134,13 +135,13 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                               selectedCareGiver &&
                               selectedCareGiver.length &&
                               selectedCareGiver.indexOf(
-                                parseInt(careGivers.id)
+                                parseInt(careGivers.id),
                               ) > -1
                                 ? true
                                 : false
                             }
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
+                              e: React.ChangeEvent<HTMLInputElement>,
                             ) => {
                               handleCheckElement(e, careGivers.id);
                             }}

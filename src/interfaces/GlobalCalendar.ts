@@ -22,7 +22,7 @@ export interface IAddHolidayProps {
   isOpen: boolean;
   handleClose: () => void;
   states: IState[];
-  refresh: () => void;
+  refresh: (variables?: any) => void;
   editInfo?: IAddHolidaysFormValues;
 }
 export interface IAddHolidayFormikProps {

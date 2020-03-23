@@ -91,7 +91,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     GET_DIVISION_DETAILS_BY_ID,
     {
       onCompleted({ getDivisionsDetails }) {
-      
         const temp: any = [];
         if (
           getDivisionsDetails &&
@@ -103,7 +102,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
               label: attr.name,
               value: attr.id,
               color: attr ? attr.color : ''
-
             });
           });
         }
@@ -163,7 +161,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setUserId(Id);
   }
   const onDepartmentClick = (item: any) => {
-    setIsActive(item);
+    console.log('item', item);
+    setIsActive(item.id);
     getDepartmentById({
       variables: {
         id: parseInt(item.id)
@@ -488,17 +487,11 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                                 <li
                                   key={index}
                                   className={
-                                    'cursor-pointer list-item text-capitalize' +
-                                    (isActive === index ? ' active' : '')
-                                  }
+                                    'cursor-pointer list-item text-capitalize ' +
+                                    (isActive === item.id ? 'active' : '')                                  }
                                 >
                                   <span
                                     onClick={() => {
-                                      // setDepartmentDetails(item);
-                                      // setTimesData(item.times);
-                                      // setQualifications(item.qualifications);
-                                      // setAttributes(item.attributes);
-                                      // setIsActive(index);
                                       onDepartmentClick(item);
                                     }}
                                     className='list-item-text'

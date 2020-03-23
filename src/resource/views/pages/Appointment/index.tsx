@@ -129,6 +129,7 @@ const Appointment: FunctionComponent = (props: any) => {
   const [qualification, setqualification] = useState<any>([]);
   const [caregiversList, setcaregiversList] = useState<Object[]>([]);
   const [totalCaregiver, setTotalCaregiver] = useState<number>(0);
+  const [totalCareinstituion, setTotalCareinstituion] = useState<number>(0);
   const [careinstitutionList, setcareinstitutionList] = useState<Object[]>([]);
   const [selectedCareGiver, setselectedCareGiver] = useState<any>({});
   const [selectedCareinstitution, setselectedCareinstitution] = useState<any>(
@@ -151,6 +152,8 @@ const Appointment: FunctionComponent = (props: any) => {
   >();
   // page
   const [page, setPage] = useState<number>(1);
+  // page for careinstituion data
+  const [careInstitutionPage, setcareInstitutionPage] = useState<number>(1);
   // set field to update formik values
   const [
     updateCanstitutionFormikValues,
@@ -430,6 +433,7 @@ const Appointment: FunctionComponent = (props: any) => {
       data: careInstitutionList,
       loading: careinstitutionLoading,
       refetch: canstitutionRefetch,
+      fetchMore: fetchMoreCareInstituionList,
     },
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache',
@@ -477,7 +481,7 @@ const Appointment: FunctionComponent = (props: any) => {
         userRole: 'caregiver',
         negativeAttributeId:
           negativeAttr && negativeAttr.length ? negativeAttr : negative,
-        limit: locationState && locationState.caregiver ? null : 10,
+        limit: locationState && locationState.caregiver ? null : 50,
         page: locationState && locationState.caregiver ? null : page ? page : 1,
         showAppointments:
           filterByAppointments && filterByAppointments.value
@@ -512,6 +516,13 @@ const Appointment: FunctionComponent = (props: any) => {
       variables: {
         qualificationId: temp ? temp : null,
         userRole: 'canstitution',
+        limit: 50,
+        page:
+          locationState && locationState.canstitution
+            ? 1
+            : careInstitutionPage
+            ? careInstitutionPage
+            : 1,
         showAppointments:
           filterByAppointments && filterByAppointments.value
             ? filterByAppointments.value === 'showAll'
@@ -938,7 +949,8 @@ const Appointment: FunctionComponent = (props: any) => {
 
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
       const { getUserByQualifications } = careInstitutionList;
-      const { result } = getUserByQualifications;
+      const { result, totalCount } = getUserByQualifications;
+      setTotalCareinstituion(totalCount);
       if (result && result.length) {
         /*  */
         result.forEach((user: any, index: number) => {
@@ -976,26 +988,22 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
-      if (locationState && locationState.canstitution) {
-        let list: any = result.filter(
-          (list: any) => list.id === locationState.canstitution,
-        );
-        setcareinstitutionList(list);
-        if (list && list.length && list[0]) {
-          handleFirstStarCanstitution(list[0], 1);
-        } else {
-          setstarCanstitution({
-            isStar: false,
-            setIndex: -1,
-            id: '',
-          });
-          // setcareInstituionDeptData([]);
-        }
+
+      setcareinstitutionList(result);
+      if (
+        locationState &&
+        locationState.canstitution &&
+        result &&
+        result.length &&
+        result[0]
+      ) {
+        handleFirstStarCanstitution(result[0], 1);
       } else {
-        // if (locationState && locationState.canstitution) {
-        //   handleFirstStarCanstitution(result, 1);
-        // }
-        setcareinstitutionList(result);
+        setstarCanstitution({
+          isStar: false,
+          setIndex: -1,
+          id: '',
+        });
       }
     }
   }, [careGiversList, careInstitutionList]);
@@ -3031,7 +3039,7 @@ const Appointment: FunctionComponent = (props: any) => {
         qualificationId: temp ? temp : null,
         userRole: 'caregiver',
         negativeAttributeId: negative,
-        limit: 10,
+        limit: 50,
         page: page ? page + 1 : 1,
         showAppointments:
           filterByAppointments && filterByAppointments.value
@@ -3045,18 +3053,10 @@ const Appointment: FunctionComponent = (props: any) => {
       },
 
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
-        console.log(fetchMoreResult, 'fetchMoreResult');
         if (!fetchMoreResult) {
           return prev;
         }
         if (prev && prev.getUserByQualifications) {
-          console.log(
-            prev.getUserByQualifications.result,
-            fetchMoreResult.getUserByQualifications.result,
-            caregiversList,
-            'inside fetch more',
-          );
-
           let list = [...fetchMoreResult.getUserByQualifications.result];
           if (list && list.length) {
             let dayDetails: any[] = daysData ? [...daysData.daysArr] : [];
@@ -3099,6 +3099,123 @@ const Appointment: FunctionComponent = (props: any) => {
             });
           }
           setcaregiversList((prevArray: any) => [...prevArray, ...list]);
+          let selectedId: any = [];
+          return Object.assign({}, prev, {
+            getUserByQualifications: {
+              ...prev.getUserByQualifications,
+              result: [
+                ...prev.getUserByQualifications.result,
+                ...fetchMoreResult.getUserByQualifications.result,
+              ],
+            },
+          });
+        }
+      },
+    });
+  };
+
+  /*
+   */
+
+  //get More careinstituion List on Scrolling
+  const getMoreCareInstituionList = () => {
+    setcareInstitutionPage(careInstitutionPage + 1);
+    // getCaregiverData(page);
+    let temp: any = [];
+    qualification.map((key: any, index: number) => {
+      temp.push(parseInt(key.value));
+    });
+
+    // Default value is start & end of month
+    let gte: string = moment()
+      .startOf('month')
+      .format(dbAcceptableFormat);
+    let lte: string = moment()
+      .endOf('month')
+      .format(dbAcceptableFormat);
+
+    if (daysData && daysData.daysArr && daysData.daysArr.length) {
+      gte = daysData.daysArr[0].dateString || '';
+      lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
+    }
+    let positiveAttr: number[] = [],
+      negativeAttr: number[] = [];
+    fetchMoreCareInstituionList({
+      variables: {
+        qualificationId: temp ? temp : null,
+        userRole: 'canstitution',
+        limit: 50,
+        page: careInstitutionPage ? careInstitutionPage + 1 : 1,
+        showAppointments:
+          filterByAppointments && filterByAppointments.value
+            ? filterByAppointments.value === 'showAll'
+              ? ''
+              : filterByAppointments.value
+            : null,
+        negativeAttributeId:
+          negativeAttr && negativeAttr.length ? negativeAttr : negative,
+        positiveAttributeId:
+          positiveAttr && positiveAttr.length ? positiveAttr : positive,
+        gte,
+        lte,
+        careInstitutionId:
+          careinstitutionSoloFilter && careinstitutionSoloFilter.value
+            ? parseInt(careinstitutionSoloFilter.value)
+            : locationState && locationState.canstitution
+            ? locationState.canstitution
+            : null,
+      },
+
+      updateQuery: (prev: any, { fetchMoreResult }: any) => {
+        if (!fetchMoreResult) {
+          return prev;
+        }
+        if (prev && prev.getUserByQualifications) {
+          let list = [...fetchMoreResult.getUserByQualifications.result];
+          if (list && list.length) {
+            let dayDetails: any[] = daysData ? [...daysData.daysArr] : [];
+            list.forEach((user: any, index: number) => {
+              user.availabilityData = [];
+              user.name = user.canstitution
+                ? user.canstitution.companyName
+                : '';
+              user.attribute = [];
+              if (
+                user.careinstitution_requirements &&
+                user.careinstitution_requirements.length
+              ) {
+                let result: any = user.careinstitution_requirements.reduce(
+                  (acc: any, o: any) => (
+                    (acc[moment(o.date).format(dbAcceptableFormat)] =
+                      (acc[moment(o.date).format(dbAcceptableFormat)] || 0) +
+                      1),
+                    acc
+                  ),
+                  {},
+                );
+                result = Object.values(result);
+                result = Math.max(...result);
+                for (let row = 0; row < result; row++) {
+                  user.availabilityData.push([]);
+                }
+                dayDetails.forEach((d: any, index: number) => {
+                  let records = user.careinstitution_requirements.filter(
+                    (available: any) =>
+                      moment(d.dateString).isSame(
+                        moment(available.date),
+                        'day',
+                      ),
+                  );
+                  for (let i = 0; i < records.length; i++) {
+                    user.availabilityData[i].push(records[i]);
+                  }
+                });
+              } else {
+                user.availabilityData.push([]);
+              }
+            });
+          }
+          setcareinstitutionList((prevArray: any) => [...prevArray, ...list]);
           let selectedId: any = [];
           return Object.assign({}, prev, {
             getUserByQualifications: {
@@ -3224,6 +3341,8 @@ const Appointment: FunctionComponent = (props: any) => {
                     careInstitutionList={
                       careinstitutionList ? careinstitutionList : []
                     }
+                    totalCareinstituion={totalCareinstituion}
+                    getMoreCareInstituionList={getMoreCareInstituionList}
                     handleSelectedAppoitment={() => handleSelectedAppoitment()}
                     fetchCareinstitutionList={fetchCareinstitutionList}
                     onAddingRow={onAddingRow}

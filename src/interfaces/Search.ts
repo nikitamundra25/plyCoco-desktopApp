@@ -8,6 +8,7 @@ export interface ISearchValues {
 
 export interface ISearchProps {
   label?: string;
+  filterbyStatus?: boolean;
   searchPlacholderText?: string;
   setSearchValues?: any;
 }

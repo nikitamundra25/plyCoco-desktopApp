@@ -1,36 +1,31 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { Button, Card, CardHeader, CardBody, Table } from "reactstrap";
-import { useHistory, useLocation } from "react-router-dom";
-import { AppBreadcrumb } from "@coreui/react";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import * as qs from "query-string";
-import { toast } from "react-toastify";
-import moment from "moment";
-import { Formik, FormikProps, FormikHelpers } from "formik";
-import {
-  sortFilter,
-  dateFormat,
-  defaultDateTimeFormat
-} from "../../../../../config";
-import { AppRoutes, ARCHIVE_PAGE_LIMIT } from "../../../../../config";
-import routes from "../../../../../routes/routes";
-import Search from "../../../components/SearchFilter";
-import { languageTranslation, logger } from "../../../../../helpers";
-import { EmployeeQueries } from "../../../../../graphql/queries";
-import { EmployeeMutations } from "../../../../../graphql/Mutations";
-import PaginationComponent from "../../../components/Pagination";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Button, Card, CardHeader, CardBody, Table } from 'reactstrap';
+import { useHistory, useLocation } from 'react-router-dom';
+import { AppBreadcrumb } from '@coreui/react';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import * as qs from 'query-string';
+import { toast } from 'react-toastify';
+import moment from 'moment';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { sortFilter, defaultDateTimeFormat } from '../../../../../config';
+import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../../config';
+import routes from '../../../../../routes/routes';
+import Search from '../../../components/SearchFilter';
+import { languageTranslation, logger } from '../../../../../helpers';
+import { EmployeeQueries } from '../../../../../graphql/queries';
+import { EmployeeMutations } from '../../../../../graphql/Mutations';
+import PaginationComponent from '../../../components/Pagination';
 
-import { UncontrolledTooltip } from "reactstrap";
+import { UncontrolledTooltip } from 'reactstrap';
 import {
   ISearchValues,
   IReactSelectInterface,
-  IObjectType
-} from "../../../../../interfaces";
-import { ConfirmBox } from "../../../components/ConfirmBox";
-import defaultProfile from "../../../assets/avatars/default-profile.png";
-import Loader from "../../../containers/Loader/Loader";
-import { NoSearchFound } from "../../../components/SearchFilter/NoSearchFound";
-import archive from "../../../../assets/img/restore.svg";
+  IObjectType,
+} from '../../../../../interfaces';
+import { ConfirmBox } from '../../../components/ConfirmBox';
+import { NoSearchFound } from '../../../components/SearchFilter/NoSearchFound';
+import archive from '../../../../assets/img/restore.svg';
+import Loader from '../../../containers/Loader/Loader';
 let toastId: any = null;
 
 const [, , GET_ARCHIVE_EMPLOYEES] = EmployeeQueries;
@@ -48,9 +43,9 @@ const ArchiveCareInstitution: FunctionComponent = () => {
   // To get archive employee list from db
   const [
     fetchArchiveEmployeeList,
-    { data, called, loading, refetch }
+    { data, called, loading, refetch },
   ] = useLazyQuery<any>(GET_ARCHIVE_EMPLOYEES, {
-    fetchPolicy: "no-cache"
+    fetchPolicy: 'no-cache',
   });
 
   // To restore archive user
@@ -68,110 +63,110 @@ const ArchiveCareInstitution: FunctionComponent = () => {
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     const query = qs.parse(search);
-    let searchBy: string = "";
-    let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
-    let isActive: IReactSelectInterface | undefined = { label: "", value: "" };
+    let searchBy: string = '';
+    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
+    let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
     // To handle display and query param text
-    let sortByValue: string | undefined = "1";
+    let sortByValue: string | undefined = '1';
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
-        (key: string) => sortFilter[key] === query.sortBy
+        (key: string) => sortFilter[key] === query.sortBy,
       );
     }
     logger(sortByValue);
     logger(typeof sortByValue);
-    if (sortByValue === "3") {
-      sortBy.label = "A-Z";
+    if (sortByValue === '3') {
+      sortBy.label = 'A-Z';
     }
-    if (sortByValue === "4") {
-      sortBy.label = "Z-A";
+    if (sortByValue === '4') {
+      sortBy.label = 'Z-A';
     }
-    if (sortByValue === "2") {
-      sortBy.label = "Oldest";
+    if (sortByValue === '2') {
+      sortBy.label = 'Oldest';
     }
-    if (sortByValue === "1") {
-      sortBy.label = "Newest";
+    if (sortByValue === '1') {
+      sortBy.label = 'Newest';
     }
     if (query) {
-      searchBy = query.search ? (query.search as string) : "";
+      searchBy = query.search ? (query.search as string) : '';
       sortBy = sortByValue
         ? {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy
-              ) || "1"
+                (key: any) => sortFilter[key] === query.sortBy,
+              ) || '1',
           }
-        : { label: "Newest", value: "1" };
+        : { label: 'Newest', value: '1' };
       isActive = query.status
-        ? query.status === "active"
-          ? { label: languageTranslation("ACTIVE"), value: "true" }
-          : { label: languageTranslation("DISABLE"), value: "false" }
-        : { label: "", value: "" };
+        ? query.status === 'active'
+          ? { label: languageTranslation('ACTIVE'), value: 'true' }
+          : { label: languageTranslation('DISABLE'), value: 'false' }
+        : { label: '', value: '' };
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        isActive
+        isActive,
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       setIsFilter(
-        searchBy !== "" ||
+        searchBy !== '' ||
           query.status !== undefined ||
-          query.sortBy !== undefined
+          query.sortBy !== undefined,
       );
     }
 
     // call query
     fetchArchiveEmployeeList({
       variables: {
-        userRole: "canstitution",
+        userRole: 'canstitution',
         searchBy,
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
         limit: ARCHIVE_PAGE_LIMIT,
-        page: query.page ? parseInt(query.page as string) : 1
-      }
+        page: query.page ? parseInt(query.page as string) : 1,
+      },
     });
   }, [search]); // It will run when the search value gets changed
 
   const {
-    searchValue = "",
+    searchValue = '',
     sortBy = undefined,
-    isActive = undefined
+    isActive = undefined,
   } = searchValues ? searchValues : {};
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>
+    { setSubmitting }: FormikHelpers<ISearchValues>,
   ) => {
     let params: IObjectType = {};
     params.page = 1;
     if (searchValue) {
       params.search = searchValue;
     }
-    if (isActive && isActive.value !== "") {
-      params.status = isActive.value === "true" ? "active" : "disable";
+    if (isActive && isActive.value !== '') {
+      params.status = isActive.value === 'true' ? 'active' : 'disable';
     }
-    if (sortBy && sortBy.value !== "") {
-      params.sortBy = sortBy.value !== "" ? sortFilter[sortBy.value] : "";
+    if (sortBy && sortBy.value !== '') {
+      params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
     }
-    const path = [pathname, qs.stringify(params)].join("?");
+    const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
-    logger("path", path);
+    logger('path', path);
   };
 
   const onPageChanged = (currentPage: number) => {
-    logger("onPageChanged", currentPage);
+    logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      "?"
+      '?',
     );
     history.push(path);
   };
 
   const onRestoreEmployee = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("CONFIRM_CAREINSTITUTION_RESTORE_MSG")
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_CAREINSTITUTION_RESTORE_MSG'),
     });
     if (!value) {
       return;
@@ -179,21 +174,21 @@ const ArchiveCareInstitution: FunctionComponent = () => {
       try {
         await restoreEmployee({
           variables: {
-            id
-          }
+            id,
+          },
         });
         refetch();
         toast.dismiss();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation("CAREINSTITUTION_RESTORED_SUCCESS")
+            languageTranslation('CAREINSTITUTION_RESTORED_SUCCESS'),
           );
         }
       } catch (error) {
         const message = error.message
-          .replace("SequelizeValidationError: ", "")
-          .replace("Validation error: ", "")
-          .replace("GraphQL error: ", "");
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -203,8 +198,8 @@ const ArchiveCareInstitution: FunctionComponent = () => {
 
   const onPermanentlyDeleteEmployee = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("CONFIRM_CI_PERMANENT_DELETE_MSG")
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_CI_PERMANENT_DELETE_MSG'),
     });
     if (!value) {
       return;
@@ -212,21 +207,21 @@ const ArchiveCareInstitution: FunctionComponent = () => {
       try {
         await permanentDeleteUser({
           variables: {
-            id
-          }
+            id,
+          },
         });
         refetch();
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation("CI_PERMANENT_DEL_SUCCESS")
+            languageTranslation('CI_PERMANENT_DEL_SUCCESS'),
           );
         }
       } catch (error) {
         const message = error.message
-          .replace("SequelizeValidationError: ", "")
-          .replace("Validation error: ", "")
-          .replace("GraphQL error: ", "");
+          .replace('SequelizeValidationError: ', '')
+          .replace('Validation error: ', '')
+          .replace('GraphQL error: ', '');
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -237,23 +232,23 @@ const ArchiveCareInstitution: FunctionComponent = () => {
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy
+    sortBy,
   };
   let count = (currentPage - 1) * ARCHIVE_PAGE_LIMIT + 1;
 
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
+        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
         <div>
           <Button
-            color={"primary"}
-            className={"btn-add"}
-            id={"add-new-pm-tooltip"}
+            color={'primary'}
+            className={'btn-add'}
+            id={'add-new-pm-tooltip'}
             onClick={() => history.push(AppRoutes.CARE_INSTITUTION)}
           >
-            <i className={"fa fa-arrow-left"} />
-            &nbsp; {languageTranslation("BACK_TO_LIST")}
+            <i className={'fa fa-arrow-left'} />
+            &nbsp; {languageTranslation('BACK_TO_LIST')}
           </Button>
         </div>
       </CardHeader>
@@ -266,35 +261,36 @@ const ArchiveCareInstitution: FunctionComponent = () => {
             children={(props: FormikProps<ISearchValues>) => (
               <Search
                 {...props}
-                label={"archive"}
+                label={'archive'}
+                filterbyStatus={false}
                 setSearchValues={setSearchValues}
               />
             )}
           />
           {/* <Search /> */}
         </div>
-        <div className="archieve-table-minheight ">
+        <div className='archieve-table-minheight '>
           <Table bordered hover responsive>
-            <thead className="thead-bg">
+            <thead className='thead-bg'>
               <tr>
-                <th className="sno-th-column text-center">
-                  {languageTranslation("S_NO")}
+                <th className='sno-th-column text-center'>
+                  {languageTranslation('S_NO')}
                 </th>
-                <th>{languageTranslation("CARE_INSTITUTION_NAME")}</th>
-                <th>{languageTranslation("USERNAME")}</th>
-                <th>{languageTranslation("EMAIL")}</th>
-                <th className="date-th-column">
-                  {languageTranslation("DELETED_DATE")}
+                <th>{languageTranslation('CARE_INSTITUTION_NAME')}</th>
+                <th>{languageTranslation('USERNAME')}</th>
+                <th>{languageTranslation('EMAIL')}</th>
+                <th className='date-th-column'>
+                  {languageTranslation('DELETED_DATE')}
                 </th>
-                <th className="text-center">
-                  {languageTranslation("TABLE_HEAD_ACTION")}
+                <th className='text-center'>
+                  {languageTranslation('TABLE_HEAD_ACTION')}
                 </th>
               </tr>
             </thead>
             <tbody>
               {!called || loading ? (
                 <tr>
-                  <td className={"table-loader"} colSpan={7}>
+                  <td className={'table-loader'} colSpan={7}>
                     <Loader />
                   </td>
                 </tr>
@@ -308,76 +304,76 @@ const ArchiveCareInstitution: FunctionComponent = () => {
                     let trashLength = data.trashUserList.result.length;
                     return (
                       <tr key={index}>
-                        <td className="sno-th-column text-center">
+                        <td className='sno-th-column text-center'>
                           <span>{count++}</span>
                         </td>
                         <td>
-                          <div className="info-column">
-                            {elements.join(" ")}
+                          <div className='info-column'>
+                            {elements.join(' ')}
                           </div>
                         </td>
-                        <td className="word-wrap">
-                          {trashUser.userName.split("-")[0]}
+                        <td className='word-wrap'>
+                          {trashUser.userName.split('-')[0]}
                         </td>
-                        <td className="word-wrap">
-                          {trashUser.email.split("-")[0]}
+                        <td className='word-wrap'>
+                          {trashUser.email.split('-')[0]}
                         </td>
-                        <td className="date-th-column ">
+                        <td className='date-th-column '>
                           {trashUser.deletedAt
                             ? moment(trashUser.deletedAt).format(
-                                defaultDateTimeFormat
+                                defaultDateTimeFormat,
                               )
-                            : ""}
+                            : ''}
                         </td>
                         <td>
                           <div className={`action-btn`}>
                             <span
-                              className="btn-icon mr-2"
+                              className='btn-icon mr-2'
                               id={`restore${index}`}
                               onClick={() => onRestoreEmployee(trashUser.id)}
                             >
                               <UncontrolledTooltip
-                                placement="top"
+                                placement='top'
                                 target={`restore${index}`}
                               >
-                                {languageTranslation("RESTORE_TOOLTIP")}
+                                {languageTranslation('RESTORE_TOOLTIP')}
                               </UncontrolledTooltip>
-                              <i className="fa fa-undo"></i>
+                              <i className='fa fa-undo'></i>
                             </span>
                             <span
-                              className="btn-icon "
+                              className='btn-icon '
                               id={`delete${index}`}
                               onClick={() =>
                                 onPermanentlyDeleteEmployee(trashUser.id)
                               }
                             >
                               <UncontrolledTooltip
-                                placement="top"
+                                placement='top'
                                 target={`delete${index}`}
                               >
                                 {languageTranslation(
-                                  "DELETE_PERMANENTALY_TOOLTIP"
+                                  'DELETE_PERMANENTALY_TOOLTIP',
                                 )}
                               </UncontrolledTooltip>
-                              <i className="fa fa-trash"></i>
+                              <i className='fa fa-trash'></i>
                             </span>
                           </div>
                         </td>
                       </tr>
                     );
-                  }
+                  },
                 )
               ) : (
-                <tr className={"text-center no-hover-row"}>
-                  <td colSpan={7} className={"pt-5 pb-5"}>
+                <tr className={'text-center no-hover-row'}>
+                  <td colSpan={7} className={'pt-5 pb-5'}>
                     {isFilterApplied ? (
                       <NoSearchFound />
                     ) : (
-                      <div className="no-data-section">
-                        <div className="no-data-icon">
-                          <i className="icon-ban" />
+                      <div className='no-data-section'>
+                        <div className='no-data-icon'>
+                          <i className='icon-ban' />
                         </div>
-                        <h4 className="mb-1">
+                        <h4 className='mb-1'>
                           Currently there is no data in trash.
                         </h4>
                       </div>

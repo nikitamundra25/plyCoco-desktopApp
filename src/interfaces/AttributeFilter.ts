@@ -10,6 +10,10 @@ export interface IAttributeFilter {
     positiveId: number[],
     negativeId: number[]
   ) => void;
+  isPositive: number[];
+  setIsPositive: React.Dispatch<React.SetStateAction<number[]>>;
+  isNegative: number[];
+  setIsNegative: React.Dispatch<React.SetStateAction<number[]>>;
 }
 export interface IAttributeFilterPage {
   show: any;

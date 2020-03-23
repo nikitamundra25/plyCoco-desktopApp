@@ -43,6 +43,7 @@ const CellCareinstitution = ({
       isOffered = true;
     }
   }
+
   return (
     <td
       key={key}

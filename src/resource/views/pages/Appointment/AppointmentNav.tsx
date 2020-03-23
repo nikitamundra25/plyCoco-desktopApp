@@ -21,6 +21,7 @@ import careinstitution from '../../../assets/img/careinstitution.svg';
 import 'react-day-picker/lib/style.css';
 import './index.scss';
 import CustomOption from '../../components/CustomOptions';
+import moment from 'moment';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
@@ -49,6 +50,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     isNegative,
     setIsNegative
   } = props;
+
+  console.log('daysData', daysData);
 
   const { month = '', year = '' } = daysData ? daysData : {};
 
@@ -112,6 +115,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   const handleAllResetFilters = () => {
     handleResetFilters();
   };
+  console.log('jjjjjjjjjjjj', moment().month(month));
+
   return (
     <>
       <div className='sticky-common-header'>
@@ -138,6 +143,9 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <DayPickerInput
               onDayChange={handleDayClick}
               value={`${month} ${year}`}
+              dayPickerProps={{
+                month: year ? new Date(parseInt(year), 2) : new Date()
+              }}
             />
           </div>
           <div className='header-nav-item' onClick={handleNext}>

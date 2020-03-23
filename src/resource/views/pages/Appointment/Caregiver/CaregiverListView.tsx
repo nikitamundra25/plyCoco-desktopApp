@@ -80,8 +80,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     locationState
   } = props;
 
-  console.log(careGiversList, 'careGiversList above infinite');
-
   const [starMark, setstarMark] = useState<boolean>(false);
   const [offerRequirements, setOfferRequirements] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
@@ -288,7 +286,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     }
   };
- 
+
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
@@ -820,6 +818,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                             )
                                           );
                                         })[0]
+                                      }
+                                      selectedCells={selectedCells}
+                                      selectedCellsCareinstitution={
+                                        selectedCellsCareinstitution
                                       }
                                     />
                                   );

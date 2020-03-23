@@ -924,7 +924,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // To store users list into state
   useEffect(() => {
-    console.log('in caregiver list useeffecttttttttttttttttttttt');
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
     if (careGiversList && careGiversList.getUserByQualifications) {
       const { getUserByQualifications } = careGiversList;
@@ -1243,8 +1242,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // To fetch users according to qualification selected
   useEffect(() => {
-    console.log('in fetch data useffect', page);
-
     fetchData();
   }, [qualification]);
 
@@ -1928,9 +1925,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // useEffect for filtering department data in careinstitution list
   useEffect(() => {
-    console.log(' starCanstitution ', starCanstitution);
-    console.log('careinstitutionList', careinstitutionList);
-
     if (
       departmentList &&
       departmentList.getDivision.length &&
@@ -1941,7 +1935,6 @@ const Appointment: FunctionComponent = (props: any) => {
       let careInstData: any = careinstitutionList.filter(
         (item: any) => item.id === starCanstitution.id
       )[0];
-      console.log('careInstData', careInstData);
 
       if (careInstData) {
         let requirements: any[] = [].concat.apply(

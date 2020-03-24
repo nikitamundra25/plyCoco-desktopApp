@@ -41,7 +41,8 @@ const Cell = ({
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false,
-    isConfirm: boolean = false;
+    isConfirm: boolean = false,
+    isContractCancel: boolean = false;
   if (item) {
     if (item.status === 'default') {
       isRequirment = true;
@@ -51,10 +52,10 @@ const Cell = ({
       isContract = true;
     } else if (item.status === 'confirmed') {
       isConfirm = true;
+    } else if (item.status === 'contractcancelled') {
+      isContractCancel = true;
     }
   }
-  console.log('isSelected', isSelected);
-
   return (
     <>
       <td
@@ -70,6 +71,8 @@ const Cell = ({
             : true,
           // 'selecting-cell': isSelecting,
           weekend: daysArr,
+          'cancel-contract-bg':
+            isContractCancel && !isSelected ? isContractCancel : false,
           'block-bg': item ? (isBlocked ? true : false) : false,
           'matching-bg': isMatching && !isSelected ? isMatching : false,
           'confirmation-bg': isConfirm && !isSelected ? isConfirm : false,

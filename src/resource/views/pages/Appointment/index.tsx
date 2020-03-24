@@ -568,9 +568,9 @@ const Appointment: FunctionComponent = (props: any) => {
   useEffect(() => {
     if (addCaregiverRes && addCaregiverRes.addCareGiverAvability) {
       const { addCareGiverAvability } = addCaregiverRes;
-      const { id, status } = addCareGiverAvability;
+      const { id: Id, status } = addCareGiverAvability;
       const {
-        id: ID = '',
+        id = '',
         firstName = '',
         lastName = '',
         caregiver: caregiverData = {},
@@ -583,7 +583,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
       let caregiverdata: any = [
         {
-          id: ID,
+          id,
           firstName,
           lastName,
           caregiver: {
@@ -593,7 +593,7 @@ const Appointment: FunctionComponent = (props: any) => {
           item: {
             ...item,
             // appointmentId: id ? id : '',
-            id: id ? id : '',
+            id: Id ? Id : '',
             status,
           },
         },
@@ -610,9 +610,11 @@ const Appointment: FunctionComponent = (props: any) => {
       addCareinstitutionRes.addCareInstitutionRequirement
     ) {
       const { addCareInstitutionRequirement } = addCareinstitutionRes;
-      const { id, status } = addCareInstitutionRequirement;
+      const { id: Id, status } = addCareInstitutionRequirement;
+      console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
+      
       const {
-        id: { Id } = '',
+        id = '',
         firstName = '',
         lastName = '',
         canstitution = {},
@@ -623,10 +625,10 @@ const Appointment: FunctionComponent = (props: any) => {
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
           : {};
-
+  
       let careinstitutionvalue: any[] = [
         {
-          id: Id ? Id : '',
+          id,
           firstName,
           lastName,
           canstitution: {
@@ -636,8 +638,8 @@ const Appointment: FunctionComponent = (props: any) => {
           dateString,
           item: {
             ...item,
-            appointmentId: id ? id : '',
-            id: id ? id : '',
+            appointmentId: Id ? Id : '',
+            id: Id ? Id : '',
             status,
           },
         },
@@ -1516,7 +1518,6 @@ const Appointment: FunctionComponent = (props: any) => {
             },
           },
         ];
-        console.log('temp', temp);
 
         if (
           selectedCellsCareinstitution &&
@@ -2562,7 +2563,6 @@ const Appointment: FunctionComponent = (props: any) => {
       );
       freeEntries.forEach(async (element: any) => {
         const { id } = element;
-        console.log(id, 'idddd');
 
         let index: number = -1;
         if (!item) {
@@ -3037,7 +3037,6 @@ const Appointment: FunctionComponent = (props: any) => {
       gte = daysData.daysArr[0].dateString || '';
       lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
     }
-    console.log(page, 'page above fetchMoreCareGiverList');
 
     fetchMoreCareGiverList({
       variables: {

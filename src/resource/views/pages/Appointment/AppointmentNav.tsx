@@ -123,7 +123,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             /> */}
             <DayPickerInput
               onDayChange={handleDayClick}
-              value={month ? `${month} ${year}` : "hey"}
+              value={month ? `${month} ${year}` : ""}
               dayPickerProps={{
                 month: setNewDate,
                 canChangeMonth: false

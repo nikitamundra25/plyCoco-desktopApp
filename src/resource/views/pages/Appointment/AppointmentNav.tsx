@@ -120,12 +120,17 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               value={`${month} ${year}`}
               name='text'
             /> */}
-            {console.log("month0", month)}
+            {console.log("month0", parseInt(
+              moment()
+                .month(month)
+                .format("M")
+            ))}
             <DayPickerInput
               onDayChange={handleDayClick}
               value={month ? `${month} ${year}` : "hey"}
               dayPickerProps={{
-                initialMonth: new Date(
+                initialMonth: new Date,
+                month: new Date(
                   parseInt(year),
                   parseInt(
                     moment()
@@ -133,15 +138,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                       .format("M")
                   )
                 ),
-                month: new Date(
-                      parseInt(year),
-                      parseInt(
-                        moment()
-                          .month(month)
-                          .format("M")
-                      )
-                    ),
-               canChangeMonth: false
+                canChangeMonth: true
               }}
             />
           </div>
@@ -248,7 +245,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               placeholder="Select Care Institution"
               value={
                 careinstitutionSoloFilter &&
-                careinstitutionSoloFilter.value !== ""
+                  careinstitutionSoloFilter.value !== ""
                   ? careinstitutionSoloFilter
                   : null
               }

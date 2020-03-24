@@ -130,14 +130,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               value={month ? `${month} ${year}` : "hey"}
               dayPickerProps={{
                 initialMonth: new Date,
-                month: new Date(
-                  parseInt(year),
-                  parseInt(
-                    moment()
-                      .month(month)
-                      .format("M")
-                  )
-                ),
+                month: new Date(),
                 canChangeMonth: true
               }}
             />

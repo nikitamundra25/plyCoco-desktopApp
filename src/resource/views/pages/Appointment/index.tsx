@@ -611,8 +611,6 @@ const Appointment: FunctionComponent = (props: any) => {
     ) {
       const { addCareInstitutionRequirement } = addCareinstitutionRes;
       const { id: Id, status } = addCareInstitutionRequirement;
-      console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
-      
       const {
         id = '',
         firstName = '',
@@ -1741,7 +1739,6 @@ const Appointment: FunctionComponent = (props: any) => {
             delete item.__typename;
             delete item.appointments;
             delete item.division;
-            console.log("item",item);
             
             await updateCaregiver({
               variables: {
@@ -2200,6 +2197,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 },
               });
               setMultipleAvailability(false);
+              toast.dismiss()
               if (!toast.isActive(toastId)) {
                 toastId = toast.success(
                   languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG'),
@@ -2386,6 +2384,7 @@ const Appointment: FunctionComponent = (props: any) => {
               },
             });
             setMultipleRequirement(false);
+            toast.dismiss()
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
                 languageTranslation(
@@ -2532,6 +2531,7 @@ const Appointment: FunctionComponent = (props: any) => {
           },
         });
         if (!toast.isActive(toastId)) {
+          toast.dismiss()
           toastId = toast.success(
             languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG'),
           );

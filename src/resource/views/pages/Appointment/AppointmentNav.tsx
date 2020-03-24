@@ -96,7 +96,15 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
         .format("M")
     )
   );
-
+  let setMonthForDays: any = new Date(
+    parseInt(year),
+    parseInt(
+      moment()
+        .month(month)
+        .format("M")
+    ))
+  let setNewDate: any = new Date(setMonthForDays.getFullYear(), setMonthForDays.getMonth() - 1, 1)
+  
   return (
     <>
       <div className="sticky-common-header">
@@ -120,18 +128,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               value={`${month} ${year}`}
               name='text'
             /> */}
-            {console.log("month0", parseInt(
-              moment()
-                .month(month)
-                .format("M")
-            ))}
             <DayPickerInput
               onDayChange={handleDayClick}
               value={month ? `${month} ${year}` : "hey"}
               dayPickerProps={{
-                initialMonth: new Date,
-                month: new Date(),
-                canChangeMonth: true
+                month: setNewDate,
+                canChangeMonth: false
               }}
             />
           </div>

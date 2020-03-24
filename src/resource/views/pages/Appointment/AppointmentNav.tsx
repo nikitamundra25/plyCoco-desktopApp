@@ -51,7 +51,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     setIsNegative
   } = props;
 
-  console.log('daysData', daysData);
+  // console.log('daysData', daysData);
 
   const { month = '', year = '' } = daysData ? daysData : {};
 
@@ -116,14 +116,14 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     handleResetFilters();
   };
 
-  console.log(
-    'pppppp',
-    parseInt(
-      moment()
-        .month(month)
-        .format('M')
-    )
-  );
+  // console.log(
+  //   'pppppp',
+  //   parseInt(
+  //     moment()
+  //       .month(month)
+  //       .format('M')
+  //   )
+  // );
 
   return (
     <>

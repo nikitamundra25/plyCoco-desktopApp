@@ -158,7 +158,9 @@ const AttributeFilter = (props: IAttributeFilter) => {
   // on applying filter and getting care giver according to filter
   const onApplyingFilter = () => {
     applyFilter(attributeFilter, isPositive, isNegative);
-    handleClose();
+     if(isPositive && isPositive.length || isNegative && isNegative.length){
+       handleClose();
+     }
   };
 
   // on clicking select all option

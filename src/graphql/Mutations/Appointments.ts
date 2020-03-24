@@ -65,7 +65,7 @@ const UPDATE_INSTITUTION_REQUIREMENT = gql`
 const DELETE_CAREGIVER_AVABILITY = gql`
   mutation DeleteCareGiverAvability($id: [ID]) {
     deleteCareGiverAvability(id: $id) {
-      name
+      id
     }
   }
 `;

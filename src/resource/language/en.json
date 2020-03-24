@@ -952,5 +952,13 @@
   "KM": "KM",
   "KM_PRICE": "KM Price",
   "TOTAL": "Total",
-  "COMMISSION": "Commision"
+  "COMMISSION": "Commision",
+  "BILLING_MONTH": "Billing Month",
+  "PAYMENT_AMOUNT": "Payment Amount",
+  "GROSS": "Gross",
+  "VISIBLE": "Visible",
+  "DOCUMENT_DISPLAY": "Document Display",
+  "UNPAID":"Unpaid",
+  "SEPA":"SEPA",
+  "OPENFILE":"Open"
 }

@@ -132,9 +132,9 @@ const PrintInvoice: FunctionComponent<RouteComponentProps> & any = (
                   <Table bordered hover responsive>
                     <thead className="thead-bg">
                       <tr>
-                        <th className="careinstitution-col">Careinstitution</th>
-                        <th className="open-col">Open</th>
-                        <th className="type-col">Type</th>
+                        <th className="careinstitution-col">{languageTranslation("MENU_INSTITUTION")}</th>
+                        <th className="open-col">{languageTranslation("OPENFILE")}</th>
+                        <th className="type-col">{languageTranslation("TYPE")}</th>
                       </tr>
                     </thead>
                     <tbody>

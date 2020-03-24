@@ -98,3 +98,54 @@
     }
   }
 }
+
+.payslipform-table{
+  td,th{
+    &.caregiver-col{
+      width:200px;
+    }
+    &.file-col{
+      width:150px;
+    }
+    &.date-col{
+      width:70px;
+    }
+    &.month-col{
+      width:100px;
+    }
+    &.amount-col{
+      width:90px;
+    }
+    &.paymentamount-col{
+      width:120px;
+    }
+    &.gross-col{
+      width:80px;
+    }
+    &.type-col{
+      width:180px;
+    }
+    &.paid-col{
+      width:70px;
+    }
+    &.visible-col{
+      width:50px;
+    }
+    &.comment-col{
+      width:200px;
+      min-width:150px;
+    }
+    
+  }
+}
+
+.healthinsuraceform-table{
+  th,td{
+    &.sepa-col{
+      width:50px;
+    }
+    &.action-col{
+      width:70px;
+    }
+  }
+}

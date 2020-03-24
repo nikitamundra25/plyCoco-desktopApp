@@ -140,7 +140,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           caregiver,
           canstitution,
           dept: { id: deptId, name },
-          item: temp && temp.qualificationId && temp.qualificationId.length ? temp : item,
+          item: temp && temp.qualificationId && temp.qualificationId ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : '',
           divisions
@@ -416,6 +416,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           : ''
                       }
                       handleSelectedAvailability
+                      selectedCells={selectedCells}
                     />
                   );
                 })}

@@ -1190,6 +1190,8 @@ const Appointment: FunctionComponent = (props: any) => {
     if (name === 'caregiver') {
       setcaregiverSoloFilter(value);
     } else {
+      // To reset the page again to 1
+      setcareInstitutionPage(1);
       setcareinstitutionSoloFilter(value);
     }
   };

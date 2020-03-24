@@ -97,7 +97,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
         .format("M")
     ))
   let setNewDate: any = new Date(setMonthForDays.getFullYear(), setMonthForDays.getMonth() - 1, 1)
-  
   return (
     <>
       <div className="sticky-common-header">

@@ -1,11 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-  Table,
-  Button,
-  Nav,
-  NavItem,
-  NavLink,
-} from 'reactstrap';
+import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
 import '../index.scss';
 import {
   IAppointmentCareInstitutionList,
@@ -13,7 +7,7 @@ import {
   IReactSelectInterface
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
-import { SelectableGroup} from 'react-selectable-fast';
+import { SelectableGroup } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
 import moment from 'moment';
 import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
@@ -26,7 +20,7 @@ import {
   leasingListColor,
   selfEmployesListColor,
   deactivatedListColor,
-  CareInstInActiveAttrId,
+  CareInstInActiveAttrId
 } from '../../../../../config';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import all_list from '../../../../assets/img/dropdown/all_list.svg';
@@ -80,7 +74,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     onNewRequirement,
     showSelectedCaregiver,
     totalCareinstituion,
-    getMoreCareInstituionList
+    getMoreCareInstituionList,
+    locationState
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
 
@@ -324,9 +319,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         (item: any) => item.id === starCanstitution.id
       );
     }
-
-    console.log('listData', listData);
-
     let temp: any[] = [];
     if (listData && listData.length) {
       listData.forEach((list: any, index: number) => {
@@ -338,21 +330,22 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   <div className='all-star-wrap'>
                     <div
                       style={{
-                        backgroundColor: 
+                        backgroundColor:
                           list.canstitution && list.canstitution.attributes
-                          ? list.canstitution.attributes.includes(
-                            CareInstInActiveAttrId,
-                          ) ? deactivatedListColor :
-                          list.canstitution.attributes.includes(
-                              CareInstTIMyoCYAttrId,
-                            )
-                            ? leasingListColor
-                            : list.canstitution.attributes.includes(
-                                CareInstPlycocoAttrId
+                            ? list.canstitution.attributes.includes(
+                                CareInstInActiveAttrId
                               )
-                            ? selfEmployesListColor
+                              ? deactivatedListColor
+                              : list.canstitution.attributes.includes(
+                                  CareInstTIMyoCYAttrId
+                                )
+                              ? leasingListColor
+                              : list.canstitution.attributes.includes(
+                                  CareInstPlycocoAttrId
+                                )
+                              ? selfEmployesListColor
+                              : ''
                             : ''
-                          : ''
                       }}
                       // onClick={() =>
                       //   history.push(
@@ -1000,8 +993,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         <InfiniteScroll
           loader={<div className='appointment-list-loader'>{}</div>}
           hasMore={
-            careInstitutionList &&
-            careInstitutionList.length !== totalCareinstituion
+            !starCanstitution.isStar || locationState
+              ? careInstitutionList &&
+                careInstitutionList.length !== totalCareinstituion
+              : false
           }
           dataLength={
             careInstitutionList && careInstitutionList.length
@@ -1009,7 +1004,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               : 0
           }
           next={() => {
-            console.log('In next');
             getMoreCareInstituionList(careInstitutionList.length);
           }}
           // endMessage={<p />}

@@ -8,11 +8,34 @@ const Cell = ({
   isSelecting,
   item,
   key,
-  daysArr
+  daysArr,
+  selectedCellsCareinstitution
 }: any) => {
   let isBlocked: boolean = false;
   if (item) {
     isBlocked = item.f === 'block' || item.s === 'block' || item.n === 'block';
+  }
+
+  let canstitutionCell: any =
+    selectedCellsCareinstitution &&
+    selectedCellsCareinstitution.length &&
+    selectedCellsCareinstitution[0] &&
+    selectedCellsCareinstitution[0].item &&
+    selectedCellsCareinstitution[0].item.appointments &&
+    selectedCellsCareinstitution[0].item.appointments[0]
+      ? selectedCellsCareinstitution[0].item.appointments[0].id
+      : '';
+
+  let caregiverCell: any =
+    item && item.appointments && item.appointments[0]
+      ? item.appointments[0].id
+      : '';
+
+  let showAppointedCareGiver: boolean = false;
+  if (canstitutionCell && caregiverCell) {
+    if (canstitutionCell === caregiverCell) {
+      showAppointedCareGiver = true;
+    }
   }
 
   let isRequirment: boolean = false,
@@ -30,6 +53,7 @@ const Cell = ({
       isConfirm = true;
     }
   }
+  console.log('isSelected', isSelected);
 
   return (
     <>
@@ -40,7 +64,10 @@ const Cell = ({
           'text-center': true,
           'custom-appointment-col': true,
           'cursor-pointer': true,
-          'selecting-cell-bg': isSelected || isSelecting,
+          'selecting-cell-bg': !isSelected
+            ? (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
+              isSelecting
+            : true,
           // 'selecting-cell': isSelecting,
           weekend: daysArr,
           'block-bg': item ? (isBlocked ? true : false) : false,

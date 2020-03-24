@@ -21,6 +21,7 @@ import careinstitution from '../../../assets/img/careinstitution.svg';
 import CustomOption from '../../components/CustomOptions';
 import 'react-day-picker/lib/style.css';
 import './index.scss';
+import moment from 'moment';
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
@@ -49,6 +50,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     isNegative,
     setIsNegative
   } = props;
+
+  console.log('daysData', daysData);
 
   const { month = '', year = '' } = daysData ? daysData : {};
 
@@ -112,6 +115,16 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   const handleAllResetFilters = () => {
     handleResetFilters();
   };
+
+  console.log(
+    'pppppp',
+    parseInt(
+      moment()
+        .month(month)
+        .format('M')
+    )
+  );
+
   return (
     <>
       <div className='sticky-common-header'>
@@ -138,6 +151,18 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <DayPickerInput
               onDayChange={handleDayClick}
               value={`${month} ${year}`}
+              dayPickerProps={{
+                month: year
+                  ? new Date(
+                      parseInt(year),
+                      parseInt(
+                        moment()
+                          .month(month)
+                          .format('M')
+                      )
+                    )
+                  : new Date()
+              }}
             />
           </div>
           <div className='header-nav-item' onClick={handleNext}>
@@ -152,9 +177,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               placeholder='Select appointment'
               options={Without_Appointments}
               value={filterByAppointments ? filterByAppointments : null}
-              onChange={(value: any) =>
-                handleSelectAppointment(value)
-              }
+              onChange={(value: any) => handleSelectAppointment(value)}
             />
           </div>
 

@@ -498,32 +498,36 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
 
         let mailBody: any = '';
-        if (props.showButton) {
-          mailBody = `<p>${languageTranslation(
-            'CAREGIVER_OFFER_EMAIL_HEADING',
-          )}</p><br/><p>${languageTranslation(
-            'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED',
-          ) +
-          ' ' +
-          qualificationString}</p><br/>${divRow}</br></br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>${remarkRow}</br><p>${languageTranslation(
-            'FEE',
-          ) +
-          ':' +
-          languageTranslation('FEE_TEXT')}</p>`;
-        } else {
+        // if (props.showButton) {
+        //   mailBody = `<p>${languageTranslation(
+        //     'CAREGIVER_OFFER_EMAIL_HEADING',
+        //   )}</p><br/><p>${languageTranslation(
+        //     'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED',
+        //   ) +
+        //   ' ' +
+        //   qualificationString}</p><br/>${divRow}</br></br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>${remarkRow}</br><p>${languageTranslation(
+        //     'FEE',
+        //   ) +
+        //   ':' +
+        //   languageTranslation('FEE_TEXT')}</p>`;
+        // } else {
           mailBody = `<p>${languageTranslation(
             'CAREGIVER_OFFER_EMAIL_HEADING',
           )}
-          </p><br/><p>${languageTranslation(
+          </p><br/>${isLeasing ? `<p>${languageTranslation(
+            'LEASING_OFFER',
+          )}</p></BR>`:''}<p>${languageTranslation(
             'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED',
           ) +
           ' ' +
-          qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation(
+          qualificationString}</p><br/>${divRow}</br>${props.showButton ? `</br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>`:''}${remarkRow}</br><p>${languageTranslation(
             'FEE',
           ) +
           ':' +
-          languageTranslation('FEE_TEXT')}</p>`;
-        }
+          languageTranslation('FEE_TEXT')}</p>${isLeasing ? `<p>${languageTranslation(
+            'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER',
+          )}</p>` : ''}`;
+        // }
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         setSubject(customSub);
@@ -728,7 +732,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   }, [data]);
 
   useEffect(() => {
-    const { qualificationIds = [] } = selectedCells[0];
+    console.log(offerRequirements,'offerRequirements');
+    if (selectedCells && selectedCells.length) {
+    const { qualificationIds = [] } = selectedCells[0] ? selectedCells[0] : {};
     const { getQualificationMatching = [] } = requirmentList
       ? requirmentList
       : {};
@@ -798,7 +804,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
       setSubject(languageTranslation('OFFER_REQUIREMENTS_SUB'));
       setBody(editorState);
-    }
+    }}
   }, [requirmentList]);
 
   const handleSelectAll = async () => {

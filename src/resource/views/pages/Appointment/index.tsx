@@ -1274,7 +1274,6 @@ const Appointment: FunctionComponent = (props: any) => {
         ? canstitution
         : {};
       attributes = attributes ? attributes : [];
-
       careInstitutionOptions.push({
         label: `${data.lastName}${' '}${data.firstName}`,
         value: data.id,
@@ -1598,6 +1597,9 @@ const Appointment: FunctionComponent = (props: any) => {
             delete Item.__typename;
             delete Item.appointments;
             delete Item.division;
+            let temp = Item.qualificationId.map((Item: any) => {
+              Item.id;
+            })
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
@@ -1664,7 +1666,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete Item.id;
             delete Item.__typename;
             delete Item.appointments;
-            delete Item.division;
+            delete Item.division;    
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
@@ -1731,13 +1733,15 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-        if (item && item.id) {
+              if (item && item.id) {
           if (item.status === 'linked') {
             let availabilityId: number = item.id ? parseInt(item.id) : 0;
             delete item.id;
             delete item.__typename;
             delete item.appointments;
             delete item.division;
+            console.log("item",item);
+            
             await updateCaregiver({
               variables: {
                 id: availabilityId,
@@ -1753,7 +1757,10 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
+            toast.dismiss()
+            if (!toast.isActive(toastId)) {
             toast.warn(languageTranslation('CAREGIVER_LINKED'));
+            }
           }
         }
       });
@@ -1786,7 +1793,10 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
+            toast.dismiss()
+            if (!toast.isActive(toastId)) {
             toast.warn(languageTranslation('CAREGIVER_LINKED'));
+            }
           }
         }
       });

@@ -22,6 +22,7 @@ import CustomOption from "../../components/CustomOptions";
 import "react-day-picker/lib/style.css";
 import "./index.scss";
 import moment from "moment";
+import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
@@ -51,7 +52,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     setIsNegative
   } = props;
 
-  console.log("daysData", daysData);
 
   const { month = "", year = "" } = daysData ? daysData : {};
 
@@ -88,14 +88,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     handleResetFilters();
   };
 
-  console.log(
-    "pppppp",
-    parseInt(
-      moment()
-        .month(month)
-        .format("M")
-    )
-  );
+
 
   return (
     <>
@@ -120,7 +113,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               value={`${month} ${year}`}
               name='text'
             /> */}
-            {console.log("month0", month)}
             <DayPickerInput
               onDayChange={handleDayClick}
               value={month ? `${month} ${year}` : "hey"}
@@ -243,7 +235,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <Select
               classNamePrefix="custom-inner-reactselect"
               className={
-                "custom-reactselect custom-reactselect-menu-width-appointment"
+                "custom-reactselect custom-reactselect-menu-width"
               }
               placeholder="Select Care Institution"
               value={
@@ -253,7 +245,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                   : null
               }
               options={careInstitutionList}
-              components={{ Option: CustomOption }}
+              components={{ Option: CareInstCustomOption }}
               onChange={(value: any) =>
                 handleUserList(value, "careinstitution")
               }

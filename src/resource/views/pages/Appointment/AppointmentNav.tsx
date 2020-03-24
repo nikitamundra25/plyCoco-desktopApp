@@ -88,8 +88,16 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     handleResetFilters();
   };
 
-
-
+ 
+  let setMonthForDays: any = new Date(
+    parseInt(year),
+    parseInt(
+      moment()
+        .month(month)
+        .format("M")
+    ))
+  let setNewDate: any = new Date(setMonthForDays.getFullYear(), setMonthForDays.getMonth() - 1, 1)
+  
   return (
     <>
       <div className="sticky-common-header">
@@ -117,23 +125,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               onDayChange={handleDayClick}
               value={month ? `${month} ${year}` : "hey"}
               dayPickerProps={{
-                initialMonth: new Date(
-                  parseInt(year),
-                  parseInt(
-                    moment()
-                      .month(month)
-                      .format("M")
-                  )
-                ),
-                month: new Date(
-                      parseInt(year),
-                      parseInt(
-                        moment()
-                          .month(month)
-                          .format("M")
-                      )
-                    ),
-               canChangeMonth: false
+                month: setNewDate,
+                canChangeMonth: false
               }}
             />
           </div>
@@ -240,7 +233,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               placeholder="Select Care Institution"
               value={
                 careinstitutionSoloFilter &&
-                careinstitutionSoloFilter.value !== ""
+                  careinstitutionSoloFilter.value !== ""
                   ? careinstitutionSoloFilter
                   : null
               }

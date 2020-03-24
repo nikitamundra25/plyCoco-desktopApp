@@ -143,7 +143,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           item: temp && temp.qualificationId && temp.qualificationId ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : '',
-          divisions
+          divisions,
+          isLeasing:canstitution ? canstitution.attributes.includes(
+            CareInstTIMyoCYAttrId,
+          ):false
         };
       });
       handleSelection(selectedRows, 'careinstitution');
@@ -532,7 +535,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       }
     });
   }
-
+  console.log(selectedCellsCareinstitution,'selectedCellsCareinstitution');
+  
   return (
     <>
       <div

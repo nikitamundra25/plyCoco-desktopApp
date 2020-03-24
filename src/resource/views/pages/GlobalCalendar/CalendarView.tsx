@@ -158,7 +158,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
               </div>
             </div>
           </div>
-        </div>
+        </div>  
         
       </>
       <CardBody>

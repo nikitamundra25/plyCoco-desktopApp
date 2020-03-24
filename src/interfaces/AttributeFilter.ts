@@ -1,4 +1,8 @@
-import { IAttributeValues } from './CareGiver';
+export interface ICollapseState{
+  id:number;
+  isPositive:boolean;
+  isNegative:boolean;
+}
 
 export interface IAttributeFilter {
   show: boolean;

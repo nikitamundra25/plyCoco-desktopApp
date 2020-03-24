@@ -1,11 +1,9 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-
-import '../index.scss';
-import {
-  IAppointmentCareInstitutionForm,
-  ICareinstitutionFormValue,
-  IReactSelectInterface
-} from '../../../../../interfaces';
+import Select from 'react-select';
+import { FormikProps, Field } from 'formik';
+import moment from 'moment';
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import classnames from 'classnames';
 import {
   FormGroup,
   Label,
@@ -21,15 +19,20 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import '../index.scss';
-import { languageTranslation } from '../../../../../helpers';
 import MaskedInput from 'react-text-mask';
-import { ShiftTime, TimeMask } from '../../../../../config';
-import Select from 'react-select';
-import { FormikProps, Field } from 'formik';
-import moment from 'moment';
-import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
-import classnames from 'classnames';
+import { languageTranslation } from '../../../../../helpers';
+import {
+  IAppointmentCareInstitutionForm,
+  ICareinstitutionFormValue,
+  IReactSelectInterface
+} from '../../../../../interfaces';
+import {
+  ShiftTime,
+  TimeMask,
+  appointmentDayFormat,
+  defaultDateFormat
+} from '../../../../../config';
+import '../index.scss';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -271,7 +274,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                       index !==
                                         activeDateCareinstitution.length - 1
                                         ? 'dd DD'
-                                        : 'dd DD.MM.YYYY'
+                                        : `${appointmentDayFormat} ${defaultDateFormat}`
                                     )
                                   : null
                             )
@@ -322,9 +325,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     <div className='d-flex align-items-center justify-content-between flex-wrap'>
                       <div className='required-input clockshift-input'>
                         <InputGroup className='flex-nowrap'>
-                          <Field
-                            name={'startTime'}
-                            render={({ field }: any) => (
+                          <Field name={'startTime'}>
+                            {({ field }: any) => (
                               <MaskedInput
                                 {...field}
                                 mask={TimeMask}
@@ -338,7 +340,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                                 value={startTime ? startTime : ''}
                               />
                             )}
-                          />
+                          </Field>
                           {errors.startTime && touched.startTime && (
                             <div className='required-tooltip'>
                               {errors.startTime}
@@ -395,9 +397,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='7'>
                     <div className='required-input clockshift-input'>
                       <InputGroup className='flex-nowrap'>
-                        <Field
-                          name={'endTime'}
-                          render={({ field }: any) => (
+                        <Field name={'endTime'}>
+                          {({ field }: any) => (
                             <MaskedInput
                               {...field}
                               mask={TimeMask}
@@ -411,7 +412,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               value={endTime ? endTime : ''}
                             />
                           )}
-                        />
+                        </Field>
                         {errors.endTime ? (
                           errors.endTime &&
                           touched.endTime && (
@@ -646,6 +647,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         value={
                           departmentOfferRemarks ? departmentOfferRemarks : ''
                         }
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -674,6 +676,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             ? departmentBookingRemarks
                             : ''
                         }
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -700,6 +703,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         name='departmentRemarks'
                         id='exampleText'
                         value={departmentRemarks ? departmentRemarks : ''}
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -760,6 +764,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         value={offerRemarks ? offerRemarks : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -785,6 +790,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         value={bookingRemarks ? bookingRemarks : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -809,6 +815,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         id='exampleText'
                         value={comments ? comments : ''}
                         onChange={handleChange}
+                        maxLength={255}
                         onBlur={handleBlur}
                       />
                     </div>

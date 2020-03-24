@@ -20,7 +20,12 @@ import {
   IReactSelectInterface
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
-import { NightAllowancePerHour, State } from '../../../../../config';
+import {
+  NightAllowancePerHour,
+  State,
+  defaultDateFormat,
+  appointmentDayFormat
+} from '../../../../../config';
 import '../index.scss';
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
@@ -80,7 +85,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     setFieldError,
     selectedCareGiver,
     activeDateCaregiver,
-    addCaregiverRes,
     timeSlotError,
     selctedAvailability,
     onhandleDelete,
@@ -259,7 +263,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                   ? moment(dateString).format(
                                       index !== activeDateCaregiver.length - 1
                                         ? 'dd DD'
-                                        : 'dd DD.MM.YYYY'
+                                        : `${appointmentDayFormat} ${defaultDateFormat}`
                                     )
                                   : null
                             )
@@ -856,6 +860,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         value={remarksCareGiver ? remarksCareGiver : ''}
                         onChange={handleChange}
                         id='exampleText1'
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -879,6 +884,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         name='remarksInternal'
                         value={remarksInternal ? remarksInternal : ''}
                         onChange={handleChange}
+                        maxLength={255}
                         id='exampleText2'
                       />
                     </div>

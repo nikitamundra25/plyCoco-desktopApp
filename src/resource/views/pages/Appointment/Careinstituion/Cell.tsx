@@ -8,7 +8,8 @@ const CellCareinstitution = ({
   item,
   daysArr,
   key,
-  showSelectedCaregiver
+  showSelectedCaregiver,
+  selectedCells
 }: any) => {
   let isRequirment: boolean = false,
     isMatching: boolean = false,
@@ -29,6 +30,27 @@ const CellCareinstitution = ({
       showAppointedCareGiver = true;
     }
   }
+  let canstitutionCell: any =
+  selectedCells &&
+  selectedCells.length &&
+  selectedCells[0] &&
+  selectedCells[0].item &&
+  selectedCells[0].item.appointments &&
+  selectedCells[0].item.appointments[0]
+    ? selectedCells[0].item.appointments[0].id
+    : '';
+
+let careinstitutionCell: any =
+  item && item.appointments && item.appointments[0]
+    ? item.appointments[0].id
+    : '';
+
+let showAppointment: boolean = false;
+if (canstitutionCell && careinstitutionCell) {
+  if (canstitutionCell === careinstitutionCell) {
+    showAppointment = true;
+  }
+}
 
   if (item) {
     if (item.status === 'default') {
@@ -43,6 +65,7 @@ const CellCareinstitution = ({
       isOffered = true;
     }
   }
+
   return (
     <td
       key={key}
@@ -57,6 +80,7 @@ const CellCareinstitution = ({
           isSelected ||
           (showAppointedCareGiver &&
             caregiverId === showSelectedCaregiver.id) ||
+            (showAppointment && canstitutionCell === careinstitutionCell) ||
           isSelecting,
         // 'selecting-cell': isSelecting,
         'requirement-bg': isRequirment && !isSelected ? isRequirment : false,
@@ -87,22 +111,6 @@ const CellCareinstitution = ({
           {item.n ? item.n : null}
         </>
       ) : null}
-      {/* {list &&
-      list.careinstitution_requirements &&
-      list.careinstitution_requirements.length
-        ? list.careinstitution_requirements.map(
-            (avabilityData: any, index: number) => {
-              return moment(day.isoString).format('DD.MM.YYYY') ===
-                moment(avabilityData.date).format('DD.MM.YYYY') ? (
-                <>
-                  {avabilityData.f ? avabilityData.f : null}
-                  {avabilityData.s ? avabilityData.s : null}
-                  {avabilityData.n ? avabilityData.n : null}
-                </>
-              ) : null;
-            }
-          )
-        : null} */}
     </td>
   );
 };

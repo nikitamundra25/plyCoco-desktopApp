@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -16,23 +16,12 @@ import { languageTranslation } from '../../../../../helpers';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import filter from '../../../../assets/img/filter.svg';
-import { IAttributeFilterPage } from '../../../../../interfaces';
+import { IAttributeFilterPage, ICollapseState } from '../../../../../interfaces';
 import AddPreset from './AddPreset';
 
 const AttributeFilterPage = (props: IAttributeFilterPage) => {
-  const [collapse1, setCollapse1] = useState(true);
-  const [collapse2, setCollapse2] = useState(true);
-  const [collapse3, setCollapse3] = useState(true);
-  const [collapse4, setCollapse4] = useState(true);
-  const [collapse5, setCollapse5] = useState(true);
-  const [collapse6, setCollapse6] = useState(true);
+  const [categoryCollapse, setCatCollapse] = useState<ICollapseState[]>([])
 
-  const toggle1 = () => setCollapse1(!collapse1);
-  const toggle2 = () => setCollapse2(!collapse2);
-  const toggle3 = () => setCollapse3(!collapse3);
-  const toggle4 = () => setCollapse4(!collapse4);
-  const toggle5 = () => setCollapse5(!collapse5);
-  const toggle6 = () => setCollapse6(!collapse6);
   const {
     show,
     handleClose,
@@ -59,9 +48,35 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
     OnPresetClick,
     activePreset,
     addPresetLoading,
-
     setActivePreset
   } = props;
+  const { getCaregiverAtrributeWithCategory = [] } = attributeData ? attributeData : {}
+
+  // To open all the categories by default
+  useEffect(() => {
+    if (getCaregiverAtrributeWithCategory && getCaregiverAtrributeWithCategory.length) {
+      setCatCollapse(getCaregiverAtrributeWithCategory.map((category: any) => ({
+        id: category.id,
+        isPositive: true,
+        isNegative: true
+      })))
+    }
+  }, [getCaregiverAtrributeWithCategory])
+
+   // Function to manage toggle +ve & -ve categories
+   const toggleCategories = (id: number, type: string) => {
+    let temp = [...categoryCollapse]
+    const index: number = categoryCollapse.findIndex((cat: ICollapseState) => cat.id === id)
+    if (index > -1 && temp[index]) {
+      temp[index] = {
+        ...temp[index],
+        isPositive: type === 'positive' ? !temp[index].isPositive : temp[index].isPositive,
+        isNegative: type === 'negative' ? !temp[index].isNegative : temp[index].isNegative,
+      }
+      setCatCollapse(temp)
+    }
+  }
+
   const externalCloseBtn = (
     <button
       className='close modal-close'
@@ -112,561 +127,171 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                     <ul className='common-list list-unstyled mb-0'>
                       {presetList && presetList.getPresetAttribute
                         ? presetList.getPresetAttribute.map(
-                            (item: any, index: number) => {
-                              return (
-                                <li
-                                  className={`cursor-pointer list-item text-capitalize ${
-                                    activePreset === item.id ? 'active' : ''
+                          (item: any, index: number) => {
+                            return (
+                              <li
+                                className={`cursor-pointer list-item text-capitalize ${
+                                  activePreset === item.id ? 'active' : ''
                                   }`}
-                                  key={index}
+                                key={index}
+                              >
+                                <div
+                                  className='list-item-text one-line-text'
+                                  onClick={() => OnPresetClick(item)}
                                 >
-                                  <div
-                                    className='list-item-text one-line-text'
-                                    onClick={() => OnPresetClick(item)}
+                                  {item.name}
+                                </div>
+                                <div className='list-item-icon'>
+                                  <span
+                                    id={`delete${index}`}
+                                    className={`btn-icon `}
+                                    onClick={() => onDeletingPreset(item.id)}
                                   >
-                                    {item.name}
-                                  </div>
-                                  <div className='list-item-icon'>
-                                    <span
-                                      id={`delete${index}`}
-                                      className={`btn-icon `}
-                                      onClick={() => onDeletingPreset(item.id)}
+                                    <UncontrolledTooltip
+                                      placement={'top'}
+                                      target={`delete${index}`}
                                     >
-                                      <UncontrolledTooltip
-                                        placement={'top'}
-                                        target={`delete${index}`}
-                                      >
-                                        {languageTranslation('DELETE_PRESET')}
-                                      </UncontrolledTooltip>
-                                      <i className='fa fa-trash'></i>
-                                    </span>
-                                  </div>
-                                </li>
-                              );
-                            }
-                          )
+                                      {languageTranslation('DELETE_PRESET')}
+                                    </UncontrolledTooltip>
+                                    <i className='fa fa-trash'></i>
+                                  </span>
+                                </div>
+                              </li>
+                            );
+                          }
+                        )
                         : null}
                     </ul>
                   </div>
                 </div>
               </Col>
-              <Col md={4} className='px-md-0'>
-                <div className='common-list-wrap'>
-                  <div className='common-list-header d-flex align-items-cente justify-content-between'>
-                    <div className='common-list-title align-middle'>
-                      {languageTranslation('POSITIVE_ATTRIBUTE')}
-                    </div>
-                    <div>
-                      <UncontrolledDropdown className='custom-dropdown'>
-                        <DropdownToggle
-                          className={'text-capitalize btn-more'}
-                          size='sm'
-                        >
-                          <i className='icon-options-vertical' />
-                        </DropdownToggle>
-                        <DropdownMenu right>
-                          <DropdownItem
-                            className={
-                              (isNegative && isNegative.length) ||
-                              (isPositive && isPositive.length)
-                                ? ''
-                                : 'disabled-class'
-                            }
-                            onClick={() => {
-                              if (
+              {['positive', 'negative'].map
+                ((type: string, i: number) => <Col md={4} className='px-md-0' key={i}>
+                  <div className='common-list-wrap'>
+                    <div className='common-list-header d-flex align-items-cente justify-content-between'>
+                      <div className='common-list-title align-middle'>
+                        {languageTranslation(type === 'positive' ? 'POSITIVE_ATTRIBUTE' : 'NEGATIVE_ATTRIBUTE')}
+                      </div>
+                      <div>
+                        <UncontrolledDropdown className='custom-dropdown'>
+                          <DropdownToggle
+                            className={'text-capitalize btn-more'}
+                            size='sm'
+                          >
+                            <i className='icon-options-vertical' />
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem
+                              className={
                                 (isNegative && isNegative.length) ||
-                                (isPositive && isPositive.length)
-                              ) {
-                                setShowPreset(true);
-                                onAddingPreset(isPositive, isNegative);
-                              } else {
-                                setShowPreset(false);
+                                  (isPositive && isPositive.length)
+                                  ? ''
+                                  : 'disabled-class'
                               }
-                            }}
-                          >
-                            <i className='fa fa-plus mr-2' />
-                            {languageTranslation('ADD_PRESET')}
-                          </DropdownItem>
-                          <DropdownItem
-                            onClick={() => handleCheckAllElements('positive')}
-                          >
-                            <i className='fa fa-check-square mr-2' />
-                            {languageTranslation('SELECT_ALL')}
-                          </DropdownItem>
-                          <DropdownItem onClick={() => setIsPositive([])}>
-                            <i className='fa fa-square-o mr-2' />
-                            {languageTranslation('UNSELECT')}
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
+                              onClick={() => {
+                                if (
+                                  (isNegative && isNegative.length) ||
+                                  (isPositive && isPositive.length)
+                                ) {
+                                  setShowPreset(true);
+                                  onAddingPreset(isPositive, isNegative);
+                                } else {
+                                  setShowPreset(false);
+                                }
+                              }}
+                            >
+                              <i className='fa fa-plus mr-2' />
+                              {languageTranslation('ADD_PRESET')}
+                            </DropdownItem>
+                            <DropdownItem
+                              onClick={() => handleCheckAllElements(type)}
+                            >
+                              <i className='fa fa-check-square mr-2' />
+                              {languageTranslation('SELECT_ALL')}
+                            </DropdownItem>
+                            <DropdownItem onClick={() => type === 'positive' ? setIsPositive([]) : setIsNegative([])}>
+                              <i className='fa fa-square-o mr-2' />
+                              {languageTranslation('UNSELECT')}
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                      </div>
+                    </div>
+
+                    <div className='common-list-body custom-scrollbar'>
+                      {getCaregiverAtrributeWithCategory && getCaregiverAtrributeWithCategory.length ?
+                        getCaregiverAtrributeWithCategory.map((category: any, index: number) => {
+                          const filteredData: ICollapseState | undefined = categoryCollapse.filter((cat: ICollapseState) => cat.id === category.id)[0]
+                          const collapse: boolean = filteredData ? type === 'positive' ? filteredData.isPositive : filteredData.isNegative : false
+                          return <div key={index}>
+                            <div
+                              onClick={() => toggleCategories(category.id, type)}
+                              className='attribute-title cursor-pointer'
+                            >
+                              <span className='align-middle'>
+                                {collapse ? (
+                                  <i className='fa fa-minus mr-2' />
+                                ) : (
+                                    <i className='fa fa-plus mr-2' />
+                                  )}
+                              </span>
+
+                              <span className='align-middle'>
+                                {category.name}
+                              </span>
+                            </div>
+
+                            <Collapse isOpen={collapse}>
+                              <ul className='common-list list-unstyled mb-0 text-capitalize pl-3 attribute-list'>
+                                {category.attribute_managements.map(
+                                  (list: any, index: number) => {
+                                    return (
+                                      <li key={index}>
+                                        <span className=' checkbox-custom '>
+                                          <input
+                                            type='checkbox'
+                                            id={`${type}${list.name}`}
+                                            name={`${type}${list.name}`}
+                                            className=''
+                                            checked={type === 'positive' ?
+                                              isPositive.indexOf(list.id) > -1
+                                                ? true
+                                                : false : isNegative.indexOf(list.id) > -1
+                                                ? true
+                                                : false
+                                            }
+                                            onChange={(
+                                              e: React.ChangeEvent<
+                                                HTMLInputElement
+                                              >
+                                            ) =>
+                                              type === 'positive' ? handleCheckPositiveElement(
+                                                e,
+                                                list.id
+                                              ) : handleCheckNegativeElement(
+                                                e,
+                                                list.id
+                                              )
+                                            }
+                                          />
+                                          <label
+                                            className=''
+                                            htmlFor={`${type}${list.name}`}
+                                          >
+                                            {list.name}
+                                          </label>
+                                        </span>
+                                      </li>
+                                    );
+                                  }
+                                )}
+                              </ul>
+                            </Collapse>
+                          </div>
+                        }) : null}
                     </div>
                   </div>
-
-                  <div className='common-list-body custom-scrollbar'>
-                    <div>
-                      <div
-                        onClick={toggle1}
-                        className='attribute-title cursor-pointer'
-                      >
-                        <span className='align-middle'>
-                          {collapse1 ? (
-                            <i className='fa fa-minus mr-2' />
-                          ) : (
-                            <i className='fa fa-plus mr-2' />
-                          )}
-                        </span>
-
-                        <span className='align-middle'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory
-                            ? attributeData.getCaregiverAtrributeWithCategory[0]
-                                .name
-                            : null}
-                        </span>
-                      </div>
-
-                      <Collapse isOpen={collapse1}>
-                        <ul className='common-list list-unstyled mb-0 text-capitalize pl-3 attribute-list'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory &&
-                          attributeData.getCaregiverAtrributeWithCategory[0]
-                            ? attributeData.getCaregiverAtrributeWithCategory[0].attribute_managements.map(
-                                (list: any, index: number) => {
-                                  return (
-                                    <li key={index}>
-                                      <span className=' checkbox-custom '>
-                                        <input
-                                          type='checkbox'
-                                          id={`positive${list.name}`}
-                                          name={`positive${list.name}`}
-                                          className=''
-                                          checked={
-                                            isPositive.indexOf(list.id) > -1
-                                              ? true
-                                              : false
-                                          }
-                                          onChange={(
-                                            e: React.ChangeEvent<
-                                              HTMLInputElement
-                                            >
-                                          ) =>
-                                            handleCheckPositiveElement(
-                                              e,
-                                              list.id
-                                            )
-                                          }
-                                        />
-                                        <label
-                                          className=''
-                                          htmlFor={`positive${list.name}`}
-                                        >
-                                          {list.name}
-                                        </label>
-                                      </span>
-                                    </li>
-                                  );
-                                }
-                              )
-                            : null}
-                        </ul>
-                      </Collapse>
-                    </div>
-
-                    <div>
-                      <div
-                        onClick={toggle2}
-                        className='attribute-title cursor-pointer'
-                      >
-                        <span className='align-middle'>
-                          {collapse2 ? (
-                            <i className='fa fa-minus mr-2' />
-                          ) : (
-                            <i className='fa fa-plus mr-2' />
-                          )}
-                        </span>
-                        <span className='align-middle'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory
-                            ? attributeData.getCaregiverAtrributeWithCategory[1]
-                                .name
-                            : null}
-                        </span>
-                      </div>
-                      <Collapse isOpen={collapse2}>
-                        <ul className='common-list list-unstyled mb-0 text-capitalize pl-3 attribute-list'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory &&
-                          attributeData.getCaregiverAtrributeWithCategory[1]
-                            ? attributeData.getCaregiverAtrributeWithCategory[1].attribute_managements.map(
-                                (list: any, index: number) => {
-                                  return (
-                                    <li key={index}>
-                                      <span className=' checkbox-custom '>
-                                        <input
-                                          type='checkbox'
-                                          id={`positive${list.name}`}
-                                          name={`positive${list.name}`}
-                                          className=''
-                                          checked={
-                                            isPositive.indexOf(list.id) > -1
-                                              ? true
-                                              : false
-                                          }
-                                          onChange={(
-                                            e: React.ChangeEvent<
-                                              HTMLInputElement
-                                            >
-                                          ) =>
-                                            handleCheckPositiveElement(
-                                              e,
-                                              list.id
-                                            )
-                                          }
-                                        />
-                                        <label
-                                          className=''
-                                          htmlFor={`positive${list.name}`}
-                                        >
-                                          {list.name}
-                                        </label>
-                                      </span>
-                                    </li>
-                                  );
-                                }
-                              )
-                            : null}
-                        </ul>
-                      </Collapse>
-                    </div>
-
-                    <div>
-                      <div
-                        onClick={toggle3}
-                        className='attribute-title cursor-pointer'
-                      >
-                        <span className='align-middle'>
-                          {collapse3 ? (
-                            <i className='fa fa-minus mr-2' />
-                          ) : (
-                            <i className='fa fa-plus mr-2' />
-                          )}
-                        </span>
-
-                        <span className='align-middle'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory
-                            ? attributeData.getCaregiverAtrributeWithCategory[2]
-                                .name
-                            : null}
-                        </span>
-                      </div>
-
-                      <Collapse isOpen={collapse3}>
-                        <ul className='common-list list-unstyled mb-0 text-capitalize pl-3 attribute-list'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory &&
-                          attributeData.getCaregiverAtrributeWithCategory[2]
-                            ? attributeData.getCaregiverAtrributeWithCategory[2].attribute_managements.map(
-                                (list: any, index: number) => {
-                                  return (
-                                    <li key={index}>
-                                      <span className=' checkbox-custom '>
-                                        <input
-                                          type='checkbox'
-                                          id={`positive${list.name}`}
-                                          name={`positive${list.name}`}
-                                          className=''
-                                          checked={
-                                            isPositive.indexOf(list.id) > -1
-                                              ? true
-                                              : false
-                                          }
-                                          onChange={(
-                                            e: React.ChangeEvent<
-                                              HTMLInputElement
-                                            >
-                                          ) =>
-                                            handleCheckPositiveElement(
-                                              e,
-                                              list.id
-                                            )
-                                          }
-                                        />
-                                        <label
-                                          className=''
-                                          htmlFor={`positive${list.name}`}
-                                        >
-                                          {list.name}
-                                        </label>
-                                      </span>
-                                    </li>
-                                  );
-                                }
-                              )
-                            : null}
-                        </ul>
-                      </Collapse>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-
-              <Col md={4}>
-                <div className='common-list-wrap'>
-                  <div className='common-list-header d-flex align-items-cente justify-content-between'>
-                    <div className='common-list-title align-middle'>
-                      {languageTranslation('NEGATIVE_ATTRIBUTE')}
-                    </div>
-                    <div>
-                      <UncontrolledDropdown className='custom-dropdown'>
-                        <DropdownToggle
-                          className={'text-capitalize btn-more'}
-                          size='sm'
-                        >
-                          <i className='icon-options-vertical' />
-                        </DropdownToggle>
-                        <DropdownMenu right>
-                          <DropdownItem
-                            className={
-                              (isNegative && isNegative.length) ||
-                              (isPositive && isPositive.length)
-                                ? ''
-                                : 'disabled-class'
-                            }
-                            onClick={() => {
-                              if (
-                                (isNegative && isNegative.length) ||
-                                (isPositive && isPositive.length)
-                              ) {
-                                setShowPreset(true);
-                                onAddingPreset(isPositive, isNegative);
-                              } else {
-                                setShowPreset(false);
-                              }
-                            }}
-                          >
-                            <i className='fa fa-plus mr-2' />
-                            {languageTranslation('ADD_PRESET')}
-                          </DropdownItem>
-                          <DropdownItem
-                            onClick={() => handleCheckAllElements('negative')}
-                          >
-                            <i className='fa fa-check-square mr-2' />
-                            {languageTranslation('SELECT_ALL')}
-                          </DropdownItem>
-                          <DropdownItem onClick={() => setIsNegative([])}>
-                            <i className='fa fa-square-o mr-2' />
-                            {languageTranslation('UNSELECT')}
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </div>
-                  </div>
-
-                  <div className='common-list-body custom-scrollbar'>
-                    <div>
-                      <div
-                        onClick={toggle4}
-                        className='attribute-title cursor-pointer'
-                      >
-                        <span className='align-middle'>
-                          {collapse4 ? (
-                            <i className='fa fa-minus mr-2' />
-                          ) : (
-                            <i className='fa fa-plus mr-2' />
-                          )}
-                        </span>
-                        <span className='align-middle'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory
-                            ? attributeData.getCaregiverAtrributeWithCategory[0]
-                                .name
-                            : null}
-                        </span>
-                      </div>
-                      <Collapse isOpen={collapse4}>
-                        <ul className='common-list list-unstyled mb-0 text-capitalize pl-3 attribute-list'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory &&
-                          attributeData.getCaregiverAtrributeWithCategory[0]
-                            ? attributeData.getCaregiverAtrributeWithCategory[0].attribute_managements.map(
-                                (list: any, index: number) => {
-                                  return (
-                                    <li key={index}>
-                                      <span className=' checkbox-custom '>
-                                        <input
-                                          type='checkbox'
-                                          id={`negative${list.name}`}
-                                          name={`negative${list.name}`}
-                                          className=''
-                                          checked={
-                                            isNegative.indexOf(list.id) > -1
-                                              ? true
-                                              : false
-                                          }
-                                          onChange={(
-                                            e: React.ChangeEvent<
-                                              HTMLInputElement
-                                            >
-                                          ) =>
-                                            handleCheckNegativeElement(
-                                              e,
-                                              list.id
-                                            )
-                                          }
-                                        />
-                                        <label
-                                          className=''
-                                          htmlFor={`negative${list.name}`}
-                                        >
-                                          {list.name}
-                                        </label>
-                                      </span>
-                                    </li>
-                                  );
-                                }
-                              )
-                            : null}
-                        </ul>
-                      </Collapse>
-                    </div>
-                    <div>
-                      <div
-                        onClick={toggle5}
-                        className='attribute-title cursor-pointer'
-                      >
-                        <span className='align-middle'>
-                          {collapse5 ? (
-                            <i className='fa fa-minus mr-2' />
-                          ) : (
-                            <i className='fa fa-plus mr-2' />
-                          )}
-                        </span>
-                        <span className='align-middle'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory
-                            ? attributeData.getCaregiverAtrributeWithCategory[1]
-                                .name
-                            : null}
-                        </span>
-                      </div>
-                      <Collapse isOpen={collapse5}>
-                        <ul className='common-list list-unstyled mb-0 pl-3 text-capitalize attribute-list'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory &&
-                          attributeData.getCaregiverAtrributeWithCategory[1]
-                            ? attributeData.getCaregiverAtrributeWithCategory[1].attribute_managements.map(
-                                (list: any, index: number) => {
-                                  return (
-                                    <li key={index}>
-                                      <span className=' checkbox-custom '>
-                                        <input
-                                          type='checkbox'
-                                          id={`negative${list.name}`}
-                                          name={`negative${list.name}`}
-                                          className=''
-                                          checked={
-                                            isNegative.indexOf(list.id) > -1
-                                              ? true
-                                              : false
-                                          }
-                                          onChange={(
-                                            e: React.ChangeEvent<
-                                              HTMLInputElement
-                                            >
-                                          ) =>
-                                            handleCheckNegativeElement(
-                                              e,
-                                              list.id
-                                            )
-                                          }
-                                        />
-                                        <label
-                                          className=''
-                                          htmlFor={`negative${list.name}`}
-                                        >
-                                          {list.name}
-                                        </label>
-                                      </span>
-                                    </li>
-                                  );
-                                }
-                              )
-                            : null}
-                        </ul>
-                      </Collapse>
-                    </div>
-                    <div>
-                      <div
-                        onClick={toggle6}
-                        className='attribute-title cursor-pointer'
-                      >
-                        <span className='align-middle'>
-                          {collapse6 ? (
-                            <i className='fa fa-minus mr-2' />
-                          ) : (
-                            <i className='fa fa-plus mr-2' />
-                          )}
-                        </span>
-
-                        <span className='align-middle'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory
-                            ? attributeData.getCaregiverAtrributeWithCategory[2]
-                                .name
-                            : null}
-                        </span>
-                      </div>
-
-                      <Collapse isOpen={collapse6}>
-                        <ul className='common-list list-unstyled mb-0 text-capitalize pl-3 attribute-list'>
-                          {attributeData &&
-                          attributeData.getCaregiverAtrributeWithCategory &&
-                          attributeData.getCaregiverAtrributeWithCategory[2]
-                            ? attributeData.getCaregiverAtrributeWithCategory[2].attribute_managements.map(
-                                (list: any, index: number) => {
-                                  return (
-                                    <li key={index}>
-                                      <span className=' checkbox-custom '>
-                                        <input
-                                          type='checkbox'
-                                          id={`negative${list.name}`}
-                                          name={`negative${list.name}`}
-                                          className=''
-                                          checked={
-                                            isNegative.indexOf(list.id) > -1
-                                              ? true
-                                              : false
-                                          }
-                                          onChange={(
-                                            e: React.ChangeEvent<
-                                              HTMLInputElement
-                                            >
-                                          ) =>
-                                            handleCheckNegativeElement(
-                                              e,
-                                              list.id
-                                            )
-                                          }
-                                        />
-                                        <label
-                                          className=''
-                                          htmlFor={`negative${list.name}`}
-                                        >
-                                          {list.name}
-                                        </label>
-                                      </span>
-                                    </li>
-                                  );
-                                }
-                              )
-                            : null}
-                        </ul>
-                      </Collapse>
-                    </div>
-                  </div>
-                </div>
-              </Col>
+                </Col>)}
             </Row>
           </div>
         </ModalBody>

@@ -26,7 +26,12 @@ import {
   ICareinstitutionFormValue,
   IReactSelectInterface
 } from '../../../../../interfaces';
-import { ShiftTime, TimeMask, appointmentDayFormat, defaultDateFormat } from '../../../../../config';
+import {
+  ShiftTime,
+  TimeMask,
+  appointmentDayFormat,
+  defaultDateFormat
+} from '../../../../../config';
 import '../index.scss';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
@@ -320,8 +325,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                     <div className='d-flex align-items-center justify-content-between flex-wrap'>
                       <div className='required-input clockshift-input'>
                         <InputGroup className='flex-nowrap'>
-                          <Field
-                            name={'startTime'}>
+                          <Field name={'startTime'}>
                             {({ field }: any) => (
                               <MaskedInput
                                 {...field}
@@ -396,19 +400,19 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         <Field name={'endTime'}>
                           {({ field }: any) => (
                             <MaskedInput
-                            {...field}
-                            mask={TimeMask}
-                            className={
-                              errors.endTime && touched.endTime
-                                ? 'fee-width form-control error'
-                                : 'fee-width form-control'
-                            }
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={endTime ? endTime : ''}
-                          />
+                              {...field}
+                              mask={TimeMask}
+                              className={
+                                errors.endTime && touched.endTime
+                                  ? 'fee-width form-control error'
+                                  : 'fee-width form-control'
+                              }
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={endTime ? endTime : ''}
+                            />
                           )}
-                          </Field>
+                        </Field>
                         {errors.endTime ? (
                           errors.endTime &&
                           touched.endTime && (
@@ -643,6 +647,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         value={
                           departmentOfferRemarks ? departmentOfferRemarks : ''
                         }
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -671,6 +676,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             ? departmentBookingRemarks
                             : ''
                         }
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -697,6 +703,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         name='departmentRemarks'
                         id='exampleText'
                         value={departmentRemarks ? departmentRemarks : ''}
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -757,6 +764,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         value={offerRemarks ? offerRemarks : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -782,6 +790,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         value={bookingRemarks ? bookingRemarks : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -806,6 +815,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         id='exampleText'
                         value={comments ? comments : ''}
                         onChange={handleChange}
+                        maxLength={255}
                         onBlur={handleBlur}
                       />
                     </div>

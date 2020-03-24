@@ -1351,8 +1351,8 @@ html:not([dir="rtl"]) {
       bottom: 0px;
     }
     .required-checkbox-error {
-      color: #ff2e4b;
-      font-size: 11px;
+      color: $red;
+      font-size: $font_11;
       position: absolute;
       bottom: -6px;
     }
@@ -4015,7 +4015,7 @@ html:not([dir="rtl"]) {
   margin-bottom: 15px;
   padding: 10px;
   position: relative;
-  background-color: #fff;
+  background-color: $white;
   a.remove-icon {
     position: absolute;
     top: -10px;
@@ -4023,14 +4023,14 @@ html:not([dir="rtl"]) {
     width: 25px;
     height: 25px;
     cursor: pointer;
-    background: #000;
+    background: $black;
     display: flex;
-    color: #fff;
+    color: $white;
     justify-content: center;
     align-items: center;
     border-radius: 50px;
     &:hover {
-      color: #fff;
+      color: $white;
     }
   }
 }
@@ -4061,13 +4061,13 @@ html:not([dir="rtl"]) {
   td {
     padding: 5px 10px;
     border: 1px solid #f7f3f3;
-    background: #fff;
+    background: $white;
     vertical-align: top;
     &.leave-applicable {
       background-color: #22a226cc;
     }
     .holiday-text-wrap {
-      width: 215px;
+      width: 250px;
     }
     .action-btn {
       position: absolute;
@@ -4090,7 +4090,7 @@ html:not([dir="rtl"]) {
   thead {
     th {
       background: #ccc;
-      color: #000;
+      color: $black;
       position: -webkit-sticky;
       position: sticky;
       top: 0;
@@ -4117,8 +4117,28 @@ html:not([dir="rtl"]) {
     position: sticky;
     bottom: 0;
     background: #666;
-    color: #fff;
+    color: $white;
     z-index: 4;
     min-width: 200px;
+  }
+}
+.header-input-wrap{
+  &.form-control {
+    width: 115px;
+    border-radius: 0px;
+    color: $light_black;
+    font-size: $font_12;
+    height: 25px;
+    border-color: $light_gray;
+    padding: 0px 8px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    font-family: $font_Frutiger_Regular;
+    &:focus {
+      box-shadow: none;
+      outline: none;
+      border-color: $theme_color;
+    }
   }
 }

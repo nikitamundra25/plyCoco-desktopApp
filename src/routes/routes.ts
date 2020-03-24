@@ -395,12 +395,12 @@ const routes = [
     component: InvoiceSolona,
     exact: true
   },
-  {
-    path: AppRoutes.DROWINVOICE,
-    name: "DrowInvoice",
-    component: DrowInvoice,
-    exact: true
-  },
+  // {
+  //   path: AppRoutes.DROWINVOICE,
+  //   name: "DrowInvoice",
+  //   component: DrowInvoice,
+  //   exact: true
+  // },
   {
     path: AppRoutes.CREATEINVOICES,
     name: "CreateInvoices",

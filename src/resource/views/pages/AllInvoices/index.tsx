@@ -14,12 +14,9 @@ import {
   Nav
 } from "reactstrap";
 import Select from "react-select";
-import logger from "redux-logger";
+
 import { languageTranslation } from "../../../../helpers";
-import Search from "../../components/SearchFilter/index";
-import { State } from "../../../../config";
-import close from "../../../assets/img/cancel.svg";
-import closehover from "../../../assets/img/cancel-hover.svg";
+
 import refresh from "../../../assets/img/refresh.svg";
 import PlyCocoreceipt from "../../../assets/img/header-icons/plyCoco-receipt.svg";
 import SpecialistInvoice from "../../../assets/img/header-icons/specialist-invoice.svg";
@@ -30,10 +27,7 @@ import Again from "../../../assets/img/header-icons/again.svg";
 import appendToPlycoco from "../../../assets/img/header-icons/tab-icons/append-to-plycoco.svg";
 import attachReminder from "../../../assets/img/header-icons/tab-icons/attach-reminder.svg";
 import AttachSpeacilistInvoice from "../../../assets/img/header-icons/tab-icons/attach-speacilist-invoice.svg";
-import clear from "../../../assets/img/header-icons/tab-icons/clear.svg";
 
-import edit from "../../../assets/img/header-icons/tab-icons/edit.svg";
-import paperclip from "../../../assets/img/header-icons/tab-icons/paperclip.svg";
 import sendLawyer from "../../../assets/img/header-icons/tab-icons/send-lawyer.svg";
 import sendReminder from "../../../assets/img/header-icons/tab-icons/send-reminder.svg";
 import showReminder from "../../../assets/img/header-icons/tab-icons/show-reminder.svg";
@@ -41,15 +35,9 @@ import taxConsultant from "../../../assets/img/header-icons/tab-icons/tax-consul
 import uploadReminder from "../../../assets/img/header-icons/tab-icons/upload-reminder.svg";
 import vicantPosition from "../../../assets/img/header-icons/tab-icons/vicant-position.svg";
 import createReminder from "../../../assets/img/header-icons/tab-icons/create-reminder.svg";
-import { FormikHelpers, FormikProps, Formik } from "formik";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
-import {
-  TODO_PAGE_LIMIT,
-  AppRoutes,
-  StatusOptions,
-  SortOptions
-} from "../../../../config";
+import { StatusOptions, SortOptions } from "../../../../config";
 
 import "./index.scss";
 import filter from "../../../assets/img/filter.svg";

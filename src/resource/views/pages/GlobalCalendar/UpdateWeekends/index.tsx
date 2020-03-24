@@ -11,6 +11,7 @@ import UpdateWeekendForm from "./UpdateWeekendForm";
 import { languageTranslation, errorFormatter } from "../../../../../helpers";
 import { UpdateWeekendFormValidation } from "../../../../validations";
 import { GlobalCalendarMutations } from "../../../../../graphql/Mutations";
+import { CardBody } from 'reactstrap';
 import { useMutation } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 const UpdateWeekends: FunctionComponent<IUpdateWeekendProps> = ({
@@ -60,6 +61,7 @@ const UpdateWeekends: FunctionComponent<IUpdateWeekendProps> = ({
   };
   // return form
   return (
+    <CardBody>
     <Formik
       key={"update-weekends"}
       initialValues={defaultValues}
@@ -98,6 +100,7 @@ const UpdateWeekends: FunctionComponent<IUpdateWeekendProps> = ({
         );
       }}
     </Formik>
+    </CardBody>
   );
 };
 

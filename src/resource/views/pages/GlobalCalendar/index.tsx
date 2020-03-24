@@ -108,7 +108,8 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
           </Button>
         </div>
       </CardHeader>
-      <CardBody>
+      
+   
         <CalendarView
           isLoading={isLoading}
           states={states}
@@ -141,7 +142,7 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
           states={states}
           refresh={refreshList}
         />
-      </CardBody>
+  
     </Card>
   );
 };

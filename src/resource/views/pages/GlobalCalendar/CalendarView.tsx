@@ -38,7 +38,9 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
   const [
     getGlobalHolidays,
     { data: holidays, loading, refetch, called }
-  ] = useLazyQuery<any>(GET_GLOBAL_HOLIDAYS);
+  ] = useLazyQuery<any>(GET_GLOBAL_HOLIDAYS, {
+    notifyOnNetworkStatusChange: true,
+  });
   const [deleteGlobalCalendarHoliday] = useMutation<
     { deleteGlobalCalendarHoliday: any },
     { id: number }

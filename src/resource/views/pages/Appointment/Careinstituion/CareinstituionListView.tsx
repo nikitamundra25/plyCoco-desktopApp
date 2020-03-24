@@ -535,8 +535,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       }
     });
   }
-  console.log(selectedCellsCareinstitution,'selectedCellsCareinstitution');
-  
+    
   return (
     <>
       <div

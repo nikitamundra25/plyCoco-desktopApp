@@ -102,10 +102,10 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
         </ModalHeader>
         <ModalBody>
           <div
-            className='d-flex align-items-center mb-2'
+            className="d-flex align-items-center mb-2 " 
             onClick={onApplyingFilter}
           >
-            <div className='custom-header-nav-item mr-3'>
+            <div className={isPositive && isPositive.length || isNegative && isNegative.length ? 'custom-header-nav-item mr-3': 'custom-header-nav-item mr-3 disabled-class'}>
               <span className='custom-header-nav-icon'>
                 <img src={filter} alt='' />
               </span>

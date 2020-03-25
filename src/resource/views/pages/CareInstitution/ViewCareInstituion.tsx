@@ -340,7 +340,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                       onClick={() =>
                         history.push({
                           pathname: AppRoutes.APPOINTMENT,
-                          state: { canstitution: Id }
+                          state: { canstitution: Id , name: selectUser.label }
                         })
                       }
                     >

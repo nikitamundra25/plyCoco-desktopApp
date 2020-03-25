@@ -263,7 +263,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       onClick={() =>
                         history.push({
                           pathname: AppRoutes.APPOINTMENT,
-                          state: { caregiver: Id }
+                          state: { caregiver: Id , name: selectUser.label }
                         })
                       }
                     >

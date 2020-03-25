@@ -35,7 +35,7 @@ import './index.scss';
 import { useHistory } from 'react-router';
 import { AppRoutes, client } from '../../../../config';
 import moment from 'moment';
-import LeasingContractPDF from './PDF/LeasingContractPDF';
+import LeasingContractPDF from './PDF';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -1179,8 +1179,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
-                {/* <LeasingContractPDF /> */}
-                <CareGiverListComponent
+                <LeasingContractPDF />
+                {/* <CareGiverListComponent
                   offerRequirements={offerRequirements}
                   careGivers={
                     props.label !== 'appointment' ? careGivers : careGiversList
@@ -1215,7 +1215,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   uploadDocument={uploadDocument}
                   onDelteDocument={onDelteDocument}
                   isSubmit={isSubmit}
-                />
+                /> */}
               </Row>
             </div>
           </div>

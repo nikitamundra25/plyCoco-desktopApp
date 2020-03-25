@@ -134,6 +134,7 @@ const CareInstitutionContacts: any = (props: any) => {
     let newContacts = contacts;
     const ResctData: any = {
       email: '',
+      gender: '',
       firstName: '',
       lastName: '',
       userName: '',
@@ -348,6 +349,7 @@ const CareInstitutionContacts: any = (props: any) => {
     stateId = undefined,
     countryId = undefined,
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
+
   let countryData: Number;
   countryData = countryId ? countryId : '';
   let userSelectedCountry: IReactSelectInterface | undefined = undefined;
@@ -431,6 +433,7 @@ const CareInstitutionContacts: any = (props: any) => {
     remark,
     attributeId: attributes,
   };
+console.log("gender",gender);
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({

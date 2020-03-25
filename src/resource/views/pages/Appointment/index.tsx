@@ -1065,9 +1065,9 @@ const Appointment: FunctionComponent = (props: any) => {
           await appointmentDataSort('careinstitution', result, appointId);
         }
       }
-      // selectedCells = 
-      // selectedCellsData
-    // setSelectedCellsCount(11)
+      selectedCells = 
+      selectedCellsData
+    setSelectedCellsCount(count++)
 
       console.log(selectedCells,'selectedCells');
             // setSelectedCells(selectedCellsData);

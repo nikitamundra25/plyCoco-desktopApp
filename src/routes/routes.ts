@@ -64,9 +64,6 @@ const DrowInvoice = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/DrowInvoice")
 );
 
-const openpdf = React.lazy(() =>
-  import("../resource/views/pages/BulkEmailCaregiver/PDF")
-);
 const PaySlipForm = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/PaySlipForm")
 );
@@ -436,14 +433,8 @@ const routes = [
     name: "HealthInsuranceForm",
     component: HealthInsuranceForm,
     exact: true
-  },
-  {
-    path: AppRoutes.OPENPDF,
-    name: "openpdf",
-    component: openpdf,
-    exact: true
-  },
-  
+  }
+
 ];
 
 export default routes;

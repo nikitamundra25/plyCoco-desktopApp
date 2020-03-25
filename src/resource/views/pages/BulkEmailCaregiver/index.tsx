@@ -18,7 +18,7 @@ import {
   CareInstitutionQueries,
   SignatureQueries
 } from '../../../../graphql/queries';
-import { BulkEmailCareGivers, DocumentMutations } from '../../../../graphql/Mutations';
+import { BulkEmailCareGivers, DocumentMutations, LeasingContractMutations } from '../../../../graphql/Mutations';
 import {
   IReactSelectInterface,
   IEmailTemplateData,
@@ -37,7 +37,7 @@ import { useHistory } from 'react-router';
 import { AppRoutes, client } from '../../../../config';
 import moment from 'moment';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import MyDocument from './PDF/MyDocument';
+import MyDocument from './PDF';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -54,6 +54,7 @@ const [
 const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
 const [ADD_DOCUMENT] = DocumentMutations;
 const [GET_CARE_GIVER_SIGNATURE] = SignatureQueries;
+const [UPDATE_LEASING_CONTRACT_STATUS] = LeasingContractMutations;
 
 let toastId: any = null;
 
@@ -67,7 +68,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     terminateAggrement
   } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
-  const [signatureData, setSignatureData] = useState<any>({});
+  const [signatureData, setSignatureData] = useState<any>();
+  const [pdfAppointmentDetails, setPdfAppointmentDetails] = useState<any>([]);
 
   const history = useHistory();
 
@@ -101,6 +103,17 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   const [getCareGiverSignature, { data: uploadedSignature }] = useLazyQuery<
     any
   >(GET_CARE_GIVER_SIGNATURE);
+
+  // Mutation to leasing document
+  const [UpdateLeasingContractStatus] = useMutation<
+    { UpdateLeasingContractStatus: any },
+    {
+      appointmentId: any,
+      availablityId: any,
+      requirementId: any,
+      status: string
+    }
+  >(UPDATE_LEASING_CONTRACT_STATUS);
 
   // To fetch caregivers by qualification id
   const [
@@ -159,8 +172,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [uploadedSignature]);
-
-  console.log('signatureData ', signatureData);
 
   // To fetch users according to qualification selected
   useEffect(() => {
@@ -866,8 +877,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         (getQualificationMatching && getQualificationMatching.length) && leasingContract
       ) {
 
-        console.log('leasing..........');
-
         let qualificationArray: any = [];
         let qualificationString: string = '';
         let divisionArray: any = [];
@@ -926,8 +935,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
 
         let divRow: string = '';
+        let pdfDivData: any = [];
         divisionArray.map((v: any, i: number) => {
           if (v.id) {
+            let pdfDivRow: string = '';
             divRow += `<p>${v.date +
               ' ' + v.shiftLabel +
               ', Place of work: ' + (v.division ? v.division : ' - ') +
@@ -935,11 +946,22 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               ', job: ' + qualificationString
               }
               </p>`;
+
+            pdfDivRow += `${v.date +
+              ' ' + v.shiftLabel +
+              ', Place of work: ' + (v.division ? v.division : ' - ') +
+              ', ' + v.address +
+              ', job: ' + qualificationString
+              }`;
+
+            pdfDivData.push(pdfDivRow);
           }
         });
 
+        setPdfAppointmentDetails(pdfDivData);
+
         let mailBody = `<p>${languageTranslation('CAREGIVER_EMAIL_LEASING_CONTRACT')}</p></br>${divRow}</br>
-        <p>Please use the following link: <a href='https://www.plycoco.de/de/terminannehmen/befristeterarbeitsvertrag/BxmhddGGRoiwc4fwyEfluR1KS4QWsSkMirRwogkd37WlrtZQzlkrWpmZtn76bpCU36CMsoominj'cMMoqo_minc'36 temporary employment contract / BxmhddGGRoiwc4fwyEfluR1KS4QWsSkMirRwogkd37WlrtZQzlkrWpmZtn76bpCU36CMso6n7zc5eoVzjMOqBA'/> https://www.plycoco.de/de/terminannehmen/befristeterarbeitsvertrag/BxmhddGGRoiwc4fwyEfluR1KS4QWsSkMirRwogkd37WlrtZQzlkrWpmZtn76bpCU36CMsoominj'cMMoqo_minc'36 temporary employment contract / BxmhddGGRoiwc4fwyEfluR1KS4QWsSkMirRwogkd37WlrtZQzlkrWpmZtn76bpCU36CMso6n7zc5eoVzjMOqBA </a>
+        <p>Please use the following link: <a href="http://78.47.143.190:8000/leasing-contract"/> http://78.47.143.190:8000/leasing-contract </a>
         </p>`;
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
@@ -1084,20 +1106,28 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     e.preventDefault();
 
     if (leasingContract) {
-      console.log('pdfData ', pdfData);
       let userId = '';
       let appointmentId = '';
+      let requirementId = '';
+      let avabilityId = '';
       if (selectedCells && selectedCells.length > 0) {
         userId = selectedCells[0].id;
       }
       if (selectedCellsCareinstitution && selectedCellsCareinstitution.length > 0) {
-        let appointments = selectedCellsCareinstitution[0].item.appointments;
-        if (appointments.length > 0) {
-          appointmentId = appointments[0].id;
+        if (selectedCellsCareinstitution[0].item && selectedCellsCareinstitution[0].item.appointments) {
+          let appointments = selectedCellsCareinstitution[0].item.appointments;
+          if (appointments.length > 0) {
+            appointmentId = appointments[0].id;
+            requirementId = appointments[0].requirementId;
+            avabilityId = appointments[0].avabilityId;
+          }
         }
       }
 
+      console.log('pdfData ', pdfData);
+
       if (pdfData) {
+
         let documentInput: any = {
           appointmentId: parseInt(appointmentId),
           userId: parseInt(userId),
@@ -1112,10 +1142,15 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
 
-        if (!toast.isActive(toastId)) {
-          toast.dismiss();
-          toast.success(languageTranslation("DOCUMENT_UPLOAD_SUCCESS"));
-        }
+        await UpdateLeasingContractStatus({
+          variables: {
+            appointmentId: parseInt(appointmentId),
+            availablityId: parseInt(requirementId),
+            requirementId: parseInt(avabilityId),
+            status: 'contractInitiated'
+          }
+        });
+
       }
     }
 
@@ -1261,12 +1296,17 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
-                {leasingContract ?
+                {pdfAppointmentDetails.length > 0 && signatureData ?
                   <PDFDownloadLink
-                    document={<MyDocument />}
+                    document={
+                      <MyDocument
+                        signatureData={signatureData}
+                        pdfAppointmentDetails={pdfAppointmentDetails}
+                      />
+                    }
                     fileName="test.pdf">
-                    {({ blob, loading }: any) =>
-                      (!loading && !pdfData ? setPdfData(blob) : null)
+                    {({ blob, url, loading, error }: any) =>
+                      (!loading ? setPdfData(blob) : null)
                     }
                   </PDFDownloadLink>
                   : null}

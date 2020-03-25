@@ -129,9 +129,20 @@
     max-height: 400px;
   }
   user-select: none;
-  .table-loader {
-    position: static;
+  &.caregiver-appointment-list{
+    .table-loader {
+      position: static;
+      height: calc(50vh - 124px);
+    }
   }
+  &.careinstitution-appointment-list{
+    .table-loader {
+      position: static;
+      height: calc(50vh - 132px);
+    }
+  }
+  
+  
   &.custom-scrollbar {
     &::-webkit-scrollbar {
       width: 7px;

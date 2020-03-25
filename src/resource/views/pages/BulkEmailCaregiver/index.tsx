@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Row, Button } from 'reactstrap';
+import { Row, Button, Col } from 'reactstrap';
 import { convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { toast } from 'react-toastify';
@@ -1179,7 +1179,12 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
-                <LeasingContractPDF />
+                <Col lg="12">
+                  <div className="pdf-section">
+                  <LeasingContractPDF />
+                  </div>
+               
+                </Col>
                 {/* <CareGiverListComponent
                   offerRequirements={offerRequirements}
                   careGivers={

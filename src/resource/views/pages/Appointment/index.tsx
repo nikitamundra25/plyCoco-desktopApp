@@ -1007,7 +1007,7 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleSelectUserList = (data: any, name: string) => {
     if (name === 'caregiver') {
       setcaregiversList(data);
-    } else {
+    } else if(name === 'careinstitution') {
       setcareinstitutionList(data);
     }
   };
@@ -3314,7 +3314,6 @@ const Appointment: FunctionComponent = (props: any) => {
             handleDayClick={handleDayClick}
             handleToday={handleToday}
             qualification={qualification}
-            handleSelectUserList={handleSelectUserList}
             careGiversListArr={
               careGiversList && careGiversList.getUserByQualifications
                 ? careGiversList && careGiversList.getUserByQualifications

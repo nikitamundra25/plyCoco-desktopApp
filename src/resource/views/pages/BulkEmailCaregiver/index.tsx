@@ -669,15 +669,18 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             }
           });
         }
-        console.log("apointedCareGiver", apointedCareGiver);
-
-        const bodyData: any = `<span>Please send your fee contract to the institution immediately.</br></br>You can also use the corresponding function on the website.</br></br>Please call the institution about 2 days before the start of the service to make sure you are coming.</span>`;
+        let divRow: string = "";
+        if(apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0]){
+          divRow=  `<span><b>${moment(apointedCareGiver[0].date).format(
+            "DD/MM"
+          )}${" "}${" "}${apointedCareGiver[0].division}</b></span></br>`;
+        }
+        const bodyData: any = `<span>${divRow}</br>Please send your fee contract to the institution immediately.</br></br>You can also use the corresponding function on the website.</br></br>Please call the institution about 2 days before the start of the service to make sure you are coming.</span>`;
         const editorState = bodyData ? HtmlToDraftConverter(bodyData) : "";
         setSubject("Appointment confirmation");
         setBody(editorState);
       }
       if (props.unlinkedBy) {
-        console.log("unlinkedByunlinkedBy", props.unlinkedBy);
         if (props.unlinkedBy === "canstitution") {
           let apointedCareGiver: any[] = [];
           if (

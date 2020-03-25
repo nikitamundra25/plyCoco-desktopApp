@@ -336,19 +336,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     });
   }
-  let checkAttribute: any = [];
-  if (selectedCells && selectedCells.length) {
-    checkAttribute = selectedCells.filter((x: any) => {
-      if (x && x.caregiver && x.caregiver.attributes) {
-        console.log('xxxxxxxx', x);
-        return x.caregiver.attributes && x.caregiver.attributes.length
-          ? x.caregiver.attributes.includes('101')
-          : '';
-      } else {
-        return ['abc'];
-      }
-    });
-  }
   let sortedQualificationList: any = [];
   if (selectedCells && selectedCells.length) {
     selectedCells.map((list: any, index: number) => {

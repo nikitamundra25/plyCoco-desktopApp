@@ -50,9 +50,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     isNegative,
     setIsNegative
   } = props;
-
-  console.log('daysData', daysData);
-
   const { month = '', year = '' } = daysData ? daysData : {};
 
   const [attributeSearch, setShowAttribute] = useState<boolean>(false);
@@ -115,16 +112,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   const handleAllResetFilters = () => {
     handleResetFilters();
   };
-
-  console.log(
-    'pppppp',
-    parseInt(
-      moment()
-        .month(month)
-        .format('M')
-    )
-  );
-
   return (
     <>
       <div className='sticky-common-header'>

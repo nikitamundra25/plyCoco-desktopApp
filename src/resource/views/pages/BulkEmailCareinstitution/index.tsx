@@ -59,7 +59,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     userData = client.readQuery({
       query: VIEW_PROFILE
     });
-  } catch (error) {}
+  } catch (error) { }
 
   const { viewAdminProfile }: any = userData ? userData : {};
   const { firstName = '', lastName = '', id = '' } = viewAdminProfile
@@ -300,7 +300,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 }
                 let divRow: string = '';
                 if (props.sortBy === 'day') {
-                  apointedCareGiver = apointedCareGiver.sort(function(
+                  apointedCareGiver = apointedCareGiver.sort(function (
                     a: any,
                     b: any
                   ) {
@@ -314,7 +314,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     'DD/MM'
                   )}${' '}${' '}${data.division}:${' '}${' '}${
                     data.caregivername
-                  }</b></span></br>`;
+                    }</b></span></br>`;
                 });
                 const bodyData: any = `<span>We are able to fill your request as follows:-</br></br>${divRow}</br>Please note that each independent caregiver has their own fee. We ask for a short-term confirmation.</span>`;
                 const editorState = bodyData
@@ -366,7 +366,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 }
                 let divRow: string = '';
                 if (props.sortBy === 'day') {
-                  apointedCareGiver = apointedCareGiver.sort(function(
+                  apointedCareGiver = apointedCareGiver.sort(function (
                     a: any,
                     b: any
                   ) {
@@ -380,7 +380,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     'DD/MM'
                   )}${' '}${' '}${data.division}:${' '}${' '}${
                     data.caregivername
-                  }</b></span></br>`;
+                    }</b></span></br>`;
                 });
                 const bodyData: any = `<span>Appointment confirmation:-</br></br>${divRow}</br>Please note that each self-employed caregiver and assistant has their own fee. The caregiver is informed to contact you by phone before the assignment..</span><br />${
                   isLeasing
@@ -437,7 +437,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     'DD/MM'
                   )}${' '}${' '}${data.division}:${' '}${' '}${
                     data.caregivername
-                  }</b></span></br>`;
+                    }</b></span></br>`;
                 });
                 const bodyData: any = `<span>We have informed the specialists of your cancellation for the following dates:-</br></br>${divRow}</span>`;
                 const editorState = bodyData
@@ -490,7 +490,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     'DD/MM'
                   )}${' '}${' '}${data.division}:${' '}${' '}${
                     data.caregivername
-                  }</b></span></br>`;
+                    }</b></span></br>`;
                 });
                 const bodyData: any = `<span>The specialist has unfortunately canceled the following dates:-</br></br>${divRow}</span></br>We will immediately look for a replacement and contact you as soon as possible.`;
                 const editorState = bodyData
@@ -520,13 +520,13 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
               setAttachments(
                 attachments
                   ? attachments.map(
-                      ({ name, id, path, size }: INewEmailAttachments) => ({
-                        fileName: name,
-                        id,
-                        path,
-                        size
-                      })
-                    )
+                    ({ name, id, path, size }: INewEmailAttachments) => ({
+                      fileName: name,
+                      id,
+                      path,
+                      size
+                    })
+                  )
                   : []
               );
 
@@ -644,8 +644,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             files:
               attachments && attachments.length
                 ? attachments
-                    .map((item: IEmailAttachmentData) => item.file)
-                    .filter((file: File | null) => file)
+                  .map((item: IEmailAttachmentData) => item.file)
+                  .filter((file: File | null) => file)
                 : null,
             canstitution: careGiverIdList,
             senderUserId: id ? parseInt(id) : null
@@ -714,13 +714,13 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       setAttachments(
         attachments
           ? attachments.map(
-              ({ name, id, path, size }: INewEmailAttachments) => ({
-                fileName: name,
-                id,
-                path,
-                size
-              })
-            )
+            ({ name, id, path, size }: INewEmailAttachments) => ({
+              fileName: name,
+              id,
+              path,
+              size
+            })
+          )
           : []
       );
     }
@@ -790,11 +790,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   {bulkEmailLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
-                    <i
-                      className='fa fa-paper-plane mr-2'
-                      aria-hidden='true'
-                    ></i>
-                  )}
+                      <i
+                        className='fa fa-paper-plane mr-2'
+                        aria-hidden='true'
+                      ></i>
+                    )}
                   <span>{languageTranslation('SEND')}</span>
                 </Button>
               </div>

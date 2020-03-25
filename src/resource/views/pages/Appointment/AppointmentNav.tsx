@@ -86,7 +86,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     handleResetFilters();
   };
 
- 
+
   let setMonthForDays: any = new Date(
     parseInt(year),
     parseInt(

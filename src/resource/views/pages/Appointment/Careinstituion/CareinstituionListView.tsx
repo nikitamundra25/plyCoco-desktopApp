@@ -536,6 +536,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       }
     });
   }
+    
   return (
     <>
       <div

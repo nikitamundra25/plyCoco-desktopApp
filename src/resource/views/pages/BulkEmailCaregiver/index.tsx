@@ -109,7 +109,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   //Get requirment list data for qualificationid
   useEffect(() => {
-    // console.log('requirmentList', requirmentList);
   }, [requirmentList]);
 
   //Get Data for selected cell
@@ -247,7 +246,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         setcareGiverData(list);
       }
     } else if (selectedCells && terminateAggrement) {
-      if (selectedCells && selectedCells.length) {
+          if (selectedCells && selectedCells.length) {
         selectedCells.map((key: any) => {
           if (list && list.length) {
             if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
@@ -801,7 +800,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       requirement && requirement.division
                         ? requirement.division.name
                         : requirement.name
-                      }</p>`;
+                    }</p>`;
                   }
                 });
             }

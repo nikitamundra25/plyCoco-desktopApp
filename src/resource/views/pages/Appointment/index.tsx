@@ -593,10 +593,10 @@ const Appointment: FunctionComponent = (props: any) => {
           item: {
             ...item,
             // appointmentId: id ? id : '',
-            id: id ? id : '',
-            status
-          }
-        }
+            id: Id ? Id : '',
+            status,
+          },
+        },
       ];
 
       setSelectedCells(caregiverdata);
@@ -637,11 +637,11 @@ const Appointment: FunctionComponent = (props: any) => {
           dateString,
           item: {
             ...item,
-            appointmentId: id ? id : '',
-            id: id ? id : '',
-            status
-          }
-        }
+            appointmentId: Id ? Id : '',
+            id: Id ? Id : '',
+            status,
+          },
+        },
       ];
       setselectedCellsCareinstitution(careinstitutionvalue);
     }

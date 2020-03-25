@@ -163,7 +163,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
         </div>
         
       </>
-      <CardBody>
+      <CardBody className="position-relative">
     
       <div className="sticky-table table-responsive">
         <table className={"main-table table table-hover"}>
@@ -261,13 +261,19 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
             )}
           </tbody>
         </table>
-
+{/* 
         {isLoading || loading ? (
           <div className="global-calendar-table-loader">
             <Loader />
           </div>
-        ) : null}
+        ) : null} */}
       </div>
+      
+      {isLoading || loading ? (
+          <div className="global-calendar-table-loader">
+            <Loader />
+          </div>
+        ) : null}
  </CardBody>
     </>
   );

@@ -63,11 +63,19 @@ const InvoiceSolona = React.lazy(() =>
 const DrowInvoice = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/DrowInvoice")
 );
+const PaySlipForm = React.lazy(() =>
+  import("../resource/views/pages/AllInvoices/PaySlipForm")
+);
+
 const CreateInvoices = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/CreateInvoices")
 );
 const PrintInvoices = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/PrintInvoices")
+);
+
+const HealthInsuranceForm = React.lazy(() =>
+  import("../resource/views/pages/AllInvoices/HealthInsuranceForm")
 );
 
 const DocumentTemplateWorkingProof = React.lazy(() =>
@@ -412,7 +420,20 @@ const routes = [
     name: "PrintInvoices",
     component: PrintInvoices,
     exact: true
-  }
+  },
+  {
+    path: AppRoutes.PAYSLIPFORM,
+    name: "PaySlipForm",
+    component: PaySlipForm,
+    exact: true
+  },
+  {
+    path: AppRoutes.HEALTHINSURANCEFORM,
+    name: "HealthInsuranceForm",
+    component: HealthInsuranceForm,
+    exact: true
+  },
+  
 ];
 
 export default routes;

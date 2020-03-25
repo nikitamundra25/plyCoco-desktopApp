@@ -1,4 +1,4 @@
-@import "../../../assets/scss/variables";
+@import '../../../assets/scss/variables';
 
 .common-header-input {
   .form-control {
@@ -276,6 +276,9 @@
 }
 .contract-bg {
   background: $contract_color !important;
+}
+.cancel-contract-bg {
+  background: #9e7b6f !important;
 }
 .confirmation-bg {
   background: $confirmation_color !important;

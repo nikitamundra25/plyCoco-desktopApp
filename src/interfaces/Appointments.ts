@@ -35,9 +35,7 @@ export interface IAppointmentNav {
     positiveId: number[],
     negativeId: number[]
   ) => void;
-  handleSelectAppointment: (
-    selectOption: IReactSelectInterface,
-  ) => void;
+  handleSelectAppointment: (selectOption: IReactSelectInterface) => void;
   onFilterByUserId: (userId: string, userRole: string) => void;
   handleResetFilters: () => void;
   handleUserList: (value: any, name: string) => void;
@@ -80,6 +78,7 @@ export interface IAppointmentCareGiverList {
   setOnNotConfirmedCaregiver?: any;
   fetchingCareGiverData?: () => void;
   careInstitutionList?: any[];
+  onTerminateAggrement: () => Promise<void>;
   locationState: any;
 }
 

@@ -481,8 +481,8 @@ const Appointment: FunctionComponent = (props: any) => {
         userRole: 'caregiver',
         negativeAttributeId:
           negativeAttr && negativeAttr.length ? negativeAttr : negative,
-        limit: locationState && locationState.caregiver ? null : 50,
-        page: locationState && locationState.caregiver ? null : page ? page : 1,
+        limit: 50,
+        page: 1,
         showAppointments:
           filterByAppointments && filterByAppointments.value
             ? filterByAppointments.value === 'showAll'
@@ -496,8 +496,8 @@ const Appointment: FunctionComponent = (props: any) => {
         caregiverId:
           caregiverSoloFilter && caregiverSoloFilter.value
             ? parseInt(caregiverSoloFilter.value)
-            : locationState && locationState.caregiver
-            ? locationState.caregiver
+           // : locationState && locationState.caregiver
+            //? locationState.caregiver
             : null,
       },
     });
@@ -517,12 +517,7 @@ const Appointment: FunctionComponent = (props: any) => {
         qualificationId: temp ? temp : null,
         userRole: 'canstitution',
         limit: 50,
-        page:
-          locationState && locationState.canstitution
-            ? 1
-            : careInstitutionPage
-            ? careInstitutionPage
-            : 1,
+        page:1,
         showAppointments:
           filterByAppointments && filterByAppointments.value
             ? filterByAppointments.value === 'showAll'
@@ -538,8 +533,8 @@ const Appointment: FunctionComponent = (props: any) => {
         careInstitutionId:
           careinstitutionSoloFilter && careinstitutionSoloFilter.value
             ? parseInt(careinstitutionSoloFilter.value)
-            : locationState && locationState.canstitution
-            ? locationState.canstitution
+            //: locationState && locationState.canstitution
+            //? locationState.canstitution
             : null,
       },
     });
@@ -1196,6 +1191,15 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
+  //To set locationstate data into filter
+  useEffect(() => {
+    if(locationState && locationState.caregiver){
+      setcaregiverSoloFilter({label:locationState.name, value: locationState.caregiver})  
+     }else if(locationState && locationState.canstitution){
+      setcareinstitutionSoloFilter({label:locationState.name,  value: locationState.canstitution })
+     }
+  }, [locationState]);
+
   const fetchData = () => {
     // get careGivers list
     getCaregiverData(1);
@@ -1260,6 +1264,7 @@ const Appointment: FunctionComponent = (props: any) => {
     );
   }
 
+
   // set careInstitution list options
   const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
   if (careInstituition && careInstituition.getCareInstitutions) {
@@ -1270,6 +1275,7 @@ const Appointment: FunctionComponent = (props: any) => {
       value: languageTranslation('ID'),
       companyName: languageTranslation('COMPANY_NAME'),
     });
+    
     careInstitutionData.map((data: any, index: any) => {
       const { canstitution } = data;
       let { attributes = [], companyName = '' } = canstitution

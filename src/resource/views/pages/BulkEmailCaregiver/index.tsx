@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Row, Button } from 'reactstrap';
+import { Row, Button, Col } from 'reactstrap';
 import { convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { toast } from 'react-toastify';

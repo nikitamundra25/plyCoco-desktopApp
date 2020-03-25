@@ -46,4 +46,7 @@ export interface IAppRoutes {
   CREATEINVOICES: string;
   DROWINVOICE: string;
   PRINTINVOICES: string;
+   PAYSLIPFORM: string;
+   HEALTHINSURANCEFORM: string;
+   OPENPDF:string;
 }

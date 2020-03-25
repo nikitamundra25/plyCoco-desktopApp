@@ -8,7 +8,7 @@ class PDF extends PureComponent<IPDFProps, IPDFStates> {
 
   render() {
     return (
-      <PDFViewer>
+      <PDFViewer width="100%" height="600">
         <MyDocument />
       </PDFViewer>
       // 	<PDFDownloadLink

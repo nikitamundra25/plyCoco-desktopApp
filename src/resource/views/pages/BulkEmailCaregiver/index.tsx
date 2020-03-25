@@ -109,7 +109,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
   }, [requirmentList]);
 
-  //Get Data for selecte cell
+  //Get Data for selected cell
   useEffect(() => {
     if (selectedCells && selectedCells.length) {
       const { qualificationIds = [] } = selectedCells[0];
@@ -125,6 +125,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   // To fetch users according to qualification selected
   useEffect(() => {
+    console.log("props.qualification",props.qualification);
+    
     if (props.label === 'appointment') {
       let temp: any = [];
       if (props.qualification && props.qualification.length) {
@@ -136,6 +138,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
       }
+      console.log("hereeeeeee");
       // get careGivers list
       fetchCaregiverListFromQualification({
         variables: {
@@ -199,6 +202,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     // Fetch list of caregivers
     if (props.label !== 'appointment') {
+      console.log("heyyyyy");
       fetchCareGiverList({
         variables: {
           searchBy: '',
@@ -258,6 +262,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     } else {
       if (careGiversList) {
+        console.log("careGiversList",careGiversList);
+        
         const { getUserByQualifications } = careGiversList;
         const { result } = getUserByQualifications;
         if (result && result.length) {
@@ -276,6 +282,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [careGiversList]);
+
   useEffect(() => {
     let list: any = [...careGiverData];
     if (careGivers) {

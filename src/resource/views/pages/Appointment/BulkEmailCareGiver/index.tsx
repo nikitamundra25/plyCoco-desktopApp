@@ -25,6 +25,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
+  
   return (
     <>
       <Modal

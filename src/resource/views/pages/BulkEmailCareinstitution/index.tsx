@@ -333,7 +333,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 const { subject } = emailData;
                 setSubject(subject);
                 let apointedCareGiver: any[] = [];
-                               if (
+                let isLeasing: boolean = false;
+                if (
                   selectedCellsCareinstitution &&
                   selectedCellsCareinstitution.length
                 ) {
@@ -343,6 +344,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                       firstName = '',
                       lastName = ''
                     } = element;
+                    isLeasing = element.isLeasing;
                     const { appointments = [], division = {} } = item;
                     if (appointments && appointments.length) {
                       const { ca = {}, date = '' } =
@@ -380,12 +382,17 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     data.caregivername
                   }</b></span></br>`;
                 });
-                const bodyData: any = `<span>Appointment confirmation:-</br></br>${divRow}</br>Please note that each self-employed caregiver and assistant has their own fee. The caregiver is informed to contact you by phone before the assignment..</span>`;
+                const bodyData: any = `<span>Appointment confirmation:-</br></br>${divRow}</br>Please note that each self-employed caregiver and assistant has their own fee. The caregiver is informed to contact you by phone before the assignment..</span><br />${
+                  isLeasing
+                    ? `<p>${languageTranslation(
+                        'CONTRACT_LINE'
+                      )}</p><p>${languageTranslation('CONTRACT_MAIL_INFO')}</p>`
+                    : ''
+                }`;
                 const editorState = bodyData
                   ? HtmlToDraftConverter(bodyData)
                   : '';
                 setBody(editorState);
-
                 setTemplate({
                   label: emailData.menuEntry,
                   value: emailData

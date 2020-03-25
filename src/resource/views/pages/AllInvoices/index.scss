@@ -99,6 +99,14 @@
   }
 }
 
+.createinvoices-table{
+  th,td{
+    &.sno-col{
+      width:50px;
+    }
+  }
+}
+
 .payslipform-table{
   td,th{
     &.caregiver-col{

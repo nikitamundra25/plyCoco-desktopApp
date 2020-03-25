@@ -17,7 +17,7 @@ import {
   AppointmentsQueries,
   CareInstitutionQueries
 } from '../../../../graphql/queries';
-import { BulkEmailCareGivers } from '../../../../graphql/Mutations';
+import { BulkEmailCareGivers, DocumentUploadMutations } from '../../../../graphql/Mutations';
 import {
   IReactSelectInterface,
   IEmailTemplateData,
@@ -35,7 +35,8 @@ import './index.scss';
 import { useHistory } from 'react-router';
 import { AppRoutes, client } from '../../../../config';
 import moment from 'moment';
-import LeasingContractPDF from './PDF';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import MyDocument from './PDF/MyDocument';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -50,6 +51,7 @@ const [
 ] = AppointmentsQueries;
 
 const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
+const [ADD_DOCUMENT] = DocumentUploadMutations;
 
 let toastId: any = null;
 
@@ -84,6 +86,12 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
     fetchPolicy: 'no-cache'
   });
+
+  // Mutation to leasing document
+  const [addUserDocuments] = useMutation<
+    { addUserDocuments: any },
+    { documentInput: any }
+  >(ADD_DOCUMENT);
 
   // To fetch caregivers by qualification id
   const [
@@ -173,6 +181,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [bulkcareGivers, setBulkCareGivers] = useState<boolean>(false);
+  const [pdfData, setPdfData] = useState<any>();
 
   const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
     bulkEmailsInput: IBulkEmailVariables;
@@ -246,7 +255,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         setcareGiverData(list);
       }
     } else if (selectedCells && terminateAggrement) {
-          if (selectedCells && selectedCells.length) {
+      if (selectedCells && selectedCells.length) {
         selectedCells.map((key: any) => {
           if (list && list.length) {
             if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
@@ -800,7 +809,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       requirement && requirement.division
                         ? requirement.division.name
                         : requirement.name
-                    }</p>`;
+                      }</p>`;
                   }
                 });
             }
@@ -1042,8 +1051,37 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     setAttachments((prevArray: any) => [data, ...prevArray]);
   };
 
-  const handleSendEmail = (e: React.FormEvent<any>) => {
+  const handleSendEmail = async (e: React.FormEvent<any>) => {
     e.preventDefault();
+
+    if (leasingContract) {
+      console.log('pdfData ', pdfData);
+      let userId = '';
+      if (selectedCells && selectedCells.length > 0) {
+        userId = selectedCells[0].id;
+      }
+
+      if (pdfData) {
+        let documentInput: any = {
+          userId: parseInt(userId),
+          isDocumentTemplate: false,
+          documentUploadType: "leasingContract",
+          document: pdfData
+        };
+
+        await addUserDocuments({
+          variables: {
+            documentInput
+          }
+        });
+
+        if (!toast.isActive(toastId)) {
+          toast.dismiss();
+          toast.success(languageTranslation("DOCUMENT_UPLOAD_SUCCESS"));
+        }
+      }
+    }
+
     let content = body
       ? draftToHtml(convertToRaw(body.getCurrentContent()))
       : '';
@@ -1186,6 +1224,15 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
+                {leasingContract ?
+                  <PDFDownloadLink
+                    document={<MyDocument />}
+                    fileName="test.pdf">
+                    {({ blob, loading }: any) =>
+                      (!loading && !pdfData ? setPdfData(blob) : null)
+                    }
+                  </PDFDownloadLink>
+                  : null}
                 <CareGiverListComponent
                   offerRequirements={offerRequirements}
                   careGivers={

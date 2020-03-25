@@ -333,10 +333,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 const { subject } = emailData;
                 setSubject(subject);
                 let apointedCareGiver: any[] = [];
-                console.log(
-                  'selectedCellsCareinstitution)))))))))))))',
-                  selectedCellsCareinstitution
-                );
                 let isLeasing:boolean = false;
                 if (
                   selectedCellsCareinstitution &&

@@ -1,11 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import {
-  Table,
-  Nav,
-  NavItem,
-  NavLink,
-  Button,
-} from 'reactstrap';
+import { Table, Nav, NavItem, NavLink, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classnames from 'classnames';
@@ -47,7 +41,6 @@ import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 import '../index.scss';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
-
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList
@@ -72,7 +65,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     totalCaregiver,
     getNext,
     qualificationList,
-    locationState
+    locationState,
+    onTerminateAggrement
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -104,6 +98,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     openCareInstitutionBulkEmail,
     setopenCareInstitutionBulkEmail
   ] = useState<boolean>(false);
+  const [terminateAggrement, setTerminateAggrement] = useState(false);
 
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
@@ -113,6 +108,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     }
     if (offerRequirements) {
       setOfferRequirements(false);
+    }
+    if (!terminateAggrement) {
+      setTerminateAggrement(true);
     }
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
@@ -313,7 +311,44 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     });
   }
-
+  let offferAll: any = [];
+  if (selectedCells && selectedCells.length) {
+    offferAll = selectedCells.filter((x: any) => {
+      if (x.item) {
+        return (
+          x.item &&
+          x.item.f === 'block' &&
+          x.item.s === 'block' &&
+          x.item.n === 'block'
+        );
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+  let checkQuali: any = [];
+  if (selectedCells && selectedCells.length) {
+    checkQuali = selectedCells.filter((x: any) => {
+      if (x.item) {
+        return x.qualificationIds && x.qualificationIds.length;
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+  let checkAttribute: any = [];
+  if (selectedCells && selectedCells.length) {
+    checkAttribute = selectedCells.filter((x: any) => {
+      if (x && x.caregiver && x.caregiver.attributes) {
+        console.log('xxxxxxxx', x);
+        return x.caregiver.attributes && x.caregiver.attributes.length
+          ? x.caregiver.attributes.includes('101')
+          : '';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
   let sortedQualificationList: any = [];
   if (selectedCells && selectedCells.length) {
     selectedCells.map((list: any, index: number) => {
@@ -334,6 +369,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     });
   }
+
   return (
     <div>
       <div
@@ -440,6 +476,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (offferAll && offferAll.length !== 0) ||
+                    (checkQuali && checkQuali.length === 0)
+                  : true
+              }
               onClick={() => {
                 setopenToggleMenu(false);
                 setOfferRequirements(true);
@@ -565,6 +608,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem>
             <NavLink
               disabled={selectedCells ? selectedCells.length === 0 : true}
+              onClick={() => {
+                onTerminateAggrement();
+                setopenToggleMenu(false);
+                setTerminateAggrement(true);
+                handleCareGiverBulkEmail();
+              }}
             >
               <img src={termination} className='mr-2' alt='' />
               <span className='align-middle'>Create termination agreement</span>
@@ -606,11 +655,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               className='custom-row-selector'
               clickClassName='tick'
               resetOnStart={true}
-              // duringSelection={(data: any) =>
-              //   console.log(data, 'duringSelection')
-              // }
               onSelectionFinish={onSelectFinish}
-              // onSelectionClear={onSelectionClear}
               ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
             >
               <Table
@@ -742,8 +787,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                       >
                                         {row === 0
                                           ? [list.lastName, list.firstName]
-                                            .filter(Boolean)
-                                            .join(' ')
+                                              .filter(Boolean)
+                                              .join(' ')
                                           : ''}
                                       </Link>
                                     </div>
@@ -859,6 +904,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         isFromUnlink={isFromUnlink}
         qualificationList={qualificationList}
         offerRequirements={offerRequirements}
+        terminateAggrement={terminateAggrement}
       />
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}

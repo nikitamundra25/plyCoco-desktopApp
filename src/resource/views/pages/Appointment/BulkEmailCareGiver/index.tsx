@@ -1,9 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-} from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import '../index.scss';
 import BulkEmailCaregiver from '../../BulkEmailCaregiver';
 import close from '../../../../assets/img/cancel.svg';
@@ -16,6 +12,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
     selectedCells,
     offerRequirements,
     qualificationList,
+    terminateAggrement
   } = props;
   const externalCloseBtn = (
     <button
@@ -53,6 +50,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
             unlinkedBy={props.unlinkedBy}
             offerRequirements={offerRequirements}
             qualificationList={qualificationList}
+            terminateAggrement={terminateAggrement}
           />
         </ModalBody>
       </Modal>

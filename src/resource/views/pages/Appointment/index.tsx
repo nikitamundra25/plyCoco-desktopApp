@@ -594,9 +594,9 @@ const Appointment: FunctionComponent = (props: any) => {
             ...item,
             // appointmentId: id ? id : '',
             id: Id ? Id : '',
-            status,
-          },
-        },
+            status
+          }
+        }
       ];
 
       setSelectedCells(caregiverdata);
@@ -611,8 +611,8 @@ const Appointment: FunctionComponent = (props: any) => {
     ) {
       const { addCareInstitutionRequirement } = addCareinstitutionRes;
       const { id: Id, status } = addCareInstitutionRequirement;
-      console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
-      
+      console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
+
       const {
         id = '',
         firstName = '',
@@ -625,7 +625,7 @@ const Appointment: FunctionComponent = (props: any) => {
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
           : {};
-  
+
       let careinstitutionvalue: any[] = [
         {
           id,
@@ -640,9 +640,9 @@ const Appointment: FunctionComponent = (props: any) => {
             ...item,
             appointmentId: Id ? Id : '',
             id: Id ? Id : '',
-            status,
-          },
-        },
+            status
+          }
+        }
       ];
       setselectedCellsCareinstitution(careinstitutionvalue);
     }
@@ -1463,7 +1463,7 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCellsCareinstitution[0]
         ? selectedCellsCareinstitution[0]
         : {};
-        
+
     if (deptId && (updateCanstitutionFormikValues || !item)) {
       if (departmentList && departmentList.getDivision.length) {
         const { getDivision } = departmentList;
@@ -1586,7 +1586,7 @@ const Appointment: FunctionComponent = (props: any) => {
       setselectedCellsCareinstitution(data);
     }
   }, [careInstituionShift]);
-//set on confirmed
+  //set on confirmed
   const setOnConfirmedCareInst = async () => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
@@ -1601,7 +1601,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete Item.division;
             let temp = Item.qualificationId.map((Item: any) => {
               Item.id;
-            })
+            });
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
@@ -1660,7 +1660,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
   };
-//set on offered
+  //set on offered
   const setOnOfferedCareInst = async () => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
@@ -1672,7 +1672,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete Item.id;
             delete Item.__typename;
             delete Item.appointments;
-            delete Item.division;    
+            delete Item.division;
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
@@ -1740,24 +1740,26 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-              if (item && item.id) {
+        if (item && item.id) {
           if (item.status === 'linked') {
             let availabilityId: number = item.id ? parseInt(item.id) : 0;
             delete item.id;
             delete item.__typename;
             delete item.appointments;
             delete item.division;
-            console.log("item",item);
-            
+            console.log('item', item);
+
             await updateCaregiver({
               variables: {
                 id: availabilityId,
                 careGiverAvabilityInput: {
                   ...item,
                   status: 'confirmed',
-                  qualificationId: item.qualificationId.map((item: any) => {
-                    return Item.value;
-                  }),
+                  qualificationId: item.qualificationId
+                    ? item.qualificationId.map((item: any) => {
+                        return Item.value;
+                      })
+                    : ''
                 }
               }
             });
@@ -1767,9 +1769,9 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.dismiss()
+            toast.dismiss();
             if (!toast.isActive(toastId)) {
-            toast.warn(languageTranslation('CAREGIVER_LINKED'));
+              toast.warn(languageTranslation('CAREGIVER_LINKED'));
             }
           }
         }
@@ -1806,9 +1808,9 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.dismiss()
+            toast.dismiss();
             if (!toast.isActive(toastId)) {
-            toast.warn(languageTranslation('CAREGIVER_LINKED'));
+              toast.warn(languageTranslation('CAREGIVER_LINKED'));
             }
           }
         }

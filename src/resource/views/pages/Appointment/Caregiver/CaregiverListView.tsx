@@ -79,6 +79,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [offerRequirements, setOfferRequirements] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
+  const [leasingContract, setleasingContract] = useState<boolean>(false);
 
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
@@ -113,6 +114,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     }
     if (offerRequirements) {
       setOfferRequirements(false);
+    }
+    if (leasingContract) {
+      setleasingContract(false)
     }
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
   };
@@ -380,11 +384,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells && selectedCells.length
                   ? selectedCells.filter(
-                      (availability: any) =>
-                        (availability && !availability.item) ||
-                        (availability.item &&
-                          availability.item.status === 'default')
-                    ).length
+                    (availability: any) =>
+                      (availability && !availability.item) ||
+                      (availability.item &&
+                        availability.item.status === 'default')
+                  ).length
                     ? false
                     : true
                   : true
@@ -458,7 +462,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (connectAppCondition && connectAppCondition.length !== 0)
+                  (connectAppCondition && connectAppCondition.length !== 0)
                   : true
               }
               onClick={() => {
@@ -475,7 +479,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (disconnectAppCond && disconnectAppCond.length !== 0)
+                  (disconnectAppCond && disconnectAppCond.length !== 0)
                   : true
               }
               onClick={() => {
@@ -493,7 +497,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (disconnectAppCond && disconnectAppCond.length !== 0)
+                  (disconnectAppCond && disconnectAppCond.length !== 0)
                   : true
               }
               onClick={() => {
@@ -513,8 +517,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (selectedCells[0].item &&
-                      selectedCells[0].item.status !== 'linked')
+                  (selectedCells[0].item &&
+                    selectedCells[0].item.status !== 'linked')
                   : true
               }
             >
@@ -535,8 +539,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (selectedCells[0].item &&
-                      selectedCells[0].item.status !== 'confirmed')
+                  (selectedCells[0].item &&
+                    selectedCells[0].item.status !== 'confirmed')
                   : true
               }
             >
@@ -555,6 +559,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <NavItem>
             <NavLink
               disabled={selectedCells ? selectedCells.length === 0 : true}
+              onClick={() => {
+                setopenToggleMenu(false);
+                setOfferRequirements(true);
+                setleasingContract(true);
+                handleCareGiverBulkEmail();
+              }}
             >
               <img src={leasing_contact} className='mr-2' alt='' />
               <span className='align-middle'>
@@ -595,7 +605,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           }}
           // endMessage={<p />}
           scrollableTarget={'scrollableDiv-1'}
-          // hasChildren
+        // hasChildren
         >
           <div
             className='calender-section custom-scrollbar'
@@ -666,9 +676,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                 date === todaysDate
                                   ? 'today'
                                   : isWeekend
-                                  ? 'weekend'
-                                  : ''
-                              }`}
+                                    ? 'weekend'
+                                    : ''
+                                }`}
                             >
                               <div className='custom-appointment-calendar-date'>
                                 {' '}
@@ -696,146 +706,146 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                       return list.availabilityData &&
                         list.availabilityData.length
                         ? list.availabilityData.map(
-                            (item: any, row: number) => (
-                              <tr key={`${list.id}-${index}-${row}`}>
-                                <th className='name-col custom-appointment-col thead-sticky'>
-                                  <div className='all-star-wrap'>
-                                    <div
-                                      className='text-capitalize one-line-text  username-col name-text'
-                                      // onClick={() =>
-                                      //   history.push(
-                                      //     AppRoutes.CARE_GIVER_VIEW.replace(
-                                      //       ':id',
-                                      //       list.id
-                                      //     )
-                                      //   )
-                                      // }
+                          (item: any, row: number) => (
+                            <tr key={`${list.id}-${index}-${row}`}>
+                              <th className='name-col custom-appointment-col thead-sticky'>
+                                <div className='all-star-wrap'>
+                                  <div
+                                    className='text-capitalize one-line-text  username-col name-text'
+                                    // onClick={() =>
+                                    //   history.push(
+                                    //     AppRoutes.CARE_GIVER_VIEW.replace(
+                                    //       ':id',
+                                    //       list.id
+                                    //     )
+                                    //   )
+                                    // }
 
-                                      style={{
-                                        backgroundColor: !list.isActive
-                                          ? deactivatedListColor
-                                          : list.caregiver &&
-                                            list.caregiver.attributes
+                                    style={{
+                                      backgroundColor: !list.isActive
+                                        ? deactivatedListColor
+                                        : list.caregiver &&
+                                          list.caregiver.attributes
                                           ? list.caregiver.attributes.includes(
-                                              CaregiverTIMyoCYAttrId
-                                            )
+                                            CaregiverTIMyoCYAttrId
+                                          )
                                             ? leasingListColor
                                             : list.caregiver.attributes.includes(
-                                                'Plycoco'
-                                              )
-                                            ? selfEmployesListColor
-                                            : ''
-                                          : ''
-                                      }}
-                                      title={[list.lastName, list.firstName]
-                                        .filter(Boolean)
-                                        .join(' ')}
-                                      id={`caregiver-${list.id}`}
-                                    >
-                                      <Link
-                                        to={AppRoutes.CARE_GIVER_VIEW.replace(
-                                          ':id',
-                                          list.id
-                                        )}
-                                        target='_blank'
-                                        className='text-body'
-                                      >
-                                        {row === 0
-                                          ? [list.lastName, list.firstName]
-                                            .filter(Boolean)
-                                            .join(' ')
-                                          : ''}
-                                      </Link>
-                                    </div>
-                                    <div className='h-col custom-appointment-col text-center'></div>
-                                    <div
-                                      className='s-col custom-appointment-col text-center cursor-pointer'
-                                      onClick={() =>
-                                        onhandleSecondStar(
-                                          list,
-                                          index,
-                                          'caregiver'
-                                        )
-                                      }
-                                    >
-                                      {starMark ? (
-                                        <i className='fa fa-star theme-text' />
-                                      ) : (
-                                        <i className='fa fa-star-o' />
-                                      )}
-                                    </div>
-                                    <div
-                                      className='u-col custom-appointment-col text-center cursor-pointer'
-                                      onClick={() =>
-                                        onhandleSecondStar(
-                                          list,
-                                          index,
-                                          'caregiver'
-                                        )
-                                      }
-                                    >
-                                      {starMark ? (
-                                        <i className='fa fa-star theme-text' />
-                                      ) : (
-                                        <i className='fa fa-star-o' />
-                                      )}
-                                    </div>
-                                    <div
-                                      className='v-col custom-appointment-col text-center cursor-pointer'
-                                      onClick={e =>
-                                        onAddingRow(e, 'caregiver', index)
-                                      }
-                                    >
-                                      <i className='fa fa-arrow-down' />
-                                    </div>
-                                  </div>
-                                </th>
-
-                                {daysArr.map((key: any, i: number) => {
-                                  return (
-                                    <Cell
-                                      key={`${key}-${i}`}
-                                      daysArr={key.isWeekend}
-                                      day={key}
-                                      list={list}
-                                      item={
-                                        item.filter((avabilityData: any) => {
-                                          return (
-                                            moment(key.isoString).format(
-                                              'DD.MM.YYYY'
-                                            ) ===
-                                            moment(avabilityData.date).format(
-                                              'DD.MM.YYYY'
+                                              'Plycoco'
                                             )
-                                          );
-                                        })[0]
-                                      }
-                                      selectedCells={selectedCells}
-                                      selectedCellsCareinstitution={
-                                        selectedCellsCareinstitution
-                                      }
-                                    />
-                                  );
-                                })}
-                              </tr>
-                            )
+                                              ? selfEmployesListColor
+                                              : ''
+                                          : ''
+                                    }}
+                                    title={[list.lastName, list.firstName]
+                                      .filter(Boolean)
+                                      .join(' ')}
+                                    id={`caregiver-${list.id}`}
+                                  >
+                                    <Link
+                                      to={AppRoutes.CARE_GIVER_VIEW.replace(
+                                        ':id',
+                                        list.id
+                                      )}
+                                      target='_blank'
+                                      className='text-body'
+                                    >
+                                      {row === 0
+                                        ? [list.lastName, list.firstName]
+                                          .filter(Boolean)
+                                          .join(' ')
+                                        : ''}
+                                    </Link>
+                                  </div>
+                                  <div className='h-col custom-appointment-col text-center'></div>
+                                  <div
+                                    className='s-col custom-appointment-col text-center cursor-pointer'
+                                    onClick={() =>
+                                      onhandleSecondStar(
+                                        list,
+                                        index,
+                                        'caregiver'
+                                      )
+                                    }
+                                  >
+                                    {starMark ? (
+                                      <i className='fa fa-star theme-text' />
+                                    ) : (
+                                        <i className='fa fa-star-o' />
+                                      )}
+                                  </div>
+                                  <div
+                                    className='u-col custom-appointment-col text-center cursor-pointer'
+                                    onClick={() =>
+                                      onhandleSecondStar(
+                                        list,
+                                        index,
+                                        'caregiver'
+                                      )
+                                    }
+                                  >
+                                    {starMark ? (
+                                      <i className='fa fa-star theme-text' />
+                                    ) : (
+                                        <i className='fa fa-star-o' />
+                                      )}
+                                  </div>
+                                  <div
+                                    className='v-col custom-appointment-col text-center cursor-pointer'
+                                    onClick={e =>
+                                      onAddingRow(e, 'caregiver', index)
+                                    }
+                                  >
+                                    <i className='fa fa-arrow-down' />
+                                  </div>
+                                </div>
+                              </th>
+
+                              {daysArr.map((key: any, i: number) => {
+                                return (
+                                  <Cell
+                                    key={`${key}-${i}`}
+                                    daysArr={key.isWeekend}
+                                    day={key}
+                                    list={list}
+                                    item={
+                                      item.filter((avabilityData: any) => {
+                                        return (
+                                          moment(key.isoString).format(
+                                            'DD.MM.YYYY'
+                                          ) ===
+                                          moment(avabilityData.date).format(
+                                            'DD.MM.YYYY'
+                                          )
+                                        );
+                                      })[0]
+                                    }
+                                    selectedCells={selectedCells}
+                                    selectedCellsCareinstitution={
+                                      selectedCellsCareinstitution
+                                    }
+                                  />
+                                );
+                              })}
+                            </tr>
                           )
+                        )
                         : null;
                     })
                   ) : (
-                    <tr className={'text-center no-hover-row'}>
-                      <td colSpan={40} className={'pt-5 pb-5'}>
-                        <div className='no-data-section'>
-                          <div className='no-data-icon'>
-                            <i className='icon-ban' />
-                          </div>
-                          <h4 className='mb-1'>
-                            There are currently no Caregivers added
+                        <tr className={'text-center no-hover-row'}>
+                          <td colSpan={40} className={'pt-5 pb-5'}>
+                            <div className='no-data-section'>
+                              <div className='no-data-icon'>
+                                <i className='icon-ban' />
+                              </div>
+                              <h4 className='mb-1'>
+                                There are currently no Caregivers added
                           </h4>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
+                            </div>
+                          </td>
+                        </tr>
+                      )}
                 </tbody>
               </Table>
             </SelectableGroup>
@@ -859,6 +869,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         isFromUnlink={isFromUnlink}
         qualificationList={qualificationList}
         offerRequirements={offerRequirements}
+        leasingContract={leasingContract}
       />
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}

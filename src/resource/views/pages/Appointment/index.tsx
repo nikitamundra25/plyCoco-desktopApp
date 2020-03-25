@@ -594,9 +594,9 @@ const Appointment: FunctionComponent = (props: any) => {
             ...item,
             // appointmentId: id ? id : '',
             id: Id ? Id : '',
-            status,
-          },
-        },
+            status
+          }
+        }
       ];
 
       setSelectedCells(caregiverdata);
@@ -639,9 +639,9 @@ const Appointment: FunctionComponent = (props: any) => {
             ...item,
             appointmentId: Id ? Id : '',
             id: Id ? Id : '',
-            status,
-          },
-        },
+            status
+          }
+        }
       ];
       setselectedCellsCareinstitution(careinstitutionvalue);
     }
@@ -1600,7 +1600,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete Item.division;
             let temp = Item.qualificationId.map((Item: any) => {
               Item.id;
-            })
+            });
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
@@ -1746,7 +1746,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete item.__typename;
             delete item.appointments;
             delete item.division;
-            console.log("item", item);
+            console.log('item', item);
 
             await updateCaregiver({
               variables: {
@@ -1754,9 +1754,11 @@ const Appointment: FunctionComponent = (props: any) => {
                 careGiverAvabilityInput: {
                   ...item,
                   status: 'confirmed',
-                  qualificationId: item.qualificationId.map((item: any) => {
-                    return Item.value;
-                  }),
+                  qualificationId: item.qualificationId
+                    ? item.qualificationId.map((item: any) => {
+                        return Item.value;
+                      })
+                    : ''
                 }
               }
             });
@@ -1766,7 +1768,7 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.dismiss()
+            toast.dismiss();
             if (!toast.isActive(toastId)) {
               toast.warn(languageTranslation('CAREGIVER_LINKED'));
             }
@@ -1805,7 +1807,7 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.dismiss()
+            toast.dismiss();
             if (!toast.isActive(toastId)) {
               toast.warn(languageTranslation('CAREGIVER_LINKED'));
             }

@@ -102,7 +102,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   let isAvailability: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false,
-    isConfirm: boolean = false;
+    isConfirm: boolean = false,
+    isContractCancel: boolean = false;
 
   if (selctedAvailability || status) {
     if (
@@ -133,6 +134,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       status === 'confirmed'
     ) {
       isConfirm = true;
+    } else if (
+      (selctedAvailability &&
+        selctedAvailability.status === 'contractcancelled') ||
+      status === 'contractcancelled'
+    ) {
+      isContractCancel = true;
     }
   }
 
@@ -157,8 +164,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]
       ? moment(activeDateCaregiver[0]).isSameOrAfter()
       : '';
-  // console.log('dateCondition', dateCondition);
-
   return (
     <>
       <div className='form-section'>
@@ -167,7 +172,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             'form-card custom-height custom-scrollbar': true,
             'availability-dark-bg': isAvailability,
             'matching-bg': isMatching,
-            'confirmation-bg': isConfirm
+            'confirmation-bg': isConfirm,
+            'cancel-contract-bg': isContractCancel
           })}
         >
           <h5 className='content-title'>

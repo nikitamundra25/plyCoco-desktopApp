@@ -589,9 +589,9 @@ const Appointment: FunctionComponent = (props: any) => {
             ...item,
             // appointmentId: id ? id : '',
             id: Id ? Id : '',
-            status,
-          },
-        },
+            status
+          }
+        }
       ];
 
       setSelectedCells(caregiverdata);
@@ -633,9 +633,9 @@ const Appointment: FunctionComponent = (props: any) => {
             ...item,
             appointmentId: Id ? Id : '',
             id: Id ? Id : '',
-            status,
-          },
-        },
+            status
+          }
+        }
       ];
       setselectedCellsCareinstitution(careinstitutionvalue);
     }
@@ -1524,7 +1524,6 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         ];
-
         if (
           selectedCellsCareinstitution &&
           selectedCellsCareinstitution.length
@@ -1606,7 +1605,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete Item.division;
             let temp = Item.qualificationId.map((Item: any) => {
               Item.id;
-            })
+            });
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
@@ -1745,14 +1744,14 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-        const Item = { ...item }
-        if (Item && Item.id) {
-          if (Item.status === 'linked') {
-            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
-            delete Item.id;
-            delete Item.__typename;
-            delete Item.appointments;
-            delete Item.division;
+        if (item && item.id) {
+          if (item.status === 'linked') {
+            let availabilityId: number = item.id ? parseInt(item.id) : 0;
+            delete item.id;
+            delete item.__typename;
+            delete item.appointments;
+            delete item.division;
+            console.log('item', item);
 
             await updateCaregiver({
               variables: {
@@ -1760,9 +1759,11 @@ const Appointment: FunctionComponent = (props: any) => {
                 careGiverAvabilityInput: {
                   ...Item,
                   status: 'confirmed',
-                  qualificationId: Item && Item.qualificationId && Item.qualificationId.length ? Item.qualificationId.map((Item: any) => {
-                    return Item.value;
-                  }) : [],
+                  qualificationId: item.qualificationId
+                    ? item.qualificationId.map((item: any) => {
+                        return Item.value;
+                      })
+                    : ''
                 }
               }
             });
@@ -1772,7 +1773,7 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.dismiss()
+            toast.dismiss();
             if (!toast.isActive(toastId)) {
               toast.warn(languageTranslation('CAREGIVER_LINKED'));
             }
@@ -1811,7 +1812,7 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            toast.dismiss()
+            toast.dismiss();
             if (!toast.isActive(toastId)) {
               toast.warn(languageTranslation('CAREGIVER_LINKED'));
             }
@@ -2015,8 +2016,6 @@ const Appointment: FunctionComponent = (props: any) => {
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
-    console.log('list', list);
-
     //  setcareinstitutionList()
     if (!starCanstitution.isStar) {
       setstarCanstitution({
@@ -2039,8 +2038,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
     if (list) {
       if (list.id && !starCanstitution.isStar) {
-        console.log('ifffffff');
-
         setFetchingDept(true);
         await getDepartmentList({
           variables: {
@@ -2067,7 +2064,6 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       let data: any = [];
       data.push(dept);
-      console.log('data', data);
       // setcareInstituionDeptData(data);
       setcareInstituionDept({
         label: dept.name,
@@ -2606,7 +2602,6 @@ const Appointment: FunctionComponent = (props: any) => {
       );
       freeEntries.forEach(async (element: any) => {
         const { id } = element;
-
         let index: number = -1;
         if (!item) {
           if (userRole === 'caregiver') {
@@ -2630,8 +2625,6 @@ const Appointment: FunctionComponent = (props: any) => {
               careInstituionDeptData &&
               careInstituionDeptData.length
             ) {
-              console.log('in iffff');
-
               index = careInstituionDeptData.findIndex(
                 (careInst: any) => careInst.userId === id
               );
@@ -2643,8 +2636,6 @@ const Appointment: FunctionComponent = (props: any) => {
                 setcareInstituionDeptData(list);
               }
             } else {
-              console.log('in else');
-
               index = careinstitutionList.findIndex(
                 (careInst: any) => careInst.id === id
               );
@@ -3060,8 +3051,6 @@ const Appointment: FunctionComponent = (props: any) => {
   // get next page caregivers
   const getNext = (skip: number): void => {
     setPage(page + 1);
-    console.log(skip, page, 'pagegegee');
-
     // getCaregiverData(page);
     let temp: any = [];
     qualification.map((key: any, index: number) => {
@@ -3080,7 +3069,6 @@ const Appointment: FunctionComponent = (props: any) => {
       gte = daysData.daysArr[0].dateString || '';
       lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
     }
-
     fetchMoreCareGiverList({
       variables: {
         qualificationId: temp ? temp : null,

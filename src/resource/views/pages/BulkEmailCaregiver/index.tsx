@@ -107,7 +107,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   //Get requirment list data for qualificationid
   useEffect(() => {
-    console.log('requirmentList', requirmentList);
   }, [requirmentList]);
 
   //Get Data for selecte cell
@@ -245,9 +244,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         setcareGiverData(list);
       }
     } else if (selectedCells && terminateAggrement) {
-      console.log('inside terminate bulk em');
-
-      if (selectedCells && selectedCells.length) {
+          if (selectedCells && selectedCells.length) {
         selectedCells.map((key: any) => {
           if (list && list.length) {
             if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
@@ -744,16 +741,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             `<p><a href="http://192.249.123.124:8010/cancel-contract">Cancel Contract</a>`}</p>`;
           const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
           setSubject('Teminate aggrement');
-          console.log('subject', subject);
           setBody(editorState);
-          console.log('body', body);
         }
       }
     }
   }, [data]);
 
   useEffect(() => {
-    console.log(offerRequirements, 'offerRequirements');
     if (selectedCells && selectedCells.length) {
       const { qualificationIds = [] } = selectedCells[0]
         ? selectedCells[0]
@@ -809,7 +803,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     } ${shiftLabel} ${duration} ${
                       requirement && requirement.division
                         ? requirement.division.name
-                        : ''
+                        : requirement.name
                     }</p>`;
                   }
                 });

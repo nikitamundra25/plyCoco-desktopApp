@@ -73,6 +73,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [offerRequirements, setOfferRequirements] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
+  const [select, setSelect] = useState<number[]>([]);
+  const [select1, setSelect1] = useState<number[]>([]);
 
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
@@ -144,6 +146,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           dateString: day ? day.dateString : ''
         };
       });
+      // setSelect({id:12})
+      // setSelect([12]);
+      // setSelect1([12])
 
       handleSelection ? handleSelection(selectedRows, 'caregiver') : undefined;
       // for (let index = 0; index < selected.length; index++) {
@@ -369,6 +374,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     });
   }
+  console.log(careGiversList,'careGiversList');
+  
 
   return (
     <div>
@@ -843,6 +850,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                       daysArr={key.isWeekend}
                                       day={key}
                                       list={list}
+                                      fetchDataValues={props.fetchDataValues}
                                       item={
                                         item.filter((avabilityData: any) => {
                                           return (
@@ -855,6 +863,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                           );
                                         })[0]
                                       }
+                                      handleSelection={handleSelection}
                                       selectedCells={selectedCells}
                                       selectedCellsCareinstitution={
                                         selectedCellsCareinstitution

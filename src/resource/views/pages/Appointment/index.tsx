@@ -91,6 +91,9 @@ const [
 ] = AppointmentsQueries;
 
 let toastId: any = null;
+let dummy = 'a';
+let count = 1;
+let selectedCells:any[] = []
 
 const Appointment: FunctionComponent = (props: any) => {
   // To fetch id from display appointments
@@ -124,6 +127,8 @@ const Appointment: FunctionComponent = (props: any) => {
     openCareInstitutionBulkEmail,
     setopenCareInstitutionBulkEmail
   ] = useState<boolean>(false);
+  const [select, setSelect] = useState<any>({});
+  const [select1, setSelect1] = useState<any>({});
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [fetchingDept, setFetchingDept] = useState<boolean>(false);
   const [qualification, setqualification] = useState<any>([]);
@@ -168,7 +173,8 @@ const Appointment: FunctionComponent = (props: any) => {
   }>(GET_CAREGIVER_ATTRIBUTES);
   //For selected Availability
   const [selctedAvailability, setselctedAvailability] = useState<any>({});
-  const [selectedCells, setSelectedCells] = useState<any[]>();
+  const [selectedCGCells, setSelectedCells] = useState<any[]>();
+  const [selectedCellCount, setSelectedCellsCount] = useState<any>('');
   const [
     selectedCellsCareinstitution,
     setselectedCellsCareinstitution
@@ -1018,43 +1024,60 @@ const Appointment: FunctionComponent = (props: any) => {
       setcareinstitutionList(data);
     }
   };
+  const {id:selectedId='',dateString:selectedDateString=''} = selectedCells && selectedCells.length ? selectedCells[0] : {} 
+  console.log(selectedDateString, selectedId,'selectedIddddd');
 
-  const handleSelection = async (selectedCells: any, name: string) => {
-    const { item = {}, dept = {} } =
-      selectedCells && selectedCells.length && selectedCells[0]
-        ? selectedCells[0]
+  // useEffect(() => {
+  //   console.log('selectedCells use effect');
+  //   setSelectedCellsCount(1)
+  // },[selectedId,selectedDateString])
+  const handleSelection = async (selectedCellsData: any, name: string) => {
+    console.log("in handleSlection",selectedCellsData);
+    dummy = 'handleSelection'
+          // setSelect(12);
+      // setSelect1(12)
+    const { item = {}, dept = {},id='',dateString='' } =
+      selectedCellsData && selectedCellsData.length && selectedCellsData[0]
+        ? selectedCellsData[0]
         : {};
+    console.log(id,dummy,'idid');
+    
     const checkCondition: boolean =
       item && item.appointments && item.appointments.length;
-
+    console.log(checkCondition,'checkCondition');
+    
     if (name === 'caregiver') {
       if (checkCondition) {
         let appointId: any = item.appointments.filter((appointment: any) => {
           return (
-            moment(selectedCells[0].dateString).format('DD.MM.YYYY') ===
+            moment(selectedCellsData[0].dateString).format('DD.MM.YYYY') ===
             moment(appointment.date).format('DD.MM.YYYY')
           );
         });
         if (
           careInstitutionList &&
           careInstitutionList.getUserByQualifications &&
-          selectedCells &&
-          selectedCells.length <= 1
+          selectedCellsData &&
+          selectedCellsData.length <= 1
         ) {
           const { getUserByQualifications } = careInstitutionList;
           const { result } = getUserByQualifications;
           await appointmentDataSort('careinstitution', result, appointId);
         }
       }
+      // selectedCells = 
+      // selectedCellsData
+    // setSelectedCellsCount(11)
 
-      setSelectedCells(selectedCells);
+      console.log(selectedCells,'selectedCells');
+            // setSelectedCells(selectedCellsData);
     } else {
-      setselectedCellsCareinstitution(selectedCells);
+      setselectedCellsCareinstitution(selectedCellsData);
       if (checkCondition) {
-        let appointId: any = selectedCells[0].item.appointments.filter(
+        let appointId: any = selectedCellsData[0].item.appointments.filter(
           (appointment: any) => {
             return (
-              moment(selectedCells[0].dateString).format('DD.MM.YYYY') ===
+              moment(selectedCellsData[0].dateString).format('DD.MM.YYYY') ===
               moment(appointment.date).format('DD.MM.YYYY')
             );
           }
@@ -1062,8 +1085,8 @@ const Appointment: FunctionComponent = (props: any) => {
         if (
           careGiversList &&
           careGiversList.getUserByQualifications &&
-          selectedCells &&
-          selectedCells.length <= 1
+          selectedCellsData &&
+          selectedCellsData.length <= 1
         ) {
           const { getUserByQualifications } = careGiversList;
           const { result } = getUserByQualifications;
@@ -2694,72 +2717,6 @@ const Appointment: FunctionComponent = (props: any) => {
           return;
         }
       }
-
-      // temp.forEach(async (element: any) => {
-      //   const { id, item } = element;
-      //   console.log(item, 'item in foreach');
-      //   if (item && item.id) {
-      //     if (userRole === 'caregiver') {
-      //       await deleteCaregiverRequirement({
-      //         variables: {
-      //           id: parseInt(item.id),
-      //         },
-      //       });
-      //     } else {
-      //       await deleteCareinstitutionRequirement({
-      //         variables: {
-      //           id: parseInt(item.id),
-      //         },
-      //       });
-      //     }
-      //   } else {
-      //     let index: number = -1;
-      //     if (userRole === 'caregiver') {
-      //       index = caregiversList.findIndex(
-      //         (caregiver: any) => caregiver.id === id,
-      //       );
-      //       if (index > -1) {
-      //         let list: any = [...caregiversList];
-      //         // To remove all the empty rows
-      //         list[index].availabilityData = list[
-      //           index
-      //         ].availabilityData.filter((item: any) => !item.length);
-      //         setcaregiversList(list);
-      //       }
-      //     } else {
-      //       // If solo careInstitution is selected
-      //       if (
-      //         starCanstitution &&
-      //         secondStarCanstitution &&
-      //         (starCanstitution.isStar || secondStarCanstitution.isStar) &&
-      //         careInstituionDeptData &&
-      //         careInstituionDeptData.length
-      //       ) {
-      //         index = careInstituionDeptData.findIndex(
-      //           (careInst: any) => careInst.userId === id,
-      //         );
-      //         if (index > -1) {
-      //           let list: any = [...careInstituionDeptData];
-      //           list[index].availabilityData = list[
-      //             index
-      //           ].availabilityData.filter((item: any) => item.length);
-      //           setcareInstituionDeptData(list);
-      //         }
-      //       } else {
-      //         index = careinstitutionList.findIndex(
-      //           (careInst: any) => careInst.id === id,
-      //         );
-      //         if (index > -1) {
-      //           let list: any = [...careinstitutionList];
-      //           list[index].availabilityData = list[
-      //             index
-      //           ].availabilityData.filter((item: any) => item.length);
-      //           setcareinstitutionList(list);
-      //         }
-      //       }
-      //     }
-      //   }
-      // });
     }
   };
 
@@ -2893,8 +2850,9 @@ const Appointment: FunctionComponent = (props: any) => {
           .endOf('month')
           .format(dbAcceptableFormat);
 
+
   // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
-  const {
+  let {
     firstName = '',
     lastName = '',
     id: selectedCaregiverId = '',
@@ -2907,6 +2865,24 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCells[0]
       ? selectedCells[0]
       : {};
+
+      const fetchDataValues = () => {
+        if (selectedCells &&
+          (selectedCells.length === 1 || multipleAvailability) &&
+          selectedCells[0]) {
+              firstName = '';
+              lastName = '';
+              selectedCaregiverId = selectedCells[0].id;
+              dateString = selectedCells[0].dateString;
+              caregiver = undefined;
+              item = undefined
+
+        }
+        
+        console.log("in fetch data values");
+        setSelectedCellsCount(count)    
+      }
+    
   const {
     id: Id = '',
     firstName: FirstName = '',
@@ -3277,7 +3253,8 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
   };
-
+  console.log(selectedCells,selectedCellCount,dummy,'I am in reder');
+  
   const isUnLinkable =
     item &&
     item.appointments &&
@@ -3337,6 +3314,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 <Col lg={'6'}>
                   {/* caregiver list view */}
                   <CaregiverListView
+                  fetchDataValues={fetchDataValues}
                     fetchingCareGiverData={fetchingCareGiverData}
                     daysData={daysData}
                     loading={caregiverLoading}
@@ -3440,6 +3418,7 @@ const Appointment: FunctionComponent = (props: any) => {
                               }
                               timeSlotError={timeSlotError}
                               selctedAvailability={item}
+                              selectedCells={selectedCells}
                               onhandleDelete={onhandleDelete}
                               handleSelectUserList={handleSelectUserList}
                               savingBoth={savingBoth}

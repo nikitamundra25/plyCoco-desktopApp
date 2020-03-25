@@ -48,6 +48,7 @@ export interface IAppointmentNav {
 }
 
 export interface IAppointmentCareGiverList {
+  fetchDataValues?:any;
   daysData: IGetDaysArrayByMonthRes | null;
   careGiversList: any;
   loading: boolean;

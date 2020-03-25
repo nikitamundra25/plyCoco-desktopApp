@@ -90,10 +90,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     onhandleDelete,
     careGiversListArr,
     handleSelectUserList,
-    handleLastTimeData
+    handleLastTimeData,
+    selectedCells
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
-
+  console.log(selectedCells,'in form view');
+  
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);

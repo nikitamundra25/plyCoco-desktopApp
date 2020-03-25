@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createSelectable } from 'react-selectable-fast';
 import classnames from 'classnames';
 
@@ -7,10 +7,42 @@ const Cell = ({
   isSelected,
   isSelecting,
   item,
+  list,
+  day,
   key,
   daysArr,
-  selectedCellsCareinstitution
+  selectedCellsCareinstitution,
+  selectedCells,
+  fetchDataValues,
+  handleSelection
 }: any) => {
+  useEffect(() => {
+    if (isSelected) {
+      fetchDataValues();
+      let temp = selectedCells && selectedCells.length ? [...selectedCells]:[]
+    console.log(isSelected,item, list,day, 'isSelected in useeffect');
+    const {
+      id = '',
+      firstName = '',
+      lastName = '',
+      email = '',
+      caregiver = {},
+      qualificationId = []
+    } = list ? list : {};
+    temp.push({
+      id,
+      firstName,
+      lastName,
+      email,
+      caregiver,
+      item,
+      qualificationIds: qualificationId,
+      dateString: day ? day.dateString : ''
+    })
+    // handleSelection(temp,'caregiver')
+    }
+    
+  },[isSelected])
   let isBlocked: boolean = false;
   if (item) {
     isBlocked = item.f === 'block' || item.s === 'block' || item.n === 'block';

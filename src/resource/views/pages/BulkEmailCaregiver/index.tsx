@@ -154,7 +154,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       });
     }
-  }, [props.qualification]);
+  }, [props.label === 'appointment']);
 
   // To get all the types of email template
   // const { data: typeList } = useQuery(GET_EMAIL_TEMPLATE_TYEPS);
@@ -650,8 +650,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         console.log('dsfjsdhjfdshfkj');
       }
       if (props.unlinkedBy) {
-        console.log('unlinkedByunlinkedBy', props.unlinkedBy);
-
         if (props.unlinkedBy === 'canstitution') {
           let apointedCareGiver: any[] = [];
           if (

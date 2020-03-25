@@ -86,11 +86,10 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
             onClick={() => (isLoading ? undefined : setAddModal(true))}
             disabled={isLoading}
           >
-            {isLoading ? (
+            {/* {isLoading ? (
               <i className='fa fa-spinner fa-spin mr-2' />
-            ) : (
+            ) : ( */}
               <i className={'fa fa-plus'} />
-            )}
             &nbsp;{languageTranslation('UPDATE_CALEDAR')}
           </Button>
           <Button
@@ -99,11 +98,11 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
             onClick={() => (isLoading ? undefined : setShowWeekendModal(true))}
             disabled={isLoading}
           >
-            {isLoading ? (
+            {/* {isLoading ? (
               <i className='fa fa-spinner fa-spin mr-2' />
-            ) : (
+            ) : ( */}
               <i className={'fa fa-refresh'} />
-            )}
+            {/* )} */}
             &nbsp;{languageTranslation('UPDATE_WEEKENDS')}
           </Button>
         </div>
@@ -127,9 +126,9 @@ const GlobalCalendar: FunctionComponent<{}> = (): JSX.Element => {
             setAddModal(false);
           }}
           states={states}
-          refresh={(refetch: (variables?: any) => void): void => {
-            if (!refreshList) {
-              refreshList = refetch;
+          refresh={(): void => {
+            if (refreshList) {
+              refreshList()
             }
           }}
           editInfo={editInfo}

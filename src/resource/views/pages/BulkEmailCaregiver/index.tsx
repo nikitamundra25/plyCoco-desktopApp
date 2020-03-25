@@ -15,9 +15,10 @@ import {
   EmailTemplateQueries,
   ProfileQueries,
   AppointmentsQueries,
-  CareInstitutionQueries
+  CareInstitutionQueries,
+  SignatureQueries
 } from '../../../../graphql/queries';
-import { BulkEmailCareGivers, DocumentUploadMutations } from '../../../../graphql/Mutations';
+import { BulkEmailCareGivers, DocumentMutations } from '../../../../graphql/Mutations';
 import {
   IReactSelectInterface,
   IEmailTemplateData,
@@ -51,7 +52,8 @@ const [
 ] = AppointmentsQueries;
 
 const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
-const [ADD_DOCUMENT] = DocumentUploadMutations;
+const [ADD_DOCUMENT] = DocumentMutations;
+const [GET_CARE_GIVER_SIGNATURE] = SignatureQueries;
 
 let toastId: any = null;
 
@@ -65,6 +67,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     terminateAggrement
   } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
+  const [signatureData, setSignatureData] = useState<any>({});
+
   const history = useHistory();
 
   // To access data of loggedIn user
@@ -92,6 +96,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     { addUserDocuments: any },
     { documentInput: any }
   >(ADD_DOCUMENT);
+
+  // Query to get uploaded uploadedSignature
+  const [getCareGiverSignature, { data: uploadedSignature }] = useLazyQuery<
+    any
+  >(GET_CARE_GIVER_SIGNATURE);
 
   // To fetch caregivers by qualification id
   const [
@@ -122,6 +131,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   //Get Data for selected cell
   useEffect(() => {
     if (selectedCells && selectedCells.length) {
+      let userId = selectedCells[0].id;
       const { qualificationIds = [] } = selectedCells[0];
       if (qualificationIds && qualificationIds.length) {
         fetchRequirmentFromQualification({
@@ -130,8 +140,27 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
       }
+      if (userId) {
+        getCareGiverSignature({
+          variables: { userId: parseInt(userId) }
+        });
+      }
     }
   }, [selectedCells]);
+
+  // set caregiver signature data 
+  useEffect(() => {
+    if (uploadedSignature) {
+      const { getCareGiverSignature } = uploadedSignature;
+      if (getCareGiverSignature) {
+        setSignatureData(getCareGiverSignature);
+      } else {
+        setSignatureData({});
+      }
+    }
+  }, [uploadedSignature]);
+
+  console.log('signatureData ', signatureData);
 
   // To fetch users according to qualification selected
   useEffect(() => {
@@ -1057,12 +1086,20 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     if (leasingContract) {
       console.log('pdfData ', pdfData);
       let userId = '';
+      let appointmentId = '';
       if (selectedCells && selectedCells.length > 0) {
         userId = selectedCells[0].id;
+      }
+      if (selectedCellsCareinstitution && selectedCellsCareinstitution.length > 0) {
+        let appointments = selectedCellsCareinstitution[0].item.appointments;
+        if (appointments.length > 0) {
+          appointmentId = appointments[0].id;
+        }
       }
 
       if (pdfData) {
         let documentInput: any = {
+          appointmentId: parseInt(appointmentId),
           userId: parseInt(userId),
           isDocumentTemplate: false,
           documentUploadType: "leasingContract",

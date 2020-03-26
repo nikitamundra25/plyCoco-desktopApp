@@ -2779,7 +2779,7 @@ const Appointment: FunctionComponent = (props: any) => {
           if(checkAttribute){
            const { value } = await ConfirmBox({
              title: languageTranslation('ATTRIBUTE_WARNING'),
-             text: languageTranslation('LINKED_ATTRIBUTE_WARNING'),
+             text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
            })
            if (!value) {
              return;

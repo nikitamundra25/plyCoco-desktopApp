@@ -60,7 +60,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     offerRequirements,
     leasingContract,
     qualificationList,
-    terminateAggrement
+    terminateAggrement,
+    showButton
   } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const history = useHistory();
@@ -1131,16 +1132,19 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           careGiverData.map((key: any, index: number) => {
             let temp = uniqueUser.filter(
               (id: string) => parseInt(id) === parseInt(key.id)
-            );
+            ); 
+            
             if (temp && temp.length) {
+              console.log("key",key);
               singleButtonCaregiverList.push({
-                receiverUserId: parseInt(key.id),
-                availabilityId: parseInt(key.item.id)
+                receiverUserId: key && key.id? parseInt(key.id) : null,
+                availabilityId: key && key.item && key.item.id ? parseInt(key.item.id) : null
               });
             } 
           });
         }
-
+  console.log("careGiverIdList",careGiverIdList);
+  
         if (subject && body && result && result.length >= 2) {
           const bulkEmailsInput: IBulkEmailVariables = {
             to: "caregiver",
@@ -1160,10 +1164,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     .map((item: IEmailAttachmentData) => item.file)
                     .filter((file: File | null) => file)
                 : null,
-            caregiver: careGiverIdList,
+            caregiver:  showButton ? singleButtonCaregiverList  : careGiverIdList,
             senderUserId: id ? parseInt(id) : null
           };
-          // bulkEmails({ variables: { bulkEmailsInput } });
+           bulkEmails({ variables: { bulkEmailsInput } });
         }
       } else {
         if (!toast.isActive(toastId)) {

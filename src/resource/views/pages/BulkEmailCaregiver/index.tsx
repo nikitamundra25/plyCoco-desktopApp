@@ -991,8 +991,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               v.shiftLabel +
               ', Place of work: ' +
               (v.division ? v.division : ' - ') +
-              ', ' +
-              v.address +
+              '' + (v.address ? (', ' + v.address) : ' ') +
               ', job: ' +
               qualificationString}
               </p>`;
@@ -1000,7 +999,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             pdfDivRow += `${v.date +
               ' ' + v.shiftLabel +
               ', Place of work: ' + (v.division ? v.division : ' - ') +
-              ', ' + v.address +
+              '' + (v.address ? (', ' + v.address) : ' ') +
               ', job: ' + qualificationString
               }`;
 

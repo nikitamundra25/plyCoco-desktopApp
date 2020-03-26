@@ -1143,60 +1143,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     setAttachments((prevArray: any) => [data, ...prevArray]);
   };
 
-  console.log('pdfData blob ', pdfData);
-
   const handleSendEmail = async (e: React.FormEvent<any>) => {
     e.preventDefault();
-
-    if (leasingContract) {
-      let userId = '';
-      let appointmentId = '';
-      let requirementId = '';
-      let avabilityId = '';
-      if (selectedCells && selectedCells.length > 0) {
-        userId = selectedCells[0].id;
-      }
-      if (selectedCellsCareinstitution && selectedCellsCareinstitution.length > 0) {
-        if (selectedCellsCareinstitution[0].item && selectedCellsCareinstitution[0].item.appointments) {
-          let appointments = selectedCellsCareinstitution[0].item.appointments;
-          if (appointments.length > 0) {
-            appointmentId = appointments[0].id;
-            requirementId = appointments[0].requirementId;
-            avabilityId = appointments[0].avabilityId;
-          }
-        }
-      }
-
-      console.log('selectedCellsCareinstitution ', selectedCellsCareinstitution);
-      // console.log('pdfData ', pdfData);
-
-      if (pdfData) {
-
-        let documentInput: any = {
-          appointmentId: parseInt(appointmentId),
-          userId: parseInt(userId),
-          isDocumentTemplate: false,
-          documentUploadType: "leasingContract",
-          document: pdfData
-        };
-
-        await addUserDocuments({
-          variables: {
-            documentInput
-          }
-        });
-
-        await UpdateLeasingContractStatus({
-          variables: {
-            appointmentId: parseInt(appointmentId),
-            availablityId: parseInt(avabilityId),
-            requirementId: parseInt(requirementId),
-            status: 'contractInitiated'
-          }
-        });
-
-      }
-    }
 
     let content = body
       ? draftToHtml(convertToRaw(body.getCurrentContent()))
@@ -1205,6 +1153,54 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     setIsSubmit(true);
 
     try {
+
+      if (leasingContract) {
+        let userId = '';
+        let appointmentId = '';
+        let requirementId = '';
+        let avabilityId = '';
+        if (selectedCells && selectedCells.length > 0) {
+          userId = selectedCells[0].id;
+        }
+        if (selectedCellsCareinstitution && selectedCellsCareinstitution.length > 0) {
+          if (selectedCellsCareinstitution[0].item && selectedCellsCareinstitution[0].item.appointments) {
+            let appointments = selectedCellsCareinstitution[0].item.appointments;
+            if (appointments.length > 0) {
+              appointmentId = appointments[0].id;
+              requirementId = appointments[0].requirementId;
+              avabilityId = appointments[0].avabilityId;
+            }
+          }
+        }
+
+        if (pdfData) {
+
+          let documentInput: any = {
+            appointmentId: parseInt(appointmentId),
+            userId: parseInt(userId),
+            isDocumentTemplate: false,
+            documentUploadType: "leasingContract",
+            document: pdfData
+          };
+
+          await addUserDocuments({
+            variables: {
+              documentInput
+            }
+          });
+
+          await UpdateLeasingContractStatus({
+            variables: {
+              appointmentId: parseInt(appointmentId),
+              availablityId: parseInt(avabilityId),
+              requirementId: parseInt(requirementId),
+              status: 'contractInitiated'
+            }
+          });
+
+        }
+      }
+
       let careGiverIdList: any = [];
 
       if (selectedCareGiver && selectedCareGiver.length) {
@@ -1219,7 +1215,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
           return unique;
         }, []);
-        console.log("uniqueUser", uniqueUser);
 
         for (let index = 0; index < selectedCareGiver.length; index++) {
           const element = selectedCareGiver[index];
@@ -1254,6 +1249,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             caregiver: careGiverIdList,
             senderUserId: id ? parseInt(id) : null
           };
+
           bulkEmails({ variables: { bulkEmailsInput } });
         }
       } else {
@@ -1349,7 +1345,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                         pdfAppointmentDetails={pdfAppointmentDetails}
                       />
                     }
-                    fileName="test.pdf">
+                  // fileName="test.pdf"
+                  >
                     {({ blob, url, loading, error }: any) =>
                       (!loading ? setPdfData(blob) : null)
                     }

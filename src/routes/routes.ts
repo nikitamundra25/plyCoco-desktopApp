@@ -64,9 +64,6 @@ const DrowInvoice = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/DrowInvoice")
 );
 
-const openpdf = React.lazy(() =>
-  import("../resource/views/pages/BulkEmailCaregiver/PDF")
-);
 const PaySlipForm = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/PaySlipForm")
 );
@@ -147,6 +144,14 @@ const GlobalCalendar = React.lazy(() =>
 const BulkEmailCareinstitution = React.lazy(() =>
   import("../resource/views/pages/BulkEmailCareinstitution")
 );
+
+const pdf1 = React.lazy(() =>
+  import("../resource/views/pages/BulkEmailCaregiver/PDF/TerminationAgreementPdf")
+);
+const pdf2 = React.lazy(() =>
+  import("../resource/views/pages/BulkEmailCaregiver/PDF/ConfirmAppointmentPdf")
+);
+
 const routes = [
   {
     path: AppRoutes.LOGIN,
@@ -438,12 +443,18 @@ const routes = [
     exact: true
   },
   {
-    path: AppRoutes.OPENPDF,
-    name: "openpdf",
-    component: openpdf,
+    path: '/pdf1',
+    name: "pdf1",
+    component: pdf1,
     exact: true
   },
-  
+  {
+    path: '/pdf2',
+    name: "pdf2",
+    component: pdf2,
+    exact: true
+  }
+
 ];
 
 export default routes;

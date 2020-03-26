@@ -1,10 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { Row, Button, Col } from "reactstrap";
-import { convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import { toast } from "react-toastify";
-import { ApolloError } from "apollo-client";
-import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Row, Button, Col } from 'reactstrap';
+import { convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import { toast } from 'react-toastify';
+import { ApolloError } from 'apollo-client';
+import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
 import {
   languageTranslation,
   HtmlToDraftConverter,
@@ -15,9 +15,10 @@ import {
   EmailTemplateQueries,
   ProfileQueries,
   AppointmentsQueries,
-  CareInstitutionQueries
-} from "../../../../graphql/queries";
-import { BulkEmailCareGivers } from "../../../../graphql/Mutations";
+  CareInstitutionQueries,
+  SignatureQueries
+} from '../../../../graphql/queries';
+import { BulkEmailCareGivers, DocumentMutations, LeasingContractMutations } from '../../../../graphql/Mutations';
 import {
   IReactSelectInterface,
   IEmailTemplateData,
@@ -35,7 +36,8 @@ import './index.scss';
 import { useHistory } from 'react-router';
 import { AppRoutes, client } from '../../../../config';
 import moment from 'moment';
-import LeasingContractPDF from './PDF';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import MyDocument from './PDF/LeasingContactPdf';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -50,6 +52,9 @@ const [
 ] = AppointmentsQueries;
 
 const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
+const [ADD_DOCUMENT] = DocumentMutations;
+const [GET_CARE_GIVER_SIGNATURE] = SignatureQueries;
+const [UPDATE_LEASING_CONTRACT_STATUS] = LeasingContractMutations;
 
 let toastId: any = null;
 
@@ -63,6 +68,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     terminateAggrement
   } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
+  const [signatureData, setSignatureData] = useState<any>();
+  const [pdfAppointmentDetails, setPdfAppointmentDetails] = useState<any>([]);
+
   const history = useHistory();
 
   // To access data of loggedIn user
@@ -84,6 +92,28 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
     fetchPolicy: "no-cache"
   });
+
+  // Mutation to leasing document
+  const [addUserDocuments] = useMutation<
+    { addUserDocuments: any },
+    { documentInput: any }
+  >(ADD_DOCUMENT);
+
+  // Query to get uploaded uploadedSignature
+  const [getCareGiverSignature, { data: uploadedSignature }] = useLazyQuery<
+    any
+  >(GET_CARE_GIVER_SIGNATURE);
+
+  // Mutation to leasing document
+  const [UpdateLeasingContractStatus] = useMutation<
+    { UpdateLeasingContractStatus: any },
+    {
+      appointmentId: any,
+      availablityId: any,
+      requirementId: any,
+      status: string
+    }
+  >(UPDATE_LEASING_CONTRACT_STATUS);
 
   // To fetch caregivers by qualification id
   const [
@@ -114,6 +144,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   //Get Data for selected cell
   useEffect(() => {
     if (selectedCells && selectedCells.length) {
+      let userId = selectedCells[0].id;
       const { qualificationIds = [] } = selectedCells[0];
       if (qualificationIds && qualificationIds.length) {
         fetchRequirmentFromQualification({
@@ -122,8 +153,25 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
       }
+      if (userId) {
+        getCareGiverSignature({
+          variables: { userId: parseInt(userId) }
+        });
+      }
     }
   }, [selectedCells]);
+
+  // set caregiver signature data 
+  useEffect(() => {
+    if (uploadedSignature) {
+      const { getCareGiverSignature } = uploadedSignature;
+      if (getCareGiverSignature) {
+        setSignatureData(getCareGiverSignature);
+      } else {
+        setSignatureData({});
+      }
+    }
+  }, [uploadedSignature]);
 
   // To fetch users according to qualification selected
   useEffect(() => {
@@ -173,6 +221,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [bulkcareGivers, setBulkCareGivers] = useState<boolean>(false);
+  const [pdfData, setPdfData] = useState<any>();
 
   const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
     bulkEmailsInput: IBulkEmailVariables;
@@ -246,7 +295,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         setcareGiverData(list);
       }
     } else if (selectedCells && terminateAggrement) {
-          if (selectedCells && selectedCells.length) {
+      if (selectedCells && selectedCells.length) {
         selectedCells.map((key: any) => {
           if (list && list.length) {
             if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
@@ -671,8 +720,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           });
         }
         let divRow: string = "";
-        if(apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0]){
-          divRow=  `<span><b>${moment(apointedCareGiver[0].date).format(
+        if (apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0]) {
+          divRow = `<span><b>${moment(apointedCareGiver[0].date).format(
             "DD/MM"
           )}${" "}${" "}${apointedCareGiver[0].division}</b></span></br>`;
         }
@@ -841,7 +890,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       requirement && requirement.division
                         ? requirement.division.name
                         : requirement.name
-                    }</p>`;
+                      }</p>`;
                   }
                 });
             }
@@ -868,8 +917,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       else if (
         (getQualificationMatching && getQualificationMatching.length) && leasingContract
       ) {
-
-        console.log('leasing..........');
 
         let qualificationArray: any = [];
         let qualificationString: string = '';
@@ -929,8 +976,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
 
         let divRow: string = '';
+        let pdfDivData: any = [];
         divisionArray.map((v: any, i: number) => {
           if (v.id) {
+            let pdfDivRow: string = '';
             divRow += `<p>${v.date +
               ' ' + v.shiftLabel +
               ', Place of work: ' + (v.division ? v.division : ' - ') +
@@ -938,11 +987,22 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               ', job: ' + qualificationString
               }
               </p>`;
+
+            pdfDivRow += `${v.date +
+              ' ' + v.shiftLabel +
+              ', Place of work: ' + (v.division ? v.division : ' - ') +
+              ', ' + v.address +
+              ', job: ' + qualificationString
+              }`;
+
+            pdfDivData.push(pdfDivRow);
           }
         });
 
+        setPdfAppointmentDetails(pdfDivData);
+
         let mailBody = `<p>${languageTranslation('CAREGIVER_EMAIL_LEASING_CONTRACT')}</p></br>${divRow}</br>
-        <p>Please use the following link: <a href='https://www.plycoco.de/de/terminannehmen/befristeterarbeitsvertrag/BxmhddGGRoiwc4fwyEfluR1KS4QWsSkMirRwogkd37WlrtZQzlkrWpmZtn76bpCU36CMsoominj'cMMoqo_minc'36 temporary employment contract / BxmhddGGRoiwc4fwyEfluR1KS4QWsSkMirRwogkd37WlrtZQzlkrWpmZtn76bpCU36CMso6n7zc5eoVzjMOqBA'/> https://www.plycoco.de/de/terminannehmen/befristeterarbeitsvertrag/BxmhddGGRoiwc4fwyEfluR1KS4QWsSkMirRwogkd37WlrtZQzlkrWpmZtn76bpCU36CMsoominj'cMMoqo_minc'36 temporary employment contract / BxmhddGGRoiwc4fwyEfluR1KS4QWsSkMirRwogkd37WlrtZQzlkrWpmZtn76bpCU36CMso6n7zc5eoVzjMOqBA </a>
+        <p>Please use the following link: <a href="http://78.47.143.190:8000/leasing-contract"/> http://78.47.143.190:8000/leasing-contract </a>
         </p>`;
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
@@ -1083,8 +1143,61 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     setAttachments((prevArray: any) => [data, ...prevArray]);
   };
 
-  const handleSendEmail = (e: React.FormEvent<any>) => {
+  console.log('pdfData blob ', pdfData);
+
+  const handleSendEmail = async (e: React.FormEvent<any>) => {
     e.preventDefault();
+
+    if (leasingContract) {
+      let userId = '';
+      let appointmentId = '';
+      let requirementId = '';
+      let avabilityId = '';
+      if (selectedCells && selectedCells.length > 0) {
+        userId = selectedCells[0].id;
+      }
+      if (selectedCellsCareinstitution && selectedCellsCareinstitution.length > 0) {
+        if (selectedCellsCareinstitution[0].item && selectedCellsCareinstitution[0].item.appointments) {
+          let appointments = selectedCellsCareinstitution[0].item.appointments;
+          if (appointments.length > 0) {
+            appointmentId = appointments[0].id;
+            requirementId = appointments[0].requirementId;
+            avabilityId = appointments[0].avabilityId;
+          }
+        }
+      }
+
+      console.log('selectedCellsCareinstitution ', selectedCellsCareinstitution);
+      // console.log('pdfData ', pdfData);
+
+      if (pdfData) {
+
+        let documentInput: any = {
+          appointmentId: parseInt(appointmentId),
+          userId: parseInt(userId),
+          isDocumentTemplate: false,
+          documentUploadType: "leasingContract",
+          document: pdfData
+        };
+
+        await addUserDocuments({
+          variables: {
+            documentInput
+          }
+        });
+
+        await UpdateLeasingContractStatus({
+          variables: {
+            appointmentId: parseInt(appointmentId),
+            availablityId: parseInt(avabilityId),
+            requirementId: parseInt(requirementId),
+            status: 'contractInitiated'
+          }
+        });
+
+      }
+    }
+
     let content = body
       ? draftToHtml(convertToRaw(body.getCurrentContent()))
       : "";
@@ -1228,14 +1341,21 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           <div className="common-content flex-grow-1">
             <div className="bulk-email-section">
               <Row>
-                
-                <Col lg="12">
-                  <div className="pdf-section">
-                  <LeasingContractPDF />
-                  </div>
-               
-                </Col>
-                 {/* <CareGiverListComponent
+                {pdfAppointmentDetails.length > 0 && signatureData ?
+                  <PDFDownloadLink
+                    document={
+                      <MyDocument
+                        signatureData={signatureData}
+                        pdfAppointmentDetails={pdfAppointmentDetails}
+                      />
+                    }
+                    fileName="test.pdf">
+                    {({ blob, url, loading, error }: any) =>
+                      (!loading ? setPdfData(blob) : null)
+                    }
+                  </PDFDownloadLink>
+                  : null}
+                <CareGiverListComponent
                   offerRequirements={offerRequirements}
                   careGivers={
                     props.label !== "appointment" ? careGivers : careGiversList
@@ -1270,7 +1390,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   uploadDocument={uploadDocument}
                   onDelteDocument={onDelteDocument}
                   isSubmit={isSubmit}
-                />  */}
+                />  
               </Row>
             </div>
           </div>

@@ -240,7 +240,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 handleUserList(value, "careinstitution")
               }
               isClearable={true}
-              menuIsOpen={true}
+             
             />
           </div>
           <div className="header-nav-item pt-1" onClick={handleAllResetFilters}>

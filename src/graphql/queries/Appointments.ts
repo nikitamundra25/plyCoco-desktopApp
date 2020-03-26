@@ -263,6 +263,7 @@ const GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION = gql`
     getQualificationMatching(qualificationId: $qualificationId) {
       id
       name
+      address
       date
       startTime
       endTime
@@ -270,6 +271,8 @@ const GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION = gql`
       division {
         id
         name
+        address
+        qualifications
       }
       status
       qualificationId

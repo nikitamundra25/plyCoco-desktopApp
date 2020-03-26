@@ -38,7 +38,7 @@ import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
 import './index.scss';
 import { useHistory } from 'react-router';
-import { AppRoutes, client } from '../../../../config';
+import { AppRoutes, client, dbAcceptableFormat } from '../../../../config';
 import moment from 'moment';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import MyDocument from './PDF/LeasingContactPdf';
@@ -881,14 +881,26 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               requirement.qualificationId.includes(qId)
             );
             if (temp && temp.length) {
-              temp
-                .sort((a: any, b: any) => b.date - a.date)
+                temp.sort((a:any, b:any) => {
+                  return new Date(a.date).valueOf() - new Date(b.date).valueOf();
+                })
                 .forEach((requirement: any) => {
                   const {
                     startTime = '',
                     endTime = '',
                     date = ''
                   } = requirement ? requirement : {};
+                  let deptDetails = '';
+                  // To check if the department is there Then used its detail otherwise careinst details
+                  if (requirement && requirement.division) {
+                    let {name, address, qualifications} = requirement.division
+                    deptDetails = `${name}${address ? `of ${address}` :''}${qualifications && qualifications.length ? ` - ${qualifications.map((q:any) => q.label).join(', ')}` :''}`
+                  }else{
+                    let {name='',address='',qualificationId=[]} = requirement ? requirement :{}
+                    deptDetails = `${name}${address ? `of ${address}` :''}${qualificationId && qualificationId.length ? ` - ${qualificationList.filter(
+                      (qualification: any) => qualification.value === qId
+                    ).map((q:any) => q.label).join(', ')}` :''}`
+                  }
                   if (!moment(date).isBefore(moment(), 'day')) {
                     let shiftLabel =
                       startTime === '06:00'
@@ -905,11 +917,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       .format('H.m');
                     qualificationReq += `<p>${
                       date ? moment(date).format('DD.MM') : ''
-                    } ${shiftLabel} ${duration} ${
-                      requirement && requirement.division
-                        ? requirement.division.name
-                        : requirement.name
-                    }</p>`;
+                    } ${shiftLabel} ${duration} ${deptDetails}
+                    </p>`;
                   }
                 });
             }

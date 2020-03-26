@@ -466,11 +466,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   //Use Effect for email template data
   useEffect(() => {
     if (props.label === 'appointment' && !offerRequirements) {
-      if (
-        props.sortBy === 'division' ||
-        props.sortBy === 'day' ||
-        !terminateAggrement
-      ) {
+      if (props.sortBy === 'division' || props.sortBy === 'day') {
         let qualificationArray: any = [];
         let qualificationString: string = '';
         let remarkRow: string = '';
@@ -830,7 +826,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           });
         }
       }
-      if (!leasingContract && terminateAggrement && !props.confirmApp) {
+      if (!leasingContract && terminateAggrement) {
         if (selectedCells && selectedCells.length) {
           let cname: string = '';
           selectedCells.forEach((element: any) => {
@@ -842,9 +838,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               cname = cr.name;
             }
             let mailBody = '';
-            mailBody = `<p>${`Please sign a termination contract for a temporary employment contract with TIMyoCY for:<span><b>${moment(
-              data.date
-            ).format('DD/MM')}</b></span> ${cname ? cname : ''}</br>` +
+            mailBody = `<p>${`Please sign a termination contract for a temporary employment contract with TIMyoCY for:<span><b>${'date'}</b></span> ${
+              cname ? cname : ''
+            }</br>` +
               `<p>Please use the following link:<a href="http://192.249.123.124:8010/cancel-contract">Cancel Contract</a>`}</p>`;
             const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
             setSubject('Teminate aggrement');

@@ -1143,6 +1143,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     setAttachments((prevArray: any) => [data, ...prevArray]);
   };
 
+  console.log('pdfData blob ', pdfData);
+
   const handleSendEmail = async (e: React.FormEvent<any>) => {
     e.preventDefault();
 
@@ -1165,7 +1167,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       }
 
-      console.log('pdfData ', pdfData);
+      console.log('selectedCellsCareinstitution ', selectedCellsCareinstitution);
+      // console.log('pdfData ', pdfData);
 
       if (pdfData) {
 
@@ -1186,8 +1189,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         await UpdateLeasingContractStatus({
           variables: {
             appointmentId: parseInt(appointmentId),
-            availablityId: parseInt(requirementId),
-            requirementId: parseInt(avabilityId),
+            availablityId: parseInt(avabilityId),
+            requirementId: parseInt(requirementId),
             status: 'contractInitiated'
           }
         });

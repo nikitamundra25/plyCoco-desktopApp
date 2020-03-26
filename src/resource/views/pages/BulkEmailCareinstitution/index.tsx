@@ -49,7 +49,7 @@ const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 let toastId: any = null;
 
 const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
-  const { selectedCellsCareinstitution } = props;
+  const { selectedCellsCareinstitution, confirmAppointment } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const history = useHistory();
 
@@ -204,6 +204,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       });
     }
   }, []);
+
+  console.log('confirmAppointment ', confirmAppointment);
+
 
   useEffect(() => {
     const getUserByQualifications =
@@ -385,10 +388,10 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 const bodyData: any = `<span>Appointment confirmation:-</br></br>${divRow}</br>Please note that each self-employed caregiver and assistant has their own fee. The caregiver is informed to contact you by phone before the assignment..</span><br />${
                   isLeasing
                     ? `<p>${languageTranslation(
-                        'CONTRACT_LINE'
-                      )}</p><p>${languageTranslation('CONTRACT_MAIL_INFO')}</p>`
+                      'CONTRACT_LINE'
+                    )}</p><p>${languageTranslation('CONTRACT_MAIL_INFO')}</p>`
                     : ''
-                }`;
+                  }`;
                 const editorState = bodyData
                   ? HtmlToDraftConverter(bodyData)
                   : '';

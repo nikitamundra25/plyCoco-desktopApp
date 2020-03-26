@@ -373,7 +373,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     });
   }
-  console.log('careinstitutionSoloFilter', careinstitutionSoloFilter);
+  // console.log('careinstitutionSoloFilter', careinstitutionSoloFilter);
   return (
     <div>
       <div

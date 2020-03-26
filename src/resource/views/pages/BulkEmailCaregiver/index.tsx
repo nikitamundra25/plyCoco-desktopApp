@@ -1451,7 +1451,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   uploadDocument={uploadDocument}
                   onDelteDocument={onDelteDocument}
                   isSubmit={isSubmit}
-                />
+                />  
               </Row>
             </div>
           </div>

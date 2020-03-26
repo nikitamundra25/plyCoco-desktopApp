@@ -1959,7 +1959,17 @@ html:not([dir="rtl"]) {
         width: 190px;
       }
     }
+    
   }
+  &.custom-reactselect-menu-width-careinstitution-appointment {
+    .custom-inner-reactselect__menu {
+      width: 340px;
+      .custom-select-options .custom-companyname-option{
+        flex: 0 0 150px;
+        max-width: 150px;
+      }
+    }
+}
 }
 
 //custom select checkbox
@@ -4067,7 +4077,8 @@ html:not([dir="rtl"]) {
       background-color: #22a226cc;
     }
     .holiday-text-wrap {
-      width: 250px;
+      width: 270px;
+      padding-right:30px;
     }
     .action-btn {
       position: absolute;

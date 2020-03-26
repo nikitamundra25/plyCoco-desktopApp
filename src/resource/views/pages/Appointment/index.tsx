@@ -2772,8 +2772,20 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCells.length
     ) {
       let qualiCheck: any[] = [];
-      selectedCells.map((key: any, index: number) => {
+      selectedCells.map(async (key: any, index: number) => {
         const element = selectedCellsCareinstitution[index];
+        if(key.caregiver && key.caregiver.attributes && key.caregiver.attributes.length){
+          let checkAttribute =  key.caregiver.attributes.includes(8)
+          if(checkAttribute){
+           const { value } = await ConfirmBox({
+             title: languageTranslation('ATTRIBUTE_WARNING'),
+             text: languageTranslation('LINKED_ATTRIBUTE_WARNING'),
+           })
+           if (!value) {
+             return;
+           }
+          }
+         }
         if (
           key.qualificationIds &&
           key.qualificationIds.length &&
@@ -2786,7 +2798,7 @@ const Appointment: FunctionComponent = (props: any) => {
         }
         if (qualiCheck && qualiCheck.length <= 0) {
           if (!toast.isActive(toastId)) {
-            toastId = toast.error(languageTranslation('QUALIFICATION_UNMATCH'));
+            toastId = toast.warn(languageTranslation('QUALIFICATION_UNMATCH'));
           }
           checkError = true;
           return true;

@@ -941,7 +941,7 @@
   "SELECT_APPOINTMENT_IN_UNLINK": "Please select appointment/s.",
   "QUALIFICATION_REQUIRED": "Qualification is required",
   "DEPARTMENT_REQUIRED": "Department is required",
-  "QUALIFICATION_UNMATCH": "Qualifications Didnot match.",
+  "QUALIFICATION_UNMATCH": "Qualifications did not match",
   "SELECT_USER": "Select user",
   "SELECT_ALL_BY_EMAIL": "Select all by email",
   "SELECT_ALL_BY_POST": "select all by post",
@@ -956,5 +956,7 @@
   "KM": "KM",
   "KM_PRICE": "KM Price",
   "TOTAL": "Total",
-  "COMMISSION": "Commision"
+  "COMMISSION": "Commision",
+  "LINKED_ATTRIBUTE_WARNING": "This care giver contains negative entry in good conduct certificate",
+  "ATTRIBUTE_WARNING": "Are you sure you want to linked with this"
 }

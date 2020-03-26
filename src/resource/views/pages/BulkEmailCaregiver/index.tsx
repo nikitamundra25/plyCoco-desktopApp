@@ -129,8 +129,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     if (props.label === "appointment") {
       let temp: any = [];
-      console.log("props.qualification",props.qualification);
-      
+    
       if (props.qualification && props.qualification.length) {
         props.qualification.map((key: any, index: number) => {
           if (key.value) {
@@ -140,7 +139,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
       }
-      console.log("hereeeeeee");
       
       // get careGivers list
       fetchCaregiverListFromQualification({
@@ -644,6 +642,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         setBody(editorState);
       }
       if (props.confirmApp) {
+        
         let apointedCareGiver: any = [];
         if (selectedCells && selectedCells.length) {
           selectedCells.forEach((element: any) => {
@@ -678,7 +677,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         ) {
           divRow = `<span><b>${moment(apointedCareGiver[0].date).format(
             "DD/MM"
-          )}${" "}${" "}${apointedCareGiver[0].division}</b></span></br>`;
+          )}${" "}${" "}${apointedCareGiver[0].division ? apointedCareGiver[0].division : ""}</b></span></br>`;
         }
         const bodyData: any = `<span>${divRow}</br>Please send your fee contract to the institution immediately.</br></br>You can also use the corresponding function on the website.</br></br>Please call the institution about 2 days before the start of the service to make sure you are coming.</span>`;
         const editorState = bodyData ? HtmlToDraftConverter(bodyData) : "";
@@ -803,6 +802,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       let qualificationReq = "";
       if (
         !leasingContract &&
+        !props.confirmApp &&
         ((getQualificationMatching && getQualificationMatching.length) ||
           offerRequirements)
       ) {

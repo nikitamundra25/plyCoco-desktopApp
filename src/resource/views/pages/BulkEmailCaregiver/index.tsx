@@ -41,7 +41,8 @@ import { useHistory } from 'react-router';
 import { AppRoutes, client } from '../../../../config';
 import moment from 'moment';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import MyDocument from './PDF/LeasingContactPdf';
+import LeasingContactPdf from './PDF/LeasingContactPdf';
+import TerminationAgreementPdf from './PDF/TerminationAgreementPdf';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -74,6 +75,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const [signatureData, setSignatureData] = useState<any>();
   const [pdfAppointmentDetails, setPdfAppointmentDetails] = useState<any>([]);
+  const [pdfTerminateAppointment, setPdfTerminateAppointment] = useState<any>();
 
   const history = useHistory();
 
@@ -83,7 +85,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     userData = client.readQuery({
       query: VIEW_PROFILE
     });
-  } catch (error) {}
+  } catch (error) { }
 
   const { viewAdminProfile }: any = userData ? userData : {};
   const { firstName = '', lastName = '', id = '' } = viewAdminProfile
@@ -142,7 +144,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   });
 
   //Get requirment list data for qualificationid
-  useEffect(() => {}, [requirmentList]);
+  useEffect(() => { }, [requirmentList]);
 
   //Get Data for selected cell
   useEffect(() => {
@@ -224,7 +226,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [bulkcareGivers, setBulkCareGivers] = useState<boolean>(false);
-  const [pdfData, setPdfData] = useState<any>();
+  const [leasingContactPdfData, setLeasingContactPdfData] = useState<any>();
+  const [terminationAgreementPdfData, setTerminationAgreementPdfData] = useState<any>();
 
   const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
     bulkEmailsInput: IBulkEmailVariables;
@@ -490,8 +493,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               object.item.startTime === '06:00'
                 ? 'FD'
                 : object.item.startTime === '14:00'
-                ? 'SD'
-                : 'ND';
+                  ? 'SD'
+                  : 'ND';
 
             obj.id = object.item.id;
             obj.division = object.item.division
@@ -531,7 +534,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         );
 
         if (props.sortBy === 'day') {
-          divisionArray = divisionArray.sort(function(a: any, b: any) {
+          divisionArray = divisionArray.sort(function (a: any, b: any) {
             return a.date - b.date;
           });
         } else {
@@ -568,26 +571,26 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let mailBody: any = '';
         mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}
           </p><br/>${
-            isLeasing
-              ? `<p>${languageTranslation('LEASING_OFFER')}</p></BR>`
-              : ''
+          isLeasing
+            ? `<p>${languageTranslation('LEASING_OFFER')}</p></BR>`
+            : ''
           }<p>${languageTranslation(
-          'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
-        ) +
+            'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
+          ) +
           ' ' +
           qualificationString}</p><br/>${divRow}</br>${
           props.showButton
             ? `</br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>`
             : ''
-        }${remarkRow}</br><p>${languageTranslation('FEE') +
+          }${remarkRow}</br><p>${languageTranslation('FEE') +
           ':' +
           languageTranslation('FEE_TEXT')}</p>${
           isLeasing
             ? `<p>${languageTranslation(
-                'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
-              )}</p>`
+              'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
+            )}</p>`
             : ''
-        }`;
+          }`;
         // }
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
@@ -607,8 +610,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               object.item.startTime === '06:00'
                 ? 'FD'
                 : object.item.startTime === '14:00'
-                ? 'SD'
-                : 'ND';
+                  ? 'SD'
+                  : 'ND';
 
             obj.id = object.item.id;
             obj.division = object.item.division
@@ -647,7 +650,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         qualificationString = temp.join();
 
         if (props.sortBy === 'day') {
-          divisionArray = divisionArray.sort(function(a: any, b: any) {
+          divisionArray = divisionArray.sort(function (a: any, b: any) {
             return a.date - b.date;
           });
         } else {
@@ -678,12 +681,12 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         )}</p></BR><p>${languageTranslation(
           'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
         ) +
-          ' ' +
-          qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation(
+        ' ' +
+        qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation(
           'FEE'
         ) +
-          ':' +
-          languageTranslation('FEE_TEXT')}</p><p>${languageTranslation(
+        ':' +
+        languageTranslation('FEE_TEXT')}</p><p>${languageTranslation(
           'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
         )}</p>`;
 
@@ -695,7 +698,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let apointedCareGiver: any = [];
         if (selectedCells && selectedCells.length) {
           selectedCells.forEach((element: any) => {
-            console.log('element', element);
 
             const {
               item = {},
@@ -765,7 +767,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               'DD/MM'
             )}${' '}${' '}${data.division}:${' '}${' '}${
               data.caregivername
-            }</b></span></br>`;
+              }</b></span></br>`;
           });
           const bodyData: any = `<span>The facility has unfortunately canceled the following dates::-</br></br>${divRow}</br>The canceled dates have been marked as "free" and you will immediately receive offers for these days</span>`;
           const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
@@ -810,7 +812,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               'DD/MM'
             )}${' '}${' '}${data.division}:${' '}${' '}${
               data.caregivername
-            }</b></span></br>`;
+              }</b></span></br>`;
           });
           const bodyData: any = `<span>We have informed the institution of your cancellation for the following dates:-</br></br>${divRow}</span>`;
           const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
@@ -840,8 +842,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             let mailBody = '';
             mailBody = `<p>${`Please sign a termination contract for a temporary employment contract with TIMyoCY for:<span><b>${'date'}</b></span> ${
               cname ? cname : ''
-            }</br>` +
-              `<p>Please use the following link:<a href="http://192.249.123.124:8010/cancel-contract">Cancel Contract</a>`}</p>`;
+              }</br>` +
+              `<p>Please use the following link: <a href="http://78.47.143.190:8000/cancel-contract"> Cancel Contract</a>`}</p>`;
+            if (!pdfTerminateAppointment) {
+              setPdfTerminateAppointment(mailBody);
+            }
             const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
             setSubject('Teminate aggrement');
             setBody(editorState);
@@ -873,10 +878,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             )}: ${
               qualificationList && qualificationList.length
                 ? qualificationList.filter(
-                    (qualification: any) => qualification.value === qId
-                  )[0].label
+                  (qualification: any) => qualification.value === qId
+                )[0].label
                 : ''
-            }</p>`;
+              }</p>`;
             let temp = getQualificationMatching.filter((requirement: any) =>
               requirement.qualificationId.includes(qId)
             );
@@ -894,8 +899,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       startTime === '06:00'
                         ? 'FD'
                         : startTime === '14:00'
-                        ? 'SD'
-                        : 'ND';
+                          ? 'SD'
+                          : 'ND';
                     let duration = moment
                       .utc(
                         moment(endTime, 'HH:mm').diff(
@@ -905,11 +910,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       .format('H.m');
                     qualificationReq += `<p>${
                       date ? moment(date).format('DD.MM') : ''
-                    } ${shiftLabel} ${duration} ${
+                      } ${shiftLabel} ${duration} ${
                       requirement && requirement.division
                         ? requirement.division.name
                         : requirement.name
-                    }</p>`;
+                      }</p>`;
                   }
                 });
             }
@@ -923,8 +928,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         )}</p><br/><p>${languageTranslation(
           'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
         )}</p>${qualificationReq}<br/><p>${languageTranslation('FEE') +
-          ':' +
-          languageTranslation('FEE_TEXT')}<br/>${languageTranslation(
+        ':' +
+        languageTranslation('FEE_TEXT')}<br/>${languageTranslation(
           'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
         )}`;
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
@@ -947,8 +952,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               object.item.startTime === '06:00'
                 ? 'FD'
                 : object.item.startTime === '14:00'
-                ? 'SD'
-                : 'ND';
+                  ? 'SD'
+                  : 'ND';
 
             obj.id = object.item.id;
             obj.address = object.item.address;
@@ -985,7 +990,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         qualificationString = temp.join();
 
         if (props.sortBy === 'day') {
-          divisionArray = divisionArray.sort(function(a: any, b: any) {
+          divisionArray = divisionArray.sort(function (a: any, b: any) {
             return a.date - b.date;
           });
         } else {
@@ -1124,13 +1129,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       setAttachments(
         attachments
           ? attachments.map(
-              ({ name, id, path, size }: INewEmailAttachments) => ({
-                fileName: name,
-                id,
-                path,
-                size
-              })
-            )
+            ({ name, id, path, size }: INewEmailAttachments) => ({
+              fileName: name,
+              id,
+              path,
+              size
+            })
+          )
           : []
       );
     }
@@ -1175,7 +1180,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     setIsSubmit(true);
 
     try {
-      if (leasingContract) {
+      if (leasingContract || terminateAggrement) {
         let userId = '';
         let appointmentId = '';
         let requirementId = '';
@@ -1201,13 +1206,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         }
 
-        if (pdfData) {
+        if (leasingContactPdfData) {
           let documentInput: any = {
             appointmentId: parseInt(appointmentId),
             userId: parseInt(userId),
             isDocumentTemplate: false,
             documentUploadType: 'leasingContract',
-            document: pdfData
+            document: leasingContactPdfData
           };
 
           await addUserDocuments({
@@ -1225,6 +1230,24 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             }
           });
         }
+
+        if (terminationAgreementPdfData) {
+          let documentInput: any = {
+            appointmentId: parseInt(appointmentId),
+            userId: parseInt(userId),
+            isDocumentTemplate: false,
+            documentUploadType: 'terminateAgreement',
+            document: terminationAgreementPdfData
+          };
+
+          await addUserDocuments({
+            variables: {
+              documentInput
+            }
+          });
+
+        }
+
       }
 
       let careGiverIdList: any = [];
@@ -1269,8 +1292,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             files:
               attachments && attachments.length
                 ? attachments
-                    .map((item: IEmailAttachmentData) => item.file)
-                    .filter((file: File | null) => file)
+                  .map((item: IEmailAttachmentData) => item.file)
+                  .filter((file: File | null) => file)
                 : null,
             caregiver: careGiverIdList,
             senderUserId: id ? parseInt(id) : null
@@ -1338,11 +1361,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   {bulkEmailLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
-                    <i
-                      className='fa fa-paper-plane mr-2'
-                      aria-hidden='true'
-                    ></i>
-                  )}
+                      <i
+                        className='fa fa-paper-plane mr-2'
+                        aria-hidden='true'
+                      ></i>
+                    )}
                   <span>{languageTranslation('SEND')}</span>
                 </Button>
               </div>
@@ -1363,21 +1386,36 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
-                {pdfAppointmentDetails.length > 0 && signatureData ? (
+                {leasingContract && pdfAppointmentDetails.length > 0 ? (
                   <PDFDownloadLink
                     document={
-                      <MyDocument
+                      <LeasingContactPdf
                         signatureData={signatureData}
                         pdfAppointmentDetails={pdfAppointmentDetails}
                       />
                     }
-                    // fileName="test.pdf"
                   >
                     {({ blob, url, loading, error }: any) =>
-                      !loading ? setPdfData(blob) : null
+                      !loading ? setLeasingContactPdfData(blob) : null
                     }
                   </PDFDownloadLink>
                 ) : null}
+
+                {terminateAggrement && pdfTerminateAppointment ? (
+                  <PDFDownloadLink
+                    document={
+                      <TerminationAgreementPdf
+                        signatureData={signatureData}
+                        pdfTerminateAppointment={pdfTerminateAppointment}
+                      />
+                    }
+                  >
+                    {({ blob, url, loading, error }: any) =>
+                      !loading ? setTerminationAgreementPdfData(blob) : null
+                    }
+                  </PDFDownloadLink>
+                ) : null}
+
                 <CareGiverListComponent
                   offerRequirements={offerRequirements}
                   careGivers={

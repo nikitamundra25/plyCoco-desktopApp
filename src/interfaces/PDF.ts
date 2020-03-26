@@ -5,7 +5,7 @@ export interface ILeasingContactPdfProps {
 
 export interface ITerminationAgreementPdfProps {
   signatureData?: any;
-  pdfAppointmentDetails?: any;
+  pdfTerminateAppointment?: any;
 }
 
 export interface IConfirmAppointmentPdfProps {

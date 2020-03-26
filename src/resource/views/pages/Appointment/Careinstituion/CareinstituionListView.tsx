@@ -1012,7 +1012,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           hasChildren
         >
           <div
-            className='calender-section custom-scrollbar mt-3'
+            className='calender-section custom-scrollbar mt-3 careinstitution-appointment-list'
             id={'scrollableDiv-2'}
           >
             <SelectableGroup

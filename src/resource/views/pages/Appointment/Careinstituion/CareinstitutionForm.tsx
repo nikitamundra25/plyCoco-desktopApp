@@ -30,7 +30,8 @@ import {
   ShiftTime,
   TimeMask,
   appointmentDayFormat,
-  defaultDateFormat
+  defaultDateFormat,
+  dbAcceptableFormat
 } from '../../../../../config';
 import '../index.scss';
 
@@ -168,6 +169,12 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       ? careInstitutionTimesOptions
       : ShiftTime;
 
+      let dateCondition: any 
+if(activeDateCareinstitution && activeDateCareinstitution.length && activeDateCareinstitution[0]){
+  let now = moment().format(dbAcceptableFormat);
+   let  input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
+   dateCondition =  now <= input;
+}
   return (
     <>
       <div className='form-section '>
@@ -839,7 +846,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   className='btn-save'
                   color='primary'
                   onClick={handleSubmit}
-                  disabled={addCareinstLoading}
+                  disabled={addCareinstLoading ? true : !dateCondition ? true : false}
                 >
                   {addCareinstLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />

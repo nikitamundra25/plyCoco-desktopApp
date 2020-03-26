@@ -49,11 +49,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     isPositive,
     setIsPositive,
     isNegative,
-    setIsNegative
+    setIsNegative,
+    positive,
+    negative,
   } = props;
-
-
-  const { month = "", year = "" } = daysData ? daysData : {};
+  const { month = '', year = '' } = daysData ? daysData : {};
 
   const [attributeSearch, setShowAttribute] = useState<boolean>(false);
   const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
@@ -61,6 +61,9 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   const [userId, setuserId] = useState<string>("");
   const [dropdownOpen, setOpen] = useState<boolean>(false);
 
+  // To check whether any filter is set or not
+  let isFilterSet: boolean = (caregiverSoloFilter && caregiverSoloFilter.value ? true : false) || (careinstitutionSoloFilter && careinstitutionSoloFilter.value ? true : false) || (positive && positive.length ? true : false) || (negative && negative.length ? true : false) || (qualification && qualification.length ? true : false) || filterByAppointments && filterByAppointments.value ? true : false || month === moment().month().toString() || userId ? true : false;
+  
   const toggle = () => setOpen(!dropdownOpen);
   const handleSelect = (e: any, name: string) => {
     if (name === "dropdown") {
@@ -85,10 +88,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     }
   };
   const handleAllResetFilters = () => {
-    handleResetFilters();
+    console.log('in handleAllResetFilters');
+    if (isFilterSet) {
+      handleResetFilters();
+    }
   };
 
- 
   let setMonthForDays: any = new Date(
     parseInt(year),
     parseInt(
@@ -97,7 +102,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
         .format("M")
     ))
   let setNewDate: any = new Date(setMonthForDays.getFullYear(), setMonthForDays.getMonth() - 1, 1)
-  
+
   return (
     <>
       <div className="sticky-common-header">
@@ -245,7 +250,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               isClearable={true}
             />
           </div>
-          <div className="header-nav-item pt-1" onClick={handleAllResetFilters}>
+          <div className={`header-nav-item pt-1 ${!isFilterSet ? 'disable' : ''}`} onClick={handleAllResetFilters}>
             <span className="header-nav-icon">
               <i className="fa fa-refresh "></i>
             </span>
@@ -307,6 +312,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
         setAttributeFilter={setAttributeFilter}
         attributeFilter={attributeFilter}
         applyFilter={applyFilter}
+        positive={positive}
+        negative={negative}
         isPositive={isPositive}
         setIsPositive={setIsPositive}
         isNegative={isNegative}

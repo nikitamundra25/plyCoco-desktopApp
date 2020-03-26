@@ -24,7 +24,8 @@ import {
   NightAllowancePerHour,
   State,
   defaultDateFormat,
-  appointmentDayFormat
+  appointmentDayFormat,
+  dbAcceptableFormat
 } from '../../../../../config';
 import '../index.scss';
 
@@ -162,10 +163,13 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     handleSelectUserList(data, name);
   };
 
-  let dateCondition: any =
-    activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]
-      ? moment(activeDateCaregiver[0]).isSameOrAfter()
-      : '';
+let dateCondition: any 
+if(activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]){
+  let now = moment().format(dbAcceptableFormat);
+   let  input = moment(activeDateCaregiver[0]).format(dbAcceptableFormat);
+   dateCondition =  now <= input;
+}
+      
   return (
     <>
       <div className='form-section'>
@@ -914,7 +918,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   className='btn-save'
                   color='primary'
                   onClick={handleSubmit}
-                  disabled={addCaregiverLoading}
+                  disabled={addCaregiverLoading ? true : !dateCondition ? true : false }
                 >
                   {addCaregiverLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />

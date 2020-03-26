@@ -12,37 +12,7 @@ const Cell = ({
   key,
   daysArr,
   selectedCellsCareinstitution,
-  selectedCells,
-  fetchDataValues,
-  handleSelection
 }: any) => {
-  useEffect(() => {
-    if (isSelected) {
-      fetchDataValues();
-      let temp = selectedCells && selectedCells.length ? [...selectedCells]:[]
-    console.log(isSelected,item, list,day, 'isSelected in useeffect');
-    const {
-      id = '',
-      firstName = '',
-      lastName = '',
-      email = '',
-      caregiver = {},
-      qualificationId = []
-    } = list ? list : {};
-    temp.push({
-      id,
-      firstName,
-      lastName,
-      email,
-      caregiver,
-      item,
-      qualificationIds: qualificationId,
-      dateString: day ? day.dateString : ''
-    })
-    // handleSelection(temp,'caregiver')
-    }
-    
-  },[isSelected])
   let isBlocked: boolean = false;
   if (item) {
     isBlocked = item.f === 'block' || item.s === 'block' || item.n === 'block';

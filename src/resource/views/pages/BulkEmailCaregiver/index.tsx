@@ -138,8 +138,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   });
 
   //Get requirment list data for qualificationid
-  useEffect(() => {
-  }, [requirmentList]);
+  useEffect(() => { }, [requirmentList]);
 
   //Get Data for selected cell
   useEffect(() => {
@@ -462,8 +461,12 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   //Use Effect for email template data
   useEffect(() => {
-    if (props.label === "appointment" && !offerRequirements) {
-      if (props.sortBy === "division" || props.sortBy === "day") {
+    if (props.label === 'appointment' && !offerRequirements) {
+      if (
+        props.sortBy === 'division' ||
+        props.sortBy === 'day' ||
+        !terminateAggrement
+      ) {
         let qualificationArray: any = [];
         let qualificationString: string = "";
         let remarkRow: string = "";
@@ -846,32 +849,34 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         : {};
       let mailBody = '';
       let qualificationReq = '';
-      if (!leasingContract &&
+      if (
+        !leasingContract &&
         ((getQualificationMatching && getQualificationMatching.length) ||
           offerRequirements)
       ) {
-
         if (qualificationIds && qualificationIds.length) {
           qualificationIds.forEach((qId: string) => {
             qualificationReq += `<br /><p>${languageTranslation(
-              'QUALIFICATION_HEAD',
+              'QUALIFICATION_HEAD'
             )}: ${
               qualificationList && qualificationList.length
                 ? qualificationList.filter(
-                  (qualification: any) => qualification.value === qId,
+                  (qualification: any) => qualification.value === qId
                 )[0].label
                 : ''
               }</p>`;
             let temp = getQualificationMatching.filter((requirement: any) =>
-              requirement.qualificationId.includes(qId),
+              requirement.qualificationId.includes(qId)
             );
             if (temp && temp.length) {
               temp
                 .sort((a: any, b: any) => b.date - a.date)
                 .forEach((requirement: any) => {
-                  const { startTime = '', endTime = '', date = '' } = requirement
-                    ? requirement
-                    : {};
+                  const {
+                    startTime = '',
+                    endTime = '',
+                    date = ''
+                  } = requirement ? requirement : {};
                   if (!moment(date).isBefore(moment(), 'day')) {
                     let shiftLabel =
                       startTime === '06:00'
@@ -881,7 +886,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                           : 'ND';
                     let duration = moment
                       .utc(
-                        moment(endTime, 'HH:mm').diff(moment(startTime, 'HH:mm')),
+                        moment(endTime, 'HH:mm').diff(
+                          moment(startTime, 'HH:mm')
+                        )
                       )
                       .format("H.m");
                     qualificationReq += `<p>${
@@ -898,24 +905,23 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
 
         mailBody = `<p>${languageTranslation(
-          'OFFER_REQUIREMENTS_TO_CG',
+          'OFFER_REQUIREMENTS_TO_CG'
         )}</p><p>${languageTranslation(
-          'CAREGIVER_OFFER_EMAIL_HEADING',
+          'CAREGIVER_OFFER_EMAIL_HEADING'
         )}</p><br/><p>${languageTranslation(
-          'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED',
+          'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
         )}</p>${qualificationReq}<br/><p>${languageTranslation('FEE') +
         ':' +
         languageTranslation('FEE_TEXT')}<br/>${languageTranslation(
-          'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER',
+          'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
         )}`;
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : "";
         setSubject(languageTranslation("OFFER_REQUIREMENTS_SUB"));
         setBody(editorState);
-      }
-
-
-      else if (
-        (getQualificationMatching && getQualificationMatching.length) && leasingContract
+      } else if (
+        getQualificationMatching &&
+        getQualificationMatching.length &&
+        leasingContract
       ) {
 
         let qualificationArray: any = [];
@@ -945,8 +951,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             obj.duration = moment
               .utc(
                 moment(object.item.endTime, 'HH:mm').diff(
-                  moment(object.item.startTime, 'HH:mm'),
-                ),
+                  moment(object.item.startTime, 'HH:mm')
+                )
               )
               .format('H.m');
             divisionArray.push(obj);
@@ -981,11 +987,14 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           if (v.id) {
             let pdfDivRow: string = '';
             divRow += `<p>${v.date +
-              ' ' + v.shiftLabel +
-              ', Place of work: ' + (v.division ? v.division : ' - ') +
-              ', ' + v.address +
-              ', job: ' + qualificationString
-              }
+              ' ' +
+              v.shiftLabel +
+              ', Place of work: ' +
+              (v.division ? v.division : ' - ') +
+              ', ' +
+              v.address +
+              ', job: ' +
+              qualificationString}
               </p>`;
 
             pdfDivRow += `${v.date +
@@ -1006,10 +1015,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         </p>`;
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
-        setSubject(languageTranslation('CAREGIVER_EMAIL_LEASING_CONTRACT_SUBJECT'));
+        setSubject(
+          languageTranslation('CAREGIVER_EMAIL_LEASING_CONTRACT_SUBJECT')
+        );
         setBody(editorState);
       }
-
     }
   }, [requirmentList]);
 
@@ -1373,6 +1383,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   bulkcareGivers={bulkcareGivers}
                   confirmApp={props.confirmApp}
                   unlinkedBy={props.unlinkedBy}
+                  terminateAggrement={terminateAggrement}
                 />
 
                 <EmailEditorComponent

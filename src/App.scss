@@ -1959,7 +1959,17 @@ html:not([dir="rtl"]) {
         width: 190px;
       }
     }
+    
   }
+  &.custom-reactselect-menu-width-careinstitution-appointment {
+    .custom-inner-reactselect__menu {
+      width: 340px;
+      .custom-select-options .custom-companyname-option{
+        flex: 0 0 150px;
+        max-width: 150px;
+      }
+    }
+}
 }
 
 //custom select checkbox

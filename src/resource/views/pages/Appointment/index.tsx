@@ -496,10 +496,10 @@ const Appointment: FunctionComponent = (props: any) => {
         caregiverId:
           caregiverSoloFilter && caregiverSoloFilter.value
             ? parseInt(caregiverSoloFilter.value)
-            // : locationState && locationState.caregiver
-            //? locationState.caregiver
-            : null,
-      },
+            : // : locationState && locationState.caregiver
+              //? locationState.caregiver
+              null
+      }
     });
   };
   //to get list of all the careinstitutions
@@ -533,10 +533,10 @@ const Appointment: FunctionComponent = (props: any) => {
         careInstitutionId:
           careinstitutionSoloFilter && careinstitutionSoloFilter.value
             ? parseInt(careinstitutionSoloFilter.value)
-            //: locationState && locationState.canstitution
-            //? locationState.canstitution
-            : null,
-      },
+            : //: locationState && locationState.canstitution
+              //? locationState.canstitution
+              null
+      }
     });
   };
   // by clicking on apply filter to get care giver and care institution list accordingly
@@ -1007,7 +1007,7 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleSelectUserList = (data: any, name: string) => {
     if (name === 'caregiver') {
       setcaregiversList(data);
-    } else if(name === 'careinstitution') {
+    } else if (name === 'careinstitution') {
       setcareinstitutionList(data);
     }
   };
@@ -1194,9 +1194,15 @@ const Appointment: FunctionComponent = (props: any) => {
   //To set locationstate data into filter
   useEffect(() => {
     if (locationState && locationState.caregiver) {
-      setcaregiverSoloFilter({ label: locationState.name, value: locationState.caregiver })
+      setcaregiverSoloFilter({
+        label: locationState.name,
+        value: locationState.caregiver
+      });
     } else if (locationState && locationState.canstitution) {
-      setcareinstitutionSoloFilter({ label: locationState.name, value: locationState.canstitution })
+      setcareinstitutionSoloFilter({
+        label: locationState.name,
+        value: locationState.canstitution
+      });
     }
   }, [locationState]);
 
@@ -1263,7 +1269,6 @@ const Appointment: FunctionComponent = (props: any) => {
       }
     );
   }
-
 
   // set careInstitution list options
   const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
@@ -2226,7 +2231,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               });
               setMultipleAvailability(false);
-              toast.dismiss()
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
                 toastId = toast.success(
                   languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
@@ -2413,7 +2418,7 @@ const Appointment: FunctionComponent = (props: any) => {
               }
             });
             setMultipleRequirement(false);
-            toast.dismiss()
+            toast.dismiss();
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
                 languageTranslation(
@@ -2560,7 +2565,7 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         });
         if (!toast.isActive(toastId)) {
-          toast.dismiss()
+          toast.dismiss();
           toastId = toast.success(
             languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
           );
@@ -3321,6 +3326,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 <Col lg={'6'}>
                   {/* caregiver list view */}
                   <CaregiverListView
+                    careinstitutionSoloFilter={careinstitutionSoloFilter}
                     fetchingCareGiverData={fetchingCareGiverData}
                     daysData={daysData}
                     loading={caregiverLoading}

@@ -644,7 +644,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         // hasChildren
         >
           <div
-            className='calender-section custom-scrollbar'
+            className='calender-section custom-scrollbar caregiver-appointment-list'
             id='scrollableDiv-1'
           >
             <SelectableGroup

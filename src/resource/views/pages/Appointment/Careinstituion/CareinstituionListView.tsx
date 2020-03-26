@@ -159,7 +159,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setSelectedDays([]);
   };
   // Link appointments
-  const handleLinkAppointments = (name: string) => {
+  const handleLinkAppointments = async (name: string) => {
     let selectedData: any = [],
       checkError: boolean = false;
     if (
@@ -173,21 +173,22 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           toastId = toast.error('Please select same length cells');
         }
       } else {
+        if(selectedCells[0].caregiver && selectedCells[0].caregiver.attributes && selectedCells[0].caregiver.attributes.length){
+          let checkAttribute =  selectedCells[0].caregiver.attributes.includes(8)
+          if(checkAttribute){
+           const { value } = await ConfirmBox({
+             title: languageTranslation('ATTRIBUTE_WARNING'),
+             text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
+           })
+           if (!value) {
+            checkError = true;
+             return;
+           }
+          }
+         }
         let qualiCheck: any[] = [];
         selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
-          if(key.caregiver && key.caregiver.attributes && key.caregiver.attributes.length){
-            let checkAttribute =  key.caregiver.attributes.includes(8)
-            if(checkAttribute){
-             const { value } = await ConfirmBox({
-               title: languageTranslation('ATTRIBUTE_WARNING'),
-               text: languageTranslation('LINKED_ATTRIBUTE_WARNING'),
-             })
-             if (!value) {
-               return;
-             }
-            }
-           }
           if (
             key.qualificationIds &&
             key.qualificationIds.length &&

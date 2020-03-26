@@ -33,7 +33,7 @@ import filter from "../../../assets/img/filter.svg";
 import refresh from "../../../assets/img/refresh.svg";
 import "./index.scss";
 import { useHistory } from "react-router";
-import { AppRoutes, client } from "../../../../config";
+import { AppRoutes, client, dbAcceptableFormat } from "../../../../config";
 import moment from "moment";
 import LeasingContractPDF from "./PDF";
 
@@ -129,6 +129,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     if (props.label === "appointment") {
       let temp: any = [];
+      console.log("props.qualification",props.qualification);
+      
       if (props.qualification && props.qualification.length) {
         props.qualification.map((key: any, index: number) => {
           if (key.value) {
@@ -138,6 +140,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
       }
+      console.log("hereeeeeee");
+      
       // get careGivers list
       fetchCaregiverListFromQualification({
         variables: {
@@ -1132,19 +1136,30 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           careGiverData.map((key: any, index: number) => {
             let temp = uniqueUser.filter(
               (id: string) => parseInt(id) === parseInt(key.id)
-            ); 
-            
+            );
+
             if (temp && temp.length) {
-              console.log("key",key);
+              let filterDate: any;
+              if (key.caregiver_avabilities) {
+                filterDate = key.caregiver_avabilities.filter(
+                  (avail: any) =>
+                    moment(avail.date).format(dbAcceptableFormat) ===
+                    moment(selectedCellsCareinstitution[0].dateString).format(
+                      dbAcceptableFormat
+                    )
+                )[0];
+              }
               singleButtonCaregiverList.push({
-                receiverUserId: key && key.id? parseInt(key.id) : null,
-                availabilityId: key && key.item && key.item.id ? parseInt(key.item.id) : null
+                receiverUserId: key && key.id ? parseInt(key.id) : null,
+                availabilityId:
+                  filterDate && filterDate.id ? parseInt(filterDate.id) : null
               });
-            } 
+            }
           });
         }
-  console.log("careGiverIdList",careGiverIdList);
-  
+
+        console.log("singleButtonCaregiverList", singleButtonCaregiverList);
+
         if (subject && body && result && result.length >= 2) {
           const bulkEmailsInput: IBulkEmailVariables = {
             to: "caregiver",
@@ -1164,10 +1179,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     .map((item: IEmailAttachmentData) => item.file)
                     .filter((file: File | null) => file)
                 : null,
-            caregiver:  showButton ? singleButtonCaregiverList  : careGiverIdList,
+            caregiver: showButton ? singleButtonCaregiverList : careGiverIdList,
             senderUserId: id ? parseInt(id) : null
           };
-           bulkEmails({ variables: { bulkEmailsInput } });
+          bulkEmails({ variables: { bulkEmailsInput } });
         }
       } else {
         if (!toast.isActive(toastId)) {

@@ -496,10 +496,10 @@ const Appointment: FunctionComponent = (props: any) => {
         caregiverId:
           caregiverSoloFilter && caregiverSoloFilter.value
             ? parseInt(caregiverSoloFilter.value)
-            : locationState && locationState.caregiver
-            ? locationState.caregiver
-            : null
-      }
+            // : locationState && locationState.caregiver
+            //? locationState.caregiver
+            : null,
+      },
     });
   };
   //to get list of all the careinstitutions
@@ -517,12 +517,7 @@ const Appointment: FunctionComponent = (props: any) => {
         qualificationId: temp ? temp : null,
         userRole: 'canstitution',
         limit: 50,
-        page:
-          locationState && locationState.canstitution
-            ? 1
-            : careInstitutionPage
-            ? careInstitutionPage
-            : 1,
+        page: 1,
         showAppointments:
           filterByAppointments && filterByAppointments.value
             ? filterByAppointments.value === 'showAll'
@@ -538,10 +533,10 @@ const Appointment: FunctionComponent = (props: any) => {
         careInstitutionId:
           careinstitutionSoloFilter && careinstitutionSoloFilter.value
             ? parseInt(careinstitutionSoloFilter.value)
-            : locationState && locationState.canstitution
-            ? locationState.canstitution
-            : null
-      }
+            //: locationState && locationState.canstitution
+            //? locationState.canstitution
+            : null,
+      },
     });
   };
   // by clicking on apply filter to get care giver and care institution list accordingly

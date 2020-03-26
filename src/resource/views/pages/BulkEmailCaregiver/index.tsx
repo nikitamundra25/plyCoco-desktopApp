@@ -831,6 +831,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           let cname: string = '';
           selectedCells.forEach((element: any) => {
             const { item = {} } = element;
+            console.log('item',item);            
             const { appointments = [] } = item;
             if (appointments && appointments.length) {
               const { cr = {} } =
@@ -924,9 +925,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
         )}</p>${qualificationReq}<br/><p>${languageTranslation('FEE') +
           ':' +
-          languageTranslation('FEE_TEXT')}<br/>${languageTranslation(
-          'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
-        )}`;
+          languageTranslation('FEE_TEXT')}<br/>`;
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         setSubject(languageTranslation('OFFER_REQUIREMENTS_SUB'));
         setBody(editorState);

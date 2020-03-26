@@ -64,7 +64,7 @@ const CotactFormComponent: any = (
   //   setAttOpt(Data);
   // }, []);
 
-  let [newAttributeValue, setnewAttributeValue] = useState();
+  let [newAttributeValue, setnewAttributeValue] = useState<any>('');
   let [newValue, setnewValue] = useState({});
 
   const handleSelect = (
@@ -324,7 +324,7 @@ const CotactFormComponent: any = (
                         <div>
                           <Select
                             placeholder={languageTranslation('GENDER')}
-                            value={gender ? gender : undefined}
+                            value={gender && gender.value ? gender : null}
                             onChange={(value: any) =>
                               handleSelect(value, 'gender', '')
                             }
@@ -376,7 +376,7 @@ const CotactFormComponent: any = (
                         <div>
                           <Select
                             placeholder={languageTranslation('SALUTATION')}
-                            value={salutation ? salutation : undefined}
+                            value={salutation && salutation.value ? salutation : null}
                             onChange={(value: any) =>
                               handleSelect(value, 'salutation', '')
                             }
@@ -622,7 +622,7 @@ const CotactFormComponent: any = (
                             value={
                               country && country.value !== ''
                                 ? country
-                                : undefined
+                                : null
                             }
                             onChange={(value: any) =>
                               handleSelect(value, 'country', '')

@@ -37,7 +37,7 @@ import { useHistory } from 'react-router';
 import { AppRoutes, client } from '../../../../config';
 import moment from 'moment';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import MyDocument from './PDF';
+import MyDocument from './PDF/LeasingContactPdf';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -720,8 +720,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           });
         }
         let divRow: string = "";
-        if(apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0]){
-          divRow=  `<span><b>${moment(apointedCareGiver[0].date).format(
+        if (apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0]) {
+          divRow = `<span><b>${moment(apointedCareGiver[0].date).format(
             "DD/MM"
           )}${" "}${" "}${apointedCareGiver[0].division}</b></span></br>`;
         }

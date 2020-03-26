@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { Document, Page, Text, Image, View, StyleSheet } from '@react-pdf/renderer';
-import { IPDFComponentProps } from '../../../../../interfaces';
+import { ILeasingContactPdfProps } from '../../../../../interfaces';
 
-const PDFComponent: FunctionComponent<IPDFComponentProps> = (
-  props: IPDFComponentProps
+const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
+  props: ILeasingContactPdfProps
 ) => {
 
   // Create styles
@@ -90,7 +90,7 @@ const PDFComponent: FunctionComponent<IPDFComponentProps> = (
 
   // Create Document Component
   return (
-    <Document  >
+    <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <Text style={styles.name}>TIMYOCY</Text>
@@ -156,4 +156,4 @@ const PDFComponent: FunctionComponent<IPDFComponentProps> = (
   );
 };
 
-export default PDFComponent;
+export default LeasingContactPdf;

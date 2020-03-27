@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Document, Page, Text, Image, View, StyleSheet } from '@react-pdf/renderer';
 import { ILeasingContactPdfProps } from '../../../../../interfaces';
+import { AppConfig } from '../../../../../config';
 
 const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
   props: ILeasingContactPdfProps
@@ -87,7 +88,8 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
   });
 
   const { signatureData, pdfAppointmentDetails } = props;
-
+  console.log(signatureData && signatureData.careGiverSignature ? `${AppConfig.FILES_ENDPOINT}${signatureData.careGiverSignature}` : '','signature');
+  
   // Create Document Component
   return (
     <Document>
@@ -124,7 +126,7 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
           </View>
           <View style={styles.image}>
             {/* <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" /> */}
-            <Image src={signatureData && signatureData.careGiverSignature ? signatureData.careGiverSignature : ''} />
+            <Image src={signatureData && signatureData.careGiverSignature ? `${AppConfig.FILES_ENDPOINT}${signatureData.careGiverSignature}` : ''} />
             <Text style={styles.imgtext}>
               Temporary Worker
           </Text>

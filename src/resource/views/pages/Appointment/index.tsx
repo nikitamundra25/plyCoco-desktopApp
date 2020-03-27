@@ -1343,6 +1343,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // On previous month click
   const handlePrevious = async () => {
+    setPage(1);
     let month: number = activeMonth - 1;
     let year: number = activeYear;
 
@@ -1359,6 +1360,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // On next month click
   const handleNext = () => {
+    setPage(1);
     let month: number = activeMonth + 1;
     let year: number = activeYear;
     // To check if active month is december than set month to january & year to next year

@@ -21,7 +21,8 @@ import {
 import {
   BulkEmailCareGivers,
   DocumentMutations,
-  LeasingContractMutations
+  LeasingContractMutations,
+  AppointmentMutations
 } from '../../../../graphql/Mutations';
 import {
   IReactSelectInterface,
@@ -44,6 +45,17 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import LeasingContactPdf from './PDF/LeasingContactPdf';
 import TerminationAgreementPdf from './PDF/TerminationAgreementPdf';
 
+const [
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  TEMPORARY_LEASING_CONTRACT_EMAIL
+] = AppointmentMutations;
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 const [BULK_EMAILS] = BulkEmailCareGivers;

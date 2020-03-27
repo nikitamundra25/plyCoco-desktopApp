@@ -225,7 +225,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <Select
               classNamePrefix="custom-inner-reactselect"
               className={
-                "custom-reactselect custom-reactselect-menu-width"
+                "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
               }
               placeholder="Select Care Institution"
               value={
@@ -240,6 +240,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 handleUserList(value, "careinstitution")
               }
               isClearable={true}
+             
             />
           </div>
           <div className="header-nav-item pt-1" onClick={handleAllResetFilters}>

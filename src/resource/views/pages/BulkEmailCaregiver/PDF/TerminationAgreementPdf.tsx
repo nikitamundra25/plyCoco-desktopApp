@@ -42,15 +42,15 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
       color: 'black',
       marginBottom: '2px'
     },
-    subtextalignright : {
+    subtextalignright: {
       fontSize: 10,
       color: 'black',
       marginTop: '3px',
       marginBottom: '3px',
       flexGrow: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    textAlign:'right',
+      alignItems: 'flex-end',
+      justifyContent: 'flex-end',
+      textAlign: 'right',
     },
     subaddresshighlighttext: {
       fontSize: 10,
@@ -63,7 +63,7 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
       marginBottom: '0',
       flexGrow: 1,
       marginLeft: '10px',
-      marginRight: '10px', 
+      marginRight: '10px',
       justifyContent: 'space-between',
 
     },
@@ -82,30 +82,30 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
     },
     textwrapper: {
       marginLeft: '10px',
-      marginRight: '10px', 
-      marginTop:'10px',
+      marginRight: '10px',
+      marginTop: '10px',
       paddingLeft: '10px',
-      paddingRight: '10px', 
-      paddingTop:'0px',
-      
+      paddingRight: '10px',
+      paddingTop: '0px',
+
       flexGrow: 1,
-      
+
     },
     textwrapper1: {
       marginLeft: '10px',
-      marginRight: '10px', 
-      marginTop:'0px',
+      marginRight: '10px',
+      marginTop: '0px',
       paddingLeft: '10px',
-      paddingRight: '10px', 
-      paddingTop:'0px',
-      
+      paddingRight: '10px',
+      paddingTop: '0px',
+
       flexGrow: 1,
-      
+
     },
     remarktext: {
       fontSize: 11,
       color: 'black',
-      marginBottom:'10px'
+      marginBottom: '10px'
     },
     footerwrapper: {
       margin: 10,
@@ -124,12 +124,11 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
 
   // Create Document Component
   return (
-    <PDFViewer width="100%" height="600">
-      <Document>
-        <Page size="A4" style={styles.page}>
-          <View style={styles.section}>
-            <Text style={styles.name}>TIMYOCY</Text>
-            
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+          <Text style={styles.name}>TIMYOCY</Text>
+
           <Text style={styles.subtitle}>Termination agreement for temporary work </Text>
           <Text style={styles.subtext}>Between </Text>
           <Text style={styles.subaddresstext}>Diamond Personal GmbH, under the label TIMyoCY  </Text>
@@ -141,41 +140,40 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
           <Text style={styles.subaddresshighlighttext}>Adress 1</Text>
           <Text style={styles.subaddresshighlighttext}>Adress 2</Text>
           <Text style={styles.subtextalignright}> – hereafter: Leiharbeitnehmer–  </Text>
-          </View>
-          
-          <View style={styles.textwrapper}>
-            <Text style={styles.remarktext}>The following temporary employment relationships between the lender and the agency worker will be terminated by mutual agreement at the current time: </Text>
-            <Text style={styles.subaddresshighlighttext}>xx.xx.2020  </Text>
-           
-          </View>
-          <View style={styles.textwrapper1}>
-            <Text style={styles.subaddresshighlighttext}>Berlin, xx.xx.2020  </Text>
-           
-          </View>
-          <View style={styles.signaturecontainer}>
-            <View style={styles.image}>
-              <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" />
-              <Text style={styles.imgtext}>
-              TIMyoCY 
+        </View>
+
+        <View style={styles.textwrapper}>
+          <Text style={styles.remarktext}>The following temporary employment relationships between the lender and the agency worker will be terminated by mutual agreement at the current time: </Text>
+          <Text style={styles.subaddresshighlighttext}>xx.xx.2020  </Text>
+
+        </View>
+        <View style={styles.textwrapper1}>
+          <Text style={styles.subaddresshighlighttext}>Berlin, xx.xx.2020  </Text>
+
+        </View>
+        <View style={styles.signaturecontainer}>
+          <View style={styles.image}>
+            <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" />
+            <Text style={styles.imgtext}>
+              TIMyoCY
           </Text>
-            </View>
-            <View style={styles.image}>
-              <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" />
-              <Text style={styles.imgtext}>
+          </View>
+          <View style={styles.image}>
+            <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" />
+            <Text style={styles.imgtext}>
               Leiharbeitnehmer
           </Text>
-            </View>
           </View>
-          <View style={styles.footerwrapper}>
-            <Text style={styles.footertext}>TIMyoCY is a service of Diamond Personal GmbH · Welfenallee 3-7 · 13465 Berlin </Text>
-            <Text style={styles.footertext}>Tel: +49.30.644 99 444 Fax: +49.30. 644 99 445 </Text>
-            <Text style={styles.footertext}>Supervisory authority:  Agentur für Arbeit Kiel, 24131 Kiel, Tel: 0431 709 1010 </Text>
-            <Text style={styles.footertext}>Entry in commercial register: Register court: District court Berlin-Charlottenburg</Text>
-            <Text style={styles.footertext}>Register number: HRB 191079 B Managing Director: Maren Krusch </Text>
-          </View>
-        </Page>
-      </Document>
-    </PDFViewer>
+        </View>
+        <View style={styles.footerwrapper}>
+          <Text style={styles.footertext}>TIMyoCY is a service of Diamond Personal GmbH · Welfenallee 3-7 · 13465 Berlin </Text>
+          <Text style={styles.footertext}>Tel: +49.30.644 99 444 Fax: +49.30. 644 99 445 </Text>
+          <Text style={styles.footertext}>Supervisory authority:  Agentur für Arbeit Kiel, 24131 Kiel, Tel: 0431 709 1010 </Text>
+          <Text style={styles.footertext}>Entry in commercial register: Register court: District court Berlin-Charlottenburg</Text>
+          <Text style={styles.footertext}>Register number: HRB 191079 B Managing Director: Maren Krusch </Text>
+        </View>
+      </Page>
+    </Document>
   );
 };
 

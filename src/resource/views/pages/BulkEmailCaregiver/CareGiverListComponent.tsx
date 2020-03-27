@@ -18,24 +18,25 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
     handleInfiniteScroll,
     page,
     bulkcareGivers,
+    terminateAggrement
   } = props;
 
   const handleChecked = (id: string) => {
     if (selectedCareGiver && selectedCareGiver.length) {
       const found = selectedCareGiver.some(
-        (el: any) => parseInt(el) === parseInt(id),
+        (el: any) => parseInt(el) === parseInt(id)
       );
       const e = {
         target: {
-          checked: !found,
-        },
+          checked: !found
+        }
       };
       handleCheckElement(e, id);
     } else {
       const e = {
         target: {
-          checked: true,
-        },
+          checked: true
+        }
       };
       handleCheckElement(e, id);
     }
@@ -52,7 +53,10 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
           }}
           scrollableTarget='scrollableDiv'
           hasMore={
-            props.confirmApp || props.unlinkedBy || props.offerRequirements
+            props.confirmApp ||
+            props.unlinkedBy ||
+            props.offerRequirements ||
+            terminateAggrement
               ? false
               : props.label !== 'appointment'
               ? careGivers &&
@@ -135,13 +139,13 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                               selectedCareGiver &&
                               selectedCareGiver.length &&
                               selectedCareGiver.indexOf(
-                                parseInt(careGivers.id),
+                                parseInt(careGivers.id)
                               ) > -1
                                 ? true
                                 : false
                             }
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               handleCheckElement(e, careGivers.id);
                             }}

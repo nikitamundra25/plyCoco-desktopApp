@@ -200,7 +200,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
               </Form>
             </div>
             <div className="common-content flex-grow-1  p-0 all-invoice">
-              <div className="table-minheight invoices-table">
+              <div className="table-minheight createinvoices-table">
                 <Table bordered hover responsive>
                   <thead className="thead-bg">
                     <tr>

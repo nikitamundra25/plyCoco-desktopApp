@@ -43,10 +43,13 @@ export interface IAppointmentNav {
   isPositive: number[];
   setIsPositive: React.Dispatch<React.SetStateAction<number[]>>;
   isNegative: number[];
+  positive: number[];
+  negative: number[];
   setIsNegative: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export interface IAppointmentCareGiverList {
+  fetchDataValues?:any;
   daysData: IGetDaysArrayByMonthRes | null;
   careGiversList: any;
   loading: boolean;
@@ -79,6 +82,7 @@ export interface IAppointmentCareGiverList {
   careInstitutionList?: any[];
   onTerminateAggrement: () => Promise<void>;
   locationState: any;
+  careinstitutionSoloFilter:IReactSelectInterface | undefined
 }
 
 export interface IAppointmentCareInstitutionList {

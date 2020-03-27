@@ -129,9 +129,20 @@
     max-height: 400px;
   }
   user-select: none;
-  .table-loader {
-    position: static;
+  &.caregiver-appointment-list{
+    .table-loader {
+      position: static;
+      height: calc(50vh - 124px);
+    }
   }
+  &.careinstitution-appointment-list{
+    .table-loader {
+      position: static;
+      height: calc(50vh - 132px);
+    }
+  }
+  
+  
   &.custom-scrollbar {
     &::-webkit-scrollbar {
       width: 7px;
@@ -268,6 +279,9 @@
 }
 .cancel-contract-bg {
   background: #9e7b6f !important;
+}
+.contact-initiate-bg {
+  background: #d99117 !important;
 }
 .confirmation-bg {
   background: $confirmation_color !important;

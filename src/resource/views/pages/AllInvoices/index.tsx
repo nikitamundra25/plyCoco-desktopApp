@@ -377,7 +377,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                           type="text"
                           name="searchValue"
                           id="search"
-                          value={"searchValue"}
+                          value={""}
                         />
                       </FormGroup>
                     </Col>

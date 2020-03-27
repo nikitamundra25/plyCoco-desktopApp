@@ -965,5 +965,8 @@
   "DOCUMENT_DISPLAY": "Document Display",
   "UNPAID":"Unpaid",
   "SEPA":"SEPA",
-  "OPENFILE":"Open"
+  "OPENFILE":"Open",
+  "CREATE": "Create",
+  "TIMELY_COMPLETELY" :"Times Completely",
+  "CREATE_ALL_CAREGIVER" : "Create all Caregiver"
 }

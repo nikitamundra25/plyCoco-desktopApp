@@ -44,7 +44,7 @@ import createReminder from "../../../assets/img/header-icons/tab-icons/create-re
 import { FormikHelpers, FormikProps, Formik } from "formik";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
-import { TODO_PAGE_LIMIT, AppRoutes } from "../../../../config";
+import {  StatusOptions, SortOptions } from "../../../../config";
 import "./index.scss";
 import filter from "../../../assets/img/filter.svg";
 
@@ -346,7 +346,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
               <div className="filter-form form-section mb-2">
                 <Form>
                   <Row>
-                    <Col lg={"3"} md={"3"}>
+                  <Col lg={"3"} md={"3"}>
                       <FormGroup>
                         <Label for="search" className="col-form-label">
                           {languageTranslation("SEARCH_LABEL")} :
@@ -355,7 +355,24 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                           type="text"
                           name="searchValue"
                           id="search"
-                          value={"searchValue"}
+                         
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col lg={"2"} md={"3"}>
+                      <FormGroup>
+                        <Label for="Selectregion" className="col-form-label">
+                          {languageTranslation("SORTBY_LABEL")} :
+                        </Label>
+                        <Select
+                          placeholder={languageTranslation(
+                            "SORTBY_PLACEHOLDER"
+                          )}
+                          options={SortOptions}
+                          isClearable={true}
+                          isSearchable={false}
+                          classNamePrefix="custom-inner-reactselect"
+                          className={"custom-reactselect"}
                         />
                       </FormGroup>
                     </Col>
@@ -368,24 +385,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                           placeholder={languageTranslation(
                             "STATUS_PLACEHOLDER"
                           )}
-                          options={options}
-                          isClearable={true}
-                          isSearchable={false}
-                          classNamePrefix="custom-inner-reactselect"
-                          className={"custom-reactselect"}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col lg={"2"} md={"3"}>
-                      <FormGroup>
-                        <Label for="Selectregion" className="col-form-label">
-                          {languageTranslation("FILTER_BY_STATUS")} :
-                        </Label>
-                        <Select
-                          placeholder={languageTranslation(
-                            "STATUS_PLACEHOLDER"
-                          )}
-                          options={options}
+                          options={StatusOptions}
                           isClearable={true}
                           isSearchable={false}
                           classNamePrefix="custom-inner-reactselect"

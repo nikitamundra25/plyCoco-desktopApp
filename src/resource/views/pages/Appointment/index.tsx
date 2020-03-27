@@ -31,13 +31,11 @@ import {
   ICaregiverFormValue,
   ICareinstitutionFormValue,
   IAddCargiverAppointmentRes,
-  IDate,
   IReactSelectTimeInterface,
   ICareinstitutionFormSubmitValue,
   IStarInterface,
   IAttributeValues,
   IAttributeOptions,
-  ICareGiverValues,
   IUnlinkAppointmentInput,
   IlinkAppointmentInput,
   IunlinkResponse
@@ -58,7 +56,6 @@ import { AppointmentMutations } from '../../../../graphql/Mutations';
 import { dbAcceptableFormat } from '../../../../config';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import UnlinkAppointment from './unlinkModal';
-import Loader from '../../containers/Loader/Loader';
 import { useLocation } from 'react-router';
 import BulkEmailCareGiverModal from './BulkEmailCareGiver';
 import BulkEmailCareInstitutionModal from './BulkEmailCareInstitution';
@@ -1595,227 +1592,120 @@ const Appointment: FunctionComponent = (props: any) => {
       setselectedCellsCareinstitution(data);
     }
   }, [careInstituionShift]);
-  //set on confirmed
-  const setOnConfirmedCareInst = async () => {
-    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-      selectedCellsCareinstitution.forEach(async element => {
-        const { item } = element;
-        const Item = { ...item };
-        if (Item && Item.id) {
-          if (Item.status === 'linked') {
-            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
-            delete Item.id;
-            delete Item.__typename;
-            delete Item.appointments;
-            delete Item.division;
-            let temp = Item.qualificationId.map((Item: any) => {
-              Item.id;
-            });
-            await updateCareinstitutionRequirment({
-              variables: {
-                id: availabilityId,
-                careInstitutionRequirementInput: {
-                  ...Item,
-                  qualificationId: Item.qualificationId.map((Item: any) => {
-                    return Item.value;
-                  }),
-                  status: 'confirmed'
-                }
-              }
-            });
-            if (!toast.isActive(toastId)) {
-              toastId = toast.success(
-                languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG')
-              );
-            }
-          }
-        }
-      });
-    }
-  };
-  // set on not confirmed
-  const setOnNotConfirmedCareInst = async () => {
-    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-      selectedCellsCareinstitution.forEach(async element => {
-        const { item } = element;
-        if (item && item.id) {
-          if (item.status === 'confirmed') {
-            let availabilityId: number = item.id ? parseInt(item.id) : 0;
-            delete item.id;
-            delete item.__typename;
-            delete item.appointments;
-            delete item.division;
-            await updateCareinstitutionRequirment({
-              variables: {
-                id: availabilityId,
-                careInstitutionRequirementInput: {
-                  ...item,
-                  status: 'linked',
-                  qualificationId: Item.qualificationId.map((Item: any) => {
-                    return Item.value;
-                  })
-                }
-              }
-            });
-            if (!toast.isActive(toastId)) {
-              toastId = toast.success(
-                languageTranslation('CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG')
-              );
-            }
-          } else {
-            toast.warn(languageTranslation('CAREINSTTITUTION_LINKED'));
-          }
-        }
-      });
-    }
-  };
-  //set on offered
-  const setOnOfferedCareInst = async () => {
-    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-      selectedCellsCareinstitution.forEach(async element => {
-        const { item } = element;
-        const Item = { ...item };
-        if (Item && Item.id) {
-          if (Item.status === 'default' || Item.status === 'requirement') {
-            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
-            delete Item.id;
-            delete Item.__typename;
-            delete Item.appointments;
-            delete Item.division;
-            await updateCareinstitutionRequirment({
-              variables: {
-                id: availabilityId,
-                careInstitutionRequirementInput: {
-                  ...Item,
-                  qualificationId: Item.qualificationId.map((Item: any) => {
-                    return Item.value;
-                  }),
-                  status: 'offered'
-                }
-              }
-            });
-            if (!toast.isActive(toastId)) {
-              toastId = toast.success(
-                languageTranslation('CARE_INST_SET_ON_OFFERED_SUCCESS_MSG')
-              );
-            }
-          }
-          // else {
-          //   toast.warn('Only requirements can be set to "offered" ! ');
-          // }
-        }
-      });
-    }
-  };
-  //set on not offered
-  const setOnNotOfferedCareInst = async () => {
-    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-      selectedCellsCareinstitution.forEach(async element => {
-        const { item } = element;
-        if (item && item.id) {
-          if (item.status === 'offered') {
-            let availabilityId: number = item.id ? parseInt(item.id) : 0;
-            delete item.id;
-            delete item.__typename;
-            delete item.appointments;
-            delete item.division;
-            await updateCareinstitutionRequirment({
-              variables: {
-                id: availabilityId,
-                careInstitutionRequirementInput: {
-                  ...item,
-                  qualificationId: item.qualificationId.map((item: any) => {
-                    return Item.value;
-                  }),
-                  status: 'default'
-                }
-              }
-            });
-            if (!toast.isActive(toastId)) {
-              toastId = toast.success(
-                languageTranslation('CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG')
-              );
-            }
-          }
-          //  else {
-          //   toast.warn('something wrong');
-          // }
-        }
-      });
-    }
-  };
-  // set on confirm for caregiver
-  const setOnConfirmedCaregiver = async () => {
+
+  // to update caregiver status as set on confirmed or reset confirmed
+  const updateCaregiverStatus = async (name: string) => {
+    console.log('name issss', name);
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
         if (item && item.id) {
-          if (item.status === 'linked') {
+          if (
+            name === 'confirmed'
+              ? item.status === 'linked'
+              : item.status === 'confirmed'
+          ) {
             let availabilityId: number = item.id ? parseInt(item.id) : 0;
             delete item.id;
             delete item.__typename;
             delete item.appointments;
             delete item.division;
+            delete item.qualificationId;
             console.log('item', item);
-
-            await updateCaregiver({
-              variables: {
-                id: availabilityId,
-                careGiverAvabilityInput: {
-                  ...Item,
-                  status: 'confirmed',
-                  qualificationId: item.qualificationId
-                    ? item.qualificationId.map((item: any) => {
-                        return Item.value;
-                      })
-                    : ''
-                }
-              }
-            });
-            if (!toast.isActive(toastId)) {
-              toastId = toast.success(
-                languageTranslation('CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG')
-              );
-            }
-          }
-        }
-      });
-    }
-  };
-
-  // set on not confirm for caregiver
-  const setOnNotConfirmedCaregiver = async () => {
-    if (selectedCells && selectedCells.length) {
-      selectedCells.forEach(async element => {
-        const { item } = element;
-        if (item && item.id) {
-          if (item.status === 'confirmed') {
-            let availabilityId: number = item.id ? parseInt(item.id) : 0;
-            delete item.id;
-            delete item.__typename;
-            delete item.appointments;
             await updateCaregiver({
               variables: {
                 id: availabilityId,
                 careGiverAvabilityInput: {
                   ...item,
-                  qualificationId: item.qualificationId.map((item: any) => {
-                    return Item.value;
-                  }),
-                  status: 'linked'
+                  status: name === 'confirmed' ? 'confirmed' : 'linked'
                 }
               }
             });
             if (!toast.isActive(toastId)) {
-              toastId = toast.success(
-                languageTranslation('CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG')
-              );
+              if (name === 'confirmed') {
+                toastId = toast.success(
+                  languageTranslation('CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG')
+                );
+              } else {
+                toastId = toast.success(
+                  languageTranslation(
+                    'CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG'
+                  )
+                );
+              }
             }
           }
         }
       });
     }
   };
+
+  const updateCareInstitutionStatus = async (name: string) => {
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      selectedCellsCareinstitution.forEach(async element => {
+        const { item } = element;
+        const Item = { ...item };
+        if (Item && Item.id) {
+          if (
+            name === 'confirmed'
+              ? Item.status === 'linked'
+              : name === 'notconfirm'
+              ? Item.status === 'confirmed'
+              : name === 'offered'
+              ? Item.status === 'default'
+              : Item.status === 'offered'
+          ) {
+            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+            delete Item.id;
+            delete Item.__typename;
+            delete Item.appointments;
+            delete Item.division;
+            await updateCareinstitutionRequirment({
+              variables: {
+                id: availabilityId,
+                careInstitutionRequirementInput: {
+                  ...Item,
+                  qualificationId: Item.qualificationId.map((Item: any) => {
+                    return Item.value;
+                  }),
+                  status:
+                    name === 'confirmed'
+                      ? 'confirmed'
+                      : name === 'notconfirm'
+                      ? 'linked'
+                      : name === 'offered'
+                      ? 'offered'
+                      : 'default'
+                }
+              }
+            });
+            if (!toast.isActive(toastId)) {
+              if (name === 'confirmed') {
+                toastId = toast.success(
+                  languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG')
+                );
+              } else if (name === 'notconfirm') {
+                toastId = toast.success(
+                  languageTranslation('CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG')
+                );
+              } else if (name === 'offered') {
+                toastId = toast.success(
+                  languageTranslation('CARE_INST_SET_ON_OFFERED_SUCCESS_MSG')
+                );
+              } else {
+                toastId = toast.success(
+                  languageTranslation(
+                    'CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG'
+                  )
+                );
+              }
+            }
+          }
+        }
+      });
+    }
+  };
+  
   // when terminating contract
   const onTerminateAggrement = async () => {
     if (selectedCells && selectedCells.length) {
@@ -3326,6 +3216,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 <Col lg={'6'}>
                   {/* caregiver list view */}
                   <CaregiverListView
+                    updateCaregiverStatus={updateCaregiverStatus}
                     careinstitutionSoloFilter={careinstitutionSoloFilter}
                     fetchingCareGiverData={fetchingCareGiverData}
                     daysData={daysData}
@@ -3352,8 +3243,6 @@ const Appointment: FunctionComponent = (props: any) => {
                     handleSelection={handleSelection}
                     selectedCellsCareinstitution={selectedCellsCareinstitution}
                     onLinkAppointment={onLinkAppointment}
-                    setOnConfirmedCaregiver={setOnConfirmedCaregiver}
-                    setOnNotConfirmedCaregiver={setOnNotConfirmedCaregiver}
                     totalCaregiver={totalCaregiver}
                     getNext={getNext}
                     locationState={locationState}
@@ -3361,6 +3250,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   />
                   {/* care insitution list */}
                   <CarinstituionListView
+                    updateCareInstitutionStatus={updateCareInstitutionStatus}
                     daysData={daysData}
                     loading={careinstitutionLoading}
                     careInstitutionList={
@@ -3391,10 +3281,6 @@ const Appointment: FunctionComponent = (props: any) => {
                     selectedCells={selectedCells}
                     onLinkAppointment={onLinkAppointment}
                     onDeleteEntries={onDeleteEntries}
-                    setOnConfirmedCareInst={setOnConfirmedCareInst}
-                    setOnNotConfirmedCareInst={setOnNotConfirmedCareInst}
-                    setOnOfferedCareInst={setOnOfferedCareInst}
-                    setOnNotOfferedCareInst={setOnNotOfferedCareInst}
                     onNewRequirement={() => setMultipleRequirement(true)}
                     locationState={locationState}
                   />

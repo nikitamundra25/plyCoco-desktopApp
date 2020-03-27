@@ -2742,7 +2742,7 @@ const Appointment: FunctionComponent = (props: any) => {
       let qualiCheck: any[] = [];
       selectedCells.map(async (key: any, index: number) => {
         const element = selectedCellsCareinstitution[index];
-
+        
         if (
           key.qualificationIds &&
           key.qualificationIds.length &&
@@ -2753,6 +2753,8 @@ const Appointment: FunctionComponent = (props: any) => {
             key.qualificationIds.includes(e.value)
           );
         }
+       
+        
         if (qualiCheck && qualiCheck.length <= 0) {
           if (!toast.isActive(toastId)) {
             toastId = toast.warn(languageTranslation("QUALIFICATION_UNMATCH"));

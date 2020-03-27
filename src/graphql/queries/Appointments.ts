@@ -72,6 +72,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
             cr {
               id
               name
+              status
               qualificationId
               startTime
               endTime
@@ -284,5 +285,5 @@ export const AppointmentsQueries = [
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
   GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
-  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION,
+  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
 ];

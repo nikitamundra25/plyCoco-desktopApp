@@ -82,6 +82,7 @@ export interface IAppointmentCareGiverList {
   careInstitutionList?: any[];
   onTerminateAggrement: () => Promise<void>;
   locationState: any;
+  careinstitutionSoloFilter:IReactSelectInterface | undefined
 }
 
 export interface IAppointmentCareInstitutionList {

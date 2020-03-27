@@ -257,6 +257,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [confirmApp, setconfirmApp] = useState<boolean>(false);
   //unLinked by
   const [unlinkedBy, setunlinkedBy] = useState('');
+  console.log("selectedCells",selectedCells);
   //  UnLink appointmnets
   const handleUnLinkAppointments = () => {
     setshowUnlinkModal(!showUnlinkModal);
@@ -265,6 +266,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const handleUnlinkData = (likedBy: string, check: boolean) => {
     setunlinkedBy(likedBy);
     let appointmentId: any = [];
+    
     if (selectedCells && selectedCells.length) {
       selectedCells.map((key: any, index: number) => {
         if (key.item && key.item.appointments && key.item.appointments.length) {

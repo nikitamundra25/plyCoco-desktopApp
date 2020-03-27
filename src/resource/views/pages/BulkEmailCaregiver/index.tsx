@@ -235,6 +235,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         setcareGiverData(list);
       }
     } else if (selectedCells && props.unlinkedBy) {
+      console.log("lllllllll",selectedCells);
+      
       if (selectedCells && selectedCells.length) {
         selectedCells.map((key: any) => {
           if (list && list.length) {
@@ -399,6 +401,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       });
     }
   };
+console.log("careGiverData",careGiverData);
 
   const sortByDivision = (a: any, b: any) => {
     // Use toUpperCase() to ignore character casing
@@ -777,7 +780,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           });
         }
       }
-      if (!leasingContract && terminateAggrement && !props.confirmApp) {
+      if (!leasingContract && terminateAggrement && !props.confirmApp && !props.unlinkedBy) {
         if (selectedCells && selectedCells.length) {
           let mailBody = "";
           mailBody = `<p>${"Terminate caregiver aggrement main body content" +

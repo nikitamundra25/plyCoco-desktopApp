@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardBody,
   Table,
-  Collapse
+  Collapse,
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router';
 import { AppBreadcrumb } from '@coreui/react';
@@ -33,7 +33,7 @@ export const Region: FunctionComponent = () => {
   const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>({
     searchValue: '',
-    sortBy: { label: 'Newest', value: '1' }
+    sortBy: { label: 'Newest', value: '1' },
   });
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
@@ -45,7 +45,7 @@ export const Region: FunctionComponent = () => {
   const [fetchRegionList, { data, loading, called, refetch }] = useLazyQuery<
     any
   >(GET_REGIONS, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   // Similar to componentDidMount and componentDidUpdate:
@@ -55,7 +55,7 @@ export const Region: FunctionComponent = () => {
     let sortBy: any = { label: '', value: '' };
     // To handle display and query param text
     let sortByValue: any = Object.keys(sortFilter).find(
-      (key: any) => sortFilter[key] === query.sortBy
+      (key: any) => sortFilter[key] === query.sortBy,
     );
     logger(sortByValue);
     logger(typeof sortByValue);
@@ -78,18 +78,18 @@ export const Region: FunctionComponent = () => {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy
-              ) || ''
+                (key: any) => sortFilter[key] === query.sortBy,
+              ) || '',
           }
         : { label: 'Newest', value: '1' };
       setSearchValues({
         searchValue: searchBy,
-        sortBy
+        sortBy,
       });
       setIsFilter(
         searchBy !== '' ||
           query.status !== undefined ||
-          query.sortBy !== undefined
+          query.sortBy !== undefined,
       );
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -104,14 +104,14 @@ export const Region: FunctionComponent = () => {
           ? query.status === 'active'
             ? { label: 'Active', value: 'true' }
             : { label: 'Deactive', value: 'false' }
-          : ''
-      }
+          : '',
+      },
     });
   }, [search]); // It will run when the search value gets changed
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>
+    { setSubmitting }: FormikHelpers<ISearchValues>,
   ) => {
     let params: {
       [key: string]: any;
@@ -132,7 +132,7 @@ export const Region: FunctionComponent = () => {
     logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      '?',
     );
     history.push(path);
   };
@@ -140,19 +140,19 @@ export const Region: FunctionComponent = () => {
   const {
     searchValue = '',
     sortBy = undefined,
-    isActive = undefined
+    isActive = undefined,
   } = searchValues ? searchValues : {};
 
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy
+    sortBy,
   };
   let count = (currentPage - 1) * pageLimit + 1;
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
+        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
         <div>
           <Button
             color={!isOpen ? 'primary' : 'danger'}
@@ -181,7 +181,7 @@ export const Region: FunctionComponent = () => {
             enableReinitialize={true}
             onSubmit={handleSubmit}
             children={(props: FormikProps<ISearchValues>) => (
-              <Search {...props} label={'region'} />
+              <Search {...props} label={'region'} filterbyStatus={false} />
             )}
           />
         </div>

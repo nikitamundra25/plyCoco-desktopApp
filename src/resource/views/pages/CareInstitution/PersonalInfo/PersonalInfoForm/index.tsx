@@ -1,34 +1,34 @@
-import React, { FunctionComponent, useEffect } from 'react';
-import { FormGroup, Label, Input, Col, Row, Button } from 'reactstrap';
-import Select from 'react-select';
-import { FormikProps } from 'formik';
-import { Salutation, Gender, regSinceDate } from '../../../../../../config';
-import { languageTranslation, logger } from '../../../../../../helpers';
+import React, { FunctionComponent, useEffect } from "react";
+import { FormGroup, Label, Input, Col, Row, Button } from "reactstrap";
+import Select from "react-select";
+import { FormikProps } from "formik";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import moment from "moment";
+import { Salutation, Gender, regSinceDate } from "../../../../../../config";
+import { languageTranslation, logger } from "../../../../../../helpers";
 import {
   ICareInstitutionFormValues,
   IReactSelectInterface,
   ICountries,
   IStates,
-  ICountry,
   IState,
   IRegion
-} from '../../../../../../interfaces';
-import { CountryQueries } from '../../../../../../graphql/queries';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
-import CommissionFormData from './CommissionFormData';
-import InvoiceFormData from './InvoiceFormData';
-import QuallificationAttribute from './QuallificationAttribute';
-import RemarkFormData from './RemarkFormData';
-import { RegionQueries } from '../../../../../../graphql/queries/Region';
-import CustomOption from '../../../../components/CustomOptions';
+} from "../../../../../../interfaces";
+import { CountryQueries } from "../../../../../../graphql/queries";
+import CommissionFormData from "./CommissionFormData";
+import InvoiceFormData from "./InvoiceFormData";
+import QuallificationAttribute from "./QuallificationAttribute";
+import RemarkFormData from "./RemarkFormData";
+import { RegionQueries } from "../../../../../../graphql/queries/Region";
+import CustomOption from "../../../../components/CustomOptions";
 
-import moment from 'moment';
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const PersonalInformationForm: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
 > &
   any> = (props: FormikProps<ICareInstitutionFormValues> & any) => {
+  const { userSelectedCountry, countriesOpt } = props;
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY
@@ -45,13 +45,13 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       })
     );
   }
-  const countriesOpt: IReactSelectInterface[] | undefined = [];
+  // const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
-  if (data && data.countries) {
-    data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id })
-    );
-  }
+  // if (data && data.countries) {
+  //   data.countries.forEach(({ id, name }: ICountry) =>
+  //     countriesOpt.push({ label: name, value: id })
+  //   );
+  // }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
       statesOpt.push({ label: name, value: id })
@@ -97,13 +97,10 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     CareInstitutionList,
     setFieldError
   } = props;
-  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
-  const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    regSinceDate
-  );
+
   const scrollParentToChild: any = () => {
-    let parent = document.getElementById('care-profile');
-    let child = document.getElementsByClassName('error')[0];
+    let parent = document.getElementById("care-profile");
+    let child = document.getElementsByClassName("error")[0];
     // Where is the parent on page
     if (parent) {
       let parentRect = parent.getBoundingClientRect();
@@ -131,87 +128,86 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       }
     });
   }, []);
+  useEffect(() => {
+    if (userSelectedCountry && userSelectedCountry.value) {
+      getStatesByCountry({
+        variables: { countryid: userSelectedCountry.value }
+      });
+    }
+  }, [userSelectedCountry]);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, 'value');
+    logger(selectOption, "value");
     setFieldValue(name, selectOption);
-    if (name === 'country') {
+    if (name === "country") {
+      setFieldValue("state", undefined);
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "" } // default code is for germany
       });
-      logger(statesData, 'sdsdsdsd');
+      logger(statesData, "sdsdsdsd");
     }
   };
 
-  const handleLinkedToSelect = (e: any) => {
-    if (e && e.value) {
-      const data: IReactSelectInterface = {
-        label: e.label,
-        value: e.value
-      };
-      setFieldValue('linkedTo', data);
-    }
-  };
   return (
-    <Row className=' '>
-      <div id={'caregiver-add-btn'}>
+    <Row className=" ">
+      <div id={"caregiver-add-btn"}>
         <Button
-          color={'primary'}
+          color={"primary"}
           disabled={isSubmitting}
-          className={'save-button'}
+          className={"save-button"}
           onClick={handleSubmit}
-          // id={"caregiver-save-btn"}
         >
-          {isSubmitting ? <i className='fa fa-spinner fa-spin loader' /> : ''}
-          {languageTranslation('SAVE_BUTTON')}
+          {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+          &nbsp;
+          {languageTranslation("SAVE_BUTTON")}
         </Button>
       </div>
-      <Col lg={'4'}>
+      <Col lg={"4"}>
         <div
-          className='form-card custom-careinstitution-height custom-scrollbar'
-          id={'care-profile'}
+          className="form-card custom-careinstitution-height custom-scrollbar"
+          id={"care-profile"}
         >
           <Row>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('USER_ID')}
-                      <span className='required'>*</span>
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("USER_ID")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <Row className='custom-col inner-no-padding-col'>
-                      <Col xs={'12'} sm={'3'} md={'3'} lg={'3'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <Row className="custom-col inner-no-padding-col">
+                      <Col xs={"12"} sm={"3"} md={"3"} lg={"3"}>
                         <div>
                           <Input
-                            type='text'
-                            name={'id'}
+                            type="text"
+                            name={"id"}
                             disabled
                             value={id}
-                            placeholder={languageTranslation('USER_ID')}
-                            className='width-common'
+                            placeholder={languageTranslation("USER_ID")}
+                            className="width-common"
                           />
                         </div>
                       </Col>
-                      <Col xs={'12'} sm={'9'} md={'9'} lg={'9'}>
+                      <Col xs={"12"} sm={"9"} md={"9"} lg={"9"}>
                         <FormGroup>
-                          <Row className='custom-col inner-no-padding-col align-items-center'>
-                            <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
-                              <Label className='form-label col-form-label inner-label'>
-                                {languageTranslation('REG_SINCE')}
+                          <Row className="custom-col inner-no-padding-col align-items-center">
+                            <Col xs={"12"} sm={"5"} md={"5"} lg={"5"}>
+                              <Label className="form-label col-form-label inner-label">
+                                {languageTranslation("REG_SINCE")}
                               </Label>
                             </Col>
-                            <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
+                            <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
                               <div>
                                 <Input
-                                  type='text'
-                                  name={'regSince'}
+                                  type="text"
+                                  name={"regSince"}
                                   disabled
-                                  value={RegYear}
-                                  placeholder='Reg Since'
-                                  className='width-common'
+                                  value={moment(createdAt).format(regSinceDate)}
+                                  placeholder="Reg Since"
+                                  className="width-common"
                                 />
                               </div>
                             </Col>
@@ -223,73 +219,73 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REGION')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REGION")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className='text-capitalize'>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <div className="text-capitalize">
                       <Select
-                        placeholder={languageTranslation('REGION', 'STATE')}
+                        placeholder={languageTranslation("REGION", "STATE")}
                         options={regionOptions}
                         value={regionId ? regionId : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'regionId')
+                          handleSelect(value, "regionId")
                         }
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={"custom-reactselect"}
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('GENDER')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("GENDER")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <Row className='custom-col inner-no-padding-col'>
-                      <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <Row className="custom-col inner-no-padding-col">
+                      <Col xs={"12"} sm={"5"} md={"5"} lg={"5"}>
                         <div>
                           <Select
-                            placeholder={languageTranslation('GENDER')}
+                            placeholder={languageTranslation("GENDER")}
                             value={gender && gender.value ? gender : undefined}
                             onChange={(value: any) =>
-                              handleSelect(value, 'gender')
+                              handleSelect(value, "gender")
                             }
                             options={Gender}
-                            classNamePrefix='custom-inner-reactselect'
-                            className={'custom-reactselect'}
+                            classNamePrefix="custom-inner-reactselect"
+                            className={"custom-reactselect"}
                           />
                         </div>
                       </Col>
-                      <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
+                      <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
                         <FormGroup>
-                          <Row className='custom-col inner-no-padding-col align-items-center'>
-                            <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                              <Label className='form-label col-form-label inner-label'>
-                                {languageTranslation('TITLE')}
+                          <Row className="custom-col inner-no-padding-col align-items-center">
+                            <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                              <Label className="form-label col-form-label inner-label">
+                                {languageTranslation("TITLE")}
                               </Label>
                             </Col>
-                            <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                            <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                               <div>
                                 <Input
-                                  type='text'
-                                  name={'title'}
+                                  type="text"
+                                  name={"title"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={title}
-                                  placeholder={languageTranslation('TITLE')}
-                                  className='width-common'
+                                  placeholder={languageTranslation("TITLE")}
+                                  className="width-common"
                                   maxLength={30}
                                 />
                               </div>
@@ -302,62 +298,62 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('SALUTATION')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("SALUTATION")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Select
-                        placeholder={languageTranslation('SALUTATION')}
+                        placeholder={languageTranslation("SALUTATION")}
                         value={
                           salutation && salutation.value
                             ? salutation
                             : undefined
                         }
                         onChange={(value: any) =>
-                          handleSelect(value, 'salutation')
+                          handleSelect(value, "salutation")
                         }
                         options={Salutation}
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={"custom-reactselect"}
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('FIRST_NAME')}
-                      <span className='required'>*</span>
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("FIRST_NAME")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className='required-input'>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <div className="required-input">
                       <Input
-                        type='text'
-                        name={'firstName'}
+                        type="text"
+                        name={"firstName"}
                         onChange={handleChange}
                         maxLength={250}
                         onBlur={handleBlur}
                         value={firstName}
-                        placeholder={languageTranslation('FIRST_NAME')}
+                        placeholder={languageTranslation("FIRST_NAME")}
                         className={
                           errors.firstName && touched.firstName
-                            ? 'text-input error text-capitalize'
-                            : 'text-input text-capitalize'
+                            ? "text-input error text-capitalize"
+                            : "text-input text-capitalize"
                         }
                       />
                       {errors.firstName && touched.firstName && (
-                        <div className='required-tooltip'>
+                        <div className="required-tooltip">
                           {errors.firstName}
                         </div>
                       )}
@@ -366,33 +362,33 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('SURNAME')}
-                      <span className='required'>*</span>
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("SURNAME")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className='required-input'>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <div className="required-input">
                       <Input
-                        type='text'
-                        name={'lastName'}
+                        type="text"
+                        name={"lastName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={lastName}
                         maxLength={250}
-                        placeholder={languageTranslation('SURNAME')}
+                        placeholder={languageTranslation("SURNAME")}
                         className={
                           errors.lastName && touched.lastName
-                            ? 'text-input error text-capitalize'
-                            : 'text-input text-capitalize'
+                            ? "text-input error text-capitalize"
+                            : "text-input text-capitalize"
                         }
                       />
                       {errors.lastName && touched.lastName && (
-                        <div className='required-tooltip'>
+                        <div className="required-tooltip">
                           {errors.lastName}
                         </div>
                       )}
@@ -401,24 +397,24 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('SHORT_NAME')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("SHORT_NAME")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'shortName'}
+                        type="text"
+                        name={"shortName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={shortName}
-                        placeholder={languageTranslation('SHORT_NAME')}
-                        className='width-common'
+                        placeholder={languageTranslation("SHORT_NAME")}
+                        className="width-common"
                         maxLength={250}
                       />
                     </div>
@@ -426,33 +422,33 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('COMPANY_NAME')}
-                      <span className='required'>*</span>
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("COMPANY_NAME")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'companyName'}
+                        type="text"
+                        name={"companyName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={companyName}
-                        placeholder={languageTranslation('COMPANY_NAME')}
+                        placeholder={languageTranslation("COMPANY_NAME")}
                         className={
                           errors.companyName && touched.companyName
-                            ? 'text-input error text-capitalize'
-                            : 'text-input text-capitalize'
+                            ? "text-input error text-capitalize"
+                            : "text-input text-capitalize"
                         }
                         maxLength={50}
                       />
                       {errors.companyName && touched.companyName && (
-                        <div className='required-tooltip'>
+                        <div className="required-tooltip">
                           {errors.companyName}
                         </div>
                       )}
@@ -461,24 +457,24 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('ANONYMOUS_NAME')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("ANONYMOUS_NAME")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'anonymousName'}
+                        type="text"
+                        name={"anonymousName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={anonymousName}
-                        placeholder={languageTranslation('ANONYMOUS_NAME')}
-                        className='width-common'
+                        placeholder={languageTranslation("ANONYMOUS_NAME")}
+                        className="width-common"
                         maxLength={30}
                       />
                     </div>
@@ -486,24 +482,24 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('ANONYMOUS_NAME2')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("ANONYMOUS_NAME2")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'anonymousName2'}
+                        type="text"
+                        name={"anonymousName2"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={anonymousName2}
-                        placeholder={languageTranslation('ANONYMOUS_NAME2')}
-                        className='width-common'
+                        placeholder={languageTranslation("ANONYMOUS_NAME2")}
+                        className="width-common"
                         maxLength={30}
                       />
                     </div>
@@ -512,24 +508,24 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('STREET')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("STREET")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'street'}
+                        type="text"
+                        name={"street"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={street}
-                        placeholder={languageTranslation('STREET')}
-                        className=' width-common'
+                        placeholder={languageTranslation("STREET")}
+                        className=" width-common"
                         maxLength={50}
                       />
                     </div>
@@ -537,24 +533,24 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('CITY')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("CITY")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'city'}
+                        type="text"
+                        name={"city"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={city}
-                        placeholder={languageTranslation('CITY')}
-                        className=' width-common'
+                        placeholder={languageTranslation("CITY")}
+                        className=" width-common"
                         maxLength={30}
                       />
                     </div>
@@ -562,24 +558,24 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('ZIP')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("ZIP")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'zipCode'}
+                        type="text"
+                        name={"zipCode"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={zipCode}
-                        placeholder={languageTranslation('ZIP')}
-                        className=' width-common'
+                        placeholder={languageTranslation("ZIP")}
+                        className=" width-common"
                         maxLength={15}
                       />
                     </div>
@@ -587,84 +583,106 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('COUNTRY')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("COUNTRY")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <div className={"required-input"}>
                       <Select
-                        placeholder={languageTranslation('COUNTRY')}
+                        placeholder={languageTranslation("COUNTRY")}
                         options={countriesOpt}
                         isClearable={true}
                         value={country && country.value ? country : undefined}
                         onChange={(value: any) =>
-                          handleSelect(value, 'country')
+                          handleSelect(value, "country")
                         }
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={
+                          touched.country && errors.country && !country
+                            ? "error custom-reactselect"
+                            : "custom-reactselect"
+                        }
                       />
+                      {touched.country && errors.country && !country && (
+                        <div className="required-tooltip left">
+                          {errors.country}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('STATE')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("STATE")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <div className={"required-input"}>
                       <Select
-                        placeholder={languageTranslation('STATE')}
-                        options={props.stateOptions}
+                        placeholder={languageTranslation("STATE")}
+                        options={statesOpt}
                         isClearable={true}
-                        value={state && state.value ? state : undefined}
-                        onChange={(value: any) => handleSelect(value, 'state')}
+                        value={state && state.value !== "" ? state : null}
+                        onChange={(value: any) => handleSelect(value, "state")}
                         noOptionsMessage={() => {
-                          return 'Select a country first';
+                          return country && country.value
+                            ? "No options"
+                            : "Select a country first";
                         }}
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={
+                          country && errors.state
+                            ? "error custom-reactselect"
+                            : "custom-reactselect"
+                        }
                       />
+                      {country && errors.state ? (
+                        <div className="required-tooltip left">
+                          {errors.state}
+                        </div>
+                      ) : null}
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label '>
-                      {languageTranslation('PHONE')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label ">
+                      {languageTranslation("PHONE")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className='required-input'>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <div className="required-input">
                       <Input
-                        type='text'
-                        name={'phoneNumber'}
+                        type="text"
+                        name={"phoneNumber"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={phoneNumber}
-                        placeholder={languageTranslation('PHONE')}
+                        placeholder={languageTranslation("PHONE")}
                         className={
                           errors.phoneNumber && touched.phoneNumber
-                            ? 'width-common text-input error'
-                            : 'width-common text-input'
+                            ? "width-common text-input error"
+                            : "width-common text-input"
                         }
                       />
                       {errors.phoneNumber && touched.phoneNumber && (
-                        <div className='required-tooltip'>
+                        <div className="required-tooltip">
                           {errors.phoneNumber}
                         </div>
                       )}
@@ -674,63 +692,63 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
               </FormGroup>
             </Col>
 
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('FAX')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("FAX")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'fax'}
+                        type="text"
+                        name={"fax"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={fax}
-                        placeholder={languageTranslation('FAX')}
+                        placeholder={languageTranslation("FAX")}
                         maxLength={30}
                         className={
                           errors.fax && touched.fax
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? "text-input error"
+                            : "text-input"
                         }
                       />
                       {errors.fax && touched.fax && (
-                        <div className='required-tooltip'>{errors.fax}</div>
+                        <div className="required-tooltip">{errors.fax}</div>
                       )}
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('MOBILE')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("MOBILE")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                    <div className='required-input'>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                    <div className="required-input">
                       <Input
-                        type='text'
-                        name={'mobileNumber'}
+                        type="text"
+                        name={"mobileNumber"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={mobileNumber}
-                        placeholder={languageTranslation('MOBILE')}
+                        placeholder={languageTranslation("MOBILE")}
                         className={
                           errors.mobileNumber && touched.mobileNumber
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? "text-input error"
+                            : "text-input"
                         }
                       />
                       {errors.mobileNumber && touched.mobileNumber && (
-                        <div className='required-tooltip'>
+                        <div className="required-tooltip">
                           {errors.mobileNumber}
                         </div>
                       )}
@@ -739,78 +757,78 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('EMAIL')}
-                      <span className='required'>*</span>
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("EMAIL")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'email'}
+                        type="text"
+                        name={"email"}
                         onChange={handleChange}
                         onBlur={(e: any) => {
                           //get string before a @ to set username
                           const setUsername = email
-                            ? email.substring(0, email.indexOf('@'))
-                            : '';
+                            ? email.substring(0, email.indexOf("@"))
+                            : "";
                           const username = setUsername.replace(
                             /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi,
-                            ''
+                            ""
                           );
-                          setFieldError('userName', ' ');
-                          setFieldValue('userName', username);
+                          setFieldError("userName", " ");
+                          setFieldValue("userName", username);
                           handleBlur(e);
                         }}
                         value={email}
-                        placeholder={languageTranslation('EMAIL')}
+                        placeholder={languageTranslation("EMAIL")}
                         maxLength={250}
                         className={
                           errors.email && touched.email
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? "text-input error"
+                            : "text-input"
                         }
                       />
                       {errors.email && touched.email && (
-                        <div className='required-tooltip'>{errors.email}</div>
+                        <div className="required-tooltip">{errors.email}</div>
                       )}
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('USERNAME')}
-                      <span className='required'>*</span>
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("USERNAME")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'userName'}
+                        type="text"
+                        name={"userName"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={userName}
-                        placeholder={languageTranslation('USERNAME')}
+                        placeholder={languageTranslation("USERNAME")}
                         maxLength={250}
                         className={
                           errors.userName && touched.userName
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? "text-input error"
+                            : "text-input"
                         }
                       />
                       {errors.userName && !userName && touched.userName && (
-                        <div className='required-tooltip'>
+                        <div className="required-tooltip">
                           {errors.userName}
                         </div>
                       )}
@@ -819,100 +837,91 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('WEBSITE')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("WEBSITE")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='text'
-                        name={'website'}
+                        type="text"
+                        name={"website"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={website}
-                        placeholder={languageTranslation('WEBSITE')}
+                        placeholder={languageTranslation("WEBSITE")}
                         maxLength={100}
                         className={
                           errors.website && touched.website
-                            ? 'text-input error'
-                            : 'text-input'
+                            ? "text-input error"
+                            : "text-input"
                         }
                       />
                       {errors.website && touched.website && (
-                        <div className='required-tooltip'>{errors.website}</div>
+                        <div className="required-tooltip">{errors.website}</div>
                       )}
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
-                <Row className='align-items-center'>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('LIKED_TO')}
+                <Row className="align-items-center">
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("LINKED_TO")}
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Select
-                        placeholder={languageTranslation('LIKED_TO')}
+                        placeholder={languageTranslation("LINKED_TO")}
                         options={CareInstitutionList}
-                        value={linkedTo}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'linkedTo')
+                        value={
+                          linkedTo && linkedTo.value !== "" ? linkedTo : null
                         }
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
+                        onChange={(value: any) =>
+                          handleSelect(value, "linkedTo")
+                        }
+                        classNamePrefix="custom-inner-reactselect"
+                        className={"custom-reactselect"}
                         components={{ Option: CustomOption }}
                         isOptionDisabled={(option: any) =>
-                          option.value === languageTranslation('ID')
+                          option.value === languageTranslation("ID")
                         }
                       />
-
-                      {/* <Select
-                        placeholder={languageTranslation('LIKED_TO')}
-                        value={
-                          linkedTo && linkedTo.value ? linkedTo : undefined
-                        }
-                        onChange={(e: any) => handleLinkedToSelect(e)}
-                        options={CareInstitutionList}
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
-                      /> */}
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+            <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARKS')} (
-                      {languageTranslation('FOR_CANSTITUTION_VIEWBLE')})
+                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REMARKS")} (
+                      {languageTranslation("FOR_CANSTITUTION_VIEWBLE")})
                     </Label>
                   </Col>
-                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                     <div>
                       <Input
-                        type='textarea'
-                        name={'remarksViewable'}
-                        placeholder={languageTranslation('REMARKS')}
-                        className='textarea-custom '
-                        rows='4'
+                        type="textarea"
+                        name={"remarksViewable"}
+                        placeholder={languageTranslation("REMARKS")}
+                        className="textarea-custom "
+                        rows="4"
                         value={remarksViewable ? remarksViewable : undefined}
                         onChange={handleChange}
                         maxLength={255}
                       />
-                      <div className='text-count'>
+                      <div className="text-count">
                         {remarksViewable && remarksViewable.length
                           ? remarksViewable.length
                           : 0}
@@ -926,8 +935,8 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
           </Row>
         </div>
       </Col>
-      <Col lg={'4'} className='px-lg-0'>
-        <div className='common-col custom-careinstitution-height custom-scrollbar'>
+      <Col lg={"4"} className="px-lg-0">
+        <div className="common-col custom-careinstitution-height custom-scrollbar">
           <CommissionFormData {...props} handleSelect={handleSelect} />
           <InvoiceFormData {...props} handleSelect={handleSelect} />
           <QuallificationAttribute
@@ -939,7 +948,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
         </div>
       </Col>
       <Col lg={4}>
-        <div className='custom-careinstitution-height custom-scrollbar'>
+        <div className="custom-careinstitution-height custom-scrollbar">
           <RemarkFormData
             {...props}
             setRemarksDetail={props.setRemarksDetail}

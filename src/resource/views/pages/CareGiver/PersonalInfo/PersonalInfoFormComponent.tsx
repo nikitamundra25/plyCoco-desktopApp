@@ -1,29 +1,26 @@
 import React, { useEffect } from 'react';
 import Select from 'react-select';
 import { Label, Col, Row, CustomInput, FormGroup, Input } from 'reactstrap';
+import { FormikProps, Field } from 'formik';
+import MaskedInput from 'react-text-mask';
 import {
-  State,
   Salutation,
   LegalForm,
   Gender,
   DateMask,
   IBANRegex,
-  regSinceDate
+  regSinceDate,
 } from '../../../../../config';
-import { FormikProps, Field } from 'formik';
 import {
   IReactSelectInterface,
   IStates,
-  ICountries,
-  ICountry,
   IState,
   IRegion,
-  ICareGiverValues
+  ICareGiverValues,
 } from '../../../../../interfaces';
 import { FormikTextField } from '../../../components/forms/FormikFields';
 import { languageTranslation, logger } from '../../../../../helpers';
-import MaskedInput from 'react-text-mask';
-import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { CountryQueries } from '../../../../../graphql/queries';
 import { useLocation } from 'react-router';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
@@ -31,36 +28,25 @@ import moment from 'moment';
 import CustomOption from '../../../components/CustomOptions';
 
 const [, GET_REGIONS] = RegionQueries;
-const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+const [, GET_STATES_BY_COUNTRY] = CountryQueries;
 
 const PersonalInfoFormComponent: any = (
   props: FormikProps<ICareGiverValues> & {
     CareInstitutionList: IReactSelectInterface[] | undefined;
     countriesOpt: IReactSelectInterface[] | undefined;
-    statesOpt: IReactSelectInterface[] | undefined;
-    getStatesByCountry: any;
-  }
+    userSelectedCountry: any;
+  },
 ) => {
-  const { countriesOpt, statesOpt, getStatesByCountry } = props;
-  // const { data } = useQuery<ICountries>(GET_COUNTRIES);
+  const { countriesOpt, userSelectedCountry } = props;
   // To fetch the states of selected contry & don't want to query on initial load
-  // const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-  //   GET_STATES_BY_COUNTRY,
-  // );
-  // const countriesOpt: IReactSelectInterface[] | undefined = [];
-  // const statesOpt: IReactSelectInterface[] | undefined = [];
-  // if (data && data.countries) {
-  //   data.countries.forEach(({ id, name }: ICountry) =>
-  //     countriesOpt.push({
-  //       label: name,
-  //       value: id,
-  //     }),
-  //   );
-  // }
+  const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
+    GET_STATES_BY_COUNTRY,
+  );
+  const statesOpt: IReactSelectInterface[] | undefined = [];
 
   // Region Data
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
-    GET_REGIONS
+    GET_REGIONS,
   );
   //Region List Data
   const regionOptions: IReactSelectInterface[] | undefined = [];
@@ -68,29 +54,37 @@ const PersonalInfoFormComponent: any = (
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id
-      })
+        value: id,
+      }),
     );
   }
 
   let { pathname } = useLocation();
   let PathArray: string[] = pathname.split('/');
 
-  // if (statesData && statesData.states) {
-  //   statesData.states.forEach(({ id, name }: IState) =>
-  //     statesOpt.push({
-  //       label: name,
-  //       value: id,
-  //     }),
-  //   );
-  // }
+  if (statesData && statesData.states) {
+    statesData.states.forEach(({ id, name }: IState) =>
+      statesOpt.push({
+        label: name,
+        value: id,
+      }),
+    );
+  }
+
+  useEffect(() => {
+    if (userSelectedCountry && userSelectedCountry.value) {
+      getStatesByCountry({
+        variables: { countryid: userSelectedCountry.value },
+      });
+    }
+  }, [userSelectedCountry]);
 
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
     if (name === 'country') {
-      setFieldValue('state', { label: '', value: '' });
+      setFieldValue('state', undefined);
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : '82' } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : '' }, // default code is for germany
       });
     }
   };
@@ -100,8 +94,8 @@ const PersonalInfoFormComponent: any = (
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3
-      }
+        sortBy: 3,
+      },
     });
   }, []);
 
@@ -123,14 +117,14 @@ const PersonalInfoFormComponent: any = (
       legalForm,
       vehicleAvailable,
       comments,
-      belongTo
+      belongTo,
     },
     submitCount,
     handleChange,
     handleBlur,
     errors,
     setFieldValue,
-    touched
+    touched,
   } = props;
 
   const scrollParentToChild: any = () => {
@@ -153,12 +147,6 @@ const PersonalInfoFormComponent: any = (
       scrollParentToChild();
     }, 200);
   }, [submitCount]);
-
-  const CreatedAt: Date | undefined | any = createdAt ? createdAt : new Date();
-  const RegYear: Date | undefined | any = moment(CreatedAt).format(
-    regSinceDate
-  );
-
   return (
     <div
       className='form-card custom-caregiver-height custom-scrollbar'
@@ -199,12 +187,11 @@ const PersonalInfoFormComponent: any = (
                           </Col>
                           <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
                             <div>
-                              {console.log('RegYear', RegYear)}
                               <Input
                                 type='text'
                                 name={'regSince'}
                                 disabled
-                                value={RegYear}
+                                value={moment(createdAt).format(regSinceDate)}
                                 placeholder='Reg Since'
                                 className='width-common'
                               />
@@ -371,14 +358,13 @@ const PersonalInfoFormComponent: any = (
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <Row className='custom-col inner-no-padding-col'>
                   <Col xs={'12'} sm={'7'} md={'7'} lg={'7'}>
-                    <div className='required-input'>
-                      <Field
-                        name={'dateOfBirth'}
-                        render={({ field }: any) => (
+                    <Field name='dateOfBirth'>
+                      {({ field }: any) => (
+                        <div className={'required-input'}>
                           <MaskedInput
                             {...field}
                             placeholder={languageTranslation(
-                              'EMPLOYEE_JOINING_DATE_PLACEHOLDER'
+                              'EMPLOYEE_JOINING_DATE_PLACEHOLDER',
                             )}
                             mask={DateMask}
                             className={
@@ -390,14 +376,14 @@ const PersonalInfoFormComponent: any = (
                             onBlur={handleBlur}
                             value={dateOfBirth}
                           />
-                        )}
-                      />
-                      {errors.dateOfBirth && touched.dateOfBirth && (
-                        <div className='required-tooltip left'>
-                          {errors.dateOfBirth}
+                          {errors.dateOfBirth && touched.dateOfBirth && (
+                            <div className='required-tooltip left'>
+                              {errors.dateOfBirth}
+                            </div>
+                          )}
                         </div>
                       )}
-                    </div>
+                    </Field>
                   </Col>
                   <Col xs={'12'} sm={'5'} md={'5'} lg={'5'}>
                     <FormGroup>
@@ -425,13 +411,12 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label '>
-                  Street and House Number
+                  {languageTranslation('STREET_AND_HOUSE')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -453,7 +438,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label '>
-                  Postal Code
+                  {languageTranslation('EMPLOYEE_ZIP_LABEL')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -470,12 +455,13 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label '>City</Label>
+                <Label className='form-label col-form-label '>
+                  {languageTranslation('CITY')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -491,24 +477,36 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label '>Country</Label>
+                <Label className='form-label col-form-label '>
+                  {languageTranslation('COUNTRY')}
+                  <span className='required'>*</span>
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                <div>
+                <div className={'required-input'}>
                   <Select
                     placeholder={languageTranslation('COUNTRY')}
                     options={countriesOpt}
                     isClearable={true}
+                    onBlur={handleBlur}
                     value={country && country.value ? country : undefined}
                     onChange={(value: any) => handleSelect(value, 'country')}
                     classNamePrefix='custom-inner-reactselect'
-                    className={'custom-reactselect'}
+                    className={
+                      touched.countryId && errors.country && !country
+                        ? 'error custom-reactselect'
+                        : 'custom-reactselect'
+                    }
                   />
+                  {touched.countryId && errors.country && !country && (
+                    <div className='required-tooltip left'>
+                      {errors.country}
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>
@@ -518,33 +516,47 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label '>State</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('STATE')}
+                  <span className='required'>*</span>
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                <div>
+                <div className={'required-input'}>
                   <Select
                     placeholder={languageTranslation('STATE')}
-                    isClearable={true}
                     options={statesOpt}
+                    isClearable={true}
                     value={state && state.value !== '' ? state : null}
                     onChange={(value: any) => handleSelect(value, 'state')}
                     noOptionsMessage={() => {
-                      return 'Select a country first';
+                      return country && country.value
+                        ? 'No options'
+                        : 'Select a country first';
                     }}
                     classNamePrefix='custom-inner-reactselect'
-                    className={'custom-reactselect'}
+                    onBlur={handleBlur}
+                    className={
+                      country && errors.state
+                        ? 'error custom-reactselect'
+                        : 'custom-reactselect'
+                    }
                   />
+                  {country && errors.state ? (
+                    <div className='required-tooltip left'>{errors.state}</div>
+                  ) : null}
                 </div>
               </Col>
             </Row>
           </FormGroup>
         </Col>
-
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Phone</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('PHONE_NUMBER')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -564,7 +576,9 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Fax</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('FAX')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -585,7 +599,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Mobile Number
+                  {languageTranslation('MOBILE_NUMBER')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -607,7 +621,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Email
+                  {languageTranslation('EMAIL')}
                   <span className='required'>*</span>
                 </Label>
               </Col>
@@ -632,7 +646,9 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Tax Number</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('CAREGIVER_TAX_NUMBER_LABEL')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -652,7 +668,9 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Bank</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('BANK')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -672,7 +690,9 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>IBAN</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('BANK_IBAN_LABEL')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div className='required-input'>
@@ -684,7 +704,7 @@ const PersonalInfoFormComponent: any = (
                           className={'form-control'}
                           value={IBAN}
                           placeholder={languageTranslation(
-                            'BANK_IBAN_PLACEHOLDER'
+                            'BANK_IBAN_PLACEHOLDER',
                           )}
                           name={'IBAN'}
                           mask={IBANRegex}
@@ -707,7 +727,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Username
+                  {languageTranslation('CAREGIVER_USERNAME_LABEL')}
                   <span className='required'>*</span>
                 </Label>
               </Col>
@@ -729,7 +749,9 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Belongs to</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('BELONGS_TO')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -755,7 +777,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Driver's license
+                  {languageTranslation('CAREGIVER_DRIVER_LICENSE_LABEL')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -792,7 +814,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Driver's License Number
+                  {languageTranslation('CAREGIVER_DRIVER_LICENSE_NUMBER_LABEL')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -815,7 +837,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Own vehicle available
+                  {languageTranslation('CAREGIVER_OWN_VEHICLE_AVAILABLE_LABEL')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -851,7 +873,9 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Legal Form</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('CAREGIVER_LEGAL_FORM_LABEL')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -873,7 +897,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Company Name
+                  {languageTranslation('CAREGIVER_COMPANY_NAME_LABEL')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -895,7 +919,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Register Court
+                  {languageTranslation('CAREGIVER_REGISTER_COURT_LABEL')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -917,7 +941,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Registration Number
+                  {languageTranslation('CAREGIVER_REGISTRATION_NUMBER_LABEL')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -939,7 +963,7 @@ const PersonalInfoFormComponent: any = (
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Executive Director
+                  {languageTranslation('CAREGIVER_EXECUTIVE_DIRECTOR_LABEL')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
@@ -960,7 +984,9 @@ const PersonalInfoFormComponent: any = (
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
-                <Label className='form-label col-form-label'>Employed</Label>
+                <Label className='form-label col-form-label'>
+                  {languageTranslation('EMPLOYED')}
+                </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                 <div>
@@ -981,7 +1007,7 @@ const PersonalInfoFormComponent: any = (
                       checked={employed}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const {
-                          target: { checked }
+                          target: { checked },
                         } = e;
                         setFieldValue('employed', checked);
                       }}
@@ -998,7 +1024,7 @@ const PersonalInfoFormComponent: any = (
             <Row>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
-                  Comments (Internally)
+                  {languageTranslation('COMMENTS_INTERNALLY')}
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>

@@ -11,7 +11,7 @@ const CustomOption: FunctionComponent = (props: any) => {
       {...innerProps}
       className={`custom-select-options ${
         data.value === languageTranslation('ID') ? 'custom-sticky-head' : ''
-      } ${isSelected ? 'active' : ''}`}
+      } ${isSelected ? (data.color ? 'text-black' : 'active') : ''}`}
       style={style}
     >
       <span

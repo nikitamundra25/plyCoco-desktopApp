@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Row, Button } from 'reactstrap';
+import { Row, Button, Col } from 'reactstrap';
 import { convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { toast } from 'react-toastify';
@@ -12,9 +12,17 @@ import {
 } from '../../../../helpers';
 import {
   CareGiverQueries,
-  EmailTemplateQueries
+  EmailTemplateQueries,
+  ProfileQueries,
+  AppointmentsQueries,
+  CareInstitutionQueries,
+  SignatureQueries
 } from '../../../../graphql/queries';
-import { BulkEmailCareGivers } from '../../../../graphql/Mutations';
+import {
+  BulkEmailCareGivers,
+  DocumentMutations,
+  LeasingContractMutations
+} from '../../../../graphql/Mutations';
 import {
   IReactSelectInterface,
   IEmailTemplateData,
@@ -24,25 +32,65 @@ import {
 import { EmailEditorComponent } from './EmailFormComponent';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import { CareGiverListComponent } from './CareGiverListComponent';
-import { IBulkEmailVariables } from '../../../../interfaces/BulkEmailCaregiver';
+import { IBulkEmailVariables } from '../../../../interfaces';
 import { errorFormatter } from '../../../../helpers';
 import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
 import './index.scss';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
+import { AppRoutes, client } from '../../../../config';
+import moment from 'moment';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import LeasingContactPdf from './PDF/LeasingContactPdf';
+import TerminationAgreementPdf from './PDF/TerminationAgreementPdf';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
 const [BULK_EMAILS] = BulkEmailCareGivers;
+const [VIEW_PROFILE] = ProfileQueries;
+const [
+  GET_USERS_BY_QUALIFICATION_ID,
+  ,
+  ,
+  ,
+  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
+] = AppointmentsQueries;
+
+const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
+const [ADD_DOCUMENT] = DocumentMutations;
+const [GET_CARE_GIVER_SIGNATURE] = SignatureQueries;
+const [UPDATE_LEASING_CONTRACT_STATUS] = LeasingContractMutations;
+
 let toastId: any = null;
 
-const BulkEmailCaregiver: FunctionComponent = () => {
+const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
+  const {
+    selectedCellsCareinstitution,
+    selectedCells,
+    offerRequirements,
+    leasingContract,
+    qualificationList,
+    terminateAggrement
+  } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
-  const history = useHistory();
-  const location = useLocation();
-  const { pathname } = location;
-  console.log('pathname', pathname);
+  const [signatureData, setSignatureData] = useState<any>();
+  const [pdfAppointmentDetails, setPdfAppointmentDetails] = useState<any>([]);
+  const [pdfTerminateAppointment, setPdfTerminateAppointment] = useState<any>();
 
+  const history = useHistory();
+
+  // To access data of loggedIn user
+  let userData: any = '';
+  try {
+    userData = client.readQuery({
+      query: VIEW_PROFILE
+    });
+  } catch (error) { }
+
+  const { viewAdminProfile }: any = userData ? userData : {};
+  const { firstName = '', lastName = '', id = '' } = viewAdminProfile
+    ? viewAdminProfile
+    : {};
   // To get caregiver list from db
   const [
     fetchCareGiverList,
@@ -50,6 +98,114 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   ] = useLazyQuery<any, any>(GET_CAREGIVERS_FOR_BULK_EMAIL, {
     fetchPolicy: 'no-cache'
   });
+
+  // Mutation to leasing document
+  const [addUserDocuments] = useMutation<
+    { addUserDocuments: any },
+    { documentInput: any }
+  >(ADD_DOCUMENT);
+
+  // Query to get uploaded uploadedSignature
+  const [getCareGiverSignature, { data: uploadedSignature }] = useLazyQuery<
+    any
+  >(GET_CARE_GIVER_SIGNATURE);
+
+  // Mutation to leasing document
+  const [UpdateLeasingContractStatus] = useMutation<
+    { UpdateLeasingContractStatus: any },
+    {
+      appointmentId: any;
+      availablityId: any;
+      requirementId: any;
+      status: string;
+    }
+  >(UPDATE_LEASING_CONTRACT_STATUS);
+
+  // To fetch caregivers by qualification id
+  const [
+    fetchCaregiverListFromQualification,
+    {
+      data: careGiversList,
+      called: careGiverListCalled,
+      loading: caregiverLoading,
+      refetch: caregiverQulliRefetch,
+      fetchMore: caregiverListFetch
+    }
+  ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
+    fetchPolicy: 'no-cache'
+  });
+
+  // To fetch requirments by selected caregiver qualification id
+  const [
+    fetchRequirmentFromQualification,
+    { data: requirmentList, loading: requirmentListLoading }
+  ] = useLazyQuery<any, any>(GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION, {
+    fetchPolicy: 'no-cache'
+  });
+
+  //Get requirment list data for qualificationid
+  useEffect(() => { }, [requirmentList]);
+
+  //Get Data for selected cell
+  useEffect(() => {
+    if (selectedCells && selectedCells.length) {
+      let userId = selectedCells[0].id;
+      const { qualificationIds = [] } = selectedCells[0];
+      if (qualificationIds && qualificationIds.length) {
+        fetchRequirmentFromQualification({
+          variables: {
+            qualificationId: qualificationIds
+          }
+        });
+      }
+      if (userId) {
+        getCareGiverSignature({
+          variables: { userId: parseInt(userId) }
+        });
+      }
+    }
+  }, [selectedCells]);
+
+  // set caregiver signature data
+  useEffect(() => {
+    if (uploadedSignature) {
+      const { getCareGiverSignature } = uploadedSignature;
+      if (getCareGiverSignature) {
+        setSignatureData(getCareGiverSignature);
+      } else {
+        setSignatureData({});
+      }
+    }
+  }, [uploadedSignature]);
+
+  // To fetch users according to qualification selected
+  useEffect(() => {
+    if (props.label === 'appointment') {
+      let temp: any = [];
+      if (props.qualification && props.qualification.length) {
+        props.qualification.map((key: any, index: number) => {
+          if (key.value) {
+            temp.push(parseInt(key.value));
+          } else {
+            temp.push(parseInt(key));
+          }
+        });
+      }
+      // get careGivers list
+      fetchCaregiverListFromQualification({
+        variables: {
+          qualificationId: temp ? temp : [],
+          positiveAttributeId: [],
+          negativeAttributeId: [],
+          userRole: 'caregiver',
+          limit: 30,
+          page,
+          gte: props.gte,
+          lte: props.lte
+        }
+      });
+    }
+  }, [props.label === 'appointment']);
 
   // To get all the types of email template
   // const { data: typeList } = useQuery(GET_EMAIL_TEMPLATE_TYEPS);
@@ -70,6 +226,8 @@ const BulkEmailCaregiver: FunctionComponent = () => {
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [bulkcareGivers, setBulkCareGivers] = useState<boolean>(false);
+  const [leasingContactPdfData, setLeasingContactPdfData] = useState<any>();
+  const [terminationAgreementPdfData, setTerminationAgreementPdfData] = useState<any>();
 
   const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
     bulkEmailsInput: IBulkEmailVariables;
@@ -78,6 +236,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
       }
+      props.handleClose();
       setSubject('');
       setBody(undefined);
       setAttachments([]);
@@ -96,18 +255,85 @@ const BulkEmailCaregiver: FunctionComponent = () => {
 
   useEffect(() => {
     // Fetch list of caregivers
-    fetchCareGiverList({
-      variables: {
-        searchBy: '',
-        sortBy: 3,
-        limit: 30,
-        page,
-        isActive: ''
-      }
-    });
+    if (props.label !== 'appointment') {
+      fetchCareGiverList({
+        variables: {
+          searchBy: '',
+          sortBy: 3,
+          limit: 30,
+          page,
+          isActive: ''
+        }
+      });
+    }
   }, []);
 
   const [careGiverData, setcareGiverData] = useState<Object[]>([]);
+  const [careGiverConfirm, setCaregiverConfirm] = useState<Object[]>([]);
+  // get care giver list according to selected qualification in appointment section
+
+  useEffect(() => {
+    let list: any = [...careGiverData];
+    if (selectedCells && (props.confirmApp || offerRequirements)) {
+      if (selectedCells && selectedCells.length) {
+        selectedCells.map((key: any) => {
+          if (list && list.length) {
+            if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
+              return (list = [...list, key]);
+            }
+          } else {
+            return (list = [...list, key]);
+          }
+        });
+        setcareGiverData(list);
+      }
+    } else if (selectedCells && props.unlinkedBy) {
+      if (selectedCells && selectedCells.length) {
+        selectedCells.map((key: any) => {
+          if (list && list.length) {
+            if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
+              return (list = [...list, key]);
+            }
+          } else {
+            return (list = [...list, key]);
+          }
+        });
+        setcareGiverData(list);
+      }
+    } else if (selectedCells && terminateAggrement) {
+      if (selectedCells && selectedCells.length) {
+        selectedCells.map((key: any) => {
+          if (list && list.length) {
+            if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
+              return (list = [...list, key]);
+            }
+          } else {
+            return (list = [...list, key]);
+          }
+        });
+        setcareGiverData(list);
+      }
+    } else {
+      if (careGiversList) {
+        const { getUserByQualifications } = careGiversList;
+        const { result } = getUserByQualifications;
+        if (result && result.length) {
+          result.map((key: any) => {
+            return (list = [...list, key]);
+          });
+        }
+        setcareGiverData(list);
+        let selectedId: any = [];
+        if (bulkcareGivers) {
+          list.map((key: any) => {
+            return (selectedId = [...selectedId, parseInt(key.id)]);
+          });
+          setselectedCareGiver(selectedId);
+        }
+      }
+    }
+  }, [careGiversList]);
+
   useEffect(() => {
     let list: any = [...careGiverData];
     if (careGivers) {
@@ -129,56 +355,689 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     }
   }, [careGivers]);
 
-  // const handleInfiniteScroll = () => {
-  //   setPage(page + 1);
-  //   fetchCareGiverList({
-  //     variables: {
-  //       searchBy: "",
-  //       sortBy: 3,
-  //       limit: 30,
-  //       page: page + 1,
-  //       isActive: ""
-  //     }
-  //   });
-  // };
+  // Refresh component
+  const onRefresh = () => {
+    // refetch();
+    fetchCareGiverList({
+      variables: {
+        searchBy: '',
+        sortBy: 3,
+        limit: 30,
+        page: 1,
+        isActive: ''
+      }
+    });
+    setSubject('');
+    setBody(undefined);
+    setAttachments([]);
+    setIsSubmit(false);
+    setPage(page);
+    setTemplate({ label: '', value: '' });
+    setselectedCareGiver([]);
+    setBulkCareGivers(false);
+    setcareGiverData([]);
+  };
 
   const handleInfiniteScroll = () => {
     setPage(page + 1);
-    fetchMore({
-      variables: {
-        page: page + 1
-      },
-      updateQuery: (prev: any, { fetchMoreResult }: any) => {
-        if (!fetchMoreResult) return prev;
-        if (prev.getCaregivers) {
-          let list = [
-            ...careGiverData,
-            ...fetchMoreResult.getCaregivers.result
-          ];
-          setcareGiverData((prevArray: any) => [
-            ...prevArray,
-            ...fetchMoreResult.getCaregivers.result
-          ]);
-          let selectedId: any = [];
-          if (bulkcareGivers) {
-            list.forEach(caregiver => {
-              selectedId = [...selectedId, parseInt(caregiver.id)];
+    if (props.label !== 'appointment') {
+      fetchMore({
+        variables: {
+          page: page + 1
+        },
+        updateQuery: (prev: any, { fetchMoreResult }: any) => {
+          if (!fetchMoreResult) return prev;
+          if (prev.getCaregivers) {
+            let list = [
+              ...careGiverData,
+              ...fetchMoreResult.getCaregivers.result
+            ];
+            setcareGiverData((prevArray: any) => [
+              ...prevArray,
+              ...fetchMoreResult.getCaregivers.result
+            ]);
+            let selectedId: any = [];
+            if (bulkcareGivers) {
+              list.forEach(caregiver => {
+                selectedId = [...selectedId, parseInt(caregiver.id)];
+              });
+              setselectedCareGiver(selectedId);
+            }
+            return Object.assign({}, prev, {
+              getCaregivers: {
+                ...prev.getCaregivers,
+                result: [
+                  ...prev.getCaregivers.result,
+                  ...fetchMoreResult.getCaregivers.result
+                ]
+              }
             });
-            setselectedCareGiver(selectedId);
           }
-          return Object.assign({}, prev, {
-            getCaregivers: {
-              ...prev.getCaregivers,
-              result: [
-                ...prev.getCaregivers.result,
-                ...fetchMoreResult.getCaregivers.result
-              ]
+        }
+      });
+    } else {
+      caregiverListFetch({
+        variables: {
+          page: page + 1
+        },
+        updateQuery: (prev: any, { fetchMoreResult }: any) => {
+          if (!fetchMoreResult) return prev;
+          if (prev.getUserByQualifications) {
+            let list = [
+              ...careGiverData,
+              ...fetchMoreResult.getUserByQualifications.result
+            ];
+            setcareGiverData((prevArray: any) => [
+              ...prevArray,
+              ...fetchMoreResult.getUserByQualifications.result
+            ]);
+            let selectedId: any = [];
+            if (bulkcareGivers) {
+              list.forEach(caregiver => {
+                selectedId = [...selectedId, parseInt(caregiver.id)];
+              });
+              setselectedCareGiver(selectedId);
+            }
+            return Object.assign({}, prev, {
+              getUserByQualifications: {
+                ...prev.getUserByQualifications,
+                result: [
+                  ...prev.getUserByQualifications.result,
+                  ...fetchMoreResult.getUserByQualifications.result
+                ]
+              }
+            });
+          }
+        }
+      });
+    }
+  };
+
+  const sortByDivision = (a: any, b: any) => {
+    // Use toUpperCase() to ignore character casing
+    const bandA = a.division.toUpperCase();
+    const bandB = b.division.toUpperCase();
+    let comparison = 0;
+    if (bandA > bandB) {
+      comparison = 1;
+    } else if (bandA < bandB) {
+      comparison = -1;
+    }
+    return comparison;
+  };
+
+  //Use Effect for email template data
+  useEffect(() => {
+    if (props.label === 'appointment' && !offerRequirements) {
+      if (props.sortBy === 'division' || props.sortBy === 'day') {
+        let qualificationArray: any = [];
+        let qualificationString: string = '';
+        let remarkRow: string = '';
+        let divisionArray: any = [];
+        let subjectDivisions: any = [];
+        let isLeasing: boolean = false;
+        for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
+          let object = selectedCellsCareinstitution[i];
+          // If careInstitution has leasing attribute
+          isLeasing = object.isLeasing;
+          if (object.item) {
+            let obj: any = {};
+            if (
+              object.item.id &&
+              object.item.division &&
+              object.item.division.name
+            ) {
+              subjectDivisions.push(object.item.division.name);
+            }
+            let shiftLabel =
+              object.item.startTime === '06:00'
+                ? 'FD'
+                : object.item.startTime === '14:00'
+                  ? 'SD'
+                  : 'ND';
+
+            obj.id = object.item.id;
+            obj.division = object.item.division
+              ? object.item.division.name
+              : '';
+            obj.shiftLabel = shiftLabel;
+            obj.day = moment(object.item.date).format('D');
+            obj.month = moment(object.item.date).format('MMM');
+            obj.date = moment(object.item.date).format('DD.MM');
+            obj.duration = moment
+              .utc(
+                moment(object.item.endTime, 'HH:mm').diff(
+                  moment(object.item.startTime, 'HH:mm')
+                )
+              )
+              .format('H.m');
+            divisionArray.push(obj);
+            if (object.item.departmentOfferRemarks) {
+              remarkRow += `<p>${object.item.departmentOfferRemarks}</p>`;
+            }
+            for (let j = 0; j < object.item.qualificationId.length; j++) {
+              let q = object.item.qualificationId[j];
+              if (!qualificationArray.includes(q)) {
+                qualificationArray.push(q);
+              }
+            }
+          }
+        }
+        let temp: any = [];
+        qualificationArray.map((i: any) => {
+          temp.push(i.label);
+        });
+        qualificationString = temp.join();
+
+        let uniqueDivisions = subjectDivisions.filter(
+          (item: any, i: any, ar: any) => ar.indexOf(item) === i
+        );
+
+        if (props.sortBy === 'day') {
+          divisionArray = divisionArray.sort(function (a: any, b: any) {
+            return a.date - b.date;
+          });
+        } else {
+          divisionArray = divisionArray.sort(sortByDivision);
+        }
+
+        let divRow: string = '';
+        let customSub: string = 'Offer ';
+        divisionArray.map((v: any, i: number) => {
+          if (v.id) {
+            divRow += `<p>${v.date +
+              ' ' +
+              v.shiftLabel +
+              ' ' +
+              v.duration +
+              'h ' +
+              (v.division ? v.division : ' - ') +
+              '  ' +
+              languageTranslation('APPOINTMENTID') +
+              '=' +
+              v.id}</p>`;
+            if (i == 0) {
+              customSub += `${v.month + ' ' + v.day + '.' + v.shiftLabel},`;
+            } else {
+              customSub += `${' ' + v.day + '.' + v.shiftLabel},`;
+            }
+          }
+        });
+
+        if (uniqueDivisions.length == 1) {
+          customSub += `${' ' + uniqueDivisions[0]}`;
+        }
+
+        let mailBody: any = '';
+        mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}
+          </p><br/>${
+          isLeasing
+            ? `<p>${languageTranslation('LEASING_OFFER')}</p></BR>`
+            : ''
+          }<p>${languageTranslation(
+            'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
+          ) +
+          ' ' +
+          qualificationString}</p><br/>${divRow}</br>${
+          props.showButton
+            ? `</br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>`
+            : ''
+          }${remarkRow}</br><p>${languageTranslation('FEE') +
+          ':' +
+          languageTranslation('FEE_TEXT')}</p>${
+          isLeasing
+            ? `<p>${languageTranslation(
+              'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
+            )}</p>`
+            : ''
+          }`;
+        // }
+
+        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        setSubject(customSub);
+        setBody(editorState);
+      } else {
+        let qualificationArray: any = [];
+        let qualificationString: string = '';
+        let remarkRow: string = '';
+        let divisionArray: any = [];
+
+        for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
+          let object = selectedCellsCareinstitution[i];
+          if (object.item) {
+            let obj: any = {};
+            let shiftLabel =
+              object.item.startTime === '06:00'
+                ? 'FD'
+                : object.item.startTime === '14:00'
+                  ? 'SD'
+                  : 'ND';
+
+            obj.id = object.item.id;
+            obj.division = object.item.division
+              ? object.item.division.name
+              : '';
+            obj.shiftLabel = shiftLabel;
+            obj.day = moment(object.item.date).format('D');
+            obj.month = moment(object.item.date).format('MMM');
+            obj.date = moment(object.item.date).format('DD.MM');
+            obj.duration = moment
+              .utc(
+                moment(object.item.endTime, 'HH:mm').diff(
+                  moment(object.item.startTime, 'HH:mm')
+                )
+              )
+              .format('H.m');
+            divisionArray.push(obj);
+            if (object.item.departmentOfferRemarks) {
+              remarkRow += `<p>${object.item.departmentOfferRemarks}</p>`;
+            }
+
+            if (object.item.qualificationId) {
+              for (let j = 0; j < object.item.qualificationId.length; j++) {
+                let q = object.item.qualificationId[j];
+                if (!qualificationArray.includes(q)) {
+                  qualificationArray.push(q);
+                }
+              }
+            }
+          }
+        }
+        let temp: any = [];
+        qualificationArray.map((i: any) => {
+          temp.push(i.label);
+        });
+        qualificationString = temp.join();
+
+        if (props.sortBy === 'day') {
+          divisionArray = divisionArray.sort(function (a: any, b: any) {
+            return a.date - b.date;
+          });
+        } else {
+          divisionArray = divisionArray.sort(sortByDivision);
+        }
+
+        let divRow: string = '';
+        divisionArray.map((v: any, i: number) => {
+          if (v.id) {
+            divRow += `<p>${v.date +
+              ' ' +
+              v.shiftLabel +
+              ' ' +
+              v.duration +
+              'h ' +
+              (v.division ? v.division : ' - ') +
+              '  ' +
+              languageTranslation('APPOINTMENTID') +
+              '=' +
+              v.id}</p>`;
+          }
+        });
+
+        let mailBody = `<p>${languageTranslation(
+          'CAREGIVER_OFFER_EMAIL_HEADING'
+        )}</p><br/><p>${languageTranslation(
+          'LEASING_OFFER'
+        )}</p></BR><p>${languageTranslation(
+          'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
+        ) +
+        ' ' +
+        qualificationString}</p><br/>${divRow}</br>${remarkRow}</br><p>${languageTranslation(
+          'FEE'
+        ) +
+        ':' +
+        languageTranslation('FEE_TEXT')}</p><p>${languageTranslation(
+          'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
+        )}</p>`;
+
+        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        setSubject(languageTranslation('CAREGIVER_OFFER_EMAIL_SUBJECT'));
+        setBody(editorState);
+      }
+      if (props.confirmApp) {
+        let apointedCareGiver: any = [];
+        if (selectedCells && selectedCells.length) {
+          selectedCells.forEach((element: any) => {
+
+            const {
+              item = {},
+              firstName = '',
+              lastName = '',
+              dateString = '',
+              name = ''
+            } = element;
+            const { appointments = [] } = item;
+            const { cr = {} } =
+              appointments && appointments.length ? appointments[0] : [];
+            const { division = {} } = cr ? cr : {};
+
+            if (division) {
+              let divisionData: string = division ? division.name : `${name}`;
+              apointedCareGiver.push({
+                date: dateString,
+                division: divisionData
+              });
             }
           });
         }
+        let divRow: string = '';
+        if (
+          apointedCareGiver &&
+          apointedCareGiver.length &&
+          apointedCareGiver[0]
+        ) {
+          divRow = `<span><b>${moment(apointedCareGiver[0].date).format(
+            'DD/MM'
+          )}${' '}${' '}${apointedCareGiver[0].division}</b></span></br>`;
+        }
+        const bodyData: any = `<span>${divRow}</br>Please send your fee contract to the institution immediately.</br></br>You can also use the corresponding function on the website.</br></br>Please call the institution about 2 days before the start of the service to make sure you are coming.</span>`;
+        const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+        setSubject('Appointment confirmation');
+        setBody(editorState);
       }
-    });
-  };
+      if (props.unlinkedBy) {
+        if (props.unlinkedBy === 'canstitution') {
+          let apointedCareGiver: any[] = [];
+          if (
+            selectedCellsCareinstitution &&
+            selectedCellsCareinstitution.length
+          ) {
+            selectedCellsCareinstitution.forEach((element: any) => {
+              const { item = {}, firstName = '', lastName = '' } = element;
+              const { appointments = [], division = {} } = item;
+              if (appointments && appointments.length) {
+                const { ca = {}, date = '' } =
+                  appointments && appointments.length ? appointments[0] : {};
+                if (ca) {
+                  let divisionData: string = division
+                    ? division.name
+                    : `${firstName}${' '}${lastName}`;
+                  apointedCareGiver.push({
+                    caregivername: ca && ca.name ? ca.name : 'caregiver',
+                    date: date,
+                    division: divisionData
+                  });
+                }
+              }
+            });
+          }
+          let divRow: string = '';
+          apointedCareGiver.map((data: any) => {
+            divRow += `<span><b>${moment(data.date).format(
+              'DD/MM'
+            )}${' '}${' '}${data.division}:${' '}${' '}${
+              data.caregivername
+              }</b></span></br>`;
+          });
+          const bodyData: any = `<span>The facility has unfortunately canceled the following dates::-</br></br>${divRow}</br>The canceled dates have been marked as "free" and you will immediately receive offers for these days</span>`;
+          const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+
+          let subject: string = `Appointment cancellation for ${moment(
+            apointedCareGiver[0].date
+          ).format('DD.MM')}`;
+          setBody(editorState);
+          setSubject(subject);
+          setTemplate({
+            label: '',
+            value: ''
+          });
+        } else if (!props.confirmApp) {
+          let apointedCareGiver: any[] = [];
+          if (
+            selectedCellsCareinstitution &&
+            selectedCellsCareinstitution.length
+          ) {
+            selectedCellsCareinstitution.forEach((element: any) => {
+              const { item = {}, firstName = '', lastName = '' } = element;
+              const { appointments = [], division = {} } = item;
+              if (appointments && appointments.length) {
+                const { ca = {}, date = '' } =
+                  appointments && appointments.length ? appointments[0] : {};
+                if (ca) {
+                  let divisionData: string = division
+                    ? division.name
+                    : `${firstName}${' '}${lastName}`;
+                  apointedCareGiver.push({
+                    caregivername: ca && ca.name ? ca.name : 'caregiver',
+                    date: date,
+                    division: divisionData
+                  });
+                }
+              }
+            });
+          }
+          let divRow: string = '';
+          apointedCareGiver.map((data: any) => {
+            divRow += `<span><b>${moment(data.date).format(
+              'DD/MM'
+            )}${' '}${' '}${data.division}:${' '}${' '}${
+              data.caregivername
+              }</b></span></br>`;
+          });
+          const bodyData: any = `<span>We have informed the institution of your cancellation for the following dates:-</br></br>${divRow}</span>`;
+          const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+
+          let subject: string = `Appointment cancellation confirmation for ${moment(
+            apointedCareGiver[0] ? apointedCareGiver[0].date : ''
+          ).format('MMM Do')},${' '}1:1 ${apointedCareGiver[0].division}`;
+          setBody(editorState);
+          setSubject(subject);
+          setTemplate({
+            label: '',
+            value: ''
+          });
+        }
+      }
+      if (!leasingContract && terminateAggrement) {
+        if (selectedCells && selectedCells.length) {
+          let cname: string = '';
+          selectedCells.forEach((element: any) => {
+            const { item = {} } = element;
+            console.log('item', item);
+            const { appointments = [] } = item;
+            if (appointments && appointments.length) {
+              const { cr = {} } =
+                appointments && appointments.length ? appointments[0] : {};
+              cname = cr.name;
+            }
+            let mailBody = '';
+            mailBody = `<p>${`Please sign a termination contract for a temporary employment contract with TIMyoCY for:<span><b>${'date'}</b></span> ${
+              cname ? cname : ''
+              }</br>` +
+              `<p>Please use the following link: <a href="http://78.47.143.190:8000/cancel-contract"> Cancel Contract</a>`}</p>`;
+            if (!pdfTerminateAppointment) {
+              setPdfTerminateAppointment(mailBody);
+            }
+            const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+            setSubject('Teminate aggrement');
+            setBody(editorState);
+          });
+        }
+      }
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (selectedCells && selectedCells.length) {
+      const { qualificationIds = [] } = selectedCells[0]
+        ? selectedCells[0]
+        : {};
+      const { getQualificationMatching = [] } = requirmentList
+        ? requirmentList
+        : {};
+      let mailBody = '';
+      let qualificationReq = '';
+      if (
+        !leasingContract &&
+        ((getQualificationMatching && getQualificationMatching.length) ||
+          offerRequirements)
+      ) {
+        if (qualificationIds && qualificationIds.length) {
+          qualificationIds.forEach((qId: string) => {
+            qualificationReq += `<br /><p>${languageTranslation(
+              'QUALIFICATION_HEAD'
+            )}: ${
+              qualificationList && qualificationList.length
+                ? qualificationList.filter(
+                  (qualification: any) => qualification.value === qId
+                )[0].label
+                : ''
+              }</p>`;
+            let temp = getQualificationMatching.filter((requirement: any) =>
+              requirement.qualificationId.includes(qId)
+            );
+            if (temp && temp.length) {
+              temp
+                .sort((a: any, b: any) => b.date - a.date)
+                .forEach((requirement: any) => {
+                  const {
+                    startTime = '',
+                    endTime = '',
+                    date = ''
+                  } = requirement ? requirement : {};
+                  if (!moment(date).isBefore(moment(), 'day')) {
+                    let shiftLabel =
+                      startTime === '06:00'
+                        ? 'FD'
+                        : startTime === '14:00'
+                          ? 'SD'
+                          : 'ND';
+                    let duration = moment
+                      .utc(
+                        moment(endTime, 'HH:mm').diff(
+                          moment(startTime, 'HH:mm')
+                        )
+                      )
+                      .format('H.m');
+                    qualificationReq += `<p>${
+                      date ? moment(date).format('DD.MM') : ''
+                      } ${shiftLabel} ${duration} ${
+                      requirement && requirement.division
+                        ? requirement.division.name
+                        : requirement.name
+                      }</p>`;
+                  }
+                });
+            }
+          });
+        }
+
+        mailBody = `<p>${languageTranslation(
+          'OFFER_REQUIREMENTS_TO_CG'
+        )}</p><p>${languageTranslation(
+          'CAREGIVER_OFFER_EMAIL_HEADING'
+        )}</p><br/><p>${languageTranslation(
+          'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
+        )}</p>${qualificationReq}<br/><p>${languageTranslation('FEE') +
+        ':' +
+        languageTranslation('FEE_TEXT')}<br/>`;
+        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        setSubject(languageTranslation('OFFER_REQUIREMENTS_SUB'));
+        setBody(editorState);
+      } else if (
+        getQualificationMatching &&
+        getQualificationMatching.length &&
+        leasingContract
+      ) {
+        let qualificationArray: any = [];
+        let qualificationString: string = '';
+        let divisionArray: any = [];
+
+        for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
+          let object = selectedCellsCareinstitution[i];
+          if (object.item) {
+            let obj: any = {};
+            let shiftLabel =
+              object.item.startTime === '06:00'
+                ? 'FD'
+                : object.item.startTime === '14:00'
+                  ? 'SD'
+                  : 'ND';
+
+            obj.id = object.item.id;
+            obj.address = object.item.address;
+            obj.division = object.item.division
+              ? object.item.division.name
+              : '';
+            obj.shiftLabel = shiftLabel;
+            obj.day = moment(object.item.date).format('D');
+            obj.month = moment(object.item.date).format('MMM');
+            obj.date = moment(object.item.date).format('DD.MM');
+            obj.duration = moment
+              .utc(
+                moment(object.item.endTime, 'HH:mm').diff(
+                  moment(object.item.startTime, 'HH:mm')
+                )
+              )
+              .format('H.m');
+            divisionArray.push(obj);
+
+            if (object.item.qualificationId) {
+              for (let j = 0; j < object.item.qualificationId.length; j++) {
+                let q = object.item.qualificationId[j];
+                if (!qualificationArray.includes(q)) {
+                  qualificationArray.push(q);
+                }
+              }
+            }
+          }
+        }
+        let temp: any = [];
+        qualificationArray.map((i: any) => {
+          temp.push(i.label);
+        });
+        qualificationString = temp.join();
+
+        if (props.sortBy === 'day') {
+          divisionArray = divisionArray.sort(function (a: any, b: any) {
+            return a.date - b.date;
+          });
+        } else {
+          divisionArray = divisionArray.sort(sortByDivision);
+        }
+
+        let divRow: string = '';
+        let pdfDivData: any = [];
+        divisionArray.map((v: any, i: number) => {
+          if (v.id) {
+            let pdfDivRow: string = '';
+            divRow += `<p>${v.date +
+              ' ' +
+              v.shiftLabel +
+              ', Place of work: ' +
+              (v.division ? v.division : ' - ') +
+              '' + (v.address ? (', ' + v.address) : ' ') +
+              ', job: ' +
+              qualificationString}
+              </p>`;
+
+            pdfDivRow += `${v.date +
+              ' ' + v.shiftLabel +
+              ', Place of work: ' + (v.division ? v.division : ' - ') +
+              '' + (v.address ? (', ' + v.address) : ' ') +
+              ', job: ' + qualificationString
+              }`;
+
+            pdfDivData.push(pdfDivRow);
+          }
+        });
+
+        setPdfAppointmentDetails(pdfDivData);
+
+        let mailBody = `<p>${languageTranslation(
+          'CAREGIVER_EMAIL_LEASING_CONTRACT'
+        )}</p></br>${divRow}</br>
+        <p>Please use the following link: <a href="http://78.47.143.190:8000/leasing-contract"/> http://78.47.143.190:8000/leasing-contract </a>
+        </p>`;
+
+        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        setSubject(
+          languageTranslation('CAREGIVER_EMAIL_LEASING_CONTRACT_SUBJECT')
+        );
+        setBody(editorState);
+      }
+    }
+  }, [requirmentList]);
 
   const handleSelectAll = async () => {
     if (careGiverData && careGiverData.length) {
@@ -234,6 +1093,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     const {
       getEmailtemplate: { email_templates }
     } = data;
+
     if (email_templates && email_templates.length) {
       email_templates.map(({ menuEntry, id }: IEmailTemplateData) => {
         templateOptions.push({
@@ -268,13 +1128,13 @@ const BulkEmailCaregiver: FunctionComponent = () => {
       setAttachments(
         attachments
           ? attachments.map(
-              ({ name, id, path, size }: INewEmailAttachments) => ({
-                fileName: name,
-                id,
-                path,
-                size
-              })
-            )
+            ({ name, id, path, size }: INewEmailAttachments) => ({
+              fileName: name,
+              id,
+              path,
+              size
+            })
+          )
           : []
       );
     }
@@ -309,8 +1169,9 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     setAttachments((prevArray: any) => [data, ...prevArray]);
   };
 
-  const handleSendEmail = (e: React.FormEvent<any>) => {
+  const handleSendEmail = async (e: React.FormEvent<any>) => {
     e.preventDefault();
+
     let content = body
       ? draftToHtml(convertToRaw(body.getCurrentContent()))
       : '';
@@ -318,15 +1179,102 @@ const BulkEmailCaregiver: FunctionComponent = () => {
     setIsSubmit(true);
 
     try {
+      if (leasingContract || terminateAggrement) {
+        let userId = '';
+        let appointmentId = '';
+        let requirementId = '';
+        let avabilityId = '';
+        if (selectedCells && selectedCells.length > 0) {
+          userId = selectedCells[0].id;
+        }
+        if (
+          selectedCellsCareinstitution &&
+          selectedCellsCareinstitution.length > 0
+        ) {
+          if (
+            selectedCellsCareinstitution[0].item &&
+            selectedCellsCareinstitution[0].item.appointments
+          ) {
+            let appointments =
+              selectedCellsCareinstitution[0].item.appointments;
+            if (appointments.length > 0) {
+              appointmentId = appointments[0].id;
+              requirementId = appointments[0].requirementId;
+              avabilityId = appointments[0].avabilityId;
+            }
+          }
+        }
+
+        if (leasingContactPdfData) {
+          let documentInput: any = {
+            appointmentId: parseInt(appointmentId),
+            userId: parseInt(userId),
+            isDocumentTemplate: false,
+            documentUploadType: 'leasingContract',
+            document: leasingContactPdfData
+          };
+
+          await addUserDocuments({
+            variables: {
+              documentInput
+            }
+          });
+
+          await UpdateLeasingContractStatus({
+            variables: {
+              appointmentId: parseInt(appointmentId),
+              availablityId: parseInt(avabilityId),
+              requirementId: parseInt(requirementId),
+              status: 'contractInitiated'
+            }
+          });
+        }
+
+        if (terminationAgreementPdfData) {
+          let documentInput: any = {
+            appointmentId: parseInt(appointmentId),
+            userId: parseInt(userId),
+            isDocumentTemplate: false,
+            documentUploadType: 'terminateAgreement',
+            document: terminationAgreementPdfData
+          };
+
+          await addUserDocuments({
+            variables: {
+              documentInput
+            }
+          });
+
+        }
+
+      }
+
       let careGiverIdList: any = [];
 
       if (selectedCareGiver && selectedCareGiver.length) {
-        selectedCareGiver.map((careGiverId: number) => {
-          careGiverIdList = [
-            ...careGiverIdList,
-            { receiverUserId: careGiverId }
-          ];
+        // Remove duplicate values from an array of objects
+        let uniqueUser = selectedCareGiver.reduce((unique: any, key: any) => {
+          if (
+            !unique.some(
+              (obj: any) => obj.label === key.label && obj.value === key.value
+            )
+          ) {
+            unique.push(key);
+          }
+          return unique;
+        }, []);
+
+        for (let index = 0; index < selectedCareGiver.length; index++) {
+          const element = selectedCareGiver[index];
+          if (uniqueUser[uniqueUser.length - 1] !== element) {
+            uniqueUser.push(element);
+          }
+        }
+
+        uniqueUser.map((careGiverId: number) => {
+          careGiverIdList.push({ receiverUserId: careGiverId });
         });
+
         if (subject && body && result && result.length >= 2) {
           const bulkEmailsInput: IBulkEmailVariables = {
             to: 'caregiver',
@@ -334,25 +1282,22 @@ const BulkEmailCaregiver: FunctionComponent = () => {
             subject: subject /* .replace(/AW:/g, '') */,
             body: body ? content : '',
             parentId: null,
-            status: 'new',
+            status: 'unread',
+            type: props.label === 'appointment' ? 'offer' : 'email',
             attachments:
               attachments && attachments.length
                 ? attachments.filter((attachment: any) => attachment.path)
                 : [],
-            // attachments.map(
-            //   ({ path, fileName }: IEmailAttachmentData) => ({
-            //     path,
-            //     fileName
-            //   })
-            // ),
             files:
               attachments && attachments.length
                 ? attachments
-                    .map((item: IEmailAttachmentData) => item.file)
-                    .filter((file: File | null) => file)
+                  .map((item: IEmailAttachmentData) => item.file)
+                  .filter((file: File | null) => file)
                 : null,
-            caregiver: careGiverIdList
+            caregiver: careGiverIdList,
+            senderUserId: id ? parseInt(id) : null
           };
+
           bulkEmails({ variables: { bulkEmailsInput } });
         }
       } else {
@@ -377,7 +1322,14 @@ const BulkEmailCaregiver: FunctionComponent = () => {
         <div className='common-detail-section'>
           <div className='sticky-common-header'>
             <div className='common-topheader d-flex align-items-center px-2 mb-1'>
-              <div className='header-nav-item'>
+              <div
+                className={
+                  props.label === 'appointment'
+                    ? 'header-nav-item disabled-class'
+                    : 'header-nav-item'
+                }
+                onClick={props.label !== 'appointment' ? onRefresh : undefined}
+              >
                 <span className='header-nav-icon'>
                   <img src={refresh} alt='' />
                 </span>
@@ -385,7 +1337,13 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   {languageTranslation('REFRESH')}
                 </span>
               </div>
-              <div className='header-nav-item'>
+              <div
+                className={
+                  props.label === 'appointment'
+                    ? 'header-nav-item disabled-class'
+                    : 'header-nav-item'
+                }
+              >
                 <span className='header-nav-icon'>
                   <img src={filter} alt='' />
                 </span>
@@ -402,11 +1360,11 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   {bulkEmailLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
-                    <i
-                      className='fa fa-paper-plane mr-2'
-                      aria-hidden='true'
-                    ></i>
-                  )}
+                      <i
+                        className='fa fa-paper-plane mr-2'
+                        aria-hidden='true'
+                      ></i>
+                    )}
                   <span>{languageTranslation('SEND')}</span>
                 </Button>
               </div>
@@ -427,17 +1385,58 @@ const BulkEmailCaregiver: FunctionComponent = () => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
+                {leasingContract && pdfAppointmentDetails.length > 0 ? (
+                  <PDFDownloadLink
+                    document={
+                      <LeasingContactPdf
+                        signatureData={signatureData}
+                        pdfAppointmentDetails={pdfAppointmentDetails}
+                      />
+                    }
+                  >
+                    {({ blob, url, loading, error }: any) =>
+                      !loading ? setLeasingContactPdfData(blob) : null
+                    }
+                  </PDFDownloadLink>
+                ) : null}
+
+                {terminateAggrement && pdfTerminateAppointment ? (
+                  <PDFDownloadLink
+                    document={
+                      <TerminationAgreementPdf
+                        signatureData={signatureData}
+                        pdfTerminateAppointment={pdfTerminateAppointment}
+                      />
+                    }
+                  >
+                    {({ blob, url, loading, error }: any) =>
+                      !loading ? setTerminationAgreementPdfData(blob) : null
+                    }
+                  </PDFDownloadLink>
+                ) : null}
+
                 <CareGiverListComponent
-                  careGivers={careGivers}
+                  offerRequirements={offerRequirements}
+                  careGivers={
+                    props.label !== 'appointment' ? careGivers : careGiversList
+                  }
                   handleSelectAll={handleSelectAll}
-                  called={called}
-                  loading={loading}
+                  called={
+                    props.label !== 'appointment' ? called : careGiverListCalled
+                  }
+                  loading={
+                    props.label !== 'appointment' ? loading : caregiverLoading
+                  }
                   careGiverData={careGiverData}
                   selectedCareGiver={selectedCareGiver}
                   handleCheckElement={handleCheckElement}
                   handleInfiniteScroll={handleInfiniteScroll}
                   page={page}
+                  label={props.label}
                   bulkcareGivers={bulkcareGivers}
+                  confirmApp={props.confirmApp}
+                  unlinkedBy={props.unlinkedBy}
+                  terminateAggrement={terminateAggrement}
                 />
 
                 <EmailEditorComponent
@@ -452,7 +1451,7 @@ const BulkEmailCaregiver: FunctionComponent = () => {
                   uploadDocument={uploadDocument}
                   onDelteDocument={onDelteDocument}
                   isSubmit={isSubmit}
-                />
+                />  
               </Row>
             </div>
           </div>

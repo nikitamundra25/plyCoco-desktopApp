@@ -1,0 +1,159 @@
+@import "../../../assets/scss/variables";
+.header-nav-colmn-items {
+  &:not(:last-child) {
+    border-right: 1px solid #ddd;
+    padding-right: 0.8rem;
+    margin-right: 0.8rem;
+  }
+  &.profile-section {
+    border-right: none;
+    padding-right: 0.8rem;
+    margin-right: 0.8rem;
+  }
+
+  .header-nav-heading {
+    font-size: 12px;
+    font-weight: 400;
+    color: #000;
+    text-align: left;
+    display: block;
+    padding: 0px;
+    font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+    height: 18px;
+    display: block;
+  }
+  .header-nav-item,
+  .user-select {
+    margin-bottom: 0.25rem !important;
+  }
+}
+.total-form-section {
+  padding: 8px 0px;
+  border: 1px solid #ddd;
+  .total-form-block {
+    max-width: 700px;
+  }
+}
+.all-invoice {
+  .invoices-table {
+    min-height: calc(100vh - 352px);
+  }
+  table {
+    th {
+      &.all-invoice-number {
+        min-width: 60px;
+      }
+      &.all-invoice-facility {
+        min-width: 130px;
+      }
+      &.all-invoice-cancellation-for {
+        min-width: 130px;
+      }
+      &.all-invoice-canceled-by {
+        min-width: 84px;
+      }
+      &.all-invoice-rchng {
+        min-width: 84px;
+      }
+      &.all-invoice-date {
+        min-width: 84px;
+      }
+      &.all-invoice-amount {
+        min-width: 84px;
+      }
+      &.all-invoice-posted {
+        min-width: 84px;
+      }
+      &.all-invoice-sent-mail {
+        min-width: 90px;
+      }
+      &.all-invoice-paid {
+        min-width: 84px;
+      }
+      &.all-invoice-remind {
+        min-width: 84px;
+      }
+      &.all-invoice-remind {
+        min-width: 84px;
+      }
+      &.all-invoice-lawyer {
+        min-width: 84px;
+      }
+      &.all-invoice-doubtful {
+        min-width: 84px;
+      }
+      &.all-invoice-uncollectible {
+        min-width: 84px;
+      }
+
+      &.all-invoice-still-open {
+        min-width: 84px;
+      }
+      &.all-invoice-still-open {
+        min-width: 84px;
+      }
+      &.all-invoice-comment {
+        min-width: 100px;
+      }
+    }
+  }
+}
+
+.createinvoices-table{
+  th,td{
+    &.sno-col{
+      width:50px;
+    }
+  }
+}
+
+.payslipform-table{
+  td,th{
+    &.caregiver-col{
+      width:200px;
+    }
+    &.file-col{
+      width:150px;
+    }
+    &.date-col{
+      width:70px;
+    }
+    &.month-col{
+      width:100px;
+    }
+    &.amount-col{
+      width:90px;
+    }
+    &.paymentamount-col{
+      width:120px;
+    }
+    &.gross-col{
+      width:80px;
+    }
+    &.type-col{
+      width:180px;
+    }
+    &.paid-col{
+      width:70px;
+    }
+    &.visible-col{
+      width:50px;
+    }
+    &.comment-col{
+      width:200px;
+      min-width:150px;
+    }
+    
+  }
+}
+
+.healthinsuraceform-table{
+  th,td{
+    &.sepa-col{
+      width:50px;
+    }
+    &.action-col{
+      width:70px;
+    }
+  }
+}

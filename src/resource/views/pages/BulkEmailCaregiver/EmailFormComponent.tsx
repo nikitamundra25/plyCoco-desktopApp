@@ -6,7 +6,7 @@ import draftToHtml from "draftjs-to-html";
 import Select from "react-select";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { stripHtml, languageTranslation } from "../../../../helpers";
-import { IEmailEditorComponentProps } from "../../../../interfaces/BulkEmailCaregiver";
+import { IEmailEditorComponentProps } from "../../../../interfaces";
 import { AttachmentList } from "../../components/Attachments";
 import { AttachmentFormComponent } from "../EmailTemplateManagement/AddTemplate/AttachmentFormComponent";
 
@@ -32,7 +32,7 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
   return (
     <Col lg={"7"}>
       <div className="">
-        <div className="form-section py-2 px-3 bulk-email-form">
+        <div className="form-section py-2 px-3 form-card">
           <div className="d-flex align-items-end justify-content-between bulk-email-header">
             <Label className="bulk-email-label">
               {languageTranslation("SUBJECT")} {languageTranslation("EMAIL")}
@@ -133,10 +133,12 @@ export const EmailEditorComponent: FunctionComponent<IEmailEditorComponentProps>
           </Row>
         </div>
         {attachments && attachments.length ? (
-          <AttachmentList
-            attachment={attachments}
-            onDelteDocument={onDelteDocument}
-          />
+          <div className="document-list custom-scrollbar">
+            <AttachmentList
+              attachment={attachments}
+              onDelteDocument={onDelteDocument}
+            />
+          </div>
         ) : null}
       </div>
     </Col>

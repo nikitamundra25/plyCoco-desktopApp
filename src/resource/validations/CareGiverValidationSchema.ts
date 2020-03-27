@@ -3,7 +3,7 @@ import {
   CareGiverValues,
   IDateResponse,
   IRemark,
-  ICareGiverValidationInterface,
+  ICareGiverValidationInterface
 } from '../../interfaces';
 import { languageTranslation, dateValidator } from '../../helpers';
 import {
@@ -12,8 +12,9 @@ import {
   telMax,
   fee,
   taxNumberLimit,
-  NumberWithCommaRegex,
+  NumberWithCommaRegex
 } from '../../config';
+import moment from 'moment';
 export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   ICareGiverValidationInterface
@@ -36,44 +37,51 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     name: 'validate-date',
     test: function(val) {
       const { path, createError } = this;
-      const { isValid, message }: IDateResponse = dateValidator(val);
+      const { isValid, message }: IDateResponse = dateValidator(val, {
+        maxDate: moment()
+          .subtract(13, 'years')
+          .format(),
+        minDate: moment()
+          .subtract(100, 'years')
+          .format()
+      });
       return !val || isValid || createError({ path, message });
-    },
+    }
   }),
   phoneNumber: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value)),
+      value => !value || (value && !isNaN(value))
     )
     .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
       value =>
-        !value || (value && value.length >= telMin && value.length <= telMax),
+        !value || (value && value.length >= telMin && value.length <= telMax)
     ),
   mobileNumber: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('MOB_NUMERROR'),
-      value => !value || (value && !isNaN(value)),
+      value => !value || (value && !isNaN(value))
     )
     .test(
       'num-length',
       languageTranslation('MOB_MAXLENGTH'),
       value =>
-        !value || (value && value.length >= telMin && value.length <= telMax),
+        !value || (value && value.length >= telMin && value.length <= telMax)
     ),
   taxNumber: Yup.mixed()
     .test(
       'check-num',
       languageTranslation('TAX_NUMERROR'),
-      value => !value || (value && !isNaN(value)),
+      value => !value || (value && !isNaN(value))
     )
     .test(
       'num-length',
       languageTranslation('TAX_MAXLENGTH'),
-      value => !value || (value && value.length <= taxNumberLimit),
+      value => !value || (value && value.length <= taxNumberLimit)
     ),
   userName: Yup.string()
     .trim()
@@ -81,7 +89,7 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   fee: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
-    value => !value || NumberWithCommaRegex.test(value),
+    value => !value || NumberWithCommaRegex.test(value)
   ),
   // .number()
   //   .nullable()
@@ -90,27 +98,29 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   night: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
-    value => !value || NumberWithCommaRegex.test(value),
+    value => !value || NumberWithCommaRegex.test(value)
   ),
   weekendAllowance: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
-    value => !value || NumberWithCommaRegex.test(value),
+    value => !value || NumberWithCommaRegex.test(value)
   ),
   holiday: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
-    value => !value || NumberWithCommaRegex.test(value),
+    value => !value || NumberWithCommaRegex.test(value)
   ),
   age: Yup.number()
     .nullable()
     .integer('Age must be a valid integer')
     .typeError('Age must be a number')
-    .min(18, 'You must have 18 years of age')
+    .min(13, 'You must have 13 years of age')
     .max(100, "Age can't be greater than 100 years"),
   fax: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value)),
+    value => !value || (value && !isNaN(value))
   ),
+  country: Yup.mixed().required(languageTranslation('COUNTRY_REQUIRED')),
+  state: Yup.mixed().required(languageTranslation('STATE_REQUIRED'))
 });

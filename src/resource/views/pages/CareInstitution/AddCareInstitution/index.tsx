@@ -153,10 +153,10 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
     { setSubmitting }: FormikHelpers<ICareInstitutionFormValues>
   ) => {
     //to set submit state to false after successful signup
-    let AttributeData: string[] = [];
+    let AttributeData: any = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(attribute.label)
+        AttributeData.push(parseInt(attribute.value))
       );
     }
     try {
@@ -243,6 +243,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
   const values: ICareInstitutionFormValues = {
     email: '',
     firstName: '',
+    countryId: '',
     lastName: '',
     userName: '',
     fax: '',

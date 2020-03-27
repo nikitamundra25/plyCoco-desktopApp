@@ -15,7 +15,8 @@ import Select from "react-select";
 import {
   languageTranslation,
   logger,
-  formatFileSize
+  formatFileSize,
+  errorFormatter
 } from "../../../../helpers";
 import {
   State,
@@ -25,8 +26,7 @@ import {
 } from "../../../../config";
 import {
   IWorkingProofFormValues,
-  IDocumentInputInterface,
-  IReactSelectInterface
+  IDocumentInputInterface
 } from "../../../../interfaces";
 import displaydoc from "../../../assets/img/display-doc.svg";
 import upload from "../../../assets/img/upload.svg";
@@ -35,12 +35,17 @@ import hideoldfile from "../../../assets/img/hide-old-file.svg";
 import hidemapped from "../../../assets/img/block-file.svg";
 import "./index.scss";
 import { FormikProps } from "formik";
-import { useMutation } from "@apollo/react-hooks";
-import { DocumentUploadMutations } from "../../../../graphql/Mutations";
+import { useMutation, useLazyQuery } from "@apollo/react-hooks";
+import {
+  DocumentUploadMutations,
+  DocumentMutations
+} from "../../../../graphql/Mutations";
+
 import { toast } from "react-toastify";
 import DocumentPreview from "./DocumentPreview";
 import Loader from "../../containers/Loader/Loader";
 const [ADD_DOCUMENT] = DocumentUploadMutations;
+const [, , , , , , , , , GET_DOCUMENTS_FROM_OUTLOOK] = DocumentMutations;
 
 let toastId: any;
 
@@ -70,7 +75,15 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
   >(ADD_DOCUMENT);
 
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [
+    getWorkProofFromOutlookQuery,
+    { data, loading: fetchingLWorkProof, error: outlookError }
+  ] = useMutation<
+    {
+      getWorkProofFromOutlookQuery: any;
+    },
+    any
+  >(GET_DOCUMENTS_FROM_OUTLOOK);
   const handleUpload = async (file: any) => {
     try {
       if (file.length > 0) {
@@ -126,19 +139,48 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
       setDocumentUrl("");
     }
   };
-
+  /**
+   *
+   * @param e
+   */
+  const getWorkProofFromOutlook = async (e: any): Promise<void> => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await getWorkProofFromOutlookQuery({
+        variables: {
+          documentType:
+            documentType && documentType.value ? documentType.value : ""
+        }
+      });
+      if (!toast.isActive(toastId)) {
+        toast.dismiss();
+        toast.success(languageTranslation("DOCUEMENT_FETCHED_SUCCESS"));
+      }
+      refetch();
+    } catch (error) {
+      const message = errorFormatter(error.message);
+      toast.dismiss();
+      toast.error(message);
+      logger(error);
+    }
+    setLoading(false);
+  };
   return (
     <>
       <div className="common-detail-page">
         <div className="common-detail-section">
           <div className="sticky-common-header">
             <div className="common-topheader d-flex align-items-center px-2 mb-1">
-              <div className="header-nav-item">
+              <div
+                className="header-nav-item"
+                onClick={getWorkProofFromOutlook}
+              >
                 <span className="header-nav-icon">
                   <img src={upload} alt="" />
                 </span>
                 <span className="header-nav-text">
-                  Retrieve new work proofs
+                  {languageTranslation("RETRIVE_WORK_PROOF")}
                 </span>
               </div>
               <div className="header-nav-item">
@@ -242,6 +284,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             }}
                             maxSize={maxFileSize10MB}
                             accept={AcceptedDocumentFile.join()}
+                            multiple={false}
                           >
                             {({
                               getRootProps,
@@ -311,7 +354,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             }}
                           </Dropzone>
                         </div>
-                        <div className="document-list custom-scrollbar position-relative">
+                        <div className="workingproof-list custom-scrollbar position-relative">
                           <div className="archieve-table-minheight ">
                             <Table bordered hover responsive className="mb-0">
                               <thead className="thead-bg thead-sticky">

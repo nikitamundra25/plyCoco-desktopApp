@@ -1,14 +1,14 @@
-import React, { useState, useEffect, FunctionComponent } from "react";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { useParams, useLocation, useHistory } from "react-router";
-import * as qs from "query-string";
-import { EmailMenus } from "./EmailMenus";
-import InboxEmail from "./InboxEmail";
-import SentEmail from "./SentEmail";
-import NewEmail from "./NewEmail";
-import { CareGiverQueries } from "../../../../../graphql/queries";
-import { IEmailQueryVar } from "../../../../../interfaces";
-import { EmailMenusTab } from "../../../../../config";
+import React, { useState, useEffect, FunctionComponent } from 'react';
+import { useLazyQuery } from '@apollo/react-hooks';
+import { useParams, useLocation, useHistory } from 'react-router';
+import * as qs from 'query-string';
+import { EmailMenus } from './EmailMenus';
+import InboxEmail from './InboxEmail';
+import SentEmail from './SentEmail';
+import NewEmail from './NewEmail';
+import { CareGiverQueries } from '../../../../../graphql/queries';
+import { IEmailQueryVar } from '../../../../../interfaces';
+import { EmailMenusTab } from '../../../../../config';
 
 const [, , , GET_EMAILS] = CareGiverQueries;
 
@@ -17,7 +17,7 @@ const Email: FunctionComponent<{
   userRole: string;
 }> = ({
   selectedUserName,
-  userRole
+  userRole,
 }: {
   selectedUserName: string;
   userRole: string;
@@ -27,14 +27,14 @@ const Email: FunctionComponent<{
   const query = qs.parse(search);
   const history = useHistory();
   const [activeTab, setactiveTab] = useState<number>(0);
-  const [emailData, setEmailData] = useState<any>("");
-  const [searchBy, setSearchBy] = useState<string>("");
+  const [emailData, setEmailData] = useState<any>('');
+  const [searchBy, setSearchBy] = useState<string>('');
 
   let [
     fetchEmails,
-    { data: emailList, loading, called, refetch }
+    { data: emailList, loading, called, refetch },
   ] = useLazyQuery<{ fetchEmails: any }, IEmailQueryVar>(GET_EMAILS, {
-    notifyOnNetworkStatusChange: true
+    notifyOnNetworkStatusChange: true,
   });
 
   useEffect(() => {
@@ -43,28 +43,28 @@ const Email: FunctionComponent<{
     let variables: IEmailQueryVar = {
       senderUserId: id ? parseInt(id) : 0,
       receiverUserId: null,
-      from: "caregiver",
-      searchBy
+      from: 'caregiver',
+      searchBy,
     };
-    if (query && query.q) {
+    if (query && (query.q || query.searchBy)) {
       const { q }: any = query;
       const index: number = EmailMenusTab.findIndex(
         ({ name }: { name: string; icon: string }) =>
-          q && typeof q === "string" && name.toUpperCase() === q.toUpperCase()
+          q && typeof q === 'string' && name.toUpperCase() === q.toUpperCase(),
       );
-      setactiveTab(index);
-      setSearchBy(query.searchBy ? query.searchBy.toString() : "");
+      setactiveTab(q ? index : 0);
+      setSearchBy(query.searchBy ? query.searchBy.toString() : '');
       // update search by parameter in variables
       variables = {
         ...variables,
-        searchBy: query.searchBy ? query.searchBy.toString() : ""
+        searchBy: query.searchBy ? query.searchBy.toString() : '',
       };
       if (index === 1) {
         variables = {
           ...variables,
-          from: "plycoco",
+          from: 'plycoco',
           receiverUserId: id ? parseInt(id) : 0,
-          senderUserId: null
+          senderUserId: null,
         };
       }
       if (refetch) {
@@ -73,9 +73,7 @@ const Email: FunctionComponent<{
         fetchEmails({ variables });
       }
     } else {
-      setEmailData("");
-      console.log("in useEffect else");
-
+      setEmailData('');
       fetchEmails({ variables });
     }
   }, [search, id]);
@@ -87,24 +85,24 @@ const Email: FunctionComponent<{
       pathname,
       qs.stringify({
         ...query,
-        q: EmailMenusTab[activeTab].name.toLowerCase()
-      })
-    ].join("?");
+        q: EmailMenusTab[activeTab].name.toLowerCase(),
+      }),
+    ].join('?');
     history.push(path);
   };
 
   const onRefresh = (from: string) => {
     let variables: IEmailQueryVar = {
-      senderUserId: from === "caregiver" ? (id ? parseInt(id) : 0) : null,
-      receiverUserId: from === "plycoco" ? (id ? parseInt(id) : 0) : null,
+      senderUserId: from === 'caregiver' ? (id ? parseInt(id) : 0) : null,
+      receiverUserId: from === 'plycoco' ? (id ? parseInt(id) : 0) : null,
       from,
-      searchBy
+      searchBy,
     };
     refetch(variables);
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { value }
+      target: { value },
     } = event;
     setSearchBy(value);
   };
@@ -115,22 +113,22 @@ const Email: FunctionComponent<{
     if (searchBy) {
       queryParam = {
         ...queryParam,
-        searchBy
+        searchBy,
       };
     }
-    const path = [pathname, qs.stringify(queryParam)].join("?");
+    const path = [pathname, qs.stringify(queryParam)].join('?');
     history.push(path);
   };
 
   const onReset = () => {
-    setSearchBy("");
+    setSearchBy('');
     delete query.searchBy;
     const path = [
       pathname,
       qs.stringify({
-        ...query
-      })
-    ].join("?");
+        ...query,
+      }),
+    ].join('?');
     history.push(path);
   };
 
@@ -144,7 +142,7 @@ const Email: FunctionComponent<{
             onTabChange={onTabChange}
             selectedUserName={selectedUserName}
             loading={!called || loading}
-            onRefresh={() => onRefresh("caregiver")}
+            onRefresh={() => onRefresh('caregiver')}
             searchBy={searchBy}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
@@ -157,12 +155,12 @@ const Email: FunctionComponent<{
             emailList={emailList}
             selectedUserName={selectedUserName}
             loading={!called || loading}
-            onRefresh={() => onRefresh("plycoco")}
+            onRefresh={() => onRefresh('plycoco')}
             searchBy={searchBy}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             onReset={onReset}
-            userRole={userRole ? userRole : ""}
+            userRole={userRole ? userRole : ''}
           />
         );
       case 2:
@@ -170,7 +168,7 @@ const Email: FunctionComponent<{
           <NewEmail
             emailData={emailData}
             selectedUserName={selectedUserName}
-            userRole={userRole ? userRole : ""}
+            userRole={userRole ? userRole : ''}
           />
         );
 

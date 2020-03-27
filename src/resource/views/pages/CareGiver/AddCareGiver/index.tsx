@@ -2,6 +2,7 @@ import React, { useState, FunctionComponent, Suspense, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { FormikHelpers, Formik, FormikProps } from 'formik';
 import {
   CareGiverValues,
   ICareGiverInput,
@@ -11,20 +12,19 @@ import {
   IAttributeValues,
   IAttributeOptions,
 } from '../../../../../interfaces';
-import { FormikHelpers, Formik, FormikProps } from 'formik';
 import CareGiverFormComponent from './CareGiverFormComponent';
 import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
-import { languageTranslation } from '../../../../../helpers';
+import { languageTranslation, errorFormatter } from '../../../../../helpers';
 import { AppRoutes, PAGE_LIMIT } from '../../../../../config';
 import CareGiverSidebar from '../Sidebar/SidebarLayout/CareGiverLayout';
 import { careGiverRoutes } from '../Sidebar/SidebarRoutes/CareGiverRoutes';
 import Loader from '../../../containers/Loader/Loader';
+import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { CareGiverQueries } from '../../../../../graphql/queries';
 import reminder from '../../../../assets/img/reminder.svg';
 import password from '../../../../assets/img/password.svg';
 import appointment from '../../../../assets/img/appointment.svg';
 import clear from '../../../../assets/img/clear.svg';
-import { CareGiverMutations } from '../../../../../graphql/Mutations';
-import { CareGiverQueries } from '../../../../../graphql/queries';
 
 const CareGiverRoutesTabs = careGiverRoutes;
 const [GET_CAREGIVERS, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
@@ -32,6 +32,9 @@ const [ADD_CAREGIVER] = CareGiverMutations;
 
 export const CareGiverForm: FunctionComponent = (props: any) => {
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
+  const [caregiverAttributeOptions, setCaregiverAttributeOptions] = useState<
+    IAttributeOptions[] | undefined
+  >([]);
   let history = useHistory();
   // Fetch attribute list from db
   const { data: attributeData, loading } = useQuery<{
@@ -49,6 +52,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
             color,
           }),
       );
+      setCaregiverAttributeOptions(caregiverAttrOpt);
     }
   }, [attributeData]);
 
@@ -158,7 +162,6 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       holiday,
       postalCode,
     } = values;
-
     try {
       let careGiverInput: any = {
         salutation: salutation && salutation.label ? salutation.label : '',
@@ -192,7 +195,9 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
             : null,
         attributes:
           attributeId && attributeId.length
-            ? attributeId.map(({ label }: IReactSelectInterface) => label)
+            ? attributeId.map(({ value }: IReactSelectInterface) =>
+                parseInt(value),
+              )
             : [],
         driverLicenseNumber,
         driversLicense: driversLicense,
@@ -228,6 +233,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         // workZones:
         //   workZones && workZones.length ? workZones.map(wz => wz.value) : [],
         status,
+        transmission: { email: true, website: true, app: false },
       };
       await addCaregiver({
         variables: {
@@ -259,11 +265,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
         props.refetch();
       }
     } catch (error) {
-      const message = error.message
-        .replace('SequelizeValidationError: ', '')
-        .replace('Validation error: ', '')
-        .replace('GraphQL error: ', '');
-      // setFieldError('email', message);
+      const message = errorFormatter(error.message);
       toast.error(message);
       if (
         message ===
@@ -396,13 +398,14 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
                     initialValues={initialValues}
                     onSubmit={handleSubmit}
                     validationSchema={CareGiverValidationSchema}
-                    render={(props: FormikProps<ICareGiverValues>) => {
+                    children={(props: FormikProps<ICareGiverValues>) => {
                       return (
                         <CareGiverFormComponent
                           {...props}
                           setRemarksDetail={setRemarksDetail}
                           remarksDetail={remarksDetail}
-                          caregiverAttrOpt={caregiverAttrOpt}
+                          caregiverAttributeOptions={caregiverAttributeOptions}
+                          attributeLoading={loading}
                         />
                       );
                     }}

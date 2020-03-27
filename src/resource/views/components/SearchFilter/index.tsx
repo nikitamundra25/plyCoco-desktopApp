@@ -7,7 +7,7 @@ import {
   Col,
   Row,
   UncontrolledTooltip,
-  Button
+  Button,
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
@@ -15,7 +15,7 @@ import {
   StatusOptions,
   TodoFilter,
   Priority,
-  TodoDateFilter
+  TodoDateFilter,
 } from '../../../../config';
 import { languageTranslation, logger } from '../../../../helpers';
 import { FormikProps, Form } from 'formik';
@@ -23,17 +23,16 @@ import {
   ISearchValues,
   IReactSelectInterface,
   ISearchProps,
-  ISearchToDoValues
+  ISearchToDoValues,
 } from '../../../../interfaces';
 
 const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
   ISearchProps &
   any> = (
-  props: FormikProps<ISearchValues & ISearchToDoValues> & ISearchProps & any
+  props: FormikProps<ISearchValues & ISearchToDoValues> & ISearchProps & any,
 ) => {
   let history = useHistory();
   let { pathname } = useLocation();
-  let Location = useLocation();
   const {
     values: {
       searchValue,
@@ -42,14 +41,15 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
       toDoFilter,
       priority,
       futureOnly,
-      sortByDate
+      sortByDate,
     },
     label,
+    filterbyStatus,
     handleSubmit,
     handleChange,
     setFieldValue,
     searchPlacholderText,
-    resetForm
+    resetForm,
   } = props;
 
   // Custom function to handle react select fields
@@ -57,7 +57,6 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
     logger(selectOption, 'value');
     setFieldValue(name, selectOption);
   };
-
   return (
     <div className='filter-form form-section mb-2'>
       <Form onSubmit={handleSubmit}>
@@ -108,7 +107,8 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
               </FormGroup>
             </Col>
           ) : null}
-          {label !== 'region' && label !== 'archive' ? (
+          {filterbyStatus ? (
+            /* label !== 'region' && label !== 'archive' ?  */
             label !== 'toDos' ? (
               <Col lg={'2'} md={'3'}>
                 <FormGroup>
@@ -211,7 +211,6 @@ const Search: FunctionComponent<FormikProps<ISearchValues & ISearchToDoValues> &
                   {languageTranslation('SEARCH_LABEL')}
                 </span>
               </Button>
-              {console.log('pathname', Location)}
               <Button
                 className='btn-filter mr-2'
                 id='reset'

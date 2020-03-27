@@ -47,6 +47,7 @@ const UPDATE_CARE_INSTITUTION = gql`
       userName
       phoneNumber
       id
+      createdAt
       gender
       canstitution {
         city
@@ -116,7 +117,7 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       id
       firstName
       surName
-      contactType
+      contactTypeId
       salutation
       gender
       title
@@ -124,6 +125,7 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       city
       zip
       countryId
+      stateId
       phoneNumber
       phoneNumber2
       fax
@@ -131,6 +133,9 @@ const ADD_NEW_CONTACT_CARE_INSTITUTION = gql`
       email
       remark
       attributes
+      contact_type {
+        contactType
+      }
     }
   }
 `;
@@ -140,13 +145,14 @@ const UPDATE_NEW_CONTACT_CARE_INSTITUTION = gql`
       id
       firstName
       surName
-      contactType
+      contactTypeId
       gender
       title
       street
       city
       zip
       countryId
+      stateId
       phoneNumber
       phoneNumber2
       fax
@@ -154,6 +160,9 @@ const UPDATE_NEW_CONTACT_CARE_INSTITUTION = gql`
       email
       remark
       attributes
+      contact_type {
+        contactType
+      }
     }
   }
 `;
@@ -234,6 +243,17 @@ const CONTACT_ADD_ATTRIBUTE = gql`
   mutation addContactAttribute($name: String) {
     addContactAttribute(name: $name) {
       name
+      id
+      color
+    }
+  }
+`;
+// Mutation to add custom contact type in care institution
+const ADD_CUSTOM_CONTACT_TYPE = gql`
+  mutation addContactType($contactType: String) {
+    addContactType(contactType: $contactType) {
+      id
+      contactType
     }
   }
 `;
@@ -250,5 +270,6 @@ export const CareInstitutionMutation = [
   ADD_DEPARTMENT_CARE_INSTITUTION,
   DELETE_DEPARTMENT,
   DELETE_CONTACT,
-  CONTACT_ADD_ATTRIBUTE
+  CONTACT_ADD_ATTRIBUTE,
+  ADD_CUSTOM_CONTACT_TYPE
 ];

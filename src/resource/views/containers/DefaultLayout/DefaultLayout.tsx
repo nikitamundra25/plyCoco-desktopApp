@@ -8,9 +8,7 @@ import {
   useLocation
 } from 'react-router-dom';
 import { Container } from 'reactstrap';
-import { AppRoutes } from '../../../../config';
-import routes from '../../../../routes/routes';
-import navigation from '../../../../_nav';
+import moment from 'moment';
 import {
   AppFooter,
   AppHeader,
@@ -21,25 +19,20 @@ import {
   AppSidebarMinimizer,
   AppSidebarNav
 } from '@coreui/react';
-import { useLazyQuery } from '@apollo/react-hooks';
-import Loader from '../Loader/Loader';
-import { ProfileQueries } from '../../../../graphql/queries';
-import logo from '../../../assets/img/plycoco-white.png';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { AppRoutes } from '../../../../config';
+import routes from '../../../../routes/routes';
+import navigation from '../../../../_nav';
+import Loader from '../Loader/Loader';
+import { ProfileQueries } from '../../../../graphql/queries';
 import { errorFormatter } from '../../../../helpers';
+import logo from '../../../assets/img/plycoco-white.png';
+import { REFRESH_TOKEN } from '../../../../graphql/Mutations';
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
-// const CareInstitutionTodoLayoutComponent = React.lazy(() =>
-//   import(
-//     '../../pages/CareInstitutionTodo/Sidebar/SidebarLayout/CareInstitutionTodoLayout'
-//   )
-// );
-// const CareGiverTodoLayoutComponent = React.lazy(() =>
-//   import('../../pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout')
-// );
-
 //Caregiver Todo Layout
 const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
   return (
@@ -83,6 +76,7 @@ const CareInstitutionTodoLayout = ({ component: Component, ...rest }: any) => {
 const [VIEW_PROFILE] = ProfileQueries;
 
 let toastId: any = null;
+let timeInterval: any = null;
 
 const DefaultLayout = (props: RouteComponentProps) => {
   let history = useHistory();
@@ -98,10 +92,27 @@ const DefaultLayout = (props: RouteComponentProps) => {
           toastId = toast.error(message);
         }
         localStorage.removeItem('adminToken');
+        localStorage.removeItem('expirationTime');
         history.push(AppRoutes.LOGIN);
       }
     }
   );
+
+  const [refreshToken] = useMutation(REFRESH_TOKEN, {
+    onCompleted({ refreshToken }) {
+      if (refreshToken) {
+        const { sessionExpire, token } = refreshToken;
+        let expirationTime: number = moment().unix() + sessionExpire;
+        localStorage.setItem('adminToken', token);
+        localStorage.setItem('expirationTime', expirationTime.toString());
+      }
+    },
+    onError() {
+      localStorage.removeItem('expirationTime');
+      localStorage.removeItem('adminToken');
+      history.push(AppRoutes.LOGIN);
+    }
+  });
 
   const [permission, setpermission] = useState<string>('');
   useEffect(() => {
@@ -124,6 +135,17 @@ const DefaultLayout = (props: RouteComponentProps) => {
   useEffect(() => {
     if (!localStorage.getItem('adminToken')) {
       history.push(AppRoutes.LOGIN);
+    } else {
+      timeInterval = setInterval(() => {
+        let expirationTime: string | null = localStorage.getItem(
+          'expirationTime'
+        );
+        var currentTime: number = moment().unix();
+        if (expirationTime && parseInt(expirationTime) - currentTime === 10) {
+          refreshToken();
+        }
+      }, 1000);
+      viewAdminProfile();
     }
     window.addEventListener('scroll', handleScroll);
     return () => {

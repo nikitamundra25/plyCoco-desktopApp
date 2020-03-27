@@ -10,7 +10,7 @@ import { Formik, FormikProps, FormikHelpers } from 'formik';
 import {
   sortFilter,
   dateFormat,
-  defaultDateTimeFormat
+  defaultDateTimeFormat,
 } from '../../../../../config';
 import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../../config';
 import routes from '../../../../../routes/routes';
@@ -24,7 +24,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import {
   ISearchValues,
   IReactSelectInterface,
-  IObjectType
+  IObjectType,
 } from '../../../../../interfaces';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import defaultProfile from '../../../assets/avatars/default-profile.png';
@@ -48,9 +48,9 @@ const ArchiveCaregiver: FunctionComponent = () => {
   // To get archive employee list from db
   const [
     fetchArchiveEmployeeList,
-    { data, called, loading, refetch }
+    { data, called, loading, refetch },
   ] = useLazyQuery<any>(GET_ARCHIVE_EMPLOYEES, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   // To restore archive user
@@ -75,7 +75,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
     let sortByValue: string | undefined = '1';
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
-        (key: string) => sortFilter[key] === query.sortBy
+        (key: string) => sortFilter[key] === query.sortBy,
       );
     }
     logger(sortByValue);
@@ -99,8 +99,8 @@ const ArchiveCaregiver: FunctionComponent = () => {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy
-              ) || '1'
+                (key: any) => sortFilter[key] === query.sortBy,
+              ) || '1',
           }
         : { label: 'Newest', value: '1' };
       isActive = query.status
@@ -111,13 +111,13 @@ const ArchiveCaregiver: FunctionComponent = () => {
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        isActive
+        isActive,
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       setIsFilter(
         searchBy !== '' ||
           query.status !== undefined ||
-          query.sortBy !== undefined
+          query.sortBy !== undefined,
       );
     }
 
@@ -128,20 +128,20 @@ const ArchiveCaregiver: FunctionComponent = () => {
         searchBy,
         sortBy: sortByValue ? parseInt(sortByValue) : 0,
         limit: ARCHIVE_PAGE_LIMIT,
-        page: query.page ? parseInt(query.page as string) : 1
-      }
+        page: query.page ? parseInt(query.page as string) : 1,
+      },
     });
   }, [search]); // It will run when the search value gets changed
 
   const {
     searchValue = '',
     sortBy = undefined,
-    isActive = undefined
+    isActive = undefined,
   } = searchValues ? searchValues : {};
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>
+    { setSubmitting }: FormikHelpers<ISearchValues>,
   ) => {
     let params: IObjectType = {};
     params.page = 1;
@@ -163,7 +163,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
     logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      '?',
     );
     history.push(path);
   };
@@ -171,7 +171,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
   const onRestoreEmployee = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CAREGIVER_RESTORE_MSG')
+      text: languageTranslation('CONFIRM_CAREGIVER_RESTORE_MSG'),
     });
     if (!value) {
       return;
@@ -179,14 +179,14 @@ const ArchiveCaregiver: FunctionComponent = () => {
       try {
         await restoreEmployee({
           variables: {
-            id
-          }
+            id,
+          },
         });
         refetch();
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CAREGIVER_RESTORED_SUCCESS')
+            languageTranslation('CAREGIVER_RESTORED_SUCCESS'),
           );
         }
       } catch (error) {
@@ -203,7 +203,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
   const onPermanentlyDeleteEmployee = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CG_PERMANENT_DELETE_MSG')
+      text: languageTranslation('CONFIRM_CG_PERMANENT_DELETE_MSG'),
     });
     if (!value) {
       return;
@@ -211,14 +211,14 @@ const ArchiveCaregiver: FunctionComponent = () => {
       try {
         await permanentDeleteUser({
           variables: {
-            id
-          }
+            id,
+          },
         });
         refetch();
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CG_PERMANENT_DEL_SUCCESS')
+            languageTranslation('CG_PERMANENT_DEL_SUCCESS'),
           );
         }
       } catch (error) {
@@ -235,23 +235,25 @@ const ArchiveCaregiver: FunctionComponent = () => {
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy
+    sortBy,
   };
   let count = (currentPage - 1) * ARCHIVE_PAGE_LIMIT + 1;
 
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-        <Button
-          color={'primary'}
-          className={'btn-add'}
-          id={'add-new-pm-tooltip'}
-          onClick={() => history.push(AppRoutes.CARE_GIVER)}
-        >
-          <i className={'fa fa-arrow-left'} />
-          &nbsp; {languageTranslation('BACK_TO_LIST')}
-        </Button>
+        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
+        <div>
+          <Button
+            color={'primary'}
+            className={'btn-add'}
+            id={'add-new-pm-tooltip'}
+            onClick={() => history.push(AppRoutes.CARE_GIVER)}
+          >
+            <i className={'fa fa-arrow-left'} />
+            &nbsp; {languageTranslation('BACK_TO_LIST')}
+          </Button>
+        </div>
       </CardHeader>
       <CardBody>
         <div>
@@ -263,26 +265,27 @@ const ArchiveCaregiver: FunctionComponent = () => {
               <Search
                 {...props}
                 label={'archive'}
+                filterbyStatus={false}
                 setSearchValues={setSearchValues}
               />
             )}
           />
           {/* <Search /> */}
         </div>
-        <div className="archieve-table-minheight ">
+        <div className='archieve-table-minheight '>
           <Table bordered hover responsive>
-            <thead className="thead-bg">
+            <thead className='thead-bg'>
               <tr>
-                <th className="sno-th-column text-center">
+                <th className='sno-th-column text-center'>
                   {languageTranslation('S_NO')}
                 </th>
                 <th>{languageTranslation('CAREGIVER_NAME')}</th>
                 <th>{languageTranslation('USERNAME')}</th>
                 <th>{languageTranslation('EMAIL')}</th>
-                <th className="date-th-column">
+                <th className='date-th-column'>
                   {languageTranslation('DELETED_DATE')}
                 </th>
-                <th className="text-center">
+                <th className='text-center'>
                   {languageTranslation('TABLE_HEAD_ACTION')}
                 </th>
               </tr>
@@ -300,65 +303,65 @@ const ArchiveCaregiver: FunctionComponent = () => {
                 data.trashUserList.result.length ? (
                 data.trashUserList.result.map(
                   (trashUser: any, index: number) => {
-                    var elements = [trashUser.firstName, trashUser.lastName];
+                    var elements = [trashUser.lastName, trashUser.firstName];
                     let trashLength = data.trashUserList.result.length;
 
                     return (
                       <tr key={index}>
-                        <td className="sno-th-column text-center">
+                        <td className='sno-th-column text-center'>
                           <span>{count++}</span>
                         </td>
                         <td>
-                          <div className="info-column">
+                          <div className='info-column'>
                             {elements.join(' ')}
                           </div>
                         </td>
                         <td>{trashUser.userName.split('-')[0]}</td>
                         <td>{trashUser.email.split('-')[0]}</td>
-                        <td className="date-th-column ">
+                        <td className='date-th-column '>
                           {trashUser.deletedAt
                             ? moment(trashUser.deletedAt).format(
-                                defaultDateTimeFormat
+                                defaultDateTimeFormat,
                               )
                             : ''}
                         </td>
                         <td>
                           <div className={`action-btn `}>
                             <span
-                              className="btn-icon mr-2"
+                              className='btn-icon mr-2'
                               id={`restore${index}`}
                               onClick={() => onRestoreEmployee(trashUser.id)}
                             >
                               <UncontrolledTooltip
-                                placement="top"
+                                placement='top'
                                 target={`restore${index}`}
                               >
                                 {languageTranslation('RESTORE_TOOLTIP')}
                               </UncontrolledTooltip>
-                              <i className="fa fa-undo"></i>
+                              <i className='fa fa-undo'></i>
                             </span>
                             <span
-                              className="btn-icon "
+                              className='btn-icon '
                               id={`delete${index}`}
                               onClick={() =>
                                 onPermanentlyDeleteEmployee(trashUser.id)
                               }
                             >
                               <UncontrolledTooltip
-                                placement="top"
+                                placement='top'
                                 target={`delete${index}`}
                               >
                                 {languageTranslation(
-                                  'DELETE_PERMANENTALY_TOOLTIP'
+                                  'DELETE_PERMANENTALY_TOOLTIP',
                                 )}
                               </UncontrolledTooltip>
-                              <i className="fa fa-trash"></i>
+                              <i className='fa fa-trash'></i>
                             </span>
                           </div>
                         </td>
                       </tr>
                     );
-                  }
+                  },
                 )
               ) : (
                 <tr className={'text-center no-hover-row'}>
@@ -366,11 +369,11 @@ const ArchiveCaregiver: FunctionComponent = () => {
                     {isFilterApplied ? (
                       <NoSearchFound />
                     ) : (
-                      <div className="no-data-section">
-                        <div className="no-data-icon">
-                          <i className="icon-ban" />
+                      <div className='no-data-section'>
+                        <div className='no-data-icon'>
+                          <i className='icon-ban' />
                         </div>
-                        <h4 className="mb-1">
+                        <h4 className='mb-1'>
                           Currently there is no data in trash.
                         </h4>
                       </div>

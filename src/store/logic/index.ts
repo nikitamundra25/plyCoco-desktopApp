@@ -1,5 +1,6 @@
 import { createLogic, Logic } from 'redux-logic';
 import { push } from 'react-router-redux';
+import { AppointmentLogics } from './Appointment';
 export const redirectToLogic = createLogic({
   type: 'REDIRET_TO',
   async process(data, dispatch: any, done) {
@@ -9,4 +10,4 @@ export const redirectToLogic = createLogic({
   },
 });
 
-export const AllLogics: Logic[] = [redirectToLogic];
+export const AllLogics: Logic[] = [redirectToLogic, ...AppointmentLogics];

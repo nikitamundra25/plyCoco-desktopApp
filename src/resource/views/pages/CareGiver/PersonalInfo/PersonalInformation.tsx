@@ -3,7 +3,7 @@ import { Button, Col, Row } from 'reactstrap';
 import { useParams, useHistory } from 'react-router';
 import {
   languageTranslation,
-  germanNumberFormat
+  germanNumberFormat,
 } from '../../../../../helpers';
 import PersonalInfoFormComponent from './PersonalInfoFormComponent';
 import BillingSettingsFormComponent from './BillingSettingsFormComponent';
@@ -21,47 +21,44 @@ import {
   IAttributeValues,
   IAttributeOptions,
   ICountry,
-  IState
+  IState,
 } from '../../../../../interfaces';
 import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
-
+import { RemarkMutations } from '../../../../../graphql/Mutations';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
-import '../caregiver.scss';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
-  CountryQueries
+  CountryQueries,
 } from '../../../../../graphql/queries';
 import {
   IQualifications,
-  IQualification
+  IQualification,
 } from '../../../../../interfaces/qualification';
-import Loader from '../../../containers/Loader/Loader';
 import { CareGiverMutations } from '../../../../../graphql/Mutations';
 import { errorFormatter } from '../../../../../helpers';
+import { Gender } from '../../../../../config';
 let toastId: any;
 
-const [
-  ,
-  GET_CAREGIVER_BY_ID,
-  ,
-  ,
-  ,
-  GET_CAREGIVER_ATTRIBUTES
-] = CareGiverQueries;
+const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [, UPDATE_CAREGIVER] = CareGiverMutations;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+const [UPDATE_REMARKS] = RemarkMutations;
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
+  const { getCaregiver } = props;
   let { id } = useParams();
-  let history = useHistory();
-  const [careGiverData, setCareGiverData] = useState<ICareGiverValues | null>();
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
+  const [caregiverAttributeOptions, setCaregiverAttributeOptions] = useState<
+    IAttributeOptions[] | undefined
+  >([]);
+  // to update remarks
+  const [updateRemark, { data: remarkData }] = useMutation<any>(UPDATE_REMARKS);
 
   const { data: CountriesData } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY
+    GET_STATES_BY_COUNTRY,
   );
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
@@ -69,8 +66,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     CountriesData.countries.forEach(({ id, name }: ICountry) =>
       countriesOpt.push({
         label: name,
-        value: id
-      })
+        value: id,
+      }),
     );
   }
 
@@ -78,27 +75,42 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     statesData.states.forEach(({ id, name }: IState) =>
       statesOpt.push({
         label: name,
-        value: id
-      })
+        value: id,
+      }),
     );
   }
 
   // Fetch attribute list from db
-  const { data: attributeData } = useQuery<{
+  const { data: attributeData, loading } = useQuery<{
     getCaregiverAtrribute: IAttributeValues[];
   }>(GET_CAREGIVER_ATTRIBUTES);
 
   const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
-  if (attributeData && attributeData.getCaregiverAtrribute) {
-    attributeData.getCaregiverAtrribute.forEach(
-      ({ id, name, color }: IAttributeValues) =>
-        caregiverAttrOpt.push({
-          label: name,
-          value: id ? id.toString() : '',
-          color
-        })
-    );
-  }
+  useEffect(() => {
+    if (attributeData && attributeData.getCaregiverAtrribute) {
+      attributeData.getCaregiverAtrribute.forEach(
+        ({ id, name, color }: IAttributeValues) =>
+          caregiverAttrOpt.push({
+            label: name,
+            value: id ? id.toString() : '',
+            color,
+          }),
+      );
+      setCaregiverAttributeOptions(caregiverAttrOpt);
+    }
+  }, [attributeData]);
+
+  // if (attributeData && attributeData.getCaregiverAtrribute) {
+  //   attributeData.getCaregiverAtrribute.forEach(
+  //     ({ id, name, color }: IAttributeValues) =>
+  //       caregiverAttrOpt.push({
+  //         label: name,
+  //         value: id ? id.toString() : '',
+  //         color
+  //       })
+  //   );
+  //   setCaregiverAttributeOptions(caregiverAttrOpt);
+  // }
 
   // To update caregiver details into db
   const [updateCaregiver] = useMutation<
@@ -123,41 +135,39 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     data.getQualifications.forEach((quali: any) => {
       qualificationList.push({
         label: quali.name,
-        value: quali.id
+        value: quali.id,
       });
     });
   }
 
   //To get country details
   const { data: countries, loading: countryLoading } = useQuery<ICountries>(
-    GET_COUNTRIES
+    GET_COUNTRIES,
   );
 
   useEffect(() => {
-    const { caregiver = {} } = props.getCaregiver ? props.getCaregiver : {};
+    const { caregiver = {} } = getCaregiver ? getCaregiver : {};
     const { remarks = [] } = caregiver ? caregiver : {};
     setRemarksDetail(remarks);
-  }, [props.getCaregiver]);
+  }, [getCaregiver]);
 
   useEffect(() => {
     if (
-      props.getCaregiver &&
-      props.getCaregiver.caregiver &&
-      props.getCaregiver.caregiver.countryId
+      getCaregiver &&
+      getCaregiver.caregiver &&
+      getCaregiver.caregiver.countryId
     ) {
       getStatesByCountry({
         variables: {
-          countryid: props.getCaregiver
-            ? props.getCaregiver.caregiver.countryId
-            : ''
-        }
+          countryid: getCaregiver ? getCaregiver.caregiver.countryId : '',
+        },
       });
     }
-  }, [props.getCaregiver]);
+  }, [getCaregiver]);
 
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
   ) => {
     const {
       userName,
@@ -206,7 +216,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       night,
       holiday,
       leasingPricingList,
-      invoiceInterval
+      invoiceInterval,
     } = values;
 
     try {
@@ -228,13 +238,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         qualificationId:
           qualifications && qualifications.length
             ? qualifications.map((qualification: IReactSelectInterface) =>
-                parseInt(qualification.value)
+                parseInt(qualification.value),
               )
             : null,
         street,
         attributes:
           attributeId && attributeId.length
-            ? attributeId.map(({ label }: IAttributeOptions) => label)
+            ? attributeId.map(({ value }: IAttributeOptions) => parseInt(value))
             : [],
         city,
         zipCode: postalCode,
@@ -274,15 +284,15 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         leasingPricingList:
           leasingPricingList && leasingPricingList.value
             ? leasingPricingList.label
-            : null
+            : null,
       };
       // Edit employee details
       if (id) {
         await updateCaregiver({
           variables: {
             id: parseInt(id),
-            careGiverInput
-          }
+            careGiverInput,
+          },
         });
         if (!toast.isActive(toastId)) {
           toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
@@ -301,14 +311,11 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const saveRemark = async (message: string, remarksData: any) => {
     if (id) {
       try {
-        await updateCaregiver({
+        await updateRemark({
           variables: {
             id: parseInt(id),
-            careGiverInput: {
-              remarks: remarksData ? remarksData : remarksDetail // send remarksData in case of delete
-            },
-            isRemarkAdded: true
-          }
+            remarks: remarksData ? remarksData : remarksDetail, // send remarksData in case of delete
+          },
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(message);
@@ -327,13 +334,18 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     firstName = '',
     lastName = '',
     email = '',
+    gender = '',
+    salutation = '',
+    phoneNumber = '',
     socialSecurityContribution = false,
     password = '',
     status = 'active',
     qualifications = [],
-    caregiver = {}
-  } = props.getCaregiver ? props.getCaregiver : {};
-  console.log(props.getCaregiver, '.getCaregiver');
+    regions = [],
+    bankDetails = {},
+    caregiver = {},
+    createdAt = new Date(),
+  } = getCaregiver ? getCaregiver : {};
 
   const {
     nightAllowance = undefined,
@@ -350,11 +362,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     city = '',
     zipCode = '',
     countryId = '',
+    stateId = '',
     fax = '',
     mobileNumber = '',
     taxNumber = '',
     vehicleAvailable = '',
-    legalForm = undefined,
+    belongTo = '',
+    legalForm = '',
     companyName = '',
     registerCourt = '',
     registrationNumber = '',
@@ -366,114 +380,98 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     weekendAllowance = null,
     holiday = null,
     night = null,
-    attributes = []
+    attributes = [],
   } = caregiver ? caregiver : {};
+
+  const { bankName = '', IBAN = '' } = bankDetails ? bankDetails : {};
 
   const qualificationsData: IReactSelectInterface[] | undefined = [];
   if (qualifications) {
     qualifications.forEach(({ name, id }: IQualification) => {
       qualificationsData.push({
         label: name,
-        value: id
+        value: id,
       });
     });
   }
-  let countryData: Number;
-
-  if (props.getCaregiver && props.getCaregiver.caregiver) {
-    countryData = props.getCaregiver.caregiver.countryId;
-  }
 
   let userSelectedCountry: any = {};
-  if (countries && countries.countries) {
+  if (countries && countries.countries && countryId) {
     const userCountry = countries.countries.filter(
-      (x: any) => x.id === countryData
+      (x: any) => x.id === countryId,
     );
     if (userCountry && userCountry.length) {
       userSelectedCountry = {
         label: userCountry[0].name,
-        value: userCountry[0].id
+        value: userCountry[0].id,
       };
     }
   }
 
-  const stateData =
-    props.getCaregiver && props.getCaregiver.caregiver
-      ? props.getCaregiver.caregiver.stateId
-      : '';
-
   let userSelectedState: any = null;
-  if (statesData && statesData.states) {
-    const userState = statesData.states.filter((x: any) => x.id === stateData);
+  if (statesData && statesData.states && stateId) {
+    const userState = statesData.states.filter((x: any) => x.id === stateId);
     if (userState && userState.length) {
       userSelectedState = {
         label: userState[0].name,
-        value: userState[0].id
+        value: userState[0].id,
       };
     }
   }
 
   let selectedAttributes: IAttributeOptions[] = [];
   if (attributes && attributes.length) {
-    attributes.map((attData: string) => {
-      const data = caregiverAttrOpt.filter(
-        (attr: any) => attr.label === attData
-      )[0];
+    attributes.map((attData: number) => {
+      const data = caregiverAttributeOptions
+        ? caregiverAttributeOptions.filter((attr: any) => {
+            return parseInt(attr.value) === attData;
+          })[0]
+        : null;
       selectedAttributes.push({
         label: data ? data.label : attData,
         value: data ? data.value : attData,
-        color: data ? data.color : null
+        color: data ? data.color : '',
       });
     });
   }
+  let UserSelectedBelongsTo: IReactSelectInterface | undefined = undefined;
 
-  let UserSelectedBelongsTo: any = {};
-  let belongToId =
-    props.getCaregiver && props.getCaregiver.caregiver
-      ? props.getCaregiver.caregiver.belongTo
-      : null;
-
-  if (props.careGiverOpt && props.careGiverOpt.length) {
-    const userBelongTo = props.careGiverOpt.filter(
-      (x: any) => parseInt(x.value) === belongToId
-    );
-
-    if (userBelongTo && userBelongTo.length) {
-      UserSelectedBelongsTo = userBelongTo[0];
-    }
+  if (props.careGiverOpt && props.careGiverOpt.length && belongTo) {
+    UserSelectedBelongsTo = props.careGiverOpt.filter(
+      (caregiver: IReactSelectInterface) =>
+        parseInt(caregiver.value) === belongTo,
+    )[0];
   }
 
   const initialValues: ICareGiverValues = {
     id,
+    createdAt,
     userName,
     state: userSelectedState,
-    title,
+    title: title || '',
     firstName,
     lastName,
-    phoneNumber: props.getCaregiver ? props.getCaregiver.phoneNumber : '',
+    phoneNumber: phoneNumber || '',
     dateOfBirth,
-    age,
+    age: age || '',
     address1,
     address2,
     driversLicense,
     driverLicenseNumber,
-    country: userSelectedCountry,
-    //  countriesOpt.filter(
-    //   (country: IReactSelectInterface) => country.value === countryId,
-    // )[0],
-    // // userSelectedCountry,
+    country:
+      userSelectedCountry && userSelectedCountry.value
+        ? userSelectedCountry
+        : null,
     vehicleAvailable,
     street,
     city,
     postalCode: zipCode,
     countryId,
     regionId:
-      props.getCaregiver &&
-      props.getCaregiver.regions &&
-      props.getCaregiver.regions.length
+      regions && regions.length
         ? {
-            label: props.getCaregiver.regions[0].regionName,
-            value: props.getCaregiver.regions[0].id
+            label: regions[0].regionName,
+            value: regions[0].id,
           }
         : undefined,
     fax,
@@ -481,19 +479,13 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     email,
     taxNumber,
     socialSecurityContribution,
-    bankName:
-      props.getCaregiver && props.getCaregiver.bankDetails
-        ? props.getCaregiver.bankDetails.bankName
-        : '',
-    IBAN:
-      props.getCaregiver && props.getCaregiver.bankDetails
-        ? props.getCaregiver.bankDetails.IBAN
-        : '',
-    belongTo: UserSelectedBelongsTo ? UserSelectedBelongsTo : null,
+    bankName: bankName || '',
+    IBAN: IBAN || '',
+    belongTo: UserSelectedBelongsTo ? UserSelectedBelongsTo : undefined,
     legalForm: legalForm
       ? {
-          label: props.getCaregiver.caregiver.legalForm,
-          value: props.getCaregiver.caregiver.legalForm
+          label: legalForm,
+          value: legalForm,
         }
       : undefined,
     companyName,
@@ -510,50 +502,44 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             {
               data: '',
               createdAt: '',
-              createdBy: ''
-            }
+              createdBy: '',
+            },
           ],
     remarkData: '',
     invoiceInterval: invoiceInterval
       ? {
           label: invoiceInterval,
-          value: invoiceInterval
+          value: invoiceInterval,
         }
       : undefined,
     qualifications: qualificationsData,
-    fee: fee ? germanNumberFormat(fee) : '',
-    weekendAllowance: weekendAllowance
-      ? germanNumberFormat(weekendAllowance)
-      : '',
-    holiday: holiday ? germanNumberFormat(holiday) : '',
-    night: night ? germanNumberFormat(night) : '',
+    fee: fee !== null ? germanNumberFormat(fee) : '',
+    weekendAllowance:
+      weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : '',
+    holiday: holiday !== null ? germanNumberFormat(holiday) : '',
+    night: night !== null ? germanNumberFormat(night) : '',
     nightAllowance: nightAllowance
       ? {
           label: nightAllowance,
-          value: nightAllowance
+          value: nightAllowance,
         }
       : undefined,
     leasingPricingList: leasingPricingList
       ? {
           label: leasingPricingList,
-          value: leasingPricingList
+          value: leasingPricingList,
         }
       : undefined,
-    salutation:
-      props.getCaregiver && props.getCaregiver.salutation
-        ? {
-            label: props.getCaregiver.salutation,
-            value: props.getCaregiver.salutation
-          }
-        : undefined,
-    gender:
-      props.getCaregiver && props.getCaregiver.gender
-        ? {
-            label: props.getCaregiver.gender,
-            value: props.getCaregiver.gender
-          }
-        : undefined,
-    attributeId: selectedAttributes
+    salutation: salutation
+      ? {
+          label: salutation,
+          value: salutation,
+        }
+      : undefined,
+    gender: gender
+      ? Gender.filter(({ value }: IReactSelectInterface) => value === gender)[0]
+      : undefined,
+    attributeId: selectedAttributes,
   };
 
   const usersList = props.careGiverOpt;
@@ -588,8 +574,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                   {...props}
                   CareInstitutionList={usersList}
                   countriesOpt={countriesOpt}
-                  statesOpt={statesOpt}
-                  getStatesByCountry={getStatesByCountry}
+                  userSelectedCountry={userSelectedCountry}
                 />
               </Col>
               <Col lg={4} md={'12'} sm={'12'} className='px-lg-0'>
@@ -602,7 +587,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                     />
                     <AttributeFormComponent
                       {...props}
-                      caregiverAttrOpt={caregiverAttrOpt}
+                      caregiverAttributeOptions={caregiverAttributeOptions}
+                      loading={loading}
                     />
                   </div>
                 </div>

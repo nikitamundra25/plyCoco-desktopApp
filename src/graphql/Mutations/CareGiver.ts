@@ -55,6 +55,7 @@ const UPDATE_CAREGIVER = gql`
         registrationNumber
         driversLicense
         driverLicenseNumber
+        vehicleAvailable
         city
         street
         title
@@ -165,7 +166,38 @@ const NEW_EMAIL = gql`
     }
   }
 `;
+const ADD_NEGATIVE_USER = gql`
+  mutation AddNegativeUser($id: ID, $negativeIds: [ID]) {
+    addNegativeUser(id: $id, negativeIds: $negativeIds) {
+      firstName
+      lastName
+      negativeIds
+    }
+  }
+`;
 
+// mutation{
+//   addNegativeUser(id: 1419,negativeIds: [1437, 1438]){
+//     firstName
+//     lastName
+//     negativeIds
+//   }
+//  }
+
+const DELETE_BLACKLIST_USER = gql`
+  mutation DeleteBlackListUser($id: ID, $negativeIds: [ID]) {
+    deleteBlackListUser(id: $id, negativeIds: $negativeIds) {
+      negativeIds
+    }
+  }
+`;
+
+// mutation{
+//   deleteBlackListUser(id: 1419, negativeIds: [1437, 1422]){
+//     negativeIds
+//   }
+//  }
+// deleteBlackListUser(id: ID, negativeIds:[ID]): User
 export const CareGiverMutations = [
   ADD_CAREGIVER,
   UPDATE_CAREGIVER,
@@ -174,4 +206,6 @@ export const CareGiverMutations = [
   ADD_UPDATE_CARE_GIVER_LEASING_INFO,
   UPDATE_BILLING_SETTINGS,
   NEW_EMAIL,
+  ADD_NEGATIVE_USER,
+  DELETE_BLACKLIST_USER
 ];

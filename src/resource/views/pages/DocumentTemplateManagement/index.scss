@@ -2,10 +2,10 @@
 .documenttemplate-page {
   min-height: calc(100vh - 135px);
 }
-.document-list {
+.workingproof-list {
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100% - 153px);
+  height: calc(100% - 184px);
   @media (max-width: 991px) {
     height: 300px;
   }
@@ -13,7 +13,6 @@
 
 .document-preview {
   color: $btn_hover_gray;
-  line-height: 3;
   font-size: $font_17;
   .preview-section {
     img {

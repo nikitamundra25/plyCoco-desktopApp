@@ -10,6 +10,7 @@ import Loader from '../../../containers/Loader/Loader';
 import { EmailSearchFilter } from './EmailSearchFilter';
 import { NoSearchFound } from '../../../components/SearchFilter/NoSearchFound';
 import * as qs from 'query-string';
+import { defaultDateTimeFormat } from '../../../../../config';
 
 const InboxEmail: FunctionComponent<IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
@@ -58,74 +59,83 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
           <div className='emailview-loader'>
             <Loader />
           </div>
-        ) : emailList && emailList.getEmails ? (
-          emailList.getEmails.length && !searchBy ? (
-            <Row>
-              <Col lg={'5'}>
-                <div className='email-inbox-section'>
-                  <EmailSearchFilter
-                    searchBy={searchBy}
-                    handleChange={handleChange}
-                    handleSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-                      if (searchBy) {
-                        setEmailData(null);
-                      }
-                      handleSubmit(e);
-                    }}
-                    onReset={onReset}
-                  />
+        ) : !searchBy &&
+          emailList &&
+          emailList.getEmails &&
+          !emailList.getEmails.length ? (
+          <div className='no-data-section pt-5 pb-5 bg-white text-center'>
+            <div className='no-data-icon mb-2'>
+              <img src={noemail} width='35px' />
+            </div>
+            <h4 className='mb-1'>{languageTranslation('NO_EMAIL_MESSAGE')}</h4>
+          </div>
+        ) : (
+          <Row>
+            <Col lg={'5'}>
+              <div className='email-inbox-section'>
+                <EmailSearchFilter
+                  searchBy={searchBy}
+                  handleChange={handleChange}
+                  handleSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+                    if (searchBy) {
+                      setEmailData(null);
+                    }
+                    handleSubmit(e);
+                  }}
+                  onReset={onReset}
+                />
 
-                  <div className='email-row-wrap align-items-center email-attributes-wrap'>
-                    <div
-                      className='email-attributes-content d-flex align-items-center'
-                      onClick={() => onRefresh('plycoco')}
-                    >
-                      <i className='fa fa-refresh mr-1'></i>
-                      <span>{languageTranslation('REFRESH')}</span>
-                    </div>
-                    <span className='email-attributes-seprator'>|</span>
-                    <div
-                      className='email-attributes-content'
-                      onClick={() => onTabChange(2, emailData)}
-                    >
-                      <i className='fa fa-hourglass-end mr-1'></i>
-                      <span>{languageTranslation('REPLY')}</span>
-                    </div>
+                <div className='email-row-wrap align-items-center email-attributes-wrap'>
+                  <div
+                    className='email-attributes-content d-flex align-items-center'
+                    onClick={() => onRefresh('plycoco')}
+                  >
+                    <i className='fa fa-refresh mr-1'></i>
+                    <span>{languageTranslation('REFRESH')}</span>
                   </div>
-                  <div className='email-row-wrap email-heading-wrap '>
-                    <div className='email-date-time-block'>
-                      {languageTranslation('DATE')}
-                      {/* <Select
+                  <span className='email-attributes-seprator'>|</span>
+                  <div
+                    className='email-attributes-content'
+                    onClick={() => onTabChange(2, emailData)}
+                  >
+                    <i className='fa fa-hourglass-end mr-1'></i>
+                    <span>{languageTranslation('REPLY')}</span>
+                  </div>
+                </div>
+                <div className='email-row-wrap email-heading-wrap '>
+                  <div className='email-date-time-block'>
+                    {languageTranslation('DATE')}
+                    {/* <Select
                         placeholder="Select Region"
                         options={this.options}
                         classNamePrefix="react-select"
                         className="hover-short-select"
                       /> */}
-                    </div>
-                    <div className='email-text-wrap'>
-                      {languageTranslation('SUBJECT')}
-                    </div>
                   </div>
-                  {loading ? (
-                    <div className='table-loader'>
-                      <Loader />
-                    </div>
-                  ) : emailList &&
-                    emailList.getEmails &&
-                    emailList.getEmails.length ? (
-                    <ul className='mb-3 mb-lg-0 p-0 list-group custom-scrollbar'>
-                      {emailList.getEmails.map((email: any, index: number) => {
-                        return (
-                          <li
-                            className={`email-wrap ${
-                              emailData && emailData.id === email.id
-                                ? 'active'
-                                : ''
-                            }`}
-                            key={index}
-                            onClick={() => onEmailSelection(email)}
-                          >
-                            {/* <div
+                  <div className='email-text-wrap'>
+                    {languageTranslation('SUBJECT')}
+                  </div>
+                </div>
+                {loading ? (
+                  <div className='table-loader'>
+                    <Loader />
+                  </div>
+                ) : emailList &&
+                  emailList.getEmails &&
+                  emailList.getEmails.length ? (
+                  <ul className='mb-3 mb-lg-0 p-0 list-group custom-scrollbar'>
+                    {emailList.getEmails.map((email: any, index: number) => {
+                      return (
+                        <li
+                          className={`email-wrap ${
+                            emailData && emailData.id === email.id
+                              ? 'active'
+                              : ''
+                          }`}
+                          key={index}
+                          onClick={() => onEmailSelection(email)}
+                        >
+                          {/* <div
                           className={`email-date-block ${
                             opened ? 'opened' : 'closed'
                           }`}
@@ -134,48 +144,38 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
                           {' '}
                           {languageTranslation('DATE')}: january 2020
                         </div> */}
-                            {/* <Collapse isOpen={isOpen}> */}
-                            <div className='email-row-wrap inner-content-wrap'>
-                              <div className='email-date-time-block'>
-                                {moment(email.createdAt).format(
-                                  'DD.MM.YYYY HH:mm:ss',
-                                )}
-                              </div>
-                              <div className='email-text-wrap'>
-                                {email.subject}
-                              </div>
+                          {/* <Collapse isOpen={isOpen}> */}
+                          <div className='email-row-wrap inner-content-wrap'>
+                            <div className='email-date-time-block'>
+                              {moment(email.createdAt).format(
+                                defaultDateTimeFormat,
+                              )}
                             </div>
-                            {/* </Collapse> */}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  ) : (
-                    <div className=' py-3 bg-white text-center'>
-                      <NoSearchFound />
-                    </div>
-                  )}
-                </div>
-              </Col>
-              <EmailPreview
-                emailData={emailData}
-                selectedUserName={selectedUserName}
-                length={
-                  emailList && emailList.getEmails && emailList.getEmails.length
-                }
-              />
-            </Row>
-          ) : (
-            <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-              <div className='no-data-icon mb-2'>
-                <img src={noemail} width='35px' />
+                            <div className='email-text-wrap'>
+                              {email.subject}
+                            </div>
+                          </div>
+                          {/* </Collapse> */}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : (
+                  <div className=' py-3 bg-white text-center'>
+                    <NoSearchFound />
+                  </div>
+                )}
               </div>
-              <h4 className='mb-1'>
-                {languageTranslation('NO_EMAIL_MESSAGE')}
-              </h4>
-            </div>
-          )
-        ) : null}
+            </Col>
+            <EmailPreview
+              emailData={emailData}
+              selectedUserName={selectedUserName}
+              length={
+                emailList && emailList.getEmails && emailList.getEmails.length
+              }
+            />
+          </Row>
+        )}
       </div>
     </div>
   );

@@ -4,14 +4,17 @@ import moment from 'moment';
 import { languageTranslation, formatFileSize } from '../../../../../helpers';
 import { AppConfig, defaultDateTimeFormat } from '../../../../../config';
 import Loader from '../../../containers/Loader/Loader';
-const DocumentsList: FunctionComponent<any> = (props: any) => {
+import { IDocumentListInteface } from '../../../../../interfaces';
+const DocumentsList: FunctionComponent<IDocumentListInteface> = (
+  props: any
+) => {
   const {
     documentListing,
     documentId,
     handleCheckElement,
     onUpdateDocument,
     onDeleteDocument,
-    loading,
+    loading
   } = props;
   const [isExpand, setIsExpand] = useState<boolean>(false);
   const [activeRow, setActiveRow] = useState<number>(-1);
@@ -155,7 +158,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                         onClick={() =>
                           onUpdateDocument(
                             list,
-                            list.fileName ? false : true, // To ensure user try to edit missing document
+                            list.fileName ? false : true // To ensure user try to edit missing document
                           )
                         }
                         // disable={list.status === 'approve'}

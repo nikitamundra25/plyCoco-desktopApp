@@ -1,12 +1,12 @@
-import { Location } from 'history';
-import * as H from 'history';
-import { IReactSelectInterface } from './Constant';
-import { ICareInstitutionRemarks } from './CareInstitution';
-import { number } from 'prop-types';
+import { Location } from "history";
+import * as H from "history";
+import { IReactSelectInterface } from "./Constant";
+import { ICareInstitutionRemarks } from "./CareInstitution";
+import { number } from "prop-types";
 import {
   IEmailInputAttachmenttypes,
-  IEmailAttachmentData,
-} from './EmailTemplate';
+  IEmailAttachmentData
+} from "./EmailTemplate";
 
 export interface ICareGiverInput {
   id?: string;
@@ -119,6 +119,8 @@ export interface ICareGiverValidationInterface {
   taxNumber?: string;
   age?: number | null;
   fax?: string;
+  country?: IReactSelectInterface;
+  state?: IReactSelectInterface;
 }
 
 export interface IEmailMenus<
@@ -324,6 +326,7 @@ export interface IAddEmailVariables {
   status: string;
   attachments: IEmailInputAttachmenttypes[];
   files: any;
+  contactId?: number | null;
 }
 
 export interface INewEmailProps {
@@ -340,6 +343,7 @@ export interface IEmailData {
   to: string;
   userId: number;
   attachments: IEmailInputAttachmenttypes[];
+  contact?: any;
 }
 
 export interface IEmailPreviewProps {
@@ -347,6 +351,7 @@ export interface IEmailPreviewProps {
   selectedUserName: string;
   sendBy?: string;
   length?: any;
+  userRole?: string;
 }
 
 export interface IEmailFormComponentPorps {
@@ -394,9 +399,9 @@ export interface IAttributeValues {
 }
 
 export interface IAttributeOptions {
-  label: string;
-  value: string;
-  color: string | null;
+  label: any;
+  value: any;
+  color: any;
 }
 
 export interface IToDoFormValues {

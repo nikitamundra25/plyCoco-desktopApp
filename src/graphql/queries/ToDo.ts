@@ -41,7 +41,9 @@ const GET_TO_DOS = gql`
           firstName
           surName
           id
-          contactType
+          contact_type {
+            contactType
+          }
         }
       }
     }

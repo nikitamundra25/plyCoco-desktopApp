@@ -8,12 +8,7 @@ import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
 import htmlToDraft from 'html-to-draftjs';
-import {
-  languageTranslation,
-  HtmlToDraftConverter,
-  logger,
-  stripHtml
-} from '../../../../../helpers';
+import { languageTranslation, logger, stripHtml } from '../../../../../helpers';
 import {
   EmailTemplateQueries,
   ProfileQueries,
@@ -34,6 +29,7 @@ import { ConfirmBox } from '../../../components/ConfirmBox';
 import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
 import { client } from '../../../../../config';
 import logo from '../../../../assets/img/plycoco-orange.png';
+
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , NEW_EMAIL] = CareGiverMutations;
@@ -57,7 +53,6 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     : {};
 
   let { id: Id } = useParams();
-  let { pathname } = useLocation();
 
   const [subject, setSubject] = useState<string>('');
   const [body, setBody] = useState<any>('');
@@ -95,7 +90,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     }
   }, []);
 
-  const [addNewEmail, { loading: adding }] = useMutation<
+  const [addNewEmail, { loading: sending }] = useMutation<
     {
       addNewEmail: any;
     },
@@ -113,6 +108,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
       setParentId(null);
       setIsSubmit(false);
       setTemplate({ label: '', value: '' });
+      setContact({ label: '', value: '' });
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -145,7 +141,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     if (getContactsByUserID && getContactsByUserID.length) {
       getContactsByUserID.map((list: any) => {
         return contactOptions.push({
-          label: `${list.firstName} ${list.surName} (${list.contactType})`,
+          label: `${list.surName} ${list.firstName} ${
+            list.contact_type ? `(${list.contact_type.contactType})` : ''
+          }`,
           value: list.id ? list.id : ''
         });
       });
@@ -156,7 +154,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     const contentBlock = htmlToDraft(
       `<div><span style="font-size:15px;">Hello ${selectedUserName}</span>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
         'BEST_WISHES'
-      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-644 99 444" style="color: #000; text-decoration: none;">+49-30-644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-644 99 445" style="color: #000; text-decoration: none;">+49-30-644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="https://www.plycoco.de/" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Vertreten durch: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746</span><br><span style="font-size: 12px;color: #b5b4b4;">Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz DE290375287</span></div></div>`
+      )}</span><br><span style="font-size:13px; margin:0px 0px;">${lastName} ${firstName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-644 99 444" style="color: #000; text-decoration: none;">+49-30-644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-644 99 445" style="color: #000; text-decoration: none;">+49-30-644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="https://www.plycoco.de/" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Vertreten durch: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746</span><br><span style="font-size: 12px;color: #b5b4b4;">Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz DE290375287</span></div></div>`
     );
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
@@ -247,8 +245,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
         const emailInput: IAddEmailVariables = {
           senderUserId: id ? parseInt(id) : 0,
           receiverUserId: Id ? parseInt(Id) : 0,
-          to: userRole === 'canstitution' ? 'careinstitution' : 'caregiver',
+          to: userRole,
           from: 'plycoco',
+          contactId: contact ? parseInt(contact.value) : null,
           subject: subject /* .replace(/AW:/g, '') */,
           body: body ? content : '',
           parentId,
@@ -329,7 +328,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                       <div className='form-section w-100'>
                         <FormGroup className='mb-0 '>
                           <Select
-                            placeholder='Select Department'
+                            placeholder={languageTranslation(
+                              'SELECT_CONTACT_PLACEHOLDER'
+                            )}
                             options={contactOptions}
                             classNamePrefix='custom-inner-reactselect'
                             className={'custom-reactselect'}
@@ -417,8 +418,9 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
                 type='submit'
                 className='btn-submit'
                 onClick={sendEmail}
+                disabled={sending}
               >
-                {adding ? (
+                {sending ? (
                   <i className='fa fa-spinner fa-spin mr-2' />
                 ) : (
                   <i className='fa fa-paper-plane mr-2' aria-hidden='true'></i>

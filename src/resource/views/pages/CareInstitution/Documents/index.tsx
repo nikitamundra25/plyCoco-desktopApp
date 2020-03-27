@@ -13,7 +13,7 @@ import DocumentsList from './DocumentsList';
 import { DocumentQueries } from '../../../../../graphql/queries';
 import { languageTranslation } from '../../../../../helpers';
 import { ConfirmBox } from '../../../components/ConfirmBox';
-import { CareGiverQueries } from '../../../../../graphql/queries';
+import { CareInstitutionQueries } from '../../../../../graphql/queries';
 import ExplicitDocument from './ExplicitDocument';
 import { ApolloError } from 'apollo-client';
 import { errorFormatter } from '../../../../../helpers/ErrorFormatter';
@@ -29,7 +29,7 @@ const [
   DELETE_DOCUMENT_TYPE_CAREINST,
   UPDATE_CAREINST_DOC
 ] = DocumentMutations;
-const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
+const [, GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries;
 const [
   ,
   GET_DOCUMENTS,
@@ -71,13 +71,13 @@ const Documents = () => {
   >(GET_DOCUMENTS);
 
   const [
-    fetchCaregiverDetails,
+    fetchCareInstDetails,
     {
-      data: caregiverData,
+      data: careInstData,
       loading: caregiverDataLoading,
-      refetch: careGiverDetailsRetch
+      refetch: careInstDetailsRetch
     }
-  ] = useLazyQuery<any>(GET_CAREGIVER_BY_ID);
+  ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
 
   // To fetch the explicitly required document of careinstitution by id
   const [
@@ -88,7 +88,6 @@ const Documents = () => {
       refetch: addedDocumentListRefetch
     }
   ] = useLazyQuery<any>(GET_REQUIRED_DOCUMENT_TYPES);
-
   //add document
   const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
     ADD_DOCUMENT,
@@ -115,7 +114,7 @@ const Documents = () => {
   // To fecth document type list
   const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES, {
     variables: {
-      userRole: languageTranslation('CAREINST_USERROLE')
+      userRole: languageTranslation('DOCUMENT_TYPE_CAREINST')
     }
   });
   // To set document type into label value pair
@@ -200,13 +199,13 @@ const Documents = () => {
 
   useEffect(() => {
     if (ApprovedData) {
-      careGiverDetailsRetch();
+      careInstDetailsRetch();
     }
   }, [ApprovedData]);
 
   useEffect(() => {
     if (disApprovedData) {
-      careGiverDetailsRetch();
+      careInstDetailsRetch();
     }
   }, [disApprovedData]);
 
@@ -214,11 +213,11 @@ const Documents = () => {
   const [isApproved, setisApproved] = useState<boolean>(false);
 
   useEffect(() => {
-    if (caregiverData) {
-      const { getCaregiver } = caregiverData;
-      setisApproved(getCaregiver.isApproved);
+    if (careInstData) {
+      const { getCareInstitution } = careInstData;
+      setisApproved(getCareInstitution.isApproved);
     }
-  }, [caregiverData]);
+  }, [careInstData]);
 
   //set state data null
   const setStateValueNull = () => {
@@ -232,8 +231,6 @@ const Documents = () => {
     setIsMissingDocEditable(false);
     setUnsupportedFile(null);
     setDefaultDocument(null);
-
-    // setErrorMsg(null);
   };
   useEffect(() => {
     if (id) {
@@ -242,9 +239,9 @@ const Documents = () => {
           userId: id ? id : ''
         }
       });
-      fetchCaregiverDetails({
+      fetchCareInstDetails({
         variables: {
-          id: id ? id : ''
+          careInstitutionId: id ? id : ''
         }
       });
     }
@@ -252,7 +249,6 @@ const Documents = () => {
 
   //on update document
   const onUpdateDocument = (data: any, isMissingDocEditable: boolean) => {
-    console.log('data', data);
     const {
       id = '',
       remarks = '',
@@ -302,7 +298,6 @@ const Documents = () => {
     let temp: any = documentUrls ? documentUrls : {};
     if (acceptedFiles && acceptedFiles.length) {
       acceptedFiles.forEach((file: File) => {
-        console.log('inside accepted files');
         setFileObject(file);
         if (file) {
           const reader = new FileReader();
@@ -419,7 +414,6 @@ const Documents = () => {
 
   //on delete document types
   const onDeleteDocumentTypes = async (documentId: string) => {
-    console.log('documentId inside delete', documentId);
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
       text: 'This document type will be deleted'

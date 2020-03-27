@@ -38,11 +38,12 @@ const Documents = () => {
   const queryPath = path.pathname;
   const res = queryPath.split('/');
   const id = parseInt(res[3]);
+  const [requiredDoc, setRequiredDoc] = useState<any>(null);
   const [showDocumentPopup, setShowDocumentPopup] = useState<boolean>(false);
   const [documentUrls, setDocumentUrl] = useState<IDocumentUrls | null>(null);
   const [fileObject, setFileObject] = useState<Object | null>(null);
   const [statusValue, setStatusValue] = useState<boolean>(true);
-  const [remarkValue, setRemarkValue] = useState<any>(null);
+  const [remarkValue, setRemarkValue] = useState<string>('');
   const [documentType, setDocumentType] = useState<
     IReactSelectInterface | undefined
   >(undefined);
@@ -58,7 +59,9 @@ const Documents = () => {
     id: string;
     checked: boolean;
   } | null>(null);
-  const [defaultDocument, setDefaultDocument] = useState<boolean | null>(null);
+  const [defaultDocument, setDefaultDocument] = useState<boolean | undefined>(
+    undefined
+  );
   const [fetchDocumentList, { data, loading, refetch, called }] = useLazyQuery<
     any
   >(GET_DOCUMENTS);
@@ -193,7 +196,7 @@ const Documents = () => {
 
   //set state data null
   const setStateValueNull = () => {
-    setRemarkValue(null);
+    setRemarkValue('');
     setDocumentType(undefined);
     setDocumentUrl(null);
     setStatusValue(true);
@@ -201,13 +204,13 @@ const Documents = () => {
     setFileObject(null);
     setFilename(null);
     setIsMissingDocEditable(false);
-    setDefaultDocument(null);
+    setDefaultDocument(undefined);
     // setErrorMsg(null);
   };
 
   //Reset form
   const resetFormValue = () => {
-    setRemarkValue(null);
+    setRemarkValue('');
     setDocumentType(undefined);
     setDocumentUrl(null);
     setStatusValue(true);
@@ -251,7 +254,7 @@ const Documents = () => {
         ? { label: document_type.type, value: document_type.id }
         : undefined
     );
-    setRemarkValue(null);
+    setRemarkValue('');
     setDocumentUrl(null);
     if (!isMissingDocEditable) {
       setRemarkValue(remarks);
@@ -351,8 +354,6 @@ const Documents = () => {
   };
   //on save document detatils
   const handleSaveDocument = () => {
-    console.log('isMissingDocEditable', isMissingDocEditable);
-
     setIsSubmit(true);
     const queryPath = path.pathname;
     const res = queryPath.split('/');
@@ -363,8 +364,6 @@ const Documents = () => {
       remarks: remarkValue ? remarkValue : ''
     };
     if (documentIdUpdate) {
-      console.log('isMissingDocEditable', isMissingDocEditable);
-
       if ((isMissingDocEditable && fileObject) || fileName) {
         // To validate file name shoulb not be empty or is the missing document
         updateDocument({
@@ -490,15 +489,6 @@ const Documents = () => {
     }
   };
 
-  let allDocDisApp: boolean = true;
-  if (data && data.getDocuments && data.getDocuments.length) {
-    data.getDocuments.map((data: any) => {
-      if (data && data.status === 'approve') {
-        allDocDisApp = false;
-      }
-    });
-  }
-
   return (
     <div>
       <div className='document-upload-section mb-3'>
@@ -526,19 +516,14 @@ const Documents = () => {
               <Button
                 onClick={onApprove}
                 disabled={
-                  allDocDisApp ||
-                  (data && data.getDocuments && !data.getDocuments.length) ||
-                  (data &&
-                    data.getDocuments &&
-                    data.getDocuments.filter(
-                      (document: any) => !document.fileName
-                    ).length) ||
-                  (data &&
-                    data.getDocuments &&
-                    data.getDocuments.filter(
-                      (document: any) =>
-                        document.isDefault && document.status !== 'approve'
-                    ).length) // If any of the required document in not approved by admin
+                  data &&
+                  data.getDocuments &&
+                  data.getDocuments.filter(
+                    (document: any) =>
+                      document.isDefault && document.status !== 'approve'
+                  ).length
+                    ? true
+                    : false // If any of the required document in not approved by admin
                 }
                 className='btn-common btn-active mb-3 mr-3 '
                 color='link'
@@ -607,6 +592,7 @@ const Documents = () => {
         documentTypeList={documentTypeList}
         unsupportedFile={unsupportedFile}
         defaultDocument={defaultDocument}
+        setRequiredDoc={setRequiredDoc}
       />
     </div>
   );

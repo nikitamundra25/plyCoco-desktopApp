@@ -26,8 +26,9 @@ import txt from '../../../../assets/img/txt.svg';
 import defaultExtention from '../../../../assets/img/no-extension.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import { AcceptedFileFormat } from '../../../../../config';
+import { IDocumentModelInterface } from '../../../../../interfaces';
 
-const DocumentUploadModal = (props: any) => {
+const DocumentUploadModal = (props: IDocumentModelInterface) => {
   const {
     documentIdUpdate,
     documentUrls,
@@ -46,7 +47,8 @@ const DocumentUploadModal = (props: any) => {
     loading,
     documentTypeList,
     unsupportedFile,
-    defaultDocument
+    defaultDocument,
+    setRequiredDoc
   } = props;
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDrop,
@@ -66,7 +68,7 @@ const DocumentUploadModal = (props: any) => {
 
   return (
     <div>
-      <Modal isOpen={show} className='reminder-modal' size='lg' centered>
+      <Modal isOpen={show} className='common-modal' size='lg' centered>
         <ModalHeader close={externalCloseBtn}>
           {!documentIdUpdate
             ? languageTranslation('ADD_DOCUMENT')
@@ -139,15 +141,15 @@ const DocumentUploadModal = (props: any) => {
                               </span>
                             )}
                           </div>
-                          {isSubmit && documentUrls === null ? (
-                            <div className='required-error'>
-                              Document is required
-                            </div>
-                          ) : (
+                          {unsupportedFile ? (
                             <div className='required-error'>
                               {unsupportedFile}
                             </div>
-                          )}
+                          ) : isSubmit && documentUrls === null ? (
+                            <div className='required-error'>
+                              Document is required
+                            </div>
+                          ) : null}
                         </Col>
                       ) : (
                         <Col sm='10'>

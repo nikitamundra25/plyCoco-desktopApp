@@ -8,7 +8,7 @@ import {
   UncontrolledButtonDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from 'reactstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { AppBreadcrumb } from '@coreui/react';
@@ -21,12 +21,16 @@ import { Formik, FormikProps, FormikHelpers } from 'formik';
 import {
   AppConfig,
   sortFilter,
-  defaultDateTimeFormat
+  defaultDateTimeFormat,
 } from '../../../../config';
 import { AppRoutes, PAGE_LIMIT } from '../../../../config';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
-import { languageTranslation, logger } from '../../../../helpers';
+import {
+  languageTranslation,
+  logger,
+  errorFormatter,
+} from '../../../../helpers';
 import ButtonTooltip from '../../components/Tooltip/ButtonTooltip';
 import { EmployeeQueries } from '../../../../graphql/queries';
 import PaginationComponent from '../../components/Pagination';
@@ -35,13 +39,16 @@ import {
   IEmployee,
   IReactSelectInterface,
   IObjectType,
-  IReplaceObjectInterface
+  IReplaceObjectInterface,
 } from '../../../../interfaces';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import defaultProfile from '../../../assets/avatars/default-profile.png';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
-import { EmployeeMutations } from '../../../../graphql/Mutations';
+import {
+  EmployeeMutations,
+  AdminProfileMutations,
+} from '../../../../graphql/Mutations';
 
 let toastId: any = null;
 
@@ -55,9 +62,9 @@ const [
   UPDATE_EMPLOYEE_STATUS,
   DELETE_EMPLOYEE,
   ,
-  UPDATE_EMP_ACCESS_LEVEL
+  UPDATE_EMP_ACCESS_LEVEL,
 ] = EmployeeMutations;
-
+const [, , GENERATE_NEW_PASSWORD] = AdminProfileMutations;
 const Employee: FunctionComponent = () => {
   let history = useHistory();
 
@@ -73,7 +80,7 @@ const Employee: FunctionComponent = () => {
   const [fetchEmployeeList, { data, called, loading, refetch }] = useLazyQuery<
     any
   >(GET_EMPLOYEES, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   // Mutation to delete employee
@@ -104,7 +111,7 @@ const Employee: FunctionComponent = () => {
     let sortByValue: string | undefined = '1';
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
-        (key: string) => sortFilter[key] === query.sortBy
+        (key: string) => sortFilter[key] === query.sortBy,
       );
     }
     logger(sortByValue);
@@ -128,8 +135,8 @@ const Employee: FunctionComponent = () => {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy
-              ) || '1'
+                (key: any) => sortFilter[key] === query.sortBy,
+              ) || '1',
           }
         : { label: 'Newest', value: '1' };
       isActive = query.status
@@ -140,13 +147,13 @@ const Employee: FunctionComponent = () => {
       setSearchValues({
         searchValue: searchBy,
         sortBy,
-        isActive
+        isActive,
       });
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
       setIsFilter(
         searchBy !== '' ||
           query.status !== undefined ||
-          query.sortBy !== undefined
+          query.sortBy !== undefined,
       );
     }
     // call query
@@ -160,8 +167,8 @@ const Employee: FunctionComponent = () => {
           ? query.status === 'active'
             ? 'true'
             : 'false'
-          : ''
-      }
+          : '',
+      },
     });
   }, [search]); // It will run when the search value gets changed
 
@@ -206,12 +213,12 @@ const Employee: FunctionComponent = () => {
   const {
     searchValue = '',
     sortBy = undefined,
-    isActive = undefined
+    isActive = undefined,
   } = searchValues ? searchValues : {};
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>
+    { setSubmitting }: FormikHelpers<ISearchValues>,
   ) => {
     let params: IObjectType = {};
     params.page = 1;
@@ -233,7 +240,7 @@ const Employee: FunctionComponent = () => {
     logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      '?',
     );
     history.push(path);
   };
@@ -242,12 +249,12 @@ const Employee: FunctionComponent = () => {
     isActive: isActive ? isActive.value : '',
     sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
     searchBy: searchValue ? searchValue : '',
-    limit: PAGE_LIMIT
+    limit: PAGE_LIMIT,
   };
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG')
+      text: languageTranslation('CONFIRM_EMPLOYEE_DELETE_MSG'),
     });
     if (!value) {
       return;
@@ -255,8 +262,8 @@ const Employee: FunctionComponent = () => {
       try {
         await deleteEmployee({
           variables: {
-            id
-          }
+            id,
+          },
         });
         refetch();
         // const data = await client.readQuery({
@@ -282,7 +289,7 @@ const Employee: FunctionComponent = () => {
         // });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('EMPLOYEE_DELETED_SUCCESS')
+            languageTranslation('EMPLOYEE_DELETED_SUCCESS'),
           );
         }
       } catch (error) {
@@ -304,8 +311,8 @@ const Employee: FunctionComponent = () => {
       text: languageTranslation(
         status
           ? 'CONFIRM_EMPLOYEE_STATUS_ACTIVATE_MSG'
-          : 'CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG'
-      )
+          : 'CONFIRM_EMPLOYEE_STATUS_DISABLED_MSG',
+      ),
     });
     if (!value) {
       return;
@@ -315,13 +322,13 @@ const Employee: FunctionComponent = () => {
         await updateEmployeeStatus({
           variables: {
             id,
-            isActive: status
-          }
+            isActive: status,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG')
+            languageTranslation('EMPLOYEE_STATUS_UPDATE_MSG'),
           );
         }
       } catch (error) {
@@ -342,13 +349,13 @@ const Employee: FunctionComponent = () => {
       await updateEmployeeAccessLevel({
         variables: {
           id,
-          accessLevel
-        }
+          accessLevel,
+        },
       });
       refetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG')
+          languageTranslation('EMPLOYEE_ACCESS_LEVEL_UPDATE_MSG'),
         );
       }
     } catch (error) {
@@ -361,35 +368,69 @@ const Employee: FunctionComponent = () => {
       }
     }
   };
+  // gernerate new password for caregiver
+  const [GenerateNewPassword] = useMutation<any, any>(GENERATE_NEW_PASSWORD);
+  const generateNewPassword = async (employeeData: any): Promise<void> => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation('CONFIRM_LABEL'),
+      text: languageTranslation('CONFIRM_REGENERATE_PASSWORD_MESSAGE', {
+        userRole: languageTranslation('EMPLOYEE_LABEL').toLowerCase(),
+        email: employeeData.email,
+      }),
+    });
+    if (!value) {
+      return;
+    }
+    if (toast.isActive(toastId)) {
+      toast.dismiss(toastId);
+    }
+    try {
+      await GenerateNewPassword({
+        variables: {
+          userId: employeeData.id,
+        },
+      });
 
+      toastId = toast.success(
+        languageTranslation('NEW_PASSWORD_SENT_SUCCESS', {
+          email: employeeData.email,
+        }),
+      );
+    } catch (error) {
+      const message = errorFormatter(error.message);
+      toastId = toast.error(message);
+    }
+  };
   const values: ISearchValues = {
     searchValue,
     isActive,
-    sortBy
+    sortBy,
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='w-100 mr-3' />
-        <Button
-          color={'primary'}
-          className={'btn-add mr-3'}
-          id={'add-new-pm-tooltip'}
-          onClick={() => history.push(AppRoutes.EMPLOYEE_ARCHIVE)}
-        >
-          <i className={'fa fa-archive'} />
-          &nbsp; {languageTranslation('VIEW_ARCHIVE')}
-        </Button>
-        <Button
-          color={'primary'}
-          className={'btn-add'}
-          id={'add-new-pm-tooltip'}
-          onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
-        >
-          <i className={'fa fa-plus'} />
-          &nbsp;{languageTranslation('ADD_NEW_EMPLOYEE_BUTTON')}
-        </Button>
+        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
+        <div>
+          <Button
+            color={'primary'}
+            className={'btn-add mr-3'}
+            id={'add-new-pm-tooltip'}
+            onClick={() => history.push(AppRoutes.EMPLOYEE_ARCHIVE)}
+          >
+            <i className={'fa fa-archive'} />
+            &nbsp; {languageTranslation('VIEW_ARCHIVE')}
+          </Button>
+          <Button
+            color={'primary'}
+            className={'btn-add'}
+            id={'add-new-pm-tooltip'}
+            onClick={() => history.push(AppRoutes.ADD_EMPLOYEE)}
+          >
+            <i className={'fa fa-plus'} />
+            &nbsp;{languageTranslation('ADD_NEW_EMPLOYEE_BUTTON')}
+          </Button>
+        </div>
       </CardHeader>
       <CardBody>
         <div>
@@ -401,6 +442,7 @@ const Employee: FunctionComponent = () => {
               <Search
                 {...props}
                 label={'employee'}
+                filterbyStatus={true}
                 setSearchValues={setSearchValues}
               />
             )}
@@ -458,15 +500,15 @@ const Employee: FunctionComponent = () => {
                       isActive,
                       profileThumbnailImage,
                       createdAt,
-                      accessLevel
+                      accessLevel,
                     }: IEmployee,
-                    index: number
+                    index: number,
                   ) => {
                     const replaceObj: IReplaceObjectInterface = {
                       ':id': id,
-                      ':userName': userName
+                      ':userName': userName,
                     };
-                    var elements = [firstName, lastName];
+                    var elements = [lastName, firstName];
 
                     return (
                       <tr key={index}>
@@ -483,7 +525,7 @@ const Employee: FunctionComponent = () => {
                                     : defaultProfile
                                 }`}
                                 onError={(
-                                  e: React.ChangeEvent<HTMLImageElement>
+                                  e: React.ChangeEvent<HTMLImageElement>,
                                 ) => {
                                   e.target.onerror = null;
                                   e.target.src = defaultProfile;
@@ -493,7 +535,7 @@ const Employee: FunctionComponent = () => {
                               />
                             </div>
                             <div className='description-column'>
-                              <div
+                              <span
                                 className='info-title text-capitalize'
                                 onClick={() =>
                                   history.push(
@@ -501,19 +543,23 @@ const Employee: FunctionComponent = () => {
                                       /:id|:userName/gi,
                                       function(matched: string) {
                                         return replaceObj[matched];
-                                      }
-                                    )
+                                      },
+                                    ),
                                   )
                                 }
                               >
                                 {elements.join(' ')}
-                              </div>
+                              </span>
 
                               <p className='description-text'>
                                 <i className='fa fa-envelope mr-2'></i>
-                                <span className='align-middle one-line-text'>
-                                  {email ? email : ''}
-                                </span>
+                                <a
+                                  href={`mailto:${email}`}
+                                  className='align-middle one-line-text info-link'
+                                  target={'_blank'}
+                                >
+                                  {email}
+                                </a>
                               </p>
                               <p className='description-text'>
                                 <i className='fa fa-user mr-2'></i>
@@ -524,9 +570,13 @@ const Employee: FunctionComponent = () => {
                               {phoneNumber ? (
                                 <p className='description-text'>
                                   <i className='fa fa-phone mr-2'></i>
-                                  <span className='align-middle one-line-text'>
+                                  <a
+                                    className='align-middle one-line-text info-link'
+                                    href={`tel:${phoneNumber}`}
+                                    target={'_blank'}
+                                  >
                                     {phoneNumber}
-                                  </span>
+                                  </a>
                                 </p>
                               ) : null}
                             </div>
@@ -565,9 +615,10 @@ const Employee: FunctionComponent = () => {
                                 onClick={() => readMoreRegionsData(index)}
                                 className='view-more-link theme-text'
                               >
+                                <br />
                                 {readMore && readMoreIndex === index
-                                  ? 'Read less'
-                                  : 'Read more'}
+                                  ? languageTranslation('SHOW_LESS')
+                                  : languageTranslation('SHOW_MORE')}
                               </span>
                             ) : null}
                           </div>
@@ -647,7 +698,7 @@ const Employee: FunctionComponent = () => {
                                 /:id|:userName/gi,
                                 function(matched) {
                                   return replaceObj[matched];
-                                }
+                                },
                               )}
                               currentPage={currentPage}
                               // onBtnClick={() =>
@@ -672,7 +723,7 @@ const Employee: FunctionComponent = () => {
                                 /:id|:userName/gi,
                                 function(matched) {
                                   return replaceObj[matched];
-                                }
+                                },
                               )}
                               // onBtnClick={() =>
                               //   history.push(
@@ -688,6 +739,19 @@ const Employee: FunctionComponent = () => {
                               {' '}
                               <i className='fa fa-eye'></i>
                             </ButtonTooltip>
+                            <span
+                              id={`regenerate-password-${index}`}
+                              className='btn-icon mr-2'
+                              onClick={() => generateNewPassword({ id, email })}
+                            >
+                              <UncontrolledTooltip
+                                placement={'top'}
+                                target={`regenerate-password-${index}`}
+                              >
+                                {languageTranslation('REGENERATE_PASSWORD')}
+                              </UncontrolledTooltip>
+                              <i className='fa fa-lock'></i>
+                            </span>
                             <span
                               id={`delete${index}`}
                               className='btn-icon mr-2'
@@ -705,7 +769,7 @@ const Employee: FunctionComponent = () => {
                         </td>
                       </tr>
                     );
-                  }
+                  },
                 )
               ) : (
                 <tr className={'text-center no-hover-row'}>

@@ -41,6 +41,7 @@ import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 import '../index.scss';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
+import { ConfirmBox } from '../../../components/ConfirmBox';
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList
@@ -173,7 +174,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   // };
 
   // Link appointments
-  const handleLinkAppointments = (name: string) => {
+  const handleLinkAppointments = async (name: string) => {
     let selectedData: any = [],
       checkError: boolean = false;
     if (
@@ -187,8 +188,21 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           toastId = toast.error('Please select same length cells');
         }
       } else {
+        if(selectedCells[0].caregiver && selectedCells[0].caregiver.attributes && selectedCells[0].caregiver.attributes.length){
+          let checkAttribute =  selectedCells[0].caregiver.attributes.includes(8)
+          if(checkAttribute){
+           const { value } = await ConfirmBox({
+             title: languageTranslation('ATTRIBUTE_WARNING'),
+             text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
+           })
+           if (!value) {
+            checkError = true;
+             return;
+           }
+          }
+         }
         let qualiCheck: any[] = [];
-        selectedCells.map((key: any, index: number) => {
+        selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
           if (
             key.qualificationIds &&
@@ -202,7 +216,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           }
           if (qualiCheck && qualiCheck.length <= 0) {
             if (!toast.isActive(toastId)) {
-              toastId = toast.error(
+              toastId = toast.warn(
                 languageTranslation('QUALIFICATION_UNMATCH')
               );
             }

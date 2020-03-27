@@ -69,7 +69,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     offerRequirements,
     leasingContract,
     qualificationList,
-    terminateAggrement
+    terminateAggrement,
+    showButton
   } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const [signatureData, setSignatureData] = useState<any>();
@@ -178,8 +179,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   // To fetch users according to qualification selected
   useEffect(() => {
-    if (props.label === 'appointment') {
+    if (props.label === "appointment") {
       let temp: any = [];
+    
       if (props.qualification && props.qualification.length) {
         props.qualification.map((key: any, index: number) => {
           if (key.value) {
@@ -189,6 +191,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
       }
+      
       // get careGivers list
       fetchCaregiverListFromQualification({
         variables: {
@@ -252,7 +255,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   useEffect(() => {
     // Fetch list of caregivers
-    if (props.label !== 'appointment') {
+    if (props.label !== "appointment") {
       fetchCareGiverList({
         variables: {
           searchBy: '',
@@ -725,8 +728,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           apointedCareGiver[0]
         ) {
           divRow = `<span><b>${moment(apointedCareGiver[0].date).format(
-            'DD/MM'
-          )}${' '}${' '}${apointedCareGiver[0].division}</b></span></br>`;
+            "DD/MM"
+          )}${" "}${" "}${apointedCareGiver[0].division ? apointedCareGiver[0].division : ""}</b></span></br>`;
         }
         const bodyData: any = `<span>${divRow}</br>Please send your fee contract to the institution immediately.</br></br>You can also use the corresponding function on the website.</br></br>Please call the institution about 2 days before the start of the service to make sure you are coming.</span>`;
         const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
@@ -860,10 +863,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       const { getQualificationMatching = [] } = requirmentList
         ? requirmentList
         : {};
-      let mailBody = '';
-      let qualificationReq = '';
+      let mailBody = "";
+      let qualificationReq = "";
       if (
         !leasingContract &&
+        !props.confirmApp &&
         ((getQualificationMatching && getQualificationMatching.length) ||
           offerRequirements)
       ) {
@@ -944,7 +948,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         leasingContract
       ) {
         let qualificationArray: any = [];
-        let qualificationString: string = '';
+        let qualificationString: string = "";
         let divisionArray: any = [];
 
         for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
@@ -962,18 +966,18 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             obj.address = object.item.address;
             obj.division = object.item.division
               ? object.item.division.name
-              : '';
+              : "";
             obj.shiftLabel = shiftLabel;
-            obj.day = moment(object.item.date).format('D');
-            obj.month = moment(object.item.date).format('MMM');
-            obj.date = moment(object.item.date).format('DD.MM');
+            obj.day = moment(object.item.date).format("D");
+            obj.month = moment(object.item.date).format("MMM");
+            obj.date = moment(object.item.date).format("DD.MM");
             obj.duration = moment
               .utc(
                 moment(object.item.endTime, 'HH:mm').diff(
                   moment(object.item.startTime, 'HH:mm')
                 )
               )
-              .format('H.m');
+              .format("H.m");
             divisionArray.push(obj);
 
             if (object.item.qualificationId) {
@@ -1240,7 +1244,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
 
       let careGiverIdList: any = [];
-
       if (selectedCareGiver && selectedCareGiver.length) {
         // Remove duplicate values from an array of objects
         let uniqueUser = selectedCareGiver.reduce((unique: any, key: any) => {
@@ -1265,6 +1268,36 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           careGiverIdList.push({ receiverUserId: careGiverId });
         });
 
+        // set array of objects of userId and attributeId for single button
+        let singleButtonCaregiverList: any = [];
+        if (careGiverData && careGiverData.length) {
+          careGiverData.map((key: any, index: number) => {
+            let temp = uniqueUser.filter(
+              (id: string) => parseInt(id) === parseInt(key.id)
+            );
+
+            if (temp && temp.length) {
+              let filterDate: any;
+              if (key.caregiver_avabilities) {
+                filterDate = key.caregiver_avabilities.filter(
+                  (avail: any) =>
+                    moment(avail.date).format(dbAcceptableFormat) ===
+                    moment(selectedCellsCareinstitution[0].dateString).format(
+                      dbAcceptableFormat
+                    )
+                )[0];
+              }
+              singleButtonCaregiverList.push({
+                receiverUserId: key && key.id ? parseInt(key.id) : null,
+                availabilityId:
+                  filterDate && filterDate.id ? parseInt(filterDate.id) : null
+              });
+            }
+          });
+        }
+
+        console.log("singleButtonCaregiverList", singleButtonCaregiverList);
+
         if (subject && body && result && result.length >= 2) {
           const bulkEmailsInput: IBulkEmailVariables = {
             to: 'caregiver',
@@ -1284,7 +1317,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     .map((item: IEmailAttachmentData) => item.file)
                     .filter((file: File | null) => file)
                 : null,
-            caregiver: careGiverIdList,
+            caregiver: showButton ? singleButtonCaregiverList : careGiverIdList,
             senderUserId: id ? parseInt(id) : null
           };
 

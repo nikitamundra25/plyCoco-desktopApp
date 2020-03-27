@@ -2701,7 +2701,7 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   // Link both forms
-  const handleLinkBoth = () => {
+  const handleLinkBoth = async () => {
     let selectedData: any = [],
       checkError: boolean = false;
     if (
@@ -2710,9 +2710,24 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCells &&
       selectedCells.length
     ) {
+      if(selectedCells[0].caregiver && selectedCells[0].caregiver.attributes && selectedCells[0].caregiver.attributes.length){
+        let checkAttribute =  selectedCells[0].caregiver.attributes.includes(8)
+        if(checkAttribute){
+         const { value } = await ConfirmBox({
+           title: languageTranslation('ATTRIBUTE_WARNING'),
+           text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
+         })
+         if (!value) {
+          checkError = true;
+           return;
+         }
+        }
+       }
+
       let qualiCheck: any[] = [];
-      selectedCells.map((key: any, index: number) => {
+      selectedCells.map(async (key: any, index: number) => {
         const element = selectedCellsCareinstitution[index];
+    
         if (
           key.qualificationIds &&
           key.qualificationIds.length &&
@@ -2725,7 +2740,7 @@ const Appointment: FunctionComponent = (props: any) => {
         }
         if (qualiCheck && qualiCheck.length <= 0) {
           if (!toast.isActive(toastId)) {
-            toastId = toast.error(languageTranslation('QUALIFICATION_UNMATCH'));
+            toastId = toast.warn(languageTranslation('QUALIFICATION_UNMATCH'));
           }
           checkError = true;
           return true;

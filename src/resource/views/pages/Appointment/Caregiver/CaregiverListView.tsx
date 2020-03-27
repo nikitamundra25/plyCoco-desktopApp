@@ -263,7 +263,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [confirmApp, setconfirmApp] = useState<boolean>(false);
   //unLinked by
   const [unlinkedBy, setunlinkedBy] = useState('');
-  console.log("selectedCells",selectedCells);
   //  UnLink appointmnets
   const handleUnLinkAppointments = () => {
     setshowUnlinkModal(!showUnlinkModal);
@@ -388,13 +387,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     selectedCells.filter((x: any) => {
       if (x.item && x.item.appointments) {
         x.item.appointments.map((st: any) => {
-          console.log('st.cr', st.cr && st.cr.status);
           return (checkLeasing = st.cr.status);
         });
       }
     });
   }
-  // console.log('careinstitutionSoloFilter', careinstitutionSoloFilter);
   return (
     <div>
       <div

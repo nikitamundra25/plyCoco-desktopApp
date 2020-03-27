@@ -575,6 +575,7 @@ const Appointment: FunctionComponent = (props: any) => {
         id = "",
         firstName = "",
         lastName = "",
+        email = '',
         caregiver: caregiverData = {},
         dateString: dateData = "",
         item = ""
@@ -588,6 +589,7 @@ const Appointment: FunctionComponent = (props: any) => {
           id,
           firstName,
           lastName,
+          email,
           caregiver: {
             ...caregiverData
           },
@@ -790,6 +792,7 @@ const Appointment: FunctionComponent = (props: any) => {
         id: ID = "",
         firstName: firstname = "",
         lastName: lastname = "",
+        email='',
         caregiver: caregiverData = {},
         dateString: dateData = ""
       } = selectedCells && selectedCells.length ? selectedCells[0] : {};
@@ -801,6 +804,7 @@ const Appointment: FunctionComponent = (props: any) => {
           },
           dateString: dateData,
           firstName: firstname,
+          email,
           lastName: lastname,
           item: {
             id: avabilityData && avabilityData.id ? avabilityData.id : "",
@@ -848,6 +852,7 @@ const Appointment: FunctionComponent = (props: any) => {
     const {
       firstName = "",
       lastName = "",
+      email='',
       id: selectedCaregiverId = "",
       dateString = "",
       caregiver = undefined,
@@ -873,6 +878,7 @@ const Appointment: FunctionComponent = (props: any) => {
           id: selectedCaregiverId,
           firstName,
           lastName,
+          email,
           caregiver: {
             ...caregiver
           },
@@ -1019,14 +1025,11 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
   const {id:selectedId='',dateString:selectedDateString=''} = selectedCells && selectedCells.length ? selectedCells[0] : {} 
-  console.log(selectedDateString, selectedId,'selectedIddddd');
-
   // useEffect(() => {
   //   console.log('selectedCells use effect');
   //   setSelectedCellsCount(1)
   // },[selectedId,selectedDateString])
   const handleSelection = async (selectedCellsData: any, name: string) => {
-    console.log("in handleSlection",selectedCellsData);
     const { item = {}, dept = {},id='',dateString='' } =
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
         ? selectedCellsData[0]
@@ -1910,6 +1913,7 @@ const Appointment: FunctionComponent = (props: any) => {
       id: ID = "",
       firstName: firstname = "",
       lastName: lastname = "",
+      email= '',
       caregiver = {},
       qualificationIds: qualificationId = [],
       dateString: date = "",
@@ -1921,6 +1925,7 @@ const Appointment: FunctionComponent = (props: any) => {
         id: ID,
         firstName: firstname,
         lastName: lastname,
+        email,
         caregiver: {
           ...caregiver
         },
@@ -2134,6 +2139,7 @@ const Appointment: FunctionComponent = (props: any) => {
             id: ID = "",
             firstName = "",
             lastName = "",
+            email='',
             caregiver: caregiverData = {},
             dateString: dateData = "",
             item: Item = ""
@@ -2145,6 +2151,7 @@ const Appointment: FunctionComponent = (props: any) => {
             {
               id: ID,
               firstName,
+              email,
               lastName,
               caregiver: {
                 ...caregiverData
@@ -2858,6 +2865,7 @@ const Appointment: FunctionComponent = (props: any) => {
   let {
     firstName = '',
     lastName = '',
+    email = '',
     id: selectedCaregiverId = '',
     dateString = '',
     caregiver = undefined,

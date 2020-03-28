@@ -124,7 +124,7 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
           </View>
           <View style={styles.image}>
             {/* <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" /> */}
-            <Image src={signatureData ? signatureData.careGiverSignature : ''} />
+            <Image src={signatureData && signatureData.careGiverSignature ? signatureData.careGiverSignature : ''} />
             <Text style={styles.imgtext}>
               Temporary Worker
           </Text>

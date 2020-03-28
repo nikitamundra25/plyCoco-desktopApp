@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createSelectable } from 'react-selectable-fast';
 import classnames from 'classnames';
 
@@ -7,9 +7,11 @@ const Cell = ({
   isSelected,
   isSelecting,
   item,
+  list,
+  day,
   key,
   daysArr,
-  selectedCellsCareinstitution
+  selectedCellsCareinstitution,
 }: any) => {
   let isBlocked: boolean = false;
   if (item) {
@@ -42,7 +44,8 @@ const Cell = ({
     isMatching: boolean = false,
     isContract: boolean = false,
     isConfirm: boolean = false,
-    isContractCancel: boolean = false;
+    isContractCancel: boolean = false,
+    isContractInitiated:boolean=false
   if (item) {
     if (item.status === 'default') {
       isRequirment = true;
@@ -54,6 +57,8 @@ const Cell = ({
       isConfirm = true;
     } else if (item.status === 'contractcancelled') {
       isContractCancel = true;
+    }else if (item.status === 'contractInitiated') {
+      isContractInitiated = true;
     }
   }
   return (
@@ -71,6 +76,7 @@ const Cell = ({
             : true,
           // 'selecting-cell': isSelecting,
           weekend: daysArr,
+          'contact-initiate-bg':isContractInitiated && !isSelected ? isContractInitiated : false,
           'cancel-contract-bg':
             isContractCancel && !isSelected ? isContractCancel : false,
           'block-bg': item ? (isBlocked ? true : false) : false,

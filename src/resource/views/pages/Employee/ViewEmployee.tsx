@@ -132,7 +132,11 @@ const ViewEmployee: FunctionComponent = () => {
                 {data ? (
                   <Row className="custom-col">
                     <Col lg={"12"} className="mb-2">
-                      <div className="user-item emloyee-detail-card personal-info-card">
+                      <div className="user-item emloyee-detail-card d-block">
+                      <div className="employee-title">
+                          {languageTranslation("EMPLOYEE_PERSONAL_DETAILS")}
+                        </div>
+                        <div className="personal-info-card">
                         <div className="profile-wrap">
                           <div className="profile-img-tile">
                             <div className="emloyee-profile-img">
@@ -335,6 +339,7 @@ const ViewEmployee: FunctionComponent = () => {
                                 : "N/A"}
                             </span>
                           </div>
+                        </div>
                         </div>
                       </div>
                     </Col>

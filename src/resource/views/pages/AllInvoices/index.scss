@@ -12,13 +12,13 @@
   }
 
   .header-nav-heading {
-    font-size: 12px;
+    font-size: $font_12;
     font-weight: 400;
-    color: #000;
+    color: $black;
     text-align: left;
     display: block;
     padding: 0px;
-    font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+    font-family: $font_Frutiger_Bold;
     height: 18px;
     display: block;
   }

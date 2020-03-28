@@ -55,4 +55,5 @@ export interface IBulkEmailVariables {
   attachments?: IEmailInputAttachmenttypes[];
   type?: string;
   date?: string;
+  requirementId?: number | null;
 }

@@ -1256,6 +1256,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   const uploadDocument = (data: IEmailAttachmentData) => {
     setAttachments((prevArray: any) => [data, ...prevArray]);
   };
+  console.log("selectedCellsCareinstitution", selectedCellsCareinstitution);
 
   const handleSendEmail = async (e: React.FormEvent<any>) => {
     e.preventDefault();
@@ -1384,6 +1385,12 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             }
           });
         }
+        let condition: boolean =
+          selectedCellsCareinstitution &&
+          selectedCellsCareinstitution.length &&
+          selectedCellsCareinstitution[0]
+            ? true
+            : false;
 
         if (props.showButton) {
           const bulkEmailsInput: IBulkEmailVariables = {
@@ -1394,14 +1401,17 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             parentId: null,
             status: "unread",
             type: "offer",
-            date:
-              selectedCellsCareinstitution &&
-              selectedCellsCareinstitution.length &&
-              selectedCellsCareinstitution[0]
-                ? moment(selectedCellsCareinstitution[0].dateString).format(
-                    dbAcceptableFormat
-                  )
-                : "",
+            requirementId:
+              condition &&
+              selectedCellsCareinstitution[0].item &&
+              selectedCellsCareinstitution[0].item.id
+                ? parseInt(selectedCellsCareinstitution[0].item.id)
+                : null,
+            date: condition
+              ? moment(selectedCellsCareinstitution[0].dateString).format(
+                  dbAcceptableFormat
+                )
+              : "",
             caregiver: singleButtonCaregiverList,
             senderUserId: id ? parseInt(id) : null
           };

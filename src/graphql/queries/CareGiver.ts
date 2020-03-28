@@ -339,6 +339,9 @@ query getCaregiverByName(
       firstName
       lastName
       isActive
+      caregiver {
+        attributes
+      }
     }
     totalCount
   }

@@ -60,15 +60,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onCaregiverQualificationFilter,
     selectedCellsCareinstitution,
     onLinkAppointment,
-    setOnConfirmedCaregiver,
-    setOnNotConfirmedCaregiver,
     onNewAvailability,
     totalCaregiver,
     getNext,
     qualificationList,
     locationState,
     onTerminateAggrement,
-    careinstitutionSoloFilter
+    careinstitutionSoloFilter,
+    updateCaregiverStatus
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -381,7 +380,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     });
   }
-// to check if the careinst is leasing
+  // to check if the careinst is leasing
   let checkLeasing: any = 1;
   if (selectedCells && selectedCells.length) {
     selectedCells.filter((x: any) => {
@@ -556,11 +555,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   : true
               }
               onClick={() => {
-                setOnConfirmedCaregiver();
+                updateCaregiverStatus('confirmed');
                 setconfirmApp(true);
                 setopenToggleMenu(false);
                 handleCareGiverBulkEmail();
-                setOnConfirmedCaregiver();
               }}
             >
               <img src={confirm_appointment} className='mr-2' alt='' />
@@ -582,7 +580,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 className='align-middle'
                 onClick={() => {
                   setopenToggleMenu(false);
-                  setOnConfirmedCaregiver();
+                  updateCaregiverStatus('confirmed');
                 }}
               >
                 Set on confirmed
@@ -604,7 +602,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 className='align-middle'
                 onClick={() => {
                   setopenToggleMenu(false);
-                  setOnNotConfirmedCaregiver();
+                  updateCaregiverStatus('notconfirmed');
                 }}
               >
                 Set on not confirmed

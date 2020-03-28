@@ -50,6 +50,7 @@ export interface IAppointmentNav {
 
 export interface IAppointmentCareGiverList {
   fetchDataValues?:any;
+  updateCaregiverStatus:(name: string) => Promise<void>
   daysData: IGetDaysArrayByMonthRes | null;
   careGiversList: any;
   loading: boolean;
@@ -76,8 +77,6 @@ export interface IAppointmentCareGiverList {
   handleSelection?: (selectedCells: any, name: string) => void;
   selectedCellsCareinstitution?: any;
   onLinkAppointment?: any;
-  setOnConfirmedCaregiver?: any;
-  setOnNotConfirmedCaregiver?: any;
   fetchingCareGiverData?: () => void;
   careInstitutionList?: any[];
   onTerminateAggrement: () => Promise<void>;

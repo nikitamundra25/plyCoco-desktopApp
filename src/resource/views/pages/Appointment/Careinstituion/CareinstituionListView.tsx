@@ -43,6 +43,7 @@ import { useHistory } from 'react-router';
 import UnlinkAppointment from '../unlinkModal';
 import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { ConfirmBox } from '../../../components/ConfirmBox';
 
 let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
@@ -66,8 +67,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCells,
     onLinkAppointment,
     onDeleteEntries,
-    setOnConfirmedCareInst,
-    setOnOfferedCareInst,
     handleSelectedAppoitment,
     onNewRequirement,
     showSelectedCaregiver,
@@ -157,7 +156,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setSelectedDays([]);
   };
   // Link appointments
-  const handleLinkAppointments = (name: string) => {
+  const handleLinkAppointments = async (name: string) => {
     let selectedData: any = [],
       checkError: boolean = false;
     if (
@@ -171,8 +170,21 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           toastId = toast.error('Please select same length cells');
         }
       } else {
+        if(selectedCells[0].caregiver && selectedCells[0].caregiver.attributes && selectedCells[0].caregiver.attributes.length){
+          let checkAttribute =  selectedCells[0].caregiver.attributes.includes(8)
+          if(checkAttribute){
+           const { value } = await ConfirmBox({
+             title: languageTranslation('ATTRIBUTE_WARNING'),
+             text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
+           })
+           if (!value) {
+            checkError = true;
+             return;
+           }
+          }
+         }
         let qualiCheck: any[] = [];
-        selectedCells.map((key: any, index: number) => {
+        selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
           if (
             key.qualificationIds &&
@@ -186,7 +198,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           }
           if (qualiCheck && qualiCheck.length <= 0) {
             if (!toast.isActive(toastId)) {
-              toastId = toast.error(
+              toastId = toast.warn(
                 languageTranslation('QUALIFICATION_UNMATCH')
               );
             }
@@ -660,7 +672,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail('division', true);
                   handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
-                  setOnOfferedCareInst();
+                  updateCareInstitutionStatus('offered');
+                  // setOnOfferedCareInst();
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -883,7 +896,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
                   handleRightMenuToggle();
-                  setOnConfirmedCareInst();
+                  updateCareInstitutionStatus('confirmed');
+                  // updateCareInstitutionStatus('confirmed');
                   setSortBy('day');
                   setConfirmAppointment(true);
                 }}
@@ -906,7 +920,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
                   handleRightMenuToggle();
-                  setOnConfirmedCareInst();
+                  updateCareInstitutionStatus('confirmed');
                   setSortBy('division');
                   setConfirmAppointment(true);
                 }}

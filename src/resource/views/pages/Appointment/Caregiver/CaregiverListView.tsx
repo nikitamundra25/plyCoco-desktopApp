@@ -41,6 +41,7 @@ import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 import '../index.scss';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
+import { ConfirmBox } from '../../../components/ConfirmBox';
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList
@@ -73,6 +74,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [offerRequirements, setOfferRequirements] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
+  const [select, setSelect] = useState<number[]>([]);
+  const [select1, setSelect1] = useState<number[]>([]);
   const [leasingContract, setleasingContract] = useState<boolean>(false);
 
   const onhandleSecondStar = (list: object, index: number, name: string) => {
@@ -148,6 +151,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           dateString: day ? day.dateString : ''
         };
       });
+      // setSelect({id:12})
+      // setSelect([12]);
+      // setSelect1([12])
 
       handleSelection ? handleSelection(selectedRows, 'caregiver') : undefined;
       // for (let index = 0; index < selected.length; index++) {
@@ -167,7 +173,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   // };
 
   // Link appointments
-  const handleLinkAppointments = (name: string) => {
+  const handleLinkAppointments = async (name: string) => {
     let selectedData: any = [],
       checkError: boolean = false;
     if (
@@ -181,8 +187,27 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           toastId = toast.error('Please select same length cells');
         }
       } else {
+        if (
+          selectedCells[0].caregiver &&
+          selectedCells[0].caregiver.attributes &&
+          selectedCells[0].caregiver.attributes.length
+        ) {
+          let checkAttribute = selectedCells[0].caregiver.attributes.includes(
+            8
+          );
+          if (checkAttribute) {
+            const { value } = await ConfirmBox({
+              title: languageTranslation('ATTRIBUTE_WARNING'),
+              text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
+            });
+            if (!value) {
+              checkError = true;
+              return;
+            }
+          }
+        }
         let qualiCheck: any[] = [];
-        selectedCells.map((key: any, index: number) => {
+        selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
           if (
             key.qualificationIds &&
@@ -196,7 +221,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           }
           if (qualiCheck && qualiCheck.length <= 0) {
             if (!toast.isActive(toastId)) {
-              toastId = toast.error(
+              toastId = toast.warn(
                 languageTranslation('QUALIFICATION_UNMATCH')
               );
             }
@@ -251,6 +276,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const handleUnlinkData = (likedBy: string, check: boolean) => {
     setunlinkedBy(likedBy);
     let appointmentId: any = [];
+
     if (selectedCells && selectedCells.length) {
       selectedCells.map((key: any, index: number) => {
         if (key.item && key.item.appointments && key.item.appointments.length) {
@@ -366,13 +392,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     selectedCells.filter((x: any) => {
       if (x.item && x.item.appointments) {
         x.item.appointments.map((st: any) => {
-          console.log('st.cr', st.cr && st.cr.status);
-          return (checkLeasing = st.cr.status);
+          return (checkLeasing = st && st.cr && st.cr.status);
         });
       }
     });
   }
-  // console.log('careinstitutionSoloFilter', careinstitutionSoloFilter);
   return (
     <div>
       <div

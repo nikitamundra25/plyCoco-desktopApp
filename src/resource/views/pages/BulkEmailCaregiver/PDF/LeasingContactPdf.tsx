@@ -89,7 +89,8 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
 
   const { signatureData, pdfAppointmentDetails } = props;
   console.log(signatureData && signatureData.careGiverSignature ? `${AppConfig.FILES_ENDPOINT}${signatureData.careGiverSignature}` : '','signature');
-  
+  // Append base url to the signature
+  let careGiverSignature:string = signatureData && signatureData.careGiverSignature ? `${AppConfig.FILES_ENDPOINT}${signatureData.careGiverSignature}` : ''
   // Create Document Component
   return (
     <Document>
@@ -126,7 +127,7 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
           </View>
           <View style={styles.image}>
             {/* <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" /> */}
-            <Image src={signatureData && signatureData.careGiverSignature ? `${AppConfig.FILES_ENDPOINT}${signatureData.careGiverSignature}` : ''} />
+            <Image src={careGiverSignature} />
             <Text style={styles.imgtext}>
               Temporary Worker
           </Text>
@@ -140,7 +141,7 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
         <View style={styles.signaturecontainer}>
           <View style={styles.image}>
             {/* <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" /> */}
-            <Image src={signatureData ? signatureData.careGiverSignature : ''} />
+            <Image src={careGiverSignature} />
             <Text style={styles.imgtext}>
               Temporary Worker
           </Text>

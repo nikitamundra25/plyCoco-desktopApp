@@ -2890,6 +2890,8 @@ const Appointment: FunctionComponent = (props: any) => {
     );
   }
 
+  console.log(selectedCells,'selectedCells',selectedCellsCareinstitution);
+  
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : '',
     name:

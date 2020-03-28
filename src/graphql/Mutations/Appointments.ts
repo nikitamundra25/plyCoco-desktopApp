@@ -98,14 +98,6 @@ const UN_LINK_REQUIREMENT = gql`
   }
 `;
 
-const TEMPORARY_LEASING_CONTRACT_EMAIL = gql`
-  mutation TemporaryLeasingContractEmail($bulkEmailsInput: BulkEmailsInput){
-    temporaryLeasingContractEmail(bulkEmailsInput: $bulkEmailsInput){
-      id
-    }
-  }
-`;
-
 export const AppointmentMutations = [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
@@ -115,5 +107,4 @@ export const AppointmentMutations = [
   DELETE_CAREGIVER_AVABILITY,
   LINK_REQUIREMENT,
   UN_LINK_REQUIREMENT,
-  TEMPORARY_LEASING_CONTRACT_EMAIL
 ];

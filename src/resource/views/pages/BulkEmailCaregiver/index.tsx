@@ -821,6 +821,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           });
         } else if (!props.confirmApp) {
           let apointedCareGiver: any[] = [];
+          
           if (
             selectedCellsCareinstitution &&
             selectedCellsCareinstitution.length
@@ -838,12 +839,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   apointedCareGiver.push({
                     caregivername: ca && ca.name ? ca.name : "caregiver",
                     date: date,
-                    division: divisionData
+                    division: divisionData ? divisionData: ""
                   });
                 }
               }
             });
           }
+          
           let divRow: string = "";
           apointedCareGiver.map((data: any) => {
             divRow += `<span><b>${moment(data.date).format(

@@ -3459,6 +3459,7 @@ const Appointment: FunctionComponent = (props: any) => {
         }
         qualification={props.qualification}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
+        selectedCells={selectedCells}
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
       />

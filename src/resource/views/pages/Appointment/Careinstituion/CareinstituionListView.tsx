@@ -80,6 +80,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   //use state for toggel menu item
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
+  const [confirmAppointment, setConfirmAppointment] = useState<boolean>(false);
 
   const handleRightMenuToggle = () => {
     settoggleMenuButton(!toggleMenuButton);
@@ -307,6 +308,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const handleCareInstitutionBulkEmail = () => {
     if (openCareInstitutionBulkEmail) {
       setunlinkedBy('');
+    }
+    if (confirmAppointment) {
+      setConfirmAppointment(false);
     }
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
@@ -881,6 +885,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleRightMenuToggle();
                   setOnConfirmedCareInst();
                   setSortBy('day');
+                  setConfirmAppointment(true);
                 }}
               >
                 <img src={confirm_appointment} className='mr-2' alt='' />
@@ -903,6 +908,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleRightMenuToggle();
                   setOnConfirmedCareInst();
                   setSortBy('division');
+                  setConfirmAppointment(true);
                 }}
               >
                 <img src={confirm_appointment} className='mr-2' alt='' />
@@ -1127,6 +1133,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         sortBy={sortBy}
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
+        confirmAppointment={confirmAppointment}
       />
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}

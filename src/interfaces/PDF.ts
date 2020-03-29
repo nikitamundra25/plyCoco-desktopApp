@@ -9,8 +9,7 @@ export interface ITerminationAgreementPdfProps {
 }
 
 export interface IConfirmAppointmentPdfProps {
-  signatureData?: any;
-  pdfAppointmentDetails?: any;
+  selectedCellsCareinstitution:any
 }
 
 export interface ITerminatePdfDetails{name:string, dateOfBirth:string, street:string, city:string}

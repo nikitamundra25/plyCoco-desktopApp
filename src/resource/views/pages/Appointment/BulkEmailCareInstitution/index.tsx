@@ -1,20 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
-  Button,
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
-  FormGroup,
-  Label,
-  Input,
-  Col,
-  Row,
-  Form,
-  CustomInput
 } from 'reactstrap';
 import '../index.scss';
-import BulkEmailCaregiver from '../../BulkEmailCaregiver';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import BulkEmailCareInstitution from '../../BulkEmailCareinstitution';
@@ -63,19 +53,19 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
       }
 
       if (confirmAppointmentPdfData) {
-        let documentInput: any = {
-          appointmentId: parseInt(appointmentId),
-          userId: parseInt(userId),
-          isDocumentTemplate: false,
-          documentUploadType: 'confirmAppointment',
-          document: confirmAppointmentPdfData
-        };
+        // let documentInput: any = {
+        //   appointmentId: parseInt(appointmentId),
+        //   userId: parseInt(userId),
+        //   isDocumentTemplate: false,
+        //   documentUploadType: 'confirmAppointment',
+        //   document: confirmAppointmentPdfData
+        // };
 
-        addUserDocuments({
-          variables: {
-            documentInput
-          }
-        });
+        // addUserDocuments({
+        //   variables: {
+        //     documentInput
+        //   }
+        // });
 
         console.log('pdfConfirmAppointment ', pdfConfirmAppointment);
 
@@ -109,7 +99,7 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
           Bulk Email Care Institution
         </ModalHeader>
         <ModalBody>
-          {confirmAppointment && pdfConfirmAppointment ? (
+          {/* {confirmAppointment && pdfConfirmAppointment ? (
             <PDFDownloadLink
               document={
                 <ConfirmAppointmentPdf />
@@ -119,7 +109,7 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
                 !loading ? setConfirmAppointmentPdfData(blob) : null
               }
             </PDFDownloadLink>
-          ) : null}
+          ) : null} */}
           <BulkEmailCareInstitution
             label={'appointment'}
             qualification={props.qualification}

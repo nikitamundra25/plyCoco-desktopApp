@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Document, Page, Text, Image, View, StyleSheet, PDFViewer, Link } from '@react-pdf/renderer';
-import { IConfirmAppointmentPdfProps } from '../../../../../interfaces';
+import moment from 'moment';
+import { IConfirmAppointmentPdfProps, IReactSelectInterface } from '../../../../../interfaces';
+import { defaultDateFormat } from '../../../../../config';
 
 const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
   props: IConfirmAppointmentPdfProps
@@ -83,7 +85,9 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
       textAlign: 'center'
     }
   });
-
+  const {selectedCellsCareinstitution} = props;
+  console.log(selectedCellsCareinstitution,'selectedCellsCareinstitution in odf');
+  
   // Create Document Component
   return (
     <Document>
@@ -106,16 +110,24 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
           <Text style={styles.subtitle}>Supply of temporary workers  </Text>
           <Text style={styles.subtext}>Supply of temporary workers according to the mutually agreed  leasing framework contract.   </Text></View>
         <View style={styles.section}>
-          <Text style={styles.subtextbold}>No. Temporary work details   </Text>
-          <Text style={styles.subtext}>24.01.2020, FD, Worker: Jaroslaw Majewski, Qualification: Pflegehelfer, pay group: 3 </Text>
-          <Text style={styles.subtext}>25.01.2020, FD, Worker: Jaroslaw Majewski, Qualification: Pflegehelfer, pay group: 3 </Text>
-          <Text style={styles.subtext}>26.01.2020, FD, Worker: Jaroslaw Majewski, Qualification: Pflegehelfer, pay group: 3 </Text>
+          <Text style={styles.subtextbold}>No. Temporary work details</Text>
+          {selectedCellsCareinstitution && selectedCellsCareinstitution.length ? selectedCellsCareinstitution.map((cell:any, index:number) => {
+            const {item={}} = cell;
+            const {id='',startTime='', endTime='', date='',appointments=[],qualificationId=[] } = item ? item :{};
+            const {ca={}} = appointments && appointments.length ? appointments[0] : {}
+            let shiftLabel:string =
+              startTime === '06:00'
+                ? 'FD'
+                : startTime === '14:00'
+                  ? 'SD'
+                  : 'ND';
+            return id ? <Text style={styles.subtext} key={index}>{date ? moment(date).format(defaultDateFormat) : ''}, {shiftLabel}, {ca && ca.name ? `Worker:${ca.name},` :''} Qualification: {qualificationId.map((quali:IReactSelectInterface) => quali.label).filter(Boolean).join(', ')}, pay group: 3 </Text> : null
+          }) : null}
         </View>
 
         <View style={styles.signaturecontainer}>
           <View>
             <Text style={styles.imagediv}>
-
             </Text>
             <Text style={styles.imgtext}>
               Please sign it and send it back via mail.

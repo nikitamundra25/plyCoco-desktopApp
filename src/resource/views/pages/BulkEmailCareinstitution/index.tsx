@@ -35,6 +35,9 @@ import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
 import { BulkEmailCareInstituion } from '../../../../graphql/Mutations/BulkEmailCareInstitution';
 import moment from 'moment';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import ConfirmAppointmentPdf from './PDF/ConfirmAppointmentPdf';
+import { DocumentMutations } from '../../../../graphql/Mutations';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [BULK_EMAILS_CAREINSTITUTION] = BulkEmailCareInstituion;
@@ -42,7 +45,7 @@ const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID
 ] = CareInstitutionQueries;
-
+const [ADD_DOCUMENT] = DocumentMutations;
 const [VIEW_PROFILE] = ProfileQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 
@@ -51,6 +54,8 @@ let toastId: any = null;
 const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   const { selectedCellsCareinstitution, confirmAppointment } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
+  const [pdfAppointmentDetails, setPdfAppointmentDetails] = useState<string[]>([]);
+  const [temporaryWorkerPdf, setTemporaryWorkerPdf] = useState<any>();
   const history = useHistory();
 
   // To access data of loggedIn user
@@ -66,6 +71,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     ? viewAdminProfile
     : {};
 
+    // Mutation to leasing document
+    const [addUserDocuments,{data:documentRes}] = useMutation<
+    { addUserDocuments: any },
+    { documentInput: any }
+  >(ADD_DOCUMENT);
   // To fetch caregivers by qualification id
   const [
     fetchCaregiverListFromQualification,
@@ -257,7 +267,54 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
     return comparison;
   };
-
+  let userId = '',
+  appointmentIds:number[] = [],
+  requirementIds:number[] = [],
+  avabilityIds:number[] = [];
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length > 0) {
+    let appointedCells = selectedCellsCareinstitution.filter((cell:any) => cell.item && cell.item.appointments && cell.item.appointments.length && cell.item.appointments[0].id);
+    console.log(appointedCells,'appointedCells');  
+    userId = selectedCellsCareinstitution[0].id;
+    if (appointedCells && appointedCells.length) {
+      appointmentIds = appointedCells.map((cell:any) => parseInt(cell.item.appointments[0].id));
+      avabilityIds = appointedCells.map((cell:any) => parseInt(cell.item.appointments[0].avabilityId));
+      requirementIds = appointedCells.map((cell:any) => parseInt(cell.item.appointments[0].requirementId));
+    }
+    console.log(appointmentIds,avabilityIds,requirementIds,'requirementIds+++'); 
+  }
+  useEffect(() => {
+    console.log(temporaryWorkerPdf,'temporaryWorkerPdf in use effect');
+    if (temporaryWorkerPdf) {
+    let documentInput: any = {
+      appointmentId: appointmentIds,
+      userId: parseInt(userId),
+      isDocumentTemplate: false,
+      documentUploadType: 'confirmAppointment',
+      document: temporaryWorkerPdf
+    };
+    addUserDocuments({
+      variables: {
+        documentInput
+      }
+    });}
+  },[temporaryWorkerPdf])
+  useEffect(() => {
+    if (
+      selectedCellsCareinstitution &&
+      selectedCellsCareinstitution.length
+    )
+    setPdfAppointmentDetails(selectedCellsCareinstitution)
+  },[selectedCellsCareinstitution])
+  useEffect(()=>{
+    if (documentRes) {
+      const {addUserDocuments={}} = documentRes ? documentRes :{}
+      const {fileSize=0,document='',id=''} = addUserDocuments ? addUserDocuments : {}
+      setAttachments([{fileName: 'name',url:null,file:null,
+        id,
+        path:document,
+        size:fileSize}])
+    }
+  },[documentRes])
   //Use Effect for set default email template data
   useEffect(() => {
     if (data && props.label === 'appointment') {
@@ -745,6 +802,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   }
 
+  console.log(temporaryWorkerPdf,'temporaryWorkerPdf',pdfAppointmentDetails,!temporaryWorkerPdf && confirmAppointment && pdfAppointmentDetails && pdfAppointmentDetails.length > 0);
+  
   return (
     <>
       <div className='common-detail-page'>
@@ -807,6 +866,20 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
+              {!temporaryWorkerPdf && confirmAppointment && pdfAppointmentDetails && pdfAppointmentDetails.length > 0 ? (
+                  <PDFDownloadLink
+                    document={
+                      <ConfirmAppointmentPdf
+                        selectedCellsCareinstitution={pdfAppointmentDetails}
+                      />
+                    }
+                  >
+                    {({ blob, url, loading, error }: any) =>
+                      !loading ?
+                      setTemporaryWorkerPdf(blob) : null
+                    }
+                  </PDFDownloadLink>
+                ) : null}
                 <CareInstitutionListComponent
                   careInstData={careInstData}
                   handleSelectAll={handleSelectAll}

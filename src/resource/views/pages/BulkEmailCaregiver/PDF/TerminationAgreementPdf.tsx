@@ -139,7 +139,7 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
           <Text style={styles.subaddresstext}>13465 Berlin  </Text>
           <Text style={styles.subtextalignright}>– hereafter: leasing company –  </Text>
           <Text style={styles.subtext}>And </Text>
-          <Text style={styles.subaddresshighlighttext}>${[name, dateOfBirth].filter(Boolean).join(', ')}</Text>
+          <Text style={styles.subaddresshighlighttext}>{[name, dateOfBirth].filter(Boolean).join(', ')}</Text>
           <Text style={styles.subaddresshighlighttext}>{street}</Text>
           <Text style={styles.subaddresshighlighttext}>{city}</Text>
           <Text style={styles.subtextalignright}> – hereafter: Leiharbeitnehmer–  </Text>

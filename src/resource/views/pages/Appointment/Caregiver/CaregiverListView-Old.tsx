@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import classnames from "classnames";
 import InfiniteScroll from "react-infinite-scroll-component";
-import "react-virtualized/styles.css"; // only needs to be imported once
-
 import { toast } from "react-toastify";
 import { SelectableGroup } from "react-selectable-fast";
 import {
@@ -43,7 +41,6 @@ import termination from "../../../../assets/img/dropdown/aggrement.svg";
 import refresh from "../../../../assets/img/refresh.svg";
 import "../index.scss";
 import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
-import { InfiniteLoader, AutoSizer, List } from "react-virtualized";
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList
@@ -638,7 +635,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         </Nav>
       </div>
       <div className="position-relative">
-        {/* <InfiniteScroll
+        <InfiniteScroll
           loader={<div className="appointment-list-loader">{}</div>}
           hasMore={
             !starMark || locationState
@@ -654,368 +651,249 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           // endMessage={<p />}
           scrollableTarget={"scrollableDiv-1"}
           // hasChildren
-        > */}
-        <div className="calender-section custom-scrollbar">
-          <div className="custom-appointment-calendar">
-            <div className="custom-appointment-calendar-head">
-              <div className="custom-appointment-row ">
-                <div className="thead-sticky name-col custom-appointment-col ">
-                  <div className="all-star-wrap">
-                    <div className="position-relative username-col align-self-center">
-                      <div className="calender-heading">Caregiver</div>
-                      <Button className="btn-more d-flex align-items-center justify-content-center">
-                        <i className="icon-options-vertical" />
-                      </Button>
-                    </div>
-
-                    <div className="thead-sticky h-col custom-appointment-col text-center">
-                      H
-                    </div>
-                    <div className="thead-sticky s-col custom-appointment-col text-center">
-                      S
-                    </div>
-                    <div className="thead-sticky u-col custom-appointment-col text-center">
-                      U
-                    </div>
-                    <div className="thead-sticky v-col custom-appointment-col text-center">
-                      V
-                    </div>
-                  </div>
-                </div>
-
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">1</div>
-                  <div className="custom-appointment-calendar-day">SUN</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">2</div>
-                  <div className="custom-appointment-calendar-day">MON</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">3</div>
-                  <div className="custom-appointment-calendar-day">TUE</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">4</div>
-                  <div className="custom-appointment-calendar-day">WED</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">5</div>
-                  <div className="custom-appointment-calendar-day">THU</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">6</div>
-                  <div className="custom-appointment-calendar-day">Fri</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">7</div>
-                  <div className="custom-appointment-calendar-day">SAT</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">8</div>
-                  <div className="custom-appointment-calendar-day">SUN</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">9</div>
-                  <div className="custom-appointment-calendar-day">MON</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">10</div>
-                  <div className="custom-appointment-calendar-day">TUE</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">11</div>
-                  <div className="custom-appointment-calendar-day">WED</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">12</div>
-                  <div className="custom-appointment-calendar-day">THU</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">13</div>
-                  <div className="custom-appointment-calendar-day">FRI</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">14</div>
-                  <div className="custom-appointment-calendar-day">SAT</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">15</div>
-                  <div className="custom-appointment-calendar-day">SUN</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">16</div>
-                  <div className="custom-appointment-calendar-day">MON</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">17</div>
-                  <div className="custom-appointment-calendar-day">TUE</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">18</div>
-                  <div className="custom-appointment-calendar-day">WED</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">19</div>
-                  <div className="custom-appointment-calendar-day">THU</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">20</div>
-                  <div className="custom-appointment-calendar-day">FRI</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">21</div>
-                  <div className="custom-appointment-calendar-day">SAT</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">22</div>
-                  <div className="custom-appointment-calendar-day">SUN</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">23</div>
-                  <div className="custom-appointment-calendar-day">MON</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">24</div>
-                  <div className="custom-appointment-calendar-day">TUE</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">25</div>
-                  <div className="custom-appointment-calendar-day">WED</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">26</div>
-                  <div className="custom-appointment-calendar-day">THU</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">27</div>
-                  <div className="custom-appointment-calendar-day">FRI</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">28</div>
-                  <div className="custom-appointment-calendar-day">SAT</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">29</div>
-                  <div className="custom-appointment-calendar-day">SUN</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">30</div>
-                  <div className="custom-appointment-calendar-day">MON</div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center">
-                  <div className="custom-appointment-calendar-date">31</div>
-                  <div className="custom-appointment-calendar-day">TUE</div>
-                </div>
-              </div>
-            </div>
-            <div className="custom-appointment-calendar-body">
-              <div className="custom-appointment-row">
-                <div className="name-col custom-appointment-col thead-sticky">
-                  <div className="all-star-wrap">
-                    <div>john doe</div>
-                    <div className="h-col custom-appointment-col text-center"></div>
-                    <div className="s-col custom-appointment-col text-center cursor-pointer">
-                      <i className="fa fa-star-o" />
-                    </div>
-                    <div className="u-col custom-appointment-col text-center cursor-pointer">
-                      <i className="fa fa-star-o" />
-                    </div>
-                    <div className="v-col custom-appointment-col text-center cursor-pointer">
-                      <i className="fa fa-arrow-down" />
-                    </div>
-                  </div>
-                </div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-                <div className="custom-appointment-col calender-col text-center"></div>
-              </div>
-            </div>
-          </div>
-          {/* <SelectableGroup
-            allowClickWithoutSelected
-            className="custom-row-selector"
-            clickClassName="tick"
-            resetOnStart={true}
-            onSelectionFinish={onSelectFinish}
-            ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
+        >
+          <div
+            className="calender-section custom-scrollbar"
+            id="scrollableDiv-1"
           >
-            <InfiniteLoader
-              loadMoreRows={() => getNext(careGiversList.length) as any}
-              isRowLoaded={() => true}
-              rowCount={totalCaregiver}
+            <SelectableGroup
+              allowClickWithoutSelected
+              className="custom-row-selector"
+              clickClassName="tick"
+              resetOnStart={true}
+              onSelectionFinish={onSelectFinish}
+              ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
             >
-              {({ onRowsRendered, registerChild }) => (
-                <AutoSizer disableHeight>
-                  {({ width }) => (
-                    <List
-                      ref={registerChild}
-                      height={500}
-                      onRowsRendered={onRowsRendered}
-                      rowCount={careGiversList.length}
-                      rowHeight={30}
-                      rowRenderer={({ index, key }) => {
-                        const list = careGiversList[index] || {};
-                        console.log(list);
-                        return list.availabilityData &&
-                          list.availabilityData.length
-                          ? list.availabilityData.map(
-                              (item: any, row: number) => (
-                                <div key={`${list.id}-${index}-${row}-${key}`}>
-                                  <th className="name-col custom-appointment-col thead-sticky">
-                                    <div className="all-star-wrap">
-                                      <div
-                                        className="text-capitalize one-line-text  username-col name-text"
-                                        style={{
-                                          backgroundColor: !list.isActive
-                                            ? deactivatedListColor
-                                            : list.caregiver &&
-                                              list.caregiver.attributes
-                                            ? list.caregiver.attributes.includes(
-                                                CaregiverTIMyoCYAttrId
-                                              )
-                                              ? leasingListColor
-                                              : list.caregiver.attributes.includes(
-                                                  "Plycoco"
-                                                )
-                                              ? selfEmployesListColor
-                                              : ""
-                                            : ""
-                                        }}
-                                        title={[list.lastName, list.firstName]
-                                          .filter(Boolean)
-                                          .join(" ")}
-                                        id={`caregiver-${list.id}`}
-                                      >
-                                        <Link
-                                          to={AppRoutes.CARE_GIVER_VIEW.replace(
-                                            ":id",
-                                            list.id
-                                          )}
-                                          target="_blank"
-                                          className="text-body"
-                                        >
-                                          {row === 0
-                                            ? [list.lastName, list.firstName]
-                                                .filter(Boolean)
-                                                .join(" ")
-                                            : ""}
-                                        </Link>
-                                      </div>
-                                      <div className="h-col custom-appointment-col text-center"></div>
-                                      <div
-                                        className="s-col custom-appointment-col text-center cursor-pointer"
-                                        onClick={() =>
-                                          onhandleSecondStar(
-                                            list,
-                                            index,
-                                            "caregiver"
-                                          )
-                                        }
-                                      >
-                                        {starMark ? (
-                                          <i className="fa fa-star theme-text" />
-                                        ) : (
-                                          <i className="fa fa-star-o" />
-                                        )}
-                                      </div>
-                                      <div
-                                        className="u-col custom-appointment-col text-center cursor-pointer"
-                                        onClick={() =>
-                                          onhandleSecondStar(
-                                            list,
-                                            index,
-                                            "caregiver"
-                                          )
-                                        }
-                                      >
-                                        {starMark ? (
-                                          <i className="fa fa-star theme-text" />
-                                        ) : (
-                                          <i className="fa fa-star-o" />
-                                        )}
-                                      </div>
-                                      <div
-                                        className="v-col custom-appointment-col text-center cursor-pointer"
-                                        onClick={e =>
-                                          onAddingRow(e, "caregiver", index)
-                                        }
-                                      >
-                                        <i className="fa fa-arrow-down" />
-                                      </div>
-                                    </div>
-                                  </th>
+              <Table
+                hover
+                bordered
+                className="mb-0 appointment-table"
+                id="appointment-table"
+              >
+                <thead className="thead-bg">
+                  <tr>
+                    <th className="thead-sticky name-col custom-appointment-col ">
+                      <div className="all-star-wrap">
+                        <div className="position-relative username-col align-self-center">
+                          <div className="calender-heading">Caregiver</div>
+                          <Button
+                            onClick={() => handleToggleMenuItem()}
+                            className="btn-more d-flex align-items-center justify-content-center"
+                          >
+                            <i className="icon-options-vertical" />
+                          </Button>
+                        </div>
 
-                                  {daysArr.map((key: any, i: number) => {
-                                    return (
-                                      <Cell
-                                        key={`${key}-${i}`}
-                                        daysArr={key.isWeekend}
-                                        day={key}
-                                        list={list}
-                                        fetchDataValues={props.fetchDataValues}
-                                        item={
-                                          item.filter((avabilityData: any) => {
-                                            return (
-                                              moment(key.isoString).format(
-                                                "DD.MM.YYYY"
-                                              ) ===
-                                              moment(avabilityData.date).format(
-                                                "DD.MM.YYYY"
+                        <div className="thead-sticky h-col custom-appointment-col text-center">
+                          H
+                        </div>
+                        <div className="thead-sticky s-col custom-appointment-col text-center">
+                          S
+                        </div>
+                        <div className="thead-sticky u-col custom-appointment-col text-center">
+                          U
+                        </div>
+                        <div className="thead-sticky v-col custom-appointment-col text-center">
+                          V
+                        </div>
+                      </div>
+                    </th>
+                    {/* array for showing day */}
+                    {daysArr.map(
+                      (
+                        { date, day, isWeekend, today }: IDaysArray,
+                        index: number
+                      ) => {
+                        const todaysDate = moment(today).format(
+                          appointmentDateFormat
+                        );
+                        return (
+                          <th
+                            className={`thead-sticky calender-col custom-appointment-col text-center p-0`}
+                            key={index}
+                          >
+                            <div
+                              className={`${
+                                date === todaysDate
+                                  ? "today"
+                                  : isWeekend
+                                  ? "weekend"
+                                  : ""
+                              }`}
+                            >
+                              <div className="custom-appointment-calendar-date">
+                                {" "}
+                                {date}
+                              </div>
+                              <div className="custom-appointment-calendar-day">
+                                {day}
+                              </div>
+                            </div>
+                          </th>
+                        );
+                      }
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td className={"table-loader"} colSpan={40}>
+                        <Loader />
+                      </td>
+                    </tr>
+                  ) : careGiversList && careGiversList.length ? (
+                    careGiversList.map((list: any, index: number) => {
+                      return list.availabilityData &&
+                        list.availabilityData.length
+                        ? list.availabilityData.map(
+                            (item: any, row: number) => (
+                              <tr key={`${list.id}-${index}-${row}`}>
+                                <th className="name-col custom-appointment-col thead-sticky">
+                                  <div className="all-star-wrap">
+                                    <div
+                                      className="text-capitalize one-line-text  username-col name-text"
+                                      // onClick={() =>
+                                      //   history.push(
+                                      //     AppRoutes.CARE_GIVER_VIEW.replace(
+                                      //       ':id',
+                                      //       list.id
+                                      //     )
+                                      //   )
+                                      // }
+
+                                      style={{
+                                        backgroundColor: !list.isActive
+                                          ? deactivatedListColor
+                                          : list.caregiver &&
+                                            list.caregiver.attributes
+                                          ? list.caregiver.attributes.includes(
+                                              CaregiverTIMyoCYAttrId
+                                            )
+                                            ? leasingListColor
+                                            : list.caregiver.attributes.includes(
+                                                "Plycoco"
                                               )
-                                            );
-                                          })[0]
-                                        }
-                                        handleSelection={handleSelection}
-                                        selectedCells={selectedCells}
-                                        selectedCellsCareinstitution={
-                                          selectedCellsCareinstitution
-                                        }
-                                      />
-                                    );
-                                  })}
-                                </div>
-                              )
+                                            ? selfEmployesListColor
+                                            : ""
+                                          : ""
+                                      }}
+                                      title={[list.lastName, list.firstName]
+                                        .filter(Boolean)
+                                        .join(" ")}
+                                      id={`caregiver-${list.id}`}
+                                    >
+                                      <Link
+                                        to={AppRoutes.CARE_GIVER_VIEW.replace(
+                                          ":id",
+                                          list.id
+                                        )}
+                                        target="_blank"
+                                        className="text-body"
+                                      >
+                                        {row === 0
+                                          ? [list.lastName, list.firstName]
+                                              .filter(Boolean)
+                                              .join(" ")
+                                          : ""}
+                                      </Link>
+                                    </div>
+                                    <div className="h-col custom-appointment-col text-center"></div>
+                                    <div
+                                      className="s-col custom-appointment-col text-center cursor-pointer"
+                                      onClick={() =>
+                                        onhandleSecondStar(
+                                          list,
+                                          index,
+                                          "caregiver"
+                                        )
+                                      }
+                                    >
+                                      {starMark ? (
+                                        <i className="fa fa-star theme-text" />
+                                      ) : (
+                                        <i className="fa fa-star-o" />
+                                      )}
+                                    </div>
+                                    <div
+                                      className="u-col custom-appointment-col text-center cursor-pointer"
+                                      onClick={() =>
+                                        onhandleSecondStar(
+                                          list,
+                                          index,
+                                          "caregiver"
+                                        )
+                                      }
+                                    >
+                                      {starMark ? (
+                                        <i className="fa fa-star theme-text" />
+                                      ) : (
+                                        <i className="fa fa-star-o" />
+                                      )}
+                                    </div>
+                                    <div
+                                      className="v-col custom-appointment-col text-center cursor-pointer"
+                                      onClick={e =>
+                                        onAddingRow(e, "caregiver", index)
+                                      }
+                                    >
+                                      <i className="fa fa-arrow-down" />
+                                    </div>
+                                  </div>
+                                </th>
+
+                                {daysArr.map((key: any, i: number) => {
+                                  return (
+                                    <Cell
+                                      key={`${key}-${i}`}
+                                      daysArr={key.isWeekend}
+                                      day={key}
+                                      list={list}
+                                      fetchDataValues={props.fetchDataValues}
+                                      item={
+                                        item.filter((avabilityData: any) => {
+                                          return (
+                                            moment(key.isoString).format(
+                                              "DD.MM.YYYY"
+                                            ) ===
+                                            moment(avabilityData.date).format(
+                                              "DD.MM.YYYY"
+                                            )
+                                          );
+                                        })[0]
+                                      }
+                                      handleSelection={handleSelection}
+                                      selectedCells={selectedCells}
+                                      selectedCellsCareinstitution={
+                                        selectedCellsCareinstitution
+                                      }
+                                    />
+                                  );
+                                })}
+                              </tr>
                             )
-                          : null;
-                      }}
-                      width={width}
-                    />
+                          )
+                        : null;
+                    })
+                  ) : (
+                    <tr className={"text-center no-hover-row"}>
+                      <td colSpan={40} className={"pt-5 pb-5"}>
+                        <div className="no-data-section">
+                          <div className="no-data-icon">
+                            <i className="icon-ban" />
+                          </div>
+                          <h4 className="mb-1">
+                            There are currently no Caregivers added
+                          </h4>
+                        </div>
+                      </td>
+                    </tr>
                   )}
-                </AutoSizer>
-              )}
-            </InfiniteLoader>
-          </SelectableGroup> */}
-        </div>
-        {/* </InfiniteScroll> */}
+                </tbody>
+              </Table>
+            </SelectableGroup>
+          </div>
+        </InfiniteScroll>
       </div>
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}

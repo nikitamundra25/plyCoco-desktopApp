@@ -260,6 +260,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
 
   //Use Effect for set default email template data
   useEffect(() => {
+    console.log("heheehhehe",props.statusTo);
+    console.log("data",data);
+    
     if (data && props.label === 'appointment') {
       const {
         getEmailtemplate: { email_templates }
@@ -268,6 +271,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         email_templates.map((emailData: IEmailTemplateData & any) => {
           if (props.label === 'appointment') {
             if (props.statusTo === 'offered') {
+              console.log("offered k aandar");
+              
               if (emailData.menuEntry === 'offer appointments by day') {
                 const { subject } = emailData;
                 setSubject(subject);
@@ -332,6 +337,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
               }
             }
             if (props.statusTo === 'confirmed') {
+              console.log("hhhhhh");
+              
               if (emailData.menuEntry === 'Appointment Confirmation') {
                 const { subject } = emailData;
                 setSubject(subject);

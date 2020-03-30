@@ -915,11 +915,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       const { getQualificationMatching = [] } = requirmentList
         ? requirmentList
         : {};
-      console.log(
-        leasingContract,
-        getQualificationMatching,
-        "getQualificationMatching++"
-      );
+ 
 
       let mailBody = "";
       let qualificationReq = "";

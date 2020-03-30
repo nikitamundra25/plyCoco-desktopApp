@@ -90,13 +90,15 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     onhandleDelete,
     careInstitutionListArr,
     handleSelectUserList,
-    addCareinstLoading
+    addCareinstLoading,
+    street
   } = props;
 
   let d = moment().format('L');
   let dtStart: any = new Date(d + ' ' + startTime);
   let dtEnd: any = new Date(d + ' ' + endTime);
   let difference = dtEnd - dtStart;
+  console.log('street in form', street);
 
   const [starMark, setstarMark] = useState<boolean>(false);
   // Custom function to handle react select fields
@@ -169,12 +171,16 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       ? careInstitutionTimesOptions
       : ShiftTime;
 
-      let dateCondition: any 
-if(activeDateCareinstitution && activeDateCareinstitution.length && activeDateCareinstitution[0]){
-  let now = moment().format(dbAcceptableFormat);
-   let  input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
-   dateCondition =  now <= input;
-}
+  let dateCondition: any;
+  if (
+    activeDateCareinstitution &&
+    activeDateCareinstitution.length &&
+    activeDateCareinstitution[0]
+  ) {
+    let now = moment().format(dbAcceptableFormat);
+    let input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
+    dateCondition = now <= input;
+  }
   return (
     <>
       <div className='form-section '>
@@ -545,7 +551,10 @@ if(activeDateCareinstitution && activeDateCareinstitution.length && activeDateCa
                 </Row>
               </FormGroup>
             </Col> */}
-
+            {console.log(
+              'careInstitutionDepartment',
+              careInstitutionDepartment
+            )}
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
@@ -602,7 +611,7 @@ if(activeDateCareinstitution && activeDateCareinstitution.length && activeDateCa
                         name={'address'}
                         disabled={true}
                         placeholder={languageTranslation('ADDRESS')}
-                        value={address ? address : ''}
+                        value={!department ? street : address ? address : ''}
                         className='textarea-custom form-control'
                         rows='2'
                       />
@@ -846,7 +855,9 @@ if(activeDateCareinstitution && activeDateCareinstitution.length && activeDateCa
                   className='btn-save'
                   color='primary'
                   onClick={handleSubmit}
-                  disabled={addCareinstLoading ? true : !dateCondition ? true : false}
+                  disabled={
+                    addCareinstLoading ? true : !dateCondition ? true : false
+                  }
                 >
                   {addCareinstLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />

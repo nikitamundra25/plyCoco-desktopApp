@@ -332,7 +332,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 const {
                   item = {},
                   firstName = '',
-                  lastName = ''
+                  lastName = '',
+                  name=''
                 } = element;
                 const { appointments = [], division = {} } = item;
                 if (appointments && appointments.length) {
@@ -343,7 +344,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   if (ca) {
                     let divisionData: string = division
                       ? division.name
-                      : `${firstName}${' '}${lastName}`;
+                      : name;
                     apointedCareGiver.push({
                       caregivername: ca && ca.name ? ca.name : 'caregiver',
                       date: date,
@@ -397,7 +398,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 const {
                   item = {},
                   firstName = '',
-                  lastName = ''
+                  lastName = '',
+                  name=''
                 } = element;
                 isLeasing = element.isLeasing;
                 const { appointments = [], division = {} } = item;
@@ -409,7 +411,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   if (ca) {
                     let divisionData: string = division
                       ? division.name
-                      : `${firstName}${' '}${lastName}`;
+                      : name;
                     apointedCareGiver.push({
                       caregivername: ca && ca.name ? ca.name : 'caregiver',
                       date: date,
@@ -569,9 +571,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           !props.unlinkedBy
         ) {
           // const { subject, body, attachments } = emailData;
-          const editorState = body ? HtmlToDraftConverter('<span>we have just sent your request to all suitable nursing staff.<br /><br /><span> We will inform you immediately as soon as a nurse reports it.</span>') : '';
           setSubject('Acknowledge for offer sent');
-          setBody(editorState);
+          setBody(HtmlToDraftConverter('<span>we have just sent your request to all suitable nursing staff.<br /><br /><span> We will inform you immediately as soon as a nurse reports it.</span>'));
           // setAttachments(
           //   attachments
           //     ? attachments.map(
@@ -1147,7 +1148,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
-              {!temporaryWorkerPdf && confirmAppointment && pdfAppointmentDetails && pdfAppointmentDetails.length > 0 ? (
+              {isLeasingRequirement && !temporaryWorkerPdf && confirmAppointment && pdfAppointmentDetails && pdfAppointmentDetails.length > 0 ? (
                   <PDFDownloadLink
                     document={
                       <ConfirmAppointmentPdf

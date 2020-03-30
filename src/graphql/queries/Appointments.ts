@@ -79,6 +79,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
               qualificationId
               startTime
               endTime
+              isLeasing
               division {
                 id
                 name

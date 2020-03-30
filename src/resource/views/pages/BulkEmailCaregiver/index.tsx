@@ -172,7 +172,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
       }
-      if (userId) {
+      if (userId && (terminateAggrement || leasingContract)) {
         getCareGiverSignature({
           variables: { userId: parseInt(userId) }
         });
@@ -192,11 +192,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     }
   }, [uploadedSignature]);
 
-  // To fetch users according to qualification selected
+  // To fetch users according to qualification selected in case of offer caregiver to care institution
   useEffect(() => {
     console.log("in label useEffecttttt", label);
-    
-    if (props.label === "appointment") {
+    if (props.label === "appointment" && props.offerCareGiver) {
       let temp: any = [];
 
       if (props.qualification && props.qualification.length) {
@@ -222,6 +221,23 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           lte: props.lte
         }
       });
+    }else{
+      let temp:any = []
+      console.log(temp, selectedCells,'selectedCells in setStae');
+      
+      selectedCells.map((cell: any) => {
+        const {firstName='', lastName='', email='', id=''} = cell ? cell : {}
+        if (temp.findIndex((item:any) => item.id === id) < 0) {
+          console.log("in ifffff");
+          
+          temp.push({
+            firstName, lastName, email, id
+          })          
+        }
+      });
+      console.log(temp,'temp');
+      
+      setcareGiverData(temp);
     }
   }, [label]);
 
@@ -285,6 +301,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("EMAIL_SENT_SUCCESS"));
       }
+      // In case of modal popup
+      if(props.handleClose)
       props.handleClose();
       setSubject("");
       setBody(undefined);
@@ -323,48 +341,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   useEffect(() => {
     let list: any = [...careGiverData];
-    if (selectedCells && (props.confirmApp || offerRequirements)) {
-      if (selectedCells && selectedCells.length) {
-        selectedCells.map((key: any) => {
-          if (list && list.length) {
-            if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
-              return (list = [...list, key]);
-            }
-          } else {
-            return (list = [...list, key]);
-          }
-        });
-        setcareGiverData(list);
-      }
-    } else if (selectedCells && props.unlinkedBy) {
-      console.log("lllllllll", selectedCells);
-
-      if (selectedCells && selectedCells.length) {
-        selectedCells.map((key: any) => {
-          if (list && list.length) {
-            if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
-              return (list = [...list, key]);
-            }
-          } else {
-            return (list = [...list, key]);
-          }
-        });
-        setcareGiverData(list);
-      }
-    } else if (selectedCells && terminateAggrement) {
-      if (selectedCells && selectedCells.length) {
-        selectedCells.map((key: any) => {
-          if (list && list.length) {
-            if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
-              return (list = [...list, key]);
-            }
-          } else {
-            return (list = [...list, key]);
-          }
-        });
-        setcareGiverData(list);
-      }
-    } else {
+    if (props.offerCareGiver) {
       if (careGiversList) {
         const { getUserByQualifications } = careGiversList;
         const { result } = getUserByQualifications;
@@ -383,6 +360,66 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       }
     }
+    // if (selectedCells && (props.confirmApp || offerRequirements)) {
+    //   if (selectedCells && selectedCells.length) {
+    //     selectedCells.map((key: any) => {
+    //       if (list && list.length) {
+    //         if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
+    //           return (list = [...list, key]);
+    //         }
+    //       } else {
+    //         return (list = [...list, key]);
+    //       }
+    //     });
+    //     setcareGiverData(list);
+    //   }
+    // } else if (selectedCells && props.unlinkedBy) {
+    //   console.log("lllllllll", selectedCells);
+
+    //   if (selectedCells && selectedCells.length) {
+    //     selectedCells.map((key: any) => {
+    //       if (list && list.length) {
+    //         if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
+    //           return (list = [...list, key]);
+    //         }
+    //       } else {
+    //         return (list = [...list, key]);
+    //       }
+    //     });
+    //     setcareGiverData(list);
+    //   }
+    // } else if (selectedCells && terminateAggrement) {
+    //   if (selectedCells && selectedCells.length) {
+    //     selectedCells.map((key: any) => {
+    //       if (list && list.length) {
+    //         if (list.findIndex((item: any) => item && item.id === key.id) < 0) {
+    //           return (list = [...list, key]);
+    //         }
+    //       } else {
+    //         return (list = [...list, key]);
+    //       }
+    //     });
+    //     setcareGiverData(list);
+    //   }
+    // } else {
+    //   if (careGiversList) {
+    //     const { getUserByQualifications } = careGiversList;
+    //     const { result } = getUserByQualifications;
+    //     if (result && result.length) {
+    //       result.map((key: any) => {
+    //         return (list = [...list, key]);
+    //       });
+    //     }
+    //     setcareGiverData(list);
+    //     let selectedId: any = [];
+    //     if (bulkcareGivers) {
+    //       list.map((key: any) => {
+    //         return (selectedId = [...selectedId, parseInt(key.id)]);
+    //       });
+    //       setselectedCareGiver(selectedId);
+    //     }
+    //   }
+    // }
   }, [careGiversList]);
 
   useEffect(() => {
@@ -758,6 +795,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         // }
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : "";
+        console.log(editorState,'editorStateeditorState');
+        
         setSubject(customSub);
         setBody(editorState);
       } else {
@@ -1942,10 +1981,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   }
                   handleSelectAll={handleSelectAll}
                   called={
-                    props.label !== "appointment" ? called : careGiverListCalled
+                    props.label !== "appointment" ? called : props.offerCareGiver ? careGiverListCalled : true
                   }
                   loading={
-                    props.label !== "appointment" ? loading : caregiverLoading
+                    props.label !== "appointment" ? loading : props.offerCareGiver ? caregiverLoading : false
                   }
                   careGiverData={careGiverData}
                   selectedCareGiver={selectedCareGiver}

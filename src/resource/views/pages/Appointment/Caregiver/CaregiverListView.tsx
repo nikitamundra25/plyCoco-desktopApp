@@ -410,7 +410,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     });
   }
-  console.log('offerRequirements', offerRequirements);
+
+  // To check appointment with leasing careInst or not
+  let isLeasingAppointment = false;
+  if (selectedCells && selectedCells.length) {
+    isLeasingAppointment = selectedCells.filter((cell:any) => cell && cell.item && cell.item.appointments && cell.item.appointments.length && cell.item.appointments[0].cr && cell.item.appointments[0].cr.isLeasing).length ? true: false
+  }
+  console.log(isLeasingAppointment,'isLeasingAppointment');
+  
   return (
     <div>
       <div
@@ -511,13 +518,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={
-                selectedCells
-                  ? selectedCells.length === 0 ||
-                    (offferAll && offferAll.length !== 0) ||
-                    (checkQuali && checkQuali.length === 0)
-                  : true
-              }
+              // disabled={
+              //   selectedCells
+              //     ? selectedCells.length === 0 ||
+              //       (offferAll && offferAll.length !== 0) ||
+              //       (checkQuali && checkQuali.length === 0)
+              //     : true
+              // }
               onClick={() => {
                 setopenToggleMenu(false);
                 setOfferRequirements(true);
@@ -571,7 +578,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (disconnectAppCond && disconnectAppCond.length !== 0)
+                    (disconnectAppCond && disconnectAppCond.length !== 0) || isLeasingAppointment
                   : true
               }
               onClick={() => {
@@ -591,7 +598,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 selectedCells
                   ? selectedCells.length === 0 ||
                     (selectedCells[0].item &&
-                      selectedCells[0].item.status !== 'linked')
+                      selectedCells[0].item.status !== 'linked') || isLeasingAppointment
                   : true
               }
             >
@@ -613,7 +620,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 selectedCells
                   ? selectedCells.length === 0 ||
                     (selectedCells[0].item &&
-                      selectedCells[0].item.status !== 'confirmed')
+                      selectedCells[0].item.status !== 'confirmed') || isLeasingAppointment
                   : true
               }
             >
@@ -635,7 +642,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               selectedCells && selectedCells.length
                 ? selectedCells.filter(
                     (availability: any) =>
-                      (availability && !availability.item) ||
+                      (availability && !availability.item) || !isLeasingAppointment ||
                       (availability.item && availability.item.appointments && availability.item.appointments.length &&
                         availability.item.appointments[0] && availability.item.appointments[0].cr && availability.item.appointments[0].cr.status !== 'confirmed')
                   ).length
@@ -662,7 +669,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={selectedCells ? selectedCells.length === 0 || !isLeasingAppointment: true}
               onClick={() => {
                 // onTerminateAggrement();
                 setopenToggleMenu(false);

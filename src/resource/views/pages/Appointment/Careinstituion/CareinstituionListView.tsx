@@ -67,19 +67,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCells,
     onLinkAppointment,
     onDeleteEntries,
-    setOnConfirmedCareInst,
-    setOnNotConfirmedCareInst,
-    setOnOfferedCareInst,
     handleSelectedAppoitment,
-    setOnNotOfferedCareInst,
     onNewRequirement,
     showSelectedCaregiver,
     totalCareinstituion,
     getMoreCareInstituionList,
+    updateCareInstitutionStatus,
     locationState
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
-
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   //use state for toggel menu item
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
@@ -99,7 +95,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       selectedRows = selectedCells.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
         const { item, list: careInstData, day } = cellProps;
-
         const {
           userId = '',
           id = '',
@@ -142,7 +137,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           caregiver,
           canstitution,
           dept: { id: deptId, name },
-          item: temp && temp.qualificationId && temp.qualificationId ? temp : item,
+          item:
+            temp && temp.qualificationId && temp.qualificationId ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : '',
           divisions,
@@ -554,7 +550,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       }
     });
   }
-    
+
   return (
     <>
       <div
@@ -676,7 +672,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail('division', true);
                   handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
-                  setOnOfferedCareInst();
+                  updateCareInstitutionStatus('offered');
+                  // setOnOfferedCareInst();
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -773,7 +770,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <span
                   onClick={() => {
                     handleRightMenuToggle();
-                    setOnOfferedCareInst();
+                    updateCareInstitutionStatus('offered');
                   }}
                 >
                   Set on offered
@@ -795,7 +792,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <span
                   onClick={() => {
                     handleRightMenuToggle();
-                    setOnNotOfferedCareInst();
+                    updateCareInstitutionStatus('notoffered');
                   }}
                 >
                   Reset offered
@@ -899,7 +896,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
                   handleRightMenuToggle();
-                  setOnConfirmedCareInst();
+                  updateCareInstitutionStatus('confirmed');
+                  // updateCareInstitutionStatus('confirmed');
                   setSortBy('day');
                   setConfirmAppointment(true);
                 }}
@@ -922,7 +920,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
                   handleRightMenuToggle();
-                  setOnConfirmedCareInst();
+                  updateCareInstitutionStatus('confirmed');
                   setSortBy('division');
                   setConfirmAppointment(true);
                 }}
@@ -950,7 +948,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <span
                   onClick={() => {
                     handleRightMenuToggle();
-                    setOnConfirmedCareInst();
+                    updateCareInstitutionStatus('confirmed');
                   }}
                 >
                   Set on confirmed
@@ -976,8 +974,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 <span
                   onClick={() => {
                     handleRightMenuToggle();
-
-                    setOnNotConfirmedCareInst();
+                    updateCareInstitutionStatus('notconfirm');
                   }}
                 >
                   Reset confirmed

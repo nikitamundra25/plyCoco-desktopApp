@@ -60,15 +60,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onCaregiverQualificationFilter,
     selectedCellsCareinstitution,
     onLinkAppointment,
-    setOnConfirmedCaregiver,
-    setOnNotConfirmedCaregiver,
     onNewAvailability,
     totalCaregiver,
     getNext,
     qualificationList,
     locationState,
     onTerminateAggrement,
-    careinstitutionSoloFilter
+    careinstitutionSoloFilter,
+    updateCaregiverStatus
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -201,19 +200,25 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           toastId = toast.error('Please select same length cells');
         }
       } else {
-        if(selectedCells[0].caregiver && selectedCells[0].caregiver.attributes && selectedCells[0].caregiver.attributes.length){
-          let checkAttribute =  selectedCells[0].caregiver.attributes.includes(8)
-          if(checkAttribute){
-           const { value } = await ConfirmBox({
-             title: languageTranslation('ATTRIBUTE_WARNING'),
-             text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
-           })
-           if (!value) {
-            checkError = true;
-             return;
-           }
+        if (
+          selectedCells[0].caregiver &&
+          selectedCells[0].caregiver.attributes &&
+          selectedCells[0].caregiver.attributes.length
+        ) {
+          let checkAttribute = selectedCells[0].caregiver.attributes.includes(
+            8
+          );
+          if (checkAttribute) {
+            const { value } = await ConfirmBox({
+              title: languageTranslation('ATTRIBUTE_WARNING'),
+              text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
+            });
+            if (!value) {
+              checkError = true;
+              return;
+            }
           }
-         }
+        }
         let qualiCheck: any[] = [];
         selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
@@ -284,6 +289,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const handleUnlinkData = (likedBy: string, check: boolean) => {
     setunlinkedBy(likedBy);
     let appointmentId: any = [];
+
     if (selectedCells && selectedCells.length) {
       selectedCells.map((key: any, index: number) => {
         if (key.item && key.item.appointments && key.item.appointments.length) {
@@ -393,14 +399,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     });
   }
-// to check if the careinst is leasing
+  // to check if the careinst is leasing
   let checkLeasing: any = 1;
   if (selectedCells && selectedCells.length) {
     selectedCells.filter((x: any) => {
       if (x.item && x.item.appointments) {
         x.item.appointments.map((st: any) => {
-          console.log('st.cr', st.cr && st.cr.status);
-          return (checkLeasing = st.cr.status);
+          return (checkLeasing = st && st.cr && st.cr.status);
         });
       }
     });
@@ -570,11 +575,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   : true
               }
               onClick={() => {
-                setOnConfirmedCaregiver();
+                updateCaregiverStatus('confirmed');
                 setconfirmApp(true);
                 setopenToggleMenu(false);
                 handleCareGiverBulkEmail();
-                setOnConfirmedCaregiver();
               }}
             >
               <img src={confirm_appointment} className='mr-2' alt='' />
@@ -596,7 +600,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 className='align-middle'
                 onClick={() => {
                   setopenToggleMenu(false);
-                  setOnConfirmedCaregiver();
+                  updateCaregiverStatus('confirmed');
                 }}
               >
                 Set on confirmed
@@ -618,7 +622,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 className='align-middle'
                 onClick={() => {
                   setopenToggleMenu(false);
-                  setOnNotConfirmedCaregiver();
+                  updateCaregiverStatus('notconfirmed');
                 }}
               >
                 Set on not confirmed

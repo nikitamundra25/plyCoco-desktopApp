@@ -2643,8 +2643,6 @@ const Appointment: FunctionComponent = (props: any) => {
             key.qualificationIds.includes(e.value)
           );
         }
-
-
         if (qualiCheck && qualiCheck.length <= 0) {
           if (!toast.isActive(toastId)) {
             toastId = toast.warn(languageTranslation("QUALIFICATION_UNMATCH"));
@@ -3137,8 +3135,8 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  const isUnLinkable =
-    item &&
+  const isUnLinkable : boolean =
+      item &&
       item.appointments &&
       item.appointments.length &&
       Item &&
@@ -3148,6 +3146,16 @@ const Appointment: FunctionComponent = (props: any) => {
       Item.appointments[0] &&
       Item.appointments[0].id &&
       item.appointments[0].id === Item.appointments[0].id
+      ? true
+      : false;
+
+      const isLinkable: boolean =  
+      item !== undefined &&
+      item.id &&
+      item.status==="default" &&
+      Item &&
+      Item.id &&
+       Item.status==="default" || Item.status === "offered " 
       ? true
       : false;
 
@@ -3413,9 +3421,7 @@ const Appointment: FunctionComponent = (props: any) => {
                           className="btn-common mt-0 mb-2 mx-2"
                           color="secondary"
                           disabled={
-                            selectedCells !== undefined && !isCareinstituionData
-                              ? false
-                              : true
+                            isUnLinkable ? false: isLinkable ? false: true
                           }
                           onClick={() =>
                             isUnLinkable ? handleUnlinkBoth() : handleLinkBoth()

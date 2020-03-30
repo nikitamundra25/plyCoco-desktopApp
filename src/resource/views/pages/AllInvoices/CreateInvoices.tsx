@@ -11,7 +11,8 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Nav
+  Nav,
+  UncontrolledTooltip
 } from "reactstrap";
 import Select from "react-select";
 import DayPickerInput from "react-day-picker/DayPickerInput";
@@ -231,6 +232,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                       <th className="price-col">{languageTranslation("TOTAL")}</th>
                       <th className="price-col">{languageTranslation("COMMISSION")}</th>
                       <th className="price-col">{languageTranslation("TOTAL")}</th>
+                      <th className={'text-center action-col'}>
+                      {languageTranslation('TABEL_HEAD_CG_ACTION')}
+                    </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -268,6 +272,30 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                       <td className="price-col">384.00 &euro;</td>
                       <td className="price-col">384.00 &euro;</td>
                       <td className="price-col">34584.00 &euro;</td>
+                      <td className="action-col">
+                      <div className="action-btn">
+                      <span className="btn-icon mr-2" id={`viewcaregiver`}>
+                        <UncontrolledTooltip placement="top" target={`viewcaregiver`}>
+                          View Caregiver Profile
+                        </UncontrolledTooltip>
+                        <i className="fa fa-eye"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`viewcareinstitution`}>
+                        <UncontrolledTooltip placement="top" target={`viewcareinstitution`}>
+                          View Care Institution Profile
+                        </UncontrolledTooltip>
+                        <i className="fa fa-eye"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`appointmentdetails`}>
+                        <UncontrolledTooltip placement="top" target={`appointmentdetails`}>
+                         Show Appointment Details
+                        </UncontrolledTooltip>
+                        <i className="fa fa-calendar"></i>
+                      </span>
+                      
+                      
+                    </div>
+                  </td>
                     </tr>
                   </tbody>
                 </Table>

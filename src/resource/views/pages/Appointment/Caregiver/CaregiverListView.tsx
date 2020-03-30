@@ -680,7 +680,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             className='calender-section custom-scrollbar caregiver-appointment-list'
             id='scrollableDiv-1'
           >
-            <SelectableGroup
+            {/* <SelectableGroup
               allowClickWithoutSelected
               className='custom-row-selector'
               clickClassName='tick'
@@ -722,7 +722,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         </div>
                       </div>
                     </th>
-                    {/* array for showing day */}
+                    
                     {daysArr.map(
                       (
                         { date, day, isWeekend, today }: IDaysArray,
@@ -777,14 +777,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div className='all-star-wrap'>
                                     <div
                                       className='text-capitalize one-line-text  username-col name-text'
-                                      // onClick={() =>
-                                      //   history.push(
-                                      //     AppRoutes.CARE_GIVER_VIEW.replace(
-                                      //       ':id',
-                                      //       list.id
-                                      //     )
-                                      //   )
-                                      // }
+                                      
 
                                       style={{
                                         backgroundColor: !list.isActive
@@ -913,7 +906,429 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   )}
                 </tbody>
               </Table>
-            </SelectableGroup>
+            </SelectableGroup> */}
+            
+<div
+            className='calender-section custom-scrollbar caregiver-appointment-list'
+            id='scrollableDiv-1'
+          >
+            
+                    <div className="custom-appointment-calendar">
+                      <div className="custom-appointment-calendar-head">
+                        <div className="custom-appointment-row ">
+                        <div className='thead-sticky name-col custom-appointment-col '>
+                          <div className='all-star-wrap'>
+                            <div className='position-relative username-col align-self-center'>
+                              <div className='calender-heading'>Caregiver</div>
+                              <Button
+                               
+                                className='btn-more d-flex align-items-center justify-content-center'
+                              >
+                                <i className='icon-options-vertical' />
+                              </Button>
+                            </div>
+
+                            <div className='thead-sticky h-col custom-appointment-col text-center'>
+                              H
+                            </div>
+                            <div className='thead-sticky s-col custom-appointment-col text-center'>
+                              S
+                            </div>
+                            <div className='thead-sticky u-col custom-appointment-col text-center'>
+                              U
+                            </div>
+                            <div className='thead-sticky v-col custom-appointment-col text-center'>
+                              V
+                            </div>
+                          </div>
+                        </div>
+                         
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              1
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              SUN
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              2
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              MON
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              3
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              TUE
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              4
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              WED
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              5
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              THU
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              6
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              Fri
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              7
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              SAT
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              8
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              SUN
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              9
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              MON
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              10
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              TUE
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              11
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              WED
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              12
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              THU
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              13
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              FRI
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              14
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              SAT
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              15
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              SUN
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              16
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              MON
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              17
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              TUE
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              18
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              WED
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              19
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              THU
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              20
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              FRI
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              21
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              SAT
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              22
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              SUN
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              23
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              MON
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              24
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              TUE
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              25
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              WED
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              26
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              THU
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              27
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              FRI
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              28
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              SAT
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              29
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              SUN
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              30
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              MON
+                            </div>
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            <div className="custom-appointment-calendar-date">
+                              31
+                            </div>
+                            <div className="custom-appointment-calendar-day">
+                              TUE
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="custom-appointment-calendar-body">
+                        <div className="custom-appointment-row">
+                        
+                                <div className='name-col custom-appointment-col thead-sticky'>
+                                  <div className='all-star-wrap'>
+                                    <div
+                                     
+                                      
+                                    >
+                                     
+                                        john doe
+                                      
+                                    </div>
+                                    <div className='h-col custom-appointment-col text-center'></div>
+                                    <div
+                                      className='s-col custom-appointment-col text-center cursor-pointer'
+                                      
+                                    >
+                                      
+                                        <i className='fa fa-star-o' />
+                                      
+                                    </div>
+                                    <div
+                                      className='u-col custom-appointment-col text-center cursor-pointer'
+                                      >
+                                        <i className='fa fa-star-o' />
+                                      
+                                    </div>
+                                    <div
+                                      className='v-col custom-appointment-col text-center cursor-pointer'
+                                      
+                                    >
+                                      <i className='fa fa-arrow-down' />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                           
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                           
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                           
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                           
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                           
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          <div className="custom-appointment-col calender-col text-center">
+                            
+                          </div>
+                          </div>
+                          </div>
+                          </div>
+                          
+            
+          </div>
           </div>
         </InfiniteScroll>
       </div>

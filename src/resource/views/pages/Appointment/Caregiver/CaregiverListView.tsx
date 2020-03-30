@@ -190,19 +190,25 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           toastId = toast.error('Please select same length cells');
         }
       } else {
-        if(selectedCells[0].caregiver && selectedCells[0].caregiver.attributes && selectedCells[0].caregiver.attributes.length){
-          let checkAttribute =  selectedCells[0].caregiver.attributes.includes(8)
-          if(checkAttribute){
-           const { value } = await ConfirmBox({
-             title: languageTranslation('ATTRIBUTE_WARNING'),
-             text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
-           })
-           if (!value) {
-            checkError = true;
-             return;
-           }
+        if (
+          selectedCells[0].caregiver &&
+          selectedCells[0].caregiver.attributes &&
+          selectedCells[0].caregiver.attributes.length
+        ) {
+          let checkAttribute = selectedCells[0].caregiver.attributes.includes(
+            8
+          );
+          if (checkAttribute) {
+            const { value } = await ConfirmBox({
+              title: languageTranslation('ATTRIBUTE_WARNING'),
+              text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
+            });
+            if (!value) {
+              checkError = true;
+              return;
+            }
           }
-         }
+        }
         let qualiCheck: any[] = [];
         selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
@@ -273,7 +279,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const handleUnlinkData = (likedBy: string, check: boolean) => {
     setunlinkedBy(likedBy);
     let appointmentId: any = [];
-    
+
     if (selectedCells && selectedCells.length) {
       selectedCells.map((key: any, index: number) => {
         if (key.item && key.item.appointments && key.item.appointments.length) {

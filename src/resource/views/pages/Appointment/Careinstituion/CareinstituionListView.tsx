@@ -67,8 +67,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     selectedCells,
     onLinkAppointment,
     onDeleteEntries,
-    setOnConfirmedCareInst,
-    setOnOfferedCareInst,
     handleSelectedAppoitment,
     onNewRequirement,
     showSelectedCaregiver,
@@ -674,7 +672,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareGiverBulkEmail('division', true);
                   handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
-                  setOnOfferedCareInst();
+                  updateCareInstitutionStatus('offered');
+                  // setOnOfferedCareInst();
                 }}
               >
                 <img src={offer_sent} className='mr-2' alt='' />
@@ -897,7 +896,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
                   handleRightMenuToggle();
-                  setOnConfirmedCareInst();
+                  updateCareInstitutionStatus('confirmed');
+                  // updateCareInstitutionStatus('confirmed');
                   setSortBy('day');
                   setConfirmAppointment(true);
                 }}
@@ -920,7 +920,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   handleCareInstitutionBulkEmail();
                   setStatusTo('confirmed');
                   handleRightMenuToggle();
-                  setOnConfirmedCareInst();
+                  updateCareInstitutionStatus('confirmed');
                   setSortBy('division');
                   setConfirmAppointment(true);
                 }}

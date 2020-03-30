@@ -170,7 +170,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                 </div>
               </Col>
               {['positive', 'negative'].map
-                ((type: string, i: number) => <Col md={4} className='px-md-0' key={i}>
+                ((type: string, i: number) => <Col md={4}  className={type === "positive" ? "px-md-0" : ' '}  key={i}>
                   <div className='common-list-wrap'>
                     <div className='common-list-header d-flex align-items-cente justify-content-between'>
                       <div className='common-list-title align-middle'>

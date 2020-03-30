@@ -40,6 +40,7 @@
   "OTHER_INFORMATION": " Other Information",
   "REQUIRED_FIELDS": "* Required Fields",
   "REQUIRED_FIELD": "* Required Field",
+  "EMPLOYEE_PERSONAL_DETAILS": "Employee Personal Details",
   "BANK_ACCOUNT_INFORMATION": "Bank Account Information",
   "SAVE_BUTTON": "Save",
   "ADD_MORE_BUTTON": "Add More",
@@ -966,6 +967,9 @@
   "UNPAID":"Unpaid",
   "SEPA":"SEPA",
   "OPENFILE":"Open",
+  "CREATE": "Create",
+  "TIMELY_COMPLETELY" :"Times Completely",
+  "CREATE_ALL_CAREGIVER" : "Create all Caregiver",
   "LINKED_ATTRIBUTE_WARNING": "This care giver contains negative entry in good conduct certificate",
   "ATTRIBUTE_WARNING": "Are you sure you want to linked with this?"
 }

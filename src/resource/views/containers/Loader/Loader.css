@@ -152,4 +152,16 @@
 .global-calendar-table-loader {
   position: relative;
   height: 150px;
+      position: absolute;
+    height: 100%;
+    z-index: 1;
+    top: 0px;
+    left: 0px;
+    /* transform: translate(-50%, -50%); */
+    background: #ddd;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height:200px;
 }

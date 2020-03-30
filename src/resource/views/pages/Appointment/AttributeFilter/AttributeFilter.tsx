@@ -18,6 +18,7 @@ import closehover from '../../../../assets/img/cancel-hover.svg';
 import filter from '../../../../assets/img/filter.svg';
 import { IAttributeFilterPage, ICollapseState } from '../../../../../interfaces';
 import AddPreset from './AddPreset';
+import Loader from '../../../containers/Loader/Loader';
 
 const AttributeFilterPage = (props: IAttributeFilterPage) => {
   const [categoryCollapse, setCatCollapse] = useState<ICollapseState[]>([])
@@ -48,6 +49,8 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
     OnPresetClick,
     activePreset,
     addPresetLoading,
+    presetListLoading,
+    listLoading,
     setActivePreset
   } = props;
   const { getCaregiverAtrributeWithCategory = [] } = attributeData ? attributeData : {}
@@ -124,6 +127,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                     </div>
                   </div>
                   <div className='common-list-body custom-scrollbar'>
+                    {presetListLoading ? <Loader /> :
                     <ul className='common-list list-unstyled mb-0'>
                       {presetList && presetList.getPresetAttribute
                         ? presetList.getPresetAttribute.map(
@@ -161,7 +165,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                           }
                         )
                         : null}
-                    </ul>
+                    </ul>}
                   </div>
                 </div>
               </Col>
@@ -219,7 +223,8 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                     </div>
 
                     <div className='common-list-body custom-scrollbar'>
-                      {getCaregiverAtrributeWithCategory && getCaregiverAtrributeWithCategory.length ?
+                      {listLoading ? <Loader /> :
+                      getCaregiverAtrributeWithCategory && getCaregiverAtrributeWithCategory.length ?
                         getCaregiverAtrributeWithCategory.map((category: any, index: number) => {
                           const filteredData: ICollapseState | undefined = categoryCollapse.filter((cat: ICollapseState) => cat.id === category.id)[0]
                           const collapse: boolean = filteredData ? type === 'positive' ? filteredData.isPositive : filteredData.isNegative : false

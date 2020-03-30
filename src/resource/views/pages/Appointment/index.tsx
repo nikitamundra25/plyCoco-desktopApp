@@ -68,7 +68,7 @@ const [, ,
   ,
   ,
   , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
-  
+
 const [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
@@ -3135,8 +3135,8 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  const isUnLinkable : boolean =
-      item &&
+  const isUnLinkable: boolean =
+    item &&
       item.appointments &&
       item.appointments.length &&
       Item &&
@@ -3149,13 +3149,13 @@ const Appointment: FunctionComponent = (props: any) => {
       ? true
       : false;
 
-      const isLinkable: boolean =  
-      item !== undefined &&
+  const isLinkable: boolean =
+    item !== undefined &&
       item.id &&
-      item.status==="default" &&
+      item.status === "default" &&
       Item &&
       Item.id &&
-       Item.status==="default" || Item.status === "offered " 
+      Item.status === "default" || Item.status === "offered "
       ? true
       : false;
 
@@ -3170,6 +3170,9 @@ const Appointment: FunctionComponent = (props: any) => {
       }
     });
   }
+  console.log("+++++++++++Selected cells", selectedCells && selectedCells.length ? new Date(selectedCells[0].dateString) >= new Date() : null)
+  console.log("New Date", new Date())
+  console.log("+++++++++++Selected Date", selectedCells && selectedCells.length ? new Date(selectedCells[0].dateString) : null)
   return (
     <>
       <div className="common-detail-page">
@@ -3402,13 +3405,14 @@ const Appointment: FunctionComponent = (props: any) => {
                         }}
                       />
                     </Col>
+
                     <Col lg={"12"}>
                       <div className="d-flex align-items-center justify-content-center">
                         <Button
                           className="btn-common  mt-0 mb-2 mx-2"
                           color="primary"
                           disabled={
-                            selectedCells !== undefined && !isCareinstituionData
+                            selectedCells !== undefined && !isCareinstituionData && new Date(selectedCells[0].dateString) >= new Date() && new Date(selectedCellsCareinstitution && selectedCellsCareinstitution.length ? selectedCellsCareinstitution[0].dateString : "") >= new Date()
                               ? false
                               : true
                           }
@@ -3421,7 +3425,7 @@ const Appointment: FunctionComponent = (props: any) => {
                           className="btn-common mt-0 mb-2 mx-2"
                           color="secondary"
                           disabled={
-                            isUnLinkable ? false: isLinkable ? false: true
+                            isUnLinkable ? false : isLinkable ? false : true
                           }
                           onClick={() =>
                             isUnLinkable ? handleUnlinkBoth() : handleLinkBoth()

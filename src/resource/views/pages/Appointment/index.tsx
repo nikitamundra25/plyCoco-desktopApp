@@ -2376,7 +2376,8 @@ const Appointment: FunctionComponent = (props: any) => {
         ];
 
         selectedCellsCareinstitution.forEach(async (element: any) => {
-          const { id = '', dateString = '' } = element ? element : {};
+          const { id = '', dateString = '', canstitution={} } = element ? element : {};
+          const {attributes=[]} = canstitution ? canstitution : {}
 
           let careInstitutionRequirementInput: ICareinstitutionFormSubmitValue = {
             userId: id ? parseInt(id) : 0,
@@ -2403,14 +2404,17 @@ const Appointment: FunctionComponent = (props: any) => {
             f: fvar,
             s: svar,
             n: nvar,
-            status: status ? status : 'default'
+            status: status ? status : 'default', 
+            isLeasing:attributes.includes(
+              CareInstTIMyoCYAttrId
+            )
           };
 
           if (appointmentId) {
             await updateCareinstitutionRequirment({
               variables: {
                 id: parseInt(appointmentId),
-                careInstitutionRequirementInput
+                careInstitutionRequirementInput,
               }
             });
             setsavingBoth(false);

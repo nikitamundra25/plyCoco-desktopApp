@@ -44,6 +44,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import LeasingContactPdf from './PDF/LeasingContactPdf';
 import TerminationAgreementPdf from './PDF/TerminationAgreementPdf';
 import './index.scss';
+import { emailContent } from '../../../../common';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [, , , , , , GET_CAREGIVERS_FOR_BULK_EMAIL] = CareGiverQueries;
@@ -72,7 +73,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     leasingContract,
     qualificationList,
     terminateAggrement,
-    showButton
+    showButton,
+    mailEvent,
+    label
   } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const [signatureData, setSignatureData] = useState<any>();
@@ -115,7 +118,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   const [generateLeasingContractLinkToken,{data:tokenData,loading:sending}] = useMutation<any, {
       userId:number,
       appointmentId:number[],
-      availabilityId:number[]
+      availabilityId:number[],
+      status:string,
     }>(GENERATE_LEASING_CONTRACT_LINK_TOKEN)
 
   // Query to get uploaded signature
@@ -161,7 +165,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     if (selectedCells && selectedCells.length) {
       let userId = selectedCells[0].id;
       const { qualificationIds = [] } = selectedCells[0];
-      if (qualificationIds && qualificationIds.length) {
+      if (qualificationIds && qualificationIds.length && offerRequirements) {
         fetchRequirmentFromQualification({
           variables: {
             qualificationId: qualificationIds
@@ -190,6 +194,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   // To fetch users according to qualification selected
   useEffect(() => {
+    console.log("in label useEffecttttt", label);
+    
     if (props.label === "appointment") {
       let temp: any = [];
     
@@ -217,7 +223,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       });
     }
-  }, [props.label === 'appointment']);
+  }, [label]);
 
   // To get all the types of email template
   // const { data: typeList } = useQuery(GET_EMAIL_TEMPLATE_TYEPS);
@@ -534,6 +540,64 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   },[tokenData])
   //Use Effect for email template data
   useEffect(() => {
+    console.log(props,'props');
+    
+    // let emailTemplate:any = emailContent.filter((item:any) => item.label === mailEvent)[0];
+    // let isLeasing:boolean = selectedCellsCareinstitution[0].isLeasing;
+    // if (isLeasing) {
+    //   emailTemplate = emailContent.filter((item:any) => item.label === 'offerCaregiverForLeasing')[0];
+    // }
+    // let {subject:mailSub='', body:mailBody=''} = emailTemplate ? emailTemplate : {};
+    // // Filter cells to remove free entries
+    // let cells:any[] = selectedCellsCareinstitution.map((cell:any) => cell.item).filter((i:any) => i.id).sort((a:any, b:any) => new Date(a.date).valueOf() - new Date(b.date).valueOf())
+    // if (props.sortBy === 'division') {
+    //   cells = selectedCellsCareinstitution.map((cell:any) => cell.item).filter((i:any) => i.id).sort((a:any, b:any) => { 
+    //     console.log(a, b, 'ab');
+    //     let aname = a.division ? a.division.name : a.name, bname = b.division ? b.division.name : b.name; return aname.localeCompare(bname)})
+    // }
+    // let startDate:string = '', endDate:string = '',requirementDetails:string='', remarks:string[] = [], deptDetails:string[] = [], qualifications:string[] = [];
+    // cells.forEach((item:any, index:number) => {
+    //   // const {item} = cell;
+    //   const {address='', name='',startTime='', endTime='', division={}, date='',departmentOfferRemarks='',qualificationId=[] } = item ? item :{};
+    //   let shiftLabel:string =
+    //     startTime === '06:00'
+    //       ? 'FD'
+    //       : startTime === '14:00'
+    //         ? 'SD'
+    //         : 'ND';
+    //   let duration = moment
+    //   .utc(
+    //     moment(endTime, 'HH:mm').diff(
+    //       moment(startTime, 'HH:mm')
+    //     )
+    //   )
+    //   .format('H.m');
+    //   if(index === 0 && date) startDate=[moment(date).format('MMM DD'), shiftLabel].join('.') ;
+    //   if(index === selectedCellsCareinstitution.length - 1 && date && selectedCellsCareinstitution.length > 1) endDate= [moment(date).format('DD'), shiftLabel].join('.');
+    //   qualifications = qualifications.concat(qualificationId.map((quali:IReactSelectInterface) => quali.label).filter((label:string) => qualifications.indexOf(label) < 0))
+    //   if (remarks.indexOf(departmentOfferRemarks) < 0) remarks.push(departmentOfferRemarks)
+    //   let nameandPlace = `${division && division.name ? division.name :name}${address ? ` in ${address}` :''}`;
+    //   if (deptDetails.indexOf(nameandPlace) < 0) deptDetails.push(nameandPlace)
+    //   requirementDetails += `<span>${moment(date).format('DD.MM.')} ${shiftLabel} ${duration} ${nameandPlace}</span><br />`
+    // });
+    // const replaceObj:any = {
+    //   qualificationString: qualifications.filter(Boolean).join(', '),
+    //   deptDetails: deptDetails.filter(Boolean).join(', '),
+    //   appointmentTimings: [startDate, endDate].filter(Boolean).join(' - '),
+    //   requirementDetails,
+    //   remark:remarks.filter(Boolean).join(', ')
+    // }
+    // for (const key in replaceObj) {
+    //   if (replaceObj.hasOwnProperty(key)) {
+    //     const val:string = replaceObj[key];
+    //     mailSub = mailSub.replace(new RegExp(`{${key}}`, "g"), val);
+    //     mailBody = mailBody.replace(new RegExp(`{${key}}`, "g"), val);
+    //   }
+    // }
+    // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+    // setSubject(mailSub);
+    // setBody(editorState);
+    
     if (props.label === 'appointment' && !offerRequirements) {
       if (props.sortBy === 'division' || props.sortBy === 'day') {
         let qualificationArray: any = [];
@@ -740,7 +804,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
 
-        let mailBody = `<p>${languageTranslation(
+        if(!terminateAggrement){let mailBody = `<p>${languageTranslation(
           'CAREGIVER_OFFER_EMAIL_HEADING'
         )}</p><br/><p>${languageTranslation(
           'LEASING_OFFER'
@@ -758,7 +822,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         setSubject(languageTranslation('CAREGIVER_OFFER_EMAIL_SUBJECT'));
-        setBody(editorState);
+        setBody(editorState);}
       }
       if (props.confirmApp) {
         let apointedCareGiver: any = [];
@@ -898,10 +962,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         if (selectedCells && selectedCells.length) {
           let cname: string = '';
           selectedCells.forEach((element: any) => {
-            const { item = {}, caregiver, firstName='',lastName='' } = element;
+            const { item = {}, caregiver={}, firstName='',lastName='' } = element ? element : {};
             const {street='',city='',
               dateOfBirth=''} = caregiver ? caregiver:{} ;
-            console.log('item', item);
+            console.log('item', caregiver);
             const { appointments = [] } = item;
             if (appointments && appointments.length) {
               const { cr = {} } =
@@ -912,24 +976,173 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             mailBody = `<p>${`Please sign a termination contract for a temporary employment contract with TIMyoCY for:<span><b>${'date'}</b></span> ${
               cname ? cname : ''
               }</br>` +
-              `<p>Please use the following link: <a href="http://78.47.143.190:8000/cancel-contract/{token}"> Cancel Contract</a>`}</p>`;
-            if (!pdfTerminateAppointment) {
-              setPdfTerminateAppointment({
-                name:[firstName, lastName].filter(Boolean).join(' '),
-                dateOfBirth: dateOfBirth ? `, ${dateOfBirth.format(defaultDateFormat)}`:'',
-                street,
-                city
-              });
-            }
+              `<p>Please use the following link: <a href="http://78.47.143.190:8000/leasing-contract/{token}"/> http://78.47.143.190:8000/leasing-contract/{token}</a>`}</p>`;
             const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
             setSubject('Teminate aggrement');
             setBody(editorState);
           });
         }
       }
+      if (
+        leasingContract
+      ) {
+        console.log('in ifff');
+        let requirementEmailData:string = '';        
+        let qualificationArray: any = [];
+        let qualificationString: string = "";
+        let divisionArray: any = [];
+        if (selectedCells && selectedCells.length) {
+        let row:any[] = [];
+          selectedCells.map((cell:any) => cell.item && cell.item.appointments ? cell.item.appointments : []).forEach((requirement: any) => {
+            console.log(requirement,'requirement');
+          
+          const {
+            cr = {},
+            date = '',
+          } = requirement && requirement.length ? requirement[0] : {};
+          const {startTime='', endTime='',name='', division={},qualificationId=[]} = cr ? cr :{}
+          let {address=''} = division ?division : {}
+          if (moment(date).isBefore(moment(), 'day')) {
+            let shiftLabel =
+              startTime === '06:00'
+                ? 'FD'
+                : startTime === '14:00'
+                  ? 'SD'
+                  : 'ND';
+            let duration = moment
+              .utc(
+                moment(endTime, 'HH:mm').diff(
+                  moment(startTime, 'HH:mm')
+                )
+              )
+              .format('H.m');
+              requirementEmailData += `<p>${
+                date ? moment(date).format('DD.MM') : ''
+              } ${shiftLabel} ${duration} ${name}
+              </p>`
+            row.push(`${
+              date ? moment(date).format('DD.MM') : ''
+            } ${shiftLabel} ${duration}${address ? `, Place of work: ${address}`:''}, job:${qualificationId && qualificationId.length ? ` - ${qualificationList.filter(
+              (qualification: any) => qualificationId.includes(qualification.value)
+            ).map((q:any) => q.label).join(', ')}` :''}
+            `);
+          }
+        });
+        console.log(row,'rowrow',requirementEmailData);
+
+        setPdfAppointmentDetails(row);
+      }
+        for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
+          let object = selectedCellsCareinstitution[i];
+          if (object.item) {
+            let obj: any = {};
+            let shiftLabel =
+              object.item.startTime === '06:00'
+                ? 'FD'
+                : object.item.startTime === '14:00'
+                  ? 'SD'
+                  : 'ND';
+
+            obj.id = object.item.id;
+            obj.address = object.item.address;
+            obj.division = object.item.division
+              ? object.item.division.name
+              : "";
+            obj.shiftLabel = shiftLabel;
+            obj.day = moment(object.item.date).format("D");
+            obj.month = moment(object.item.date).format("MMM");
+            obj.date = moment(object.item.date).format("DD.MM");
+            obj.duration = moment
+              .utc(
+                moment(object.item.endTime, 'HH:mm').diff(
+                  moment(object.item.startTime, 'HH:mm')
+                )
+              )
+              .format("H.m");
+            divisionArray.push(obj);
+
+            if (object.item.qualificationId) {
+              for (let j = 0; j < object.item.qualificationId.length; j++) {
+                let q = object.item.qualificationId[j];
+                if (!qualificationArray.includes(q)) {
+                  qualificationArray.push(q);
+                }
+              }
+            }
+          }
+        }
+        let temp: any = [];
+        qualificationArray.map((i: any) => {
+          temp.push(i.label);
+        });
+        qualificationString = temp.join();
+
+        if (props.sortBy === 'day') {
+          divisionArray = divisionArray.sort(function (a: any, b: any) {
+            return a.date - b.date;
+          });
+        } else {
+          divisionArray = divisionArray.sort(sortByDivision);
+        }
+
+        let divRow: string = '';
+        let pdfDivData: any = [];
+        divisionArray.map((v: any, i: number) => {
+          if (v.id) {
+            let pdfDivRow: string = '';
+            divRow += `<p>${v.date +
+              ' ' +
+              v.shiftLabel +
+              ', Place of work: ' +
+              (v.division ? v.division : ' - ') +
+              '' + (v.address ? (', ' + v.address) : ' ') +
+              ', job: ' +
+              qualificationString}
+              </p>`;
+
+            pdfDivRow += `${v.date +
+              ' ' + v.shiftLabel +
+              ', Place of work: ' + (v.division ? v.division : ' - ') +
+              '' + (v.address ? (', ' + v.address) : ' ') +
+              ', job: ' + qualificationString
+              }`;
+
+            pdfDivData.push(pdfDivRow);
+          }
+        });
+        
+        // setPdfAppointmentDetails(pdfDivData);
+
+        let mailBody = `<p>${languageTranslation(
+          'CAREGIVER_EMAIL_LEASING_CONTRACT'
+        )}</p></br>${requirementEmailData}</br>
+        <p>Please use the following link: <a href="http://78.47.143.190:8000/leasing-contract/{token}"/> http://78.47.143.190:8000/leasing-contract/{token}</a>
+        </p>`;
+
+        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        setSubject(
+          languageTranslation('CAREGIVER_EMAIL_LEASING_CONTRACT_SUBJECT')
+        );
+        setBody(editorState);
+      }
     }
   }, [data]);
 
+  useEffect(() => {
+    if (terminateAggrement && selectedCells && selectedCells.length) {
+      console.log('in setPdfTerminateAppointment useeffect');
+      
+      const { item = {}, caregiver={}, firstName='',lastName='' } = selectedCells[0] ? selectedCells[0] : {};
+        const {street='',city='',
+          dateOfBirth=''} = caregiver ? caregiver:{} ;
+      setPdfTerminateAppointment({
+        name:[firstName, lastName].filter(Boolean).join(' '),
+        dateOfBirth: dateOfBirth ? `, ${moment(dateOfBirth, defaultDateFormat).format(defaultDateFormat)}`:'',
+        street,
+        city
+      });
+    }
+  },[terminateAggrement])
   useEffect(() => {  
     console.log(leasingContract,'leasingContract');
       
@@ -1342,6 +1555,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             appointmentId: appointmentIds,
             availabilityId: avabilityIds,
             userId: parseInt(userId),
+            status:'leasingContract'
           }
         })
       }
@@ -1362,6 +1576,22 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           documentInput
         }
       });
+      UpdateLeasingContractStatus({
+        variables: {
+          appointmentId: appointmentIds,
+          availablityId: avabilityIds,
+          requirementId: requirementIds,
+          status: 'contractcancelled'
+        }
+      });
+      generateLeasingContractLinkToken({
+        variables:{
+          appointmentId: appointmentIds,
+          availabilityId: avabilityIds,
+          userId: parseInt(userId),
+          status:'terminateAgreement'
+        }
+      })
   
     }
   },[terminationAgreementPdfData])
@@ -1498,7 +1728,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       toast.error(message);
     }
   };
-
+  console.log(pdfAppointmentDetails,'pdfAppointmentDetails');
+  
   return (
     <>
       <div className='common-detail-page'>
@@ -1567,7 +1798,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
-                {leasingContract && pdfAppointmentDetails.length > 0 && signatureData ? (
+                {!leasingContactPdfData && leasingContract && pdfAppointmentDetails.length > 0 && signatureData ? (
                   <PDFDownloadLink
                     document={
                       <LeasingContactPdf
@@ -1582,8 +1813,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   </PDFDownloadLink>
                 ) : null}
-                { console.log(pdfTerminateAppointment,'pdfTerminateAppointment',leasingContract, terminateAggrement)}
-                {terminateAggrement && pdfTerminateAppointment ? (
+                { console.log(pdfTerminateAppointment,'pdfTerminateAppointment',leasingContract, terminateAggrement, signatureData, terminationAgreementPdfData,'condition--',!terminationAgreementPdfData && terminateAggrement && pdfTerminateAppointment && pdfTerminateAppointment.name && signatureData ? true : false)}
+                {!terminationAgreementPdfData && terminateAggrement && pdfTerminateAppointment && pdfTerminateAppointment.name && signatureData ? (
                   <PDFDownloadLink
                     document={
                       <TerminationAgreementPdf

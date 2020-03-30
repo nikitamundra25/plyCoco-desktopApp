@@ -253,6 +253,7 @@ export interface ICareinstitutionFormSubmitValue {
   s: string;
   n: string;
   status: string;
+  isLeasing?:boolean;
 }
 
 export interface IUnlinkInterface {

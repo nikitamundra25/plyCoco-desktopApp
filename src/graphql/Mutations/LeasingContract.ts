@@ -11,8 +11,8 @@ const UPDATE_LEASING_CONTRACT_STATUS = gql`
 
 
 const GENERATE_LEASING_CONTRACT_LINK_TOKEN = gql`
-  mutation GenerateLeasingContractLinkToken($userId: ID, $appointmentId: [ID],$availabilityId: [ID]){
-    generateLeasingContractLinkToken(userId: $userId, appointmentId:$appointmentId, availabilityId:$availabilityId){
+  mutation GenerateLeasingContractLinkToken($userId: ID, $appointmentId: [ID],$availabilityId: [ID], $status:String){
+    generateLeasingContractLinkToken(userId: $userId, appointmentId:$appointmentId, availabilityId:$availabilityId, status:$status){
       token
     }
   }

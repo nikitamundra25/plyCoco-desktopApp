@@ -59,8 +59,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onCaregiverQualificationFilter,
     selectedCellsCareinstitution,
     onLinkAppointment,
-    setOnConfirmedCaregiver,
-    setOnNotConfirmedCaregiver,
+    // setOnConfirmedCaregiver,
+    // setOnNotConfirmedCaregiver,
     onNewAvailability,
     totalCaregiver,
     getNext,
@@ -546,11 +546,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   : true
               }
               onClick={() => {
-                setOnConfirmedCaregiver();
+                // setOnConfirmedCaregiver();
                 setconfirmApp(true);
                 setopenToggleMenu(false);
                 handleCareGiverBulkEmail();
-                setOnConfirmedCaregiver();
+                // setOnConfirmedCaregiver();
               }}
             >
               <img src={confirm_appointment} className="mr-2" alt="" />
@@ -572,7 +572,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 className="align-middle"
                 onClick={() => {
                   setopenToggleMenu(false);
-                  setOnConfirmedCaregiver();
+                  // setOnConfirmedCaregiver();
                 }}
               >
                 Set on confirmed
@@ -594,7 +594,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 className="align-middle"
                 onClick={() => {
                   setopenToggleMenu(false);
-                  setOnNotConfirmedCaregiver();
+                  // setOnNotConfirmedCaregiver();
                 }}
               >
                 Set on not confirmed

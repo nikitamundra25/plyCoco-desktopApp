@@ -2332,6 +2332,10 @@ html:not([dir="rtl"]) {
     &.sno-th-column {
       width: 50px;
     }
+    &.name-th-column {
+      width: 200px;
+      min-width: 200px;
+    }
     &.qualifications-th-column {
       width: 250px;
       min-width: 250px;
@@ -3273,7 +3277,7 @@ html:not([dir="rtl"]) {
         font-weight: 600;
         color: $light_black;
         margin-top: 6px;
-        padding-right: 105px;
+        padding-right: 95px;
       }
       .remark-action-btn {
         position: absolute;
@@ -3835,6 +3839,10 @@ html:not([dir="rtl"]) {
       .page-link {
         color: $gray_color;
         box-shadow: none;
+        @media only screen and (max-width: 480px) {
+          padding: 4px 8px;
+          font-size: $font_12;
+        }
         &:hover {
           color: $theme_color;
           text-decoration: none;

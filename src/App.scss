@@ -876,6 +876,9 @@ body {
       .nav-link {
         padding-left: 0 !important;
         display: block;
+        @media (max-width: 991px) {
+          display:flex;
+        }
         .nav-icon {
           margin: 0px 16px 0px 16px;
         }
@@ -1951,6 +1954,9 @@ html:not([dir="rtl"]) {
     .custom-inner-reactselect__menu {
       width: 500px;
     }
+    @media only screen and (max-width: 575px) {
+      width: 100%;
+    }
   }
   &.custom-reactselect-menu-width-appointment {
     .custom-inner-reactselect__menu {
@@ -2326,6 +2332,10 @@ html:not([dir="rtl"]) {
     &.sno-th-column {
       width: 50px;
     }
+    &.name-th-column {
+      width: 200px;
+      min-width: 200px;
+    }
     &.qualifications-th-column {
       width: 250px;
       min-width: 250px;
@@ -2554,6 +2564,10 @@ html:not([dir="rtl"]) {
       color: $dark_gray;
       display: inline-block;
       flex: 0 0 150px;
+      @media only screen and (max-width: 480px) {
+        flex: 0 0 110px;
+      }
+     
     }
     .text-value {
       font-weight: 600;
@@ -2620,8 +2634,14 @@ html:not([dir="rtl"]) {
     height: 100%;
     align-items: center;
     border: 1px solid $table_border;
-    padding-left: 140px;
     position: relative;
+    .personal-info-card{
+      padding-left: 140px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      position: relative
+    }
     &.other-detail-card {
       padding: 15px;
     }
@@ -2683,10 +2703,10 @@ html:not([dir="rtl"]) {
       @media only screen and (max-width: 991px) {
         top: 34px;
       }
-      @media only screen and (max-width: 767px) {
-        position: relative;
-        top: 0px;
-      }
+      // @media only screen and (max-width: 767px) {
+      //   position: relative;
+      //   top: 0px;
+      // }
     }
     // .username-header {
     //   color: $black;
@@ -3257,7 +3277,7 @@ html:not([dir="rtl"]) {
         font-weight: 600;
         color: $light_black;
         margin-top: 6px;
-        padding-right: 105px;
+        padding-right: 95px;
       }
       .remark-action-btn {
         position: absolute;
@@ -3609,6 +3629,9 @@ html:not([dir="rtl"]) {
 .custom-toaster {
   width: 360px;
   font-family: $font_open_sans;
+  @media only screen and (max-width: 360px) {
+    width: 100%;
+  }
   .Toastify__toast {
     &.Toastify__toast--success {
       border-radius: 10px;
@@ -3816,6 +3839,10 @@ html:not([dir="rtl"]) {
       .page-link {
         color: $gray_color;
         box-shadow: none;
+        @media only screen and (max-width: 480px) {
+          padding: 4px 8px;
+          font-size: $font_12;
+        }
         &:hover {
           color: $theme_color;
           text-decoration: none;
@@ -3964,7 +3991,7 @@ html:not([dir="rtl"]) {
 @media only screen and (max-width: 991px) {
   .employee-details {
     .emloyee-detail-card {
-      &.personal-info-card {
+      .personal-info-card {
         align-items: flex-start;
         height: auto;
         flex-direction: column;
@@ -3973,6 +4000,7 @@ html:not([dir="rtl"]) {
         width: 100%;
         flex: 0 0 100%;
         max-width: 100%;
+        padding:0px 0px;
       }
     }
   }
@@ -3997,8 +4025,8 @@ html:not([dir="rtl"]) {
 @media only screen and (max-width: 575px) {
   .employee-details {
     .emloyee-detail-card {
-      &.personal-info-card {
-        padding-left: 15px;
+      .personal-info-card {
+        padding-left: 0px;
       }
       .profile-wrap {
         position: relative;

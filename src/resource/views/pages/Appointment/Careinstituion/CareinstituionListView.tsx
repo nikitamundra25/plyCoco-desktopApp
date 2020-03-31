@@ -336,15 +336,18 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [StatusTo, setStatusTo] = useState("");
 
   const renderTableRows = (list: any, index: any) => {
-    // if (starCanstitution.isStar && listData && !listData.length) {
-    //   listData = careInstitutionList.filter(
+
+    // select careInstitution if no department is available
+    // if (starCanstitution.isStar && !list ) {
+    //   list = careInstitutionList.filter(
     //     (item: any) => item.id === starCanstitution.id
-    //   );
+    //   )[0];
     // }
+    
     let temp: any[] = [];
     //  if (listData && listData.length) {
     //   listData.forEach((list: any, index: number) => {
-    if (list.availabilityData && list.availabilityData.length) {
+    if (list && list.availabilityData && list.availabilityData.length) {
       list.availabilityData.map((item: any, row: number) =>
         temp.push(
          <div  className="custom-appointment-row" key={`${list.id}-${index}-${row}`}>
@@ -553,6 +556,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       }
     });
   }
+console.log("careInstituionDeptData",careInstituionDeptData);
 
   return (
     <>
@@ -1122,14 +1126,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 >
                   <InfiniteLoader
                     loadMoreRows={() =>
-                      getMoreCareInstituionList(
-                        careInstitutionList.length
-                      ) as any
+                      getMoreCareInstituionList(careInstitutionList.length) as any
                     }
-                    isRowLoaded={() => true}
+                    isRowLoaded={() => false}
                     rowCount={totalCareinstituion}
-                    minimumBatchSize={10}
-                    threshold={10}
                   >
                     {({ onRowsRendered, registerChild }) => (
                       <AutoSizer disableHeight>
@@ -1137,23 +1137,31 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           <List
                             ref={registerChild}
                             height={100}
-                            onRowsRendered={onRowsRendered}
+                            onRowsRendered={onRowsRendered }
                             rowCount={careInstitutionList.length}
-                            rowHeight={30}
+                            rowHeight={5}
                             rowRenderer={({ index, key }) => {
-                              const list = careInstitutionList[index] || {};
+                              // Condition to manage careinstitution list & department list
+                             let list= !starCanstitution.isStar
+                              ? careInstitutionList[index] || {}
+                              : secondStarCanstitution.isStar
+                              ? careInstituionDeptData &&
+                                careInstituionDeptData.length
+                                ? careInstituionDeptData.filter(
+                                    (dept: any) =>
+                                      dept.id === secondStarCanstitution.id
+                                  )[index]
+                                : null
+                              : careInstituionDeptData[index]
+                              
+                              // select careInstitution if no department is available
+                              if (starCanstitution.isStar && !list ) {
+                                   list = careInstitutionList.filter(
+                                     (item: any) => item.id === starCanstitution.id
+                                     )[index];
+                                }
                               return renderTableRows(
-                                !starCanstitution.isStar
-                                  ? list
-                                  : secondStarCanstitution.isStar
-                                  ? careInstituionDeptData &&
-                                    careInstituionDeptData.length
-                                    ? careInstituionDeptData.filter(
-                                        (dept: any) =>
-                                          dept.id === secondStarCanstitution.id
-                                      )
-                                    : []
-                                  : careInstituionDeptData,
+                                list,
                                 index
                               );
                             }}

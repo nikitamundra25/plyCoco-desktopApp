@@ -44,6 +44,9 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           holiday
           night
           attributes
+          street
+          city
+          dateOfBirth
         }
         caregiver_avabilities {
           id
@@ -76,6 +79,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
               qualificationId
               startTime
               endTime
+              isLeasing
               division {
                 id
                 name

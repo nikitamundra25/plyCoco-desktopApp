@@ -1347,6 +1347,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // On previous month click
   const handlePrevious = async () => {
+    setPage(1);
     let month: number = activeMonth - 1;
     let year: number = activeYear;
 
@@ -1363,6 +1364,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // On next month click
   const handleNext = () => {
+    setPage(1);
     let month: number = activeMonth + 1;
     let year: number = activeYear;
     // To check if active month is december than set month to january & year to next year
@@ -2275,7 +2277,8 @@ const Appointment: FunctionComponent = (props: any) => {
         ];
 
         selectedCellsCareinstitution.forEach(async (element: any) => {
-          const { id = "", dateString = "" } = element ? element : {};
+          const { id = '', dateString = '', canstitution={} } = element ? element : {};
+          const {attributes=[]} = canstitution ? canstitution : {}
 
           let careInstitutionRequirementInput: ICareinstitutionFormSubmitValue = {
             userId: id ? parseInt(id) : 0,
@@ -2302,14 +2305,17 @@ const Appointment: FunctionComponent = (props: any) => {
             f: fvar,
             s: svar,
             n: nvar,
-            status: status ? status : "default"
+            status: status ? status : 'default', 
+            isLeasing:attributes.includes(
+              CareInstTIMyoCYAttrId
+            )
           };
 
           if (appointmentId) {
             await updateCareinstitutionRequirment({
               variables: {
                 id: parseInt(appointmentId),
-                careInstitutionRequirementInput
+                careInstitutionRequirementInput,
               }
             });
             setsavingBoth(false);
@@ -2796,6 +2802,8 @@ const Appointment: FunctionComponent = (props: any) => {
     );
   }
 
+  console.log(selectedCells,'selectedCells',selectedCellsCareinstitution);
+  
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : "",
     name:

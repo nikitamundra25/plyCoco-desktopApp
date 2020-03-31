@@ -105,8 +105,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     isMatching: boolean = false,
     isContract: boolean = false,
     isConfirm: boolean = false,
-    isContractCancel: boolean = false,
-    isSingleButtonAccepted:boolean= false
+    isContractInitiated:boolean=false,
+    isSingleButtonAccepted:boolean= false,
+    isContractCancel: boolean = false;
 
   if (selctedAvailability || status) {
     if (
@@ -146,6 +147,13 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     }else if (selctedAvailability && selctedAvailability.status === 'accepted' || status === 'accepted') {
       isSingleButtonAccepted = true;
   }
+    else if (
+      (selctedAvailability &&
+        selctedAvailability.status === 'contractInitiated') ||
+      status === 'contractInitiated'
+    ) {
+      isContractInitiated = true;
+    }
   }
 
   const handleTravelAllowance = () => {
@@ -182,7 +190,8 @@ if(activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]){
             'matching-bg': isMatching,
             'confirmation-bg': isConfirm,
             'cancel-contract-bg': isContractCancel,
-            'accepted-bg': isSingleButtonAccepted
+            'accepted-bg': isSingleButtonAccepted,
+            'contact-initiate-bg':isContractInitiated,
           })}
         >
           <h5 className='content-title'>

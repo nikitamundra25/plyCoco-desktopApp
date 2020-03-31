@@ -696,6 +696,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('day', true);
                   handleCareInstitutionBulkEmail();
+                  updateCareInstitutionStatus('offered');
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
@@ -720,6 +721,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('division', false);
                   handleCareInstitutionBulkEmail();
+                  updateCareInstitutionStatus('offered');
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
@@ -744,6 +746,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareGiverBulkEmail('day', false);
                   handleCareInstitutionBulkEmail();
+                  updateCareInstitutionStatus('offered');
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
@@ -1156,6 +1159,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             ? sortedQualificationList
             : props.qualification
         }
+        offerCareGiver={true}// offer caregiver
         handleClose={() => handleCareGiverBulkEmail('', false)}
         selectedCells={selectedCells}
         selectedCellsCareinstitution={selectedCellsCareinstitution}

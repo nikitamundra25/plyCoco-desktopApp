@@ -611,7 +611,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         name={'address'}
                         disabled={true}
                         placeholder={languageTranslation('ADDRESS')}
-                        value={!department ? street : address ? address : ''}
+                        value={department ? address : ''}
                         className='textarea-custom form-control'
                         rows='2'
                       />

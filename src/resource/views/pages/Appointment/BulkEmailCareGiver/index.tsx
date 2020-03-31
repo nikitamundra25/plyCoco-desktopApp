@@ -13,6 +13,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
     offerRequirements,
     leasingContract,
     qualificationList,
+    offerCareGiver,
     terminateAggrement
   } = props;
   const externalCloseBtn = (
@@ -49,6 +50,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
             confirmApp={props.confirmApp}
             selectedCellsCareinstitution={props.selectedCellsCareinstitution}
             unlinkedBy={props.unlinkedBy}
+            offerCareGiver={offerCareGiver}
             offerRequirements={offerRequirements}
             leasingContract={leasingContract}
             qualificationList={qualificationList}

@@ -11,7 +11,8 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Nav
+  Nav,
+  UncontrolledTooltip
 } from "reactstrap";
 import Select from "react-select";
 import { Link } from "react-router-dom";
@@ -21,7 +22,7 @@ import refresh from "../../../assets/img/refresh.svg";
 import document from "../../../assets/img/header-icons/specialist-invoice.svg";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
-import { TODO_PAGE_LIMIT, AppRoutes, InvoiceFilter } from "../../../../config";
+import {  StatusOptions, SortOptions } from "../../../../config";
 import "./index.scss";
 import rich from "../../../assets/img/rich.svg";
 
@@ -75,21 +76,19 @@ const PaySlipForm: FunctionComponent<RouteComponentProps> & any = (
                       </FormGroup>
                     </Col>
                     <Col lg={"2"} md={"3"}>
-                      <FormGroup>
-                        <Label className="col-form-label">
-                          {languageTranslation("STATUS_LABEL")} :
-                        </Label>
-                        <Select
-                          placeholder={languageTranslation(
-                            "STATUS_PLACEHOLDER"
-                          )}
-                          options={InvoiceFilter}
-                          isClearable={true}
-                          isSearchable={false}
-                          classNamePrefix="custom-inner-reactselect"
-                          className={"custom-reactselect"}
-                        />
-                      </FormGroup>
+                    <FormGroup>
+                      <Label for="Selectregion" className="col-form-label">
+                        {languageTranslation("SORTBY_LABEL")} :
+                      </Label>
+                      <Select
+                        placeholder={languageTranslation("SORTBY_PLACEHOLDER")}
+                        options={SortOptions}
+                        isClearable={true}
+                        isSearchable={false}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={"custom-reactselect"}
+                      />
+                    </FormGroup>
                     </Col>
 
                     <Col lg={"2"} md={"3"}>
@@ -154,6 +153,9 @@ const PaySlipForm: FunctionComponent<RouteComponentProps> & any = (
                         <th className="comment-col">{languageTranslation(
                             "COMMENT"
                           )}</th>
+                          <th className={'text-center action-col'}>
+                      {languageTranslation('TABEL_HEAD_CG_ACTION')}
+                    </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -176,6 +178,47 @@ const PaySlipForm: FunctionComponent<RouteComponentProps> & any = (
                             <label className=""> </label>
                           </span></td>
                         <td className="comment-col"><span className="word-wrap">Comment</span></td>
+                        <td className="action-col">
+                    <div className="action-btn">
+                      <span className="btn-icon mr-2" id={`solo`}>
+                        <UncontrolledTooltip placement="top" target={`solo`}>
+                          Solo
+                        </UncontrolledTooltip>
+                        S
+                      </span>
+                      <span className="btn-icon mr-2" id={`open`}>
+                        <UncontrolledTooltip placement="top" target={`open`}>
+                          Open 
+                        </UncontrolledTooltip>
+                        <i className="fa fa-eye"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`installment`}>
+                        <UncontrolledTooltip placement="top" target={`installment`}>
+                          Installment Payment
+                        </UncontrolledTooltip>
+                        <i className="fa fa-credit-card"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`edit`}>
+                        <UncontrolledTooltip placement="top" target={`edit`}>
+                          Edit 
+                        </UncontrolledTooltip>
+                        <i className="fa fa-pencil"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`clear`}>
+                        <UncontrolledTooltip placement="top" target={`clear`}>
+                          Clear
+                        </UncontrolledTooltip>
+                        <i className="fa fa-times"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`pay`}>
+                        <UncontrolledTooltip placement="top" target={`pay`}>
+                          Pay
+                        </UncontrolledTooltip>
+                        <i className="fa fa-eur"></i>
+                      </span>
+                      
+                    </div>
+                  </td>
                       </tr>
                       <tr>
                       <td className="careinstitution-col">
@@ -196,6 +239,47 @@ const PaySlipForm: FunctionComponent<RouteComponentProps> & any = (
                             <label className=""> </label>
                           </span></td>
                         <td className="comment-col"><span className="word-wrap">Comment</span></td>
+                        <td className="action-col">
+                    <div className="action-btn">
+                      <span className="btn-icon mr-2" id={`solo`}>
+                        <UncontrolledTooltip placement="top" target={`solo`}>
+                          Solo
+                        </UncontrolledTooltip>
+                        S
+                      </span>
+                      <span className="btn-icon mr-2" id={`open`}>
+                        <UncontrolledTooltip placement="top" target={`open`}>
+                          Open 
+                        </UncontrolledTooltip>
+                        <i className="fa fa-eye"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`installment`}>
+                        <UncontrolledTooltip placement="top" target={`installment`}>
+                          Installment Payment
+                        </UncontrolledTooltip>
+                        <i className="fa fa-credit-card"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`edit`}>
+                        <UncontrolledTooltip placement="top" target={`edit`}>
+                          Edit 
+                        </UncontrolledTooltip>
+                        <i className="fa fa-pencil"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`clear`}>
+                        <UncontrolledTooltip placement="top" target={`clear`}>
+                          Clear
+                        </UncontrolledTooltip>
+                        <i className="fa fa-times"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`pay`}>
+                        <UncontrolledTooltip placement="top" target={`pay`}>
+                          Pay
+                        </UncontrolledTooltip>
+                        <i className="fa fa-eur"></i>
+                      </span>
+                      
+                    </div>
+                  </td>
                       </tr>
                       <tr>
                       <td className="careinstitution-col">
@@ -216,6 +300,47 @@ const PaySlipForm: FunctionComponent<RouteComponentProps> & any = (
                             <label className=""> </label>
                           </span></td>
                         <td className="comment-col"><span className="word-wrap">Comment</span></td>
+                        <td className="action-col">
+                    <div className="action-btn">
+                      <span className="btn-icon mr-2" id={`solo`}>
+                        <UncontrolledTooltip placement="top" target={`solo`}>
+                          Solo
+                        </UncontrolledTooltip>
+                        S
+                      </span>
+                      <span className="btn-icon mr-2" id={`open`}>
+                        <UncontrolledTooltip placement="top" target={`open`}>
+                          Open 
+                        </UncontrolledTooltip>
+                        <i className="fa fa-eye"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`installment`}>
+                        <UncontrolledTooltip placement="top" target={`installment`}>
+                          Installment Payment
+                        </UncontrolledTooltip>
+                        <i className="fa fa-credit-card"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`edit`}>
+                        <UncontrolledTooltip placement="top" target={`edit`}>
+                          Edit 
+                        </UncontrolledTooltip>
+                        <i className="fa fa-pencil"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`clear`}>
+                        <UncontrolledTooltip placement="top" target={`clear`}>
+                          Clear
+                        </UncontrolledTooltip>
+                        <i className="fa fa-times"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`pay`}>
+                        <UncontrolledTooltip placement="top" target={`pay`}>
+                          Pay
+                        </UncontrolledTooltip>
+                        <i className="fa fa-eur"></i>
+                      </span>
+                      
+                    </div>
+                  </td>
                       </tr>
                       <tr>
                       <td className="careinstitution-col">
@@ -236,6 +361,47 @@ const PaySlipForm: FunctionComponent<RouteComponentProps> & any = (
                             <label className=""> </label>
                           </span></td>
                         <td className="comment-col"><span className="word-wrap">Comment</span></td>
+                         <td className="action-col">
+                    <div className="action-btn">
+                      <span className="btn-icon mr-2" id={`solo`}>
+                        <UncontrolledTooltip placement="top" target={`solo`}>
+                          Solo
+                        </UncontrolledTooltip>
+                        S
+                      </span>
+                      <span className="btn-icon mr-2" id={`open`}>
+                        <UncontrolledTooltip placement="top" target={`open`}>
+                          Open 
+                        </UncontrolledTooltip>
+                        <i className="fa fa-eye"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`installment`}>
+                        <UncontrolledTooltip placement="top" target={`installment`}>
+                          Installment Payment
+                        </UncontrolledTooltip>
+                        <i className="fa fa-credit-card"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`edit`}>
+                        <UncontrolledTooltip placement="top" target={`edit`}>
+                          Edit 
+                        </UncontrolledTooltip>
+                        <i className="fa fa-pencil"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`clear`}>
+                        <UncontrolledTooltip placement="top" target={`clear`}>
+                          Clear
+                        </UncontrolledTooltip>
+                        <i className="fa fa-times"></i>
+                      </span>
+                      <span className="btn-icon mr-2" id={`pay`}>
+                        <UncontrolledTooltip placement="top" target={`pay`}>
+                          Pay
+                        </UncontrolledTooltip>
+                        <i className="fa fa-eur"></i>
+                      </span>
+                      
+                    </div>
+                  </td>
                       </tr>
                     </tbody>
                   </Table>

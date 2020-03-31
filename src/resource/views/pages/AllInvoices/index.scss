@@ -12,19 +12,24 @@
   }
 
   .header-nav-heading {
-    font-size: 12px;
+    font-size: $font_12;
     font-weight: 400;
-    color: #000;
+    color: $black;
     text-align: left;
     display: block;
     padding: 0px;
-    font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+    font-family: $font_Frutiger_Bold;
     height: 18px;
     display: block;
   }
   .header-nav-item,
   .user-select {
     margin-bottom: 0.25rem !important;
+  }
+}
+.invoice-header{
+  .user-select {
+    width:150px
   }
 }
 .total-form-section {
@@ -37,6 +42,9 @@
 .all-invoice {
   .invoices-table {
     min-height: calc(100vh - 352px);
+  }
+  .createinvoices-table{
+    min-height: calc(100vh - 235px);
   }
   table {
     th {
@@ -102,7 +110,24 @@
 .createinvoices-table{
   th,td{
     &.sno-col{
+      width:60px;
+      min-width:60px;
+    }
+    &.invoiceid-col{
+      width:70px;
+      min-width:70px;
+    }&.h-col{
       width:50px;
+      min-width: 50px;
+    }&.text-col{
+      width:180px;
+      min-width:180px;
+    }&.datetime-col{
+      width:150px;
+      min-width:150px;
+    }&.price-col{
+      width:100px;
+      min-width: 90px;
     }
   }
 }
@@ -134,7 +159,7 @@
       width:180px;
     }
     &.paid-col{
-      width:70px;
+      width:90px;
     }
     &.visible-col{
       width:50px;

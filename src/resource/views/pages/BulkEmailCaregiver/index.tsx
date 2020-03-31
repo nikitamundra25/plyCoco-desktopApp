@@ -1343,152 +1343,153 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         setSubject(languageTranslation('OFFER_REQUIREMENTS_SUB'));
         setBody(editorState);
-      } else if (
-        leasingContract
-      ) {
-        console.log('in ifff');
-        let requirementEmailData:string = '';        
-        let qualificationArray: any = [];
-        let qualificationString: string = "";
-        let divisionArray: any = [];
-        if (selectedCells && selectedCells.length) {
-        let row:any[] = [];
-          selectedCells.map((cell:any) => cell.item && cell.item.appointments ? cell.item.appointments : []).forEach((requirement: any) => {
-            console.log(requirement,'requirement');
+      } 
+      // else if (
+      //   leasingContract
+      // ) {
+      //   console.log('in ifff');
+      //   let requirementEmailData:string = '';        
+      //   let qualificationArray: any = [];
+      //   let qualificationString: string = "";
+      //   let divisionArray: any = [];
+      //   if (selectedCells && selectedCells.length) {
+      //   let row:any[] = [];
+      //     selectedCells.map((cell:any) => cell.item && cell.item.appointments ? cell.item.appointments : []).forEach((requirement: any) => {
+      //       console.log(requirement,'requirement');
           
-          const {
-            cr = {},
-            date = '',
-          } = requirement && requirement.length ? requirement[0] : {};
-          const {startTime='', endTime='',name='', division={},qualificationId=[]} = cr ? cr :{}
-          let {address=''} = division ?division : {}
-          if (!moment(date).isBefore(moment(), 'day')) {
-            let shiftLabel =
-              startTime === '06:00'
-                ? 'FD'
-                : startTime === '14:00'
-                  ? 'SD'
-                  : 'ND';
-            let duration = moment
-              .utc(
-                moment(endTime, 'HH:mm').diff(
-                  moment(startTime, 'HH:mm')
-                )
-              )
-              .format('H.m');
-              requirementEmailData += `<p>${
-                date ? moment(date).format('DD.MM') : ''
-              } ${shiftLabel} ${duration} ${name}
-              </p>`
-            row.push(`${
-              date ? moment(date).format('DD.MM') : ''
-            } ${shiftLabel} ${duration}${address ? `, Place of work: ${address}`:''}, job:${qualificationId && qualificationId.length ? ` - ${qualificationList.filter(
-              (qualification: any) => qualificationId.includes(qualification.value)
-            ).map((q:any) => q.label).join(', ')}` :''}
-            `);
-          }
-        });
-        console.log(row,'rowrow',requirementEmailData);
+      //     const {
+      //       cr = {},
+      //       date = '',
+      //     } = requirement && requirement.length ? requirement[0] : {};
+      //     const {startTime='', endTime='',name='', division={},qualificationId=[]} = cr ? cr :{}
+      //     let {address=''} = division ?division : {}
+      //     if (!moment(date).isBefore(moment(), 'day')) {
+      //       let shiftLabel =
+      //         startTime === '06:00'
+      //           ? 'FD'
+      //           : startTime === '14:00'
+      //             ? 'SD'
+      //             : 'ND';
+      //       let duration = moment
+      //         .utc(
+      //           moment(endTime, 'HH:mm').diff(
+      //             moment(startTime, 'HH:mm')
+      //           )
+      //         )
+      //         .format('H.m');
+      //         requirementEmailData += `<p>${
+      //           date ? moment(date).format('DD.MM') : ''
+      //         } ${shiftLabel} ${duration} ${name}
+      //         </p>`
+      //       row.push(`${
+      //         date ? moment(date).format('DD.MM') : ''
+      //       } ${shiftLabel} ${duration}${address ? `, Place of work: ${address}`:''}, job:${qualificationId && qualificationId.length ? ` - ${qualificationList.filter(
+      //         (qualification: any) => qualificationId.includes(qualification.value)
+      //       ).map((q:any) => q.label).join(', ')}` :''}
+      //       `);
+      //     }
+      //   });
+      //   console.log(row,'rowrow',requirementEmailData);
 
-        setPdfAppointmentDetails(row);
-      }
-        for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
-          let object = selectedCellsCareinstitution[i];
-          if (object.item) {
-            let obj: any = {};
-            let shiftLabel =
-              object.item.startTime === '06:00'
-                ? 'FD'
-                : object.item.startTime === '14:00'
-                ? 'SD'
-                : 'ND';
+      //   setPdfAppointmentDetails(row);
+      // }
+      //   for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
+      //     let object = selectedCellsCareinstitution[i];
+      //     if (object.item) {
+      //       let obj: any = {};
+      //       let shiftLabel =
+      //         object.item.startTime === '06:00'
+      //           ? 'FD'
+      //           : object.item.startTime === '14:00'
+      //           ? 'SD'
+      //           : 'ND';
 
-            obj.id = object.item.id;
-            obj.address = object.item.address;
-            obj.division = object.item.division
-              ? object.item.division.name
-              : "";
-            obj.shiftLabel = shiftLabel;
-            obj.day = moment(object.item.date).format("D");
-            obj.month = moment(object.item.date).format("MMM");
-            obj.date = moment(object.item.date).format("DD.MM");
-            obj.duration = moment
-              .utc(
-                moment(object.item.endTime, "HH:mm").diff(
-                  moment(object.item.startTime, "HH:mm")
-                )
-              )
-              .format("H.m");
-            divisionArray.push(obj);
+      //       obj.id = object.item.id;
+      //       obj.address = object.item.address;
+      //       obj.division = object.item.division
+      //         ? object.item.division.name
+      //         : "";
+      //       obj.shiftLabel = shiftLabel;
+      //       obj.day = moment(object.item.date).format("D");
+      //       obj.month = moment(object.item.date).format("MMM");
+      //       obj.date = moment(object.item.date).format("DD.MM");
+      //       obj.duration = moment
+      //         .utc(
+      //           moment(object.item.endTime, "HH:mm").diff(
+      //             moment(object.item.startTime, "HH:mm")
+      //           )
+      //         )
+      //         .format("H.m");
+      //       divisionArray.push(obj);
 
-            if (object.item.qualificationId) {
-              for (let j = 0; j < object.item.qualificationId.length; j++) {
-                let q = object.item.qualificationId[j];
-                if (!qualificationArray.includes(q)) {
-                  qualificationArray.push(q);
-                }
-              }
-            }
-          }
-        }
-        let temp: any = [];
-        qualificationArray.map((i: any) => {
-          temp.push(i.label);
-        });
-        qualificationString = temp.join();
+      //       if (object.item.qualificationId) {
+      //         for (let j = 0; j < object.item.qualificationId.length; j++) {
+      //           let q = object.item.qualificationId[j];
+      //           if (!qualificationArray.includes(q)) {
+      //             qualificationArray.push(q);
+      //           }
+      //         }
+      //       }
+      //     }
+      //   }
+      //   let temp: any = [];
+      //   qualificationArray.map((i: any) => {
+      //     temp.push(i.label);
+      //   });
+      //   qualificationString = temp.join();
 
-        if (props.sortBy === 'day') {
-          divisionArray = divisionArray.sort(function(a: any, b: any) {
-            return a.date - b.date;
-          });
-        } else {
-          divisionArray = divisionArray.sort(sortByDivision);
-        }
+      //   if (props.sortBy === 'day') {
+      //     divisionArray = divisionArray.sort(function(a: any, b: any) {
+      //       return a.date - b.date;
+      //     });
+      //   } else {
+      //     divisionArray = divisionArray.sort(sortByDivision);
+      //   }
 
-        let divRow: string = "";
-        let pdfDivData: any = [];
-        divisionArray.map((v: any, i: number) => {
-          if (v.id) {
-            let pdfDivRow: string = "";
-            divRow += `<p>${v.date +
-              " " +
-              v.shiftLabel +
-              ', Place of work: ' +
-              (v.division ? v.division : ' - ') +
-              '' +
-              (v.address ? ', ' + v.address : ' ') +
-              ', job: ' +
-              qualificationString}
-              </p>`;
+      //   let divRow: string = "";
+      //   let pdfDivData: any = [];
+      //   divisionArray.map((v: any, i: number) => {
+      //     if (v.id) {
+      //       let pdfDivRow: string = "";
+      //       divRow += `<p>${v.date +
+      //         " " +
+      //         v.shiftLabel +
+      //         ', Place of work: ' +
+      //         (v.division ? v.division : ' - ') +
+      //         '' +
+      //         (v.address ? ', ' + v.address : ' ') +
+      //         ', job: ' +
+      //         qualificationString}
+      //         </p>`;
 
-            pdfDivRow += `${v.date +
-              ' ' +
-              v.shiftLabel +
-              ', Place of work: ' +
-              (v.division ? v.division : ' - ') +
-              '' +
-              (v.address ? ', ' + v.address : ' ') +
-              ', job: ' +
-              qualificationString}`;
+      //       pdfDivRow += `${v.date +
+      //         ' ' +
+      //         v.shiftLabel +
+      //         ', Place of work: ' +
+      //         (v.division ? v.division : ' - ') +
+      //         '' +
+      //         (v.address ? ', ' + v.address : ' ') +
+      //         ', job: ' +
+      //         qualificationString}`;
 
-            pdfDivData.push(pdfDivRow);
-          }
-        });
+      //       pdfDivData.push(pdfDivRow);
+      //     }
+      //   });
         
-        // setPdfAppointmentDetails(pdfDivData);
+      //   // setPdfAppointmentDetails(pdfDivData);
 
-        let mailBody = `<p>${languageTranslation(
-          'CAREGIVER_EMAIL_LEASING_CONTRACT'
-        )}</p></br>${requirementEmailData}</br>
-        <p>Please use the following link: <a href="http://78.47.143.190:8000/leasing-contract/{token}"/> http://78.47.143.190:8000/leasing-contract/{token}</a>
-        </p>`;
+      //   let mailBody = `<p>${languageTranslation(
+      //     'CAREGIVER_EMAIL_LEASING_CONTRACT'
+      //   )}</p></br>${requirementEmailData}</br>
+      //   <p>Please use the following link: <a href="http://78.47.143.190:8000/leasing-contract/{token}"/> http://78.47.143.190:8000/leasing-contract/{token}</a>
+      //   </p>`;
 
-        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : "";
-        setSubject(
-          languageTranslation("CAREGIVER_EMAIL_LEASING_CONTRACT_SUBJECT")
-        );
-        setBody(editorState);
-      }
+      //   const editorState = mailBody ? HtmlToDraftConverter(mailBody) : "";
+      //   setSubject(
+      //     languageTranslation("CAREGIVER_EMAIL_LEASING_CONTRACT_SUBJECT")
+      //   );
+      //   setBody(editorState);
+      // }
     }
   }, [requirmentList]);
 

@@ -2770,7 +2770,8 @@ const Appointment: FunctionComponent = (props: any) => {
     item = undefined
   } =
     selectedCells &&
-      (selectedCells.length === 1 || multipleAvailability) &&
+    // to check multiple cells are free or reserve or you've clicked on new appointment to reflect the form
+      (selectedCells.length === 1 || multipleAvailability || selectedCells[0] && selectedCells[0].item) &&
       selectedCells[0]
       ? selectedCells[0]
       : {};

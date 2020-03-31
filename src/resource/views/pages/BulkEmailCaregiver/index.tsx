@@ -819,7 +819,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             obj.id = object.item.id;
             obj.division = object.item.division
               ? object.item.division.name
-              : "";
+              : object.item.name;
             obj.shiftLabel = shiftLabel;
             obj.day = moment(object.item.date).format("D");
             obj.month = moment(object.item.date).format("MMM");

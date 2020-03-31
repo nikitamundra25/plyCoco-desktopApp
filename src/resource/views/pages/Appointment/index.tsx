@@ -2913,7 +2913,7 @@ const Appointment: FunctionComponent = (props: any) => {
     qualification.map((key: any, index: number) => {
       temp.push(parseInt(key.value));
     });
-
+    console.log("In Infinite Scroll")
     // Default value is start & end of month
     let gte: string = moment()
       .startOf("month")

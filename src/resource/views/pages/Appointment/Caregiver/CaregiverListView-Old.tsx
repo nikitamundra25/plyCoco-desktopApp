@@ -41,6 +41,7 @@ import termination from "../../../../assets/img/dropdown/aggrement.svg";
 import refresh from "../../../../assets/img/refresh.svg";
 import "../index.scss";
 import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
+
 let toastId: any = null;
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList

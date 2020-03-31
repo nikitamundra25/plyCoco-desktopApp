@@ -871,7 +871,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                     </Label>
                   </Col>
                   <Col sm='8'>
-                    <div className='required-input'>
+                    <div className='required-input mb-1'>
                       <FormGroup check inline>
                         <div className=' checkbox-custom mb-0'>
                           <input
@@ -893,7 +893,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                         </div>
                       </FormGroup>
                     </div>
-                    {document ? <a href= {`${AppConfig.FILES_ENDPOINT}${document}`} target={'_blank'}>{languageTranslation('CONTRACT')}</a> : null}
+                    {document ? <a href= {`${AppConfig.FILES_ENDPOINT}${document}`} target={'_blank'} className="view-more-link text-underline"><i className="fa fa-file-o mr-2"/>{languageTranslation('CONTRACT')}</a> : null}
                   </Col>
                 </Row>
               </FormGroup>

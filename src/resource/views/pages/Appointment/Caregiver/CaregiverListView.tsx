@@ -754,7 +754,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         </div>
                       </div>
                     </th>
-                    {/* array for showing day */}
+                    
                     {daysArr.map(
                       (
                         { date, day, isWeekend, today }: IDaysArray,
@@ -809,14 +809,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div className='all-star-wrap'>
                                     <div
                                       className='text-capitalize one-line-text  username-col name-text'
-                                      // onClick={() =>
-                                      //   history.push(
-                                      //     AppRoutes.CARE_GIVER_VIEW.replace(
-                                      //       ':id',
-                                      //       list.id
-                                      //     )
-                                      //   )
-                                      // }
+                                      
 
                                       style={{
                                         backgroundColor: !list.isActive
@@ -946,7 +939,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 </tbody>
               </Table>
             </SelectableGroup>
-          </div>
+            </div>
+          
         </InfiniteScroll>
       </div>
       <BulkEmailCareGiverModal

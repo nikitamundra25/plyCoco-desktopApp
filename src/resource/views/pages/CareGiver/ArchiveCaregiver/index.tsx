@@ -279,13 +279,13 @@ const ArchiveCaregiver: FunctionComponent = () => {
                 <th className='sno-th-column text-center'>
                   {languageTranslation('S_NO')}
                 </th>
-                <th>{languageTranslation('CAREGIVER_NAME')}</th>
-                <th>{languageTranslation('USERNAME')}</th>
-                <th>{languageTranslation('EMAIL')}</th>
+                <th className="name-th-column">{languageTranslation('CAREGIVER_NAME')}</th>
+                <th className="name-th-column">{languageTranslation('USERNAME')}</th>
+                <th className="name-th-column">{languageTranslation('EMAIL')}</th>
                 <th className='date-th-column'>
                   {languageTranslation('DELETED_DATE')}
                 </th>
-                <th className='text-center'>
+                <th className='text-center action-th-column'>
                   {languageTranslation('TABLE_HEAD_ACTION')}
                 </th>
               </tr>
@@ -311,13 +311,13 @@ const ArchiveCaregiver: FunctionComponent = () => {
                         <td className='sno-th-column text-center'>
                           <span>{count++}</span>
                         </td>
-                        <td>
+                        <td className="name-th-column word-wrap">
                           <div className='info-column'>
                             {elements.join(' ')}
                           </div>
                         </td>
-                        <td>{trashUser.userName.split('-')[0]}</td>
-                        <td>{trashUser.email.split('-')[0]}</td>
+                        <td className="name-th-column word-wrap">{trashUser.userName.split('-')[0]}</td>
+                        <td className="name-th-column word-wrap">{trashUser.email.split('-')[0]}</td>
                         <td className='date-th-column '>
                           {trashUser.deletedAt
                             ? moment(trashUser.deletedAt).format(
@@ -325,7 +325,7 @@ const ArchiveCaregiver: FunctionComponent = () => {
                               )
                             : ''}
                         </td>
-                        <td>
+                        <td className="action-th-column">
                           <div className={`action-btn `}>
                             <span
                               className='btn-icon mr-2'

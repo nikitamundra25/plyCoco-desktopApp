@@ -377,7 +377,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                           type="text"
                           name="searchValue"
                           id="search"
-                          value={"searchValue"}
+                          value={""}
                         />
                       </FormGroup>
                     </Col>
@@ -564,7 +564,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                   <Row className="align-items-center">
                     <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                       <Label className="form-label col-form-label">
-                        total selection
+                        Total selection
                       </Label>
                     </Col>
                     <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>

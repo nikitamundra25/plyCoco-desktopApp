@@ -1221,7 +1221,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           dateOfBirth=''} = caregiver ? caregiver:{} ;
       setPdfTerminateAppointment({
         name:[firstName, lastName].filter(Boolean).join(' '),
-        dateOfBirth: dateOfBirth ? `, ${moment(dateOfBirth, defaultDateFormat).format(defaultDateFormat)}`:'',
+        dateOfBirth: dateOfBirth ? `${moment(dateOfBirth, defaultDateFormat).format(defaultDateFormat)}`:'',
         street,
         city
       });

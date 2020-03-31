@@ -106,21 +106,34 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
 
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = () => {
-    if (openCareGiverBulkEmail === true) {
-      setconfirmApp(false);
-      setunlinkedBy('');
-    }
-    if (offerRequirements) {
-      setOfferRequirements(false);
-    }
-    if (leasingContract) {
-      setleasingContract(false);
-    }
-    if (!terminateAggrement) {
-      setTerminateAggrement(true);
-    }
-    setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+    // if (openCareGiverBulkEmail === true) {
+    //   setconfirmApp(false);
+    //   setunlinkedBy('');
+    //   setOfferRequirements(false);
+    //   setleasingContract(false);
+    //   // setTerminateAggrement(false);
+    // }
+    // if (offerRequirements) {
+    //   setOfferRequirements(false);
+    // }
+    // if (leasingContract) {
+    //   setleasingContract(false);
+    // }
+    // if (terminateAggrement) {
+    //   setTerminateAggrement(false);
+    // }
+    setopenCareGiverBulkEmail(true);
   };
+
+  // To close the email pop-up
+  const handleClose = () => {
+    setopenCareGiverBulkEmail(false);
+    setconfirmApp(false);
+    setunlinkedBy('');
+    setOfferRequirements(false);
+    setleasingContract(false);
+    setTerminateAggrement(false);
+  }
 
   const { daysArr = [] } = daysData ? daysData : {};
   // select multiple
@@ -397,6 +410,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     });
   }
+
+  // To check appointment with leasing careInst or not
+  let isLeasingAppointment = false;
+  if (selectedCells && selectedCells.length) {
+    isLeasingAppointment = selectedCells.filter((cell:any) => cell && cell.item && cell.item.appointments && cell.item.appointments.length && cell.item.appointments[0].cr && cell.item.appointments[0].cr.isLeasing).length ? true: false
+  }
+  console.log(isLeasingAppointment,'isLeasingAppointment');
+  
   return (
     <div>
       <div
@@ -497,13 +518,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={
-                selectedCells
-                  ? selectedCells.length === 0 ||
-                    (offferAll && offferAll.length !== 0) ||
-                    (checkQuali && checkQuali.length === 0)
-                  : true
-              }
+              // disabled={
+              //   selectedCells
+              //     ? selectedCells.length === 0 ||
+              //       (offferAll && offferAll.length !== 0) ||
+              //       (checkQuali && checkQuali.length === 0)
+              //     : true
+              // }
               onClick={() => {
                 setopenToggleMenu(false);
                 setOfferRequirements(true);
@@ -557,7 +578,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (disconnectAppCond && disconnectAppCond.length !== 0)
+                    (disconnectAppCond && disconnectAppCond.length !== 0) || isLeasingAppointment
                   : true
               }
               onClick={() => {
@@ -577,7 +598,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 selectedCells
                   ? selectedCells.length === 0 ||
                     (selectedCells[0].item &&
-                      selectedCells[0].item.status !== 'linked')
+                      selectedCells[0].item.status !== 'linked') || isLeasingAppointment
                   : true
               }
             >
@@ -599,7 +620,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 selectedCells
                   ? selectedCells.length === 0 ||
                     (selectedCells[0].item &&
-                      selectedCells[0].item.status !== 'confirmed')
+                      selectedCells[0].item.status !== 'confirmed') || isLeasingAppointment
                   : true
               }
             >
@@ -617,14 +638,25 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={
-                selectedCells
-                  ? selectedCells.length === 0 || checkLeasing === 1
-                  : true
-              }
+             disabled={
+              selectedCells && selectedCells.length
+                ? selectedCells.filter(
+                    (availability: any) =>
+                      (availability && !availability.item) || !isLeasingAppointment ||
+                      (availability.item && availability.item.appointments && availability.item.appointments.length &&
+                        availability.item.appointments[0] && availability.item.appointments[0].cr && availability.item.appointments[0].cr.status !== 'confirmed')
+                  ).length
+                  ? true
+                  : false
+                : true
+            }
+              // disabled={
+              //   selectedCells
+              //     ? selectedCells.length === 0 || checkLeasing === 1
+              //     : true
+              // }
               onClick={() => {
                 setopenToggleMenu(false);
-                setOfferRequirements(true);
                 setleasingContract(true);
                 handleCareGiverBulkEmail();
               }}
@@ -637,9 +669,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={selectedCells ? selectedCells.length === 0 || !isLeasingAppointment: true}
               onClick={() => {
-                onTerminateAggrement();
+                // onTerminateAggrement();
                 setopenToggleMenu(false);
                 setTerminateAggrement(true);
                 handleCareGiverBulkEmail();
@@ -924,7 +956,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
             ? sortedQualificationList
             : props.qualification
         }
-        handleClose={() => handleCareGiverBulkEmail()}
+        handleClose={handleClose}
         gte={props.gte}
         lte={props.lte}
         selectedCells={selectedCells}

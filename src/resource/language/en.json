@@ -933,6 +933,7 @@
   "MAIN_CONTACT": "Main contact",
   "STATE_ERROR": "Please choose at least one state.",
   "NO_DATA_FOUND": "No data found",
+  "CONTRACT": "Contract",
   "FACTORING_CONTRACT": "Factoring Contracts",
   "CAREINSTTITUTION_LINKED": "Care Institution must be linked with a caregiver",
   "CAREGIVER_LINKED": "Caregiver must be linked with a care institution",

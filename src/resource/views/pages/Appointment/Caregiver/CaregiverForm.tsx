@@ -25,9 +25,14 @@ import {
   State,
   defaultDateFormat,
   appointmentDayFormat,
-  dbAcceptableFormat
+  dbAcceptableFormat,
+  AppConfig
 } from '../../../../../config';
 import '../index.scss';
+import { LeasingContractQueries } from '../../../../../graphql/queries';
+import { useLazyQuery } from '@apollo/react-hooks';
+
+const [GET_LEASING_CONTRACT] = LeasingContractQueries;
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm &
@@ -35,6 +40,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   const { addCaregiverLoading } = props;
+  // Query to get uploaded pdf
+  const [getLeasingContractPDF, { data:pdfData, loading }] = useLazyQuery<any>(GET_LEASING_CONTRACT);
 
   //For saving both
   useEffect(() => {
@@ -94,6 +101,31 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     handleLastTimeData,
     selectedCells
   } = props;
+
+  useEffect(() => {
+    // To check appointment with leasing careInst or not
+    let isLeasingAppointment = false;
+    if (selectedCells && selectedCells.length) {
+      isLeasingAppointment = selectedCells.filter((cell:any) => cell && cell.item && cell.item.appointments && cell.item.appointments.length && cell.item.appointments[0].cr && cell.item.appointments[0].cr.isLeasing).length ? true: false;     
+      if (isLeasingAppointment) {
+    const { id = '' , item = {}} = selectedCells[0] ? selectedCells[0] : {}
+      const {appointments = []} = item ? item : {}
+      const {avabilityId = '',id:appointmentId = ''} = appointments && appointments.length && appointments[0] ? appointments[0] : {}
+      console.log('above API call');
+      
+    getLeasingContractPDF({
+      variables: {
+        userId:parseInt(id),
+        availabilityId:[parseInt(avabilityId)],
+        appointmentId: [parseInt(appointmentId)],
+        documentUploadType: 'leasingContract',
+      }
+    });}}
+    console.log(isLeasingAppointment,'in caregiver form');
+    },[selectedCells])
+
+    console.log(pdfData,'pdfData');
+    
   const [starMark, setstarMark] = useState<boolean>(false);
   console.log(selectedCells,'in form view');
   
@@ -178,6 +210,9 @@ if(activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]){
    dateCondition =  now <= input;
 }
       
+// Signed contract link
+const {getLeasingContractPDF:pdfDetails = []} = pdfData ? pdfData : {}
+const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
   return (
     <>
       <div className='form-section'>
@@ -858,6 +893,7 @@ if(activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]){
                         </div>
                       </FormGroup>
                     </div>
+                    {document ? <a href= {`${AppConfig.FILES_ENDPOINT}${document}`} target={'_blank'}>{languageTranslation('CONTRACT')}</a> : null}
                   </Col>
                 </Row>
               </FormGroup>

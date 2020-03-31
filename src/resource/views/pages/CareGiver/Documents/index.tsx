@@ -516,12 +516,13 @@ const Documents = () => {
               <Button
                 onClick={onApprove}
                 disabled={
-                  data &&
-                  data.getDocuments &&
-                  data.getDocuments.filter(
-                    (document: any) =>
-                      document.isDefault && document.status !== 'approve'
-                  ).length
+                  (data &&
+                    data.getDocuments &&
+                    data.getDocuments.filter(
+                      (document: any) =>
+                        document.isDefault && document.status !== 'approve'
+                    ).length) ||
+                  loading
                     ? true
                     : false // If any of the required document in not approved by admin
                 }

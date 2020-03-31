@@ -819,7 +819,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             obj.id = object.item.id;
             obj.division = object.item.division
               ? object.item.division.name
-              : "";
+              : object.item.name;
             obj.shiftLabel = shiftLabel;
             obj.day = moment(object.item.date).format("D");
             obj.month = moment(object.item.date).format("MMM");
@@ -1086,7 +1086,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           } = requirement && requirement.length ? requirement[0] : {};
           const {startTime='', endTime='',name='', division={},qualificationId=[]} = cr ? cr :{}
           let {address=''} = division ?division : {}
-          if (moment(date).isBefore(moment(), 'day')) {
+          if (!moment(date).isBefore(moment(), 'day')) {
             let shiftLabel =
               startTime === '06:00'
                 ? 'FD'

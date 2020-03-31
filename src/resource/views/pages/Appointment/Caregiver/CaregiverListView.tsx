@@ -732,7 +732,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 >
                   <InfiniteLoader
                     loadMoreRows={({ startIndex, stopIndex }) => loadMoreRows({ startIndex, stopIndex }) as any}
-                    isRowLoaded={() => false}
+                    isRowLoaded={({index}) => { console.log(index,'imndex')
+                      return (index < careGiversList.length)}}
                     rowCount={totalCaregiver}
                   >
                     {({ onRowsRendered, registerChild }) => (
@@ -740,7 +741,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         {({ width }) => (
                           <List
                             ref={registerChild}
-                            height={100}
+                            height={600}
                             onRowsRendered={onRowsRendered}
                             rowCount={careGiversList.length}
                             rowHeight={30}

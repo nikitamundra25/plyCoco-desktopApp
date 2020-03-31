@@ -1060,7 +1060,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             mailBody = `<p>${`Please sign a termination contract for a temporary employment contract with TIMyoCY for:<span><b>${'date'}</b></span> ${
               cname ? cname : ''
               }</br>` +
-              `<p>Please use the following link: <a href="http://78.47.143.190:8000/accept-appointment/cancellation-contract/{token}"/> http://78.47.143.190:8000/accept-appointment/cancellation-contract/{token}</a>`}</p>`;
+              `<p>Please use the following link: <a href="http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}</a>`}</p>`;
             const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
             setSubject('Teminate aggrement');
             setBody(editorState);
@@ -1200,7 +1200,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let mailBody = `<p>${languageTranslation(
           'CAREGIVER_EMAIL_LEASING_CONTRACT'
         )}</p></br>${requirementEmailData}</br>
-        <p>Please use the following link: <a href="http://78.47.143.190:8000/accept-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/accept-appointment/employment-contract/{token}</a>
+        <p>Please use the following link: <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
         </p>`;
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';

@@ -1861,7 +1861,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       } else {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(
-            languageTranslation("EMAIL_SELECT_CARE_GIVERS")
+            languageTranslation('EMAIL_SELECT_CARE_GIVERS', {
+              userRole: languageTranslation('CAREGIVER_USERROLE')
+            })
           );
         }
       }

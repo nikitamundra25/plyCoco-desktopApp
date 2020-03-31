@@ -184,19 +184,19 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       }
 
       // get careInstitutions list
-      fetchCaregiverListFromQualification({
-        variables: {
-          qualificationId: temp ? temp : [],
-          positiveAttributeId: [],
-          negativeAttributeId: [],
-          userRole: 'canstitution',
-          limit: 30,
-          page,
-          gte: props.gte,
-          lte: props.lte,
-          userId: userId
-        }
-      });
+      // fetchCaregiverListFromQualification({
+      //   variables: {
+      //     qualificationId: temp ? temp : [],
+      //     positiveAttributeId: [],
+      //     negativeAttributeId: [],
+      //     userRole: 'canstitution',
+      //     limit: 30,
+      //     page,
+      //     gte: props.gte,
+      //     lte: props.lte,
+      //     userId: userId
+      //   }
+      // });
     }
   }, [props.qualification]);
 
@@ -991,7 +991,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       } else {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(
-            languageTranslation('EMAIL_SELECT_CARE_GIVERS')
+            languageTranslation('EMAIL_SELECT_CARE_GIVERS', {
+              userRole: languageTranslation('CAREINST_USERROLE')
+            })
           );
         }
       }

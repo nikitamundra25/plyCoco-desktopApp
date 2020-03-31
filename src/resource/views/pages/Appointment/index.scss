@@ -293,6 +293,9 @@
 .selecting-cell-bg {
   background: $selected_color !important;
 }
+.accepted-bg{
+  background:#00ffff !important;
+}
 .custom-height {
   height: calc(100vh - 165px);
   overflow-x: hidden;

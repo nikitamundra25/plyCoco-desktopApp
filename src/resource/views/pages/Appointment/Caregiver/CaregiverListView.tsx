@@ -195,6 +195,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       selectedCells &&
       selectedCells.length
     ) {
+      console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
+      console.log("selectedCells",selectedCells);
+      
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
         if (!toast.isActive(toastId)) {
           toastId = toast.error('Please select same length cells');
@@ -405,7 +408,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     selectedCells.filter((x: any) => {
       if (x.item && x.item.appointments) {
         x.item.appointments.map((st: any) => {
-          return (checkLeasing = st && st.cr && st.cr.status);
+          return (checkLeasing = st && st.cr && st.cr.status ? st.cr.status : "");
         });
       }
     });

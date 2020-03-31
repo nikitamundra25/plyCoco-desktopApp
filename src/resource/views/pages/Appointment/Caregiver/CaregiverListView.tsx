@@ -124,6 +124,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   // select multiple
   // const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
+
   const onSelectFinish = (selectedCellsData: any[]) => {
     let selectedRows: any[] = [];
     if (selectedCellsData && selectedCellsData.length) {
@@ -659,7 +660,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           <div className="custom-appointment-calendar">
             <div className="custom-appointment-calendar-head">
               <div className="custom-appointment-row ">
-                <div className="custom-appointment-col name-col">Caregiver</div>
+                {/* <div className="custom-appointment-col name-col">Caregiver</div> */}
+                <div className="custom-appointment-col name-col">
+                    <div className="position-relative  username-col align-self-center">
+                        {languageTranslation("MENU_CAREGIVER")}
+                      <Button
+                         onClick={() => handleToggleMenuItem()}
+                        className="btn-more d-flex align-items-center justify-content-center"
+                      >
+                        <i className="icon-options-vertical" />
+                      </Button>
+                      </div>
+                    </div>
                 <div className="custom-appointment-col h-col">H</div>
                 <div className="custom-appointment-col s-col text-center">
                   S
@@ -729,7 +741,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                             rowCount={careGiversList.length}
                             rowHeight={30}
                             rowRenderer={({ index, key }) => {
-                              const list = careGiversList[index] || {};
+                              const list = careGiversList[index] || {}; 
                               console.log(list);
                               return list.availabilityData &&
                                 list.availabilityData.length

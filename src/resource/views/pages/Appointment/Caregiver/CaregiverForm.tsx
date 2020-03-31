@@ -95,7 +95,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     selectedCells
   } = props;
   const [starMark, setstarMark] = useState<boolean>(false);
-  console.log(selectedCells,'in form view');
   
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -107,6 +106,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     isContract: boolean = false,
     isConfirm: boolean = false,
     isContractInitiated:boolean=false,
+    isSingleButtonAccepted:boolean= false,
     isContractCancel: boolean = false;
 
   if (selctedAvailability || status) {
@@ -144,7 +144,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       status === 'contractcancelled'
     ) {
       isContractCancel = true;
-    }
+    }else if (selctedAvailability && selctedAvailability.status === 'accepted' || status === 'accepted') {
+      isSingleButtonAccepted = true;
+  }
     else if (
       (selctedAvailability &&
         selctedAvailability.status === 'contractInitiated') ||
@@ -188,6 +190,7 @@ if(activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]){
             'matching-bg': isMatching,
             'confirmation-bg': isConfirm,
             'cancel-contract-bg': isContractCancel,
+            'accepted-bg': isSingleButtonAccepted,
             'contact-initiate-bg':isContractInitiated,
           })}
         >

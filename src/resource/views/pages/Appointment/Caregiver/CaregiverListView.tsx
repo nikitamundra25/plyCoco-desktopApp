@@ -195,6 +195,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       selectedCells &&
       selectedCells.length
     ) {
+      console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
+      console.log("selectedCells",selectedCells);
+      
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
         if (!toast.isActive(toastId)) {
           toastId = toast.error('Please select same length cells');
@@ -405,7 +408,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     selectedCells.filter((x: any) => {
       if (x.item && x.item.appointments) {
         x.item.appointments.map((st: any) => {
-          return (checkLeasing = st && st.cr && st.cr.status);
+          return (checkLeasing = st && st.cr && st.cr.status ? st.cr.status : "");
         });
       }
     });
@@ -754,7 +757,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         </div>
                       </div>
                     </th>
-                    {/* array for showing day */}
+                    
                     {daysArr.map(
                       (
                         { date, day, isWeekend, today }: IDaysArray,
@@ -809,14 +812,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div className='all-star-wrap'>
                                     <div
                                       className='text-capitalize one-line-text  username-col name-text'
-                                      // onClick={() =>
-                                      //   history.push(
-                                      //     AppRoutes.CARE_GIVER_VIEW.replace(
-                                      //       ':id',
-                                      //       list.id
-                                      //     )
-                                      //   )
-                                      // }
+                                      
 
                                       style={{
                                         backgroundColor: !list.isActive
@@ -946,7 +942,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 </tbody>
               </Table>
             </SelectableGroup>
-          </div>
+            </div>
+          
         </InfiniteScroll>
       </div>
       <BulkEmailCareGiverModal

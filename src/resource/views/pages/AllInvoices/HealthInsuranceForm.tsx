@@ -22,7 +22,7 @@ import refresh from "../../../assets/img/refresh.svg";
 import document from "../../../assets/img/header-icons/specialist-invoice.svg";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
-import { TODO_PAGE_LIMIT, AppRoutes, InvoiceFilter } from "../../../../config";
+import {  StatusOptions, SortOptions } from "../../../../config";
 import "./index.scss";
 import rich from "../../../assets/img/rich.svg";
 
@@ -61,21 +61,19 @@ const HealthInsuranceForm: FunctionComponent<RouteComponentProps> & any = (
                       </FormGroup>
                     </Col>
                     <Col lg={"2"} md={"3"}>
-                      <FormGroup>
-                        <Label className="col-form-label">
-                          {languageTranslation("STATUS_LABEL")} :
-                        </Label>
-                        <Select
-                          placeholder={languageTranslation(
-                            "STATUS_PLACEHOLDER"
-                          )}
-                          options={InvoiceFilter}
-                          isClearable={true}
-                          isSearchable={false}
-                          classNamePrefix="custom-inner-reactselect"
-                          className={"custom-reactselect"}
-                        />
-                      </FormGroup>
+                    <FormGroup>
+                      <Label for="Selectregion" className="col-form-label">
+                        {languageTranslation("SORTBY_LABEL")} :
+                      </Label>
+                      <Select
+                        placeholder={languageTranslation("SORTBY_PLACEHOLDER")}
+                        options={SortOptions}
+                        isClearable={true}
+                        isSearchable={false}
+                        classNamePrefix="custom-inner-reactselect"
+                        className={"custom-reactselect"}
+                      />
+                    </FormGroup>
                     </Col>
 
                     <Col lg={"2"} md={"3"}>

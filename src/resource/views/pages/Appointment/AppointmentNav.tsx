@@ -51,11 +51,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     isNegative,
     setIsNegative,
     positive,
-    negative,
+    negative
   } = props;
-  const { month = '', year = '' } = daysData ? daysData : {};
-  console.log(month,'month',moment().month(moment().month()).format(appointmentMonthFormat));
-  
+  const { month = "", year = "" } = daysData ? daysData : {};
+
   const [attributeSearch, setShowAttribute] = useState<boolean>(false);
   const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
   const [user, setuser] = useState<string>("");
@@ -88,8 +87,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
       onFilterByUserId(userId, userRole);
     }
   };
+
   const handleAllResetFilters = () => {
-    console.log('in handleAllResetFilters');
     if (isFilterSet) {
       handleResetFilters();
     }
@@ -101,8 +100,14 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
       moment()
         .month(month)
         .format("M")
-    ))
-  let setNewDate: any = new Date(setMonthForDays.getFullYear(), setMonthForDays.getMonth() - 1, 1)
+    )
+  );
+
+  let setNewDate: any = new Date(
+    setMonthForDays.getFullYear(),
+    setMonthForDays.getMonth() - 1,
+    1
+  );
 
   return (
     <>
@@ -151,15 +156,15 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               onChange={(value: any) => handleSelectAppointment(value)}
             />
           </div>
-
+  
           <div className="user-select mx-1">
             <div className="custom-select-checkbox">
               <ReactMultiSelectCheckboxes
-                placeholderButtonLabel={languageTranslation(
+                placeholderButtonLabel={ languageTranslation(
                   "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                 )}
                 options={qualificationList}
-                placeholder={languageTranslation(
+                placeholder={  languageTranslation(
                   "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                 )}
                 value={qualification ? qualification : undefined}
@@ -239,7 +244,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               placeholder="Select Care Institution"
               value={
                 careinstitutionSoloFilter &&
-                  careinstitutionSoloFilter.value !== ""
+                careinstitutionSoloFilter.value !== ""
                   ? careinstitutionSoloFilter
                   : null
               }
@@ -249,10 +254,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 handleUserList(value, "careinstitution")
               }
               isClearable={true}
-             
             />
           </div>
-          <div className={`header-nav-item pt-1 ${!isFilterSet ? 'disable' : ''}`} onClick={handleAllResetFilters}>
+          <div
+            className={`header-nav-item pt-1 ${!isFilterSet ? "disable" : ""}`}
+            onClick={handleAllResetFilters}
+          >
             <span className="header-nav-icon">
               <i className="fa fa-refresh "></i>
             </span>

@@ -929,6 +929,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   };
 
+  console.log("selectedCareGiver",selectedCareGiver);
+  
+
   const handleSendEmail = (e: React.FormEvent<any>) => {
     e.preventDefault();
     let content = body

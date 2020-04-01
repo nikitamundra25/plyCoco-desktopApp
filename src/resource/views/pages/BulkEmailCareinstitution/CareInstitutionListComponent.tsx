@@ -47,6 +47,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
     lastName = "",
     email = "",
     id = "",
+    userId = '',
     canstitution = {},
     contact = []
   } = getCareInstitution ? getCareInstitution : {};
@@ -57,6 +58,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
       contactType: languageTranslation("MAIN_CONTACT"),
       name: [lastName, firstName].join(" "),
       email,
+      userId,
       id
     }
   ];
@@ -68,10 +70,12 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
         surName = "",
         email = "",
         contact_type = {},
-        id = ""
+        id = "",
+        userId = ''
       } = item ? item : {};
       temp.push({
         id,
+        userId,
         companyName: "",
         contactType:
           contact_type && contact_type.contactType
@@ -83,6 +87,8 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
     });
   }
 
+  console.log("temp",temp);
+  
   
   return (
     <Col lg={"6"} className="pr-lg-0">
@@ -116,7 +122,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
                 <tr
                   key={index}
                   onClick={(e: any) => {
-                    handleChecked(item.id);
+                    handleChecked(item && item.userId ? item.userId : item.id);
                   }}
                   className="cursor-pointer"
                 >
@@ -130,12 +136,12 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
                         checked={
                           selectedCareGiver &&
                           selectedCareGiver.length &&
-                          selectedCareGiver.indexOf(parseInt(item.id)) > -1
+                          selectedCareGiver.indexOf(parseInt(item && item.userId ? item.userId : item.id)) > -1
                             ? true
                             : false
                         }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          handleCheckElement(e, item.id);
+                          handleCheckElement(e, item && item.userId ? item.userId : item.id);
                         }}
                       />
                       <label className=""></label>

@@ -164,7 +164,9 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
         
       </>
       <CardBody className="position-relative">
-    
+    <div
+    className={`${!(isLoading || loading || !called) && !holidaysData.length ? "no-data-table-wrap" : ""}`}
+    >
       <div className="sticky-table table-responsive">
         <table className={"main-table table table-hover"}>
           <thead className="thead-bg">
@@ -182,8 +184,10 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
           <tbody>
             {!(isLoading || loading || !called) && !holidaysData.length ? (
               <tr className="text-center">
-                <td colSpan={states.length || 8}>
-                  Currently there are no holiday Details found
+                <td colSpan={states.length || 8}
+                 className={`table-data-td`}
+                >
+                 <div className="no-data-avaible">Currently there are no holiday Details found</div>
                 </td>
               </tr>
             ) : (
@@ -268,7 +272,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
           </div>
         ) : null} */}
       </div>
-      
+    </div>  
       {isLoading || loading ? (
           <div className="global-calendar-table-loader">
             <Loader />

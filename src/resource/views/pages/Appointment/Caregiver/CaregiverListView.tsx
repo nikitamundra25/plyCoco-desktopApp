@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import {  Nav, NavItem, NavLink, Button } from "reactstrap";
+import { Nav, NavItem, NavLink, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import classnames from "classnames";
@@ -43,7 +43,7 @@ import termination from "../../../../assets/img/dropdown/aggrement.svg";
 import refresh from "../../../../assets/img/refresh.svg";
 import "../index.scss";
 import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
-import { InfiniteLoader,Table, Column, AutoSizer, List } from "react-virtualized";
+import { InfiniteLoader, Table, Column, AutoSizer, List } from "react-virtualized";
 // import styles from "react-virtualized/dist/";
 // const { Table, Column, AutoSizer, InfiniteLoader } = ReactVirtualized
 
@@ -91,29 +91,29 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       temp.push(i);
     }
     setItems(temp)
-  },[])
+  }, [])
 
-  const loadMore = (data:any) =>{
-    console.log(data,'loadmore')
+  const loadMore = (data: any) => {
+    console.log(data, 'loadmore')
     // simulate a request
-    setTimeout(() => {actuallyLoadMore()}, 500)
+    setTimeout(() => { actuallyLoadMore() }, 500)
     // we need to return a promise
     return new Promise((resolve, reject) => {
       //  this.promiseResolve = resolve;
     })
- }
-
- const actuallyLoadMore = () => {
-  // fake new data
-  let newItems = []
-  let s = items.length
-  for (let i = 0, l = 10; i < l; i++) {
-     newItems.push(s + i)
   }
-  setItems(items.concat(newItems))
-  // resolve the promise after data where fetched
-  // this.promiseResolve();
-}
+
+  const actuallyLoadMore = () => {
+    // fake new data
+    let newItems = []
+    let s = items.length
+    for (let i = 0, l = 10; i < l; i++) {
+      newItems.push(s + i)
+    }
+    setItems(items.concat(newItems))
+    // resolve the promise after data where fetched
+    // this.promiseResolve();
+  }
 
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
@@ -430,18 +430,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     // const temp = [...loadedRowsMap];
     // for (var i = startIndex; i <= stopIndex; i++) {
     //   console.log("in for loop", i);
-      
+
     //   temp[i] = STATUS_LOADING;
     // console.log(temp,'temp in for');
 
     // }
     // console.log(temp,'temp');
-    
+
     // setLoadedRowsMap(temp);
     getNext(careGiversList.length)
   }
-  console.log(items, 10000,'outside return');
-  
+  console.log(items, 10000, 'outside return');
+
   return (
     <div>
       <div
@@ -700,36 +700,35 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem> */}
         </Nav>
       </div>
-              <InfiniteLoader
-          isRowLoaded={({ index}) => !!careGiversList[index]}
-          // loadMoreRows={loadMore}
-          rowCount={1000000}
-            loadMoreRows={({ startIndex, stopIndex }) => loadMoreRows({ startIndex, stopIndex }) as any}
-          >
-          {({onRowsRendered, registerChild}) => (
-            <AutoSizer disableHeight>
-              {({width}) => (
-                <List
-                ref={registerChild}
-                height={200}
-                onRowsRendered={onRowsRendered}
-                rowCount={careGiversList.length}
-                // {careGiversList.length}
-                rowHeight={40}
-                width={width}
-                rowGetter={({ index }:any) => careGiversList[index]}
-                rowRenderer={({ index, key, isScrolling }) => {
-                  const list = careGiversList[index]
-                  // careGiversList[index] || {}; 
-                  console.log(index,'index in rebder', isScrolling);
-                return <div>{list.email}</div> 
-              }}
-                />
-              )}
-            </AutoSizer>
-          )}
-        </InfiniteLoader>
-      
+      <InfiniteLoader
+        isRowLoaded={({ index }) => !!careGiversList[index]}
+        // loadMoreRows={loadMore}
+        rowCount={totalCaregiver}
+        loadMoreRows={({ startIndex, stopIndex }) => loadMoreRows({ startIndex, stopIndex }) as any}
+      >
+        {({ onRowsRendered, registerChild }) => (
+
+
+          <List
+            ref={registerChild}
+            height={200}
+            onRowsRendered={onRowsRendered}
+            rowCount={80}
+            // {careGiversList.length}
+            rowHeight={30}
+            width={600}
+            // rowGetter={({ index }:any) => careGiversList[index]}
+            rowRenderer={({ index, key, isScrolling }) => {
+              const list = careGiversList[index]
+              // careGiversList[index] || {}; 
+              console.log(index, 'index in rebder', isScrolling);
+              return <div>{index}</div>
+            }}
+          />
+
+        )}
+      </InfiniteLoader>
+
       <div className="position-relative">
         {/* <InfiniteScroll
           loader={<div className="appointment-list-loader">{}</div>}
@@ -754,16 +753,16 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               <div className="custom-appointment-row ">
                 {/* <div className="custom-appointment-col name-col">Caregiver</div> */}
                 <div className="custom-appointment-col name-col">
-                    <div className="position-relative  username-col align-self-center">
-                        {languageTranslation("MENU_CAREGIVER")}
-                      <Button
-                         onClick={() => handleToggleMenuItem()}
-                        className="btn-more d-flex align-items-center justify-content-center"
-                      >
-                        <i className="icon-options-vertical" />
-                      </Button>
-                      </div>
-                    </div>
+                  <div className="position-relative  username-col align-self-center">
+                    {languageTranslation("MENU_CAREGIVER")}
+                    <Button
+                      onClick={() => handleToggleMenuItem()}
+                      className="btn-more d-flex align-items-center justify-content-center"
+                    >
+                      <i className="icon-options-vertical" />
+                    </Button>
+                  </div>
+                </div>
                 <div className="custom-appointment-col h-col">H</div>
                 <div className="custom-appointment-col s-col text-center">
                   S
@@ -818,46 +817,46 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     ".v-col"
                   ]}
                 >
-                  <InfiniteLoader
-                  isRowLoaded={({ index}) => !!careGiversList[index]}
-                  // loadMoreRows={loadMore}
-                  rowCount={1000000}
+                  {/* <InfiniteLoader
+                    isRowLoaded={({ index }) => !!careGiversList[index]}
+                    // loadMoreRows={loadMore}
+                    rowCount={1000000}
                     loadMoreRows={({ startIndex, stopIndex }) => loadMoreRows({ startIndex, stopIndex }) as any}
-                    // isRowLoaded={({index}) => { console.log(loadedRowsMap, !!loadedRowsMap[index],index,'imndex')
-                    //    return !!loadedRowsMap[index];}}
-                    //    isRowLoaded={({ index}) => !!careGiversList[index]}
-                    // rowCount={10000}
+                  // isRowLoaded={({index}) => { console.log(loadedRowsMap, !!loadedRowsMap[index],index,'imndex')
+                  //    return !!loadedRowsMap[index];}}
+                  //    isRowLoaded={({ index}) => !!careGiversList[index]}
+                  // rowCount={10000}
                   >
                     {({ onRowsRendered, registerChild }) => (
                       <AutoSizer disableHeight>
                         {({ width }) => (
-                    //       <Table
-                    //       ref={registerChild}
-                    //       onRowsRendered={onRowsRendered}
-                    //       rowClassName='table-row'
-                    //       headerHeight={40}
-                    //       width={width}
-                    //       height={300}
-                    //       rowHeight={15}
-                    //       rowCount={careGiversList.length}
-                    //       rowGetter={({ index }) => careGiversList[index]}
-                    //    >
-                    //    <Column
-                    //       label='Id'
-                    //       dataKey='id'
-                    //       width={width * 0.2}
-                    //    />
-                    //    <Column
-                    //       label='Name'
-                    //       dataKey='name'
-                    //       width={width * 0.4}
-                    //    />
-                    //    <Column
-                    //       label='E.mail'
-                    //       dataKey='email'
-                    //       width={width * 0.4}
-                    //    />
-                    // </Table>
+                          //       <Table
+                          //       ref={registerChild}
+                          //       onRowsRendered={onRowsRendered}
+                          //       rowClassName='table-row'
+                          //       headerHeight={40}
+                          //       width={width}
+                          //       height={300}
+                          //       rowHeight={15}
+                          //       rowCount={careGiversList.length}
+                          //       rowGetter={({ index }) => careGiversList[index]}
+                          //    >
+                          //    <Column
+                          //       label='Id'
+                          //       dataKey='id'
+                          //       width={width * 0.2}
+                          //    />
+                          //    <Column
+                          //       label='Name'
+                          //       dataKey='name'
+                          //       width={width * 0.4}
+                          //    />
+                          //    <Column
+                          //       label='E.mail'
+                          //       dataKey='email'
+                          //       width={width * 0.4}
+                          //    />
+                          // </Table>
                           <List
                             ref={registerChild}
                             height={200}
@@ -865,11 +864,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                             rowCount={items.length}
                             // {careGiversList.length}
                             rowHeight={40}
-                            rowGetter={({ index }:any) => careGiversList[index]}
+                            rowGetter={({ index }: any) => careGiversList[index]}
                             rowRenderer={({ index, key, isScrolling }) => {
                               const list = items[index]
                               // careGiversList[index] || {}; 
-                              console.log(index,'index in rebder', isScrolling);
+                              console.log(index, 'index in rebder', isScrolling);
                               return <div>{items[index]}</div>
                               // return list.availabilityData &&
                               //   list.availabilityData.length
@@ -1002,7 +1001,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         )}
                       </AutoSizer>
                     )}
-                  </InfiniteLoader>
+                  </InfiniteLoader> */}
                 </SelectableGroup>
               ) : (
                     <div className="no-data-section pt-5 pb-5 bg-white text-center">

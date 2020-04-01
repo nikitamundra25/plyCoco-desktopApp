@@ -279,10 +279,10 @@
   background: $contract_color !important;
 }
 .cancel-contract-bg {
-  background: #9e7b6f !important;
+  background: $contract_cancel_color !important;
 }
 .contact-initiate-bg {
-  background: #fbc76d !important;
+  background: $contract_initiate_color !important;
 }
 .confirmation-bg {
   background: $confirmation_color !important;

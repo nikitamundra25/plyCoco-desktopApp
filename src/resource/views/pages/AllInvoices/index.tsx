@@ -14,6 +14,7 @@ import {
   Nav
 } from "reactstrap";
 import Select from "react-select";
+import { Link } from 'react-router-dom';
 
 import { languageTranslation } from "../../../../helpers";
 
@@ -454,11 +455,11 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                           {" "}
                           {languageTranslation("MENU_CAREGIVER")}
                         </th>
-                        <th className="cancellationfor-col">
+                        <th className="cancel-col">
                           {" "}
                           {languageTranslation("CANCELLATION_FOR")}{" "}
                         </th>
-                        <th className="canceledby-col">
+                        <th className="cancel-col">
                           {" "}
                           {languageTranslation("CANCELED_BY")}
                         </th>
@@ -476,67 +477,71 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                           {languageTranslation("SENT_POST")}
                         </th>
 
-                        <th className="all-invoice-paid">
+                        <th className="date-col">
                           {languageTranslation("PAID")}
                         </th>
-                        <th className="all-invoice-remind">
+                        <th className="date-col">
                           {languageTranslation("REMIND")}
                         </th>
-                        <th className="all-invoice-reminded">
+                        <th className="date-col">
                           {languageTranslation("REMINDED")}
                         </th>
-                        <th className="lawyer-col">
+                        <th className="date-col">
                           {languageTranslation("LAWYER")}
                         </th>
-                        <th className="doudful-col">
+                        <th className="checkbox-col">
                           {languageTranslation("DOUBTFUL")}
                         </th>
-                        <th className="irrecoverable-col">
+                        <th className="checkbox-col">
                           {languageTranslation("IRRECOVERABLE")}
                         </th>
                         <th className="amount-col">
-                          {languageTranslation("AMOUNT_PAID")}
+                          {languageTranslation("COST")}
                         </th>
-                       
-                        <th className="all-invoice-still-open">
+                        <th className="amount-col">
+                          {languageTranslation("SALARY_AMOUNT")}
+                        </th>
+                        <th className="amount-col">
                           {languageTranslation("STILL_OPEN")}
                         </th>
-                        <th className="all-invoice-comment">
+                        <th className="comment-col">
                           {languageTranslation("COMMENT")}
                         </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td> 3143156</td>
-                        <td> Work at service</td>
-                        <td> Testwerk</td>
-                        <td> 03.03.2020</td>
-                        <td>230004</td>
-                        <td>16-09-2013</td>
-                        <td>234.02</td>
-                        <td>17-09-2013</td>
-                        <td></td>
-                        <td></td>
-                         <td></td>
-                        <td>16-09-2013</td>
-                        <td>16-09-2013</td>
-                        <td>16-09-2013</td>
-                        <td>
+                        <td className="invoiceid-col"> 230004</td>
+                        <td className="careinstitution-col"> <Link to="#" className="view-more-link">John Doe</Link></td>
+                        <td className="caregiver-col"> <Link to="#" className="view-more-link">Testwerk</Link></td>
+                        <td className="cancel-col"></td>
+                        <td className="cancel-col"></td>
+                        <td className="invoiceid-col">230005</td>
+                        <td className="date-col">16-09-2013</td>
+                        <td className="amount-col">234.02</td>
+                        <td className="date-col">17-09-2013</td>
+                        <td className="date-col"></td>
+                         <td className="date-col"></td>
+                        <td className="date-col">16-09-2013</td>
+                        <td className="date-col">16-09-2013</td>
+                        <td className="date-col">16-09-2013</td>
+                        <td className="checkbox-col">
                           <span className="checkbox-custom ">
                             <input type="checkbox" id="checkAll" className="" />
                             <label className=""> </label>
                           </span>
                         </td>
-                        <td>
+                        <td className="checkbox-col">
                           <span className="checkbox-custom ">
                             <input type="checkbox" id="checkAll" className="" />
                             <label className=""> </label>
                           </span>
                         </td>
-                        <td>234.02</td>
-                        <td></td>
-                        <td>am 16.00</td>
+                        <td className="amount-col">234.02</td>
+                        <td className="amount-col">234.02</td>
+                        <td className="amount-col">234.02</td>
+                        
+                        <td className="comment-col"><span className="word-wrap">am 16.00</span></td>
                       </tr>
                     </tbody>
                   </Table>

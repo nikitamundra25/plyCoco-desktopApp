@@ -2926,7 +2926,9 @@ const Appointment: FunctionComponent = (props: any) => {
       gte = daysData.daysArr[0].dateString || "";
       lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || "";
     }
-    fetchMoreCareGiverList({
+    // return new Promise((resolve) => 
+    // {
+      fetchMoreCareGiverList({
       variables: {
         qualificationId: temp ? temp : null,
         userRole: "caregiver",
@@ -2988,6 +2990,7 @@ const Appointment: FunctionComponent = (props: any) => {
             });
           }
           setcaregiversList((prevArray: any) => [...prevArray, ...list]);
+          // resolve();
           let selectedId: any = [];
           return Object.assign({}, prev, {
             getUserByQualifications: {
@@ -3000,8 +3003,9 @@ const Appointment: FunctionComponent = (props: any) => {
           });
         }
       }
-    });
-  };
+    })
+  // })
+  }
 
   /*
    */

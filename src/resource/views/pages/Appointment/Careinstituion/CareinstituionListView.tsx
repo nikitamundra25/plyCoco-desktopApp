@@ -1068,17 +1068,18 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 {/* array for showing day */}
                 {daysArr.map(
                   (
-                    { date, day, isWeekend, today }: IDaysArray,
+                    { date, day, isWeekend, dateString }: IDaysArray,
                     index: number
                   ) => {
-                    const todaysDate = moment(today).format(
-                      appointmentDateFormat
-                    );
+                    const isTodayDate = moment(dateString).isSame(
+                      moment(),
+                      'day'
+                    )
                     return (
                       <div
                         key={index}
                         className={`custom-appointment-col calender-col text-center ${
-                          date === todaysDate
+                          isTodayDate
                             ? "today"
                             : isWeekend
                             ? "weekend"

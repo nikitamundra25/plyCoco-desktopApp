@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { Table, Nav, NavItem, NavLink, Button } from "reactstrap";
+import {  Nav, NavItem, NavLink, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import classnames from "classnames";
@@ -43,7 +43,9 @@ import termination from "../../../../assets/img/dropdown/aggrement.svg";
 import refresh from "../../../../assets/img/refresh.svg";
 import "../index.scss";
 import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
-import { InfiniteLoader, AutoSizer, List } from "react-virtualized";
+import { InfiniteLoader,Table, Column, AutoSizer, List } from "react-virtualized";
+// import styles from "react-virtualized/dist/";
+// const { Table, Column, AutoSizer, InfiniteLoader } = ReactVirtualized
 
 let toastId: any = null;
 const STATUS_LOADING = 1;
@@ -81,6 +83,37 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [loadedRowsMap, setLoadedRowsMap] = useState<number[]>([]);
+  const [items, setItems] = useState<number[]>([]);
+
+  useEffect(() => {
+    let temp = []
+    for (let i = 0, l = 10; i < l; i++) {
+      temp.push(i);
+    }
+    setItems(temp)
+  },[])
+
+  const loadMore = (data:any) =>{
+    console.log(data,'loadmore')
+    // simulate a request
+    setTimeout(() => {actuallyLoadMore()}, 500)
+    // we need to return a promise
+    return new Promise((resolve, reject) => {
+      //  this.promiseResolve = resolve;
+    })
+ }
+
+ const actuallyLoadMore = () => {
+  // fake new data
+  let newItems = []
+  let s = items.length
+  for (let i = 0, l = 10; i < l; i++) {
+     newItems.push(s + i)
+  }
+  setItems(items.concat(newItems))
+  // resolve the promise after data where fetched
+  // this.promiseResolve();
+}
 
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
@@ -382,33 +415,33 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     });
   }
 
-  useEffect(() => {
-    let temp = []
-    if (careGiversList && careGiversList.length) {
-      temp = Array(careGiversList.length).fill(STATUS_LOADED)
-      // setLoadedRowsMap(Array(careGiversList.length).fill(STATUS_LOADED)
-    }
-    temp.concat(Array(30).fill(STATUS_LOADING))
-    setLoadedRowsMap(temp)
-  },[careGiversList])
+  // useEffect(() => {
+  //   let temp = []
+  //   if (careGiversList && careGiversList.length) {
+  //     temp = Array(careGiversList.length).fill(STATUS_LOADED)
+  //     // setLoadedRowsMap(Array(careGiversList.length).fill(STATUS_LOADED)
+  //   }
+  //   temp.concat(Array(30).fill(STATUS_LOADING))
+  //   setLoadedRowsMap(temp)
+  // },[careGiversList])
   console.log(careGiversList, "careGiversList");
   const loadMoreRows = ({ startIndex, stopIndex }: any) => {
     console.log("In load more data+++++++++++++ startIndex", startIndex);
     console.log("In load more data+++++++++++++stopIndex", stopIndex);
-    const temp = [...loadedRowsMap];
-    for (var i = startIndex; i <= stopIndex; i++) {
-      console.log("in for loop", i);
+    // const temp = [...loadedRowsMap];
+    // for (var i = startIndex; i <= stopIndex; i++) {
+    //   console.log("in for loop", i);
       
-      temp[i] = STATUS_LOADING;
-    console.log(temp,'temp in for');
+    //   temp[i] = STATUS_LOADING;
+    // console.log(temp,'temp in for');
 
-    }
-    console.log(temp,'temp');
+    // }
+    // console.log(temp,'temp');
     
-    setLoadedRowsMap(temp);
+    // setLoadedRowsMap(temp);
     getNext(careGiversList.length)
   }
-  console.log(loadedRowsMap,'outside return ');
+  console.log(items, 10000,'outside return');
   
   return (
     <div>
@@ -422,7 +455,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       <div
         className={classnames({
           "rightclick-menu top-open": true,
-          "custom-scrollbar": true,
+          // "custom-scrollbar": true,
           "d-none": !openToggleMenu
         })}
       >
@@ -668,12 +701,42 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem> */}
         </Nav>
       </div>
+              <InfiniteLoader
+          isRowLoaded={({ index}) => !!careGiversList[index]}
+          // loadMoreRows={loadMore}
+          rowCount={1000000}
+            loadMoreRows={({ startIndex, stopIndex }) => loadMoreRows({ startIndex, stopIndex }) as any}
+          >
+          {({onRowsRendered, registerChild}) => (
+            <AutoSizer disableHeight>
+              {({width}) => (
+                <List
+                ref={registerChild}
+                height={200}
+                onRowsRendered={onRowsRendered}
+                rowCount={careGiversList.length}
+                // {careGiversList.length}
+                rowHeight={40}
+                width={width}
+                rowGetter={({ index }:any) => careGiversList[index]}
+                rowRenderer={({ index, key, isScrolling }) => {
+                  const list = careGiversList[index]
+                  // careGiversList[index] || {}; 
+                  console.log(index,'index in rebder', isScrolling);
+                return <div>{list.email}</div> 
+              }}
+                />
+              )}
+            </AutoSizer>
+          )}
+        </InfiniteLoader>
+      
       <div className="position-relative">
         {/* <InfiniteScroll
           loader={<div className="appointment-list-loader">{}</div>}
           hasMore={
             !starMark || locationState
-              ? careGiversList && careGiversList.length !== totalCaregiver
+              ? careGiversList && careGiversList.length !== 10000
               : false
           }
           dataLength={
@@ -686,7 +749,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           scrollableTarget={"scrollableDiv-1"}
           // hasChildren
         > */}
-        <div className="calender-section custom-scrollbar" id="scrollableDiv-1">
+        <div className="calender-section" >
           <div className="custom-appointment-calendar">
             <div className="custom-appointment-calendar-head">
               <div className="custom-appointment-row ">
@@ -757,149 +820,183 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   ]}
                 >
                   <InfiniteLoader
+                  isRowLoaded={({ index}) => !!careGiversList[index]}
+                  // loadMoreRows={loadMore}
+                  rowCount={1000000}
                     loadMoreRows={({ startIndex, stopIndex }) => loadMoreRows({ startIndex, stopIndex }) as any}
-                    isRowLoaded={({index}) => { console.log(loadedRowsMap, !!loadedRowsMap[index],index,'imndex')
-                       return !!loadedRowsMap[index];}}
-                    rowCount={totalCaregiver}
+                    // isRowLoaded={({index}) => { console.log(loadedRowsMap, !!loadedRowsMap[index],index,'imndex')
+                    //    return !!loadedRowsMap[index];}}
+                    //    isRowLoaded={({ index}) => !!careGiversList[index]}
+                    // rowCount={10000}
                   >
                     {({ onRowsRendered, registerChild }) => (
                       <AutoSizer disableHeight>
                         {({ width }) => (
+                    //       <Table
+                    //       ref={registerChild}
+                    //       onRowsRendered={onRowsRendered}
+                    //       rowClassName='table-row'
+                    //       headerHeight={40}
+                    //       width={width}
+                    //       height={300}
+                    //       rowHeight={15}
+                    //       rowCount={careGiversList.length}
+                    //       rowGetter={({ index }) => careGiversList[index]}
+                    //    >
+                    //    <Column
+                    //       label='Id'
+                    //       dataKey='id'
+                    //       width={width * 0.2}
+                    //    />
+                    //    <Column
+                    //       label='Name'
+                    //       dataKey='name'
+                    //       width={width * 0.4}
+                    //    />
+                    //    <Column
+                    //       label='E.mail'
+                    //       dataKey='email'
+                    //       width={width * 0.4}
+                    //    />
+                    // </Table>
                           <List
                             ref={registerChild}
                             height={200}
                             onRowsRendered={onRowsRendered}
-                            rowCount={careGiversList.length}
-                            rowHeight={30}
-                            rowRenderer={({ index, key }) => {
-                              const list = careGiversList[index] || {}; 
-                              console.log(index,'index in rebder');
-                              
-                              return list.availabilityData &&
-                                list.availabilityData.length
-                                ? list.availabilityData.map(
-                                  (item: any, row: number) => (
-                                    <div
-                                      className="custom-appointment-row"
-                                      key={`${list.id}-${index}-${row}-${key}`}
-                                    >
-                                      <div
-                                        className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link"
-                                        style={{
-                                          backgroundColor: !list.isActive
-                                            ? deactivatedListColor
-                                            : list.caregiver &&
-                                              list.caregiver.attributes
-                                              ? list.caregiver.attributes.includes(
-                                                CaregiverTIMyoCYAttrId
-                                              )
-                                                ? leasingListColor
-                                                : list.caregiver.attributes.includes(
-                                                  "Plycoco"
-                                                )
-                                                  ? selfEmployesListColor
-                                                  : ""
-                                              : ""
-                                        }}
-                                        title={[
-                                          list.lastName,
-                                          list.firstName
-                                        ].join(" ")}
-                                        id={`caregiver-${list.id}`}
-                                      >
-                                        <Link
-                                          to={AppRoutes.CARE_GIVER_VIEW.replace(
-                                            ":id",
-                                            list.id
-                                          )}
-                                          target="_blank"
-                                          className="text-body"
-                                        >
-                                          {row === 0
-                                            ? [
-                                              list.lastName,
-                                              list.firstName
-                                            ].join(" ")
-                                            : ""}
-                                        </Link>
-                                      </div>
-                                      <div className="custom-appointment-col h-col appointment-color2"></div>
-                                      <div
-                                        className="custom-appointment-col s-col text-center"
-                                        onClick={() =>
-                                          onhandleSecondStar(
-                                            list,
-                                            index,
-                                            "caregiver"
-                                          )
-                                        }
-                                      >
-                                        {starMark ? (
-                                          <i className="fa fa-star theme-text" />
-                                        ) : (
-                                            <i className="fa fa-star-o" />
-                                          )}
-                                      </div>
-                                      <div
-                                        className="custom-appointment-col u-col text-center"
-                                        onClick={() =>
-                                          onhandleSecondStar(
-                                            list,
-                                            index,
-                                            "caregiver"
-                                          )
-                                        }
-                                      >
-                                        {starMark ? (
-                                          <i className="fa fa-star theme-text" />
-                                        ) : (
-                                            <i className="fa fa-star-o" />
-                                          )}
-                                      </div>
-                                      <div
-                                        className="custom-appointment-col v-col text-center"
-                                        onClick={e =>
-                                          onAddingRow(e, "caregiver", index)
-                                        }
-                                      >
-                                        <i className="fa fa-arrow-down" />
-                                      </div>
-                                      {daysArr.map((key: any, i: number) => {
-                                        return (
-                                          <Cell
-                                            key={`${key}-${i}`}
-                                            daysArr={key.isWeekend}
-                                            day={key}
-                                            list={list}
-                                            fetchDataValues={
-                                              props.fetchDataValues
-                                            }
-                                            item={
-                                              item.filter(
-                                                (avabilityData: any) => {
-                                                  return (
-                                                    moment(
-                                                      key.isoString
-                                                    ).format("DD.MM.YYYY") ===
-                                                    moment(
-                                                      avabilityData.date
-                                                    ).format("DD.MM.YYYY")
-                                                  );
-                                                }
-                                              )[0]
-                                            }
-                                            handleSelection={handleSelection}
-                                            selectedCells={selectedCells}
-                                            selectedCellsCareinstitution={
-                                              selectedCellsCareinstitution
-                                            }
-                                          />
-                                        );
-                                      })}
-                                    </div>
-                                  )
-                                )
-                                : <div></div>;
+                            rowCount={items.length}
+                            // {careGiversList.length}
+                            rowHeight={40}
+                            rowGetter={({ index }:any) => careGiversList[index]}
+                            rowRenderer={({ index, key, isScrolling }) => {
+                              const list = items[index]
+                              // careGiversList[index] || {}; 
+                              console.log(index,'index in rebder', isScrolling);
+                              return <div>{items[index]}</div>
+                              // return list.availabilityData &&
+                              //   list.availabilityData.length
+                              //   ? list.availabilityData.map(
+                              //     (item: any, row: number) => (
+                              //       <div
+                              //         className="custom-appointment-row"
+                              //         key={`${list.id}-${index}-${row}-${key}`}
+                              //       >
+                              //         <div
+                              //           className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link"
+                              //           style={{
+                              //             backgroundColor: !list.isActive
+                              //               ? deactivatedListColor
+                              //               : list.caregiver &&
+                              //                 list.caregiver.attributes
+                              //                 ? list.caregiver.attributes.includes(
+                              //                   CaregiverTIMyoCYAttrId
+                              //                 )
+                              //                   ? leasingListColor
+                              //                   : list.caregiver.attributes.includes(
+                              //                     "Plycoco"
+                              //                   )
+                              //                     ? selfEmployesListColor
+                              //                     : ""
+                              //                 : ""
+                              //           }}
+                              //           title={[
+                              //             list.lastName,
+                              //             list.firstName
+                              //           ].join(" ")}
+                              //           id={`caregiver-${list.id}`}
+                              //         >
+                              //           <Link
+                              //             to={AppRoutes.CARE_GIVER_VIEW.replace(
+                              //               ":id",
+                              //               list.id
+                              //             )}
+                              //             target="_blank"
+                              //             className="text-body"
+                              //           >
+                              //             {row === 0
+                              //               ? [
+                              //                 list.lastName,
+                              //                 list.firstName
+                              //               ].join(" ")
+                              //               : ""}
+                              //           </Link>
+                              //         </div>
+                              //         <div className="custom-appointment-col h-col appointment-color2"></div>
+                              //         <div
+                              //           className="custom-appointment-col s-col text-center"
+                              //           onClick={() =>
+                              //             onhandleSecondStar(
+                              //               list,
+                              //               index,
+                              //               "caregiver"
+                              //             )
+                              //           }
+                              //         >
+                              //           {starMark ? (
+                              //             <i className="fa fa-star theme-text" />
+                              //           ) : (
+                              //               <i className="fa fa-star-o" />
+                              //             )}
+                              //         </div>
+                              //         <div
+                              //           className="custom-appointment-col u-col text-center"
+                              //           onClick={() =>
+                              //             onhandleSecondStar(
+                              //               list,
+                              //               index,
+                              //               "caregiver"
+                              //             )
+                              //           }
+                              //         >
+                              //           {starMark ? (
+                              //             <i className="fa fa-star theme-text" />
+                              //           ) : (
+                              //               <i className="fa fa-star-o" />
+                              //             )}
+                              //         </div>
+                              //         <div
+                              //           className="custom-appointment-col v-col text-center"
+                              //           onClick={e =>
+                              //             onAddingRow(e, "caregiver", index)
+                              //           }
+                              //         >
+                              //           <i className="fa fa-arrow-down" />
+                              //         </div>
+                              //         {daysArr.map((key: any, i: number) => {
+                              //           return (
+                              //             <Cell
+                              //               key={`${key}-${i}`}
+                              //               daysArr={key.isWeekend}
+                              //               day={key}
+                              //               list={list}
+                              //               fetchDataValues={
+                              //                 props.fetchDataValues
+                              //               }
+                              //               item={
+                              //                 item.filter(
+                              //                   (avabilityData: any) => {
+                              //                     return (
+                              //                       moment(
+                              //                         key.isoString
+                              //                       ).format("DD.MM.YYYY") ===
+                              //                       moment(
+                              //                         avabilityData.date
+                              //                       ).format("DD.MM.YYYY")
+                              //                     );
+                              //                   }
+                              //                 )[0]
+                              //               }
+                              //               handleSelection={handleSelection}
+                              //               selectedCells={selectedCells}
+                              //               selectedCellsCareinstitution={
+                              //                 selectedCellsCareinstitution
+                              //               }
+                              //             />
+                              //           );
+                              //         })}
+                              //       </div>
+                              //     )
+                              //   )
+                              //   : <div></div>;
                             }}
                             width={width}
                           />

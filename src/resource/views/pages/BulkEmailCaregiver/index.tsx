@@ -44,6 +44,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import LeasingContactPdf from './PDF/LeasingContactPdf';
 import TerminationAgreementPdf from './PDF/TerminationAgreementPdf';
 import './index.scss';
+import Loader from "../../containers/Loader/Loader";
 // import { emailContent } from '../../../../common';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
@@ -115,7 +116,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     { documentInput: any }
   >(ADD_DOCUMENT);
 
-  const [generateLeasingContractLinkToken,{data:tokenData,loading:sending}] = useMutation<any, {
+  const [generateLeasingContractLinkToken,{data:tokenData,loading:generating, called: tokenAPICalled}] = useMutation<any, {
       userId:number,
       appointmentId:number[],
       availabilityId:number[],
@@ -1131,7 +1132,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             obj.address = object.item.address;
             obj.division = object.item.division
               ? object.item.division.name
-              : "";
+              : object.item.name;
             obj.shiftLabel = shiftLabel;
             obj.day = moment(object.item.date).format("D");
             obj.month = moment(object.item.date).format("MMM");
@@ -1957,7 +1958,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   </PDFDownloadLink>
                 ) : null}
-                { console.log(pdfTerminateAppointment,'pdfTerminateAppointment',leasingContract, terminateAggrement, signatureData, terminationAgreementPdfData,'condition--',!terminationAgreementPdfData && terminateAggrement && pdfTerminateAppointment && pdfTerminateAppointment.name && signatureData ? true : false)}
+                { console.log(pdfTerminateAppointment,'pdfTerminateAppointment',leasingContract, terminateAggrement, signatureData, terminationAgreementPdfData,!leasingContactPdfData && leasingContract && pdfAppointmentDetails.length > 0 && signatureData ? true:false,'condition--',!terminationAgreementPdfData && terminateAggrement && pdfTerminateAppointment && pdfTerminateAppointment.name && signatureData ? true : false)}
                 {!terminationAgreementPdfData && terminateAggrement && pdfTerminateAppointment && pdfTerminateAppointment.name && signatureData ? (
                   <PDFDownloadLink
                     document={
@@ -1972,7 +1973,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   </PDFDownloadLink>
                 ) : null}
-
+                {(leasingContract || terminationAgreementPdfData) && (generating || !tokenAPICalled) ? <div style={{minHeight:'200px'}}><Loader /></div> : <>
                 <CareGiverListComponent
                   offerRequirements={offerRequirements}
                   careGivers={
@@ -2009,7 +2010,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   uploadDocument={uploadDocument}
                   onDelteDocument={onDelteDocument}
                   isSubmit={isSubmit}
-                />
+                /></>}
               </Row>
             </div>
           </div>

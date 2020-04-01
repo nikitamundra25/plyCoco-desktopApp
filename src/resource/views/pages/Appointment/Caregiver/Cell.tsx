@@ -45,7 +45,8 @@ const Cell = ({
     isContract: boolean = false,
     isConfirm: boolean = false,
     isContractCancel: boolean = false,
-    isContractInitiated:boolean=false
+    isContractInitiated:boolean=false,
+    isSingleButtonAccepted:boolean= false
   if (item) {
     if (item.status === 'default') {
       isRequirment = true;
@@ -59,8 +60,10 @@ const Cell = ({
       isContractCancel = true;
     }else if (item.status === 'contractInitiated') {
       isContractInitiated = true;
-    }
+    }else if (item.status === 'accepted') {
+      isSingleButtonAccepted = true;
   }
+}
   return (
     <>
       <td
@@ -82,6 +85,7 @@ const Cell = ({
           'block-bg': item ? (isBlocked ? true : false) : false,
           'matching-bg': isMatching && !isSelected ? isMatching : false,
           'confirmation-bg': isConfirm && !isSelected ? isConfirm : false,
+          'accepted-bg': isSingleButtonAccepted && !isSelected ? isSingleButtonAccepted : false,
           'availability-dark-bg': !isSelected
             ? item
               ? item.f === 'available' ||

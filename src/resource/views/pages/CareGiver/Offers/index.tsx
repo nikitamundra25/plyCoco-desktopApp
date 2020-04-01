@@ -197,7 +197,7 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
         lastname: list.lastName
       }))
     );
-  }, [negativeUser]);
+  }, [negativeUser, userId]);
 
   //delete negative user mutation
   const [deleteNegativeUser] = useMutation<any>(DELETE_BLACKLIST_USER, {

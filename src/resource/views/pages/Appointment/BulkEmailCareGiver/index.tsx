@@ -1,9 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-} from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import '../index.scss';
 import BulkEmailCaregiver from '../../BulkEmailCaregiver';
 import close from '../../../../assets/img/cancel.svg';
@@ -15,7 +11,10 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
     handleClose,
     selectedCells,
     offerRequirements,
+    leasingContract,
     qualificationList,
+    offerCareGiver,
+    terminateAggrement
   } = props;
   const externalCloseBtn = (
     <button
@@ -28,6 +27,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
+  
   return (
     <>
       <Modal
@@ -50,8 +50,11 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
             confirmApp={props.confirmApp}
             selectedCellsCareinstitution={props.selectedCellsCareinstitution}
             unlinkedBy={props.unlinkedBy}
+            offerCareGiver={offerCareGiver}
             offerRequirements={offerRequirements}
+            leasingContract={leasingContract}
             qualificationList={qualificationList}
+            terminateAggrement={terminateAggrement}
           />
         </ModalBody>
       </Modal>

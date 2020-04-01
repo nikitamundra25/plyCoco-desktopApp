@@ -43,7 +43,13 @@ const CreateTodo = React.lazy(() =>
 const LeasingPersonalData = React.lazy(() => import('./LeasingData'));
 const GroupedBelow = React.lazy(() => import('./GroupedBelow'));
 
-const [GET_CAREGIVERS] = CareGiverQueries;
+const [,,
+ ,
+  ,
+  ,
+  ,
+  ,
+  , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const CareGiverRoutesTabs = careGiverRoutes;
 
 const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
@@ -55,10 +61,18 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 
   const [showToDo, setShowToDo] = useState<boolean>(false);
   // To fetch the list of all caregiver
+  // const [
+  //   fetchCareGivers,
+  //   { data: careGivers, loading, refetch }
+  // ] = useLazyQuery<any>(GET_CAREGIVERS, {
+  //   fetchPolicy: 'no-cache'
+  // });
+
+  // fetch caregivers list new query GET_CAREGIVER_BY_NAME
   const [
-    fetchCareGivers,
-    { data: careGivers, loading, refetch }
-  ] = useLazyQuery<any>(GET_CAREGIVERS, {
+    fetchCareGiversList,
+    { data: careGiversList, loading, refetch }
+  ] = useLazyQuery<any>(GET_CAREGIVER_BY_NAME, {
     fetchPolicy: 'no-cache'
   });
 
@@ -74,15 +88,22 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     // Fetch list of caregivers
-    fetchCareGivers({
+  //  fetchCareGivers({
+  //     variables: {
+  //       searchBy: '',
+  //       sortBy: 3,
+  //       limit: 500,
+  //       page: 1,
+  //       isActive: ''
+  //     }
+  //   }); 
+    fetchCareGiversList({
       variables: {
         searchBy: '',
-        sortBy: 3,
         limit: 500,
         page: 1,
-        isActive: ''
       }
-    });
+    })
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -104,16 +125,16 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 
   const careGiverOpt: IReactSelectInterface[] | undefined = [];
   if (
-    careGivers &&
-    careGivers.getCaregivers &&
-    careGivers.getCaregivers.result
+    careGiversList &&
+    careGiversList.getCaregiverByName &&
+    careGiversList.getCaregiverByName.result
   ) {
     careGiverOpt.push({
       label: languageTranslation('NAME'),
       value: languageTranslation('ID'),
       color: ''
     });
-    careGivers.getCaregivers.result.forEach(
+    careGiversList.getCaregiverByName.result.forEach(
       ({ id, firstName, lastName, isActive, caregiver }: any) => {
         let { attributes = [] } = caregiver ? caregiver : {};
         // To check null values
@@ -132,6 +153,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       }
     );
   }
+  console.log("careGiverOpt",careGiverOpt);
+  
   // It's used to set active tab
   useEffect(() => {
     const query: any = qs.parse(search);
@@ -152,7 +175,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       (careGiver: any) => careGiver.value === id
     )[0];
     setselectUser(currenCareGiver);
-  }, [careGivers, pathname]);
+  }, [careGiversList, pathname]);
   const [newContactAdded, setnewContactAdded] = useState(false);
 
   const onTabChange = (activeTab: number) => {
@@ -263,7 +286,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       onClick={() =>
                         history.push({
                           pathname: AppRoutes.APPOINTMENT,
-                          state: { caregiver: Id }
+                          state: { caregiver: Id , name: selectUser.label }
                         })
                       }
                     >
@@ -311,12 +334,12 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                         selectUser && selectUser.label ? selectUser.label : ''
                       }
                       userRole={
-                        careGivers &&
-                        careGivers.getCaregivers &&
-                        careGivers.getCaregivers.result &&
+                        careGiversList &&
+                        careGiversList.getCaregiverByName &&
+                        careGiversList.getCaregiverByName.result &&
                         selectUser &&
                         selectUser.value
-                          ? careGivers.getCaregivers.result.find(
+                          ? careGiversList.getCaregiverByName.result.find(
                               (careGiver: any) =>
                                 careGiver.id === selectUser.value
                             ).userRole

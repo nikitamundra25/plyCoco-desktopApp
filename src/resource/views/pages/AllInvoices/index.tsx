@@ -377,7 +377,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                           type="text"
                           name="searchValue"
                           id="search"
-                          value={"searchValue"}
+                          value={""}
                         />
                       </FormGroup>
                     </Col>
@@ -445,34 +445,35 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                   <Table bordered hover responsive>
                     <thead className="thead-bg">
                       <tr>
-                        <th className="all-invoice-number">
+                        <th className="invoiceid-col">
                           {" "}
                           {languageTranslation("NUMBER")}{" "}
                         </th>
-                        <th className="all-invoice-facility">
+                        <th className="careinstitution-col">{languageTranslation("MENU_INSTITUTION")}</th>
+                        <th className="caregiver-col">
                           {" "}
-                          {languageTranslation("FACILITY")}
+                          {languageTranslation("MENU_CAREGIVER")}
                         </th>
-                        <th className="all-invoice-cancellation-for">
+                        <th className="cancellationfor-col">
                           {" "}
                           {languageTranslation("CANCELLATION_FOR")}{" "}
                         </th>
-                        <th className="all-invoice-canceled-by">
+                        <th className="canceledby-col">
                           {" "}
                           {languageTranslation("CANCELED_BY")}
                         </th>
-                        <th className="all-invoice-rchng"> RchngnR. F</th>
-                        <th className="all-invoice-date">
+                        <th className="invoiceid-col"> {languageTranslation("INVOICE_NUMBER_F")}</th>
+                        <th className="date-col">
                           {languageTranslation("DATE")}
                         </th>
-                        <th className="all-invoice-amount">
+                        <th className="amount-col">
                           {languageTranslation("AMOUNT")}
                         </th>
-                        <th className="all-invoice-posted">
-                          {languageTranslation("POSTED")}
+                        <th className="date-col">
+                          {languageTranslation("POST")}
                         </th>
-                        <th className="all-invoice-sent-mail">
-                          {languageTranslation("SENT_MAIL")}
+                        <th className="date-col">
+                          {languageTranslation("SENT_POST")}
                         </th>
 
                         <th className="all-invoice-paid">
@@ -484,15 +485,19 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                         <th className="all-invoice-reminded">
                           {languageTranslation("REMINDED")}
                         </th>
-                        <th className="all-invoice-lawyer">
+                        <th className="lawyer-col">
                           {languageTranslation("LAWYER")}
                         </th>
-                        <th className="all-invoice-doudful">
+                        <th className="doudful-col">
                           {languageTranslation("DOUBTFUL")}
                         </th>
-                        <th className="all-invoice-uncollectible">
-                          {languageTranslation("UNCOLLECTIBLE")}
+                        <th className="irrecoverable-col">
+                          {languageTranslation("IRRECOVERABLE")}
                         </th>
+                        <th className="amount-col">
+                          {languageTranslation("AMOUNT_PAID")}
+                        </th>
+                       
                         <th className="all-invoice-still-open">
                           {languageTranslation("STILL_OPEN")}
                         </th>
@@ -513,6 +518,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                         <td>17-09-2013</td>
                         <td></td>
                         <td></td>
+                         <td></td>
                         <td>16-09-2013</td>
                         <td>16-09-2013</td>
                         <td>16-09-2013</td>
@@ -529,6 +535,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                           </span>
                         </td>
                         <td>234.02</td>
+                        <td></td>
                         <td>am 16.00</td>
                       </tr>
                     </tbody>
@@ -564,7 +571,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                   <Row className="align-items-center">
                     <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                       <Label className="form-label col-form-label">
-                        total selection
+                        Total selection
                       </Label>
                     </Col>
                     <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>

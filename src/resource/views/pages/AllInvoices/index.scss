@@ -12,19 +12,24 @@
   }
 
   .header-nav-heading {
-    font-size: 12px;
+    font-size: $font_12;
     font-weight: 400;
-    color: #000;
+    color: $black;
     text-align: left;
     display: block;
     padding: 0px;
-    font-family: "FrutigerNeueLTPro-Bold", sans-serif;
+    font-family: $font_Frutiger_Bold;
     height: 18px;
     display: block;
   }
   .header-nav-item,
   .user-select {
     margin-bottom: 0.25rem !important;
+  }
+}
+.invoice-header{
+  .user-select {
+    width:150px
   }
 }
 .total-form-section {
@@ -37,6 +42,9 @@
 .all-invoice {
   .invoices-table {
     min-height: calc(100vh - 352px);
+  }
+  .createinvoices-table{
+    min-height: calc(100vh - 235px);
   }
   table {
     th {
@@ -95,6 +103,82 @@
       &.all-invoice-comment {
         min-width: 100px;
       }
+    }
+  }
+}
+
+.createinvoices-table{
+  th,td{
+    &.sno-col{
+      width:60px;
+      min-width:60px;
+    }
+    &.invoiceid-col{
+      width:70px;
+      min-width:70px;
+    }&.h-col{
+      width:50px;
+      min-width: 50px;
+    }&.text-col{
+      width:180px;
+      min-width:180px;
+    }&.datetime-col{
+      width:150px;
+      min-width:150px;
+    }&.price-col{
+      width:100px;
+      min-width: 90px;
+    }
+  }
+}
+
+.payslipform-table{
+  td,th{
+    &.caregiver-col{
+      width:200px;
+    }
+    &.file-col{
+      width:150px;
+    }
+    &.date-col{
+      width:70px;
+    }
+    &.month-col{
+      width:100px;
+    }
+    &.amount-col{
+      width:90px;
+    }
+    &.paymentamount-col{
+      width:120px;
+    }
+    &.gross-col{
+      width:80px;
+    }
+    &.type-col{
+      width:180px;
+    }
+    &.paid-col{
+      width:90px;
+    }
+    &.visible-col{
+      width:50px;
+    }
+    &.comment-col{
+      width:200px;
+      min-width:150px;
+    }
+    
+  }
+}
+
+.healthinsuraceform-table{
+  th,td{
+    &.sepa-col{
+      width:50px;
+    }
+    &.action-col{
+      width:70px;
     }
   }
 }

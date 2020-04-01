@@ -21,7 +21,6 @@ export interface IAppointmentNav {
   handleQualification: (value: any) => void;
   handleNext: () => void;
   handleDayClick: (selectedDay: Date) => void;
-  handleSelectUserList: (value: any, name: string) => void;
   daysData: IGetDaysArrayByMonthRes | null;
   qualificationList: IReactSelectInterface[] | undefined;
   careInstitutionList: any;
@@ -35,9 +34,7 @@ export interface IAppointmentNav {
     positiveId: number[],
     negativeId: number[]
   ) => void;
-  handleSelectAppointment: (
-    selectOption: IReactSelectInterface,
-  ) => void;
+  handleSelectAppointment: (selectOption: IReactSelectInterface) => void;
   onFilterByUserId: (userId: string, userRole: string) => void;
   handleResetFilters: () => void;
   handleUserList: (value: any, name: string) => void;
@@ -46,10 +43,14 @@ export interface IAppointmentNav {
   isPositive: number[];
   setIsPositive: React.Dispatch<React.SetStateAction<number[]>>;
   isNegative: number[];
+  positive: number[];
+  negative: number[];
   setIsNegative: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export interface IAppointmentCareGiverList {
+  fetchDataValues?:any;
+  updateCaregiverStatus:(name: string) => Promise<void>
   daysData: IGetDaysArrayByMonthRes | null;
   careGiversList: any;
   loading: boolean;
@@ -76,11 +77,11 @@ export interface IAppointmentCareGiverList {
   handleSelection?: (selectedCells: any, name: string) => void;
   selectedCellsCareinstitution?: any;
   onLinkAppointment?: any;
-  setOnConfirmedCaregiver?: any;
-  setOnNotConfirmedCaregiver?: any;
   fetchingCareGiverData?: () => void;
   careInstitutionList?: any[];
+  onTerminateAggrement: () => Promise<void>;
   locationState: any;
+  careinstitutionSoloFilter:IReactSelectInterface | undefined
 }
 
 export interface IAppointmentCareInstitutionList {
@@ -251,6 +252,7 @@ export interface ICareinstitutionFormSubmitValue {
   s: string;
   n: string;
   status: string;
+  isLeasing?:boolean;
 }
 
 export interface IUnlinkInterface {

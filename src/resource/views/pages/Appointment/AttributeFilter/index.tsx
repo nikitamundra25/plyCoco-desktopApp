@@ -29,39 +29,57 @@ const AttributeFilter = (props: IAttributeFilter) => {
   const [activePreset, setActivePreset] = useState<number | null>(null);
   const {
     show,
+    positive,
+    negative,
     handleClose,
     setAttributeFilter,
     attributeFilter,
     applyFilter
   } = props;
+    // Fetch attribute list from db
+    const [getCaregiverAtrributeWithCategory, { data: attributeData, loading:listLoading }] = useLazyQuery<any>(
+      GET_CAREGIVER_ATTRIBUTES_WITH_CATEGORY,
+      {
+        variables: {
+          userRole:
+            attributeFilter && attributeFilter === 'caregiver'
+              ? 'caregiver'
+              : 'careInstitution'
+        }
+      }
+    );
   // To get list of presets
   const [
     getPresetAttributeList,
     { data: presetList, loading, refetch }
   ] = useLazyQuery<any>(GET_PRESETS_LIST);
   useEffect(() => {
-    getPresetAttributeList({
-      variables: {
-        userRole:
-          attributeFilter && attributeFilter === 'caregiver'
-            ? 'caregiver'
-            : 'careInstitution'
-      }
-    });
+    if (show) {
+      getPresetAttributeList({
+        variables: {
+          userRole:
+            attributeFilter && attributeFilter === 'caregiver'
+              ? 'caregiver'
+              : 'careInstitution'
+        }
+      });
+      getCaregiverAtrributeWithCategory();
+    }
+  
   }, [attributeFilter]);
 
-  // Fetch attribute list from db
-  const { data: attributeData } = useQuery<any>(
-    GET_CAREGIVER_ATTRIBUTES_WITH_CATEGORY,
-    {
-      variables: {
-        userRole:
-          attributeFilter && attributeFilter === 'caregiver'
-            ? 'caregiver'
-            : 'careInstitution'
+  // To empty the value of attr on reset filter
+  useEffect(() => {
+    if (show) {
+     if (positive && !positive.length) {
+      setIsPositive([])
       }
+      if (negative && !negative.length) {
+        setIsNegative([])
+        }
     }
-  );
+  },[show])
+
   //to add the preset in db
   const [addPreset, { loading: addPresetLoading }] = useMutation<any>(
     ADD_PRESET_ATTRIBUTE,
@@ -158,7 +176,9 @@ const AttributeFilter = (props: IAttributeFilter) => {
   // on applying filter and getting care giver according to filter
   const onApplyingFilter = () => {
     applyFilter(attributeFilter, isPositive, isNegative);
-    handleClose();
+     if(isPositive && isPositive.length || isNegative && isNegative.length){
+       handleClose();
+     }
   };
 
   // on clicking select all option
@@ -293,6 +313,8 @@ const AttributeFilter = (props: IAttributeFilter) => {
       presetList={presetList}
       activePreset={activePreset}
       addPresetLoading={addPresetLoading}
+      presetListLoading={loading}
+      listLoading={listLoading}
       // function
       setPresetNames={setPresetNames}
       setIsNegative={setIsNegative}

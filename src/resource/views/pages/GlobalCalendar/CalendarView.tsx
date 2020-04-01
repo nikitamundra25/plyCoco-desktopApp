@@ -38,7 +38,9 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
   const [
     getGlobalHolidays,
     { data: holidays, loading, refetch, called }
-  ] = useLazyQuery<any>(GET_GLOBAL_HOLIDAYS);
+  ] = useLazyQuery<any>(GET_GLOBAL_HOLIDAYS, {
+    notifyOnNetworkStatusChange: true,
+  });
   const [deleteGlobalCalendarHoliday] = useMutation<
     { deleteGlobalCalendarHoliday: any },
     { id: number }
@@ -154,14 +156,14 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                     Hide Weekends
                   </label>
                 </span>
-                <Input type="text" readonly className="form-control header-input-wrap ml-3" />
+                {/* <Input type="text" readonly className="form-control header-input-wrap ml-3" /> */}
               </div>
             </div>
           </div>
         </div>  
         
       </>
-      <CardBody>
+      <CardBody className="position-relative">
     
       <div className="sticky-table table-responsive">
         <table className={"main-table table table-hover"}>
@@ -259,13 +261,19 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
             )}
           </tbody>
         </table>
-
+{/* 
         {isLoading || loading ? (
           <div className="global-calendar-table-loader">
             <Loader />
           </div>
-        ) : null}
+        ) : null} */}
       </div>
+      
+      {isLoading || loading ? (
+          <div className="global-calendar-table-loader">
+            <Loader />
+          </div>
+        ) : null}
  </CardBody>
     </>
   );

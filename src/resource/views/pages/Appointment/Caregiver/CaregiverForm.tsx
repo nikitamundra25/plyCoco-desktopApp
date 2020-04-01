@@ -20,8 +20,19 @@ import {
   IReactSelectInterface
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
-import { NightAllowancePerHour, State, defaultDateFormat, appointmentDayFormat } from '../../../../../config';
+import {
+  NightAllowancePerHour,
+  State,
+  defaultDateFormat,
+  appointmentDayFormat,
+  dbAcceptableFormat,
+  AppConfig
+} from '../../../../../config';
 import '../index.scss';
+import { LeasingContractQueries } from '../../../../../graphql/queries';
+import { useLazyQuery } from '@apollo/react-hooks';
+
+const [GET_LEASING_CONTRACT] = LeasingContractQueries;
 
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm &
@@ -29,6 +40,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   const { addCaregiverLoading } = props;
+  // Query to get uploaded pdf
+  const [getLeasingContractPDF, { data:pdfData, loading }] = useLazyQuery<any>(GET_LEASING_CONTRACT);
 
   //For saving both
   useEffect(() => {
@@ -85,10 +98,37 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     onhandleDelete,
     careGiversListArr,
     handleSelectUserList,
-    handleLastTimeData
+    handleLastTimeData,
+    selectedCells
   } = props;
-  const [starMark, setstarMark] = useState<boolean>(false);
 
+  useEffect(() => {
+    // To check appointment with leasing careInst or not
+    let isLeasingAppointment = false;
+    if (selectedCells && selectedCells.length) {
+      isLeasingAppointment = selectedCells.filter((cell:any) => cell && cell.item && cell.item.appointments && cell.item.appointments.length && cell.item.appointments[0].cr && cell.item.appointments[0].cr.isLeasing).length ? true: false;     
+      if (isLeasingAppointment) {
+    const { id = '' , item = {}} = selectedCells[0] ? selectedCells[0] : {}
+      const {appointments = []} = item ? item : {}
+      const {avabilityId = '',id:appointmentId = ''} = appointments && appointments.length && appointments[0] ? appointments[0] : {}
+      console.log('above API call');
+      
+    getLeasingContractPDF({
+      variables: {
+        userId:parseInt(id),
+        availabilityId:[parseInt(avabilityId)],
+        appointmentId: [parseInt(appointmentId)],
+        documentUploadType: 'leasingContract',
+      }
+    });}}
+    console.log(isLeasingAppointment,'in caregiver form');
+    },[selectedCells])
+
+    console.log(pdfData,'pdfData');
+    
+  const [starMark, setstarMark] = useState<boolean>(false);
+  console.log(selectedCells,'in form view');
+  
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
@@ -97,7 +137,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   let isAvailability: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false,
-    isConfirm: boolean = false;
+    isConfirm: boolean = false,
+    isContractInitiated:boolean=false,
+    isContractCancel: boolean = false;
 
   if (selctedAvailability || status) {
     if (
@@ -128,6 +170,19 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       status === 'confirmed'
     ) {
       isConfirm = true;
+    } else if (
+      (selctedAvailability &&
+        selctedAvailability.status === 'contractcancelled') ||
+      status === 'contractcancelled'
+    ) {
+      isContractCancel = true;
+    }
+    else if (
+      (selctedAvailability &&
+        selctedAvailability.status === 'contractInitiated') ||
+      status === 'contractInitiated'
+    ) {
+      isContractInitiated = true;
     }
   }
 
@@ -148,12 +203,16 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     handleSelectUserList(data, name);
   };
 
-  let dateCondition: any =
-    activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]
-      ? moment(activeDateCaregiver[0]).isSameOrAfter()
-      : '';
-  // console.log('dateCondition', dateCondition);
-
+let dateCondition: any 
+if(activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]){
+  let now = moment().format(dbAcceptableFormat);
+   let  input = moment(activeDateCaregiver[0]).format(dbAcceptableFormat);
+   dateCondition =  now <= input;
+}
+      
+// Signed contract link
+const {getLeasingContractPDF:pdfDetails = []} = pdfData ? pdfData : {}
+const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
   return (
     <>
       <div className='form-section'>
@@ -162,7 +221,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             'form-card custom-height custom-scrollbar': true,
             'availability-dark-bg': isAvailability,
             'matching-bg': isMatching,
-            'confirmation-bg': isConfirm
+            'confirmation-bg': isConfirm,
+            'cancel-contract-bg': isContractCancel,
+            'contact-initiate-bg':isContractInitiated,
           })}
         >
           <h5 className='content-title'>
@@ -810,7 +871,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     </Label>
                   </Col>
                   <Col sm='8'>
-                    <div className='required-input'>
+                    <div className='required-input mb-1'>
                       <FormGroup check inline>
                         <div className=' checkbox-custom mb-0'>
                           <input
@@ -832,6 +893,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         </div>
                       </FormGroup>
                     </div>
+                    {document ? <a href= {`${AppConfig.FILES_ENDPOINT}${document}`} target={'_blank'} className="view-more-link text-underline"><i className="fa fa-file-o mr-2"/>{languageTranslation('CONTRACT')}</a> : null}
                   </Col>
                 </Row>
               </FormGroup>
@@ -855,6 +917,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         value={remarksCareGiver ? remarksCareGiver : ''}
                         onChange={handleChange}
                         id='exampleText1'
+                        maxLength={255}
                       />
                     </div>
                   </Col>
@@ -878,6 +941,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         name='remarksInternal'
                         value={remarksInternal ? remarksInternal : ''}
                         onChange={handleChange}
+                        maxLength={255}
                         id='exampleText2'
                       />
                     </div>
@@ -899,7 +963,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   className='btn-save'
                   color='primary'
                   onClick={handleSubmit}
-                  disabled={addCaregiverLoading}
+                  disabled={addCaregiverLoading ? true : !dateCondition ? true : false }
                 >
                   {addCaregiverLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />

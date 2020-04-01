@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import { Table, Nav, NavItem, NavLink, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
@@ -44,7 +44,11 @@ import refresh from "../../../../assets/img/refresh.svg";
 import "../index.scss";
 import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
 import { InfiniteLoader, AutoSizer, List } from "react-virtualized";
+
 let toastId: any = null;
+const STATUS_LOADING = 1;
+const STATUS_LOADED = 2;
+
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList
 ) => {
@@ -76,8 +80,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const [offerRequirements, setOfferRequirements] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
-  const [select, setSelect] = useState<number[]>([]);
-  const [select1, setSelect1] = useState<number[]>([]);
+  const [loadedRowsMap, setLoadedRowsMap] = useState<number[]>([]);
 
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
@@ -378,12 +381,35 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     });
   }
+
+  useEffect(() => {
+    let temp = []
+    if (careGiversList && careGiversList.length) {
+      temp = Array(careGiversList.length).fill(STATUS_LOADED)
+      // setLoadedRowsMap(Array(careGiversList.length).fill(STATUS_LOADED)
+    }
+    temp.concat(Array(30).fill(STATUS_LOADING))
+    setLoadedRowsMap(temp)
+  },[careGiversList])
   console.log(careGiversList, "careGiversList");
   const loadMoreRows = ({ startIndex, stopIndex }: any) => {
     console.log("In load more data+++++++++++++ startIndex", startIndex);
     console.log("In load more data+++++++++++++stopIndex", stopIndex);
+    const temp = [...loadedRowsMap];
+    for (var i = startIndex; i <= stopIndex; i++) {
+      console.log("in for loop", i);
+      
+      temp[i] = STATUS_LOADING;
+    console.log(temp,'temp in for');
+
+    }
+    console.log(temp,'temp');
+    
+    setLoadedRowsMap(temp);
     getNext(careGiversList.length)
   }
+  console.log(loadedRowsMap,'outside return ');
+  
   return (
     <div>
       <div
@@ -732,8 +758,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 >
                   <InfiniteLoader
                     loadMoreRows={({ startIndex, stopIndex }) => loadMoreRows({ startIndex, stopIndex }) as any}
-                    isRowLoaded={({index}) => { console.log(index,'imndex')
-                      return (index < careGiversList.length)}}
+                    isRowLoaded={({index}) => { console.log(loadedRowsMap, !!loadedRowsMap[index],index,'imndex')
+                       return !!loadedRowsMap[index];}}
                     rowCount={totalCaregiver}
                   >
                     {({ onRowsRendered, registerChild }) => (
@@ -741,14 +767,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         {({ width }) => (
                           <List
                             ref={registerChild}
-                            height={600}
+                            height={200}
                             onRowsRendered={onRowsRendered}
                             rowCount={careGiversList.length}
                             rowHeight={30}
                             rowRenderer={({ index, key }) => {
                               const list = careGiversList[index] || {}; 
-                              console.log(list);
-                              console.log("*********Index", index);
+                              console.log(index,'index in rebder');
+                              
                               return list.availabilityData &&
                                 list.availabilityData.length
                                 ? list.availabilityData.map(
@@ -873,7 +899,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     </div>
                                   )
                                 )
-                                : null;
+                                : <div></div>;
                             }}
                             width={width}
                           />

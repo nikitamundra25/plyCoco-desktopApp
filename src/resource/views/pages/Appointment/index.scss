@@ -523,10 +523,11 @@ body {
 .calender-section {
   position: relative;
   width: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: auto;
   font-family: $font_open_sans;
   background: $white;
+  min-height: calc(50vh - 80px);
   .custom-appointment-calendar-body {
     // max-height: 190px;
     width: 100%;
@@ -536,7 +537,7 @@ body {
   }
 
   .custom-appointment-calendar {
-    height: calc(50vh - 80px);
+    // height: calc(50vh - 80px);
     .custom-appointment-calendar-head {
       position: sticky;
       top: 0;
@@ -617,4 +618,8 @@ body {
 //   max-height: unset !important;
 //   overflow: hidden;
 //   position: relative;
+// }
+
+// .careinstitution-appointment-list {
+//   display:none;
 // }

@@ -792,7 +792,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     rowCount={careGiversList.length}
                     // {careGiversList.length}
                     rowHeight={30}
-                    width={width}
+                    width={1538}
                     // rowGetter={({ index }:any) => careGiversList[index]}
                     rowRenderer={({ index, isScrolling, key, style }) => {
                       const list = careGiversList[index] || {};

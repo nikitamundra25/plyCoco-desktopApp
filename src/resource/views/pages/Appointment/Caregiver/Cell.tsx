@@ -63,7 +63,7 @@ const Cell = ({
   }
   return (
     <>
-      <td
+      <div
         key={key}
         className={classnames({
           'calender-col': true,
@@ -107,7 +107,7 @@ const Cell = ({
             </>
           )
         ) : null}
-      </td>
+      </div>
     </>
   );
 };

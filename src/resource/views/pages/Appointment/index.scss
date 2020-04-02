@@ -585,19 +585,19 @@ body {
       }
     }
   }
-  .ReactVirtualized__List {
-    overflow: unset !important;
-    .ReactVirtualized__Grid__innerScrollContainer {
-      overflow: unset !important;
-    }
-  }
+  // .ReactVirtualized__List {
+  //   overflow: unset !important;
+  //   .ReactVirtualized__Grid__innerScrollContainer {
+  //     overflow: unset !important;
+  //   }
+  // }
 }
 
-.autosizer-div{
-  overflow:unset !important;
-  width:100% !important;
-  height:100% !important;
-}
+// .autosizer-div{
+//   overflow:unset !important;
+//   width:100% !important;
+//   height:100% !important;
+// }
 .autosizer-list{
   box-sizing: border-box;
   direction: ltr;
@@ -607,11 +607,14 @@ body {
   will-change: unset !important;
   overflow: auto;
 };
-.ReactVirtualized__Grid__innerScrollContainer{
-  height:auto!important;
-  width: auto !important;
-  max-width: unset !important;
-  max-height: unset !important;
-  overflow: hidden;
-  position: relative;
-}
+.list {
+  height: calc(100vh - 210px)
+  }
+// .ReactVirtualized__Grid__innerScrollContainer{
+//   height:auto!important;
+//   width: auto !important;
+//   max-width: unset !important;
+//   max-height: unset !important;
+//   overflow: hidden;
+//   position: relative;
+// }

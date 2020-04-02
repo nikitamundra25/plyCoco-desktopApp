@@ -65,8 +65,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     getNext,
     qualificationList,
     locationState,
-    onTerminateAggrement,
-    careinstitutionSoloFilter,
+    updateLinkedStatus,
     updateCaregiverStatus
   } = props;
 
@@ -133,7 +132,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     setOfferRequirements(false);
     setleasingContract(false);
     setTerminateAggrement(false);
-  }
+  };
 
   const { daysArr = [] } = daysData ? daysData : {};
   // select multiple
@@ -195,9 +194,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       selectedCells &&
       selectedCells.length
     ) {
-      console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
-      console.log("selectedCells",selectedCells);
-      
+      console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
+      console.log('selectedCells', selectedCells);
+
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
         if (!toast.isActive(toastId)) {
           toastId = toast.error('Please select same length cells');
@@ -408,7 +407,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     selectedCells.filter((x: any) => {
       if (x.item && x.item.appointments) {
         x.item.appointments.map((st: any) => {
-          return (checkLeasing = st && st.cr && st.cr.status ? st.cr.status : "");
+          return (checkLeasing =
+            st && st.cr && st.cr.status ? st.cr.status : '');
         });
       }
     });
@@ -417,10 +417,20 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   // To check appointment with leasing careInst or not
   let isLeasingAppointment = false;
   if (selectedCells && selectedCells.length) {
-    isLeasingAppointment = selectedCells.filter((cell:any) => cell && cell.item && cell.item.appointments && cell.item.appointments.length && cell.item.appointments[0].cr && cell.item.appointments[0].cr.isLeasing).length ? true: false
+    isLeasingAppointment = selectedCells.filter(
+      (cell: any) =>
+        cell &&
+        cell.item &&
+        cell.item.appointments &&
+        cell.item.appointments.length &&
+        cell.item.appointments[0].cr &&
+        cell.item.appointments[0].cr.isLeasing
+    ).length
+      ? true
+      : false;
   }
-  console.log(isLeasingAppointment,'isLeasingAppointment');
-  
+  console.log(isLeasingAppointment, 'isLeasingAppointment');
+
   return (
     <div>
       <div
@@ -581,7 +591,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (disconnectAppCond && disconnectAppCond.length !== 0) || isLeasingAppointment
+                    (disconnectAppCond && disconnectAppCond.length !== 0) ||
+                    isLeasingAppointment
                   : true
               }
               onClick={() => {
@@ -601,7 +612,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 selectedCells
                   ? selectedCells.length === 0 ||
                     (selectedCells[0].item &&
-                      selectedCells[0].item.status !== 'linked') || isLeasingAppointment
+                      selectedCells[0].item.status !== 'linked') ||
+                    isLeasingAppointment
                   : true
               }
             >
@@ -623,7 +635,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 selectedCells
                   ? selectedCells.length === 0 ||
                     (selectedCells[0].item &&
-                      selectedCells[0].item.status !== 'confirmed') || isLeasingAppointment
+                      selectedCells[0].item.status !== 'confirmed') ||
+                    isLeasingAppointment
                   : true
               }
             >
@@ -641,18 +654,24 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-             disabled={
-              selectedCells && selectedCells.length
-                ? selectedCells.filter(
-                    (availability: any) =>
-                      (availability && !availability.item) || !isLeasingAppointment ||
-                      (availability.item && availability.item.appointments && availability.item.appointments.length &&
-                        availability.item.appointments[0] && availability.item.appointments[0].cr && availability.item.appointments[0].cr.status !== 'confirmed')
-                  ).length
-                  ? true
-                  : false
-                : true
-            }
+              disabled={
+                selectedCells && selectedCells.length
+                  ? selectedCells.filter(
+                      (availability: any) =>
+                        (availability && !availability.item) ||
+                        !isLeasingAppointment ||
+                        (availability.item &&
+                          availability.item.appointments &&
+                          availability.item.appointments.length &&
+                          availability.item.appointments[0] &&
+                          availability.item.appointments[0].cr &&
+                          availability.item.appointments[0].cr.status !==
+                            'confirmed')
+                    ).length
+                    ? true
+                    : false
+                  : true
+              }
               // disabled={
               //   selectedCells
               //     ? selectedCells.length === 0 || checkLeasing === 1
@@ -672,7 +691,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 || !isLeasingAppointment: true}
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 || !isLeasingAppointment
+                  : true
+              }
               onClick={() => {
                 // onTerminateAggrement();
                 setopenToggleMenu(false);
@@ -757,7 +780,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         </div>
                       </div>
                     </th>
-                    
+
                     {daysArr.map(
                       (
                         { date, day, isWeekend, today }: IDaysArray,
@@ -768,25 +791,21 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         );
                         return (
                           <th
-                            className={`thead-sticky calender-col custom-appointment-col text-center p-0`}
+                            className={`thead-sticky calender-col custom-appointment-col text-center ${
+                              date === todaysDate
+                                ? 'today'
+                                : isWeekend
+                                ? 'weekend'
+                                : ''
+                            }`}
                             key={index}
                           >
-                            <div
-                              className={`${
-                                date === todaysDate
-                                  ? 'today'
-                                  : isWeekend
-                                  ? 'weekend'
-                                  : ''
-                              }`}
-                            >
-                              <div className='custom-appointment-calendar-date'>
-                                {' '}
-                                {date}
-                              </div>
-                              <div className='custom-appointment-calendar-day'>
-                                {day}
-                              </div>
+                            <div className='custom-appointment-calendar-date'>
+                              {' '}
+                              {date}
+                            </div>
+                            <div className='custom-appointment-calendar-day'>
+                              {day}
                             </div>
                           </th>
                         );
@@ -812,8 +831,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div className='all-star-wrap'>
                                     <div
                                       className='text-capitalize one-line-text  username-col name-text'
-                                      
-
                                       style={{
                                         backgroundColor: !list.isActive
                                           ? deactivatedListColor
@@ -942,11 +959,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 </tbody>
               </Table>
             </SelectableGroup>
-            </div>
-          
+          </div>
         </InfiniteScroll>
       </div>
       <BulkEmailCareGiverModal
+      updateLinkedStatus={updateLinkedStatus}
         openModal={openCareGiverBulkEmail}
         qualification={
           sortedQualificationList && sortedQualificationList

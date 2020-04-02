@@ -88,9 +88,9 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
   });
 
   const { signatureData, pdfAppointmentDetails } = props;
-  console.log(signatureData && signatureData.careGiverSignature ? `${AppConfig.FILES_ENDPOINT}${signatureData.careGiverSignature}` : '','signature');
+  console.log(signatureData && signatureData.careGiverSignature ? `${AppConfig.APP_ENDPOINT}${signatureData.careGiverSignature}` : '','signature');
   // Append base url to the signature
-  let careGiverSignature:string = signatureData && signatureData.careGiverSignature ? `${AppConfig.FILES_ENDPOINT}${signatureData.careGiverSignature}` : ''
+  let careGiverSignature:string = signatureData && signatureData.careGiverSignature ? `${AppConfig.APP_ENDPOINT}${signatureData.careGiverSignature}` : ''
   // Create Document Component
   return (
     <Document>

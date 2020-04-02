@@ -159,6 +159,12 @@ const DetailListCaregiver = (props: any) => {
                                     ? 'matching-bg'
                                     : elem.item.status === 'confirmed'
                                     ? 'contract-bg'
+                                    : elem.item.status === 'contractcancelled'
+                                    ? 'cancel-contract-bg'
+                                    : elem.item.status === 'contractInitiated'
+                                    ? 'contact-initiate-bg'
+                                    : elem.item.status === 'accepted'
+                                    ? 'accepted-bg'
                                     : 'availability-bg'
                                 }
                               >
@@ -184,7 +190,8 @@ const DetailListCaregiver = (props: any) => {
                                             qualification.value
                                           );
                                         })
-                                        .map((q: any,i:number) => (q.label)).join(', ')
+                                        .map((q: any, i: number) => q.label)
+                                        .join(', ')
                                     : null}
                                 </td>
                                 <td>

@@ -783,17 +783,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 }
               >
                 {({ onRowsRendered, registerChild }) => (
-                  <AutoSizer className="autosizer-div">
+                  <AutoSizer className="autosizer-div" disableHeight>
                     {({ width }) => (
                   <List
                     ref={registerChild}
                     height={200}
                     onRowsRendered={onRowsRendered}
                     rowCount={careGiversList.length}
-                    // {careGiversList.length}
                     rowHeight={30}
-                    width={width}
-                    // rowGetter={({ index }:any) => careGiversList[index]}
+                    width={1500}
                     rowRenderer={({ index, isScrolling, key, style }) => {
                       const list = careGiversList[index] || {};
                       return (

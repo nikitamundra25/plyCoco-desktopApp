@@ -592,3 +592,26 @@ body {
     }
   }
 }
+
+.autosizer-div{
+  overflow:unset !important;
+  width:100% !important;
+  height:100% !important;
+}
+.autosizer-list{
+  box-sizing: border-box;
+  direction: ltr;
+  height: 100% !important;
+  position: relative !important;
+  width: 100% !important;
+  will-change: unset !important;
+  overflow: auto;
+};
+.ReactVirtualized__Grid__innerScrollContainer{
+  height:auto!important;
+  width: auto !important;
+  max-width: unset !important;
+  max-height: unset !important;
+  overflow: hidden;
+  position: relative;
+}

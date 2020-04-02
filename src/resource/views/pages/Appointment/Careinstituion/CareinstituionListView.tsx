@@ -1129,7 +1129,9 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                     loadMoreRows={() =>
                       getMoreCareInstituionList(careInstitutionList.length) as any
                     }
-                    isRowLoaded={() => false}
+        isRowLoaded={({ index }) => !!careInstitutionList[index]}
+
+                    // isRowLoaded={() => false}
                     rowCount={totalCareinstituion}
                   >
                     {({ onRowsRendered, registerChild }) => (

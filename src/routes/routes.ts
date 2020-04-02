@@ -145,6 +145,10 @@ const BulkEmailCareinstitution = React.lazy(() =>
   import("../resource/views/pages/BulkEmailCareinstitution")
 );
 
+const openpdf = React.lazy(() =>
+  import("../resource/views/pages/BulkEmailCaregiver/PDF/LeasingContactPdf")
+);
+
 const pdf1 = React.lazy(() =>
   import("../resource/views/pages/BulkEmailCaregiver/PDF/TerminationAgreementPdf")
 );
@@ -452,6 +456,12 @@ const routes = [
     path: '/pdf2',
     name: "pdf2",
     component: pdf2,
+    exact: true
+  },
+  {
+    path: '/openpdf',
+    name: "openpdf",
+    component: openpdf,
     exact: true
   }
 

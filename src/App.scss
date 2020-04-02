@@ -2662,9 +2662,12 @@ html:not([dir="rtl"]) {
       border-radius: 0px;
       padding: 4px 15px;
       font-size: $font_13;
-      border: 1px solid $transparent;
+      border: 1px solid $transparent;    padding-right: 5px;
       font-weight: 600;
       border-bottom: $transparent;
+      @media only screen and (max-width: 480px) {
+          padding: 4px 10px;
+        }
       .icon {
         margin-right: 10px;
       }
@@ -3063,6 +3066,9 @@ html:not([dir="rtl"]) {
       padding: 4px;
       border-right: 1px solid $table_border;
       border-top: 1px solid $table_border;
+      @media only screen and (max-width: 480px) {
+        flex: 0 0 70px;
+      }
     }
     .email-subject-block {
       flex: 0 0 90px;
@@ -3106,6 +3112,9 @@ html:not([dir="rtl"]) {
         white-space: nowrap;
         align-items: center;
         justify-content: flex-start;
+        @media only screen and (max-width: 767px) {
+          padding-right:6px;
+        }
         &.input-wrap {
           flex: 1 1 100%;
           @media only screen and (max-width: 767px) {
@@ -3116,8 +3125,8 @@ html:not([dir="rtl"]) {
             @media only screen and (max-width: 991px) {
               width: 300px;
             }
-            @media only screen and (max-width: 400px) {
-              width: 230px;
+            @media only screen and (max-width: 767px) {
+              width: 100%;
             }
           }
         }
@@ -3140,10 +3149,11 @@ html:not([dir="rtl"]) {
   margin-left: 15px;
   font-weight: normal;
   @media only screen and (max-width: 991px) {
-    width: 300px;
+    width: 400px;
   }
   @media only screen and (max-width: 767px) {
     margin-left: 0px;
+     width: 100%;
   }
   // .new-email-select {
   //   width: 100%;
@@ -3786,7 +3796,7 @@ html:not([dir="rtl"]) {
         color: $gray_color;
         box-shadow: none;
         @media only screen and (max-width: 480px) {
-          padding: 4px 8px;
+          padding: 4px 6px;
           font-size: $font_12;
         }
         &:hover {

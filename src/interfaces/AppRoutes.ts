@@ -48,4 +48,5 @@ export interface IAppRoutes {
   PRINTINVOICES: string;
    PAYSLIPFORM: string;
    HEALTHINSURANCEFORM: string;
+   
 }

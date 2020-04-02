@@ -87,7 +87,6 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
     });
   }
 
-  console.log("temp",temp);
   
   
   return (
@@ -122,7 +121,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
                 <tr
                   key={index}
                   onClick={(e: any) => {
-                    handleChecked(item && item.userId ? item.userId : item.id);
+                    handleChecked(item.id);
                   }}
                   className="cursor-pointer"
                 >
@@ -136,12 +135,12 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
                         checked={
                           selectedCareGiver &&
                           selectedCareGiver.length &&
-                          selectedCareGiver.indexOf(parseInt(item && item.userId ? item.userId : item.id)) > -1
+                          selectedCareGiver.indexOf(parseInt( item.id)) > -1
                             ? true
                             : false
                         }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          handleCheckElement(e, item && item.userId ? item.userId : item.id);
+                          handleCheckElement(e,  item.id);
                         }}
                       />
                       <label className=""></label>

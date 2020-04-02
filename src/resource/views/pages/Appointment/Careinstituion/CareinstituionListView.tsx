@@ -306,6 +306,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   // show button for care institution
   const [showButton, setShowButton] = useState<boolean>(false);
 
+  
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = (sortBy: string, showButton: boolean) => {
     setSortBy(sortBy);
@@ -315,7 +316,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       setunlinkedBy('');
     }
   };
-
+  
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
     if (openCareInstitutionBulkEmail) {
@@ -326,6 +327,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
+  
   const [StatusTo, setStatusTo] = useState('');
 
   const renderTableRows = (listData: any) => {

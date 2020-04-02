@@ -65,8 +65,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     getNext,
     qualificationList,
     locationState,
-    onTerminateAggrement,
-    careinstitutionSoloFilter,
+    updateLinkedStatus,
     updateCaregiverStatus
   } = props;
 
@@ -964,6 +963,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         </InfiniteScroll>
       </div>
       <BulkEmailCareGiverModal
+      updateLinkedStatus={updateLinkedStatus}
         openModal={openCareGiverBulkEmail}
         qualification={
           sortedQualificationList && sortedQualificationList

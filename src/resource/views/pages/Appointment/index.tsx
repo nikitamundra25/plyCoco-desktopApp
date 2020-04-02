@@ -1637,6 +1637,8 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               }
             });
+            updateLinkedStatus(name);
+
             if (!toast.isActive(toastId)) {
               if (name === 'confirmed') {
                 toastId = toast.success(
@@ -1699,9 +1701,12 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               }
             });
+            updateLinkedStatus(name);
             // check if the selected careinstitution is leasing or not
             if (name === 'confirmed' && element.isLeasing) {
-              refetchCaregivers();
+              console.log('name', name);
+              console.log('element.isLeasing', element.isLeasing);
+              fetchingCareGiverData();
             }
             if (!toast.isActive(toastId)) {
               if (name === 'confirmed') {
@@ -1750,6 +1755,7 @@ const Appointment: FunctionComponent = (props: any) => {
               }
             }
           });
+          updateLinkedStatus('contractcancelled');
         }
       });
     }
@@ -1799,10 +1805,20 @@ const Appointment: FunctionComponent = (props: any) => {
         dateString,
         item: {
           ...item,
-          status: name === 'link' ? 'linked' : 'default'
+          status:
+            name === 'link'
+              ? 'linked'
+              : name === 'confirmed'
+              ? 'confirmed'
+              : name === 'notconfirm'
+              ? 'linked'
+              : name === 'offered'
+              ? 'offered'
+              : 'default'
         }
       }
     ];
+
     setselectedCellsCareinstitution(temp);
 
     // Update caregiver status
@@ -1830,7 +1846,18 @@ const Appointment: FunctionComponent = (props: any) => {
         dateString: date,
         item: {
           ...Item,
-          status: name === 'link' ? 'linked' : 'default',
+          status:
+            name === 'link'
+              ? 'linked'
+              : name === 'confirmed'
+              ? 'confirmed'
+              : name === 'notconfirmed'
+              ? 'linked'
+              : name === 'contractcancelled'
+              ? 'contractcancelled'
+              : name === 'contractInitiated'
+              ? 'contractInitiated'
+              : 'default',
           f: Item && Item.f === 'available' ? 'available' : '',
           n: Item && Item.n === 'available' ? 'available' : '',
           s: Item && Item.s === 'available' ? 'available' : ''
@@ -3238,6 +3265,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 <Col lg={'6'}>
                   {/* caregiver list view */}
                   <CaregiverListView
+                    updateLinkedStatus={updateLinkedStatus}
                     updateCaregiverStatus={updateCaregiverStatus}
                     careinstitutionSoloFilter={careinstitutionSoloFilter}
                     fetchingCareGiverData={fetchingCareGiverData}

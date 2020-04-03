@@ -1097,9 +1097,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   }
 
-  const isLeasingRequirement = selectedCellsCareinstitution.findIndex((cell:any) => cell.canstitution && cell.canstitution.attributes && cell.canstitution.attributes.includes(
-    CareInstTIMyoCYAttrId
-  )) > -1 ? true :false
+  const isLeasingRequirement = selectedCellsCareinstitution.findIndex((cell:any) => cell.item && cell.item.isLeasing) > -1 ? true :false
 
   console.log(isLeasingRequirement,'isLeasingRequirement');
   

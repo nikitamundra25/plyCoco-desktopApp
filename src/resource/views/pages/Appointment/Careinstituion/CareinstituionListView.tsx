@@ -1017,8 +1017,8 @@ console.log("careInstituionDeptData",careInstituionDeptData);
       </div>
       <div className="position-relative">
         <div
-          className="calender-section custom-scrollbar mt-3 careinstitution-appointment-list"
-          id={"scrollableDiv-2"}
+          className="calender-section mt-3 careinstitution-appointment-list"
+          // id={"scrollableDiv-2"}
         >
           <div className="custom-appointment-calendar">
           <div className="custom-appointment-calendar-head">

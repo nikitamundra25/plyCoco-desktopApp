@@ -49,8 +49,9 @@ export interface IAppointmentNav {
 }
 
 export interface IAppointmentCareGiverList {
-  fetchDataValues?:any;
-  updateCaregiverStatus:(name: string) => Promise<void>
+  updateLinkedStatus: (name: string) => void;
+  fetchDataValues?: any;
+  updateCaregiverStatus: (name: string) => Promise<void>;
   daysData: IGetDaysArrayByMonthRes | null;
   careGiversList: any;
   loading: boolean;
@@ -81,7 +82,7 @@ export interface IAppointmentCareGiverList {
   careInstitutionList?: any[];
   onTerminateAggrement: () => Promise<void>;
   locationState: any;
-  careinstitutionSoloFilter:IReactSelectInterface | undefined
+  careinstitutionSoloFilter: IReactSelectInterface | undefined;
 }
 
 export interface IAppointmentCareInstitutionList {
@@ -252,7 +253,7 @@ export interface ICareinstitutionFormSubmitValue {
   s: string;
   n: string;
   status: string;
-  isLeasing?:boolean;
+  isLeasing?: boolean;
 }
 
 export interface IUnlinkInterface {

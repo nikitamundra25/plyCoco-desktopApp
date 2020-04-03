@@ -549,7 +549,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 data.caregivername
                 }</b></span></br>`;
             });
-            const bodyData: any = `<span>The specialist has unfortunately canceled the following dates:-</br></br>${divRow}</span></br>We will immediately look for a replacement and contact you as soon as possible.`;
+            const bodyData: any = `<span>The specialist has unfortunately cancelled the following dates:-</br></br>${divRow}</span></br>We will immediately look for a replacement and contact you as soon as possible.`;
             const editorState = bodyData
               ? HtmlToDraftConverter(bodyData)
               : '';
@@ -929,6 +929,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   };
 
+  console.log("careInstData",careInstData);
+  
+
   const handleSendEmail = (e: React.FormEvent<any>) => {
     e.preventDefault();
     let content = body
@@ -939,6 +942,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
 
     try {
       let careGiverIdList: any = [];
+      const { getCareInstitution = {} } = careInstData ? careInstData : {};
+      const {
+        id = "",
+        contact = []
+      } = getCareInstitution ? getCareInstitution : {};
 
       if (selectedCareGiver && selectedCareGiver.length) {
         // Remove duplicate values from an array of objects
@@ -961,7 +969,16 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         }
 
         uniqueUser.map((careGiverId: number) => {
-          careGiverIdList.push({ receiverUserId: careGiverId });
+          if(contact && contact.length){
+            let tempC:any =  contact.filter((e:any) => parseInt(e.id) === careGiverId);
+             if(tempC && tempC.length){
+            careGiverIdList.push({ contactId: careGiverId });
+             }else{
+            careGiverIdList.push({ receiverUserId: careGiverId });
+             }
+          }else{
+            careGiverIdList.push({ receiverUserId: careGiverId });
+          }
         });
 
         if (subject && body && result && result.length >= 2) {
@@ -986,7 +1003,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             canstitution: careGiverIdList,
             senderUserId: id ? parseInt(id) : null
           };
-          bulkEmails({ variables: { bulkEmailsInput } });
+           bulkEmails({ variables: { bulkEmailsInput } });
         }
       } else {
         if (!toast.isActive(toastId)) {

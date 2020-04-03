@@ -101,6 +101,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         title
         salutation
         firstName
+        userId
         surName
         countryId
         stateId

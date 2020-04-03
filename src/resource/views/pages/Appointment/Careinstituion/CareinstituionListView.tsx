@@ -148,6 +148,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               : false
         };
       });
+      console.log(selectedRows,'selectedRows');
+      
       handleSelection(selectedRows, 'careinstitution');
     }
   };

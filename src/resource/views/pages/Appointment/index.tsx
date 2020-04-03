@@ -1662,7 +1662,7 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
       selectedCellsCareinstitution.forEach(async element => {
-        console.log('element.isLeasingggg', element.isLeasing);
+        console.log('element.isLeasingggg', element.isLeasing, name);
 
         const { item } = element;
         const Item = { ...item };
@@ -1701,11 +1701,21 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               }
             });
-            updateLinkedStatus(name);
+            // updateLinkedStatus(name);
             // check if the selected careinstitution is leasing or not
-            if (name === 'confirmed' && element.isLeasing) {
-              console.log('name', name);
-              console.log('element.isLeasing', element.isLeasing);
+            if (name === 'confirmed') {
+              console.log('in ifff leasing', selectedCells);
+              
+              if (selectedCells && selectedCells.length) {
+                let temp =  [...selectedCells]
+                console.log(temp, availabilityId);
+                
+                if (temp[0] && temp[0].item && temp[0].item.appointments && temp[0].item.appointments.length && temp[0].item.appointments[0] && temp[0].item.appointments[0].cr && temp[0].item.appointments[0].cr.isLeasing && temp[0].item.appointments[0].cr.id === availabilityId.toString()) {
+                  console.log('in ifff');
+                  temp[0].item.appointments[0].cr.status = 'confirmed';
+                  setSelectedCells(temp) 
+                } 
+              }
               fetchingCareGiverData();
             }
             if (!toast.isActive(toastId)) {

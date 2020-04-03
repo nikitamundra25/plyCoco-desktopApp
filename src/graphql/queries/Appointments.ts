@@ -77,6 +77,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
               name
               status
               qualificationId
+              address
               startTime
               endTime
               isLeasing

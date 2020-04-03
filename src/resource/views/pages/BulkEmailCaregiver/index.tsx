@@ -1092,6 +1092,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       }
       if (leasingContract) {
+        console.log('in leasing contract body iff');
+        
         let requirementEmailData: string = '';
         let qualificationArray: any = [];
         let qualificationString: string = '';
@@ -1996,7 +1998,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           </div>
           {console.log( !leasingContactPdfData &&
                 leasingContract &&
-                pdfAppointmentDetails.length > 0 ? true : false,'leasing condition')}
+                pdfAppointmentDetails.length > 0 && signatureData ? true : false,'leasing condition')}
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>

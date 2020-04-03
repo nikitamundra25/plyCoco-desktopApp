@@ -335,6 +335,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   };
   const [StatusTo, setStatusTo] = useState("");
 
+  const loadMoreRows = ({ startIndex, stopIndex }: any) => {
+    getMoreCareInstituionList(careInstitutionList.length)
+  };
+  
   const renderTableRows = (list: any, index: any,style: any ) => {
 
     // select careInstitution if no department is available
@@ -1105,9 +1109,9 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                   ]}
                 >
                   <InfiniteLoader
-                    loadMoreRows={() =>
-                      getMoreCareInstituionList(careInstitutionList.length) as any
-                    }
+                    loadMoreRows={({ startIndex, stopIndex }) => 
+                    loadMoreRows({ startIndex, stopIndex }) as any
+                  }
                  isRowLoaded={({ index }) => !!careInstitutionList[index]}
                     // isRowLoaded={() => false}
                     rowCount={totalCareinstituion}

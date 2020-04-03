@@ -252,12 +252,14 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
           body: body ? content : '',
           parentId,
           status: 'unread',
+          // This is for the already uploaded file
           attachments:
             attachments && attachments.length
               ? attachments.filter(
                   (attachment: IEmailAttachmentData) => attachment.path
                 )
               : [],
+          // This is for the newly uploaded file
           files:
             attachments && attachments.length
               ? attachments

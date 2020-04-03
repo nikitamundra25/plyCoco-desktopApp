@@ -115,7 +115,6 @@
     background: $common_tab_bg;
   }
 }
-// .calender-section {
 //   position: relative;
 //   width: 100%;
 //   overflow-y: auto;
@@ -142,90 +141,6 @@
 //     }
 //   }
 
-//   &.custom-scrollbar {
-//     &::-webkit-scrollbar {
-//       width: 7px;
-//       height: 12px;
-//     }
-//   }
-//   .appointment-table {
-//     border: 0px;
-//     // position: relative;
-//     // z-index: 0;
-//     .custom-appointment-col {
-//       padding: 4px;
-//       vertical-align: middle;
-//       font-size: $font_12;
-//       .all-star-wrap {
-//         display: flex;
-//         height: 27px;
-//         .username-col {
-//           flex: 1 1 150px;
-//           max-width: 150px;
-//           min-width: 150px;
-//           border-right: 1px solid $table_border;
-//           padding: 4px;
-//           &.name-text {
-//             font-family: $font_Frutiger_Regular;
-//             font-weight: normal;
-//           }
-//         }
-//         .h-col,
-//         .s-col,
-//         .v-col,
-//         .u-col {
-//           flex: 1 1 30px;
-//           max-width: 30px;
-//           min-width: 30px;
-//           border-right: 1px solid $table_border;
-//           padding: 4px;
-//           display: flex;
-//           align-items: center;
-//           justify-content: center;
-//         }
-//       }
-//       .btn-more {
-//         position: absolute;
-//         right: 3px;
-//         top: 50%;
-//         transform: translateY(-50%);
-//       }
-//       &.custom-appointment-col {
-//         width: 30px;
-//         min-width: 30px;
-//         max-width: 30px;
-
-//         &.name-col {
-//           width: 270px;
-//           min-width: 270px;
-//           padding: 0px;
-//           border-right: 0px;
-//         }
-//         &.v-col {
-//           border-left: 0px;
-//         }
-//         &.h-col {
-//           width: 30px;
-//           min-width: 30px;
-//           max-width: 30px;
-//         }
-//         &.calender-col {
-//           width: 40px;
-//           min-width: 40px;
-//           max-width: 40px;
-//           .custom-appointment-calendar-date {
-//             text-transform: capitalize;
-//           }
-//           &:hover {
-//             background: $cell_hover;
-//           }
-//         }
-//       }
-//       &.weekend {
-//         background-color: $cell_weekend;
-//       }
-//       &.today {
-//         background-color: $cell_today;
 //       }
 //     }
 //     th {
@@ -279,7 +194,7 @@
   background: #9e7b6f !important;
 }
 .contact-initiate-bg {
-  background: #d99117 !important;
+  background: #fbc76d !important;
 }
 .confirmation-bg {
   background: $confirmation_color !important;
@@ -289,6 +204,9 @@
 }
 .selecting-cell-bg {
   background: $selected_color !important;
+}
+.accepted-bg{
+  background:$accepted_color !important;
 }
 .custom-height {
   height: calc(100vh - 165px);

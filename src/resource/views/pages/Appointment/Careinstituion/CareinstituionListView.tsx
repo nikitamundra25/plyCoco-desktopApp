@@ -313,6 +313,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   // show button for care institution
   const [showButton, setShowButton] = useState<boolean>(false);
 
+  
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = (sortBy: string, showButton: boolean) => {
     setSortBy(sortBy);
@@ -322,7 +323,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       setunlinkedBy("");
     }
   };
-
+  
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
     if (openCareInstitutionBulkEmail) {
@@ -333,7 +334,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
-  const [StatusTo, setStatusTo] = useState("");
+  
+  const [StatusTo, setStatusTo] = useState('');
 
   const loadMoreRows = ({ startIndex, stopIndex }: any) => {
     getMoreCareInstituionList(careInstitutionList.length)
@@ -707,6 +709,7 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                 onClick={() => {
                   handleCareGiverBulkEmail("day", true);
                   handleCareInstitutionBulkEmail();
+                  updateCareInstitutionStatus('offered');
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
@@ -731,6 +734,7 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                 onClick={() => {
                   handleCareGiverBulkEmail("division", false);
                   handleCareInstitutionBulkEmail();
+                  updateCareInstitutionStatus('offered');
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
@@ -755,6 +759,7 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                 onClick={() => {
                   handleCareGiverBulkEmail("day", false);
                   handleCareInstitutionBulkEmail();
+                  updateCareInstitutionStatus('offered');
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
@@ -1188,7 +1193,8 @@ console.log("careInstituionDeptData",careInstituionDeptData);
             ? sortedQualificationList
             : props.qualification
         }
-        handleClose={() => handleCareGiverBulkEmail("", false)}
+        offerCareGiver={true}// offer caregiver
+        handleClose={() => handleCareGiverBulkEmail('', false)}
         selectedCells={selectedCells}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
         gte={props.gte}

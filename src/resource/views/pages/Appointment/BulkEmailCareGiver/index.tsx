@@ -13,7 +13,9 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
     offerRequirements,
     leasingContract,
     qualificationList,
-    terminateAggrement
+    offerCareGiver,
+    terminateAggrement,
+    updateLinkedStatus
   } = props;
   const externalCloseBtn = (
     <button
@@ -38,6 +40,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
         <ModalHeader close={externalCloseBtn}>Bulk Email Caregiver</ModalHeader>
         <ModalBody>
           <BulkEmailCaregiver
+          updateLinkedStatus={updateLinkedStatus}
             label={'appointment'}
             qualification={props.qualification}
             gte={props.gte}
@@ -49,6 +52,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
             confirmApp={props.confirmApp}
             selectedCellsCareinstitution={props.selectedCellsCareinstitution}
             unlinkedBy={props.unlinkedBy}
+            offerCareGiver={offerCareGiver}
             offerRequirements={offerRequirements}
             leasingContract={leasingContract}
             qualificationList={qualificationList}

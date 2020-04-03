@@ -738,7 +738,7 @@
   "CI_PROFILE_DISAPPROVE_SUCESS": "Care Institution's profile disapproved successfully",
   "CI_PROFILE_APPROVE": "This care institution's profile will be approved",
   "CI_PROFILE_APPROVE_SUCESS": "Care Institution's profile approved successfully",
-  "EMAIL_SELECT_CARE_GIVERS": "Please select atleast one caregiver to send an email",
+  "EMAIL_SELECT_CARE_GIVERS": "Please select atleast one :userRole to send an email",
   "CONFIRM_EMAIL_TEMPLATE_RESTORE_MSG": "This email template will be restored.",
   "EMAIL_TEMPLATE_RESTORED_SUCCESS": "Email Template restored successfully.",
   "CONFIRM_EMPLOYEE_PERMANENT_DELETE_MSG": "This employee will be permanently deleted.",
@@ -902,8 +902,9 @@
   "REMINDED": "reminded ",
   "LAWYER": "lawyer",
   "DOUBTFUL": "doubtful",
-  "UNCOLLECTIBLE": "uncollectible",
-  "STILL_OPEN": "still open",
+  "IRRECOVERABLE": "Irrecoverable",
+  "AMOUNT_PAID":"Amount Paid",
+  "STILL_OPEN": "Still Open",
   "BOOKING_DETAILS": "Booking details",
   "PRICE_AND_WORKING": "Price & working hours",
   "CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT": "This careinstitution requirement will be deleted.",
@@ -933,6 +934,7 @@
   "MAIN_CONTACT": "Main contact",
   "STATE_ERROR": "Please choose at least one state.",
   "NO_DATA_FOUND": "No data found",
+  "CONTRACT": "Contract",
   "FACTORING_CONTRACT": "Factoring Contracts",
   "CAREINSTTITUTION_LINKED": "Care Institution must be linked with a caregiver",
   "CAREGIVER_LINKED": "Caregiver must be linked with a care institution",
@@ -971,5 +973,8 @@
   "TIMELY_COMPLETELY" :"Times Completely",
   "CREATE_ALL_CAREGIVER" : "Create all Caregiver",
   "LINKED_ATTRIBUTE_WARNING": "This care giver contains negative entry in good conduct certificate",
-  "ATTRIBUTE_WARNING": "Are you sure you want to linked with this?"
+  "ATTRIBUTE_WARNING": "Are you sure you want to linked with this?",
+  "INVOICE_NUMBER_F" :"Invoice Number F",
+  "POST": "Post",
+  "SENT_POST": "Sent Post"
 }

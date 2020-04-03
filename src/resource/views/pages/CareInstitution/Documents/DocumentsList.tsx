@@ -129,12 +129,13 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   onApprove();
                 }}
                 disabled={
-                  documentListing &&
-                  documentListing.getDocuments &&
-                  documentListing.getDocuments.filter(
-                    (document: any) =>
-                      document.isDefault && document.status !== 'approve'
-                  ).length
+                  (documentListing &&
+                    documentListing.getDocuments &&
+                    documentListing.getDocuments.filter(
+                      (document: any) =>
+                        document.isDefault && document.status !== 'approve'
+                    ).length) ||
+                  loading
                     ? true
                     : false // If any of the required document in not approved by admin
                 }

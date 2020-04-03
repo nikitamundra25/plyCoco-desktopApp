@@ -539,8 +539,8 @@ body {
   .custom-appointment-calendar {
     // height: calc(50vh - 80px);
     .custom-appointment-calendar-head {
-      position: absolute;
-      height:46px;
+      position: sticky;
+      // height:46px;
       top: 0;
       background: $white;
       width: 100%;
@@ -611,7 +611,7 @@ body {
 };
 
 .ReactVirtualized__List{
-  padding-top:46px;
+  // padding-top:46px;
   height: calc(50vh - 80px) !important;
 }
 

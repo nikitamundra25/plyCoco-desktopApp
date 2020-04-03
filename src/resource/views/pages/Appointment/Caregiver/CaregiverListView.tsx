@@ -808,7 +808,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   style={style}
                                 >
                                   <div
-                                    className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link"
+                                    className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
                                     style={{
                                       backgroundColor: !list.isActive
                                         ? deactivatedListColor

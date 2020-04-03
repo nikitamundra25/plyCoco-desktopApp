@@ -67,7 +67,7 @@ if (canstitutionCell && careinstitutionCell) {
   }
 
   return (
-    <td
+    <div
       key={key}
       className={classnames({
         'calender-col': true,
@@ -111,7 +111,7 @@ if (canstitutionCell && careinstitutionCell) {
           {item.n ? item.n : null}
         </>
       ) : null}
-    </td>
+    </div>
   );
 };
 

@@ -335,7 +335,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   };
   const [StatusTo, setStatusTo] = useState("");
 
-  const renderTableRows = (list: any, index: any) => {
+  const renderTableRows = (list: any, index: any,style: any ) => {
 
     // select careInstitution if no department is available
     // if (starCanstitution.isStar && !list ) {
@@ -343,6 +343,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     //     (item: any) => item.id === starCanstitution.id
     //   )[0];
     // }
+    console.log("list",list);
     
     let temp: any[] = [];
     //  if (listData && listData.length) {
@@ -1015,31 +1016,10 @@ console.log("careInstituionDeptData",careInstituionDeptData);
         </div>
       </div>
       <div className="position-relative">
-        {/* <InfiniteScroll
-          loader={<div className='appointment-list-loader'>{}</div>}
-          hasMore={
-            !starCanstitution.isStar || locationState
-              ? careInstitutionList &&
-                careInstitutionList.length !== totalCareinstituion
-              : false
-          }
-          dataLength={
-            careInstitutionList && careInstitutionList.length
-              ? careInstitutionList.length
-              : 0
-          }
-          next={() => {
-            getMoreCareInstituionList(careInstitutionList.length);
-          }}
-          // endMessage={<p />}
-          scrollableTarget={'scrollableDiv-2'}
-          hasChildren
-        > */}
         <div
           className="calender-section custom-scrollbar mt-3 careinstitution-appointment-list"
           id={"scrollableDiv-2"}
         >
-
           <div className="custom-appointment-calendar">
           <div className="custom-appointment-calendar-head">
           <div className="custom-appointment-row ">
@@ -1129,21 +1109,21 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                     loadMoreRows={() =>
                       getMoreCareInstituionList(careInstitutionList.length) as any
                     }
-        isRowLoaded={({ index }) => !!careInstitutionList[index]}
-
+                 isRowLoaded={({ index }) => !!careInstitutionList[index]}
                     // isRowLoaded={() => false}
                     rowCount={totalCareinstituion}
                   >
                     {({ onRowsRendered, registerChild }) => (
-                      <AutoSizer disableHeight>
+                      <AutoSizer className="autosizer-div">
                         {({ width }) => (
                           <List
                             ref={registerChild}
-                            height={100}
+                            height={200}
                             onRowsRendered={onRowsRendered }
                             rowCount={careInstitutionList.length}
-                            rowHeight={5}
-                            rowRenderer={({ index, key }) => {
+                            rowHeight={30}
+                            width={1538}
+                            rowRenderer={({ index, key, style }) => {
                               // Condition to manage careinstitution list & department list
                              let list= !starCanstitution.isStar
                               ? careInstitutionList[index] || {}
@@ -1165,10 +1145,10 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                                 }
                               return renderTableRows(
                                 list,
-                                index
+                                index,
+                                style,
                               );
                             }}
-                            width={width}
                           />
                         )}
                       </AutoSizer>

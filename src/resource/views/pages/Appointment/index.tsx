@@ -515,7 +515,7 @@ const Appointment: FunctionComponent = (props: any) => {
       variables: {
         qualificationId: temp ? temp : null,
         userRole: 'canstitution',
-        limit: 50,
+        limit: 30,
         page: 1,
         showAppointments:
           filterByAppointments && filterByAppointments.value
@@ -3123,7 +3123,7 @@ const Appointment: FunctionComponent = (props: any) => {
       variables: {
         qualificationId: temp ? temp : null,
         userRole: 'canstitution',
-        limit: 50,
+        limit: 30,
         page: careInstitutionPage ? careInstitutionPage + 1 : 1,
         showAppointments:
           filterByAppointments && filterByAppointments.value

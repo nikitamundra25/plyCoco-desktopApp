@@ -956,9 +956,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </div>
         </div>
       </div>
-
+      {openCareGiverBulkEmail ?
       <BulkEmailCareGiverModal
-      updateLinkedStatus={updateLinkedStatus}
+        updateLinkedStatus={props.fetchingCareGiverData}
         openModal={openCareGiverBulkEmail}
         qualification={
           sortedQualificationList && sortedQualificationList
@@ -976,7 +976,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         qualificationList={qualificationList}
         offerRequirements={offerRequirements}
         terminateAggrement={terminateAggrement}
-      />
+        leasingContract={leasingContract}
+      /> : null}
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() => handleCareInstitutionBulkEmail()}

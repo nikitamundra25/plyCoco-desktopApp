@@ -421,7 +421,8 @@ const Appointment: FunctionComponent = (props: any) => {
       fetchMore: fetchMoreCareGiverList
     }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
+    // notifyOnNetworkStatusChange: true    
   });
 
   // To fetch careinstitution by qualification id
@@ -899,6 +900,8 @@ const Appointment: FunctionComponent = (props: any) => {
   // To store users list into state
   useEffect(() => {
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
+    let careGiverSelectedCell = selectedCells && selectedCells.length ? [...selectedCells] : []
+    let careInstSelectedCell = selectedCellsCareinstitution && selectedCellsCareinstitution.length ? [...selectedCellsCareinstitution] : []
     if (careGiversList && careGiversList.getUserByQualifications) {
       const { getUserByQualifications } = careGiversList;
       const { result, totalCount } = getUserByQualifications;
@@ -928,6 +931,13 @@ const Appointment: FunctionComponent = (props: any) => {
                   moment(d.dateString).isSame(moment(available.date), 'day')
               );
               for (let i = 0; i < records.length; i++) {
+                // To update the status of selected cell accordingly
+                if (records[i] && selectedCells && selectedCells.length && records[i].id) {
+                  let index = selectedCells.findIndex((cell:any) => cell.item && cell.item.id === records[i].id);
+                  if (index > -1) {
+                    careGiverSelectedCell[index].item = records[i] 
+                  }
+                }
                 user.availabilityData[i].push(records[i]);
               }
             });
@@ -942,6 +952,9 @@ const Appointment: FunctionComponent = (props: any) => {
       //   );
       //   setcaregiversList(list);
       // } else {
+        if (careGiverSelectedCell && careGiverSelectedCell.length) {
+          setSelectedCells(careGiverSelectedCell)
+        }
       setcaregiversList(result);
       // }
     }
@@ -978,6 +991,13 @@ const Appointment: FunctionComponent = (props: any) => {
                   moment(d.dateString).isSame(moment(available.date), 'day')
               );
               for (let i = 0; i < records.length; i++) {
+                // To update the status of selected cell accordingly
+                if (records[i] && careInstSelectedCell && careInstSelectedCell.length && records[i].id) {
+                  let index = careInstSelectedCell.findIndex((cell:any) => cell.item && cell.item.id === records[i].id);
+                  if (index > -1) {
+                    careInstSelectedCell[index].item = records[i] 
+                  }
+                }
                 user.availabilityData[i].push(records[i]);
               }
             });
@@ -987,7 +1007,9 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
-
+      if (careInstSelectedCell && careInstSelectedCell.length) {
+        setselectedCellsCareinstitution(careInstSelectedCell)
+      }
       setcareinstitutionList(result);
       if (
         locationState &&
@@ -1637,7 +1659,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               }
             });
-            updateLinkedStatus(name);
+            // updateLinkedStatus(name);
 
             if (!toast.isActive(toastId)) {
               if (name === "confirmed") {
@@ -1662,7 +1684,7 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
       selectedCellsCareinstitution.forEach(async element => {
-        console.log('element.isLeasingggg', element.isLeasing);
+        console.log('element.isLeasingggg', element.isLeasing, name);
 
         const { item } = element;
         const Item = { ...item };
@@ -1701,11 +1723,21 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               }
             });
-            updateLinkedStatus(name);
+            // updateLinkedStatus(name);
             // check if the selected careinstitution is leasing or not
-            if (name === 'confirmed' && element.isLeasing) {
-              console.log('name', name);
-              console.log('element.isLeasing', element.isLeasing);
+            if (name === 'confirmed') {
+              console.log('in ifff leasing', selectedCells);
+              
+              if (selectedCells && selectedCells.length) {
+                let temp =  [...selectedCells]
+                console.log(temp, availabilityId);
+                
+                if (temp[0] && temp[0].item && temp[0].item.appointments && temp[0].item.appointments.length && temp[0].item.appointments[0] && temp[0].item.appointments[0].cr && temp[0].item.appointments[0].cr.isLeasing && temp[0].item.appointments[0].cr.id === availabilityId.toString()) {
+                  console.log('in ifff');
+                  temp[0].item.appointments[0].cr.status = 'confirmed';
+                  setSelectedCells(temp) 
+                } 
+              }
               fetchingCareGiverData();
             }
             if (!toast.isActive(toastId)) {

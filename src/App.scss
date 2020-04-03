@@ -1300,7 +1300,7 @@ html:not([dir="rtl"]) {
       border-radius: 0px;
       padding: 3px 10px;
       position: absolute;
-      z-index: 1;
+      z-index: 4;
       // top: -30px;
       left: 50%;
       bottom: 130%;
@@ -2321,7 +2321,7 @@ html:not([dir="rtl"]) {
         display: none;
       }
     }
-  
+
     &.checkbox-th-column {
       width: 40px;
     }
@@ -2663,12 +2663,13 @@ html:not([dir="rtl"]) {
       border-radius: 0px;
       padding: 4px 15px;
       font-size: $font_13;
-      border: 1px solid $transparent;    padding-right: 5px;
+      border: 1px solid $transparent;
+      padding-right: 5px;
       font-weight: 600;
       border-bottom: $transparent;
       @media only screen and (max-width: 480px) {
-          padding: 4px 10px;
-        }
+        padding: 4px 10px;
+      }
       .icon {
         margin-right: 10px;
       }
@@ -2715,8 +2716,10 @@ html:not([dir="rtl"]) {
     .common-topheader {
       background: $white;
       padding-top: 4px;
-
-      .common-label {
+      &.d-flex {
+        @media only screen and (max-width: 1200px) {
+          flex-wrap: wrap;
+        }
       }
 
       .common-title {
@@ -2752,6 +2755,7 @@ html:not([dir="rtl"]) {
         font-family: FrutigerNeueLTPro-Medium;
         border-radius: 2px;
         background: $common_tab_bg;
+        width: 40px;
         .header-nav-icon {
           padding-right: 8px;
           vertical-align: middle;
@@ -3114,7 +3118,7 @@ html:not([dir="rtl"]) {
         align-items: center;
         justify-content: flex-start;
         @media only screen and (max-width: 767px) {
-          padding-right:6px;
+          padding-right: 6px;
         }
         &.input-wrap {
           flex: 1 1 100%;
@@ -3154,7 +3158,7 @@ html:not([dir="rtl"]) {
   }
   @media only screen and (max-width: 767px) {
     margin-left: 0px;
-     width: 100%;
+    width: 100%;
   }
   // .new-email-select {
   //   width: 100%;

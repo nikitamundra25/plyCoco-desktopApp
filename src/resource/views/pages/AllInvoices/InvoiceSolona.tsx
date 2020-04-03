@@ -46,6 +46,8 @@ import { FormikHelpers, FormikProps, Formik } from "formik";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
 import {  StatusOptions, SortOptions } from "../../../../config";
+import sent from "../../../assets/img/header-icons/sent.svg";
+import unsent from "../../../assets/img/header-icons/unsent.svg";
 import "./index.scss";
 import filter from "../../../assets/img/filter.svg";
 
@@ -148,17 +150,26 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                   </div>
                 </div>
                 <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Sent &amp; Unsent</div>
+                  <div className="header-nav-heading mx-1">
+                    Sent &amp; Unsent
+                  </div>
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
                       <img src={Again} alt="" />
                     </span>
-                    <span className="header-nav-text">send again</span>
+                    
+                    <span className="header-nav-text">again</span>
                   </div>
                   <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                      <img src={sent} alt="" />
+                    </span>
                     <span className="header-nav-text">Sent today</span>
                   </div>
                   <div className="header-nav-item">
+                  <span className="header-nav-icon">
+                      <img src={unsent} alt="" />
+                    </span>
                     <span className="header-nav-text">Unsent</span>
                   </div>
                 </div>

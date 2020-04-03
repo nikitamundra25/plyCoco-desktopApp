@@ -172,16 +172,16 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           userId.push(parseInt(value.id));
         }
       }
-      let temp: any = [];
-      if (props.qualification && props.qualification.length) {
-        props.qualification.map((key: any, index: number) => {
-          if (key.value) {
-            temp.push(parseInt(key.value));
-          } else {
-            temp.push(parseInt(key));
-          }
-        });
-      }
+      // let temp: any = [];
+      // if (props.qualification && props.qualification.length) {
+      //   props.qualification.map((key: any, index: number) => {
+      //     if (key.value) {
+      //       temp.push(parseInt(key.value));
+      //     } else {
+      //       temp.push(parseInt(key));
+      //     }
+      //   });
+      // }
 
       // get careInstitutions list
       // fetchCaregiverListFromQualification({
@@ -1097,9 +1097,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   }
 
-  const isLeasingRequirement = selectedCellsCareinstitution.findIndex((cell:any) => cell.canstitution && cell.canstitution.attributes && cell.canstitution.attributes.includes(
-    CareInstTIMyoCYAttrId
-  )) > -1 ? true :false
+  const isLeasingRequirement = selectedCellsCareinstitution.findIndex((cell:any) => cell.item && cell.item.isLeasing) > -1 ? true :false
 
   console.log(isLeasingRequirement,'isLeasingRequirement');
   

@@ -1,16 +1,16 @@
-import React, { FunctionComponent, useState } from 'react';
-import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
-import '../index.scss';
+import React, { FunctionComponent, useState } from "react";
+import { Table, Button, Nav, NavItem, NavLink } from "reactstrap";
+import "../index.scss";
 import {
   IAppointmentCareInstitutionList,
   IDaysArray,
   IReactSelectInterface
-} from '../../../../../interfaces';
-import Loader from '../../../containers/Loader/Loader';
-import { SelectableGroup } from 'react-selectable-fast';
-import CellCareinstitution from './Cell';
-import moment from 'moment';
-import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
+} from "../../../../../interfaces";
+import Loader from "../../../containers/Loader/Loader";
+import { SelectableGroup } from "react-selectable-fast";
+import CellCareinstitution from "./Cell";
+import moment from "moment";
+import DetaillistCareinstitutionPopup from "../DetailedList/DetailListCareinstitution";
 import {
   dbAcceptableFormat,
   appointmentDateFormat,
@@ -21,29 +21,30 @@ import {
   selfEmployesListColor,
   deactivatedListColor,
   CareInstInActiveAttrId
-} from '../../../../../config';
-import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
-import all_list from '../../../../assets/img/dropdown/all_list.svg';
-import delete_appointment from '../../../../assets/img/dropdown/delete.svg';
-import detail_list from '../../../../assets/img/dropdown/detail_list.svg';
-import offer_sent from '../../../../assets/img/dropdown/offer_sent.svg';
-import connect from '../../../../assets/img/dropdown/connect.svg';
-import disconnect from '../../../../assets/img/dropdown/disconnect.svg';
-import confirm_appointment from '../../../../assets/img/dropdown/confirm_appointment.svg';
-import set_confirm from '../../../../assets/img/dropdown/confirm.svg';
-import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
-import invoice from '../../../../assets/img/dropdown/invoice.svg';
-import refresh from '../../../../assets/img/refresh.svg';
-import classnames from 'classnames';
-import { languageTranslation } from '../../../../../helpers';
-import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
-import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
-import { toast } from 'react-toastify';
-import { useHistory } from 'react-router';
-import UnlinkAppointment from '../unlinkModal';
-import { Link } from 'react-router-dom';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { ConfirmBox } from '../../../components/ConfirmBox';
+} from "../../../../../config";
+import new_appointment from "../../../../assets/img/dropdown/new_appointment.svg";
+import all_list from "../../../../assets/img/dropdown/all_list.svg";
+import delete_appointment from "../../../../assets/img/dropdown/delete.svg";
+import detail_list from "../../../../assets/img/dropdown/detail_list.svg";
+import offer_sent from "../../../../assets/img/dropdown/offer_sent.svg";
+import connect from "../../../../assets/img/dropdown/connect.svg";
+import disconnect from "../../../../assets/img/dropdown/disconnect.svg";
+import confirm_appointment from "../../../../assets/img/dropdown/confirm_appointment.svg";
+import set_confirm from "../../../../assets/img/dropdown/confirm.svg";
+import unset_confirm from "../../../../assets/img/dropdown/not_confirm.svg";
+import invoice from "../../../../assets/img/dropdown/invoice.svg";
+import refresh from "../../../../assets/img/refresh.svg";
+import classnames from "classnames";
+import { languageTranslation } from "../../../../../helpers";
+import BulkEmailCareGiverModal from "../BulkEmailCareGiver";
+import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router";
+import UnlinkAppointment from "../unlinkModal";
+import { Link } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { ConfirmBox } from "../../../components/ConfirmBox";
+import { InfiniteLoader, AutoSizer, List } from "react-virtualized";
 
 let toastId: any = null;
 const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
@@ -96,15 +97,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         const { props: cellProps } = selectedCell;
         const { item, list: careInstData, day } = cellProps;
         const {
-          userId = '',
-          id = '',
-          name = '', //department name on solo care institution
-          firstName = '',
-          lastName = '',
+          userId = "",
+          id = "",
+          name = "", //department name on solo care institution
+          firstName = "",
+          lastName = "",
           caregiver = {},
           canstitution = {},
           qualificationId = [],
-          deptId = '',
+          deptId = "",
           divisions = []
         } = careInstData ? careInstData : {};
         let qualification1: IReactSelectInterface[] = [];
@@ -133,19 +134,19 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           name:
             canstitution && canstitution.companyName
               ? canstitution.companyName
-              : '',
+              : "",
           caregiver,
           canstitution,
           dept: { id: deptId, name },
           item:
             temp && temp.qualificationId && temp.qualificationId ? temp : item,
           qualificationIds: qualificationId,
-          dateString: day ? day.dateString : '',
+          dateString: day ? day.dateString : "",
           divisions,
-          isLeasing:
-            canstitution && canstitution.attributes
-              ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
-              : false
+          // isLeasing:
+          //   canstitution && canstitution.attributes
+          //     ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
+          //     : false
         };
       });
       handleSelection(selectedRows, 'careinstitution');
@@ -167,22 +168,28 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     ) {
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
         if (!toast.isActive(toastId)) {
-          toastId = toast.error('Please select same length cells');
+          toastId = toast.error("Please select same length cells");
         }
       } else {
-        if(selectedCells[0].caregiver && selectedCells[0].caregiver.attributes && selectedCells[0].caregiver.attributes.length){
-          let checkAttribute =  selectedCells[0].caregiver.attributes.includes(8)
-          if(checkAttribute){
-           const { value } = await ConfirmBox({
-             title: languageTranslation('ATTRIBUTE_WARNING'),
-             text: languageTranslation('LINKED_ATTRIBUTE_WARNING')
-           })
-           if (!value) {
-            checkError = true;
-             return;
-           }
+        if (
+          selectedCells[0].caregiver &&
+          selectedCells[0].caregiver.attributes &&
+          selectedCells[0].caregiver.attributes.length
+        ) {
+          let checkAttribute = selectedCells[0].caregiver.attributes.includes(
+            8
+          );
+          if (checkAttribute) {
+            const { value } = await ConfirmBox({
+              title: languageTranslation("ATTRIBUTE_WARNING"),
+              text: languageTranslation("LINKED_ATTRIBUTE_WARNING")
+            });
+            if (!value) {
+              checkError = true;
+              return;
+            }
           }
-         }
+        }
         let qualiCheck: any[] = [];
         selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
@@ -199,7 +206,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           if (qualiCheck && qualiCheck.length <= 0) {
             if (!toast.isActive(toastId)) {
               toastId = toast.warn(
-                languageTranslation('QUALIFICATION_UNMATCH')
+                languageTranslation("QUALIFICATION_UNMATCH")
               );
             }
             checkError = true;
@@ -212,7 +219,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             checkError = true;
             if (!toast.isActive(toastId)) {
               toastId = toast.error(
-                'Date range between appointments & requirement mismatch.'
+                "Date range between appointments & requirement mismatch."
               );
             }
             return false;
@@ -220,7 +227,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             checkError = true;
             if (!toast.isActive(toastId)) {
               toastId = toast.error(
-                'Create requirement or appointment first for all selected cells.'
+                "Create requirement or appointment first for all selected cells."
               );
             }
             return false;
@@ -230,7 +237,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 avabilityId: parseInt(key.item.id),
                 requirementId: parseInt(element.item.id),
                 date: moment(element.dateString).format(dbAcceptableFormat),
-                status: 'appointment'
+                status: "appointment"
               });
             }
           }
@@ -243,7 +250,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   };
 
   //unLinked by
-  const [unlinkedBy, setunlinkedBy] = useState<string>('');
+  const [unlinkedBy, setunlinkedBy] = useState<string>("");
 
   //  UnLink appointmnets
   const handleUnLinkAppointments = (name: string) => {
@@ -266,14 +273,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         // );
         return appointmentId.push({
           appointmentId: parseInt(
-            key.item.appointments ? key.item.appointments[0].id : ''
+            key.item.appointments ? key.item.appointments[0].id : ""
           ),
           unlinkedBy: likedBy,
           deleteAll: check
         });
       });
-      onLinkAppointment(appointmentId, 'unlink');
-      if (likedBy !== 'employee') {
+      onLinkAppointment(appointmentId, "unlink");
+      if (likedBy !== "employee") {
         setisFromUnlink(true);
         setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
         setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
@@ -281,7 +288,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     } else {
       if (!toast.isActive(toastId)) {
         toastId = toast.error(
-          languageTranslation('SELECT_APPOINTMENT_IN_UNLINK')
+          languageTranslation("SELECT_APPOINTMENT_IN_UNLINK")
         );
       }
     }
@@ -301,7 +308,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   ] = useState<boolean>(false);
 
   // lable for care institution
-  const [sortBy, setSortBy] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>("");
 
   // show button for care institution
   const [showButton, setShowButton] = useState<boolean>(false);
@@ -313,14 +320,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     setShowButton(showButton);
     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
     if (openCareGiverBulkEmail) {
-      setunlinkedBy('');
+      setunlinkedBy("");
     }
   };
   
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
     if (openCareInstitutionBulkEmail) {
-      setunlinkedBy('');
+      setunlinkedBy("");
     }
     if (confirmAppointment) {
       setConfirmAppointment(false);
@@ -330,135 +337,138 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   
   const [StatusTo, setStatusTo] = useState('');
 
-  const renderTableRows = (listData: any) => {
-    if (starCanstitution.isStar && listData && !listData.length) {
-      listData = careInstitutionList.filter(
-        (item: any) => item.id === starCanstitution.id
-      );
-    }
-    let temp: any[] = [];
-    if (listData && listData.length) {
-      listData.forEach((list: any, index: number) => {
-        if (list.availabilityData && list.availabilityData.length) {
-          list.availabilityData.map((item: any, row: number) =>
-            temp.push(
-              <tr key={`${list.id}-${index}-${row}`}>
-                <th className='thead-sticky name-col custom-appointment-col'>
-                  <div className='all-star-wrap'>
-                    <div
-                      style={{
-                        backgroundColor:
-                          list.canstitution && list.canstitution.attributes
-                            ? list.canstitution.attributes.includes(
-                                CareInstInActiveAttrId
-                              )
-                              ? deactivatedListColor
-                              : list.canstitution.attributes.includes(
-                                  CareInstTIMyoCYAttrId
-                                )
-                              ? leasingListColor
-                              : list.canstitution.attributes.includes(
-                                  CareInstPlycocoAttrId
-                                )
-                              ? selfEmployesListColor
-                              : ''
-                            : ''
-                      }}
-                      // onClick={() =>
-                      //   history.push(
-                      //     AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
-                      //   )
-                      // }
-                      title={list.name}
-                      className='text-capitalize view-more-link one-line-text username-col name-text'
-                      id={`careinst-${list.id}`}
-                    >
-                      <Link
-                        to={AppRoutes.CARE_INSTITUION_VIEW.replace(
-                          ':id',
-                          list.id
-                        )}
-                        target='_blank'
-                        className='text-body'
-                      >
-                        {row === 0 ? list.name : null}
-                      </Link>
-                    </div>
-                    <div className='h-col custom-appointment-col text-center'></div>
-                    <div
-                      className='s-col custom-appointment-col text-center cursor-pointer'
-                      onClick={() => handleFirstStarCanstitution(list, index)}
-                    >
-                      {starCanstitution.setIndex === index ||
-                      starCanstitution.isStar ? (
-                        <i className='fa fa-star theme-text' />
-                      ) : (
-                        <i className='fa fa-star-o' />
-                      )}
-                    </div>
-                    <div
-                      className='u-col custom-appointment-col text-center cursor-pointer'
-                      onClick={() => onhandleSecondStarCanstitution(list)}
-                    >
-                      {secondStarCanstitution &&
-                      secondStarCanstitution.isStar ? (
-                        <i className='fa fa-star theme-text' />
-                      ) : (
-                        <i className='fa fa-star-o' />
-                      )}
-                    </div>
-                    <div
-                      className='v-col custom-appointment-col text-center cursor-pointer'
-                      onClick={e => onAddingRow(e, 'careinstitution', index)}
-                    >
-                      <i className='fa fa-arrow-down' />
-                    </div>
-                  </div>
-                </th>
+  const loadMoreRows = ({ startIndex, stopIndex }: any) => {
+    getMoreCareInstituionList(careInstitutionList.length)
+  };
+  
+  const renderTableRows = (list: any, index: any,style: any ) => {
 
-                {/* map */}
-                {daysArr.map((key: any, i: number) => {
-                  return (
-                    <CellCareinstitution
-                      key={`${key}-${i}`}
-                      day={key}
-                      list={list}
-                      daysArr={key.isWeekend}
-                      showSelectedCaregiver={showSelectedCaregiver}
-                      item={
-                        item
-                          ? item.filter((avabilityData: any) => {
-                              return (
-                                moment(key.isoString).format('DD.MM.YYYY') ===
-                                moment(avabilityData.date).format('DD.MM.YYYY')
-                              );
-                            })[0]
-                          : ''
-                      }
-                      handleSelectedAvailability
-                      selectedCells={selectedCells}
-                    />
-                  );
-                })}
-              </tr>
-            )
-          );
-        }
-      });
-    } else {
-      temp.push(
-        <tr className={'text-center no-hover-row'}>
-          <td colSpan={40} className={'pt-5 pb-5'}>
-            <div className='no-data-section'>
-              <div className='no-data-icon'>
-                <i className='icon-ban' />
-              </div>
-              <h4 className='mb-1'>{'No Data found with related search'}</h4>
-            </div>
-          </td>
-        </tr>
+    // select careInstitution if no department is available
+    // if (starCanstitution.isStar && !list ) {
+    //   list = careInstitutionList.filter(
+    //     (item: any) => item.id === starCanstitution.id
+    //   )[0];
+    // }
+    
+    let temp: any[] = [];
+    //  if (listData && listData.length) {
+    //   listData.forEach((list: any, index: number) => {
+    if (list && list.availabilityData && list.availabilityData.length) {
+      list.availabilityData.map((item: any, row: number) =>
+        temp.push(
+         <div  className="custom-appointment-row" key={`${list.id}-${index}-${row}`}   style={style}>
+             {/* <th className="thead-sticky name-col custom-appointment-col"> */}
+           
+                <div className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
+                  style={{
+                    backgroundColor:
+                      list.canstitution && list.canstitution.attributes
+                        ? list.canstitution.attributes.includes(
+                            CareInstInActiveAttrId
+                          )
+                          ? deactivatedListColor
+                          : list.canstitution.attributes.includes(
+                              CareInstTIMyoCYAttrId
+                            )
+                          ? leasingListColor
+                          : list.canstitution.attributes.includes(
+                              CareInstPlycocoAttrId
+                            )
+                          ? selfEmployesListColor
+                          : ""
+                        : ""
+                  }}
+                  // onClick={() =>
+                  //   history.push(
+                  //     AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
+                  //   )
+                  // }
+                  title={list.name}
+                  // className="text-capitalize view-more-link one-line-text username-col name-text"
+                  id={`careinst-${list.id}`}
+                >
+                  <Link
+                    to={AppRoutes.CARE_INSTITUION_VIEW.replace(":id", list.id)}
+                    target="_blank"
+                    className="text-body"
+                  >
+                    {row === 0 ? list.name : null}
+                  </Link>
+                </div>
+                <div className="h-col custom-appointment-col text-center"></div>
+                <div
+                  className="s-col custom-appointment-col text-center cursor-pointer"
+                  onClick={() => handleFirstStarCanstitution(list, index)}
+                >
+                  {starCanstitution.setIndex === index ||
+                  starCanstitution.isStar ? (
+                    <i className="fa fa-star theme-text" />
+                  ) : (
+                    <i className="fa fa-star-o" />
+                  )}
+                </div>
+                <div
+                  className="u-col custom-appointment-col text-center cursor-pointer"
+                  onClick={() => onhandleSecondStarCanstitution(list)}
+                >
+                  {secondStarCanstitution && secondStarCanstitution.isStar ? (
+                    <i className="fa fa-star theme-text" />
+                  ) : (
+                    <i className="fa fa-star-o" />
+                  )}
+                </div>
+                <div
+                  className="v-col custom-appointment-col text-center cursor-pointer"
+                  onClick={e => onAddingRow(e, "careinstitution", index)}
+                >
+                  <i className="fa fa-arrow-down" />
+                </div>
+             
+            {/* </th> */}
+
+            {/* map */}
+            {daysArr.map((key: any, i: number) => {
+              return (
+                <CellCareinstitution
+                  key={`${key}-${i}`}
+                  day={key}
+                  list={list}
+                  daysArr={key.isWeekend}
+                  showSelectedCaregiver={showSelectedCaregiver}
+                  item={
+                    item
+                      ? item.filter((avabilityData: any) => {
+                          return (
+                            moment(key.isoString).format("DD.MM.YYYY") ===
+                            moment(avabilityData.date).format("DD.MM.YYYY")
+                          );
+                        })[0]
+                      : ""
+                  }
+                  handleSelectedAvailability
+                  selectedCells={selectedCells}
+                />
+              );
+            })}
+          </div>
+        )
       );
     }
+    // });
+    // } else {
+    //   temp.push(
+    //     <tr className={'text-center no-hover-row'}>
+    //       <td colSpan={40} className={'pt-5 pb-5'}>
+    //         <div className='no-data-section'>
+    //           <div className='no-data-icon'>
+    //             <i className='icon-ban' />
+    //           </div>
+    //           <h4 className='mb-1'>{'No Data found with related search'}</h4>
+    //         </div>
+    //       </td>
+    //     </tr>
+    //   );
+    // }
     return temp /* firstStarData */;
   };
   // to apply condition on email options and delete
@@ -467,10 +477,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     emailOptionCond = selectedCellsCareinstitution.filter((x: any) => {
       if (x.item && x.item.id) {
         return (
-          x.item && x.item.status !== 'default' && x.item.status !== 'offered'
+          x.item && x.item.status !== "default" && x.item.status !== "offered"
         );
       } else {
-        return ['abc'];
+        return ["abc"];
       }
     });
   }
@@ -479,9 +489,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     setOnOfferCond = selectedCellsCareinstitution.filter((x: any) => {
       if (x.item && x.item.id) {
-        return x.item && x.item.status !== 'default';
+        return x.item && x.item.status !== "default";
       } else {
-        return ['abc'];
+        return ["abc"];
       }
     });
   }
@@ -490,9 +500,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     resetOffCond = selectedCellsCareinstitution.filter((x: any) => {
       if (x.item && x.item.id) {
-        return x.item && x.item.status !== 'offered';
+        return x.item && x.item.status !== "offered";
       } else {
-        return ['abc'];
+        return ["abc"];
       }
     });
   }
@@ -501,9 +511,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     offerAppCond = selectedCellsCareinstitution.filter((x: any) => {
       if (x.item && x.item.id) {
-        return x.item.status !== 'linked' && x.item.status !== 'confirmed';
+        return x.item.status !== "linked" && x.item.status !== "confirmed";
       } else {
-        return ['abc'];
+        return ["abc"];
       }
     });
   }
@@ -512,9 +522,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     disconnectAppCond = selectedCellsCareinstitution.filter((x: any) => {
       if (x.item && x.item.id) {
-        return x.item && x.item.status !== 'linked';
+        return x.item && x.item.status !== "linked";
       } else {
-        return ['abc'];
+        return ["abc"];
       }
     });
   }
@@ -524,10 +534,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     connectAppCondition = selectedCellsCareinstitution.filter((x: any) => {
       if (x.item && x.item.id) {
         return (
-          x.item && x.item.status !== 'default' && x.item.status !== 'offered'
+          x.item && x.item.status !== "default" && x.item.status !== "offered"
         );
       } else {
-        return ['abc'];
+        return ["abc"];
       }
     });
   }
@@ -552,23 +562,24 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       }
     });
   }
+console.log("careInstituionDeptData",careInstituionDeptData);
 
   return (
     <>
       <div
         className={classnames({
-          'right-manu-close': true,
-          'd-none': !toggleMenuButton
+          "right-manu-close": true,
+          "d-none": !toggleMenuButton
         })}
         onClick={() => handleRightMenuToggle()}
       ></div>
       <div
         className={classnames({
-          'rightclick-menu': true,
-          'custom-scrollbar': true,
-          'd-none': !toggleMenuButton
+          "rightclick-menu": true,
+          "custom-scrollbar": true,
+          "d-none": !toggleMenuButton
         })}
-        id={'clickbox'}
+        id={"clickbox"}
       >
         <div
           onMouseOver={() => {
@@ -581,16 +592,16 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 disabled={
                   selectedCellsCareinstitution &&
                   selectedCellsCareinstitution.length &&
-                  selectedCellsCareinstitution[0].id === ''
-                    ? 'disabled-class'
-                    : ''
+                  selectedCellsCareinstitution[0].id === ""
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
                   handleRightMenuToggle();
                   onNewRequirement();
                 }}
               >
-                <img src={new_appointment} className='mr-2' alt='' />
+                <img src={new_appointment} className="mr-2" alt="" />
                 <span>New appointment</span>
               </NavLink>
             </NavItem>
@@ -604,8 +615,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                           (availability && !availability.item) ||
                           (availability.item && !availability.item.status) ||
                           (availability.item &&
-                            (availability.item.status === 'default' ||
-                              availability.item.status === 'offered'))
+                            (availability.item.status === "default" ||
+                              availability.item.status === "offered"))
                       ).length
                       ? false
                       : true
@@ -621,11 +632,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 // }
                 onClick={() => {
                   handleRightMenuToggle();
-                  onDeleteEntries('careInstitution');
+                  onDeleteEntries("careInstitution");
                 }}
                 // onClick={() => onDeleteEntries()}
               >
-                <img src={delete_appointment} className='mr-2' alt='' />
+                <img src={delete_appointment} className="mr-2" alt="" />
                 <span>Delete free appointments</span>
               </NavLink>
             </NavItem>
@@ -636,124 +647,124 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 }
                 onClick={() => handleSelectedAppoitment()}
               >
-                <img src={all_list} className='mr-2' alt='' />
+                <img src={all_list} className="mr-2" alt="" />
                 <span>Select all appointments of the caregiver</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 disabled={
                   selectedCellsCareinstitution &&
                   selectedCellsCareinstitution.length &&
-                  selectedCellsCareinstitution[0].id === ''
-                    ? 'disabled-class'
-                    : ''
+                  selectedCellsCareinstitution[0].id === ""
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
                   handleRightMenuToggle();
                   setShowList(true);
                 }}
               >
-                <img src={detail_list} className='mr-2' alt='' />
+                <img src={detail_list} className="mr-2" alt="" />
                 <span>Detailed List</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (emailOptionCond && emailOptionCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail('division', true);
+                  handleCareGiverBulkEmail("division", true);
                   handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
-                  updateCareInstitutionStatus('offered');
+                  updateCareInstitutionStatus("offered");
                   // setOnOfferedCareInst();
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>
                   Select available caregivers, offer them appointments and set
                   them on offered (sorted by division)
                 </span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (emailOptionCond && emailOptionCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail('day', true);
+                  handleCareGiverBulkEmail("day", true);
                   handleCareInstitutionBulkEmail();
                   updateCareInstitutionStatus('offered');
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>
                   Select available caregivers, offer them appointments and set
                   them on offered (sorted by day)
                 </span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (emailOptionCond && emailOptionCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail('division', false);
+                  handleCareGiverBulkEmail("division", false);
                   handleCareInstitutionBulkEmail();
                   updateCareInstitutionStatus('offered');
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>
                   Select available caregivers, offer them appointments and set
                   them on offered (no direct booking; sorted by division)
                 </span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (emailOptionCond && emailOptionCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail('day', false);
+                  handleCareGiverBulkEmail("day", false);
                   handleCareInstitutionBulkEmail();
                   updateCareInstitutionStatus('offered');
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>
                   Select available caregivers, offer them appointments and set
                   them on offered (no direct booking; sorted by day)
@@ -765,149 +776,149 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (setOnOfferCond && setOnOfferCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
               >
-                <img src={set_confirm} className='mr-2' alt='' />
+                <img src={set_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
                     handleRightMenuToggle();
-                    updateCareInstitutionStatus('offered');
+                    updateCareInstitutionStatus("offered");
                   }}
                 >
                   Set on offered
                 </span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (resetOffCond && resetOffCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
               >
-                <img src={unset_confirm} className='mr-2' alt='' />
+                <img src={unset_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
                     handleRightMenuToggle();
-                    updateCareInstitutionStatus('notoffered');
+                    updateCareInstitutionStatus("notoffered");
                   }}
                 >
                   Reset offered
                 </span>
               </NavLink>
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (connectAppCondition && connectAppCondition.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
                   handleRightMenuToggle();
-                  handleLinkAppointments('link');
+                  handleLinkAppointments("link");
                 }}
               >
-                <img src={connect} className='mr-2' alt='' />
+                <img src={connect} className="mr-2" alt="" />
                 <span>Connect appointments</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (disconnectAppCond && disconnectAppCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
                   handleRightMenuToggle();
-                  handleUnLinkAppointments('unlink');
+                  handleUnLinkAppointments("unlink");
                 }}
               >
-                <img src={disconnect} className='mr-2' alt='' />
+                <img src={disconnect} className="mr-2" alt="" />
                 <span>Disconnect appointments</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (offerAppCond && offerAppCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
-                  setStatusTo('offered');
+                  setStatusTo("offered");
                   setopenToggleMenu(false);
-                  setSortBy('day');
+                  setSortBy("day");
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>Offer appointments (ordered by day)</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (offerAppCond && offerAppCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
-                  setStatusTo('offered');
+                  setStatusTo("offered");
                   handleRightMenuToggle();
-                  setSortBy('division');
+                  setSortBy("division");
                 }}
               >
-                <img src={offer_sent} className='mr-2' alt='' />
+                <img src={offer_sent} className="mr-2" alt="" />
                 <span>Offer appointments (ordered by department)</span>
               </NavLink>
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (offerAppCond && offerAppCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
-                  setStatusTo('confirmed');
+                  setStatusTo("confirmed");
                   handleRightMenuToggle();
-                  updateCareInstitutionStatus('confirmed');
+                  updateCareInstitutionStatus("confirmed");
                   // updateCareInstitutionStatus('confirmed');
-                  setSortBy('day');
+                  setSortBy("day");
                   setConfirmAppointment(true);
                 }}
               >
-                <img src={confirm_appointment} className='mr-2' alt='' />
+                <img src={confirm_appointment} className="mr-2" alt="" />
                 <span>Confirm appointments (ordered by day) </span>
               </NavLink>
             </NavItem>
@@ -916,23 +927,23 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 disabled={
                   (selectedCellsCareinstitution &&
                     selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                   (offerAppCond && offerAppCond.length !== 0)
-                    ? 'disabled-class'
-                    : ''
+                    ? "disabled-class"
+                    : ""
                 }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
-                  setStatusTo('confirmed');
+                  setStatusTo("confirmed");
                   handleRightMenuToggle();
-                  updateCareInstitutionStatus('confirmed');
-                  setSortBy('division');
+                  updateCareInstitutionStatus("confirmed");
+                  setSortBy("division");
                   setConfirmAppointment(true);
                 }}
               >
-                <img src={confirm_appointment} className='mr-2' alt='' />
+                <img src={confirm_appointment} className="mr-2" alt="" />
                 <span>Confirm appointments (ordered by department)</span>
-              </NavLink>{' '}
+              </NavLink>{" "}
             </NavItem>
             <NavItem>
               <NavLink
@@ -941,19 +952,19 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   selectedCellsCareinstitution.length &&
                   ((selectedCellsCareinstitution.length === 0 &&
                     selectedCellsCareinstitution[0] &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                     (selectedCellsCareinstitution[0] &&
                       selectedCellsCareinstitution[0].item &&
-                      selectedCellsCareinstitution[0].item.status !== 'linked'))
+                      selectedCellsCareinstitution[0].item.status !== "linked"))
                     ? true
                     : false
                 }
               >
-                <img src={set_confirm} className='mr-2' alt='' />
+                <img src={set_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
                     handleRightMenuToggle();
-                    updateCareInstitutionStatus('confirmed');
+                    updateCareInstitutionStatus("confirmed");
                   }}
                 >
                   Set on confirmed
@@ -966,39 +977,39 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                   selectedCellsCareinstitution &&
                   selectedCellsCareinstitution.length &&
                   ((selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === '') ||
+                    selectedCellsCareinstitution[0].id === "") ||
                     (selectedCellsCareinstitution[0] &&
                       selectedCellsCareinstitution[0].item &&
                       selectedCellsCareinstitution[0].item.status !==
-                        'confirmed'))
-                    ? 'disabled-class'
-                    : ''
+                        "confirmed"))
+                    ? "disabled-class"
+                    : ""
                 }
               >
-                <img src={unset_confirm} className='mr-2' alt='' />
+                <img src={unset_confirm} className="mr-2" alt="" />
                 <span
                   onClick={() => {
                     handleRightMenuToggle();
-                    updateCareInstitutionStatus('notconfirm');
+                    updateCareInstitutionStatus("notconfirm");
                   }}
                 >
                   Reset confirmed
                 </span>
               </NavLink>
             </NavItem>
-            <NavItem className='bordernav' />
+            <NavItem className="bordernav" />
             <NavItem>
               <NavLink
                 disabled={
                   selectedCellsCareinstitution &&
                   selectedCellsCareinstitution.length &&
                   selectedCellsCareinstitution[0] &&
-                  selectedCellsCareinstitution[0].id === ''
-                    ? 'disabled-class'
-                    : ''
+                  selectedCellsCareinstitution[0].id === ""
+                    ? "disabled-class"
+                    : ""
                 }
               >
-                <img src={invoice} className='mr-2' alt='' />
+                <img src={invoice} className="mr-2" alt="" />
                 <span>Create prepayment invoice</span>
               </NavLink>
             </NavItem>
@@ -1012,130 +1023,151 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           </Nav>
         </div>
       </div>
-      <div className='position-relative'>
-        <InfiniteScroll
-          loader={<div className='appointment-list-loader'>{}</div>}
-          hasMore={
-            !starCanstitution.isStar || locationState
-              ? careInstitutionList &&
-                careInstitutionList.length !== totalCareinstituion
-              : false
-          }
-          dataLength={
-            careInstitutionList && careInstitutionList.length
-              ? careInstitutionList.length
-              : 0
-          }
-          next={() => {
-            getMoreCareInstituionList(careInstitutionList.length);
-          }}
-          // endMessage={<p />}
-          scrollableTarget={'scrollableDiv-2'}
-          hasChildren
+      <div className="position-relative">
+        <div
+          className="calender-section mt-3 careinstitution-appointment-list"
+          // id={"scrollableDiv-2"}
         >
-          <div
-            className='calender-section custom-scrollbar mt-3 careinstitution-appointment-list'
-            id={'scrollableDiv-2'}
-          >
-            <SelectableGroup
-              allowClickWithoutSelected
-              className='custom-row-selector'
-              clickClassName='tick'
-              resetOnStart={true}
-              onSelectionFinish={onSelectFinish}
-              onSelectionClear={onSelectionClear}
-              ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
-            >
-              <Table hover bordered className='mb-0 appointment-table'>
-                <thead className='thead-bg'>
-                  <tr>
-                    <th className='thead-sticky name-col custom-appointment-col '>
-                      <div className='all-star-wrap'>
-                        <div className='position-relative  username-col align-self-center'>
-                          <div className='calender-heading'>
-                            {languageTranslation('MENU_INSTITUTION')}
-                          </div>
-                          <Button
-                            onClick={() => handleRightMenuToggle()}
-                            className='btn-more d-flex align-items-center justify-content-center'
-                          >
-                            <i className='icon-options-vertical' />
-                          </Button>
-                        </div>
+          <div className="custom-appointment-calendar">
+          <div className="custom-appointment-calendar-head">
+          <div className="custom-appointment-row ">
+                  {/* <div className="all-star-wrap"> */}
+                      <div className="custom-appointment-col name-col">
+                    <div className="position-relative  username-col align-self-center">
+                        {languageTranslation("MENU_INSTITUTION")}
+                      <Button
+                        onClick={() => handleRightMenuToggle()}
+                        className="btn-more d-flex align-items-center justify-content-center"
+                      >
+                        <i className="icon-options-vertical" />
+                      </Button>
+                      </div>
+                    </div>
 
-                        <div className='thead-sticky h-col custom-appointment-col text-center'>
-                          H
+                    <div className=" h-col custom-appointment-col text-center">
+                      H
+                    </div>
+                    <div className=" s-col custom-appointment-col text-center">
+                      S
+                    </div>
+                    <div className=" u-col custom-appointment-col text-center">
+                      A
+                    </div>
+                    <div className=" v-col custom-appointment-col text-center">
+                      V
+                    </div>
+                 
+                {/* array for showing day */}
+                {daysArr.map(
+                  (
+                    { date, day, isWeekend, dateString }: IDaysArray,
+                    index: number
+                  ) => {
+                    const isTodayDate = moment(dateString).isSame(
+                      moment(),
+                      'day'
+                    )
+                    return (
+                      <div
+                        key={index}
+                        className={`custom-appointment-col calender-col text-center ${
+                          isTodayDate
+                            ? "today"
+                            : isWeekend
+                            ? "weekend"
+                            : ""
+                        }`}
+                      >
+                        <div className="custom-appointment-calendar-date">
+                          {date}
                         </div>
-                        <div className='thead-sticky s-col custom-appointment-col text-center'>
-                          S
-                        </div>
-                        <div className='thead-sticky u-col custom-appointment-col text-center'>
-                          A
-                        </div>
-                        <div className='thead-sticky v-col custom-appointment-col text-center'>
-                          V
+                        <div className="custom-appointment-calendar-day">
+                          {day}
                         </div>
                       </div>
-                    </th>
-                    {/* array for showing day */}
-                    {daysArr.map(
-                      (
-                        { date, day, isWeekend, today }: IDaysArray,
-                        index: number
-                      ) => {
-                        const todaysDate = moment(today).format(
-                          appointmentDateFormat
-                        );
-                        return (
-                          <th
-                            key={index}
-                            className={`thead-sticky calender-col custom-appointment-col text-center ${
-                              date === todaysDate
-                                ? 'today'
-                                : isWeekend
-                                ? 'weekend'
-                                : ''
-                            }`}
-                          >
-                            <div className='custom-appointment-calendar-date'>
-                              {date}
-                            </div>
-                            <div className='custom-appointment-calendar-day'>
-                              {day}
-                            </div>
-                          </th>
-                        );
-                      }
+                    );
+                  }
+                )}
+              </div>
+            </div>
+            <div className="custom-appointment-calendar-body">
+              {loading || (starCanstitution.isStar && deptLoading) ? (
+                <div>
+                  <div className={"table-loader"} >
+                    <Loader />
+                  </div>
+                </div>
+              ) : (
+                <SelectableGroup
+                  allowClickWithoutSelected
+                  className="custom-row-selector"
+                  clickClassName="tick"
+                  resetOnStart={true}
+                  onSelectionFinish={onSelectFinish}
+                  onSelectionClear={onSelectionClear}
+                  ignoreList={[
+                    ".name-col",
+                    ".h-col",
+                    ".s-col",
+                    ".u-col",
+                    ".v-col"
+                  ]}
+                >
+                  <InfiniteLoader
+                    loadMoreRows={({ startIndex, stopIndex }) => 
+                    loadMoreRows({ startIndex, stopIndex }) as any
+                  }
+                 isRowLoaded={({ index }) => !!careInstitutionList[index]}
+                    // isRowLoaded={() => false}
+                    rowCount={totalCareinstituion}
+                  >
+                    {({ onRowsRendered, registerChild }) => (
+                      <AutoSizer className="autosizer-div">
+                        {({ width }) => (
+                          <List
+                            ref={registerChild}
+                            height={200}
+                            onRowsRendered={onRowsRendered }
+                            rowCount={careInstitutionList.length}
+                            rowHeight={30}
+                            width={1538}
+                            rowRenderer={({ index, key, style }) => {
+                              // Condition to manage careinstitution list & department list
+                             let list= !starCanstitution.isStar
+                              ? careInstitutionList[index] || {}
+                              : secondStarCanstitution.isStar
+                              ? careInstituionDeptData &&
+                                careInstituionDeptData.length
+                                ? careInstituionDeptData.filter(
+                                    (dept: any) =>
+                                      dept.id === secondStarCanstitution.id
+                                  )[index]
+                                : null
+                              : careInstituionDeptData[index]
+                              
+                              // select careInstitution if no department is available
+                              if (starCanstitution.isStar && !list ) {
+                                   list = careInstitutionList.filter(
+                                     (item: any) => item.id === starCanstitution.id
+                                     )[index];
+                                }
+                              return renderTableRows(
+                                list,
+                                index,
+                                style,
+                              );
+                            }}
+                          />
+                        )}
+                      </AutoSizer>
                     )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {loading || (starCanstitution.isStar && deptLoading) ? (
-                    <tr>
-                      <td className={'table-loader'} colSpan={40}>
-                        <Loader />
-                      </td>
-                    </tr>
-                  ) : (
-                    renderTableRows(
-                      !starCanstitution.isStar
-                        ? careInstitutionList
-                        : secondStarCanstitution.isStar
-                        ? careInstituionDeptData &&
-                          careInstituionDeptData.length
-                          ? careInstituionDeptData.filter(
-                              (dept: any) =>
-                                dept.id === secondStarCanstitution.id
-                            )
-                          : []
-                        : careInstituionDeptData
-                    )
-                  )}
-                </tbody>
-              </Table>
-            </SelectableGroup>
-          </div>
-        </InfiniteScroll>
+                  </InfiniteLoader>
+                </SelectableGroup>
+              )}
+            </div>
+        </div>
+        </div>
+        {/* </InfiniteScroll> */}
       </div>
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}

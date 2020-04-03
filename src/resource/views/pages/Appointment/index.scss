@@ -523,7 +523,7 @@ body {
 .calender-section {
   position: relative;
   width: 100%;
-  overflow-y: hidden;
+  overflow-y: auto;
   overflow-x: auto;
   font-family: $font_open_sans;
   background: $white;
@@ -539,7 +539,8 @@ body {
   .custom-appointment-calendar {
     // height: calc(50vh - 80px);
     .custom-appointment-calendar-head {
-      position: sticky;
+      position: absolute;
+      height:46px;
       top: 0;
       background: $white;
       width: 100%;
@@ -608,9 +609,12 @@ body {
   will-change: unset !important;
   overflow: auto;
 };
-.list {
-  height: calc(100vh - 210px)
-  }
+
+.ReactVirtualized__List{
+  padding-top:46px;
+  height: calc(50vh - 80px) !important;
+}
+
 // .ReactVirtualized__Grid__innerScrollContainer{
 //   height:auto!important;
 //   width: auto !important;

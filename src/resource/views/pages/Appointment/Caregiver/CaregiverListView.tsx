@@ -46,7 +46,7 @@ import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
 import {
   InfiniteLoader,
   Table,
-  Column,
+  ScrollSync,
   AutoSizer,
   List
 } from "react-virtualized";
@@ -778,7 +778,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 isRowLoaded={({ index }) => !!careGiversList[index]}
                 // loadMoreRows={loadMore}
                 rowCount={totalCaregiver}
-                loadMoreRows={({ startIndex, stopIndex }) =>
+                loadMoreRows={({ startIndex, stopIndex }) => 
                   loadMoreRows({ startIndex, stopIndex }) as any
                 }
               >

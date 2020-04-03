@@ -53,7 +53,8 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
       padding: 10,
     },
     image: {
-      width: '100%',
+      width: '120px',
+      
     },
     imgtext: {
       borderTopWidth: 1,
@@ -100,7 +101,7 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <Text style={styles.name}>TIMYOCY</Text>
-          <Text style={styles.subtitle}>Temporary working agreement  </Text>
+          <Text style={styles.subtitle}>Temporary working agreement </Text>
           <Text style={styles.subtext}>Between </Text>
           <Text style={styles.subtext}>Diamond Personal GmbH, Welfenallee 3-7, 13465 Berlin under the label TIMyoCY </Text>
           <Text style={styles.subtext}> - hereinafter: distributor – </Text>

@@ -55,9 +55,9 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               {' '}
               {languageTranslation('QUALIFICATION')}
             </div>
-            <div className=' align-middle toggle-icon'>
+            {/* <div className=' align-middle toggle-icon'>
               <i className='fa fa-angle-down'></i>
-            </div>
+            </div> */}
           </div>
           <div className='common-list-body'>
             {qualifications && qualifications.length ? (
@@ -95,9 +95,9 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               {' '}
               {languageTranslation('ATTRIBUTES')}
             </div>
-            <div className=' align-middle toggle-icon'>
+            {/* <div className=' align-middle toggle-icon'>
               <i className='fa fa-angle-down'></i>
-            </div>
+            </div> */}
           </div>
           <div className='common-list-body'>
             <ul className='common-list list-unstyled'>

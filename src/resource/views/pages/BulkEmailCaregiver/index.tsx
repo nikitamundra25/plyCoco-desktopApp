@@ -63,8 +63,6 @@ const [
   ,
   GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
 ] = AppointmentsQueries;
-
-const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
 const [ADD_DOCUMENT] = DocumentMutations;
 const [GET_CARE_GIVER_SIGNATURE] = SignatureQueries;
 const [
@@ -100,8 +98,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     street: '',
     city: ''
   });
-
-  const history = useHistory();
 
   // To access data of loggedIn user
   let userData: any = '';
@@ -893,7 +889,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
 
-        if (!terminateAggrement) {
+        if (!terminateAggrement && !leasingContract) {
           let mailBody = `<p>${languageTranslation(
             'CAREGIVER_OFFER_EMAIL_HEADING'
           )}</p><br/><p>${languageTranslation(
@@ -1998,6 +1994,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               </div> */}
             </div>
           </div>
+          {console.log( !leasingContactPdfData &&
+                leasingContract &&
+                pdfAppointmentDetails.length > 0 ? true : false,'leasing condition')}
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
@@ -2018,13 +2017,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   </PDFDownloadLink>
                 ) : null}
-                {console.log('terminate condition',!terminationAgreementPdfData &&
+                {console.log('terminate condition', !terminationAgreementPdfData &&
                 terminateAggrement &&
                 pdfTerminateAppointment &&
                 pdfTerminateAppointment.name &&
-                signatureData)
+                signatureData ? true : false)
                 }
-                {!terminationAgreementPdfData &&
+                {!terminationAgreementPdfData && 
                 terminateAggrement &&
                 pdfTerminateAppointment &&
                 pdfTerminateAppointment.name &&
@@ -2042,7 +2041,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   </PDFDownloadLink>
                 ) : null}
-                {(leasingContract || terminationAgreementPdfData) &&
+                {(leasingContract || terminateAggrement) &&
                 (generating || !tokenAPICalled) ? (
                   <div style={{ minHeight: '200px' }}>
                     <Loader />

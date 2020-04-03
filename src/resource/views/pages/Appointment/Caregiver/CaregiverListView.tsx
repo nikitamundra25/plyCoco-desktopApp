@@ -46,7 +46,7 @@ import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
 import {
   InfiniteLoader,
   Table,
-  Column,
+  ScrollSync,
   AutoSizer,
   List
 } from "react-virtualized";
@@ -778,16 +778,35 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 isRowLoaded={({ index }) => !!careGiversList[index]}
                 // loadMoreRows={loadMore}
                 rowCount={totalCaregiver}
-                loadMoreRows={({ startIndex, stopIndex }) =>
+                loadMoreRows={({ startIndex, stopIndex }) => 
                   loadMoreRows({ startIndex, stopIndex }) as any
                 }
               >
                 {({ onRowsRendered, registerChild }) => (
                   <AutoSizer className="autosizer-div">
                     {({ width }) => (
+                      <ScrollSync>
+                      {({
+                        clientHeight,
+                        clientWidth,
+                        onScroll,
+                        scrollHeight,
+                        scrollLeft,
+                        scrollTop,
+                        scrollWidth
+                    }) => (
+                        console.log("clientHeight",clientHeight),
+                        console.log("clientWidth",clientWidth),
+                        console.log("scrollHeight",scrollHeight),
+                        console.log("scrollLeft",scrollLeft),
+                        console.log("scrollTop",scrollTop),
+                        console.log("scrollWidth",scrollWidth),
+                        
                   <List
                     ref={registerChild}
                     height={200}
+                    onScroll={onScroll}
+                    scrollTop={scrollTop}
                     onRowsRendered={onRowsRendered}
                     rowCount={careGiversList.length}
                     // {careGiversList.length}
@@ -929,6 +948,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     }}
                   />
                   )}
+                    </ScrollSync>
+                    )}
                   </AutoSizer>
                 )}
               </InfiniteLoader>

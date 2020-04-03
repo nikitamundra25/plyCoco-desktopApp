@@ -434,17 +434,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const loadMoreRows = ({ startIndex, stopIndex }: any) => {
     console.log("In load more data+++++++++++++ startIndex", startIndex);
     console.log("In load more data+++++++++++++stopIndex", stopIndex);
-    // const temp = [...loadedRowsMap];
-    // for (var i = startIndex; i <= stopIndex; i++) {
-    //   console.log("in for loop", i);
-
-    //   temp[i] = STATUS_LOADING;
-    // console.log(temp,'temp in for');
-
-    // }
-    // console.log(temp,'temp');
-
-    // setLoadedRowsMap(temp);
     getNext(careGiversList.length);
   };
   console.log(items, 10000, "outside return");

@@ -172,16 +172,16 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           userId.push(parseInt(value.id));
         }
       }
-      let temp: any = [];
-      if (props.qualification && props.qualification.length) {
-        props.qualification.map((key: any, index: number) => {
-          if (key.value) {
-            temp.push(parseInt(key.value));
-          } else {
-            temp.push(parseInt(key));
-          }
-        });
-      }
+      // let temp: any = [];
+      // if (props.qualification && props.qualification.length) {
+      //   props.qualification.map((key: any, index: number) => {
+      //     if (key.value) {
+      //       temp.push(parseInt(key.value));
+      //     } else {
+      //       temp.push(parseInt(key));
+      //     }
+      //   });
+      // }
 
       // get careInstitutions list
       // fetchCaregiverListFromQualification({

@@ -901,6 +901,7 @@ const Appointment: FunctionComponent = (props: any) => {
   useEffect(() => {
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
     let careGiverSelectedCell = selectedCells && selectedCells.length ? [...selectedCells] : []
+    let careInstSelectedCell = selectedCellsCareinstitution && selectedCellsCareinstitution.length ? [...selectedCellsCareinstitution] : []
     if (careGiversList && careGiversList.getUserByQualifications) {
       const { getUserByQualifications } = careGiversList;
       const { result, totalCount } = getUserByQualifications;
@@ -951,7 +952,9 @@ const Appointment: FunctionComponent = (props: any) => {
       //   );
       //   setcaregiversList(list);
       // } else {
-      setSelectedCells(careGiverSelectedCell)
+        if (careGiverSelectedCell && careGiverSelectedCell.length) {
+          setSelectedCells(careGiverSelectedCell)
+        }
       setcaregiversList(result);
       // }
     }
@@ -988,6 +991,13 @@ const Appointment: FunctionComponent = (props: any) => {
                   moment(d.dateString).isSame(moment(available.date), 'day')
               );
               for (let i = 0; i < records.length; i++) {
+                // To update the status of selected cell accordingly
+                if (records[i] && careInstSelectedCell && careInstSelectedCell.length && records[i].id) {
+                  let index = careInstSelectedCell.findIndex((cell:any) => cell.item && cell.item.id === records[i].id);
+                  if (index > -1) {
+                    careInstSelectedCell[index].item = records[i] 
+                  }
+                }
                 user.availabilityData[i].push(records[i]);
               }
             });
@@ -997,7 +1007,9 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         /*  */
       }
-
+      if (careInstSelectedCell && careInstSelectedCell.length) {
+        setselectedCellsCareinstitution(careInstSelectedCell)
+      }
       setcareinstitutionList(result);
       if (
         locationState &&

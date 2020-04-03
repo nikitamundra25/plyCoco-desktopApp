@@ -421,7 +421,8 @@ const Appointment: FunctionComponent = (props: any) => {
       fetchMore: fetchMoreCareGiverList
     }
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
+    // notifyOnNetworkStatusChange: true    
   });
 
   // To fetch careinstitution by qualification id
@@ -899,6 +900,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // To store users list into state
   useEffect(() => {
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
+    let careGiverSelectedCell = selectedCells && selectedCells.length ? [...selectedCells] : []
     if (careGiversList && careGiversList.getUserByQualifications) {
       const { getUserByQualifications } = careGiversList;
       const { result, totalCount } = getUserByQualifications;
@@ -928,6 +930,13 @@ const Appointment: FunctionComponent = (props: any) => {
                   moment(d.dateString).isSame(moment(available.date), 'day')
               );
               for (let i = 0; i < records.length; i++) {
+                // To update the status of selected cell accordingly
+                if (records[i] && selectedCells && selectedCells.length && records[i].id) {
+                  let index = selectedCells.findIndex((cell:any) => cell.item && cell.item.id === records[i].id);
+                  if (index > -1) {
+                    careGiverSelectedCell[index].item = records[i] 
+                  }
+                }
                 user.availabilityData[i].push(records[i]);
               }
             });
@@ -942,6 +951,7 @@ const Appointment: FunctionComponent = (props: any) => {
       //   );
       //   setcaregiversList(list);
       // } else {
+      setSelectedCells(careGiverSelectedCell)
       setcaregiversList(result);
       // }
     }

@@ -168,7 +168,7 @@ const Appointment: FunctionComponent = (props: any) => {
   //For selected Availability
   const [selctedAvailability, setselctedAvailability] = useState<any>({});
   const [selectedCells, setSelectedCells] = useState<any[]>();
-  const [selectedCellCount, setSelectedCellsCount] = useState<any>("");
+  const [selectedCellCount, setSelectedCellsCount] = useState<any>('');
   const [
     selectedCellsCareinstitution,
     setselectedCellsCareinstitution
@@ -207,12 +207,12 @@ const Appointment: FunctionComponent = (props: any) => {
   });
 
   // To fetch the list of all caregiver
-  const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
-    GET_CAREGIVER_BY_NAME,
-    {
-      fetchPolicy: 'no-cache'
-    }
-  );
+  const [
+    fetchCareGivers,
+    { data: careGivers, refetch: refetchCaregivers }
+  ] = useLazyQuery<any>(GET_CAREGIVER_BY_NAME, {
+    fetchPolicy: 'no-cache'
+  });
 
   useEffect(() => {
     // Fetch list of caregivers
@@ -1022,7 +1022,7 @@ const Appointment: FunctionComponent = (props: any) => {
   //   setSelectedCellsCount(1)
   // },[selectedId,selectedDateString])
   const handleSelection = async (selectedCellsData: any, name: string) => {
-    const { item = {}, dept = {}, id = "", dateString = "" } =
+    const { item = {}, dept = {}, id = '', dateString = '' } =
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
         ? selectedCellsData[0]
         : {};
@@ -1030,12 +1030,12 @@ const Appointment: FunctionComponent = (props: any) => {
     const checkCondition: boolean =
       item && item.appointments && item.appointments.length;
 
-    if (name === "caregiver") {
+    if (name === 'caregiver') {
       if (checkCondition) {
         let appointId: any = item.appointments.filter((appointment: any) => {
           return (
-            moment(selectedCellsData[0].dateString).format("DD.MM.YYYY") ===
-            moment(appointment.date).format("DD.MM.YYYY")
+            moment(selectedCellsData[0].dateString).format('DD.MM.YYYY') ===
+            moment(appointment.date).format('DD.MM.YYYY')
           );
         });
         if (
@@ -1056,8 +1056,8 @@ const Appointment: FunctionComponent = (props: any) => {
         let appointId: any = selectedCellsData[0].item.appointments.filter(
           (appointment: any) => {
             return (
-              moment(selectedCellsData[0].dateString).format("DD.MM.YYYY") ===
-              moment(appointment.date).format("DD.MM.YYYY")
+              moment(selectedCellsData[0].dateString).format('DD.MM.YYYY') ===
+              moment(appointment.date).format('DD.MM.YYYY')
             );
           }
         );
@@ -1611,15 +1611,15 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // to update caregiver status as set on confirmed or reset confirmed
   const updateCaregiverStatus = async (name: string) => {
-    console.log("name issss", name);
+    console.log('name issss', name);
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
         if (item && item.id) {
           if (
-            name === "confirmed"
-              ? item.status === "linked"
-              : item.status === "confirmed"
+            name === 'confirmed'
+              ? item.status === 'linked'
+              : item.status === 'confirmed'
           ) {
             let availabilityId: number = item.id ? parseInt(item.id) : 0;
             delete item.id;
@@ -1627,25 +1627,27 @@ const Appointment: FunctionComponent = (props: any) => {
             delete item.appointments;
             delete item.division;
             delete item.qualificationId;
-            console.log("item", item);
+            console.log('item', item);
             await updateCaregiver({
               variables: {
                 id: availabilityId,
                 careGiverAvabilityInput: {
                   ...item,
-                  status: name === "confirmed" ? "confirmed" : "linked"
+                  status: name === 'confirmed' ? 'confirmed' : 'linked'
                 }
               }
             });
+            updateLinkedStatus(name);
+
             if (!toast.isActive(toastId)) {
-              if (name === "confirmed") {
+              if (name === 'confirmed') {
                 toastId = toast.success(
-                  languageTranslation("CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG")
+                  languageTranslation('CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG')
                 );
               } else {
                 toastId = toast.success(
                   languageTranslation(
-                    "CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG"
+                    'CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG'
                   )
                 );
               }
@@ -1658,7 +1660,10 @@ const Appointment: FunctionComponent = (props: any) => {
 
   const updateCareInstitutionStatus = async (name: string) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
       selectedCellsCareinstitution.forEach(async element => {
+        console.log('element.isLeasingggg', element.isLeasing);
+
         const { item } = element;
         const Item = { ...item };
         if (Item && Item.id) {
@@ -1676,6 +1681,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete Item.__typename;
             delete Item.appointments;
             delete Item.division;
+
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
@@ -1695,23 +1701,30 @@ const Appointment: FunctionComponent = (props: any) => {
                 }
               }
             });
+            updateLinkedStatus(name);
+            // check if the selected careinstitution is leasing or not
+            if (name === 'confirmed' && element.isLeasing) {
+              console.log('name', name);
+              console.log('element.isLeasing', element.isLeasing);
+              fetchingCareGiverData();
+            }
             if (!toast.isActive(toastId)) {
-              if (name === "confirmed") {
+              if (name === 'confirmed') {
                 toastId = toast.success(
-                  languageTranslation("CARE_INST_SET_CONFIRMED_SUCCESS_MSG")
+                  languageTranslation('CARE_INST_SET_CONFIRMED_SUCCESS_MSG')
                 );
-              } else if (name === "notconfirm") {
+              } else if (name === 'notconfirm') {
                 toastId = toast.success(
-                  languageTranslation("CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG")
+                  languageTranslation('CARE_INST_SET_NOT_CONFIRMED_SUCCESS_MSG')
                 );
-              } else if (name === "offered") {
+              } else if (name === 'offered') {
                 toastId = toast.success(
-                  languageTranslation("CARE_INST_SET_ON_OFFERED_SUCCESS_MSG")
+                  languageTranslation('CARE_INST_SET_ON_OFFERED_SUCCESS_MSG')
                 );
               } else {
                 toastId = toast.success(
                   languageTranslation(
-                    "CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG"
+                    'CARE_INST_SET_ON_NOT_OFFERED_SUCCESS_MSG'
                   )
                 );
               }
@@ -1727,7 +1740,7 @@ const Appointment: FunctionComponent = (props: any) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
-        if (item && item.id && item.status === "contractInitiated") {
+        if (item && item.id && item.status === 'contractInitiated') {
           let availabilityId: number = item.id ? parseInt(item.id) : 0;
           delete item.id;
           delete item.__typename;
@@ -1742,6 +1755,7 @@ const Appointment: FunctionComponent = (props: any) => {
               }
             }
           });
+          updateLinkedStatus('contractcancelled');
         }
       });
     }
@@ -1791,10 +1805,20 @@ const Appointment: FunctionComponent = (props: any) => {
         dateString,
         item: {
           ...item,
-          status: name === 'link' ? 'linked' : 'default'
+          status:
+            name === 'link'
+              ? 'linked'
+              : name === 'confirmed'
+              ? 'confirmed'
+              : name === 'notconfirm'
+              ? 'linked'
+              : name === 'offered'
+              ? 'offered'
+              : 'default'
         }
       }
     ];
+
     setselectedCellsCareinstitution(temp);
 
     // Update caregiver status
@@ -1822,7 +1846,18 @@ const Appointment: FunctionComponent = (props: any) => {
         dateString: date,
         item: {
           ...Item,
-          status: name === 'link' ? 'linked' : 'default',
+          status:
+            name === 'link'
+              ? 'linked'
+              : name === 'confirmed'
+              ? 'confirmed'
+              : name === 'notconfirmed'
+              ? 'linked'
+              : name === 'contractcancelled'
+              ? 'contractcancelled'
+              : name === 'contractInitiated'
+              ? 'contractInitiated'
+              : 'default',
           f: Item && Item.f === 'available' ? 'available' : '',
           n: Item && Item.n === 'available' ? 'available' : '',
           s: Item && Item.s === 'available' ? 'available' : ''
@@ -2274,8 +2309,12 @@ const Appointment: FunctionComponent = (props: any) => {
         ];
 
         selectedCellsCareinstitution.forEach(async (element: any) => {
-          const { id = '', dateString = '', canstitution={} } = element ? element : {};
-          const {attributes=[], street='', city=''} = canstitution ? canstitution : {}
+          const { id = '', dateString = '', canstitution = {} } = element
+            ? element
+            : {};
+          const { attributes = [], street = '', city = '' } = canstitution
+            ? canstitution
+            : {};
 
           let careInstitutionRequirementInput: ICareinstitutionFormSubmitValue = {
             userId: id ? parseInt(id) : 0,
@@ -2288,7 +2327,9 @@ const Appointment: FunctionComponent = (props: any) => {
                 ? parseInt(department.value)
                 : null,
             qualificationId: quali,
-            address:department ? address:[street,city].filter(Boolean).join(', '),
+            address: department
+              ? address
+              : [street, city].filter(Boolean).join(', '),
             contactPerson,
             departmentOfferRemarks: departmentOfferRemarks
               ? departmentOfferRemarks
@@ -2302,17 +2343,15 @@ const Appointment: FunctionComponent = (props: any) => {
             f: fvar,
             s: svar,
             n: nvar,
-            status: status ? status : 'default', 
-            isLeasing:attributes.includes(
-              CareInstTIMyoCYAttrId
-            )
+            status: status ? status : 'default',
+            isLeasing: attributes.includes(CareInstTIMyoCYAttrId)
           };
 
           if (appointmentId) {
             await updateCareinstitutionRequirment({
               variables: {
                 id: parseInt(appointmentId),
-                careInstitutionRequirementInput,
+                careInstitutionRequirementInput
               }
             });
             setsavingBoth(false);
@@ -2755,18 +2794,20 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
   let {
-    firstName = "",
-    lastName = "",
-    email = "",
-    id: selectedCaregiverId = "",
-    dateString = "",
+    firstName = '',
+    lastName = '',
+    email = '',
+    id: selectedCaregiverId = '',
+    dateString = '',
     caregiver = undefined,
     item = undefined
   } =
     selectedCells &&
     // to check multiple cells are free or reserve or you've clicked on new appointment to reflect the form
-      (selectedCells.length === 1 || multipleAvailability || selectedCells[0] && selectedCells[0].item) &&
-      selectedCells[0]
+    (selectedCells.length === 1 ||
+      multipleAvailability ||
+      (selectedCells[0] && selectedCells[0].item)) &&
+    selectedCells[0]
       ? selectedCells[0]
       : {};
 
@@ -2798,8 +2839,8 @@ const Appointment: FunctionComponent = (props: any) => {
     );
   }
 
-  console.log(selectedCells,'selectedCells',selectedCellsCareinstitution);
-  
+  console.log(selectedCells, 'selectedCells', selectedCellsCareinstitution);
+
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : '',
     name:
@@ -3158,11 +3199,11 @@ const Appointment: FunctionComponent = (props: any) => {
   const isLinkable: boolean =
     (item !== undefined &&
       item.id &&
-      item.status === "default" &&
+      item.status === 'default' &&
       Item &&
       Item.id &&
-      Item.status === "default") ||
-    Item.status === "offered "
+      Item.status === 'default') ||
+    Item.status === 'offered '
       ? true
       : false;
 
@@ -3224,6 +3265,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 <Col lg={'6'}>
                   {/* caregiver list view */}
                   <CaregiverListView
+                    updateLinkedStatus={updateLinkedStatus}
                     updateCaregiverStatus={updateCaregiverStatus}
                     careinstitutionSoloFilter={careinstitutionSoloFilter}
                     fetchingCareGiverData={fetchingCareGiverData}

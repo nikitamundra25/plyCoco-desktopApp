@@ -139,6 +139,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 month: setNewDate,
                 canChangeMonth: false
               }}
+              inputProps={{readOnly: true}}
             />
           </div>
           <div className="header-nav-item" onClick={handleNext}>

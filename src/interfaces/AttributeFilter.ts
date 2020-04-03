@@ -6,6 +6,8 @@ export interface ICollapseState{
 
 export interface IAttributeFilter {
   show: boolean;
+  positive:number[];
+  negative:number[];
   handleClose: () => void;
   setAttributeFilter: React.Dispatch<React.SetStateAction<string | null>>;
   attributeFilter: string | null;
@@ -22,6 +24,8 @@ export interface IAttributeFilter {
 export interface IAttributeFilterPage {
   show: any;
   attributeData: any;
+  presetListLoading:boolean;
+  listLoading:boolean;
   handleCheckNegativeElement: (
     e: React.ChangeEvent<HTMLInputElement>,
     id: number

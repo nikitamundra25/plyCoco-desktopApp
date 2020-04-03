@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { Document, Page, Text, Image, View, StyleSheet, PDFViewer } from '@react-pdf/renderer';
 import { ITerminationAgreementPdfProps } from '../../../../../interfaces';
+import { AppConfig } from '../../../../../config';
 
 const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> = (
-  props: ITerminationAgreementPdfProps
+  {pdfTerminateAppointment, signatureData}: ITerminationAgreementPdfProps
 ) => {
-
+  const {name='', dateOfBirth='', street='', city=''} = pdfTerminateAppointment ? pdfTerminateAppointment :{};
   // Create styles
   const styles = StyleSheet.create({
     page: {
@@ -121,7 +122,9 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
       textAlign: 'center'
     }
   });
-
+  console.log(signatureData && signatureData.careGiverSignature ? `${AppConfig.APP_ENDPOINT}${signatureData.careGiverSignature}` : '','signature');
+  // Append base url to the signature
+  let careGiverSignature:string = signatureData && signatureData.careGiverSignature ? `${AppConfig.APP_ENDPOINT}${signatureData.careGiverSignature}` : ''
   // Create Document Component
   return (
     <Document>
@@ -136,9 +139,9 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
           <Text style={styles.subaddresstext}>13465 Berlin  </Text>
           <Text style={styles.subtextalignright}>– hereafter: leasing company –  </Text>
           <Text style={styles.subtext}>And </Text>
-          <Text style={styles.subaddresshighlighttext}>Name, birthday date </Text>
-          <Text style={styles.subaddresshighlighttext}>Adress 1</Text>
-          <Text style={styles.subaddresshighlighttext}>Adress 2</Text>
+          <Text style={styles.subaddresshighlighttext}>{[name, dateOfBirth].filter(Boolean).join(', ')}</Text>
+          <Text style={styles.subaddresshighlighttext}>{street}</Text>
+          <Text style={styles.subaddresshighlighttext}>{city}</Text>
           <Text style={styles.subtextalignright}> – hereafter: Leiharbeitnehmer–  </Text>
         </View>
 
@@ -159,7 +162,7 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
           </Text>
           </View>
           <View style={styles.image}>
-            <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" />
+            {careGiverSignature ? <Image src={careGiverSignature} /> : null}
             <Text style={styles.imgtext}>
               Leiharbeitnehmer
           </Text>

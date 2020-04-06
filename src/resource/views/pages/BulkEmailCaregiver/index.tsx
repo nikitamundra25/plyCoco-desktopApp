@@ -1106,13 +1106,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               const { cr = {}, date = '' } =
                 requirement && requirement.length ? requirement[0] : {};
               const {
+                address = '',
                 startTime = '',
                 endTime = '',
                 name = '',
                 division = {},
                 qualificationId = []
               } = cr ? cr : {};
-              let { address = '' } = division ? division : {};
               if (!moment(date).isBefore(moment(), 'day')) {
                 let shiftLabel =
                   startTime === '06:00'

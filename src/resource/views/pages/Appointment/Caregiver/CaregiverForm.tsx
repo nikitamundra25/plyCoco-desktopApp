@@ -111,7 +111,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     const { id = '' , item = {}} = selectedCells[0] ? selectedCells[0] : {}
       const {appointments = []} = item ? item : {}
       const {avabilityId = '',id:appointmentId = ''} = appointments && appointments.length && appointments[0] ? appointments[0] : {}
-      console.log('above API call');
+      console.log('above API call', appointments);
       
     getLeasingContractPDF({
       variables: {

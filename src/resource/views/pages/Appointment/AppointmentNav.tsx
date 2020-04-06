@@ -4,13 +4,17 @@ import {
   Input,
   DropdownToggle,
   DropdownItem,
-  DropdownMenu
+  DropdownMenu,
+  UncontrolledTooltip
 } from "reactstrap";
 import Select from "react-select";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import { languageTranslation } from "../../../../helpers";
-import { Without_Appointments, appointmentMonthFormat } from "../../../../config";
+import {
+  Without_Appointments,
+  appointmentMonthFormat
+} from "../../../../config";
 import { IAppointmentNav, IReactSelectInterface } from "../../../../interfaces";
 import AttributeFilter from "./AttributeFilter";
 import right_arrow from "../../../assets/img/rightarrow.svg";
@@ -62,7 +66,24 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   const [dropdownOpen, setOpen] = useState<boolean>(false);
 
   // To check whether any filter is set or not
-  let isFilterSet: boolean = (caregiverSoloFilter && caregiverSoloFilter.value ? true : false) || (careinstitutionSoloFilter && careinstitutionSoloFilter.value ? true : false) || (positive && positive.length ? true : false) || (negative && negative.length ? true : false) || (qualification && qualification.length ? true : false) || filterByAppointments && filterByAppointments.value ? true : false || month !== moment().month(moment().month()).format(appointmentMonthFormat) || userId ? true : false;
+  let isFilterSet: boolean =
+    (caregiverSoloFilter && caregiverSoloFilter.value ? true : false) ||
+    (careinstitutionSoloFilter && careinstitutionSoloFilter.value
+      ? true
+      : false) ||
+    (positive && positive.length ? true : false) ||
+    (negative && negative.length ? true : false) ||
+    (qualification && qualification.length ? true : false) ||
+    (filterByAppointments && filterByAppointments.value)
+      ? true
+      : false ||
+        month !==
+          moment()
+            .month(moment().month())
+            .format(appointmentMonthFormat) ||
+        userId
+      ? true
+      : false;
 
   const toggle = () => setOpen(!dropdownOpen);
   const handleSelect = (e: any, name: string) => {
@@ -137,9 +158,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               value={month ? `${month} ${year}` : ""}
               dayPickerProps={{
                 month: setNewDate,
-                canChangeMonth: false
+                canChangeMonth: false,
+                disabledDays: {
+                  daysOfWeek: [0, 1, 2, 3, 4, 5, 6]
+                }
               }}
-              inputProps={{readOnly: true}}
+              inputProps={{ readOnly: true }}
             />
           </div>
           <div className="header-nav-item" onClick={handleNext}>
@@ -157,15 +181,15 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               onChange={(value: any) => handleSelectAppointment(value)}
             />
           </div>
-  
+
           <div className="user-select mx-1">
             <div className="custom-select-checkbox">
               <ReactMultiSelectCheckboxes
-                placeholderButtonLabel={ languageTranslation(
+                placeholderButtonLabel={languageTranslation(
                   "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                 )}
                 options={qualificationList}
-                placeholder={  languageTranslation(
+                placeholder={languageTranslation(
                   "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                 )}
                 value={qualification ? qualification : undefined}
@@ -298,8 +322,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 // onBlur={(e: any) => handleBlur()}
                 onKeyPress={(e: any) => handleKeyPress(e)}
               />
-
-              <DropdownToggle caret color="primary" />
+              <UncontrolledTooltip placement={"top"} target={"dropdown-1"}>
+                {languageTranslation("SELECT_USER")}
+              </UncontrolledTooltip>
+              <DropdownToggle caret color="primary" id={"dropdown-1"} />
               <DropdownMenu onClick={(e: any) => handleSelect(e, "dropdown")}>
                 <DropdownItem value="avability">
                   {languageTranslation("CAREGIVER_AVABILITY")}

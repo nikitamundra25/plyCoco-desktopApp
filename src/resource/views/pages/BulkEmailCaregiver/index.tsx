@@ -1098,6 +1098,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let divisionArray: any = [];
         if (selectedCells && selectedCells.length) {
           let row: any[] = [];
+          let appointmentTimings:string[] = []
           selectedCells
             .map((cell: any) =>
               cell.item && cell.item.appointments ? cell.item.appointments : []
@@ -1113,6 +1114,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 division = {},
                 qualificationId = []
               } = cr ? cr : {};
+              appointmentTimings = [...appointmentTimings, moment(date).format('MMM DD')]
               if (!moment(date).isBefore(moment(), 'day')) {
                 let shiftLabel =
                   startTime === '06:00'
@@ -1146,6 +1148,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             `);
               }
             });
+            setSubject(`Temporary employment contract for ${appointmentTimings.join(', ')}`);
           setPdfAppointmentDetails(row);
         }
         for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
@@ -1236,13 +1239,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let mailBody = `<p>${languageTranslation(
           'CAREGIVER_EMAIL_LEASING_CONTRACT'
         )}</p></br>${requirementEmailData}</br>
-        <p>Please use the following link: <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
+        <p>Please sign a temporary employment contract with TIMyoCY for: <br/> <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
         </p>`;
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
-        setSubject(
-          languageTranslation('CAREGIVER_EMAIL_LEASING_CONTRACT_SUBJECT')
-        );
         setBody(editorState);
       }
     }
@@ -1323,7 +1323,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       address,
                       qualifications
                     } = requirement.division;
-                    deptDetails = `${name}${address ? `of ${address}` : ''}${
+                    deptDetails = `${name}${address ? ` of ${address}` : ''}${
                       qualifications && qualifications.length
                         ? ` - ${qualifications
                             .map((q: any) => q.label)
@@ -1336,7 +1336,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       address = '',
                       qualificationId = []
                     } = requirement ? requirement : {};
-                    deptDetails = `${name}${address ? `of ${address}` : ''}${
+                    deptDetails = `${name}${address ? ` of ${address}` : ''}${
                       qualificationId && qualificationId.length
                         ? ` - ${qualificationList
                             .filter(

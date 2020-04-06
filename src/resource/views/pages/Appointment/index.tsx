@@ -294,21 +294,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   });
 
-  // const caregiverAttrOpt: IAttributeOptions[] | undefined = [];
-  // useEffect(() => {
-  //   if (attributeData && attributeData.getCaregiverAtrribute) {
-  //     attributeData.getCaregiverAtrribute.forEach(
-  //       ({ id, name, color }: IAttributeValues) =>
-  //         caregiverAttrOpt.push({
-  //           label: name,
-  //           value: id ? id.toString() : '',
-  //           color
-  //         })
-  //     );
-  //     setCaregiverAttributeOptions(caregiverAttrOpt);
-  //   }
-  // }, [attributeData]);
-
   // Mutation to add careinstitution data
   const [
     addCareinstitutionRequirment,
@@ -318,7 +303,8 @@ const Appointment: FunctionComponent = (props: any) => {
     { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue[] }
   >(ADD_INSTITUTION_REQUIREMENT, {
     onCompleted() {
-      canstitutionRefetch();
+      setPage(1);
+      fetchCareInstitutionList()
     }
   });
 
@@ -605,6 +591,8 @@ const Appointment: FunctionComponent = (props: any) => {
       addCareinstitutionRes &&
       addCareinstitutionRes.addCareInstitutionRequirement
     ) {
+      console.log("Update status",selectedCellsCareinstitution);
+      
       const { addCareInstitutionRequirement } = addCareinstitutionRes;
       const { id: Id, status } = addCareInstitutionRequirement;
       const {
@@ -614,13 +602,14 @@ const Appointment: FunctionComponent = (props: any) => {
         canstitution = {},
         qualificationIds = [],
         dateString = '',
-        item = undefined
+        item= undefined
       } =
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
           : {};
-
-      let careinstitutionvalue: any[] = [
+    console.log("qualificationId item",item);
+    const Item = {...item}
+      let careinstitutionvalue1: any[] = [
         {
           id,
           firstName,
@@ -631,14 +620,15 @@ const Appointment: FunctionComponent = (props: any) => {
           qualificationIds,
           dateString,
           item: {
-            ...item,
+            ...Item,
             appointmentId: Id ? Id : '',
             id: Id ? Id : '',
             status
           }
         }
       ];
-      setselectedCellsCareinstitution(careinstitutionvalue);
+      console.log("careinstitutionvalue",careinstitutionvalue1);
+      setselectedCellsCareinstitution(careinstitutionvalue1);
     }
   }, [addCareinstitutionRes]);
 
@@ -1039,9 +1029,6 @@ const Appointment: FunctionComponent = (props: any) => {
   };
   const { id: selectedId = '', dateString: selectedDateString = '' } =
     selectedCells && selectedCells.length ? selectedCells[0] : {};
-  // useEffect(() => {
-  //   setSelectedCellsCount(1)
-  // },[selectedId,selectedDateString])
   const handleSelection = async (selectedCellsData: any, name: string) => {
     const { item = {}, dept = {}, id = "", dateString = "" } =
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
@@ -1483,6 +1470,8 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // change department
   useEffect(() => {
+    console.log("In department");
+      
     let deptId = careInstituionDept ? careInstituionDept.value : '';
     let departmentData: any = {};
     const careInstitutionTimesOptions:
@@ -1579,6 +1568,8 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // Change time shift option
   useEffect(() => {
+    console.log("In time shift");
+    
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
     let values = updateCanstitutionFormikValues;
     let time = timeData && !timeData.data ? timeData.value.split('-') : '';
@@ -1678,6 +1669,8 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const updateCareInstitutionStatus = async (name: string) => {
+    console.log("updateCareInstitutionStatus");
+    
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item } = element;
@@ -1893,6 +1886,8 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //  call department list query with every selection of care institution
   useEffect(() => {
+    console.log("call department list");
+    
     let userId: string =
       selectedCellsCareinstitution && selectedCellsCareinstitution.length
         ? selectedCellsCareinstitution[0].id
@@ -1909,6 +1904,8 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // useEffect for filtering department data in careinstitution list
   useEffect(() => {
+    console.log("hereeee in filtering");
+    
     if (
       departmentList &&
       departmentList.getDivision.length &&
@@ -2248,14 +2245,13 @@ const Appointment: FunctionComponent = (props: any) => {
       comments,
       status
     } = values;
-
+ 
     let quali: number[] = [];
     if (qualificationId) {
       qualificationId.map((key: any, index: number) => {
         quali.push(parseInt(key.value));
       });
     }
-    console.log("qualificationId",qualificationId);
     
     /*  Time slot condition for f,s, n
      */

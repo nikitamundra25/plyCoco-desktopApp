@@ -54,15 +54,13 @@ const CareInstitutionTodoLayout = React.lazy(() =>
     "../resource/views/pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout"
   )
 );
-const AllInvoices = React.lazy(() =>
-  import("../resource/views/pages/AllInvoices")
-);
+const INVOICE = React.lazy(() => import("../resource/views/pages/AllInvoices"));
 const InvoiceSolona = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/InvoiceSolona")
 );
-const DrowInvoice = React.lazy(() =>
-  import("../resource/views/pages/AllInvoices/DrowInvoice")
-);
+// const DrowInvoice = React.lazy(() =>
+//   import("../resource/views/pages/AllInvoices/DrowInvoice")
+// );
 
 const PaySlipForm = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/PaySlipForm")
@@ -150,7 +148,9 @@ const openpdf = React.lazy(() =>
 );
 
 const pdf1 = React.lazy(() =>
-  import("../resource/views/pages/BulkEmailCaregiver/PDF/TerminationAgreementPdf")
+  import(
+    "../resource/views/pages/BulkEmailCaregiver/PDF/TerminationAgreementPdf"
+  )
 );
 const pdf2 = React.lazy(() =>
   import("../resource/views/pages/BulkEmailCaregiver/PDF/ConfirmAppointmentPdf")
@@ -405,9 +405,9 @@ const routes = [
     exact: true
   },
   {
-    path: AppRoutes.ALLINVOICES,
-    name: "AllInvoices",
-    component: AllInvoices,
+    path: AppRoutes.INVOICE,
+    name: "INVOICE",
+    component: INVOICE,
     exact: true
   },
   {
@@ -416,12 +416,12 @@ const routes = [
     component: InvoiceSolona,
     exact: true
   },
-  {
-    path: AppRoutes.DROWINVOICE,
-    name: "DrowInvoice",
-    component: DrowInvoice,
-    exact: true
-  },
+  // {
+  //   path: AppRoutes.DROWINVOICE,
+  //   name: "DrowInvoice",
+  //   component: DrowInvoice,
+  //   exact: true
+  // },
   {
     path: AppRoutes.CREATEINVOICES,
     name: "CreateInvoices",
@@ -447,24 +447,23 @@ const routes = [
     exact: true
   },
   {
-    path: '/pdf1',
+    path: "/pdf1",
     name: "pdf1",
     component: pdf1,
     exact: true
   },
   {
-    path: '/pdf2',
+    path: "/pdf2",
     name: "pdf2",
     component: pdf2,
     exact: true
   },
   {
-    path: '/openpdf',
+    path: "/openpdf",
     name: "openpdf",
     component: openpdf,
     exact: true
   }
-
 ];
 
 export default routes;

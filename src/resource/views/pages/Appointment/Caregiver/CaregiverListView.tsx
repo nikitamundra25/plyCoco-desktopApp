@@ -783,7 +783,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               </div>
             </div>
             <div className="custom-appointment-calendar-body">
-              {careGiversList && careGiversList.length ? (
+              {loading ? (
+                <div className={"appointment-loader"}>
+                  <Loader />
+                </div>
+              ) : careGiversList && careGiversList.length ? (
                 <SelectableGroup
                   allowClickWithoutSelected
                   className="custom-row-selector"

@@ -1104,10 +1104,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </div>
             <div className="custom-appointment-calendar-body">
               {loading || (starCanstitution.isStar && deptLoading) ? (
-                <div>
-                  <div className={"table-loader"}>
-                    <Loader />
-                  </div>
+                <div className={"appointment-loader"}>
+                  <Loader />
                 </div>
               ) : (
                 <SelectableGroup

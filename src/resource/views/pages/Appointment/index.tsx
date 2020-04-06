@@ -1040,7 +1040,6 @@ const Appointment: FunctionComponent = (props: any) => {
   const { id: selectedId = '', dateString: selectedDateString = '' } =
     selectedCells && selectedCells.length ? selectedCells[0] : {};
   // useEffect(() => {
-  //   console.log('selectedCells use effect');
   //   setSelectedCellsCount(1)
   // },[selectedId,selectedDateString])
   const handleSelection = async (selectedCellsData: any, name: string) => {
@@ -1633,7 +1632,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // to update caregiver status as set on confirmed or reset confirmed
   const updateCaregiverStatus = async (name: string) => {
-    console.log("name issss", name);
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async element => {
         const { item } = element;
@@ -1649,7 +1647,6 @@ const Appointment: FunctionComponent = (props: any) => {
             delete item.appointments;
             delete item.division;
             delete item.qualificationId;
-            console.log("item", item);
             await updateCaregiver({
               variables: {
                 id: availabilityId,
@@ -1682,10 +1679,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
   const updateCareInstitutionStatus = async (name: string) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-      console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
       selectedCellsCareinstitution.forEach(async element => {
-        console.log('element.isLeasingggg', element.isLeasing, name);
-
         const { item } = element;
         const Item = { ...item };
         if (Item && Item.id) {
@@ -1726,14 +1720,12 @@ const Appointment: FunctionComponent = (props: any) => {
             // updateLinkedStatus(name);
             // check if the selected careinstitution is leasing or not
             if (name === 'confirmed') {
-              console.log('in ifff leasing', selectedCells);
               
               if (selectedCells && selectedCells.length) {
                 let temp =  [...selectedCells]
-                console.log(temp, availabilityId);
                 
                 if (temp[0] && temp[0].item && temp[0].item.appointments && temp[0].item.appointments.length && temp[0].item.appointments[0] && temp[0].item.appointments[0].cr && temp[0].item.appointments[0].cr.isLeasing && temp[0].item.appointments[0].cr.id === availabilityId.toString()) {
-                  console.log('in ifff');
+             
                   temp[0].item.appointments[0].cr.status = 'confirmed';
                   setSelectedCells(temp) 
                 } 
@@ -2263,6 +2255,8 @@ const Appointment: FunctionComponent = (props: any) => {
         quali.push(parseInt(key.value));
       });
     }
+    console.log("qualificationId",qualificationId);
+    
     /*  Time slot condition for f,s, n
      */
     let fvar: string = '';
@@ -2414,6 +2408,8 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         });
         if (!appointmentId) {
+          console.log("data",data);
+          
           setselectedCellsCareinstitution(data);
         }
       }
@@ -2856,7 +2852,7 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
-  console.log('canstitution', canstitution && canstitution.street);
+
   let street: string = canstitution && canstitution.street;
   let departmentData: any = Item ? Item.department : undefined;
   if (
@@ -2871,7 +2867,7 @@ const Appointment: FunctionComponent = (props: any) => {
     );
   }
 
-  console.log(selectedCells, 'selectedCells', selectedCellsCareinstitution);
+  console.log( 'selectedCells', selectedCellsCareinstitution);
 
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : '',
@@ -2997,7 +2993,6 @@ const Appointment: FunctionComponent = (props: any) => {
     qualification.map((key: any, index: number) => {
       temp.push(parseInt(key.value));
     });
-    console.log("In Infinite Scroll")
     // Default value is start & end of month
     let gte: string = moment()
       .startOf('month')
@@ -3096,8 +3091,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //get More careinstituion List on Scrolling
   const getMoreCareInstituionList = () => {
-  console.log("heyyyyhhuhh");
-  
     setcareInstitutionPage(careInstitutionPage + 1);
     // getCaregiverData(page);
     let temp: any = [];

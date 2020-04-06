@@ -758,7 +758,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   V
                 </div>
                 {/* array for showing day */}
-                {console.log("daysArr", daysArr.length)}
                 {daysArr.map(
                   (
                     { date, day, isoString, isWeekend }: IDaysArray,
@@ -807,7 +806,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     // loadMoreRows={loadMore}
                     rowCount={totalCaregiver}
                     loadMoreRows={({ startIndex, stopIndex }) =>
-                      getNext(careGiversList.lrngth) as any
+                    !starMark || locationState
+              ?
+                      getNext(careGiversList.lrngth) as any : null
                     }
                   >
                     {({ onRowsRendered, registerChild }) => (
@@ -828,6 +829,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                               style
                             }) => {
                               const list = careGiversList[index] || {};
+                              console.log("list",list);
+                              
                               return (
                                 // <div key={key} style={style}>
                                 list.availabilityData &&
@@ -876,7 +879,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                                     list.lastName,
                                                     list.firstName
                                                   ].join(" ")
-                                                : ""}
+                                                : "helloo"}
                                             </Link>
                                           </div>
                                           <div className="custom-appointment-col h-col appointment-color2"></div>

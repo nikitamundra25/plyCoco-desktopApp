@@ -98,7 +98,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let dtStart: any = new Date(d + ' ' + startTime);
   let dtEnd: any = new Date(d + ' ' + endTime);
   let difference = dtEnd - dtStart;
-  console.log('street in form', street);
 
   const [starMark, setstarMark] = useState<boolean>(false);
   // Custom function to handle react select fields
@@ -551,10 +550,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col> */}
-            {console.log(
-              'careInstitutionDepartment',
-              careInstitutionDepartment
-            )}
+           
             <Col lg={'12'}>
               <FormGroup>
                 <Row>

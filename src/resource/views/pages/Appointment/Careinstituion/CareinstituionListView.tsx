@@ -551,6 +551,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       if (list && list.item && list.item.qualificationId) {
         let qualificationId = list.item.qualificationId;
         qualificationId.map((key: any, i: number) => {
+          if(key && key.value){
           if (
             sortedQualificationList.findIndex(
               (item: any) => item && item === key.value
@@ -561,6 +562,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               key.value
             ]);
           }
+        }
         });
       }
     });

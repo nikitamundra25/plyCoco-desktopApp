@@ -69,7 +69,44 @@ export default {
       name: languageTranslation("MENU_INVOICES"),
       icon: "icon-invoice",
       url: AppRoutes.ALLINVOICES,
-      authKey: ["all", "superadmin", "basic", "invoice"]
+      authKey: ["all", "superadmin", "basic", "invoice"],
+      children: [
+        {
+          name: languageTranslation("MENU_INVOICES"),
+          icon: "icon-invoice",
+          url: AppRoutes.INVOICE
+        },
+        {
+          name: languageTranslation("MENU_INVOICE_SOLONA"),
+          icon: "icon-invoice",
+          url: AppRoutes.INVOICESOLONA
+        },
+        {
+          name: languageTranslation("MENU_PRINT_INVOICE"),
+          icon: "icon-invoice",
+          url: AppRoutes.PRINTINVOICES
+        },
+        {
+          name: languageTranslation("MENU_CREATE_INVOICE"),
+          icon: "icon-invoice",
+          url: AppRoutes.CREATEINVOICES
+        },
+        {
+          name: languageTranslation("MENU_CREATE_FREETEXT_INVOICE"),
+          icon: "icon-invoice",
+          url: AppRoutes.ALLINVOICES
+        },
+        {
+          name: languageTranslation("MENU_PAYSLIP_SOLONA"),
+          icon: "icon-invoice",
+          url: AppRoutes.PAYSLIPFORM
+        },
+        {
+          name: languageTranslation("MENU_HEALTHINSURANCE_FORM"),
+          icon: "icon-invoice",
+          url: AppRoutes.HEALTHINSURANCEFORM
+        }
+      ]
     },
     {
       name: languageTranslation("MENU_DOCUMENT_UPLOADS"),

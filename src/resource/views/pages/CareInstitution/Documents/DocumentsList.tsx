@@ -394,9 +394,6 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 <div className='common-list-title align-middle'>
                   {languageTranslation('TYPE')}{' '}
                 </div>
-                <div className=' align-middle toggle-icon'>
-                  <i className='fa fa-angle-down'></i>
-                </div>
               </div>
               <div className='common-list-body custom-scrollbar filetypelist'>
                 <ul className='common-list list-unstyled mb-0'>

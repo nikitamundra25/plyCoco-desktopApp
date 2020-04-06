@@ -33,7 +33,7 @@ const Login: FunctionComponent = () => {
           <h5 className="content-title">
             {languageTranslation("LOGIN_HISTORY")}
           </h5>
-          <Table bordered hover responsive>
+          <Table bordered hover responsive className="login-history-table">
             <thead className="thead-bg">
               <tr>
                 <th className={"sno-th-column text-center"}>

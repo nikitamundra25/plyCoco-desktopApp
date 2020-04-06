@@ -263,6 +263,7 @@
     .form-control {
       &.fee-width {
         flex: 0 0 60px;
+        max-width: 60px;
       }
     }
     .text-value {
@@ -298,10 +299,12 @@
 }
 
 .attribute-modal {
+  padding:15px;
   &.modal-xl {
     max-width: 1280px;
   }
   .modal-content {
+   
     .modal-body {
       padding: 12px 10px 0px;
       .table-detail-list-caregiver {
@@ -380,6 +383,7 @@ body {
 .select-right-bottom {
   & > div > button + div {
     right: 0px;
+    max-width: 260px;
   }
 }
 .unlink-label {

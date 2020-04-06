@@ -16,12 +16,10 @@
 @font-face {
   font-family: TechniqueBRKNormal;
   src: url("./resource/assets/fonts/techniqu-webfont.eot");
-  src: url("./resource/assets/fonts/techniqu-webfont.eot?#iefix")
-      format("embedded-opentype"),
+  src: url("./resource/assets/fonts/techniqu-webfont.eot?#iefix") format("embedded-opentype"),
     url("./resource/assets/fonts/techniqu-webfont.woff") format("woff"),
     url("./resource/assets/fonts/techniqu-webfont.ttf") format("truetype"),
-    url("./resource/assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal")
-      format("svg");
+    url("./resource/assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal") format("svg");
 
   font-weight: normal;
   font-style: normal;
@@ -29,14 +27,11 @@
 
 @font-face {
   font-family: "FrutigerNeueLTPro-Regular";
-  src: url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
-    format("truetype");
+  src: url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf") format("truetype");
   src: url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.eot?#iefix")
       format("embedded-opentype"),
-    url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2")
-      format("woff2"),
-    url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff")
-      format("woff");
+    url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff2") format("woff2"),
+    url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.woff") format("woff");
   //url("assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.svg#svgFontName") format("svg");
 }
 
@@ -45,12 +40,9 @@
   src: url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot");
   src: url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.eot?#iefix")
       format("embedded-opentype"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2")
-      format("woff2"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff")
-      format("woff"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf")
-      format("truetype");
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff2") format("woff2"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.woff") format("woff"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.ttf") format("truetype");
   // url("./resource/assets/fonts/frutiger-neue-lt-pro-medium/FrutigerNeueLTPro-Medium.svg#svgFontName") format("svg");
 }
 
@@ -59,12 +51,9 @@
   src: url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot");
   src: url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.eot?#iefix")
       format("embedded-opentype"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2")
-      format("woff2"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff")
-      format("woff"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf")
-      format("truetype");
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff2") format("woff2"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.woff") format("woff"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.ttf") format("truetype");
   // url("./resource/assets/fonts/frutiger-neue-lt-pro-bold/FrutigerNeueLTPro-Bold.svg#svgFontName") format("svg");
 }
 
@@ -73,21 +62,17 @@
   src: url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot");
   src: url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.eot?#iefix")
       format("embedded-opentype"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2")
-      format("woff2"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff")
-      format("woff"),
-    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf")
-      format("truetype");
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff2") format("woff2"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.woff") format("woff"),
+    url("./resource/assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.ttf") format("truetype");
   //url("assets/fonts/frutiger-neue-lt-pro-light/FrutigerNeueLTPro-Light.svg#svgFontName")format("svg");
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: $font_open_sans;
@@ -95,8 +80,7 @@ body {
   background: $white;
 
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-      monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
   }
   a {
     color: $theme_color;
@@ -282,7 +266,7 @@ body {
         color: $theme_color_hover;
       }
     }
-    &.text-underline{
+    &.text-underline {
       text-decoration: underline !important;
     }
   }
@@ -880,7 +864,7 @@ body {
         padding-left: 0 !important;
         display: block;
         @media (max-width: 991px) {
-          display:flex;
+          display: flex;
         }
         .nav-icon {
           margin: 0px 16px 0px 16px;
@@ -970,6 +954,7 @@ body {
         width: 230px;
         .nav {
           width: 230px;
+          padding-bottom: 70px;
           .nav-item {
             &:hover {
               width: 230px;
@@ -1315,7 +1300,7 @@ html:not([dir="rtl"]) {
       border-radius: 0px;
       padding: 3px 10px;
       position: absolute;
-      z-index: 1;
+      z-index: 4;
       // top: -30px;
       left: 50%;
       bottom: 130%;
@@ -1968,22 +1953,22 @@ html:not([dir="rtl"]) {
         width: 190px;
       }
     }
-    
   }
   &.custom-reactselect-menu-width-careinstitution-appointment {
     .custom-inner-reactselect__menu {
       width: 340px;
-      .custom-select-options .custom-companyname-option{
+      .custom-select-options .custom-companyname-option {
         flex: 0 0 150px;
         max-width: 150px;
       }
     }
-}
+  }
 }
 
 //custom select checkbox
 .custom-select-checkbox {
   font-family: $font_Frutiger_Regular;
+
   button {
     border-radius: 0px;
     color: hsl(0, 0%, 50%);
@@ -2005,6 +1990,7 @@ html:not([dir="rtl"]) {
     + div {
       border: 1px solid #cacaca;
       border-radius: 0px !important;
+      max-width: 300px;
     }
   }
   &:hover {
@@ -2245,6 +2231,7 @@ html:not([dir="rtl"]) {
 }
 .table {
   background: $white;
+
   &.table-bordered {
     tr {
       &.approve-bg {
@@ -2257,6 +2244,11 @@ html:not([dir="rtl"]) {
     th,
     td {
       border: 1px solid $table_border;
+    }
+  }
+  &.login-history-table {
+    .date-th-column {
+      display: table-cell;
     }
   }
   &.table-hover {
@@ -2329,6 +2321,7 @@ html:not([dir="rtl"]) {
         display: none;
       }
     }
+
     &.checkbox-th-column {
       width: 40px;
     }
@@ -2570,7 +2563,6 @@ html:not([dir="rtl"]) {
       @media only screen and (max-width: 480px) {
         flex: 0 0 110px;
       }
-     
     }
     .text-value {
       font-weight: 600;
@@ -2638,12 +2630,12 @@ html:not([dir="rtl"]) {
     align-items: center;
     border: 1px solid $table_border;
     position: relative;
-    .personal-info-card{
+    .personal-info-card {
       padding-left: 140px;
       display: flex;
       align-items: center;
       width: 100%;
-      position: relative
+      position: relative;
     }
     &.other-detail-card {
       padding: 15px;
@@ -2672,8 +2664,12 @@ html:not([dir="rtl"]) {
       padding: 4px 15px;
       font-size: $font_13;
       border: 1px solid $transparent;
+      padding-right: 5px;
       font-weight: 600;
       border-bottom: $transparent;
+      @media only screen and (max-width: 480px) {
+        padding: 4px 10px;
+      }
       .icon {
         margin-right: 10px;
       }
@@ -2720,8 +2716,10 @@ html:not([dir="rtl"]) {
     .common-topheader {
       background: $white;
       padding-top: 4px;
-
-      .common-label {
+      &.d-flex {
+        @media only screen and (max-width: 1200px) {
+          flex-wrap: wrap;
+        }
       }
 
       .common-title {
@@ -2757,6 +2755,7 @@ html:not([dir="rtl"]) {
         font-family: FrutigerNeueLTPro-Medium;
         border-radius: 2px;
         background: $common_tab_bg;
+        width: 40px;
         .header-nav-icon {
           padding-right: 8px;
           vertical-align: middle;
@@ -2859,21 +2858,9 @@ html:not([dir="rtl"]) {
             text-align: center;
             line-height: normal;
             background: $white;
-            background: -moz-linear-gradient(
-              top,
-              $white 0%,
-              $common_inner_tab_bg 100%
-            );
-            background: -webkit-linear-gradient(
-              top,
-              $white 0%,
-              $common_inner_tab_bg 100%
-            );
-            background: linear-gradient(
-              to bottom,
-              $white 0%,
-              $common_inner_tab_bg 100%
-            );
+            background: -moz-linear-gradient(top, $white 0%, $common_inner_tab_bg 100%);
+            background: -webkit-linear-gradient(top, $white 0%, $common_inner_tab_bg 100%);
+            background: linear-gradient(to bottom, $white 0%, $common_inner_tab_bg 100%);
             .nav-icon {
               margin-right: 8px;
               vertical-align: middle;
@@ -2885,21 +2872,9 @@ html:not([dir="rtl"]) {
               height: 32px;
               margin-top: -5px;
               background: $common_inner_tab_bg;
-              background: -moz-linear-gradient(
-                top,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
-              background: -webkit-linear-gradient(
-                top,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
-              background: linear-gradient(
-                to bottom,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
+              background: -moz-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
+              background: -webkit-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
+              background: linear-gradient(to bottom, $common_inner_tab_bg 0%, $white 100%);
             }
             @media only screen and (max-width: 991px) {
               padding: 0px 8px;
@@ -2910,21 +2885,9 @@ html:not([dir="rtl"]) {
               height: 32px;
               margin-top: -5px;
               background: $common_inner_tab_bg;
-              background: -moz-linear-gradient(
-                top,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
-              background: -webkit-linear-gradient(
-                top,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
-              background: linear-gradient(
-                to bottom,
-                $common_inner_tab_bg 0%,
-                $white 100%
-              );
+              background: -moz-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
+              background: -webkit-linear-gradient(top, $common_inner_tab_bg 0%, $white 100%);
+              background: linear-gradient(to bottom, $common_inner_tab_bg 0%, $white 100%);
             }
           }
           &.disabled {
@@ -2935,21 +2898,9 @@ html:not([dir="rtl"]) {
               font-size: $font_12;
               margin-top: 0px;
               background: $common_inner_tab_bg;
-              background: -moz-linear-gradient(
-                top,
-                $white 0%,
-                $common_inner_tab_bg 100%
-              );
-              background: -webkit-linear-gradient(
-                top,
-                $white 0%,
-                $common_inner_tab_bg 100%
-              );
-              background: linear-gradient(
-                to bottom,
-                $white 0%,
-                $common_inner_tab_bg 100%
-              );
+              background: -moz-linear-gradient(top, $white 0%, $common_inner_tab_bg 100%);
+              background: -webkit-linear-gradient(top, $white 0%, $common_inner_tab_bg 100%);
+              background: linear-gradient(to bottom, $white 0%, $common_inner_tab_bg 100%);
             }
           }
         }
@@ -3120,6 +3071,9 @@ html:not([dir="rtl"]) {
       padding: 4px;
       border-right: 1px solid $table_border;
       border-top: 1px solid $table_border;
+      @media only screen and (max-width: 480px) {
+        flex: 0 0 70px;
+      }
     }
     .email-subject-block {
       flex: 0 0 90px;
@@ -3163,6 +3117,9 @@ html:not([dir="rtl"]) {
         white-space: nowrap;
         align-items: center;
         justify-content: flex-start;
+        @media only screen and (max-width: 767px) {
+          padding-right: 6px;
+        }
         &.input-wrap {
           flex: 1 1 100%;
           @media only screen and (max-width: 767px) {
@@ -3173,8 +3130,8 @@ html:not([dir="rtl"]) {
             @media only screen and (max-width: 991px) {
               width: 300px;
             }
-            @media only screen and (max-width: 400px) {
-              width: 230px;
+            @media only screen and (max-width: 767px) {
+              width: 100%;
             }
           }
         }
@@ -3197,10 +3154,11 @@ html:not([dir="rtl"]) {
   margin-left: 15px;
   font-weight: normal;
   @media only screen and (max-width: 991px) {
-    width: 300px;
+    width: 400px;
   }
   @media only screen and (max-width: 767px) {
     margin-left: 0px;
+    width: 100%;
   }
   // .new-email-select {
   //   width: 100%;
@@ -3843,7 +3801,7 @@ html:not([dir="rtl"]) {
         color: $gray_color;
         box-shadow: none;
         @media only screen and (max-width: 480px) {
-          padding: 4px 8px;
+          padding: 4px 6px;
           font-size: $font_12;
         }
         &:hover {
@@ -3928,8 +3886,7 @@ html:not([dir="rtl"]) {
     margin-top: 25px;
   }
   .swal2-styled.swal2-confirm {
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
-      0 7px 10px -5px rgba(206, 210, 214, 0.18);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(206, 210, 214, 0.18);
     background: $swal_confirm_btn !important;
     color: $black;
     padding: 8px 30px;
@@ -3938,16 +3895,14 @@ html:not([dir="rtl"]) {
     &:hover,
     &:focus {
       outline: none;
-      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
-        0 7px 10px -5px rgba(206, 210, 214, 0.18);
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(206, 210, 214, 0.18);
       background: $swal_confirm_btn_hover !important;
       color: $black;
     }
   }
   .swal2-styled.swal2-cancel {
     padding: 8px 30px;
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
-      0 7px 10px -5px rgba(221, 51, 51, 0.4);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(221, 51, 51, 0.4);
     font-size: $font_14;
     font-weight: 600;
     background: $swal_cancel_btn !important;
@@ -4003,7 +3958,7 @@ html:not([dir="rtl"]) {
         width: 100%;
         flex: 0 0 100%;
         max-width: 100%;
-        padding:0px 0px;
+        padding: 0px 0px;
       }
     }
   }
@@ -4109,7 +4064,7 @@ html:not([dir="rtl"]) {
     }
     .holiday-text-wrap {
       width: 270px;
-      padding-right:30px;
+      padding-right: 30px;
     }
     .action-btn {
       position: absolute;
@@ -4164,7 +4119,7 @@ html:not([dir="rtl"]) {
     min-width: 200px;
   }
 }
-.header-input-wrap{
+.header-input-wrap {
   &.form-control {
     width: 115px;
     border-radius: 0px;
@@ -4183,4 +4138,15 @@ html:not([dir="rtl"]) {
       border-color: $theme_color;
     }
   }
+}
+.no-data-table-wrap .table-data-td {
+  height: 30px;
+}
+.no-data-table-wrap {
+  transform: translate(0px, 0px);
+}
+.no-data-table-wrap .no-data-avaible {
+  position: fixed;
+  left: 50%;
+  transform: translate(0px, 0px);
 }

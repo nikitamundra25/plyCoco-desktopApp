@@ -47,10 +47,13 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
       marginLeft: '10px',
       marginRight: '10px',
     },
-    image: {
+    imagediv: {
       width: '50%',
       height: '50px',
       padding: 10,
+    },
+    image: {
+      width: '100%',
     },
     imgtext: {
       borderTopWidth: 1,
@@ -119,15 +122,15 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
           <Text style={styles.subtext}>I would like to be employed indefinitely on identical terms: yes (     ) / no (    ) (please check). </Text>
         </View>
         <View style={styles.signaturecontainer}>
-          <View style={styles.image}>
-            <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" />
+          <View style={styles.imagediv}>
+            <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" style={styles.image}/>
             <Text style={styles.imgtext}>
               Distributor
           </Text>
           </View>
-          <View style={styles.image}>
-            {/* <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" /> */}
-            {careGiverSignature ? <Image src={careGiverSignature} /> : null}
+          <View style={styles.imagediv}>
+            {/* <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png"   style={styles.image}/> */}
+            {careGiverSignature ? <Image src={careGiverSignature}  style={styles.image} /> : null}
             <Text style={styles.imgtext}>
               Temporary Worker
           </Text>
@@ -139,9 +142,9 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
           <Text style={styles.remarktext}>there is no entitlement to the granting of vacation or continued payment of sickness. </Text>
         </View>
         <View style={styles.signaturecontainer}>
-          <View style={styles.image}>
+          <View style={styles.imagediv}>
             {/* <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" /> */}
-            {careGiverSignature ? <Image src={careGiverSignature} /> : null}
+            {careGiverSignature ? <Image src={careGiverSignature}   style={styles.image}/> : null}
             <Text style={styles.imgtext}>
               Temporary Worker
           </Text>

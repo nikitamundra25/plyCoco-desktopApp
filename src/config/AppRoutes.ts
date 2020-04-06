@@ -51,4 +51,5 @@ export const AppRoutes: IAppRoutes = {
   PRINTINVOICES: "/print-invoice",
   PAYSLIPFORM:"/pay-slip-form",
   HEALTHINSURANCEFORM:"/health-insurance-form"
+  
 };

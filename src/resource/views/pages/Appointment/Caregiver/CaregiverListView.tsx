@@ -880,7 +880,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     // {...style, top:index + (row *30)}
                                   }
                                 >
-                                  {console.log(index + (row * 30), 'index + (row *30)')}
                                   <div
                                     className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
                                     style={{

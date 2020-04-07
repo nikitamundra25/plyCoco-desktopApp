@@ -594,7 +594,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
       });
     }
-    console.log("careInstituionDeptData", careInstituionDeptData);
     let widthForMonth: number = 1538;
     if (daysArr && daysArr.length) {
       if (daysArr.length === 30) {
@@ -631,7 +630,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         temp.push({ ...element, new: item, row })
       });
     });
-    console.log(temp,'tempppp',secondStarCanstitution);
     
     return (
       <>
@@ -1208,8 +1206,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                   //       )[index]
                                   //       : null
                                   //     : temp[index] || {};
-                                  console.log(list, 'list in rowrenderer');
-                                  
                                   // select careInstitution if no department is available
                                   // if (starCanstitution.isStar && !list) {
                                   //   list = careInstitutionList.filter(

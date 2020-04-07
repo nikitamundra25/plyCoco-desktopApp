@@ -1011,7 +1011,9 @@ const Appointment: FunctionComponent = (props: any) => {
                     (cell: any) => cell.item && cell.item.id === records[i].id
                   );
                   if (index > -1) {
-                    careInstSelectedCell[index].item = records[i];
+                    careInstSelectedCell[index].item = {...records[i],qualificationId:qualificationList.filter(({ value }: any) =>
+                    records[i].qualificationId && records[i].qualificationId.includes(value)
+                  )};
                   }
                 }
                 user.availabilityData[i].push(records[i]);

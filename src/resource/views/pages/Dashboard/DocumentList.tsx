@@ -16,7 +16,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="d-block">
         <CardTitle>
           <span className="align-middle mr-2">
             <img src={new_doc} alt="" width="20px" />

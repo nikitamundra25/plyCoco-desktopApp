@@ -123,7 +123,7 @@ const DetailListCareinstitution = (props: any) => {
                                 </td>
                                 <td className='qualification-col word-wrap text-capitalize'>
                                   {elem.item && elem.item.qualificationId
-                                    ? elem.item.qualificationId.map((q: any,i:number) => (q.label)).join(', ')
+                                    ? elem.item.qualificationId.map((q: any,i:number) => (q && q.label ? q.label : "")).join(', ')
                                     : '-'}
                                 </td>
                                 <td className='datetime-col'>

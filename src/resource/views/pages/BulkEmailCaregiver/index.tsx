@@ -63,8 +63,6 @@ const [
   ,
   GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
 ] = AppointmentsQueries;
-
-const [, , , , , , GET_DIVISION_DETAILS_BY_ID] = CareInstitutionQueries;
 const [ADD_DOCUMENT] = DocumentMutations;
 const [GET_CARE_GIVER_SIGNATURE] = SignatureQueries;
 const [
@@ -100,8 +98,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     street: '',
     city: ''
   });
-
-  const history = useHistory();
 
   // To access data of loggedIn user
   let userData: any = '';
@@ -893,7 +889,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         });
 
-        if (!terminateAggrement) {
+        if (!terminateAggrement && !leasingContract) {
           let mailBody = `<p>${languageTranslation(
             'CAREGIVER_OFFER_EMAIL_HEADING'
           )}</p><br/><p>${languageTranslation(
@@ -1102,6 +1098,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let divisionArray: any = [];
         if (selectedCells && selectedCells.length) {
           let row: any[] = [];
+          let appointmentTimings:string[] = []
           selectedCells
             .map((cell: any) =>
               cell.item && cell.item.appointments ? cell.item.appointments : []
@@ -1116,6 +1113,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 division = {},
                 qualificationId = []
               } = cr ? cr : {};
+              appointmentTimings = [...appointmentTimings, moment(date).format('MMM DD')]
               let { address = '' } = division ? division : {};
               if (!moment(date).isBefore(moment(), 'day')) {
                 let shiftLabel =
@@ -1150,6 +1148,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             `);
               }
             });
+            setSubject(`Temporary employment contract for ${appointmentTimings.join(', ')}`);
           setPdfAppointmentDetails(row);
         }
         for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
@@ -1240,17 +1239,14 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let mailBody = `<p>${languageTranslation(
           'CAREGIVER_EMAIL_LEASING_CONTRACT'
         )}</p></br>${requirementEmailData}</br>
-        <p>Please use the following link: <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
+        <p>Please sign a temporary employment contract with TIMyoCY for: <br/> <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
         </p>`;
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
-        setSubject(
-          languageTranslation('CAREGIVER_EMAIL_LEASING_CONTRACT_SUBJECT')
-        );
         setBody(editorState);
       }
     }
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     if (terminateAggrement && selectedCells && selectedCells.length) {
@@ -1327,7 +1323,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       address,
                       qualifications
                     } = requirement.division;
-                    deptDetails = `${name}${address ? `of ${address}` : ''}${
+                    deptDetails = `${name}${address ? ` of ${address}` : ''}${
                       qualifications && qualifications.length
                         ? ` - ${qualifications
                             .map((q: any) => q.label)
@@ -1340,7 +1336,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       address = '',
                       qualificationId = []
                     } = requirement ? requirement : {};
-                    deptDetails = `${name}${address ? `of ${address}` : ''}${
+                    deptDetails = `${name}${address ? ` of ${address}` : ''}${
                       qualificationId && qualificationId.length
                         ? ` - ${qualificationList
                             .filter(
@@ -1389,152 +1385,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         setSubject(languageTranslation('OFFER_REQUIREMENTS_SUB'));
         setBody(editorState);
       }
-      // else if (
-      //   leasingContract
-      // ) {
-      //   console.log('in ifff');
-      //   let requirementEmailData:string = '';
-      //   let qualificationArray: any = [];
-      //   let qualificationString: string = "";
-      //   let divisionArray: any = [];
-      //   if (selectedCells && selectedCells.length) {
-      //   let row:any[] = [];
-      //     selectedCells.map((cell:any) => cell.item && cell.item.appointments ? cell.item.appointments : []).forEach((requirement: any) => {
-      //       console.log(requirement,'requirement');
-
-      //     const {
-      //       cr = {},
-      //       date = '',
-      //     } = requirement && requirement.length ? requirement[0] : {};
-      //     const {startTime='', endTime='',name='', division={},qualificationId=[]} = cr ? cr :{}
-      //     let {address=''} = division ?division : {}
-      //     if (!moment(date).isBefore(moment(), 'day')) {
-      //       let shiftLabel =
-      //         startTime === '06:00'
-      //           ? 'FD'
-      //           : startTime === '14:00'
-      //             ? 'SD'
-      //             : 'ND';
-      //       let duration = moment
-      //         .utc(
-      //           moment(endTime, 'HH:mm').diff(
-      //             moment(startTime, 'HH:mm')
-      //           )
-      //         )
-      //         .format('H.m');
-      //         requirementEmailData += `<p>${
-      //           date ? moment(date).format('DD.MM') : ''
-      //         } ${shiftLabel} ${duration} ${name}
-      //         </p>`
-      //       row.push(`${
-      //         date ? moment(date).format('DD.MM') : ''
-      //       } ${shiftLabel} ${duration}${address ? `, Place of work: ${address}`:''}, job:${qualificationId && qualificationId.length ? ` - ${qualificationList.filter(
-      //         (qualification: any) => qualificationId.includes(qualification.value)
-      //       ).map((q:any) => q.label).join(', ')}` :''}
-      //       `);
-      //     }
-      //   });
-      //   console.log(row,'rowrow',requirementEmailData);
-
-      //   setPdfAppointmentDetails(row);
-      // }
-      //   for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
-      //     let object = selectedCellsCareinstitution[i];
-      //     if (object.item) {
-      //       let obj: any = {};
-      //       let shiftLabel =
-      //         object.item.startTime === '06:00'
-      //           ? 'FD'
-      //           : object.item.startTime === '14:00'
-      //           ? 'SD'
-      //           : 'ND';
-
-      //       obj.id = object.item.id;
-      //       obj.address = object.item.address;
-      //       obj.division = object.item.division
-      //         ? object.item.division.name
-      //         : "";
-      //       obj.shiftLabel = shiftLabel;
-      //       obj.day = moment(object.item.date).format("D");
-      //       obj.month = moment(object.item.date).format("MMM");
-      //       obj.date = moment(object.item.date).format("DD.MM");
-      //       obj.duration = moment
-      //         .utc(
-      //           moment(object.item.endTime, "HH:mm").diff(
-      //             moment(object.item.startTime, "HH:mm")
-      //           )
-      //         )
-      //         .format("H.m");
-      //       divisionArray.push(obj);
-
-      //       if (object.item.qualificationId) {
-      //         for (let j = 0; j < object.item.qualificationId.length; j++) {
-      //           let q = object.item.qualificationId[j];
-      //           if (!qualificationArray.includes(q)) {
-      //             qualificationArray.push(q);
-      //           }
-      //         }
-      //       }
-      //     }
-      //   }
-      //   let temp: any = [];
-      //   qualificationArray.map((i: any) => {
-      //     temp.push(i.label);
-      //   });
-      //   qualificationString = temp.join();
-
-      //   if (props.sortBy === 'day') {
-      //     divisionArray = divisionArray.sort(function(a: any, b: any) {
-      //       return a.date - b.date;
-      //     });
-      //   } else {
-      //     divisionArray = divisionArray.sort(sortByDivision);
-      //   }
-
-      //   let divRow: string = "";
-      //   let pdfDivData: any = [];
-      //   divisionArray.map((v: any, i: number) => {
-      //     if (v.id) {
-      //       let pdfDivRow: string = "";
-      //       divRow += `<p>${v.date +
-      //         " " +
-      //         v.shiftLabel +
-      //         ', Place of work: ' +
-      //         (v.division ? v.division : ' - ') +
-      //         '' +
-      //         (v.address ? ', ' + v.address : ' ') +
-      //         ', job: ' +
-      //         qualificationString}
-      //         </p>`;
-
-      //       pdfDivRow += `${v.date +
-      //         ' ' +
-      //         v.shiftLabel +
-      //         ', Place of work: ' +
-      //         (v.division ? v.division : ' - ') +
-      //         '' +
-      //         (v.address ? ', ' + v.address : ' ') +
-      //         ', job: ' +
-      //         qualificationString}`;
-
-      //       pdfDivData.push(pdfDivRow);
-      //     }
-      //   });
-
-      //   // setPdfAppointmentDetails(pdfDivData);
-
-      //   let mailBody = `<p>${languageTranslation(
-      //     'CAREGIVER_EMAIL_LEASING_CONTRACT'
-      //   )}</p></br>${requirementEmailData}</br>
-      //   <p>Please use the following link: <a href="http://78.47.143.190:8000/leasing-contract/{token}"/> http://78.47.143.190:8000/leasing-contract/{token}</a>
-      //   </p>`;
-
-      //   const editorState = mailBody ? HtmlToDraftConverter(mailBody) : "";
-      //   setSubject(
-      //     languageTranslation("CAREGIVER_EMAIL_LEASING_CONTRACT_SUBJECT")
-      //   );
-      //   setBody(editorState);
-      // }
     }
   }, [requirmentList]);
 
@@ -1998,6 +1848,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               </div> */}
             </div>
           </div>
+          {console.log( !leasingContactPdfData &&
+                leasingContract &&
+                pdfAppointmentDetails.length > 0 && signatureData ? true : false,'leasing condition')}
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
@@ -2018,13 +1871,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   </PDFDownloadLink>
                 ) : null}
-                {console.log('terminate condition',!terminationAgreementPdfData &&
+                {console.log('terminate condition', !terminationAgreementPdfData &&
                 terminateAggrement &&
                 pdfTerminateAppointment &&
                 pdfTerminateAppointment.name &&
-                signatureData)
+                signatureData ? true : false)
                 }
-                {!terminationAgreementPdfData &&
+                {!terminationAgreementPdfData && 
                 terminateAggrement &&
                 pdfTerminateAppointment &&
                 pdfTerminateAppointment.name &&
@@ -2042,7 +1895,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   </PDFDownloadLink>
                 ) : null}
-                {(leasingContract || terminationAgreementPdfData) &&
+                {(leasingContract || terminateAggrement) &&
                 (generating || !tokenAPICalled) ? (
                   <div style={{ minHeight: '200px' }}>
                     <Loader />

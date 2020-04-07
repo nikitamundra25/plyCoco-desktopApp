@@ -4,7 +4,7 @@ import "../index.scss";
 import {
   IAppointmentCareInstitutionList,
   IDaysArray,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from "../../../../../interfaces";
 import Loader from "../../../containers/Loader/Loader";
 import { SelectableGroup } from "react-selectable-fast";
@@ -20,7 +20,7 @@ import {
   leasingListColor,
   selfEmployesListColor,
   deactivatedListColor,
-  CareInstInActiveAttrId
+  CareInstInActiveAttrId,
 } from "../../../../../config";
 import new_appointment from "../../../../assets/img/dropdown/new_appointment.svg";
 import all_list from "../../../../assets/img/dropdown/all_list.svg";
@@ -558,19 +558,28 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
       });
     }
-    //to apply condition on connect appointments
+    //to apply condition on connect appointments selectedCells
     let connectAppCondition: any;
-    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-      connectAppCondition = selectedCellsCareinstitution.filter((x: any) => {
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length && selectedCells && selectedCells.length) {
+        selectedCells.filter((x: any) => {
         if (x.item && x.item.id) {
-          return (
-            x.item && x.item.status !== "default" && x.item.status !== "offered"
-          );
-        } else {
-          return ["abc"];
-        }
+          if(x.item.f !=="block" || x.item.s !=="block" || x.item.n !=="block" ){
+            connectAppCondition = selectedCellsCareinstitution.filter((x: any) => {
+              if (x.item && x.item.id) {
+                return (
+                  x.item && x.item.status !== "default" && x.item.status !== "offered"
+                );
+              } else {
+                return ["abc"];
+              }
+            });
+          }else{
+            connectAppCondition = 
+            ["abc"];
+          }}
       });
     }
+    
 
     let sortedQualificationList: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
@@ -594,6 +603,15 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
       });
     }
+
+
+    let getcheight: HTMLElement | null = document.getElementById("getcheight");
+    let listcheight: number = 200;
+    if (getcheight) {
+      listcheight = getcheight.getBoundingClientRect().height;
+    }
+  
+
     let widthForMonth: number = 1538;
     if (daysArr && daysArr.length) {
       if (daysArr.length === 30) {
@@ -1093,7 +1111,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         <div className="position-relative">
           <div
             className="calender-section mt-3 careinstitution-appointment-list"
-          // id={"scrollableDiv-2"}
+          id={"getcheight"}
           >
             <div className="custom-appointment-calendar">
               <div className="custom-appointment-calendar-head">
@@ -1187,7 +1205,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                             {({ width }) => (
                               <List
                                 ref={registerChild}
-                                height={200}
+                                height={listcheight}
+                              
                                 onRowsRendered={onRowsRendered}
                                 rowCount={temp.length}
                                 rowHeight={30}

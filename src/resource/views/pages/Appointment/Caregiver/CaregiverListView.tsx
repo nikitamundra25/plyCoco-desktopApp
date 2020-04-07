@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { SelectableGroup } from "react-selectable-fast";
 import {
   IAppointmentCareGiverList,
-  IDaysArray
+  IDaysArray,
 } from "../../../../../interfaces";
 import {
   appointmentDateFormat,
@@ -18,7 +18,7 @@ import {
   selfEmployesListColor,
   leasingListColor,
   CaregiverTIMyoCYAttrId,
-  deactivatedListColor
+  deactivatedListColor,
 } from "../../../../../config";
 import { dbAcceptableFormat } from "../../../../../config";
 import { languageTranslation } from "../../../../../helpers";
@@ -48,7 +48,7 @@ import {
   Table,
   ScrollSync,
   AutoSizer,
-  List
+  List,
 } from "react-virtualized";
 import { ConfirmBox } from "../../../components/ConfirmBox";
 // import styles from "react-virtualized/dist/";
@@ -84,7 +84,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     locationState,
     onTerminateAggrement,
     updateLinkedStatus,
-    updateCaregiverStatus
+    updateCaregiverStatus,
   } = props;
 
   const [starMark, setstarMark] = useState<boolean>(false);
@@ -115,7 +115,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   // state for care institution bulk email
   const [
     openCareInstitutionBulkEmail,
-    setopenCareInstitutionBulkEmail
+    setopenCareInstitutionBulkEmail,
   ] = useState<boolean>(false);
   const [terminateAggrement, setTerminateAggrement] = useState(false);
 
@@ -153,7 +153,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           lastName = "",
           email = "",
           caregiver = {},
-          qualificationId = []
+          qualificationId = [],
         } = caregiverData ? caregiverData : {};
         return {
           id,
@@ -163,7 +163,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           caregiver,
           item,
           qualificationIds: qualificationId,
-          dateString: day ? day.dateString : ""
+          dateString: day ? day.dateString : "",
         };
       });
       // setSelect({id:12})
@@ -269,7 +269,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 avabilityId: parseInt(key.item.id),
                 requirementId: parseInt(element.item.id),
                 date: moment(element.dateString).format(dbAcceptableFormat),
-                status: "appointment"
+                status: "appointment",
               });
             }
           }
@@ -320,7 +320,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               key.item.appointments ? key.item.appointments[0].id : ""
             ),
             unlinkedBy: likedBy,
-            deleteAll: check
+            deleteAll: check,
           });
         }
       });
@@ -362,7 +362,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   if (selectedCells && selectedCells.length) {
     connectAppCondition = selectedCells.filter((x: any) => {
       if (x.item) {
-        return x.item && x.item.status !== "default";
+        if(x.item.f !=="block" || x.item.s !=="block" || x.item.n !=="block" ){
+          return x.item && x.item.status !== "default";
+        }else{
+        return ["abc"];
+        }
       } else {
         return ["abc"];
       }
@@ -418,7 +422,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           ) {
             return (sortedQualificationList = [
               ...sortedQualificationList,
-              key.value
+              key.value,
             ]);
           }
         });
@@ -453,6 +457,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       ? true
       : false;
   }
+  console.log(isLeasingAppointment, "isLeasingAppointment");
+  let getheight: HTMLElement | null = document.getElementById("getheight");
+  let listheight: number = 200;
+  if (getheight) {
+    listheight = getheight.getBoundingClientRect().height;
+  }
+
   let widthForMonth: number = 1538;
   if (daysArr && daysArr.length) {
     if (daysArr.length === 30) {
@@ -478,7 +489,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       <div
         className={classnames({
           "right-manu-close": true,
-          "d-none": !openToggleMenu
+          "d-none": !openToggleMenu,
         })}
         onClick={handleToggleMenuItem}
       ></div>
@@ -486,7 +497,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         className={classnames({
           "rightclick-menu top-open": true,
           // "custom-scrollbar": true,
-          "d-none": !openToggleMenu
+          "d-none": !openToggleMenu,
         })}
       >
         <Nav vertical>
@@ -766,7 +777,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         </Nav>
       </div>
       <div className="position-relative">
-        <div className="calender-section">
+        <div className="calender-section" id="getheight">
           <div className="custom-appointment-calendar">
             <div className="custom-appointment-calendar-head">
               <div className="custom-appointment-row ">
@@ -833,7 +844,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     ".h-col",
                     ".s-col",
                     ".u-col",
-                    ".v-col"
+                    ".v-col",
                   ]}
                 >
                   <InfiniteLoader
@@ -851,7 +862,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                         {({ width }) => (
                           <List
                             ref={registerChild}
-                            height={200}
+                            height={listheight}
                             onRowsRendered={onRowsRendered}
                             rowCount={temp.length}
                             rowHeight={30}
@@ -861,7 +872,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                               index,
                               isScrolling,
                               key,
-                              style
+                              style,
                             }) => {
                               const list = temp[index] || {};
                               let item = list.new;

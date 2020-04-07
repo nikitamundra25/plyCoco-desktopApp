@@ -983,5 +983,7 @@
   "ATTRIBUTE_WARNING": "Are you sure you want to linked with this?",
   "INVOICE_NUMBER_F": "Invoice Number F",
   "POST": "Post",
-  "SENT_POST": "Sent Post"
+  "SENT_POST": "Sent Post",
+  "FEES_ERROR_MESSAGE": "You would be unable to book several appointments.",
+  "LINKED_FEES_MESSAGE": "Do not connect, Specialist has not yet signed the regulation contract"
 }

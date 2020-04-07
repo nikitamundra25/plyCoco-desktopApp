@@ -50,6 +50,7 @@ import {
   AutoSizer,
   List
 } from "react-virtualized";
+import { ConfirmBox } from "../../../components/ConfirmBox";
 // import styles from "react-virtualized/dist/";
 // const { Table, Column, AutoSizer, InfiniteLoader } = ReactVirtualized
 
@@ -187,7 +188,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   // };
 
   // Link appointments
-  const handleLinkAppointments = (name: string) => {
+  const handleLinkAppointments = async(name: string) => {
     let selectedData: any = [],
       checkError: boolean = false;
     if (
@@ -196,14 +197,33 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       selectedCells &&
       selectedCells.length
     ) {
+      if (
+        selectedCells[0].caregiver &&
+        selectedCells[0].caregiver.attributes &&
+        selectedCells[0].caregiver.attributes.length
+      ) {
+        let checkAttribute = selectedCells[0].caregiver.attributes.includes(8);
+        if (checkAttribute) {
+          const { value } = await ConfirmBox({
+            title: languageTranslation("ATTRIBUTE_WARNING"),
+            text: languageTranslation("LINKED_ATTRIBUTE_WARNING")
+          });
+          if (!value) {
+            checkError = true;
+            return;
+          }
+        }
+      }
+
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
         if (!toast.isActive(toastId)) {
           toastId = toast.error("Please select same length cells");
         }
       } else {
         let qualiCheck: any[] = [];
-        selectedCells.map((key: any, index: number) => {
+        selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
+          if(key.item.fee && key.item.weekendAllowance && key.item.holidayAllowance && key.item.nightFee){
           if (
             key.qualificationIds &&
             key.qualificationIds.length &&
@@ -242,6 +262,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               );
             }
             return false;
+          
           } else {
             if (!checkError) {
               selectedData.push({
@@ -252,6 +273,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               });
             }
           }
+        }else{
+          checkError = true;
+          const { value } = await ConfirmBox({
+            title: languageTranslation("FEES_ERROR_MESSAGE"),
+            text: languageTranslation("LINKED_FEES_MESSAGE"),
+            type:"error",
+            showCancelButton: false,
+            confirmButtonText:"Ok"
+          
+          });
+            return;
+        }
         });
         if (!checkError) {
           onLinkAppointment(selectedData, name);

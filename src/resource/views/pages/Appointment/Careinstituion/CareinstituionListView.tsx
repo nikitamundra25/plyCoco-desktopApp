@@ -193,6 +193,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         let qualiCheck: any[] = [];
         selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
+          if(key.item.fee && key.item.weekendAllowance && key.item.holidayAllowance && key.item.nightFee){
           if (
             key.qualificationIds &&
             key.qualificationIds.length &&
@@ -241,6 +242,17 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               });
             }
           }
+        }else{
+          checkError = true;
+          const { value } = await ConfirmBox({
+            title: languageTranslation("FEES_ERROR_MESSAGE"),
+            text: languageTranslation("LINKED_FEES_MESSAGE"),
+            type:"error",
+            showCancelButton: false,
+            confirmButtonText:"Ok"
+          });
+            return;
+        }
         });
         if (!checkError) {
           onLinkAppointment(selectedData, name);
@@ -347,7 +359,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     //     (item: any) => item.id === starCanstitution.id
     //   )[0];
     // }
-console.log("list",list);
 
     let temp: any[] = [];
     //  if (listData && listData.length) {

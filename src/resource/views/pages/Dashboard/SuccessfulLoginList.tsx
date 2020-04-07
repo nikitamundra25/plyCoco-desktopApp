@@ -17,7 +17,7 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="d-block">
         <CardTitle>
           {" "}
           <span className="align-middle mr-2">

@@ -1096,10 +1096,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   }
 
   const isLeasingRequirement = selectedCellsCareinstitution.findIndex((cell:any) => cell.item && cell.item.isLeasing) > -1 ? true :false
-
-  console.log(isLeasingRequirement,'isLeasingRequirement');
-  
-  console.log(temporaryWorkerPdf,'temporaryWorkerPdf',pdfAppointmentDetails,!temporaryWorkerPdf && confirmAppointment && pdfAppointmentDetails && pdfAppointmentDetails.length > 0);
   
   return (
     <>

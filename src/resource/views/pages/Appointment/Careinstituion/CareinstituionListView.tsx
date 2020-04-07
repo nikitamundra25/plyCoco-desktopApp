@@ -946,9 +946,10 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     selectedCellsCareinstitution[0].id === '') ||
                     (selectedCellsCareinstitution[0] &&
                       selectedCellsCareinstitution[0].item &&
-                      selectedCellsCareinstitution[0].item.status !== 'linked'))
+                      selectedCellsCareinstitution[0].item.status !== 'linked')
+                       || selectedCellsCareinstitution.filter((cell:any) => cell.item && cell.item.isLeasing).length > 0)
                     ? true
-                    : false
+                    :  false
                 }
               >
                 <img src={set_confirm} className='mr-2' alt='' />
@@ -972,7 +973,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     (selectedCellsCareinstitution[0] &&
                       selectedCellsCareinstitution[0].item &&
                       selectedCellsCareinstitution[0].item.status !==
-                        'confirmed'))
+                        'confirmed') || selectedCellsCareinstitution.filter((cell:any) => cell.item && cell.item.isLeasing).length > 0)
                     ? 'disabled-class'
                     : ''
                 }

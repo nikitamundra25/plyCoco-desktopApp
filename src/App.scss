@@ -750,6 +750,30 @@ body {
           width: 18px;
           background-image: url(./resource/assets/img/sidebar/invoices.png);
         }
+        &.icon-invoice-solona {
+          width: 18px;
+          background-image: url(./resource/assets/img/sidebar/invoice-solona.svg);
+        }
+        &.icon-create-invoice {
+          width: 18px;
+          background-image: url(./resource/assets/img/sidebar/create-invoice.svg);
+        }
+        &.icon-print-invoice {
+          width: 18px;
+          background-image: url(./resource/assets/img/sidebar/print-invoice.svg);
+        }
+        &.icon-create-freetext-invoice {
+          width: 18px;
+          background-image: url(./resource/assets/img/sidebar/free-text-invoice.svg);
+        }
+        &.icon-payslip-invoice {
+          width: 18px;
+          background-image: url(./resource/assets/img/sidebar/pay-slip.svg);
+        }
+        &.icon-direct-debit {
+          width: 18px;
+          background-image: url(./resource/assets/img/sidebar/direct-debit.svg);
+        }
         &.icon-todo-care {
           width: 18px;
           background-image: url(./resource/assets/img/sidebar/calendar-to-do.png);

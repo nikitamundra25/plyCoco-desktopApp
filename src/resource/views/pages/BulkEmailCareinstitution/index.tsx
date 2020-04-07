@@ -387,18 +387,16 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         if (props.statusTo === 'confirmed') {
           // console.log("in iff",emailData);
           // const { subject } = emailData;
-            setSubject('Appointment confirmation');
             let apointedCareGiver: any[] = [];
+            let appointmentTimings:string[] = []
             let isLeasing: boolean = false;
             if (
               selectedCellsCareinstitution &&
               selectedCellsCareinstitution.length
             ) {
-              selectedCellsCareinstitution.forEach((element: any) => {
+              selectedCellsCareinstitution.forEach((element: any, index:number) => {
                 const {
                   item = {},
-                  firstName = '',
-                  lastName = '',
                   name=''
                 } = element;
                 isLeasing = element.isLeasing;
@@ -408,6 +406,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     appointments && appointments.length
                       ? appointments[0]
                       : {};
+                      appointmentTimings = [...appointmentTimings, moment(date).format(index ==0 ? 'MMMM DD' : 'DD')]
                   if (ca) {
                     let divisionData: string = division
                       ? division.name
@@ -449,12 +448,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             const editorState = bodyData
               ? HtmlToDraftConverter(bodyData)
               : '';
-            setBody(editorState);
+            setSubject(`Appointment confirmation for ${appointmentTimings.join(', ')}`);  setBody(editorState);
             // setTemplate({
             //   label: emailData.menuEntry,
             //   value: emailData
             // });
-          
         }
         else if (props.unlinkedBy) {
           if (props.unlinkedBy === 'canstitution') {
@@ -1098,10 +1096,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   }
 
   const isLeasingRequirement = selectedCellsCareinstitution.findIndex((cell:any) => cell.item && cell.item.isLeasing) > -1 ? true :false
-
-  console.log(isLeasingRequirement,'isLeasingRequirement');
-  
-  console.log(temporaryWorkerPdf,'temporaryWorkerPdf',pdfAppointmentDetails,!temporaryWorkerPdf && confirmAppointment && pdfAppointmentDetails && pdfAppointmentDetails.length > 0);
   
   return (
     <>

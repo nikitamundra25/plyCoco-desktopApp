@@ -77,6 +77,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
               name
               status
               qualificationId
+              address
               startTime
               endTime
               isLeasing
@@ -110,6 +111,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           qualificationId
           startTime
           userId
+          isLeasing
           division {
             id
             name

@@ -45,7 +45,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     any
 ) => {
   useEffect(() => {
-    if (props.savingBoth) {
+    if (props.savingBoth && !timeSlotError) {
       handleSubmit();
     }
   }, [props.savingBoth]);
@@ -91,6 +91,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     careInstitutionListArr,
     handleSelectUserList,
     addCareinstLoading,
+    timeSlotError,
     street
   } = props;
 

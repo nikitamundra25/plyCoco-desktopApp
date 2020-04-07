@@ -2110,6 +2110,9 @@ const Appointment: FunctionComponent = (props: any) => {
     try {
       // To ignore availabilities in case of block appointment
       if (f || s || n || isBlockeddate) {
+        console.log("propsisBlockeddate");
+        
+        
         setTimeSlotError("");
         if (selectedCells && selectedCells.length) {
           const {
@@ -2242,6 +2245,7 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         }
       } else {
+      
         setTimeSlotError(languageTranslation("WORKING_SHIFT_ERROR"));
         return;
       }
@@ -2613,17 +2617,27 @@ const Appointment: FunctionComponent = (props: any) => {
       freeEntries.forEach(async (element: any) => {
         const { id } = element;
         let index: number = -1;
-        if (!item) {
+        console.log("item",item);
+        
+        if (!item ) {
           if (userRole === "caregiver") {
             index = caregiversList.findIndex(
               (caregiver: any) => caregiver.id === id
             );
+            console.log("index",index);
+            
             if (index > -1) {
               let list: any = [...caregiversList];
               // To remove all the empty rows
+              
               list[index].availabilityData = list[
                 index
               ].availabilityData.filter((ele: any) => ele.length);
+
+              // To push null data at [0] index when row count is zero.
+              if(list[index].availabilityData && !list[index].availabilityData.length ){
+                list[index].availabilityData.push([])
+              }
               setcaregiversList(list);
             }
           } else {
@@ -2643,6 +2657,10 @@ const Appointment: FunctionComponent = (props: any) => {
                 list[index].availabilityData = list[
                   index
                 ].availabilityData.filter((item: any) => item.length);
+                  // To push null data at [0] index when row count is zero.
+              if(list[index].availabilityData && !list[index].availabilityData.length ){
+                list[index].availabilityData.push([])
+              }
                 setcareInstituionDeptData(list);
               }
             } else {
@@ -2654,6 +2672,11 @@ const Appointment: FunctionComponent = (props: any) => {
                 list[index].availabilityData = list[
                   index
                 ].availabilityData.filter((item: any) => item.length);
+
+                  // To push null data at [0] index when row count is zero.
+                if(list[index].availabilityData && !list[index].availabilityData.length ){
+                  list[index].availabilityData.push([])
+                }
                 setcareinstitutionList(list);
               }
             }
@@ -3008,8 +3031,10 @@ const Appointment: FunctionComponent = (props: any) => {
 
   const [savingBoth, setsavingBoth] = useState(false);
   const handleSaveBoth = () => {
+
     setsavingBoth(true);
   };
+
   const isCareinstituionData: boolean =
     selectedCellsCareinstitution && selectedCellsCareinstitution[0]
       ? !selectedCellsCareinstitution[0].id
@@ -3505,6 +3530,7 @@ const Appointment: FunctionComponent = (props: any) => {
                               handleQualification={handleQualification}
                               onhandleDelete={onhandleDelete}
                               handleSelectUserList={handleSelectUserList}
+                              timeSlotError={timeSlotError}
                               careInstitutionListArr={
                                 careInstitutionList &&
                                 careInstitutionList.getUserByQualifications

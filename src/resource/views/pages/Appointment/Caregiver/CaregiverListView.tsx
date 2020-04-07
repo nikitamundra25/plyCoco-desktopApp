@@ -196,9 +196,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       selectedCells &&
       selectedCells.length
     ) {
-      console.log("selectedCellsCareinstitution", selectedCellsCareinstitution);
-      console.log("selectedCells", selectedCells);
-
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
         if (!toast.isActive(toastId)) {
           toastId = toast.error("Please select same length cells");
@@ -423,7 +420,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       ? true
       : false;
   }
-  console.log(isLeasingAppointment, "isLeasingAppointment");
   let widthForMonth: number = 1538;
   if (daysArr && daysArr.length) {
     if (daysArr.length === 30) {
@@ -877,7 +873,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                               list.lastName,
                                               list.firstName
                                             ].join(" ")}
-                                            id={`caregiver-${list.id}`}
+                                            id={`caregiver-${list.id}-${index}-${row}`}
                                           >
                                             <Link
                                               to={AppRoutes.CARE_GIVER_VIEW.replace(

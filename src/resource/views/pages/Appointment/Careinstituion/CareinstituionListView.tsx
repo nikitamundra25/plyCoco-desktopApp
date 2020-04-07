@@ -4,7 +4,7 @@ import "../index.scss";
 import {
   IAppointmentCareInstitutionList,
   IDaysArray,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from "../../../../../interfaces";
 import Loader from "../../../containers/Loader/Loader";
 import { SelectableGroup } from "react-selectable-fast";
@@ -20,7 +20,7 @@ import {
   leasingListColor,
   selfEmployesListColor,
   deactivatedListColor,
-  CareInstInActiveAttrId
+  CareInstInActiveAttrId,
 } from "../../../../../config";
 import new_appointment from "../../../../assets/img/dropdown/new_appointment.svg";
 import all_list from "../../../../assets/img/dropdown/all_list.svg";
@@ -47,8 +47,9 @@ import { ConfirmBox } from "../../../components/ConfirmBox";
 import { InfiniteLoader, AutoSizer, List } from "react-virtualized";
 
 let toastId: any = null;
-const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
-  any> = (props: IAppointmentCareInstitutionList & any) => {
+const CarinstituionListView: FunctionComponent<
+  IAppointmentCareInstitutionList & any
+> = (props: IAppointmentCareInstitutionList & any) => {
   let history = useHistory();
   const {
     daysData,
@@ -74,7 +75,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     totalCareinstituion,
     getMoreCareInstituionList,
     updateCareInstitutionStatus,
-    locationState
+    locationState,
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
@@ -106,7 +107,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           canstitution = {},
           qualificationId = [],
           deptId = "",
-          divisions = []
+          divisions = [],
         } = careInstData ? careInstData : {};
         let qualification1: IReactSelectInterface[] = [];
         if (
@@ -125,7 +126,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
         let temp = {
           ...item,
-          qualificationId: qualification1 ? qualification1 : []
+          qualificationId: qualification1 ? qualification1 : [],
         };
         return {
           id: deptId ? userId : id,
@@ -142,7 +143,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             temp && temp.qualificationId && temp.qualificationId ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : "",
-          divisions
+          divisions,
           // isLeasing:
           //   canstitution && canstitution.attributes
           //     ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
@@ -182,7 +183,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           if (checkAttribute) {
             const { value } = await ConfirmBox({
               title: languageTranslation("ATTRIBUTE_WARNING"),
-              text: languageTranslation("LINKED_ATTRIBUTE_WARNING")
+              text: languageTranslation("LINKED_ATTRIBUTE_WARNING"),
             });
             if (!value) {
               checkError = true;
@@ -237,7 +238,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 avabilityId: parseInt(key.item.id),
                 requirementId: parseInt(element.item.id),
                 date: moment(element.dateString).format(dbAcceptableFormat),
-                status: "appointment"
+                status: "appointment",
               });
             }
           }
@@ -276,7 +277,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             key.item.appointments ? key.item.appointments[0].id : ""
           ),
           unlinkedBy: likedBy,
-          deleteAll: check
+          deleteAll: check,
         });
       });
       onLinkAppointment(appointmentId, "unlink");
@@ -304,7 +305,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   // state for care institution bulk email
   const [
     openCareInstitutionBulkEmail,
-    setopenCareInstitutionBulkEmail
+    setopenCareInstitutionBulkEmail,
   ] = useState<boolean>(false);
 
   // lable for care institution
@@ -379,7 +380,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         )
                       ? selfEmployesListColor
                       : ""
-                    : ""
+                    : "",
               }}
               // onClick={() =>
               //   history.push(
@@ -422,7 +423,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </div>
             <div
               className="v-col custom-appointment-col text-center cursor-pointer"
-              onClick={e => onAddingRow(e, "careinstitution", index)}
+              onClick={(e) => onAddingRow(e, "careinstitution", index)}
             >
               <i className="fa fa-arrow-down" />
             </div>
@@ -558,7 +559,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           ) {
             return (sortedQualificationList = [
               ...sortedQualificationList,
-              key.value
+              key.value,
             ]);
           }
         });
@@ -566,6 +567,11 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     });
   }
   console.log("careInstituionDeptData", careInstituionDeptData);
+  let getcheight: HTMLElement | null = document.getElementById("getcheight");
+  let listcheight: number = 200;
+  if (getcheight) {
+    listcheight = getcheight.getBoundingClientRect().height;
+  }
   let widthForMonth: number = 1538;
   if (daysArr && daysArr.length) {
     if (daysArr.length === 30) {
@@ -585,7 +591,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       <div
         className={classnames({
           "right-manu-close": true,
-          "d-none": !toggleMenuButton
+          "d-none": !toggleMenuButton,
         })}
         onClick={() => handleRightMenuToggle()}
       ></div>
@@ -593,7 +599,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         className={classnames({
           "rightclick-menu": true,
           "custom-scrollbar": true,
-          "d-none": !toggleMenuButton
+          "d-none": !toggleMenuButton,
         })}
         id={"clickbox"}
       >
@@ -1042,7 +1048,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       <div className="position-relative">
         <div
           className="calender-section mt-3 careinstitution-appointment-list"
-          // id={"scrollableDiv-2"}
+          id={"getcheight"}
         >
           <div className="custom-appointment-calendar">
             <div className="custom-appointment-calendar-head">
@@ -1120,7 +1126,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                     ".h-col",
                     ".s-col",
                     ".u-col",
-                    ".v-col"
+                    ".v-col",
                   ]}
                 >
                   <InfiniteLoader
@@ -1136,7 +1142,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                         {({ width }) => (
                           <List
                             ref={registerChild}
-                            height={200}
+                            height={listcheight}
                             onRowsRendered={onRowsRendered}
                             rowCount={careInstitutionList.length}
                             rowHeight={30}

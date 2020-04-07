@@ -434,6 +434,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       widthForMonth = 1538;
     }
   }
+  let temp:any[] = [];
+  careGiversList.forEach((element:any, index:number) => {
+    element.availabilityData.forEach((item:any, row:number) => {
+      temp.push({...element, new:item, row})
+    });
+  });
+  console.log(temp,'temp');
+  
   return (
     <div>
       <div
@@ -814,7 +822,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                             ref={registerChild}
                             height={200}
                             onRowsRendered={onRowsRendered}
-                            rowCount={careGiversList.length}
+                            rowCount={temp.length}
                             rowHeight={30}
                             width={widthForMonth}
                             // rowGetter={({ index }:any) => careGiversList[index]}
@@ -824,20 +832,25 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                               key,
                               style
                             }) => {
-                              const list = careGiversList[index] || {};
-                         
-                              
+                              const list = temp[index] || {};
+                              console.log("list",list,key, style,index,'style');
+                              let item = list.new;
+                              let row = list.row
+                              let uIndex:number = careGiversList.findIndex(((item:any) => item.id === list.id))
                               return (
                                 // <div key={key} style={style}>
-                                list.availabilityData &&
-                                  list.availabilityData.length
-                                  ? list.availabilityData.map(
-                                      (item: any, row: number) => (
+                                // list.availabilityData &&
+                                //   list.availabilityData.length
+                                //   ? list.availabilityData.map(
+                                //       (item: any, row: number) => (
                                         <div
                                           className="custom-appointment-row"
-                                          key={`${list.id}-${index}-${row}`}
-                                          style={style}
+                                          key={`${list.id}-${index}-${row}-${key}`}
+                                          style={style
+                                            // {...style, top:index + (row *30)}
+                                          }
                                         >
+                                        {console.log(index + (row *30),'index + (row *30)')}
                                           <div
                                             className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
                                             style={{
@@ -875,7 +888,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                                     list.lastName,
                                                     list.firstName
                                                   ].join(" ")
-                                                : "helloo"}
+                                                : ""}
                                             </Link>
                                           </div>
                                           <div className="custom-appointment-col h-col appointment-color2"></div>
@@ -884,7 +897,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                             onClick={() =>
                                               onhandleSecondStar(
                                                 list,
-                                                index,
+                                                uIndex,
                                                 "caregiver"
                                               )
                                             }
@@ -900,7 +913,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                             onClick={() =>
                                               onhandleSecondStar(
                                                 list,
-                                                index,
+                                                uIndex,
                                                 "caregiver"
                                               )
                                             }
@@ -914,7 +927,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                           <div
                                             className="custom-appointment-col v-col text-center"
                                             onClick={e =>
-                                              onAddingRow(e, "caregiver", index)
+                                              onAddingRow(e, "caregiver", uIndex)
                                             }
                                           >
                                             <i className="fa fa-arrow-down" />
@@ -958,11 +971,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                             }
                                           )}
                                         </div>
-                                      )
+                                      // )
                                     )
-                                  : ""
                                 // </div>
-                              );
+                              
                             }}
                           />
                         )}

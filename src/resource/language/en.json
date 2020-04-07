@@ -984,6 +984,6 @@
   "INVOICE_NUMBER_F": "Invoice Number F",
   "POST": "Post",
   "SENT_POST": "Sent Post",
-  "FEES_ERROR_MESSAGE": "You would be unable to book several appointments.",
-  "LINKED_FEES_MESSAGE": "Do not connect, Specialist has not yet signed the regulation contract"
+  "FEES_ERROR_MESSAGE": "Connect is not possible!",
+  "LINKED_FEES_MESSAGE": "Caregiver has not yet signed the regulation amount"
 }

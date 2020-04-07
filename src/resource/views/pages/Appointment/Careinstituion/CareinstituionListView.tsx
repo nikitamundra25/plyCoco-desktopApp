@@ -546,19 +546,28 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
       });
     }
-    //to apply condition on connect appointments
+    //to apply condition on connect appointments selectedCells
     let connectAppCondition: any;
-    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-      connectAppCondition = selectedCellsCareinstitution.filter((x: any) => {
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length && selectedCells && selectedCells.length) {
+        selectedCells.filter((x: any) => {
         if (x.item && x.item.id) {
-          return (
-            x.item && x.item.status !== "default" && x.item.status !== "offered"
-          );
-        } else {
-          return ["abc"];
-        }
+          if(x.item.f !=="block" || x.item.s !=="block" || x.item.n !=="block" ){
+            connectAppCondition = selectedCellsCareinstitution.filter((x: any) => {
+              if (x.item && x.item.id) {
+                return (
+                  x.item && x.item.status !== "default" && x.item.status !== "offered"
+                );
+              } else {
+                return ["abc"];
+              }
+            });
+          }else{
+            connectAppCondition = 
+            ["abc"];
+          }}
       });
     }
+    
 
     let sortedQualificationList: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {

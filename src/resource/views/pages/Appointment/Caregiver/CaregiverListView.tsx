@@ -362,7 +362,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   if (selectedCells && selectedCells.length) {
     connectAppCondition = selectedCells.filter((x: any) => {
       if (x.item) {
-        return x.item && x.item.status !== "default";
+        if(x.item.f !=="block" || x.item.s !=="block" || x.item.n !=="block" ){
+          return x.item && x.item.status !== "default";
+        }else{
+        return ["abc"];
+        }
       } else {
         return ["abc"];
       }

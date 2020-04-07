@@ -1028,6 +1028,10 @@ const Appointment: FunctionComponent = (props: any) => {
         careInstSelectedCell.length
       ) {
         console.log("***********setselectedCellsCareinstitution", careInstSelectedCell)
+        const { item }: any = careInstSelectedCell && careInstSelectedCell.length ? careInstSelectedCell[0] : {}
+        console.log("++++++++", qualification);
+        
+        const { qualificationId = [] }: any = item ? item : {}
         setselectedCellsCareinstitution(careInstSelectedCell);
       }
       setcareinstitutionList(result);

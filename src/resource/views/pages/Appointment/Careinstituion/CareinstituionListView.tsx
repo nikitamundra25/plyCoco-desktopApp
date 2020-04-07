@@ -347,12 +347,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     //     (item: any) => item.id === starCanstitution.id
     //   )[0];
     // }
+console.log("list",list);
 
     let temp: any[] = [];
     //  if (listData && listData.length) {
     //   listData.forEach((list: any, index: number) => {
     if (list && list.availabilityData && list.availabilityData.length) {
       list.availabilityData.map((item: any, row: number) =>
+
         temp.push(
           <div
             className="custom-appointment-row"

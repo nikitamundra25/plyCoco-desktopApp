@@ -257,7 +257,6 @@ const Appointment: FunctionComponent = (props: any) => {
     onCompleted() {
       setPage(1);
       fetchingCareGiverData();
-<<<<<<< HEAD
       toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -265,9 +264,6 @@ const Appointment: FunctionComponent = (props: any) => {
         );
       }
     }
-=======
-    },
->>>>>>> 11afb755df8670e24c49de9f3e4361d3c5a98fe2
   });
 
   // Mutation to update careGiver data

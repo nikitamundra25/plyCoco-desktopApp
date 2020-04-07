@@ -530,11 +530,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells && selectedCells.length
                   ? selectedCells.filter(
-                    (availability: any) =>
-                      (availability && !availability.item) ||
-                      (availability.item &&
-                        availability.item.status === "default")
-                  ).length
+                      (availability: any) =>
+                        (availability && !availability.item) ||
+                        (availability.item &&
+                          availability.item.status === 'default')
+                    ).length
                     ? false
                     : true
                   : true
@@ -655,11 +655,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   : true
               }
               onClick={() => {
-                // setOnConfirmedCaregiver();
+                updateCaregiverStatus('confirmed');
                 setconfirmApp(true);
                 setopenToggleMenu(false);
                 handleCareGiverBulkEmail();
-                // setOnConfirmedCaregiver();
               }}
             >
               <img src={confirm_appointment} className="mr-2" alt="" />
@@ -682,7 +681,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 className="align-middle"
                 onClick={() => {
                   setopenToggleMenu(false);
-                  // setOnConfirmedCaregiver();
+                  updateCaregiverStatus('confirmed');
                 }}
               >
                 Set on confirmed
@@ -705,7 +704,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                 className="align-middle"
                 onClick={() => {
                   setopenToggleMenu(false);
-                  // setOnNotConfirmedCaregiver();
+                  updateCaregiverStatus('notconfirmed');
                 }}
               >
                 Set on not confirmed

@@ -360,16 +360,28 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       //     (item: any) => item.id === starCanstitution.id
       //   )[0];
       // }
-      console.log("list", list);
+      let item = list.new;
+      let row = list.row;
+      let uIndex: number = -1;
+      if (
+        starCanstitution && secondStarCanstitution &&
+        (starCanstitution.isStar || secondStarCanstitution.isStar) &&
+        careInstituionDeptData &&
+        careInstituionDeptData.length
+      ){
+        uIndex = careInstituionDeptData.findIndex(((item: any) => item.id === list.id))  
+      }else{
+        uIndex = careInstitutionList.findIndex(((item: any) => item.id === list.id))  
+      }
 
-      let temp: any[] = [];
+      // let temp: any[] = [];
       //  if (listData && listData.length) {
       //   listData.forEach((list: any, index: number) => {
-      if (list && list.availabilityData && list.availabilityData.length) {
-        list.availabilityData.map((item: any, row: number) =>
+      // if (list && list.availabilityData && list.availabilityData.length) {
+      //   list.availabilityData.map((item: any, row: number) =>
 
-          temp.push(
-            <div
+      //     temp.push(
+            return <div
               className="custom-appointment-row"
               key={`${list.id}-${index}-${row}`}
               style={style}
@@ -416,9 +428,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               <div className="h-col custom-appointment-col text-center"></div>
               <div
                 className="s-col custom-appointment-col text-center cursor-pointer"
-                onClick={() => handleFirstStarCanstitution(list, index)}
+                onClick={() => handleFirstStarCanstitution(list, uIndex)}
               >
-                {starCanstitution.setIndex === index ||
+                {starCanstitution.setIndex === uIndex ||
                   starCanstitution.isStar ? (
                     <i className="fa fa-star theme-text" />
                   ) : (
@@ -437,7 +449,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               </div>
               <div
                 className="v-col custom-appointment-col text-center cursor-pointer"
-                onClick={e => onAddingRow(e, "careinstitution", index)}
+                onClick={e => onAddingRow(e, "careinstitution", uIndex)}
               >
                 <i className="fa fa-arrow-down" />
               </div>
@@ -469,9 +481,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 );
               })}
             </div>
-          )
-        );
-      }
+          // )
+        // );
+      // }
       // });
       // } else {
       //   temp.push(
@@ -591,7 +603,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         }
       });
     }
-    console.log("careInstituionDeptData", careInstituionDeptData);
     let widthForMonth: number = 1538;
     if (daysArr && daysArr.length) {
       if (daysArr.length === 30) {
@@ -606,12 +617,29 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         widthForMonth = 1538;
       }
     }
+    let listData = !starCanstitution.isStar
+    ? careInstitutionList
+    : secondStarCanstitution.isStar
+    ? careInstituionDeptData &&
+      careInstituionDeptData.length
+      ? careInstituionDeptData.filter(
+          (dept: any) =>
+            dept.id === secondStarCanstitution.id
+        )
+      : []
+    : careInstituionDeptData
+    if (starCanstitution.isStar && listData && !listData.length) {
+      listData = careInstitutionList.filter(
+        (item: any) => item.id === starCanstitution.id
+      );
+    }
     let temp: any[] = [];
-    careInstitutionList.forEach((element: any, index: number) => {
+    listData.forEach((element: any, index: number) => {
       element.availabilityData.forEach((item: any, row: number) => {
         temp.push({ ...element, new: item, row })
       });
     });
+    
     return (
       <>
         <div
@@ -1175,24 +1203,24 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                                 width={widthForMonth}
                                 rowRenderer={({ index, key, style }) => {
                                   // Condition to manage careinstitution list & department list
-                                  let list = !starCanstitution.isStar
-                                    ? temp[index] || {}
-                                    : secondStarCanstitution.isStar
-                                      ? careInstituionDeptData &&
-                                        careInstituionDeptData.length
-                                        ? careInstituionDeptData.filter(
-                                          (dept: any) =>
-                                            dept.id === secondStarCanstitution.id
-                                        )[index]
-                                        : null
-                                      : temp[index] || {};
-
+                                  let list = temp[index]
+                                  // !starCanstitution.isStar
+                                  //   ? temp[index] || {}
+                                  //   : secondStarCanstitution.isStar
+                                  //     ? careInstituionDeptData &&
+                                  //       careInstituionDeptData.length
+                                  //       ? careInstituionDeptData.filter(
+                                  //         (dept: any) =>
+                                  //           dept.id === secondStarCanstitution.id
+                                  //       )[index]
+                                  //       : null
+                                  //     : temp[index] || {};
                                   // select careInstitution if no department is available
-                                  if (starCanstitution.isStar && !list) {
-                                    list = careInstitutionList.filter(
-                                      (item: any) => item.id === starCanstitution.id
-                                    )[index];
-                                  }
+                                  // if (starCanstitution.isStar && !list) {
+                                  //   list = careInstitutionList.filter(
+                                  //     (item: any) => item.id === starCanstitution.id
+                                  //   )[index];
+                                  // }
                                   return renderTableRows(list, index, style);
                                 }}
                               />

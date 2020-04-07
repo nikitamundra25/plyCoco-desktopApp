@@ -1007,7 +1007,9 @@ const Appointment: FunctionComponent = (props: any) => {
                     (cell: any) => cell.item && cell.item.id === records[i].id
                   );
                   if (index > -1) {
-                    careInstSelectedCell[index].item = records[i];
+                    careInstSelectedCell[index].item = {...records[i],qualificationId:qualificationList.filter(({ value }: any) =>
+                    records[i].qualificationId && records[i].qualificationId.includes(value)
+                  )};
                   }
                 }
                 user.availabilityData[i].push(records[i]);
@@ -1435,7 +1437,7 @@ const Appointment: FunctionComponent = (props: any) => {
     } else {
       // To check row added on solo careinstitution or all
       if (
-        starCanstitution &&
+        starCanstitution && secondStarCanstitution && 
         (starCanstitution.isStar || secondStarCanstitution.isStar) &&
         careInstituionDeptData &&
         careInstituionDeptData.length

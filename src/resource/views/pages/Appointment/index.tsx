@@ -1442,7 +1442,7 @@ const Appointment: FunctionComponent = (props: any) => {
     } else {
       // To check row added on solo careinstitution or all
       if (
-        starCanstitution &&
+        starCanstitution && secondStarCanstitution && 
         (starCanstitution.isStar || secondStarCanstitution.isStar) &&
         careInstituionDeptData &&
         careInstituionDeptData.length

@@ -142,14 +142,14 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             temp && temp.qualificationId && temp.qualificationId ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : "",
-          divisions,
+          divisions
           // isLeasing:
           //   canstitution && canstitution.attributes
           //     ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
           //     : false
         };
       });
-      handleSelection(selectedRows, 'careinstitution');
+      handleSelection(selectedRows, "careinstitution");
     }
   };
 
@@ -313,7 +313,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   // show button for care institution
   const [showButton, setShowButton] = useState<boolean>(false);
 
-  
   // Open care giver bulk Email section
   const handleCareGiverBulkEmail = (sortBy: string, showButton: boolean) => {
     setSortBy(sortBy);
@@ -323,7 +322,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       setunlinkedBy("");
     }
   };
-  
+
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
     if (openCareInstitutionBulkEmail) {
@@ -334,96 +333,100 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
   };
-  
-  const [StatusTo, setStatusTo] = useState('');
+
+  const [StatusTo, setStatusTo] = useState("");
 
   const loadMoreRows = ({ startIndex, stopIndex }: any) => {
-    getMoreCareInstituionList(careInstitutionList.length)
+    getMoreCareInstituionList(careInstitutionList.length);
   };
-  
-  const renderTableRows = (list: any, index: any,style: any ) => {
 
+  const renderTableRows = (list: any, index: any, style: any) => {
     // select careInstitution if no department is available
     // if (starCanstitution.isStar && !list ) {
     //   list = careInstitutionList.filter(
     //     (item: any) => item.id === starCanstitution.id
     //   )[0];
     // }
-    
+
     let temp: any[] = [];
     //  if (listData && listData.length) {
     //   listData.forEach((list: any, index: number) => {
     if (list && list.availabilityData && list.availabilityData.length) {
       list.availabilityData.map((item: any, row: number) =>
         temp.push(
-         <div  className="custom-appointment-row" key={`${list.id}-${index}-${row}`}   style={style}>
-             {/* <th className="thead-sticky name-col custom-appointment-col"> */}
-           
-                <div className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
-                  style={{
-                    backgroundColor:
-                      list.canstitution && list.canstitution.attributes
-                        ? list.canstitution.attributes.includes(
-                            CareInstInActiveAttrId
-                          )
-                          ? deactivatedListColor
-                          : list.canstitution.attributes.includes(
-                              CareInstTIMyoCYAttrId
-                            )
-                          ? leasingListColor
-                          : list.canstitution.attributes.includes(
-                              CareInstPlycocoAttrId
-                            )
-                          ? selfEmployesListColor
-                          : ""
-                        : ""
-                  }}
-                  // onClick={() =>
-                  //   history.push(
-                  //     AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
-                  //   )
-                  // }
-                  title={list.name}
-                  // className="text-capitalize view-more-link one-line-text username-col name-text"
-                  id={`careinst-${list.id}`}
-                >
-                  <Link
-                    to={AppRoutes.CARE_INSTITUION_VIEW.replace(":id", list.id)}
-                    target="_blank"
-                    className="text-body"
-                  >
-                    {row === 0 ? list.name : null}
-                  </Link>
-                </div>
-                <div className="h-col custom-appointment-col text-center"></div>
-                <div
-                  className="s-col custom-appointment-col text-center cursor-pointer"
-                  onClick={() => handleFirstStarCanstitution(list, index)}
-                >
-                  {starCanstitution.setIndex === index ||
-                  starCanstitution.isStar ? (
-                    <i className="fa fa-star theme-text" />
-                  ) : (
-                    <i className="fa fa-star-o" />
-                  )}
-                </div>
-                <div
-                  className="u-col custom-appointment-col text-center cursor-pointer"
-                  onClick={() => onhandleSecondStarCanstitution(list)}
-                >
-                  {secondStarCanstitution && secondStarCanstitution.isStar ? (
-                    <i className="fa fa-star theme-text" />
-                  ) : (
-                    <i className="fa fa-star-o" />
-                  )}
-                </div>
-                <div
-                  className="v-col custom-appointment-col text-center cursor-pointer"
-                  onClick={e => onAddingRow(e, "careinstitution", index)}
-                >
-                  <i className="fa fa-arrow-down" />
-                </div>
-             
+          <div
+            className="custom-appointment-row"
+            key={`${list.id}-${index}-${row}`}
+            style={style}
+          >
+            {/* <th className="thead-sticky name-col custom-appointment-col"> */}
+
+            <div
+              className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
+              style={{
+                backgroundColor:
+                  list.canstitution && list.canstitution.attributes
+                    ? list.canstitution.attributes.includes(
+                        CareInstInActiveAttrId
+                      )
+                      ? deactivatedListColor
+                      : list.canstitution.attributes.includes(
+                          CareInstTIMyoCYAttrId
+                        )
+                      ? leasingListColor
+                      : list.canstitution.attributes.includes(
+                          CareInstPlycocoAttrId
+                        )
+                      ? selfEmployesListColor
+                      : ""
+                    : ""
+              }}
+              // onClick={() =>
+              //   history.push(
+              //     AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
+              //   )
+              // }
+              title={list.name}
+              // className="text-capitalize view-more-link one-line-text username-col name-text"
+              id={`careinst-${list.id}`}
+            >
+              <Link
+                to={AppRoutes.CARE_INSTITUION_VIEW.replace(":id", list.id)}
+                target="_blank"
+                className="text-body"
+              >
+                {row === 0 ? list.name : null}
+              </Link>
+            </div>
+            <div className="h-col custom-appointment-col text-center"></div>
+            <div
+              className="s-col custom-appointment-col text-center cursor-pointer"
+              onClick={() => handleFirstStarCanstitution(list, index)}
+            >
+              {starCanstitution.setIndex === index ||
+              starCanstitution.isStar ? (
+                <i className="fa fa-star theme-text" />
+              ) : (
+                <i className="fa fa-star-o" />
+              )}
+            </div>
+            <div
+              className="u-col custom-appointment-col text-center cursor-pointer"
+              onClick={() => onhandleSecondStarCanstitution(list)}
+            >
+              {secondStarCanstitution && secondStarCanstitution.isStar ? (
+                <i className="fa fa-star theme-text" />
+              ) : (
+                <i className="fa fa-star-o" />
+              )}
+            </div>
+            <div
+              className="v-col custom-appointment-col text-center cursor-pointer"
+              onClick={e => onAddingRow(e, "careinstitution", index)}
+            >
+              <i className="fa fa-arrow-down" />
+            </div>
+
             {/* </th> */}
 
             {/* map */}
@@ -548,6 +551,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       if (list && list.item && list.item.qualificationId) {
         let qualificationId = list.item.qualificationId;
         qualificationId.map((key: any, i: number) => {
+          if(key && key.value){
           if (
             sortedQualificationList.findIndex(
               (item: any) => item && item === key.value
@@ -558,12 +562,26 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
               key.value
             ]);
           }
+        }
         });
       }
     });
   }
-console.log("careInstituionDeptData",careInstituionDeptData);
-
+  console.log("careInstituionDeptData", careInstituionDeptData);
+  let widthForMonth: number = 1538;
+  if (daysArr && daysArr.length) {
+    if (daysArr.length === 30) {
+      widthForMonth = 1538;
+    } else if (daysArr.length === 31) {
+      widthForMonth = 1578;
+    } else if (daysArr.length === 29) {
+      widthForMonth = 1498;
+    } else if (daysArr.length === 28) {
+      widthForMonth = 1458;
+    } else {
+      widthForMonth = 1538;
+    }
+  }
   return (
     <>
       <div
@@ -709,7 +727,7 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                 onClick={() => {
                   handleCareGiverBulkEmail("day", true);
                   handleCareInstitutionBulkEmail();
-                  updateCareInstitutionStatus('offered');
+                  updateCareInstitutionStatus("offered");
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
@@ -734,7 +752,7 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                 onClick={() => {
                   handleCareGiverBulkEmail("division", false);
                   handleCareInstitutionBulkEmail();
-                  updateCareInstitutionStatus('offered');
+                  updateCareInstitutionStatus("offered");
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
@@ -759,7 +777,7 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                 onClick={() => {
                   handleCareGiverBulkEmail("day", false);
                   handleCareInstitutionBulkEmail();
-                  updateCareInstitutionStatus('offered');
+                  updateCareInstitutionStatus("offered");
                   // setOnOfferedCareInst();
                   handleRightMenuToggle();
                 }}
@@ -1029,34 +1047,34 @@ console.log("careInstituionDeptData",careInstituionDeptData);
           // id={"scrollableDiv-2"}
         >
           <div className="custom-appointment-calendar">
-          <div className="custom-appointment-calendar-head">
-          <div className="custom-appointment-row ">
-                  {/* <div className="all-star-wrap"> */}
-                      <div className="custom-appointment-col name-col">
-                    <div className="position-relative  username-col align-self-center">
-                        {languageTranslation("MENU_INSTITUTION")}
-                      <Button
-                        onClick={() => handleRightMenuToggle()}
-                        className="btn-more d-flex align-items-center justify-content-center"
-                      >
-                        <i className="icon-options-vertical" />
-                      </Button>
-                      </div>
-                    </div>
+            <div className="custom-appointment-calendar-head">
+              <div className="custom-appointment-row ">
+                {/* <div className="all-star-wrap"> */}
+                <div className="custom-appointment-col name-col">
+                  <div className="position-relative  username-col align-self-center">
+                    {languageTranslation("MENU_INSTITUTION")}
+                    <Button
+                      onClick={() => handleRightMenuToggle()}
+                      className="btn-more d-flex align-items-center justify-content-center"
+                    >
+                      <i className="icon-options-vertical" />
+                    </Button>
+                  </div>
+                </div>
 
-                    <div className=" h-col custom-appointment-col text-center">
-                      H
-                    </div>
-                    <div className=" s-col custom-appointment-col text-center">
-                      S
-                    </div>
-                    <div className=" u-col custom-appointment-col text-center">
-                      A
-                    </div>
-                    <div className=" v-col custom-appointment-col text-center">
-                      V
-                    </div>
-                 
+                <div className=" h-col custom-appointment-col text-center">
+                  H
+                </div>
+                <div className=" s-col custom-appointment-col text-center">
+                  S
+                </div>
+                <div className=" u-col custom-appointment-col text-center">
+                  A
+                </div>
+                <div className=" v-col custom-appointment-col text-center">
+                  V
+                </div>
+
                 {/* array for showing day */}
                 {daysArr.map(
                   (
@@ -1065,17 +1083,13 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                   ) => {
                     const isTodayDate = moment(dateString).isSame(
                       moment(),
-                      'day'
-                    )
+                      "day"
+                    );
                     return (
                       <div
                         key={index}
                         className={`custom-appointment-col calender-col text-center ${
-                          isTodayDate
-                            ? "today"
-                            : isWeekend
-                            ? "weekend"
-                            : ""
+                          isTodayDate ? "today" : isWeekend ? "weekend" : ""
                         }`}
                       >
                         <div className="custom-appointment-calendar-date">
@@ -1092,10 +1106,8 @@ console.log("careInstituionDeptData",careInstituionDeptData);
             </div>
             <div className="custom-appointment-calendar-body">
               {loading || (starCanstitution.isStar && deptLoading) ? (
-                <div>
-                  <div className={"table-loader"} >
-                    <Loader />
-                  </div>
+                <div className={"appointment-loader"}>
+                  <Loader />
                 </div>
               ) : (
                 <SelectableGroup
@@ -1114,10 +1126,10 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                   ]}
                 >
                   <InfiniteLoader
-                    loadMoreRows={({ startIndex, stopIndex }) => 
-                    loadMoreRows({ startIndex, stopIndex }) as any
-                  }
-                 isRowLoaded={({ index }) => !!careInstitutionList[index]}
+                    loadMoreRows={({ startIndex, stopIndex }) =>
+                      loadMoreRows({ startIndex, stopIndex }) as any
+                    }
+                    isRowLoaded={({ index }) => !!careInstitutionList[index]}
                     // isRowLoaded={() => false}
                     rowCount={totalCareinstituion}
                   >
@@ -1127,35 +1139,31 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                           <List
                             ref={registerChild}
                             height={200}
-                            onRowsRendered={onRowsRendered }
+                            onRowsRendered={onRowsRendered}
                             rowCount={careInstitutionList.length}
                             rowHeight={30}
-                            width={1538}
+                            width={widthForMonth}
                             rowRenderer={({ index, key, style }) => {
                               // Condition to manage careinstitution list & department list
-                             let list= !starCanstitution.isStar
-                              ? careInstitutionList[index] || {}
-                              : secondStarCanstitution.isStar
-                              ? careInstituionDeptData &&
-                                careInstituionDeptData.length
-                                ? careInstituionDeptData.filter(
-                                    (dept: any) =>
-                                      dept.id === secondStarCanstitution.id
-                                  )[index]
-                                : null
-                              : careInstituionDeptData[index]
-                              
+                              let list = !starCanstitution.isStar
+                                ? careInstitutionList[index] || {}
+                                : secondStarCanstitution.isStar
+                                ? careInstituionDeptData &&
+                                  careInstituionDeptData.length
+                                  ? careInstituionDeptData.filter(
+                                      (dept: any) =>
+                                        dept.id === secondStarCanstitution.id
+                                    )[index]
+                                  : null
+                                : careInstituionDeptData[index];
+
                               // select careInstitution if no department is available
-                              if (starCanstitution.isStar && !list ) {
-                                   list = careInstitutionList.filter(
-                                     (item: any) => item.id === starCanstitution.id
-                                     )[index];
-                                }
-                              return renderTableRows(
-                                list,
-                                index,
-                                style,
-                              );
+                              if (starCanstitution.isStar && !list) {
+                                list = careInstitutionList.filter(
+                                  (item: any) => item.id === starCanstitution.id
+                                )[index];
+                              }
+                              return renderTableRows(list, index, style);
                             }}
                           />
                         )}
@@ -1165,7 +1173,7 @@ console.log("careInstituionDeptData",careInstituionDeptData);
                 </SelectableGroup>
               )}
             </div>
-        </div>
+          </div>
         </div>
         {/* </InfiniteScroll> */}
       </div>
@@ -1193,8 +1201,8 @@ console.log("careInstituionDeptData",careInstituionDeptData);
             ? sortedQualificationList
             : props.qualification
         }
-        offerCareGiver={true}// offer caregiver
-        handleClose={() => handleCareGiverBulkEmail('', false)}
+        offerCareGiver={true} // offer caregiver
+        handleClose={() => handleCareGiverBulkEmail("", false)}
         selectedCells={selectedCells}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
         gte={props.gte}

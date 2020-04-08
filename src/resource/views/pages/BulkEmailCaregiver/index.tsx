@@ -1579,7 +1579,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           status: 'leasingContract'
         }
       })
-      updateLinkedStatus('contractInitiated')
+      // updateLinkedStatus('contractInitiated')
     }
   }, [leasingContactPdfData]);
 
@@ -1613,7 +1613,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           status: 'terminateAgreement'
         }
       });
-      updateLinkedStatus('contractcancelled')
+      // updateLinkedStatus('contractcancelled')
 
     }
   }, [terminationAgreementPdfData]);
@@ -1872,10 +1872,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   >
                     {({ blob, url, loading, error }: any) =>
-                     {
-                      console.log(url, blob,'in rendering');
-                       
-                      !loading ? setLeasingContactPdfData(blob) : null}
+                      !loading ? setLeasingContactPdfData(blob) : null
                     }
                   </PDFDownloadLink>
                 ) : null}

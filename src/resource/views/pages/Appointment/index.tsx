@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState, Suspense } from "react";
+import { useLocation } from "react-router";
 import { Col, Row, Button } from "reactstrap";
 import moment from "moment";
 import { toast } from "react-toastify";
@@ -11,9 +12,6 @@ import {
   timeDiffernce,
   errorFormatter,
 } from "../../../../helpers";
-import AppointmentNav from "./AppointmentNav";
-import CaregiverListView from "./Caregiver/CaregiverListView";
-import CarinstituionListView from "./Careinstituion/CareinstituionListView";
 import {
   NightAllowancePerHour,
   CaregiverTIMyoCYAttrId,
@@ -34,8 +32,6 @@ import {
   IReactSelectTimeInterface,
   ICareinstitutionFormSubmitValue,
   IStarInterface,
-  IAttributeValues,
-  IAttributeOptions,
   IUnlinkAppointmentInput,
   IlinkAppointmentInput,
   IunlinkResponse,
@@ -46,17 +42,19 @@ import {
   CareInstitutionQueries,
   CareGiverQueries,
 } from "../../../../graphql/queries";
-import CaregiverFormView from "./Caregiver/CaregiverForm";
-import CareinstitutionFormView from "./Careinstituion/CareinstitutionForm";
+import { AppointmentMutations } from "../../../../graphql/Mutations";
 import {
   CareGiverValidationSchema,
   CareInstitutionValidationSchema,
 } from "../../../validations/AppointmentsFormValidationSchema";
-import { AppointmentMutations } from "../../../../graphql/Mutations";
 import { dbAcceptableFormat } from "../../../../config";
 import { ConfirmBox } from "../../components/ConfirmBox";
-import UnlinkAppointment from "./unlinkModal";
-import { useLocation } from "react-router";
+import AppointmentNav from "./AppointmentNav";
+import CaregiverListView from "./Caregiver/CaregiverListView";
+import CarinstituionListView from "./Careinstituion/CareinstituionListView";
+import CaregiverFormView from "./Caregiver/CaregiverForm";
+import CareinstitutionFormView from "./Careinstituion/CareinstitutionForm";
+// import UnlinkAppointment from "./unlinkModal";
 // import BulkEmailCareGiverModal from "./BulkEmailCareGiver";
 // import BulkEmailCareInstitutionModal from "./BulkEmailCareInstitution";
 import "./index.scss";
@@ -3390,7 +3388,16 @@ const Appointment: FunctionComponent = (props: any) => {
       />
       </Suspense> 
   }
-
+  if (showUnlinkModal) {
+    const UnlinkAppointment = React.lazy(() => import('./unlinkModal'));
+    return <Suspense fallback={null}>
+      <UnlinkAppointment
+        show={showUnlinkModal}
+        handleClose={() => setshowUnlinkModal(false)}
+        handleUnlinkData={handleUnlinkData}
+      />
+      </Suspense> 
+  }
   return (
     <>
       <div className="common-detail-page">
@@ -3672,11 +3679,11 @@ const Appointment: FunctionComponent = (props: any) => {
         </div>
       </div>
 
-      <UnlinkAppointment
+      {/* <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
-      />
+      /> */}
       {/* <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() =>

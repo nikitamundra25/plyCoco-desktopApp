@@ -1,19 +1,21 @@
 import React, { FunctionComponent, useState, Suspense, lazy } from 'react';
 import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
-import '../index.scss';
+import { SelectableGroup } from 'react-selectable-fast';
+import moment from 'moment';
+import classnames from 'classnames';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useHistory } from 'react-router';
+import { InfiniteLoader, AutoSizer, List } from 'react-virtualized';
 import {
   IAppointmentCareInstitutionList,
   IDaysArray,
   IReactSelectInterface,
 } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
-import { SelectableGroup } from 'react-selectable-fast';
 import CellCareinstitution from './Cell';
-import moment from 'moment';
-// import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
 import {
   dbAcceptableFormat,
-  appointmentDateFormat,
   AppRoutes,
   CareInstTIMyoCYAttrId,
   CareInstPlycocoAttrId,
@@ -33,25 +35,15 @@ import confirm_appointment from '../../../../assets/img/dropdown/confirm_appoint
 import set_confirm from '../../../../assets/img/dropdown/confirm.svg';
 import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
 import invoice from '../../../../assets/img/dropdown/invoice.svg';
-import refresh from '../../../../assets/img/refresh.svg';
-import classnames from 'classnames';
 import { languageTranslation } from '../../../../../helpers';
-// const BulkEmailCareGiverModal = React.lazy(() => import('../BulkEmailCareGiver'));
-// import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
-import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
-import { toast } from 'react-toastify';
-import { useHistory } from 'react-router';
-// import UnlinkAppointment from '../unlinkModal';
-import { Link } from 'react-router-dom';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { ConfirmBox } from '../../../components/ConfirmBox';
-import { InfiniteLoader, AutoSizer, List } from 'react-virtualized';
+import '../index.scss';
 
 let toastId: any = null;
+
 const CarinstituionListView: FunctionComponent<
   IAppointmentCareInstitutionList & any
 > = (props: IAppointmentCareInstitutionList & any) => {
-  let history = useHistory();
   const {
     daysData,
     careInstitutionList,
@@ -660,7 +652,6 @@ const CarinstituionListView: FunctionComponent<
         temp.push({ ...element, new: item, row })
       });
     });
-  
     if (openCareGiverBulkEmail) {
       const BulkEmailCareGiverModal = React.lazy(() => import('../BulkEmailCareGiver'));
       return <Suspense fallback={null}>
@@ -1282,23 +1273,6 @@ const CarinstituionListView: FunctionComponent<
                             rowRenderer={({ index, key, style }) => {
                               // Condition to manage careinstitution list & department list
                               let list = temp[index];
-                              // !starCanstitution.isStar
-                              //   ? temp[index] || {}
-                              //   : secondStarCanstitution.isStar
-                              //     ? careInstituionDeptData &&
-                              //       careInstituionDeptData.length
-                              //       ? careInstituionDeptData.filter(
-                              //         (dept: any) =>
-                              //           dept.id === secondStarCanstitution.id
-                              //       )[index]
-                              //       : null
-                              //     : temp[index] || {};
-                              // select careInstitution if no department is available
-                              // if (starCanstitution.isStar && !list) {
-                              //   list = careInstitutionList.filter(
-                              //     (item: any) => item.id === starCanstitution.id
-                              //   )[index];
-                              // }
                               return renderTableRows(list, index, style);
                             }}
                           />
@@ -1311,57 +1285,7 @@ const CarinstituionListView: FunctionComponent<
             </div>
           </div>
         </div>
-        {/* </InfiniteScroll> */}
       </div>
-      {/* <BulkEmailCareInstitutionModal
-        openModal={openCareInstitutionBulkEmail}
-        handleClose={() => handleCareInstitutionBulkEmail()}
-        qualification={
-          sortedQualificationList && sortedQualificationList.length
-            ? sortedQualificationList
-            : props.qualification
-        }
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        gte={props.gte}
-        lte={props.lte}
-        statusTo={StatusTo}
-        sortBy={sortBy}
-        unlinkedBy={unlinkedBy}
-        isFromUnlink={isFromUnlink}
-        confirmAppointment={confirmAppointment}
-      /> */}
-      {/* <Suspense fallback={null}>
-      <BulkEmailCareGiverModal
-        openModal={openCareGiverBulkEmail}
-        qualification={
-          sortedQualificationList && sortedQualificationList.length
-            ? sortedQualificationList
-            : props.qualification
-        }
-        offerCareGiver={true} // offer caregiver
-        handleClose={() => handleCareGiverBulkEmail('', false)}
-        selectedCells={selectedCells}
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        gte={props.gte}
-        lte={props.lte}
-        sortBy={sortBy}
-        showButton={showButton}
-        unlinkedBy={unlinkedBy}
-      />
-      </Suspense>
-       */}
-      {/* <DetaillistCareinstitutionPopup
-        show={showList ? true : false}
-        handleClose={() => setShowList(false)}
-        qualificationList={qualificationList}
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        fetchCareinstitutionList={fetchCareinstitutionList}
-      /> */}
-      {/* <UnlinkAppointment
-        show={showUnlinkModal}
-        handleClose={() => setshowUnlinkModal(false)}
-        handleUnlinkData={handleUnlinkData}
-      /> */}
     </>
   );
 };

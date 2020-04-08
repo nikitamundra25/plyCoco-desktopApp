@@ -257,7 +257,13 @@ const Appointment: FunctionComponent = (props: any) => {
     onCompleted() {
       setPage(1);
       fetchingCareGiverData();
-    },
+      toast.dismiss();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
+        );
+      }
+    }
   });
 
   // Mutation to update careGiver data
@@ -2233,11 +2239,11 @@ const Appointment: FunctionComponent = (props: any) => {
               });
               setMultipleAvailability(false);
               toast.dismiss();
-              if (!toast.isActive(toastId)) {
-                toastId = toast.success(
-                  languageTranslation("CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG")
-                );
-              }
+              // if (!toast.isActive(toastId)) {
+              //   toastId = toast.success(
+              //     languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
+              //   );
+              // }
             }
           });
           if (!appointmentId) {
@@ -2575,12 +2581,12 @@ const Appointment: FunctionComponent = (props: any) => {
             careGiverAvabilityInput: careGiverAvabilityInput,
           },
         });
-        if (!toast.isActive(toastId)) {
-          toast.dismiss();
-          toastId = toast.success(
-            languageTranslation("CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG")
-          );
-        }
+        // if (!toast.isActive(toastId)) {
+        //   toast.dismiss();
+        //   toastId = toast.success(
+        //     languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
+        //   );
+        // }
       }
     }
   };

@@ -197,6 +197,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       selectedCells &&
       selectedCells.length
     ) {
+      if (selectedCellsCareinstitution.length !== selectedCells.length) {
+        toast.dismiss();
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(languageTranslation("LINK_SAME_LENGTH"));
+        }
+      } else {
       if (
         selectedCells[0].caregiver &&
         selectedCells[0].caregiver.attributes &&
@@ -215,11 +221,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         }
       }
 
-      if (selectedCellsCareinstitution.length !== selectedCells.length) {
-        if (!toast.isActive(toastId)) {
-          toastId = toast.error('Please select same length cells');
-        }
-      } else {
         let qualiCheck: any[] = [];
         selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
@@ -240,6 +241,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               );
             }
             if (qualiCheck && qualiCheck.length <= 0) {
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
                   languageTranslation('QUALIFICATION_UNMATCH')
@@ -253,17 +255,19 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               moment(element.dateString).format(dbAcceptableFormat)
             ) {
               checkError = true;
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
-                  'Date range between appointments & requirement mismatch.'
+                  languageTranslation("DATE_RANGE_MISMATCH")
                 );
               }
               return false;
             } else if (key.item === undefined || element.item === undefined) {
               checkError = true;
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
-                  'Create requirement or appointment first for all selected cells.'
+                  languageTranslation("LINK_ERROR")
                 );
               }
               return false;
@@ -292,6 +296,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         if (!checkError) {
           onLinkAppointment(selectedData, name);
         }
+      
       }
     }
   };

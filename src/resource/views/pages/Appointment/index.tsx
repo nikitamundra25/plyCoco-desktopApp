@@ -1676,8 +1676,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 },
               },
             });
-            // updateLinkedStatus(name);
-
+             updateLinkedStatus(name);
             if (!toast.isActive(toastId)) {
               if (name === "confirmed") {
                 toastId = toast.success(

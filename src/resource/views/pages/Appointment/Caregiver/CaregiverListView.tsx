@@ -737,7 +737,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         </Nav>
       </div>
       <div className="position-relative">
-        <div className="calender-section" id="getheight">
+        <div 
+        className={`calender-section ${loading ? "loader-height" : "" }`}
+         id="getheight">
           <div className="custom-appointment-calendar">
             <div className="custom-appointment-calendar-head">
               <div className="custom-appointment-row ">

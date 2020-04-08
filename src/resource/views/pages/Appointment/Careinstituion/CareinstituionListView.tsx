@@ -1047,7 +1047,8 @@ const CarinstituionListView: FunctionComponent<
       </div>
       <div className="position-relative">
         <div
-          className="calender-section mt-3 careinstitution-appointment-list"
+        className={`calender-section mt-3 careinstitution-appointment-list ${loading ? "loader-height" : "" }`}
+        
           id={"getcheight"}
         >
           <div className="custom-appointment-calendar">

@@ -466,6 +466,9 @@ body {
   font-family: $font_open_sans;
   background: $white;
   min-height: calc(50vh - 75px);
+  &.loader-height{
+    height: calc(50vh - 75px);
+  }
   .custom-appointment-calendar-body {
     width: 100%;
   }

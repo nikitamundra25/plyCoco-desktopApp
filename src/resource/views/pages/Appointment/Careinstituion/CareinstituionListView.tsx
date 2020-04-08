@@ -1,19 +1,21 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, Suspense, lazy } from "react";
 import { Table, Button, Nav, NavItem, NavLink } from "reactstrap";
-import "../index.scss";
+import { SelectableGroup } from "react-selectable-fast";
+import moment from "moment";
+import classnames from "classnames";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router";
+import { InfiniteLoader, AutoSizer, List } from "react-virtualized";
 import {
   IAppointmentCareInstitutionList,
   IDaysArray,
   IReactSelectInterface,
 } from "../../../../../interfaces";
 import Loader from "../../../containers/Loader/Loader";
-import { SelectableGroup } from "react-selectable-fast";
 import CellCareinstitution from "./Cell";
-import moment from "moment";
-import DetaillistCareinstitutionPopup from "../DetailedList/DetailListCareinstitution";
 import {
   dbAcceptableFormat,
-  appointmentDateFormat,
   AppRoutes,
   CareInstTIMyoCYAttrId,
   CareInstPlycocoAttrId,
@@ -33,24 +35,15 @@ import confirm_appointment from "../../../../assets/img/dropdown/confirm_appoint
 import set_confirm from "../../../../assets/img/dropdown/confirm.svg";
 import unset_confirm from "../../../../assets/img/dropdown/not_confirm.svg";
 import invoice from "../../../../assets/img/dropdown/invoice.svg";
-import refresh from "../../../../assets/img/refresh.svg";
-import classnames from "classnames";
 import { languageTranslation } from "../../../../../helpers";
-import BulkEmailCareGiverModal from "../BulkEmailCareGiver";
-import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router";
-import UnlinkAppointment from "../unlinkModal";
-import { Link } from "react-router-dom";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { ConfirmBox } from "../../../components/ConfirmBox";
-import { InfiniteLoader, AutoSizer, List } from "react-virtualized";
+import "../index.scss";
 
 let toastId: any = null;
+
 const CarinstituionListView: FunctionComponent<
   IAppointmentCareInstitutionList & any
 > = (props: IAppointmentCareInstitutionList & any) => {
-  let history = useHistory();
   const {
     daysData,
     careInstitutionList,
@@ -145,9 +138,9 @@ const CarinstituionListView: FunctionComponent<
           dateString: day ? day.dateString : "",
           divisions,
           // isLeasing:
-          //   canstitution && canstitution.attributes
-          //     ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
-          //     : false
+          // canstitution && canstitution.attributes
+          // ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
+          // : false
         };
       });
       handleSelection(selectedRows, "careinstitution");
@@ -270,7 +263,7 @@ const CarinstituionListView: FunctionComponent<
   //unLinked by
   const [unlinkedBy, setunlinkedBy] = useState<string>("");
 
-  //  UnLink appointmnets
+  // UnLink appointmnets
   const handleUnLinkAppointments = (name: string) => {
     setshowUnlinkModal(!showUnlinkModal);
   };
@@ -282,12 +275,12 @@ const CarinstituionListView: FunctionComponent<
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
         // let appointId: any = key.item.appointments.filter(
-        //   (appointment: any) => {
-        //     return (
-        //       moment(key.dateString).format(dbAcceptableFormat) ===
-        //       moment(appointment.date).format(dbAcceptableFormat)
-        //     );
-        //   }
+        // (appointment: any) => {
+        // return (
+        // moment(key.dateString).format(dbAcceptableFormat) ===
+        // moment(appointment.date).format(dbAcceptableFormat)
+        // );
+        // }
         // );
         return appointmentId.push({
           appointmentId: parseInt(
@@ -361,9 +354,9 @@ const CarinstituionListView: FunctionComponent<
   const renderTableRows = (list: any, index: any, style: any) => {
     // select careInstitution if no department is available
     // if (starCanstitution.isStar && !list ) {
-    //   list = careInstitutionList.filter(
-    //     (item: any) => item.id === starCanstitution.id
-    //   )[0];
+    // list = careInstitutionList.filter(
+    // (item: any) => item.id === starCanstitution.id
+    // )[0];
     // }
     let item = list.new;
     let row = list.row;
@@ -387,12 +380,12 @@ const CarinstituionListView: FunctionComponent<
     }
 
     // let temp: any[] = [];
-    //  if (listData && listData.length) {
-    //   listData.forEach((list: any, index: number) => {
+    // if (listData && listData.length) {
+    // listData.forEach((list: any, index: number) => {
     // if (list && list.availabilityData && list.availabilityData.length) {
-    //   list.availabilityData.map((item: any, row: number) =>
+    // list.availabilityData.map((item: any, row: number) =>
 
-    //     temp.push(
+    // temp.push(
     return (
       <div
         className="custom-appointment-row"
@@ -416,9 +409,9 @@ const CarinstituionListView: FunctionComponent<
                 : "",
           }}
           // onClick={() =>
-          //   history.push(
-          //     AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
-          //   )
+          // history.push(
+          // AppRoutes.CARE_INSTITUION_VIEW.replace(':id', list.id)
+          // )
           // }
           title={list.name}
           // className="text-capitalize view-more-link one-line-text username-col name-text"
@@ -493,18 +486,18 @@ const CarinstituionListView: FunctionComponent<
     // }
     // });
     // } else {
-    //   temp.push(
-    //     <tr className={'text-center no-hover-row'}>
-    //       <td colSpan={40} className={'pt-5 pb-5'}>
-    //         <div className='no-data-section'>
-    //           <div className='no-data-icon'>
-    //             <i className='icon-ban' />
-    //           </div>
-    //           <h4 className='mb-1'>{'No Data found with related search'}</h4>
-    //         </div>
-    //       </td>
-    //     </tr>
-    //   );
+    // temp.push(
+    // <tr className={'text-center no-hover-row'}>
+    // <td colSpan={40} className={'pt-5 pb-5'}>
+    // <div className='no-data-section'>
+    // <div className='no-data-icon'>
+    // <i className='icon-ban' />
+    // </div>
+    // <h4 className='mb-1'>{'No Data found with related search'}</h4>
+    // </div>
+    // </td>
+    // </tr>
+    // );
     // }
     return temp /* firstStarData */;
   };
@@ -665,6 +658,88 @@ const CarinstituionListView: FunctionComponent<
     });
   });
 
+  if (openCareGiverBulkEmail) {
+    const BulkEmailCareGiverModal = React.lazy(() =>
+      import("../BulkEmailCareGiver")
+    );
+    return (
+      <Suspense fallback={null}>
+        <BulkEmailCareGiverModal
+          openModal={openCareGiverBulkEmail}
+          qualification={
+            sortedQualificationList && sortedQualificationList.length
+              ? sortedQualificationList
+              : props.qualification
+          }
+          offerCareGiver={true} // offer caregiver
+          handleClose={() => handleCareGiverBulkEmail("", false)}
+          selectedCells={selectedCells}
+          selectedCellsCareinstitution={selectedCellsCareinstitution}
+          gte={props.gte}
+          lte={props.lte}
+          sortBy={sortBy}
+          showButton={showButton}
+          unlinkedBy={unlinkedBy}
+        />
+      </Suspense>
+    );
+  }
+  if (openCareInstitutionBulkEmail) {
+    const BulkEmailCareInstitutionModal = lazy(() =>
+      import("../BulkEmailCareInstitution")
+    );
+    return (
+      <Suspense fallback={null}>
+        <BulkEmailCareInstitutionModal
+          openModal={openCareInstitutionBulkEmail}
+          handleClose={() => handleCareInstitutionBulkEmail()}
+          qualification={
+            sortedQualificationList && sortedQualificationList.length
+              ? sortedQualificationList
+              : props.qualification
+          }
+          selectedCellsCareinstitution={selectedCellsCareinstitution}
+          gte={props.gte}
+          lte={props.lte}
+          statusTo={StatusTo}
+          sortBy={sortBy}
+          unlinkedBy={unlinkedBy}
+          isFromUnlink={isFromUnlink}
+          confirmAppointment={confirmAppointment}
+        />
+      </Suspense>
+    );
+  }
+  if (showList) {
+    const DetaillistCareinstitutionPopup = lazy(() =>
+      import("../DetailedList/DetailListCareinstitution")
+    );
+    return (
+      <Suspense fallback={null}>
+        <DetaillistCareinstitutionPopup
+          show={showList ? true : false}
+          handleClose={() => setShowList(false)}
+          qualificationList={qualificationList}
+          selectedCellsCareinstitution={selectedCellsCareinstitution}
+          fetchCareinstitutionList={fetchCareinstitutionList}
+        />
+      </Suspense>
+    );
+  }
+  if (showUnlinkModal) {
+    const UnlinkAppointment = lazy(() => import("../unlinkModal"));
+
+    return (
+      <Suspense fallback={null}>
+        <UnlinkAppointment
+          show={showUnlinkModal}
+          handleClose={() => setshowUnlinkModal(false)}
+          handleUnlinkData={handleUnlinkData}
+        />
+      </Suspense>
+    );
+  }
+
   return (
     <>
       <div
@@ -724,12 +799,12 @@ const CarinstituionListView: FunctionComponent<
                     : true
                 }
                 // disabled={
-                //   (selectedCellsCareinstitution &&
-                //     selectedCellsCareinstitution.length &&
-                //     selectedCellsCareinstitution[0].id === '') ||
-                //   (emailOptionCond && emailOptionCond.length !== 0)
-                //     ? 'disabled-class'
-                //     : ''
+                // (selectedCellsCareinstitution &&
+                // selectedCellsCareinstitution.length &&
+                // selectedCellsCareinstitution[0].id === '') ||
+                // (emailOptionCond && emailOptionCond.length !== 0)
+                // ? 'disabled-class'
+                // : ''
                 // }
                 onClick={() => {
                   handleRightMenuToggle();
@@ -1111,13 +1186,13 @@ const CarinstituionListView: FunctionComponent<
                 <span>{languageTranslation("CREATE_PAYMENT")}</span>
               </NavLink>
             </NavItem>
-            {/*  <NavItem className='bordernav' />
-            <NavItem>
-              <NavLink>
-                <img src={refresh} className='mr-2' alt='' />
-                <span>Refresh </span>
-              </NavLink>
-            </NavItem> */}
+            {/* <NavItem className='bordernav' />
+ <NavItem>
+ <NavLink>
+ <img src={refresh} className='mr-2' alt='' />
+ <span>Refresh </span>
+ </NavLink>
+ </NavItem> */}
           </Nav>
         </div>
       </div>
@@ -1133,7 +1208,7 @@ const CarinstituionListView: FunctionComponent<
               <div className="custom-appointment-row ">
                 {/* <div className="all-star-wrap"> */}
                 <div className="custom-appointment-col name-col">
-                  <div className="position-relative  username-col align-self-center">
+                  <div className="position-relative username-col align-self-center">
                     {languageTranslation("MENU_INSTITUTION")}
                     <Button
                       onClick={() => handleRightMenuToggle()}
@@ -1228,23 +1303,6 @@ const CarinstituionListView: FunctionComponent<
                             rowRenderer={({ index, key, style }) => {
                               // Condition to manage careinstitution list & department list
                               let list = temp[index];
-                              // !starCanstitution.isStar
-                              //   ? temp[index] || {}
-                              //   : secondStarCanstitution.isStar
-                              //     ? careInstituionDeptData &&
-                              //       careInstituionDeptData.length
-                              //       ? careInstituionDeptData.filter(
-                              //         (dept: any) =>
-                              //           dept.id === secondStarCanstitution.id
-                              //       )[index]
-                              //       : null
-                              //     : temp[index] || {};
-                              // select careInstitution if no department is available
-                              // if (starCanstitution.isStar && !list) {
-                              //   list = careInstitutionList.filter(
-                              //     (item: any) => item.id === starCanstitution.id
-                              //   )[index];
-                              // }
                               return renderTableRows(list, index, style);
                             }}
                           />
@@ -1257,54 +1315,7 @@ const CarinstituionListView: FunctionComponent<
             </div>
           </div>
         </div>
-        {/* </InfiniteScroll> */}
       </div>
-      <BulkEmailCareInstitutionModal
-        openModal={openCareInstitutionBulkEmail}
-        handleClose={() => handleCareInstitutionBulkEmail()}
-        qualification={
-          sortedQualificationList && sortedQualificationList.length
-            ? sortedQualificationList
-            : props.qualification
-        }
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        gte={props.gte}
-        lte={props.lte}
-        statusTo={StatusTo}
-        sortBy={sortBy}
-        unlinkedBy={unlinkedBy}
-        isFromUnlink={isFromUnlink}
-        confirmAppointment={confirmAppointment}
-      />
-      <BulkEmailCareGiverModal
-        openModal={openCareGiverBulkEmail}
-        qualification={
-          sortedQualificationList && sortedQualificationList.length
-            ? sortedQualificationList
-            : props.qualification
-        }
-        offerCareGiver={true} // offer caregiver
-        handleClose={() => handleCareGiverBulkEmail("", false)}
-        selectedCells={selectedCells}
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        gte={props.gte}
-        lte={props.lte}
-        sortBy={sortBy}
-        showButton={showButton}
-        unlinkedBy={unlinkedBy}
-      />
-      <DetaillistCareinstitutionPopup
-        show={showList ? true : false}
-        handleClose={() => setShowList(false)}
-        qualificationList={qualificationList}
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        fetchCareinstitutionList={fetchCareinstitutionList}
-      />
-      <UnlinkAppointment
-        show={showUnlinkModal}
-        handleClose={() => setshowUnlinkModal(false)}
-        handleUnlinkData={handleUnlinkData}
-      />
     </>
   );
 };

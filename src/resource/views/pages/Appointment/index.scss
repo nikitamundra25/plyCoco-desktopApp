@@ -345,6 +345,23 @@
       }
     }
   }
+  .unlink-btn-wrap {
+    @media only screen and (max-width: 580px) {
+      padding: 0px;
+    }
+    .unlink-btn-block {
+      justify-content: space-between;
+        flex-wrap: wrap;
+        @media only screen and (max-width: 580px) {
+          justify-content:center;
+        }
+    }
+    button {
+      @media only screen and (max-width: 580px) {
+        margin: 7px;
+      }
+    }
+  }
 }
 body {
   .calender-section {

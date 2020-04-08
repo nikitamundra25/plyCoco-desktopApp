@@ -2909,8 +2909,7 @@ const Appointment: FunctionComponent = (props: any) => {
     id: selectedCaregiverId = "",
     dateString = "",
     caregiver = undefined,
-    item = undefined,
-    qualificationIds: {qualificationId} = []
+    item = undefined
   } =
     selectedCells &&
     // to check multiple cells are free or reserve or you've clicked on new appointment to reflect the form

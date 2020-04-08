@@ -1870,7 +1870,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   >
                     {({ blob, url, loading, error }: any) =>
-                      !loading ? setLeasingContactPdfData(blob) : null
+                     {
+                      console.log(url, blob,'in rendering');
+                       
+                      !loading ? setLeasingContactPdfData(blob) : null}
                     }
                   </PDFDownloadLink>
                 ) : null}

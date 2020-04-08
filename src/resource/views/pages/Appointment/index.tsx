@@ -1063,7 +1063,7 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
         ? selectedCellsData[0]
         : {};
-
+    
     const checkCondition: boolean =
       item && item.appointments && item.appointments.length;
 
@@ -1505,6 +1505,7 @@ const Appointment: FunctionComponent = (props: any) => {
       | IReactSelectTimeInterface[]
       | undefined = [];
     let values = updateCanstitutionFormikValues;
+    
     let startTime: string = "";
     let endTime: string = "";
     const {
@@ -1517,13 +1518,12 @@ const Appointment: FunctionComponent = (props: any) => {
       qualificationIds = [],
       dateString = "",
     } =
-      selectedCellsCareinstitution &&
-      selectedCellsCareinstitution.length &&
-      selectedCellsCareinstitution[0]
-        ? selectedCellsCareinstitution[0]
-        : {};
-
-    if (deptId && (updateCanstitutionFormikValues || !item)) {
+    selectedCellsCareinstitution &&
+    selectedCellsCareinstitution.length &&
+    selectedCellsCareinstitution[0]
+    ? selectedCellsCareinstitution[0]
+    : {};
+    if (deptId && (updateCanstitutionFormikValues || !(item && item.id))) {
       if (departmentList && departmentList.getDivision.length) {
         const { getDivision } = departmentList;
         departmentData = getDivision.filter(
@@ -1573,9 +1573,9 @@ const Appointment: FunctionComponent = (props: any) => {
                 careInstitutionTimesOptions &&
                 careInstitutionTimesOptions.length
                   ? careInstitutionTimesOptions[0]
-                  : values.shift,
-              startTime: startTime ? startTime : values.startTime,
-              endTime: endTime ? endTime : values.endTime,
+                  : values ? values.shift : '',
+              startTime: startTime ? startTime : values ? values.startTime : '',
+              endTime: endTime ? endTime : values ? values.endTime : '',
             },
           },
         ];
@@ -2059,10 +2059,10 @@ const Appointment: FunctionComponent = (props: any) => {
       let data: any = [];
       data.push(dept);
       // setcareInstituionDeptData(data);
-      setcareInstituionDept({
-        label: dept.name,
-        value: dept.id,
-      });
+      // setcareInstituionDept({
+      //   label: dept.name,
+      //   value: dept.id,
+      // });
     }
   };
 
@@ -2926,9 +2926,10 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
-
+  
   let street: string = canstitution && canstitution.street;
-  let departmentData: any = Item ? Item.department : undefined;
+  let departmentData: any =
+ Item ? Item.department : undefined;
   if (
     careInstitutionDepartment &&
     careInstitutionDepartment.length &&
@@ -2940,7 +2941,7 @@ const Appointment: FunctionComponent = (props: any) => {
       (dept: any) => dept.value === Item.divisionId
     );
   }
-
+  
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : "",
     name:
@@ -2967,7 +2968,7 @@ const Appointment: FunctionComponent = (props: any) => {
     status: Item ? Item.status : "",
     careInstitutionDepartment,
   };
-
+  
   const {
     name = "",
     id = "",

@@ -363,6 +363,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       let item = list.new;
       let row = list.row;
       let uIndex: number = -1;
+      // index of dept in case of solo careInst & dept
       if (
         starCanstitution && secondStarCanstitution &&
         (starCanstitution.isStar || secondStarCanstitution.isStar) &&
@@ -371,6 +372,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       ){
         uIndex = careInstituionDeptData.findIndex(((item: any) => item.id === list.id))  
       }else{
+        // Direct index of care inst
         uIndex = careInstitutionList.findIndex(((item: any) => item.id === list.id))  
       }
 
@@ -636,7 +638,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             dept.id === secondStarCanstitution.id
         )
       : []
-    : careInstituionDeptData
+    : careInstituionDeptData;
+    // To manage case of solo careInst and department selection if no department is there
     if (starCanstitution.isStar && listData && !listData.length) {
       listData = careInstitutionList.filter(
         (item: any) => item.id === starCanstitution.id

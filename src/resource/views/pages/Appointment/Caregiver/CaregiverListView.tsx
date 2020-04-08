@@ -1,11 +1,9 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect, Suspense, lazy } from 'react';
 import { Nav, NavItem, NavLink, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classnames from 'classnames';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import 'react-virtualized/styles.css'; // only needs to be imported once
-
 import { toast } from 'react-toastify';
 import { SelectableGroup } from 'react-selectable-fast';
 import {
@@ -25,7 +23,7 @@ import { languageTranslation } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
 import Cell from './Cell';
 import DetaillistCaregiverPopup from '../DetailedList/DetailListCaregiver';
-import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
+// const BulkEmailCareGiverModal = React.lazy(() => import('../BulkEmailCareGiver'));
 import UnlinkAppointment from '../unlinkModal';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import reserve from '../../../../assets/img/dropdown/block.svg';
@@ -42,7 +40,7 @@ import leasing_contact from '../../../../assets/img/dropdown/leasing.svg';
 import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
 import '../index.scss';
-import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
+// import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import {
   InfiniteLoader,
   Table,
@@ -491,6 +489,51 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       temp.push({ ...element, new: item, row });
     });
   });
+  if (openCareGiverBulkEmail) {
+    const BulkEmailCareGiverModal = lazy(() => import('../BulkEmailCareGiver'));
+    return <Suspense fallback={null}>
+    <BulkEmailCareGiverModal
+      updateLinkedStatus={props.fetchingCareGiverData}
+      openModal={openCareGiverBulkEmail}
+      qualification={
+        sortedQualificationList && sortedQualificationList
+          ? sortedQualificationList
+          : props.qualification
+      }
+      handleClose={handleClose}
+      gte={props.gte}
+      lte={props.lte}
+      selectedCells={selectedCells}
+      confirmApp={confirmApp}
+      selectedCellsCareinstitution={selectedCellsCareinstitution}
+      unlinkedBy={unlinkedBy}
+      isFromUnlink={isFromUnlink}
+      qualificationList={qualificationList}
+      offerRequirements={offerRequirements}
+      terminateAggrement={terminateAggrement}
+      leasingContract={leasingContract}
+    />
+    </Suspense>  
+  }
+  if (openCareInstitutionBulkEmail) {
+    const BulkEmailCareInstitutionModal= lazy(() => import('../BulkEmailCareInstitution'));
+    return <Suspense fallback={null}>
+      <BulkEmailCareInstitutionModal
+        openModal={openCareInstitutionBulkEmail}
+        handleClose={() => handleCareInstitutionBulkEmail()}
+        qualification={
+          sortedQualificationList && sortedQualificationList
+            ? sortedQualificationList
+            : props.qualification
+        }
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        gte={props.gte}
+        lte={props.lte}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
+      />
+      </Suspense>
+  }
   return (
     <div>
       <div
@@ -1046,7 +1089,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </div>
         </div>
       </div>
-      {openCareGiverBulkEmail ? (
+      {/* {openCareGiverBulkEmail ? (
+        <Suspense fallback={null}>
         <BulkEmailCareGiverModal
           updateLinkedStatus={props.fetchingCareGiverData}
           openModal={openCareGiverBulkEmail}
@@ -1068,8 +1112,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           terminateAggrement={terminateAggrement}
           leasingContract={leasingContract}
         />
-      ) : null}
-      <BulkEmailCareInstitutionModal
+        </Suspense>
+      ) : null} */}
+      {/* <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() => handleCareInstitutionBulkEmail()}
         qualification={
@@ -1082,7 +1127,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         lte={props.lte}
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
-      />
+      /> */}
       <DetaillistCaregiverPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}

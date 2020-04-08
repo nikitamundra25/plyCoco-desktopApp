@@ -80,8 +80,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     leasingContract,
     qualificationList,
     terminateAggrement,
-    showButton,
-    mailEvent,
+    handleClose,
     updateLinkedStatus,
     label
   } = props;
@@ -289,7 +288,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
       }
-      props.handleClose();
+      if (handleClose) {
+        handleClose();
+      }else{
       setSubject('');
       setBody(undefined);
       setAttachments([]);
@@ -297,6 +298,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       setTemplate({ label: '', value: '' });
       setselectedCareGiver([]);
       setBulkCareGivers(false);
+    }
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);

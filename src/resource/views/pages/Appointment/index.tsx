@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState, Suspense } from "react";
 import { Col, Row, Button } from "reactstrap";
 import moment from "moment";
 import { toast } from "react-toastify";
@@ -57,8 +57,8 @@ import { dbAcceptableFormat } from "../../../../config";
 import { ConfirmBox } from "../../components/ConfirmBox";
 import UnlinkAppointment from "./unlinkModal";
 import { useLocation } from "react-router";
-import BulkEmailCareGiverModal from "./BulkEmailCareGiver";
-import BulkEmailCareInstitutionModal from "./BulkEmailCareInstitution";
+// import BulkEmailCareGiverModal from "./BulkEmailCareGiver";
+// import BulkEmailCareInstitutionModal from "./BulkEmailCareInstitution";
 import "./index.scss";
 
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
@@ -559,6 +559,7 @@ const Appointment: FunctionComponent = (props: any) => {
         caregiver: caregiverData = {},
         dateString: dateData = "",
         item = "",
+        qualificationIds=""
       } =
         selectedCells && selectedCells.length && selectedCells[0]
           ? selectedCells[0]
@@ -570,6 +571,7 @@ const Appointment: FunctionComponent = (props: any) => {
           firstName,
           lastName,
           email,
+          qualificationIds,
           caregiver: {
             ...caregiverData,
           },
@@ -626,7 +628,6 @@ const Appointment: FunctionComponent = (props: any) => {
           },
         },
       ];
-      console.log("careinstitutionvalue1", careinstitutionvalue1);
 
       setselectedCellsCareinstitution(careinstitutionvalue1);
     }
@@ -778,6 +779,7 @@ const Appointment: FunctionComponent = (props: any) => {
         email = "",
         caregiver: caregiverData = {},
         dateString: dateData = "",
+        qualificationIds: qualificationId1 = []
       } = selectedCells && selectedCells.length ? selectedCells[0] : {};
       let caregiverdata: any = [
         {
@@ -786,6 +788,7 @@ const Appointment: FunctionComponent = (props: any) => {
             ...caregiverData,
           },
           dateString: dateData,
+          qualificationIds: qualificationId1,
           firstName: firstname,
           email,
           lastName: lastname,
@@ -840,6 +843,7 @@ const Appointment: FunctionComponent = (props: any) => {
       dateString = "",
       caregiver = undefined,
       item = undefined,
+      qualificationIds = []
     } =
       selectedCells && selectedCells.length === 1 && selectedCells[0]
         ? selectedCells[0]
@@ -893,7 +897,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // To store users list into state
   useEffect(() => {
-    console.log("state", selectedCellsCareinstitution);
 
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
     let careGiverSelectedCell =
@@ -961,7 +964,6 @@ const Appointment: FunctionComponent = (props: any) => {
       // } else {
 
       if (careGiverSelectedCell && careGiverSelectedCell.length) {
-        console.log("careGiverSelectedCell", careGiverSelectedCell);
 
         setSelectedCells(careGiverSelectedCell);
       }
@@ -1028,7 +1030,6 @@ const Appointment: FunctionComponent = (props: any) => {
         /*  */
       }
 
-      console.log("careInstSelectedCell", careInstSelectedCell);
       if (careInstSelectedCell && careInstSelectedCell.length) {
         setselectedCellsCareinstitution(careInstSelectedCell);
       }
@@ -1926,7 +1927,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //  call department list query with every selection of care institution
   useEffect(() => {
-    console.log("selectedCellsCareinstitution", selectedCellsCareinstitution);
 
     let userId: string =
       selectedCellsCareinstitution && selectedCellsCareinstitution.length
@@ -1944,7 +1944,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // useEffect for filtering department data in careinstitution list
   useEffect(() => {
-    console.log("hereeee");
 
     if (
       departmentList &&
@@ -2129,6 +2128,7 @@ const Appointment: FunctionComponent = (props: any) => {
             caregiver: caregiverData = {},
             dateString: dateData = "",
             item: Item = "",
+            qualificationIds= ""
           } =
             selectedCells && selectedCells.length && selectedCells[0]
               ? selectedCells[0]
@@ -2139,6 +2139,7 @@ const Appointment: FunctionComponent = (props: any) => {
               firstName,
               email,
               lastName,
+              qualificationIds,
               caregiver: {
                 ...caregiverData,
               },
@@ -2773,6 +2774,7 @@ const Appointment: FunctionComponent = (props: any) => {
           key.item.holidayAllowance &&
           key.item.nightFee
         ) {
+          
           if (
             key.qualificationIds &&
             key.qualificationIds.length &&
@@ -2907,7 +2909,7 @@ const Appointment: FunctionComponent = (props: any) => {
     id: selectedCaregiverId = "",
     dateString = "",
     caregiver = undefined,
-    item = undefined,
+    item = undefined
   } =
     selectedCells &&
     // to check multiple cells are free or reserve or you've clicked on new appointment to reflect the form
@@ -3324,7 +3326,6 @@ const Appointment: FunctionComponent = (props: any) => {
           x.item.s !== "block" ||
           x.item.n !== "block"
         ) {
-          console.log("in iff");
           selectedCellsCareinstitution.filter((x: any) => {
             if (x.item && x.item.id) {
               if (
@@ -3336,13 +3337,11 @@ const Appointment: FunctionComponent = (props: any) => {
                  return
               }
             } else {
-              console.log("in else 1111");
                isLinkable = false;
                return
             }
           });
         } else {
-          console.log("in else");
            isLinkable = false;
            return
         }
@@ -3360,6 +3359,36 @@ const Appointment: FunctionComponent = (props: any) => {
     let inputCaregiver = moment(dateString).format(dbAcceptableFormat);
     dateCondition =
       now <= inputCareinst && now <= inputCaregiver ? true : false;
+  }
+
+  if (openCareGiverBulkEmail) {
+    const BulkEmailCareGiverModal = React.lazy(() => import('./BulkEmailCareGiver'));
+    return <Suspense fallback={null}>
+      <BulkEmailCareGiverModal
+        openModal={openCareGiverBulkEmail}
+        qualification={props.qualification}
+        handleClose={() => setopenCareGiverBulkEmail(!openCareGiverBulkEmail)}
+        selectedCells={selectedCells}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        unlinkedBy={unlinkedBy}
+      />
+    </Suspense>  
+  }
+  if (openCareInstitutionBulkEmail) {
+    const BulkEmailCareInstitutionModal = React.lazy(() => import('./BulkEmailCareInstitution'));
+    return <Suspense fallback={null}>
+    <BulkEmailCareInstitutionModal
+        openModal={openCareInstitutionBulkEmail}
+        handleClose={() =>
+          setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail)
+        }
+        qualification={props.qualification}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        selectedCells={selectedCells}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
+      />
+      </Suspense> 
   }
 
   return (
@@ -3648,7 +3677,7 @@ const Appointment: FunctionComponent = (props: any) => {
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
       />
-      <BulkEmailCareInstitutionModal
+      {/* <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() =>
           setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail)
@@ -3658,7 +3687,9 @@ const Appointment: FunctionComponent = (props: any) => {
         selectedCells={selectedCells}
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
-      />
+      /> */}
+      {/* {openCaregiverModal()}
+      {openCareGiverBulkEmail ? <Suspense fallback={null}>
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}
@@ -3666,7 +3697,7 @@ const Appointment: FunctionComponent = (props: any) => {
         selectedCells={selectedCells}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
         unlinkedBy={unlinkedBy}
-      />
+      /></Suspense> : null} */}
     </>
   );
 };

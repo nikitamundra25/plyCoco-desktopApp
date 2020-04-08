@@ -80,8 +80,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     leasingContract,
     qualificationList,
     terminateAggrement,
-    showButton,
-    mailEvent,
+    handleClose,
     updateLinkedStatus,
     label
   } = props;
@@ -289,7 +288,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
       }
-      props.handleClose();
+      if (handleClose) {
+        handleClose();
+      }else{
       setSubject('');
       setBody(undefined);
       setAttachments([]);
@@ -297,6 +298,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       setTemplate({ label: '', value: '' });
       setselectedCareGiver([]);
       setBulkCareGivers(false);
+    }
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -1098,21 +1100,26 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let divisionArray: any = [];
         if (selectedCells && selectedCells.length) {
           let row: any[] = [];
+          let appointmentTimings:string[] = []
           selectedCells
             .map((cell: any) =>
               cell.item && cell.item.appointments ? cell.item.appointments : []
             )
-            .forEach((requirement: any) => {
+            .forEach((requirement: any, index:number) => {
               const { cr = {}, date = '' } =
                 requirement && requirement.length ? requirement[0] : {};
               const {
+                address = '',
                 startTime = '',
                 endTime = '',
                 name = '',
                 division = {},
                 qualificationId = []
               } = cr ? cr : {};
-              let { address = '' } = division ? division : {};
+              console.log(cr, 'cr in map');
+              
+              appointmentTimings = [...appointmentTimings, moment(date).format(index ==0 ? 'MMMM DD' : 'DD')]
+              // let { address = '' } = division ? division : {};
               if (!moment(date).isBefore(moment(), 'day')) {
                 let shiftLabel =
                   startTime === '06:00'
@@ -1146,6 +1153,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             `);
               }
             });
+            setSubject(`Temporary employment contract for ${appointmentTimings.join(', ')}`);
           setPdfAppointmentDetails(row);
         }
         for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
@@ -1236,13 +1244,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let mailBody = `<p>${languageTranslation(
           'CAREGIVER_EMAIL_LEASING_CONTRACT'
         )}</p></br>${requirementEmailData}</br>
-        <p>Please use the following link: <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
+        <p>Please use the following link: <br/> <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
         </p>`;
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
-        setSubject(
-          languageTranslation('CAREGIVER_EMAIL_LEASING_CONTRACT_SUBJECT')
-        );
         setBody(editorState);
       }
     }
@@ -1323,7 +1328,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       address,
                       qualifications
                     } = requirement.division;
-                    deptDetails = `${name}${address ? `of ${address}` : ''}${
+                    deptDetails = `${name}${address ? ` of ${address}` : ''}${
                       qualifications && qualifications.length
                         ? ` - ${qualifications
                             .map((q: any) => q.label)
@@ -1336,7 +1341,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       address = '',
                       qualificationId = []
                     } = requirement ? requirement : {};
-                    deptDetails = `${name}${address ? `of ${address}` : ''}${
+                    deptDetails = `${name}${address ? ` of ${address}` : ''}${
                       qualificationId && qualificationId.length
                         ? ` - ${qualificationList
                             .filter(
@@ -1867,7 +1872,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   >
                     {({ blob, url, loading, error }: any) =>
-                      !loading ? setLeasingContactPdfData(blob) : null
+                     {
+                      console.log(url, blob,'in rendering');
+                       
+                      !loading ? setLeasingContactPdfData(blob) : null}
                     }
                   </PDFDownloadLink>
                 ) : null}

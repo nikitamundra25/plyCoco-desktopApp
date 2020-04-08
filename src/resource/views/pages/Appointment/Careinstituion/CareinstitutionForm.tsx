@@ -45,7 +45,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     any
 ) => {
   useEffect(() => {
-    if (props.savingBoth) {
+    if (props.savingBoth && !timeSlotError) {
       handleSubmit();
     }
   }, [props.savingBoth]);
@@ -91,6 +91,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     careInstitutionListArr,
     handleSelectUserList,
     addCareinstLoading,
+    timeSlotError,
     street
   } = props;
 
@@ -98,7 +99,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let dtStart: any = new Date(d + ' ' + startTime);
   let dtEnd: any = new Date(d + ' ' + endTime);
   let difference = dtEnd - dtStart;
-  console.log('street in form', street);
 
   const [starMark, setstarMark] = useState<boolean>(false);
   // Custom function to handle react select fields
@@ -551,10 +551,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                 </Row>
               </FormGroup>
             </Col> */}
-            {console.log(
-              'careInstitutionDepartment',
-              careInstitutionDepartment
-            )}
+           
             <Col lg={'12'}>
               <FormGroup>
                 <Row>

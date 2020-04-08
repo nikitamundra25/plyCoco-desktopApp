@@ -65,6 +65,7 @@
     "react-selectable-fast": "^3.3.0",
     "react-text-mask": "^5.4.3",
     "react-toastify": "^5.5.0",
+    "react-virtualized": "^9.21.2",
     "reactstrap": "^7.1.0",
     "redux-actions": "^2.6.5",
     "redux-logger": "^3.0.6",
@@ -90,6 +91,7 @@
     "@types/react-select": "^3.0.9",
     "@types/react-text-mask": "^5.4.6",
     "@types/react-toastify": "^4.1.0",
+    "@types/react-virtualized": "^9.21.8",
     "@types/redux-actions": "^2.6.1",
     "@types/redux-logger": "^3.0.7",
     "@types/yup": "^0.26.27"

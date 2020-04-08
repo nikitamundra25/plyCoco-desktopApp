@@ -49,9 +49,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               {' '}
               {languageTranslation('QUALIFICATION')}
             </div>
-            <div className=' align-middle toggle-icon'>
-              <i className='fa fa-angle-down'></i>
-            </div>
+           
           </div>
           <div className='common-list-body custom-scrollbar'>
             {qualificationId && qualificationId.length ? (
@@ -92,9 +90,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
               {' '}
               {languageTranslation('ATTRIBUTES')}
             </div>
-            <div className=' align-middle toggle-icon'>
-              <i className='fa fa-angle-down'></i>
-            </div>
+          
           </div>
           <div className='common-list-body custom-scrollbar'>
             <ul className='common-list list-unstyled'>

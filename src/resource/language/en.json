@@ -1010,5 +1010,22 @@
   "CONFIRM_APPOINTMENT":"Confirmed appointments",
   "SET_ON_NOT_CONF":"Set on not confirmed",
   "REQUEST_TEMP_LEASING":"Request temporary leasing contract",
-  "CREATE_TERMINATION_AGREEMENT":"Create termination agreement"
+  "CREATE_TERMINATION_AGREEMENT":"Create termination agreement",
+  "LINK_SAME_LENGTH": "Please select same length cells",
+  "DATE_RANGE_MISMATCH": "Date range between appointments & requirement mismatch.",
+  "LINK_ERROR":"Create requirement or appointment first for all selected cells.",
+  "SUBJECT_OFFER_APPOINTMENT_BY_DAY": "offer appointments by day",
+  "OFFERED_BODY_WE_ARE_ABLE_TO_FILL":"We are able to fill your request as follows:-",
+  "OFFERED_BODY_INDEPENDENT_CAREGIVER_HAS_OWN_FEE":"Please note that each independent caregiver has their own fee. We ask for a short-term confirmation.",
+  "APPOINTMENT_CONFIRMATION": "Appointment confirmation:-",
+  "OFFERED_BODY_SELFEMPLOYEED_CAREGIVER_HAS_OWN_FEE" : "Please note that each self-employed caregiver and assistant has their own fee. The caregiver is informed to contact you by phone before the assignment..",
+  "SUBJECT_APPOINTMENT_CONFIRMATION": "Appointment confirmation for",
+  "UNLINK_EMAIL_CAREINSTITUTION_BODY": "We have informed the specialists of your cancellation for the following dates:-",
+  "UNLINK_SUBJECT": "Cancellation confirmation for",
+  "UNLINK_EMAIL_CAREGIVER_BODY_DATES": "The specialist has unfortunately cancelled the following dates:-",
+  "UNLINK_EMAIL_CAREGIVER_BODY_CONTACT": "We will immediately look for a replacement and contact you as soon as possible.",
+  "UNLINK_CAREGIVER_SUBJECT":"Appointment cancellation for",
+  "ACKNOWLEDGE_FOR_OFFER_SENT_SUBJECT":"Acknowledge for offer sent",
+  "REQUEST_ALL_SUITABLE_NURSE_BODY": "we have just sent your request to all suitable nursing staff.",
+  "INFORM_YOU_IMMEDIATELY_BODY":"We will inform you immediately as soon as a nurse reports it."
 }

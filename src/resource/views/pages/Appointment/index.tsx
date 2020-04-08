@@ -54,9 +54,9 @@ import CaregiverListView from "./Caregiver/CaregiverListView";
 import CarinstituionListView from "./Careinstituion/CareinstituionListView";
 import CaregiverFormView from "./Caregiver/CaregiverForm";
 import CareinstitutionFormView from "./Careinstituion/CareinstitutionForm";
-// import UnlinkAppointment from "./unlinkModal";
-// import BulkEmailCareGiverModal from "./BulkEmailCareGiver";
-// import BulkEmailCareInstitutionModal from "./BulkEmailCareInstitution";
+import UnlinkAppointment from "./unlinkModal";
+import BulkEmailCareGiverModal from "./BulkEmailCareGiver";
+import BulkEmailCareInstitutionModal from "./BulkEmailCareInstitution";
 import "./index.scss";
 
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
@@ -3373,45 +3373,45 @@ const Appointment: FunctionComponent = (props: any) => {
       now <= inputCareinst && now <= inputCaregiver ? true : false;
   }
 
-  if (openCareGiverBulkEmail) {
-    const BulkEmailCareGiverModal = React.lazy(() => import('./BulkEmailCareGiver'));
-    return <Suspense fallback={null}>
-      <BulkEmailCareGiverModal
-        openModal={openCareGiverBulkEmail}
-        qualification={props.qualification}
-        handleClose={() => setopenCareGiverBulkEmail(!openCareGiverBulkEmail)}
-        selectedCells={selectedCells}
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        unlinkedBy={unlinkedBy}
-      />
-    </Suspense>  
-  }
-  if (openCareInstitutionBulkEmail) {
-    const BulkEmailCareInstitutionModal = React.lazy(() => import('./BulkEmailCareInstitution'));
-    return <Suspense fallback={null}>
-    <BulkEmailCareInstitutionModal
-        openModal={openCareInstitutionBulkEmail}
-        handleClose={() =>
-          setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail)
-        }
-        qualification={props.qualification}
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        selectedCells={selectedCells}
-        unlinkedBy={unlinkedBy}
-        isFromUnlink={isFromUnlink}
-      />
-      </Suspense> 
-  }
-  if (showUnlinkModal) {
-    const UnlinkAppointment = React.lazy(() => import('./unlinkModal'));
-    return <Suspense fallback={null}>
-      <UnlinkAppointment
-        show={showUnlinkModal}
-        handleClose={() => setshowUnlinkModal(false)}
-        handleUnlinkData={handleUnlinkData}
-      />
-      </Suspense> 
-  }
+  // if (openCareGiverBulkEmail) {
+  //   const BulkEmailCareGiverModal = React.lazy(() => import('./BulkEmailCareGiver'));
+  //   return <Suspense fallback={null}>
+  //     <BulkEmailCareGiverModal
+  //       openModal={openCareGiverBulkEmail}
+  //       qualification={props.qualification}
+  //       handleClose={() => setopenCareGiverBulkEmail(!openCareGiverBulkEmail)}
+  //       selectedCells={selectedCells}
+  //       selectedCellsCareinstitution={selectedCellsCareinstitution}
+  //       unlinkedBy={unlinkedBy}
+  //     />
+  //   </Suspense>  
+  // }
+  // if (openCareInstitutionBulkEmail) {
+  //   const BulkEmailCareInstitutionModal = React.lazy(() => import('./BulkEmailCareInstitution'));
+  //   return <Suspense fallback={null}>
+  //   <BulkEmailCareInstitutionModal
+  //       openModal={openCareInstitutionBulkEmail}
+  //       handleClose={() =>
+  //         setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail)
+  //       }
+  //       qualification={props.qualification}
+  //       selectedCellsCareinstitution={selectedCellsCareinstitution}
+  //       selectedCells={selectedCells}
+  //       unlinkedBy={unlinkedBy}
+  //       isFromUnlink={isFromUnlink}
+  //     />
+  //     </Suspense> 
+  // }
+  // if (showUnlinkModal) {
+  //   const UnlinkAppointment = React.lazy(() => import('./unlinkModal'));
+  //   return <Suspense fallback={null}>
+  //     <UnlinkAppointment
+  //       show={showUnlinkModal}
+  //       handleClose={() => setshowUnlinkModal(false)}
+  //       handleUnlinkData={handleUnlinkData}
+  //     />
+  //     </Suspense> 
+  // }
   return (
     <>
       <div className="common-detail-page">
@@ -3693,12 +3693,12 @@ const Appointment: FunctionComponent = (props: any) => {
         </div>
       </div>
 
-      {/* <UnlinkAppointment
+      <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
-      /> */}
-      {/* <BulkEmailCareInstitutionModal
+      />
+      <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() =>
           setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail)
@@ -3708,9 +3708,9 @@ const Appointment: FunctionComponent = (props: any) => {
         selectedCells={selectedCells}
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
-      /> */}
-      {/* {openCaregiverModal()}
-      {openCareGiverBulkEmail ? <Suspense fallback={null}>
+      />
+      {/* {openCaregiverModal()} */}
+      {openCareGiverBulkEmail ? 
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
         qualification={props.qualification}
@@ -3718,7 +3718,7 @@ const Appointment: FunctionComponent = (props: any) => {
         selectedCells={selectedCells}
         selectedCellsCareinstitution={selectedCellsCareinstitution}
         unlinkedBy={unlinkedBy}
-      /></Suspense> : null} */}
+      /> : null}
     </>
   );
 };

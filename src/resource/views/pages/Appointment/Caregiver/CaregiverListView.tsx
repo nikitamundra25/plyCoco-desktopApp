@@ -48,7 +48,10 @@ import refresh from '../../../../assets/img/refresh.svg';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import '../index.scss';
 import 'react-virtualized/styles.css'; // only needs to be imported once
-
+import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
+import UnlinkAppointment from '../unlinkModal';
+import DetaillistCaregiverPopup from '../DetailedList/DetailListCaregiver';
+import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 let toastId: any = null;
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -494,72 +497,72 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       temp.push({ ...element, new: item, row });
     });
   });
-  if (openCareGiverBulkEmail) {
-    const BulkEmailCareGiverModal = lazy(() => import('../BulkEmailCareGiver'));
-    return <Suspense fallback={null}>
-    <BulkEmailCareGiverModal
-      updateLinkedStatus={props.fetchingCareGiverData}
-      openModal={openCareGiverBulkEmail}
-      qualification={
-        sortedQualificationList && sortedQualificationList
-          ? sortedQualificationList
-          : props.qualification
-      }
-      handleClose={handleClose}
-      gte={props.gte}
-      lte={props.lte}
-      selectedCells={selectedCells}
-      confirmApp={confirmApp}
-      selectedCellsCareinstitution={selectedCellsCareinstitution}
-      unlinkedBy={unlinkedBy}
-      isFromUnlink={isFromUnlink}
-      qualificationList={qualificationList}
-      offerRequirements={offerRequirements}
-      terminateAggrement={terminateAggrement}
-      leasingContract={leasingContract}
-    />
-    </Suspense>  
-  }
-  if (openCareInstitutionBulkEmail) {
-    const BulkEmailCareInstitutionModal= lazy(() => import('../BulkEmailCareInstitution'));
-    return <Suspense fallback={null}>
-      <BulkEmailCareInstitutionModal
-        openModal={openCareInstitutionBulkEmail}
-        handleClose={() => handleCareInstitutionBulkEmail()}
-        qualification={
-          sortedQualificationList && sortedQualificationList
-            ? sortedQualificationList
-            : props.qualification
-        }
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        gte={props.gte}
-        lte={props.lte}
-        unlinkedBy={unlinkedBy}
-        isFromUnlink={isFromUnlink}
-      />
-      </Suspense>
-  }
-  if (showList) {
-    const DetaillistCaregiverPopup= lazy(() => import('../DetailedList/DetailListCaregiver'));
-    return <Suspense fallback={null}>
-      <DetaillistCaregiverPopup
-        show={showList ? true : false}
-        handleClose={() => setShowList(false)}
-        selectedCells={selectedCells}
-        qualificationList={qualificationList}
-      />
-    </Suspense>
-  }
-  if (showUnlinkModal) {
-    const UnlinkAppointment= lazy(() => import('../unlinkModal'));
-    return <Suspense fallback={null}>
-      <UnlinkAppointment
-        show={showUnlinkModal}
-        handleClose={() => setshowUnlinkModal(false)}
-        handleUnlinkData={handleUnlinkData}
-      />
-    </Suspense>
-  }
+  // if (openCareGiverBulkEmail) {
+  //   const BulkEmailCareGiverModal = lazy(() => import('../BulkEmailCareGiver'));
+  //   return <Suspense fallback={null}>
+  //   <BulkEmailCareGiverModal
+  //     updateLinkedStatus={props.fetchingCareGiverData}
+  //     openModal={openCareGiverBulkEmail}
+  //     qualification={
+  //       sortedQualificationList && sortedQualificationList
+  //         ? sortedQualificationList
+  //         : props.qualification
+  //     }
+  //     handleClose={handleClose}
+  //     gte={props.gte}
+  //     lte={props.lte}
+  //     selectedCells={selectedCells}
+  //     confirmApp={confirmApp}
+  //     selectedCellsCareinstitution={selectedCellsCareinstitution}
+  //     unlinkedBy={unlinkedBy}
+  //     isFromUnlink={isFromUnlink}
+  //     qualificationList={qualificationList}
+  //     offerRequirements={offerRequirements}
+  //     terminateAggrement={terminateAggrement}
+  //     leasingContract={leasingContract}
+  //   />
+  //   </Suspense>  
+  // }
+  // if (openCareInstitutionBulkEmail) {
+  //   const BulkEmailCareInstitutionModal= lazy(() => import('../BulkEmailCareInstitution'));
+  //   return <Suspense fallback={null}>
+  //     <BulkEmailCareInstitutionModal
+  //       openModal={openCareInstitutionBulkEmail}
+  //       handleClose={() => handleCareInstitutionBulkEmail()}
+  //       qualification={
+  //         sortedQualificationList && sortedQualificationList
+  //           ? sortedQualificationList
+  //           : props.qualification
+  //       }
+  //       selectedCellsCareinstitution={selectedCellsCareinstitution}
+  //       gte={props.gte}
+  //       lte={props.lte}
+  //       unlinkedBy={unlinkedBy}
+  //       isFromUnlink={isFromUnlink}
+  //     />
+  //     </Suspense>
+  // }
+  // if (showList) {
+  //   const DetaillistCaregiverPopup= lazy(() => import('../DetailedList/DetailListCaregiver'));
+  //   return <Suspense fallback={null}>
+  //     <DetaillistCaregiverPopup
+  //       show={showList ? true : false}
+  //       handleClose={() => setShowList(false)}
+  //       selectedCells={selectedCells}
+  //       qualificationList={qualificationList}
+  //     />
+  //   </Suspense>
+  // }
+  // if (showUnlinkModal) {
+  //   const UnlinkAppointment= lazy(() => import('../unlinkModal'));
+  //   return <Suspense fallback={null}>
+  //     <UnlinkAppointment
+  //       show={showUnlinkModal}
+  //       handleClose={() => setshowUnlinkModal(false)}
+  //       handleUnlinkData={handleUnlinkData}
+  //     />
+  //   </Suspense>
+  // }
   return (
     <div>
       <div
@@ -1115,8 +1118,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </div>
         </div>
       </div>
-      {/* {openCareGiverBulkEmail ? (
-        <Suspense fallback={null}>
+      {openCareGiverBulkEmail ? (
         <BulkEmailCareGiverModal
           updateLinkedStatus={props.fetchingCareGiverData}
           openModal={openCareGiverBulkEmail}
@@ -1138,9 +1140,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           terminateAggrement={terminateAggrement}
           leasingContract={leasingContract}
         />
-        </Suspense>
-      ) : null} */}
-      {/* <BulkEmailCareInstitutionModal
+      ) : null} 
+       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() => handleCareInstitutionBulkEmail()}
         qualification={
@@ -1153,18 +1154,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         lte={props.lte}
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
-      /> */}
-      {/* <DetaillistCaregiverPopup
+      /> 
+       <DetaillistCaregiverPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         selectedCells={selectedCells}
         qualificationList={qualificationList}
-      /> */}
-      {/* <UnlinkAppointment
+      /> 
+       <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
-      /> */}
+      />
     </div>
   );
 };

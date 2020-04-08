@@ -29,7 +29,8 @@
 }
 .invoice-header{
   .user-select {
-    width:150px
+    width:150px;
+    min-width:150px;
   }
 }
 .total-form-section {

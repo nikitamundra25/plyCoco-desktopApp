@@ -80,8 +80,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     leasingContract,
     qualificationList,
     terminateAggrement,
-    showButton,
-    mailEvent,
+    handleClose,
     updateLinkedStatus,
     label
   } = props;
@@ -289,7 +288,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
       }
-      props.handleClose();
+      if (handleClose) {
+        handleClose();
+      }else{
       setSubject('');
       setBody(undefined);
       setAttachments([]);
@@ -297,6 +298,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       setTemplate({ label: '', value: '' });
       setselectedCareGiver([]);
       setBulkCareGivers(false);
+    }
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -1577,7 +1579,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           status: 'leasingContract'
         }
       })
-      updateLinkedStatus('contractInitiated')
+      // updateLinkedStatus('contractInitiated')
     }
   }, [leasingContactPdfData]);
 
@@ -1611,7 +1613,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           status: 'terminateAgreement'
         }
       });
-      updateLinkedStatus('contractcancelled')
+      // updateLinkedStatus('contractcancelled')
 
     }
   }, [terminationAgreementPdfData]);
@@ -1870,10 +1872,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   >
                     {({ blob, url, loading, error }: any) =>
-                     {
-                      console.log(url, blob,'in rendering');
-                       
-                      !loading ? setLeasingContactPdfData(blob) : null}
+                      !loading ? setLeasingContactPdfData(blob) : null
                     }
                   </PDFDownloadLink>
                 ) : null}

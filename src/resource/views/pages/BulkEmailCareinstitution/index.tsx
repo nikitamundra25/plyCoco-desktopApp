@@ -130,13 +130,13 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
       }
       props.handleClose();
-      setSubject('');
-      setBody(undefined);
-      setAttachments([]);
-      setIsSubmit(false);
-      setTemplate({ label: '', value: '' });
-      setselectedCareGiver([]);
-      setBulkCareGivers(false);
+      // setSubject('');
+      // setBody(undefined);
+      // setAttachments([]);
+      // setIsSubmit(false);
+      // setTemplate({ label: '', value: '' });
+      // setselectedCareGiver([]);
+      // setBulkCareGivers(false);
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);

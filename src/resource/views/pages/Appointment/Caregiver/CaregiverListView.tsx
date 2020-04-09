@@ -675,13 +675,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              // disabled={
-              //   selectedCells
-              //     ? selectedCells.length === 0 ||
-              //       (offferAll && offferAll.length !== 0) ||
-              //       (checkQuali && checkQuali.length === 0)
-              //     : true
-              // }
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (offferAll && offferAll.length !== 0) ||
+                    (checkQuali && checkQuali.length === 0)
+                  : true
+              }
               onClick={() => {
                 setopenToggleMenu(false);
                 setOfferRequirements(true);

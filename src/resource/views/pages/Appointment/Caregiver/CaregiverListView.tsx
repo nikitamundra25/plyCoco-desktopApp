@@ -1,23 +1,22 @@
-import React, {
-  FunctionComponent,
-  useState,
-  useEffect,
-  Suspense,
-  lazy,
-} from "react";
+import React, { FunctionComponent, useState, Suspense, lazy } from "react";
 import { Nav, NavItem, NavLink, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import classnames from "classnames";
-import "react-virtualized/styles.css"; // only needs to be imported once
 import { toast } from "react-toastify";
 import { SelectableGroup } from "react-selectable-fast";
+import {
+  InfiniteLoader,
+  Table,
+  ScrollSync,
+  AutoSizer,
+  List,
+} from "react-virtualized";
 import {
   IAppointmentCareGiverList,
   IDaysArray,
 } from "../../../../../interfaces";
 import {
-  appointmentDateFormat,
   AppRoutes,
   selfEmployesListColor,
   leasingListColor,
@@ -28,9 +27,9 @@ import { dbAcceptableFormat } from "../../../../../config";
 import { languageTranslation } from "../../../../../helpers";
 import Loader from "../../../containers/Loader/Loader";
 import Cell from "./Cell";
-import DetaillistCaregiverPopup from "../DetailedList/DetailListCaregiver";
+// import DetaillistCaregiverPopup from '../DetailedList/DetailListCaregiver';
 // const BulkEmailCareGiverModal = React.lazy(() => import('../BulkEmailCareGiver'));
-import UnlinkAppointment from "../unlinkModal";
+// import UnlinkAppointment from '../unlinkModal';
 import new_appointment from "../../../../assets/img/dropdown/new_appointment.svg";
 import reserve from "../../../../assets/img/dropdown/block.svg";
 import delete_appointment from "../../../../assets/img/dropdown/delete.svg";
@@ -45,22 +44,15 @@ import unset_confirm from "../../../../assets/img/dropdown/not_confirm.svg";
 import leasing_contact from "../../../../assets/img/dropdown/leasing.svg";
 import termination from "../../../../assets/img/dropdown/aggrement.svg";
 import refresh from "../../../../assets/img/refresh.svg";
-import "../index.scss";
 // import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
-import {
-  InfiniteLoader,
-  Table,
-  ScrollSync,
-  AutoSizer,
-  List,
-} from "react-virtualized";
 import { ConfirmBox } from "../../../components/ConfirmBox";
-// import styles from "react-virtualized/dist/";
-// const { Table, Column, AutoSizer, InfiniteLoader } = ReactVirtualized
-
+import "../index.scss";
+import "react-virtualized/styles.css"; // only needs to be imported once
+import BulkEmailCareGiverModal from "../BulkEmailCareGiver";
+import UnlinkAppointment from "../unlinkModal";
+import DetaillistCaregiverPopup from "../DetailedList/DetailListCaregiver";
+import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
 let toastId: any = null;
-const STATUS_LOADING = 1;
-const STATUS_LOADED = 2;
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList
@@ -133,6 +125,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
 
   // To close the email pop-up
   const handleClose = () => {
+    console.log("in handleClose");
+    if (
+      (leasingContract || terminateAggrement) &&
+      props.fetchingCareGiverData
+    ) {
+      console.log("in if");
+      props.fetchingCareGiverData();
+    }
     setopenCareGiverBulkEmail(false);
     setconfirmApp(false);
     setunlinkedBy("");
@@ -201,29 +201,32 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       selectedCells &&
       selectedCells.length
     ) {
-      if (
-        selectedCells[0].caregiver &&
-        selectedCells[0].caregiver.attributes &&
-        selectedCells[0].caregiver.attributes.length
-      ) {
-        let checkAttribute = selectedCells[0].caregiver.attributes.includes(8);
-        if (checkAttribute) {
-          const { value } = await ConfirmBox({
-            title: languageTranslation("ATTRIBUTE_WARNING"),
-            text: languageTranslation("LINKED_ATTRIBUTE_WARNING"),
-          });
-          if (!value) {
-            checkError = true;
-            return;
-          }
-        }
-      }
-
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
+        toast.dismiss();
         if (!toast.isActive(toastId)) {
-          toastId = toast.error("Please select same length cells");
+          toastId = toast.error(languageTranslation("LINK_SAME_LENGTH"));
         }
       } else {
+        if (
+          selectedCells[0].caregiver &&
+          selectedCells[0].caregiver.attributes &&
+          selectedCells[0].caregiver.attributes.length
+        ) {
+          let checkAttribute = selectedCells[0].caregiver.attributes.includes(
+            8
+          );
+          if (checkAttribute) {
+            const { value } = await ConfirmBox({
+              title: languageTranslation("ATTRIBUTE_WARNING"),
+              text: languageTranslation("LINKED_ATTRIBUTE_WARNING"),
+            });
+            if (!value) {
+              checkError = true;
+              return;
+            }
+          }
+        }
+
         let qualiCheck: any[] = [];
         selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
@@ -244,6 +247,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               );
             }
             if (qualiCheck && qualiCheck.length <= 0) {
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
                   languageTranslation("QUALIFICATION_UNMATCH")
@@ -257,18 +261,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               moment(element.dateString).format(dbAcceptableFormat)
             ) {
               checkError = true;
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
-                  "Date range between appointments & requirement mismatch."
+                  languageTranslation("DATE_RANGE_MISMATCH")
                 );
               }
               return false;
             } else if (key.item === undefined || element.item === undefined) {
               checkError = true;
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
-                toastId = toast.error(
-                  "Create requirement or appointment first for all selected cells."
-                );
+                toastId = toast.error(languageTranslation("LINK_ERROR"));
               }
               return false;
             } else {
@@ -495,57 +499,72 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       temp.push({ ...element, new: item, row });
     });
   });
-  if (openCareGiverBulkEmail) {
-    const BulkEmailCareGiverModal = lazy(() => import("../BulkEmailCareGiver"));
-    return (
-      <Suspense fallback={null}>
-        <BulkEmailCareGiverModal
-          updateLinkedStatus={props.fetchingCareGiverData}
-          openModal={openCareGiverBulkEmail}
-          qualification={
-            sortedQualificationList && sortedQualificationList
-              ? sortedQualificationList
-              : props.qualification
-          }
-          handleClose={handleClose}
-          gte={props.gte}
-          lte={props.lte}
-          selectedCells={selectedCells}
-          confirmApp={confirmApp}
-          selectedCellsCareinstitution={selectedCellsCareinstitution}
-          unlinkedBy={unlinkedBy}
-          isFromUnlink={isFromUnlink}
-          qualificationList={qualificationList}
-          offerRequirements={offerRequirements}
-          terminateAggrement={terminateAggrement}
-          leasingContract={leasingContract}
-        />
-      </Suspense>
-    );
-  }
-  if (openCareInstitutionBulkEmail) {
-    const BulkEmailCareInstitutionModal = lazy(() =>
-      import("../BulkEmailCareInstitution")
-    );
-    return (
-      <Suspense fallback={null}>
-        <BulkEmailCareInstitutionModal
-          openModal={openCareInstitutionBulkEmail}
-          handleClose={() => handleCareInstitutionBulkEmail()}
-          qualification={
-            sortedQualificationList && sortedQualificationList
-              ? sortedQualificationList
-              : props.qualification
-          }
-          selectedCellsCareinstitution={selectedCellsCareinstitution}
-          gte={props.gte}
-          lte={props.lte}
-          unlinkedBy={unlinkedBy}
-          isFromUnlink={isFromUnlink}
-        />
-      </Suspense>
-    );
-  }
+  // if (openCareGiverBulkEmail) {
+  //   const BulkEmailCareGiverModal = lazy(() => import('../BulkEmailCareGiver'));
+  //   return <Suspense fallback={null}>
+  //   <BulkEmailCareGiverModal
+  //     updateLinkedStatus={props.fetchingCareGiverData}
+  //     openModal={openCareGiverBulkEmail}
+  //     qualification={
+  //       sortedQualificationList && sortedQualificationList
+  //         ? sortedQualificationList
+  //         : props.qualification
+  //     }
+  //     handleClose={handleClose}
+  //     gte={props.gte}
+  //     lte={props.lte}
+  //     selectedCells={selectedCells}
+  //     confirmApp={confirmApp}
+  //     selectedCellsCareinstitution={selectedCellsCareinstitution}
+  //     unlinkedBy={unlinkedBy}
+  //     isFromUnlink={isFromUnlink}
+  //     qualificationList={qualificationList}
+  //     offerRequirements={offerRequirements}
+  //     terminateAggrement={terminateAggrement}
+  //     leasingContract={leasingContract}
+  //   />
+  //   </Suspense>
+  // }
+  // if (openCareInstitutionBulkEmail) {
+  //   const BulkEmailCareInstitutionModal= lazy(() => import('../BulkEmailCareInstitution'));
+  //   return <Suspense fallback={null}>
+  //     <BulkEmailCareInstitutionModal
+  //       openModal={openCareInstitutionBulkEmail}
+  //       handleClose={() => handleCareInstitutionBulkEmail()}
+  //       qualification={
+  //         sortedQualificationList && sortedQualificationList
+  //           ? sortedQualificationList
+  //           : props.qualification
+  //       }
+  //       selectedCellsCareinstitution={selectedCellsCareinstitution}
+  //       gte={props.gte}
+  //       lte={props.lte}
+  //       unlinkedBy={unlinkedBy}
+  //       isFromUnlink={isFromUnlink}
+  //     />
+  //     </Suspense>
+  // }
+  // if (showList) {
+  //   const DetaillistCaregiverPopup= lazy(() => import('../DetailedList/DetailListCaregiver'));
+  //   return <Suspense fallback={null}>
+  //     <DetaillistCaregiverPopup
+  //       show={showList ? true : false}
+  //       handleClose={() => setShowList(false)}
+  //       selectedCells={selectedCells}
+  //       qualificationList={qualificationList}
+  //     />
+  //   </Suspense>
+  // }
+  // if (showUnlinkModal) {
+  //   const UnlinkAppointment= lazy(() => import('../unlinkModal'));
+  //   return <Suspense fallback={null}>
+  //     <UnlinkAppointment
+  //       show={showUnlinkModal}
+  //       handleClose={() => setshowUnlinkModal(false)}
+  //       handleUnlinkData={handleUnlinkData}
+  //     />
+  //   </Suspense>
+  // }
   return (
     <div>
       <div
@@ -1104,8 +1123,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </div>
         </div>
       </div>
-      {/* {openCareGiverBulkEmail ? (
-        <Suspense fallback={null}>
+      {openCareGiverBulkEmail ? (
         <BulkEmailCareGiverModal
           updateLinkedStatus={props.fetchingCareGiverData}
           openModal={openCareGiverBulkEmail}
@@ -1127,9 +1145,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           terminateAggrement={terminateAggrement}
           leasingContract={leasingContract}
         />
-        </Suspense>
-      ) : null} */}
-      {/* <BulkEmailCareInstitutionModal
+      ) : null}
+      <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() => handleCareInstitutionBulkEmail()}
         qualification={
@@ -1142,7 +1159,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         lte={props.lte}
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
-      /> */}
+      />
       <DetaillistCaregiverPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}

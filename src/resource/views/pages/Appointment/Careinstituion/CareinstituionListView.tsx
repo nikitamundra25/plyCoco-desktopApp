@@ -38,6 +38,10 @@ import invoice from "../../../../assets/img/dropdown/invoice.svg";
 import { languageTranslation } from "../../../../../helpers";
 import { ConfirmBox } from "../../../components/ConfirmBox";
 import "../index.scss";
+import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
+import UnlinkAppointment from "../unlinkModal";
+import DetaillistCareinstitutionPopup from "../DetailedList/DetailListCareinstitution";
+import BulkEmailCareGiverModal from "../BulkEmailCareGiver";
 
 let toastId: any = null;
 
@@ -658,87 +662,95 @@ const CarinstituionListView: FunctionComponent<
     });
   });
 
-  if (openCareGiverBulkEmail) {
-    const BulkEmailCareGiverModal = React.lazy(() =>
-      import("../BulkEmailCareGiver")
-    );
-    return (
-      <Suspense fallback={null}>
-        <BulkEmailCareGiverModal
-          openModal={openCareGiverBulkEmail}
-          qualification={
-            sortedQualificationList && sortedQualificationList.length
-              ? sortedQualificationList
-              : props.qualification
-          }
-          offerCareGiver={true} // offer caregiver
-          handleClose={() => handleCareGiverBulkEmail("", false)}
-          selectedCells={selectedCells}
-          selectedCellsCareinstitution={selectedCellsCareinstitution}
-          gte={props.gte}
-          lte={props.lte}
-          sortBy={sortBy}
-          showButton={showButton}
-          unlinkedBy={unlinkedBy}
-        />
-      </Suspense>
-    );
-  }
-  if (openCareInstitutionBulkEmail) {
-    const BulkEmailCareInstitutionModal = lazy(() =>
-      import("../BulkEmailCareInstitution")
-    );
-    return (
-      <Suspense fallback={null}>
-        <BulkEmailCareInstitutionModal
-          openModal={openCareInstitutionBulkEmail}
-          handleClose={() => handleCareInstitutionBulkEmail()}
-          qualification={
-            sortedQualificationList && sortedQualificationList.length
-              ? sortedQualificationList
-              : props.qualification
-          }
-          selectedCellsCareinstitution={selectedCellsCareinstitution}
-          gte={props.gte}
-          lte={props.lte}
-          statusTo={StatusTo}
-          sortBy={sortBy}
-          unlinkedBy={unlinkedBy}
-          isFromUnlink={isFromUnlink}
-          confirmAppointment={confirmAppointment}
-        />
-      </Suspense>
-    );
-  }
-  if (showList) {
-    const DetaillistCareinstitutionPopup = lazy(() =>
-      import("../DetailedList/DetailListCareinstitution")
-    );
-    return (
-      <Suspense fallback={null}>
-        <DetaillistCareinstitutionPopup
-          show={showList ? true : false}
-          handleClose={() => setShowList(false)}
-          qualificationList={qualificationList}
-          selectedCellsCareinstitution={selectedCellsCareinstitution}
-          fetchCareinstitutionList={fetchCareinstitutionList}
-        />
-      </Suspense>
-    );
-  }
-  if (showUnlinkModal) {
-    const UnlinkAppointment = lazy(() => import("../unlinkModal"));
+  const renderBulkCareGiverModal = () => {
+    if (openCareGiverBulkEmail) {
+      const BulkEmailCareGiverModal = React.lazy(() =>
+        import("../BulkEmailCareGiver")
+      );
+      return (
+        <Suspense fallback={null}>
+          <BulkEmailCareGiverModal
+            openModal={openCareGiverBulkEmail}
+            qualification={
+              sortedQualificationList && sortedQualificationList.length
+                ? sortedQualificationList
+                : props.qualification
+            }
+            offerCareGiver={true} // offer caregiver
+            handleClose={() => handleCareGiverBulkEmail("", false)}
+            selectedCells={selectedCells}
+            selectedCellsCareinstitution={selectedCellsCareinstitution}
+            gte={props.gte}
+            lte={props.lte}
+            sortBy={sortBy}
+            showButton={showButton}
+            unlinkedBy={unlinkedBy}
+          />
+        </Suspense>
+      );
+    }
+  };
+  const renderBulkCareInstModal = () => {
+    if (openCareInstitutionBulkEmail) {
+      const BulkEmailCareInstitutionModal = lazy(() =>
+        import("../BulkEmailCareInstitution")
+      );
+      return (
+        <Suspense fallback={null}>
+          <BulkEmailCareInstitutionModal
+            openModal={openCareInstitutionBulkEmail}
+            handleClose={() => handleCareInstitutionBulkEmail()}
+            qualification={
+              sortedQualificationList && sortedQualificationList.length
+                ? sortedQualificationList
+                : props.qualification
+            }
+            selectedCellsCareinstitution={selectedCellsCareinstitution}
+            gte={props.gte}
+            lte={props.lte}
+            statusTo={StatusTo}
+            sortBy={sortBy}
+            unlinkedBy={unlinkedBy}
+            isFromUnlink={isFromUnlink}
+            confirmAppointment={confirmAppointment}
+          />
+        </Suspense>
+      );
+    }
+  };
+  const renderDetailedList = () => {
+    if (showList) {
+      const DetaillistCareinstitutionPopup = lazy(() =>
+        import("../DetailedList/DetailListCareinstitution")
+      );
+      return (
+        <Suspense fallback={null}>
+          <DetaillistCareinstitutionPopup
+            show={showList ? true : false}
+            handleClose={() => setShowList(false)}
+            qualificationList={qualificationList}
+            selectedCellsCareinstitution={selectedCellsCareinstitution}
+            fetchCareinstitutionList={fetchCareinstitutionList}
+          />
+        </Suspense>
+      );
+    }
+  };
+  const renderUnlinkModal = () => {
+    if (showUnlinkModal) {
+      const UnlinkAppointment = lazy(() => import("../unlinkModal"));
 
-    return (
-      <Suspense fallback={null}>
-        <UnlinkAppointment
-          show={showUnlinkModal}
-          handleClose={() => setshowUnlinkModal(false)}
-          handleUnlinkData={handleUnlinkData}
-        />
-      </Suspense>
-    );
-  }
+      return (
+        <Suspense fallback={null}>
+          <UnlinkAppointment
+            show={showUnlinkModal}
+            handleClose={() => setshowUnlinkModal(false)}
+            handleUnlinkData={handleUnlinkData}
+          />
+        </Suspense>
+      );
+    }
+  };
 
   return (
     <>
@@ -860,8 +872,8 @@ const CarinstituionListView: FunctionComponent<
                     : ""
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail("division", true);
                   handleCareInstitutionBulkEmail();
+                  handleCareGiverBulkEmail("division", true);
                   handleRightMenuToggle();
                   updateCareInstitutionStatus("offered");
                   // setOnOfferedCareInst();
@@ -1316,6 +1328,56 @@ const CarinstituionListView: FunctionComponent<
           </div>
         </div>
       </div>
+      {/* {renderBulkCareInstModal()}
+      {renderBulkCareGiverModal()}
+{renderDetailedList()}
+{renderUnlinkModal()} */}
+      <BulkEmailCareGiverModal
+        openModal={openCareGiverBulkEmail}
+        qualification={
+          sortedQualificationList && sortedQualificationList.length
+            ? sortedQualificationList
+            : props.qualification
+        }
+        offerCareGiver={true} // offer caregiver
+        handleClose={() => handleCareGiverBulkEmail("", false)}
+        selectedCells={selectedCells}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        gte={props.gte}
+        lte={props.lte}
+        sortBy={sortBy}
+        showButton={showButton}
+        unlinkedBy={unlinkedBy}
+      />
+      <BulkEmailCareInstitutionModal
+        openModal={openCareInstitutionBulkEmail}
+        handleClose={() => handleCareInstitutionBulkEmail()}
+        qualification={
+          sortedQualificationList && sortedQualificationList.length
+            ? sortedQualificationList
+            : props.qualification
+        }
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        gte={props.gte}
+        lte={props.lte}
+        statusTo={StatusTo}
+        sortBy={sortBy}
+        unlinkedBy={unlinkedBy}
+        isFromUnlink={isFromUnlink}
+        confirmAppointment={confirmAppointment}
+      />
+      <DetaillistCareinstitutionPopup
+        show={showList ? true : false}
+        handleClose={() => setShowList(false)}
+        qualificationList={qualificationList}
+        selectedCellsCareinstitution={selectedCellsCareinstitution}
+        fetchCareinstitutionList={fetchCareinstitutionList}
+      />
+      <UnlinkAppointment
+        show={showUnlinkModal}
+        handleClose={() => setshowUnlinkModal(false)}
+        handleUnlinkData={handleUnlinkData}
+      />
     </>
   );
 };

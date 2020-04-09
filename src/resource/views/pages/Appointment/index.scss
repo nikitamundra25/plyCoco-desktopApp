@@ -73,7 +73,8 @@
           width: 14px;
           position: absolute;
           left: 10px;
-          top: 4px;
+          top: 50%;
+          transform: translateY(-50%);
         }
         &:hover {
           background: $card_header_bg;
@@ -351,10 +352,10 @@
     }
     .unlink-btn-block {
       justify-content: space-between;
-        flex-wrap: wrap;
-        @media only screen and (max-width: 580px) {
-          justify-content:center;
-        }
+      flex-wrap: wrap;
+      @media only screen and (max-width: 580px) {
+        justify-content: center;
+      }
     }
     button {
       @media only screen and (max-width: 580px) {
@@ -467,13 +468,13 @@ body {
 .calender-section {
   position: relative;
   width: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
-  font-family: $font_open_sans;
-  background: $white;
-  min-height: calc(50vh - 75px);
-  &.loader-height{
-    height: calc(50vh - 75px);
+  // overflow-y: auto;
+  // overflow-x: auto;
+  // font-family: "Open Sans", sans-serif;
+  // background: #fff;
+  // min-height: calc(50vh - 75px);
+  &.loader-height {
+    height: calc(50vh - 80px);
   }
   .custom-appointment-calendar-body {
     width: 100%;
@@ -484,6 +485,13 @@ body {
 
   .custom-appointment-calendar {
     // height: calc(50vh - 80px);
+    position: relative;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+    font-family: $font_open_sans;
+    background: $white;
+    min-height: calc(50vh - 80px);
     .custom-appointment-calendar-head {
       // position: sticky;
       position: absolute;
@@ -538,5 +546,5 @@ body {
 
 .ReactVirtualized__List {
   padding-top: 46px;
-  height: calc(50vh - 90px) !important;
+  height: calc(50vh - 80px) !important;
 }

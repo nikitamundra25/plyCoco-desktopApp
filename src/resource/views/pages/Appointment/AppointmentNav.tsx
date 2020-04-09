@@ -138,7 +138,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             className="common-label px-1 cursor-pointer"
             onClick={handleToday}
           >
-            Today
+            {languageTranslation("Today")}
           </div>
           <div className="header-nav-item" onClick={handlePrevious}>
             <span className="header-nav-icon pr-0">
@@ -168,7 +168,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <Select
               classNamePrefix="custom-inner-reactselect"
               className={"custom-reactselect "}
-              placeholder="Select appointment"
+              placeholder={languageTranslation("SELECT_APPOINTMENT_LABEL")}
               options={Without_Appointments}
               value={filterByAppointments ? filterByAppointments : null}
               onChange={(value: any) => handleSelectAppointment(value)}

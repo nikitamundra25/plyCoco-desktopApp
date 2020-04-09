@@ -463,9 +463,8 @@ const Employee: FunctionComponent = () => {
                 <th className='date-th-column'>
                   {languageTranslation('CREATED_DATE')}
                 </th>
-
                 <th className='status-column one-line-text'>
-                  {'Employee Rights'}
+                  {languageTranslation("EMPLOYEE_EMPLOYEE_RIGHTS_LABEL")}
                 </th>
                 <th className='text-center status-column'>
                   {languageTranslation('STATUS')}

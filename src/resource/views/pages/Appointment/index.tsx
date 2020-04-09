@@ -2549,6 +2549,7 @@ const Appointment: FunctionComponent = (props: any) => {
               },
             },
           });
+          toast.dismiss();
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation("CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG")

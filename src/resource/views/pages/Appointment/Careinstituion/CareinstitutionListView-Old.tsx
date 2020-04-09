@@ -287,7 +287,7 @@ const CarinstituionListViewOld: FunctionComponent<IAppointmentCareInstitutionLis
     } else {
       if (!toast.isActive(toastId)) {
         toastId = toast.error(
-          languageTranslation("SELECT_APPOINTMENT_IN_UNLINK")
+          languageTranslation("SELECT_APPOINTMENT")
         );
       }
     }

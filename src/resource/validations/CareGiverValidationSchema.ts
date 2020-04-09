@@ -112,10 +112,10 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   ),
   age: Yup.number()
     .nullable()
-    .integer('Age must be a valid integer')
-    .typeError('Age must be a number')
-    .min(13, 'You must have 13 years of age')
-    .max(100, "Age can't be greater than 100 years"),
+    .integer(languageTranslation("AGE_VALIDATION_MESSAGE"))
+    .typeError(languageTranslation("AGE_MUST_NUMBER"))
+    .min(13, languageTranslation("AGE_VALIDATION"))
+    .max(100, languageTranslation("AGE_MAXLENGTH")),
   fax: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),

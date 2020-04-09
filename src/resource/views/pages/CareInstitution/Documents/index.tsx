@@ -416,7 +416,7 @@ const Documents = () => {
   const onDeleteDocumentTypes = async (documentId: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'This document type will be deleted'
+      text: languageTranslation("DOCUMENT_TYPE_DELETED")
     });
     if (!value) {
       return;
@@ -431,7 +431,7 @@ const Documents = () => {
         addedDocumentListRefetch();
         toast.dismiss();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success('Document type deleted successfully');
+          toastId = toast.success(languageTranslation("DOCUMENT_DELETED_SUCCESSFULLY"));
         }
       } catch (error) {
         const message = error.message
@@ -448,7 +448,7 @@ const Documents = () => {
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'This document will be deleted'
+      text: languageTranslation("DOCUMENT_TYPE_DELETED")
     });
     if (!value) {
       return;
@@ -461,7 +461,7 @@ const Documents = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success('Document deleted successfully');
+          toastId = toast.success(languageTranslation("DOCUMENT_DELETED_SUCCESSFULLY"));
         }
       } catch (error) {
         const message = error.message

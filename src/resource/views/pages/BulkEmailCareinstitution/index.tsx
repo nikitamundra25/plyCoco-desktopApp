@@ -280,10 +280,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       avabilityIds = appointedCells.map((cell:any) => parseInt(cell.item.appointments[0].avabilityId));
       requirementIds = appointedCells.map((cell:any) => parseInt(cell.item.appointments[0].requirementId));
     }
-    console.log(appointmentIds,avabilityIds,requirementIds,'requirementIds+++'); 
   }
   useEffect(() => {
-    console.log(temporaryWorkerPdf,'temporaryWorkerPdf in use effect');
     if (temporaryWorkerPdf) {
     let documentInput: any = {
       appointmentId: appointmentIds,
@@ -627,7 +625,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   };
 
-  console.log("careInstData",careInstData);
   
 
   const handleSendEmail = (e: React.FormEvent<any>) => {
@@ -841,6 +838,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   color='primary'
                   onClick={handleSendEmail}
                   className='btn-email-save ml-auto mr-2 btn btn-primary'
+                  disabled={bulkEmailLoading}
                 >
                   {bulkEmailLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />

@@ -65,7 +65,7 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
         <div className='icon-upload'>
           <i className='cui-cloud-upload'></i>
         </div>
-        <span>Drag 'n' drop files here, or click here to upload files</span>
+        <span>{languageTranslation("PERSONAL_DOCUMENTS_UPLOAD")} </span>
       </div>
       <div className='required-file-error'>{fileSize}</div>
     </Col>

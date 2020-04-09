@@ -2013,6 +2013,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   }, [departmentList, starCanstitution.isStar, careinstitutionList]);
 
+
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
@@ -2875,7 +2876,7 @@ const Appointment: FunctionComponent = (props: any) => {
       }
     } else {
       if (!toast.isActive(toastId)) {
-        toastId = toast.error("Please select appointment/s.");
+        toastId = toast.error(languageTranslation("SELECT_APPOINTMENT"));
       }
     }
   };

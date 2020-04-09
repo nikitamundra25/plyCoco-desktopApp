@@ -37,9 +37,7 @@ import { IBulkEmailVariables } from '../../../../interfaces';
 import { errorFormatter } from '../../../../helpers';
 import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
-import { useHistory } from 'react-router';
 import {
-  AppRoutes,
   client,
   dbAcceptableFormat,
   defaultDateFormat
@@ -81,7 +79,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     qualificationList,
     terminateAggrement,
     handleClose,
-    updateLinkedStatus,
     label
   } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
@@ -353,7 +350,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   }, []);
 
   const [careGiverData, setcareGiverData] = useState<Object[]>([]);
-  const [careGiverConfirm, setCaregiverConfirm] = useState<Object[]>([]);
   // get care giver list according to selected qualification in appointment section
 
   useEffect(() => {
@@ -1853,9 +1849,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               </div> */}
             </div>
           </div>
-          {console.log( !leasingContactPdfData &&
-                leasingContract &&
-                pdfAppointmentDetails.length > 0 && signatureData ? true : false,'leasing condition')}
+      
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
@@ -1876,12 +1870,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   </PDFDownloadLink>
                 ) : null}
-                {console.log('terminate condition', !terminationAgreementPdfData &&
-                terminateAggrement &&
-                pdfTerminateAppointment &&
-                pdfTerminateAppointment.name &&
-                signatureData ? true : false)
-                }
+               
                 {!terminationAgreementPdfData && 
                 terminateAggrement &&
                 pdfTerminateAppointment &&

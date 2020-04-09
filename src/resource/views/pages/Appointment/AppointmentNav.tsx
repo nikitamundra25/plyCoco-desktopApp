@@ -146,13 +146,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className="common-header-input pr-1">
-            {/* <Input
-              className='form-control'
-              placeholder={'February 2020'}
-              type='input'
-              value={`${month} ${year}`}
-              name='text'
-            /> */}
             <DayPickerInput
               onDayChange={handleDayClick}
               value={month ? `${month} ${year}` : ""}
@@ -228,7 +221,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               className={
                 "custom-reactselect custom-reactselect-menu-width-appointment"
               }
-              placeholder="Select Caregiver"
+              placeholder={languageTranslation("SELECT_CAREGIVER")}
               options={careGiversList}
               value={
                 caregiverSoloFilter && caregiverSoloFilter.value !== ""
@@ -266,7 +259,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               className={
                 "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
               }
-              placeholder="Select Care Institution"
+              placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
               value={
                 careinstitutionSoloFilter &&
                 careinstitutionSoloFilter.value !== ""
@@ -311,8 +304,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 placeholder={
                   user
                     ? user === "avability"
-                      ? "Availability"
-                      : "Requirement"
+                      ?  languageTranslation("CAREGIVER_AVABILITY")
+                      :  languageTranslation("CAREINST_REQUIREMENT")
                     : languageTranslation("SELECT_USER")
                 }
                 type="text"

@@ -948,7 +948,7 @@
   "REGENERATE_PASSWORD": "Generate new password.",
   "CONFIRM_REGENERATE_PASSWORD_MESSAGE": "Old password will be removed and a new password will be set for this :userRole and a confirmation email with new password will sent out on the <b>:email</b>. Would you like to continue?",
   "NEW_PASSWORD_SENT_SUCCESS": "New password is generated and sent to :email.",
-  "SELECT_APPOINTMENT_IN_UNLINK": "Please select appointment/s.",
+  "SELECT_APPOINTMENT": "Please select appointment/s.",
   "QUALIFICATION_REQUIRED": "Qualification is required",
   "DEPARTMENT_REQUIRED": "Department is required",
   "QUALIFICATION_UNMATCH": "Qualifications did not match",

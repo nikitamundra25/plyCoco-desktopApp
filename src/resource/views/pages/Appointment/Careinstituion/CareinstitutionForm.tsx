@@ -83,16 +83,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     setcareInstituionDept,
     careInstitutionTimesOptions,
     setcareInstituionShift,
-    addCareinstitutionRes,
     selctedRequirement,
-    secondStarCanstitution,
     handleQualification,
     onhandleDelete,
     careInstitutionListArr,
     handleSelectUserList,
     addCareinstLoading,
     timeSlotError,
-    street
   } = props;
 
   let d = moment().format('L');
@@ -360,7 +357,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             </div>
                           )}
                           <InputGroupAddon addonType='append'>
-                            <InputGroupText>Uhr</InputGroupText>
+                          <InputGroupText>{languageTranslation("UHR")}</InputGroupText>
                           </InputGroupAddon>
                         </InputGroup>
                       </div>
@@ -439,7 +436,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           </div>
                         ) : null}
                         <InputGroupAddon addonType='append'>
-                          <InputGroupText>Uhr</InputGroupText>
+                          <InputGroupText>{languageTranslation("UHR")}</InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
                     </div>
@@ -510,48 +507,12 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             {qualificationError}
                           </div>
                         )}
-                        {/* <Select
-                        placeholder='Select Qualifications'
-                        options={qualificationList}
-                        isMulti={true}
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
-                        value={qualificationId}
-                        onChange={(value: any) =>
-                          handleSelect(value, 'qualificationId')
-                        }
-                      /> */}
                       </div>
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-
-            {/* <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='5'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('QUALIFICATION_FOR_BILLING')}
-                    </Label>
-                  </Col>
-                  <Col sm='7'>
-                    <div className='required-input'>
-                      <div className='required-input'>
-                        <Select
-                          placeholder='Select Qualifications'
-                          options={State}
-                          classNamePrefix='custom-inner-reactselect'
-                          className={'custom-reactselect'}
-                        />
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col> */}
-           
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
@@ -563,7 +524,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='7'>
                     <div className='required-input'>
                       <Select
-                        placeholder='Select Department'
+                        placeholder={languageTranslation("SELECT_DEPARTMENT")}
                         options={careInstitutionDepartment}
                         isDisabled={
                           careInstitutionDepartment.length <= 0 ? true : false

@@ -5,7 +5,6 @@ import moment from "moment";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router";
 import { InfiniteLoader, AutoSizer, List } from "react-virtualized";
 import {
   IAppointmentCareInstitutionList,
@@ -166,7 +165,7 @@ const CarinstituionListView: FunctionComponent<
     ) {
       if (selectedCellsCareinstitution.length !== selectedCells.length) {
         if (!toast.isActive(toastId)) {
-          toastId = toast.error("Please select same length cells");
+          toastId = toast.error(languageTranslation("LINK_SAME_LENGTH"));
         }
       } else {
         if (
@@ -223,7 +222,7 @@ const CarinstituionListView: FunctionComponent<
               checkError = true;
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
-                  "Date range between appointments & requirement mismatch."
+                  languageTranslation("DATE_RANGE_MISMATCH")
                 );
               }
               return false;
@@ -231,7 +230,7 @@ const CarinstituionListView: FunctionComponent<
               checkError = true;
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
-                  "Create requirement or appointment first for all selected cells."
+                 languageTranslation("LINK_ERROR")
                 );
               }
               return false;
@@ -278,14 +277,6 @@ const CarinstituionListView: FunctionComponent<
     let appointmentId: any = [];
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.map((key: any, index: number) => {
-        // let appointId: any = key.item.appointments.filter(
-        // (appointment: any) => {
-        // return (
-        // moment(key.dateString).format(dbAcceptableFormat) ===
-        // moment(appointment.date).format(dbAcceptableFormat)
-        // );
-        // }
-        // );
         return appointmentId.push({
           appointmentId: parseInt(
             key.item.appointments ? key.item.appointments[0].id : ""
@@ -302,8 +293,8 @@ const CarinstituionListView: FunctionComponent<
       }
     } else {
       if (!toast.isActive(toastId)) {
-        toastId = toast.error(
-          languageTranslation("SELECT_APPOINTMENT_IN_UNLINK")
+        toastId = toast.error( 
+          languageTranslation("SELECT_APPOINTMENT")
         );
       }
     }
@@ -311,7 +302,7 @@ const CarinstituionListView: FunctionComponent<
 
   const [showList, setShowList] = useState<boolean>(false);
 
-  // state for care giver bulk email
+  // state for care giver bulk email 
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
     false
   );
@@ -857,8 +848,8 @@ const CarinstituionListView: FunctionComponent<
                     : ""
                 }
                 onClick={() => {
-                  handleCareInstitutionBulkEmail();
                   handleCareGiverBulkEmail("division", true);
+                  handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
                   updateCareInstitutionStatus("offered");
                   // setOnOfferedCareInst();
@@ -1215,16 +1206,16 @@ const CarinstituionListView: FunctionComponent<
                 </div>
 
                 <div className=" h-col custom-appointment-col text-center">
-                  H
+                  {languageTranslation("H")}
                 </div>
                 <div className=" s-col custom-appointment-col text-center">
-                  S
+                {languageTranslation("S")}
                 </div>
                 <div className=" u-col custom-appointment-col text-center">
-                  A
+                {languageTranslation("A")}
                 </div>
                 <div className=" v-col custom-appointment-col text-center">
-                  V
+                {languageTranslation("V")}
                 </div>
 
                 {/* array for showing day */}
@@ -1261,7 +1252,7 @@ const CarinstituionListView: FunctionComponent<
                 <div className={"appointment-loader"}>
                   <Loader />
                 </div>
-              ) : (
+              ) : careInstitutionList && careInstitutionList.length ?
                 <SelectableGroup
                   allowClickWithoutSelected
                   className="custom-row-selector"
@@ -1306,7 +1297,14 @@ const CarinstituionListView: FunctionComponent<
                     )}
                   </InfiniteLoader>
                 </SelectableGroup>
-              )}
+              :  <div className='no-data-section pt-5 pb-5 bg-white text-center'>
+              <div className='no-data-icon'>
+                <i className='icon-ban' />
+              </div>
+              <h4 className='mb-1'>
+          {languageTranslation("NO_CAREINSTITUTION_ADDED")}{' '}
+              </h4>
+            </div>}
             </div>
           </div>
         </div>

@@ -310,6 +310,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     setshowUnlinkModal(!showUnlinkModal);
   };
   const [isFromUnlink, setisFromUnlink] = useState(false);
+  
   const handleUnlinkData = (likedBy: string, check: boolean) => {
     setunlinkedBy(likedBy);
     let appointmentId: any = [];
@@ -341,7 +342,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     } else {
       if (!toast.isActive(toastId)) {
-        toastId = toast.error('Please select appointment/s.');
+        toastId = toast.error(languageTranslation("SELECT_APPOINTMENT"));
       }
     }
   };
@@ -470,7 +471,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       ? true
       : false;
   }
-  console.log(isLeasingAppointment, 'isLeasingAppointment');
   let getheight: HTMLElement | null = document.getElementById('getheight');
   let listheight: number = 200;
   if (getheight) {
@@ -885,15 +885,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     </Button>
                   </div>
                 </div>
-                <div className='custom-appointment-col h-col'>H</div>
+                <div className='custom-appointment-col h-col'> {languageTranslation("H")}</div>
                 <div className='custom-appointment-col s-col text-center'>
-                  S
+                {languageTranslation("S")}
                 </div>
                 <div className='custom-appointment-col u-col text-center'>
-                  U
+                {languageTranslation("U")}
                 </div>
                 <div className='custom-appointment-col v-col text-center'>
-                  V
+                {languageTranslation("V")}
                 </div>
                 {/* array for showing day */}
                 {daysArr.map(
@@ -1110,7 +1110,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     <i className='icon-ban' />
                   </div>
                   <h4 className='mb-1'>
-                    Currently there are no CareGiver added.{' '}
+              {languageTranslation("NO_CAREGIVER_ADDED")}{' '}
                   </h4>
                 </div>
               )}

@@ -80,8 +80,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     leasingContract,
     qualificationList,
     terminateAggrement,
-    showButton,
-    mailEvent,
+    handleClose,
     updateLinkedStatus,
     label
   } = props;
@@ -289,7 +288,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
       }
-      props.handleClose();
+      if (handleClose) {
+        handleClose();
+      }else{
       setSubject('');
       setBody(undefined);
       setAttachments([]);
@@ -297,6 +298,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       setTemplate({ label: '', value: '' });
       setselectedCareGiver([]);
       setBulkCareGivers(false);
+    }
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -1103,18 +1105,21 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             .map((cell: any) =>
               cell.item && cell.item.appointments ? cell.item.appointments : []
             )
-            .forEach((requirement: any) => {
+            .forEach((requirement: any, index:number) => {
               const { cr = {}, date = '' } =
                 requirement && requirement.length ? requirement[0] : {};
               const {
+                address = '',
                 startTime = '',
                 endTime = '',
                 name = '',
                 division = {},
                 qualificationId = []
               } = cr ? cr : {};
-              appointmentTimings = [...appointmentTimings, moment(date).format('MMM DD')]
-              let { address = '' } = division ? division : {};
+              console.log(cr, 'cr in map');
+              
+              appointmentTimings = [...appointmentTimings, moment(date).format(index ==0 ? 'MMMM DD' : 'DD')]
+              // let { address = '' } = division ? division : {};
               if (!moment(date).isBefore(moment(), 'day')) {
                 let shiftLabel =
                   startTime === '06:00'
@@ -1239,7 +1244,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let mailBody = `<p>${languageTranslation(
           'CAREGIVER_EMAIL_LEASING_CONTRACT'
         )}</p></br>${requirementEmailData}</br>
-        <p>Please sign a temporary employment contract with TIMyoCY for: <br/> <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
+        <p>Please use the following link: <br/> <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
         </p>`;
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
@@ -1574,7 +1579,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           status: 'leasingContract'
         }
       })
-      updateLinkedStatus('contractInitiated')
+      // updateLinkedStatus('contractInitiated')
     }
   }, [leasingContactPdfData]);
 
@@ -1608,7 +1613,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           status: 'terminateAgreement'
         }
       });
-      updateLinkedStatus('contractcancelled')
+      // updateLinkedStatus('contractcancelled')
 
     }
   }, [terminationAgreementPdfData]);

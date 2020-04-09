@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Document, Page, Text, Image, View, StyleSheet, PDFViewer } from '@react-pdf/renderer';
 import { ITerminationAgreementPdfProps } from '../../../../../interfaces';
 import { AppConfig } from '../../../../../config';
+import { languageTranslation } from '../../../../../helpers';
 
 const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> = (
   {pdfTerminateAppointment, signatureData}: ITerminationAgreementPdfProps
@@ -135,27 +136,26 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <Text style={styles.name}>TIMYOCY</Text>
-
-          <Text style={styles.subtitle}>Termination agreement for temporary work </Text>
-          <Text style={styles.subtext}>Between </Text>
-          <Text style={styles.subaddresstext}>Diamond Personal GmbH, under the label TIMyoCY  </Text>
-          <Text style={styles.subaddresstext}>Welfenallee 3-7  </Text>
-          <Text style={styles.subaddresstext}>13465 Berlin  </Text>
-          <Text style={styles.subtextalignright}>– hereafter: leasing company –  </Text>
-          <Text style={styles.subtext}>And </Text>
+          <Text style={styles.subtitle}>{languageTranslation("TERMINATION_AGREEMENT_TEMPORARY_WORK")} </Text>
+          <Text style={styles.subtext}>{languageTranslation("BETWEEN")} </Text>
+          <Text style={styles.subaddresstext}>{languageTranslation("DIAMOND_LABEL_FOR_TERMINATION")} TIMyoCY  </Text>
+          <Text style={styles.subaddresstext}>{languageTranslation("WELFENALLEE")} 3-7  </Text>
+          <Text style={styles.subaddresstext}>13465 {languageTranslation("BERLIN")}  </Text>
+          <Text style={styles.subtextalignright}>– {languageTranslation("LEASING_COMPANY")} –  </Text>
+          <Text style={styles.subtext}>{languageTranslation("AND")} </Text>
           <Text style={styles.subaddresshighlighttext}>{[name, dateOfBirth].filter(Boolean).join(', ')}</Text>
           <Text style={styles.subaddresshighlighttext}>{street}</Text>
           <Text style={styles.subaddresshighlighttext}>{city}</Text>
-          <Text style={styles.subtextalignright}> – hereafter: Leiharbeitnehmer–  </Text>
+  <Text style={styles.subtextalignright}> – {languageTranslation("HERE_LEIHARBEITNEHMER")}–  </Text>
         </View>
 
         <View style={styles.textwrapper}>
-          <Text style={styles.remarktext}>The following temporary employment relationships between the lender and the agency worker will be terminated by mutual agreement at the current time: </Text>
+          <Text style={styles.remarktext}>{languageTranslation("TERMINATION_PDF_TEMPORARY_EMPLOYMENT_RELATIONSHIP")} </Text>
           <Text style={styles.subaddresshighlighttext}>xx.xx.2020  </Text>
 
         </View>
         <View style={styles.textwrapper1}>
-          <Text style={styles.subaddresshighlighttext}>Berlin, xx.xx.2020  </Text>
+          <Text style={styles.subaddresshighlighttext}>{languageTranslation("BERLIN")}, xx.xx.2020  </Text>
 
         </View>
         <View style={styles.signaturecontainer}>
@@ -168,16 +168,16 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
           <View style={styles.imagediv}>
             {careGiverSignature ? <Image src={careGiverSignature} style={styles.image} /> : null}
             <Text style={styles.imgtext}>
-              Leiharbeitnehmer
+               {languageTranslation("LEIHARBEITNEHMER")}
           </Text>
           </View>
         </View>
         <View style={styles.footerwrapper}>
-          <Text style={styles.footertext}>TIMyoCY is a service of Diamond Personal GmbH · Welfenallee 3-7 · 13465 Berlin </Text>
-          <Text style={styles.footertext}>Tel: +49.30.644 99 444 Fax: +49.30. 644 99 445 </Text>
-          <Text style={styles.footertext}>Supervisory authority:  Agentur für Arbeit Kiel, 24131 Kiel, Tel: 0431 709 1010 </Text>
-          <Text style={styles.footertext}>Entry in commercial register: Register court: District court Berlin-Charlottenburg</Text>
-          <Text style={styles.footertext}>Register number: HRB 191079 B Managing Director: Maren Krusch </Text>
+          <Text style={styles.footertext}>TIMyoCY {languageTranslation("TIMyoCY_SERVICE")} </Text>
+          <Text style={styles.footertext}>{languageTranslation("TEL")}: +49.30.644 99 444 {languageTranslation("FAX")}: +49.30. 644 99 445 </Text>
+          <Text style={styles.footertext}>{languageTranslation("SUPERVISORY_AUTHORITY")}, {languageTranslation("TEL")}: 0431 709 1010 </Text>
+          <Text style={styles.footertext}>{languageTranslation("ENTRY_IN_COMMERCIAL_REGISTER")} </Text>
+          <Text style={styles.footertext}>{languageTranslation("REGISTER_NUMBER_PDF")} </Text>
         </View>
       </Page>
     </Document>

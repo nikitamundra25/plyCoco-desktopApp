@@ -120,7 +120,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                           <i className='icon-ban' />
                         </div>
                         <h4 className='mb-1'>
-                          Currently there is no data in trash.
+                          {languageTranslation("NO_DATA_IN_TRASH")}
                         </h4>
                       </div>
                     </td>
@@ -159,7 +159,7 @@ export const EmailTemplateList: FunctionComponent<IEmailTemplateList> = ({
                   <td colSpan={4} className={'pt-5 pb-5'}>
                     <div className='no-list-section d-flex align-items-center justify-content-center flex-column py-5 my-3'>
                       <img src={nodata} alt='' className='no-img' />
-                      <span className='no-text'>No Menu Entry Added.</span>
+                      <span className='no-text'>{languageTranslation("NO_MENU_ENTRY_ADDED")} </span>
                     </div>
                   </td>
                 </tr>

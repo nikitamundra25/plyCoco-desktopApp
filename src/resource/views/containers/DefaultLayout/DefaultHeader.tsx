@@ -12,6 +12,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { AppRoutes, client } from '../../../../config';
 import { ProfileQueries } from '../../../../graphql/queries';
 import logo from '../../../assets/img/plycoco-orange.png';
+import { languageTranslation } from '../../../../helpers';
 
 const [VIEW_PROFILE] = ProfileQueries;
 
@@ -67,7 +68,7 @@ const DefaultHeader: FunctionComponent = () => {
               </div>
             </DropdownItem>
             <DropdownItem onClick={() => history.push(AppRoutes.MY_PROFILE)}>
-              <i className='fa fa-user' /> Profile
+              <i className='fa fa-user' /> {languageTranslation("PROFILE")}
             </DropdownItem>
             <DropdownItem
               onClick={() => {
@@ -75,7 +76,7 @@ const DefaultHeader: FunctionComponent = () => {
                 history.push(AppRoutes.LOGIN);
               }}
             >
-              <i className='fa fa-lock' /> Logout
+              <i className='fa fa-lock' /> {languageTranslation("LOGOUT")}
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>

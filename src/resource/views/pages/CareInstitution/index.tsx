@@ -441,7 +441,7 @@ const CareInstitution = (props: RouteComponentProps) => {
                         placement='top'
                         target={`delete${index}`}
                       >
-                        Move to trash
+                       {languageTranslation("MOVE_TO_TRASH")}
                       </UncontrolledTooltip>
                       <i className='fa fa-trash'></i>
                     </span>
@@ -460,9 +460,9 @@ const CareInstitution = (props: RouteComponentProps) => {
                     <i className='icon-ban' />
                   </div>
                   <h4 className='mb-1'>
-                    Currently there are no care institution added.{' '}
+                  {languageTranslation("NO_CARE_INSTITUTION_ADDED")} {' '}
                   </h4>
-                  <p>Please click above button to add new. </p>
+                  <p>{languageTranslation("CLICK_ABOVE_TO_ADD_NEW")} </p>
                 </div>
               ) : (
                 <div className='no-search-section'>
@@ -470,20 +470,17 @@ const CareInstitution = (props: RouteComponentProps) => {
                     <i className='icon-magnifier' />
                   </div>
                   <h4 className='mb-1'>
-                    No details found related your search{' '}
+                   {languageTranslation("NO_SEARCH_FOUND")} {' '}
                   </h4>
                   <div className='text-left search-text'>
                     <p>
-                      <span className='pr-2'>&#8226;</span>Try to simplify your
-                      search
+                      <span className='pr-2'>&#8226;</span> {languageTranslation("SIMPLIFY_SEARCH")}
                     </p>
                     <p>
-                      <span className='pr-2'>&#8226;</span>Use different
-                      keywords
+                      <span className='pr-2'>&#8226;</span> {languageTranslation("DIFFERENT_KEYWORDS")}
                     </p>
                     <p>
-                      <span className='pr-2'>&#8226;</span>Make sure words are
-                      spelled correctly
+                      <span className='pr-2'>&#8226;</span>{languageTranslation("SEARCH_CORRECTLY_SPELLED")}
                     </p>
                   </div>
                 </div>
@@ -554,7 +551,7 @@ const CareInstitution = (props: RouteComponentProps) => {
             onClick={() => handleAddNewCareInstitution()}
           >
             <i className={'fa fa-plus'} />
-            &nbsp; Add New Care Institution
+            &nbsp; {languageTranslation("ADD_NEW_CARE_INSTITUTION")}
           </Button>
         </div>
       </CardHeader>
@@ -580,13 +577,13 @@ const CareInstitution = (props: RouteComponentProps) => {
                 <th className='sno-th-column text-center'>
                   {languageTranslation('S_NO')}
                 </th>
-                <th className='company-th-column'>Company Details</th>
-                <th>Care Institution Information</th>
+                <th className='company-th-column'>{languageTranslation("COMPANY_DETAILS")} </th>
+                <th>{languageTranslation("CARE_INSTITUTION_INFORMATION")} </th>
                 <th className='date-th-column'>
                   {languageTranslation('CREATED_DATE')}
                 </th>
                 {/* <th className='text-center status-column'>Status</th> */}
-                <th className='text-center'>Action</th>
+                <th className='text-center'>{languageTranslation("TABLE_HEAD_ACTION")} </th>
               </tr>
             </thead>
             <tbody>

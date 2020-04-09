@@ -153,7 +153,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                     checked={hideWeekeds}
                   />
                   <label className="" htmlFor="check">
-                    Hide Weekends
+                    {languageTranslation("HIDE_WEEKENDS")}
                   </label>
                 </span>
                 {/* <Input type="text" readonly className="form-control header-input-wrap ml-3" /> */}
@@ -187,7 +187,7 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
                 <td colSpan={states.length || 8}
                  className={`table-data-td`}
                 >
-                 <div className="no-data-avaible">Currently there are no holiday Details found</div>
+                 <div className="no-data-avaible">{languageTranslation("NO_HOLIDAY_ADDED")} </div>
                 </td>
               </tr>
             ) : (

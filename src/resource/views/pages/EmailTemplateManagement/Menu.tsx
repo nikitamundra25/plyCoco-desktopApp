@@ -47,7 +47,7 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
             </div>
             <div className="user-select">
               <Select
-                placeholder="Select Template"
+                placeholder={languageTranslation("SELECT_TEMPLATE")}
                 options={typeListOptions}
                 value={templateType}
                 onChange={onTypeChange}

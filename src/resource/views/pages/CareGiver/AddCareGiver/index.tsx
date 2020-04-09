@@ -349,7 +349,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
             <Suspense fallback={<Loader />}>
               <div className='sticky-common-header'>
                 <div className='common-topheader d-flex align-items-center '>
-                  <div className='common-title'>Add New Caregiver</div>
+                  <div className='common-title'>{languageTranslation("ADD_NEW_CAREGIVER")} </div>
 
                   <div className='header-nav-item'>
                     <span className='header-nav-icon'>
@@ -361,28 +361,28 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
                       //   this.setState({ show: true });
                       // }}
                     >
-                      Create Todo/Reminder
+                     {languageTranslation("CREATE_TODO")}
                     </span>
                   </div>
                   <div className='header-nav-item'>
                     <span className='header-nav-icon'>
                       <img src={password} alt='' />
                     </span>
-                    <span className='header-nav-text'>New Password</span>
+                    <span className='header-nav-text'>{languageTranslation("NEW_PASSWORD")} </span>
                   </div>
                   <div className='header-nav-item'>
                     <span className='header-nav-icon'>
                       <img src={appointment} alt='' />
                     </span>
                     <span className='header-nav-text'>
-                      Display Appointments
+                      {languageTranslation("DISPLAY_APPOINTMENT")}
                     </span>
                   </div>
                   <div className='header-nav-item'>
                     <span className='header-nav-icon'>
                       <img src={clear} alt='' />
                     </span>
-                    <span className='header-nav-text'>Clear</span>
+                    <span className='header-nav-text'>{languageTranslation("CLEAR")} </span>
                   </div>
                 </div>
                 <CareGiverSidebar

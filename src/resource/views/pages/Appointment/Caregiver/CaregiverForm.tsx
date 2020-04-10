@@ -198,17 +198,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       careGiversListArr && careGiversListArr.result
         ? careGiversListArr.result
         : {};
-        setstarMark(!starMark);
-        if (id && !starMark) {
+        if (id && !starMarkCaregiver) {
       data = careGiversListArr.result.filter((x: any) => x.id === id)[0];
-      console.log("data",data);
       onhandleCaregiverStar(data, name);
-    }else if(starMarkCaregiver){
-      onhandleCaregiverStar({}, name);
     }
-    // if(starMark){
-    //   onhandleCaregiverStar(data, name);
-    // }
   };
 
 let dateCondition: any 
@@ -304,7 +297,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                           <InputGroupText>
                             <i
                               className={
-                                starMark
+                                starMarkCaregiver
                                   ? 'fa fa-star theme-text'
                                   : 'fa fa-star'
                               }

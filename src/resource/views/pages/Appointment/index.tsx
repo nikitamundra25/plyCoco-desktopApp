@@ -1217,30 +1217,27 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
+const handleStarForm = (list: any, name: string) => {
+  if (
+    list &&
+    list.id &&
+    caregiversList &&
+    caregiversList.length &&
+    caregiversList[0] &&
+    caregiversList[0].id
+  ) { 
+
+  }
+}
+
   const onhandleCaregiverStar = (list: any, name: string) => {
     if (!starMarkCaregiver) {
       setstarMarkCaregiver(!starMarkCaregiver);
       handleSecondStar(list, name);
-    } else {
-      if (
-        list &&
-        list.id &&
-        caregiversList &&
-        caregiversList.length &&
-        caregiversList[0] &&
-        caregiversList[0].id
-      ) {
-        if (list.id !== caregiversList[0].id) {
-          handleSecondStar(list, name);
-        }else{
-          setstarMarkCaregiver(!starMarkCaregiver);
-          handleReset(name);
-        }
       } else {
         setstarMarkCaregiver(!starMarkCaregiver);
         handleReset(name);
       }
-    }
   };
 
   // Reset the users list

@@ -1212,15 +1212,18 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const onhandleCaregiverStar = (list: any, name: string) => {
-    console.log("list",list);
-    console.log("setcaregiversList",caregiversList);
     if (!starMarkCaregiver) {
       setstarMarkCaregiver(!starMarkCaregiver);
       handleSecondStar(list, name);
     } else {
-      
-      setstarMarkCaregiver(!starMarkCaregiver);
-      handleReset(name);
+      if(list && list.id && caregiversList && caregiversList.length && caregiversList[0] && caregiversList[0].id){
+        if(list.id !== caregiversList[0].id){
+          handleSecondStar(list, name);
+        }
+      }else{
+        setstarMarkCaregiver(!starMarkCaregiver);
+        handleReset(name);
+      }
     }
   };
 

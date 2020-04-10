@@ -199,14 +199,16 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
         ? careGiversListArr.result
         : {};
         setstarMark(!starMark);
-        if (id && !starMarkCaregiver) {
+        if (id && !starMark) {
       data = careGiversListArr.result.filter((x: any) => x.id === id)[0];
       console.log("data",data);
       onhandleCaregiverStar(data, name);
+    }else if(starMarkCaregiver){
+      onhandleCaregiverStar({}, name);
     }
-    if(starMark){
-      onhandleCaregiverStar(data, name);
-    }
+    // if(starMark){
+    //   onhandleCaregiverStar(data, name);
+    // }
   };
 
 let dateCondition: any 

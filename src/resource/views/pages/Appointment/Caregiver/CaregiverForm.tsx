@@ -125,8 +125,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     });}}
     },[selectedCells])
 
-    
-  const [starMark, setstarMark] = useState<boolean>(false);
   
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -194,17 +192,17 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   };
  
   const handleUserList = (id: string, name: string) => {
-    setstarMark(!starMark)
     let data: any =
       careGiversListArr && careGiversListArr.result
         ? careGiversListArr.result
         : {};
-        if (id && !starMarkCaregiver) {
+        if (id) {
       data = careGiversListArr.result.filter((x: any) => x.id === id)[0];
       onhandleCaregiverStar(data, name);
-    }else if(!starMark){
-      onhandleCaregiverStar(data, name);
     }
+    // else if(!starMark){
+    //   onhandleCaregiverStar(data, name);
+    // }
   };
 
 let dateCondition: any 

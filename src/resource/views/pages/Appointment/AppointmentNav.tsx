@@ -86,9 +86,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
       : false;
 
   const toggle = () => setOpen(!dropdownOpen);
+
   const handleSelect = (e: any, name: string) => {
     if (name === "dropdown") {
       setuser(e.target.value);
+      setuserId("")
     } else {
       setuserId(e.target.value);
     }
@@ -306,13 +308,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                     ? user === "avability"
                       ?  languageTranslation("CAREGIVER_AVABILITY")
                       :  languageTranslation("CAREINST_REQUIREMENT")
-                    : languageTranslation("SELECT_USER")
+                    : languageTranslation("CAREGIVER_AVABILITY")
                 }
                 type="text"
                 name="id"
                 value={userId}
                 onChange={(e: any) => handleSelect(e, "text")}
-                // onBlur={(e: any) => handleBlur()}
                 onKeyPress={(e: any) => handleKeyPress(e)}
               />
               <UncontrolledTooltip placement={"top"} target={"dropdown-1"}>

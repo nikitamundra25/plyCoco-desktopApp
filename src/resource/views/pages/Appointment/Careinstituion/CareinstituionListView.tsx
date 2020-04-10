@@ -772,11 +772,9 @@ const CarinstituionListView: FunctionComponent<
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution &&
-                    selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === ""
-                    ? "disabled-class"
-                    : ""
+                    selectedCellsCareinstitution ? selectedCellsCareinstitution.length === 0 : true
+                    // ? "disabled-class"
+                    // : ""
                 }
                 onClick={() => {
                   handleRightMenuToggle();
@@ -839,11 +837,7 @@ const CarinstituionListView: FunctionComponent<
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution &&
-                    selectedCellsCareinstitution.length &&
-                    selectedCellsCareinstitution[0].id === ""
-                    ? "disabled-class"
-                    : ""
+                  selectedCellsCareinstitution ? selectedCellsCareinstitution.length === 0 : true
                 }
                 onClick={() => {
                   handleRightMenuToggle();

@@ -118,7 +118,9 @@ const Appointment: FunctionComponent = (props: any) => {
   const [starMarkCaregiver, setstarMarkCaregiver] = useState<boolean>(false);
 
   // manage star for careinstitution form
-  const [starMarkCareinstitution, setstarMarkCareinstitution] = useState<boolean>(false);
+  const [starMarkCareinstitution, setstarMarkCareinstitution] = useState<
+    boolean
+  >(false);
 
   // state for care institution bulk email
   const [
@@ -1059,12 +1061,12 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   }, [careGiversList, careInstitutionList]);
 
-  // Select particular user when click on form star 
+  // Select particular user when click on form star
   const handleSelectUserList = (data: any, name: string) => {
     if (name === "caregiver") {
       setcaregiversList(data);
     } else if (name === "careinstitution") {
-      setstarMarkCareinstitution(!starMarkCareinstitution)
+      setstarMarkCareinstitution(!starMarkCareinstitution);
       setcareinstitutionList(data);
     }
   };
@@ -1220,17 +1222,26 @@ const Appointment: FunctionComponent = (props: any) => {
       setstarMarkCaregiver(!starMarkCaregiver);
       handleSecondStar(list, name);
     } else {
-      if(list && list.id && caregiversList && caregiversList.length && caregiversList[0] && caregiversList[0].id){
-        if(list.id !== caregiversList[0].id){
+      if (
+        list &&
+        list.id &&
+        caregiversList &&
+        caregiversList.length &&
+        caregiversList[0] &&
+        caregiversList[0].id
+      ) {
+        if (list.id !== caregiversList[0].id) {
           handleSecondStar(list, name);
+        }else{
+          setstarMarkCaregiver(!starMarkCaregiver);
+          handleReset(name);
         }
-      }else{
+      } else {
         setstarMarkCaregiver(!starMarkCaregiver);
         handleReset(name);
       }
     }
   };
-
 
   // Reset the users list
   const handleReset = (name: string) => {
@@ -2037,7 +2048,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   }, [departmentList, starCanstitution.isStar, careinstitutionList]);
 
-
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
@@ -2780,97 +2790,97 @@ const Appointment: FunctionComponent = (props: any) => {
           toastId = toast.error(languageTranslation("LINK_SAME_LENGTH"));
         }
       } else {
-      if (
-        selectedCells[0].caregiver &&
-        selectedCells[0].caregiver.attributes &&
-        selectedCells[0].caregiver.attributes.length
-      ) {
-        let checkAttribute = selectedCells[0].caregiver.attributes.includes(8);
-        if (checkAttribute) {
-          const { value } = await ConfirmBox({
-            title: languageTranslation("ATTRIBUTE_WARNING"),
-            text: languageTranslation("LINKED_ATTRIBUTE_WARNING"),
-          });
-          if (!value) {
+        if (
+          selectedCells[0].caregiver &&
+          selectedCells[0].caregiver.attributes &&
+          selectedCells[0].caregiver.attributes.length
+        ) {
+          let checkAttribute = selectedCells[0].caregiver.attributes.includes(
+            8
+          );
+          if (checkAttribute) {
+            const { value } = await ConfirmBox({
+              title: languageTranslation("ATTRIBUTE_WARNING"),
+              text: languageTranslation("LINKED_ATTRIBUTE_WARNING"),
+            });
+            if (!value) {
+              checkError = true;
+              return;
+            }
+          }
+        }
+        let qualiCheck: any[] = [];
+        selectedCells.map(async (key: any, index: number) => {
+          const element = selectedCellsCareinstitution[index];
+          if (
+            key.item.fee &&
+            key.item.weekendAllowance &&
+            key.item.holidayAllowance &&
+            key.item.nightFee
+          ) {
+            if (
+              key.qualificationIds &&
+              key.qualificationIds.length &&
+              element.item.qualificationId &&
+              element.item.qualificationId.length
+            ) {
+              qualiCheck = element.item.qualificationId.filter((e: any) =>
+                key.qualificationIds.includes(e.value)
+              );
+            }
+            if (qualiCheck && qualiCheck.length <= 0) {
+              toast.dismiss();
+              if (!toast.isActive(toastId)) {
+                toastId = toast.warn(
+                  languageTranslation("QUALIFICATION_UNMATCH")
+                );
+              }
+              checkError = true;
+              return true;
+            }
+            if (
+              moment(key.dateString).format(dbAcceptableFormat) !==
+              moment(element.dateString).format(dbAcceptableFormat)
+            ) {
+              checkError = true;
+              if (!toast.isActive(toastId)) {
+                toastId = toast.error(
+                  languageTranslation("DATE_RANGE_MISMATCH")
+                );
+              }
+              return false;
+            } else if (key.item === undefined || element.item === undefined) {
+              checkError = true;
+              if (!toast.isActive(toastId)) {
+                toastId = toast.error(languageTranslation("LINK_ERROR"));
+              }
+              return false;
+            } else {
+              if (!checkError) {
+                selectedData.push({
+                  avabilityId: parseInt(key.item.id),
+                  requirementId: parseInt(element.item.id),
+                  date: moment(element.dateString).format(dbAcceptableFormat),
+                  status: "appointment",
+                });
+              }
+            }
+          } else {
             checkError = true;
+            const { value } = await ConfirmBox({
+              title: languageTranslation("FEES_ERROR_MESSAGE"),
+              text: languageTranslation("LINKED_FEES_MESSAGE"),
+              type: "error",
+              showCancelButton: false,
+              confirmButtonText: "Ok",
+            });
             return;
           }
+        });
+        if (!checkError) {
+          onLinkAppointment(selectedData, "link");
         }
       }
-       let qualiCheck: any[] = [];
-      selectedCells.map(async (key: any, index: number) => {
-        const element = selectedCellsCareinstitution[index];
-        if (
-          key.item.fee &&
-          key.item.weekendAllowance &&
-          key.item.holidayAllowance &&
-          key.item.nightFee
-        ) {
-          if (
-            key.qualificationIds &&
-            key.qualificationIds.length &&
-            element.item.qualificationId &&
-            element.item.qualificationId.length
-          ) {
-            qualiCheck = element.item.qualificationId.filter((e: any) =>
-              key.qualificationIds.includes(e.value)
-            );
-          }
-          if (qualiCheck && qualiCheck.length <= 0) {
-            toast.dismiss();
-            if (!toast.isActive(toastId)) {
-              toastId = toast.warn(
-                languageTranslation("QUALIFICATION_UNMATCH")
-              );
-            }
-            checkError = true;
-            return true;
-          }
-          if (
-            moment(key.dateString).format(dbAcceptableFormat) !==
-            moment(element.dateString).format(dbAcceptableFormat)
-          ) {
-            checkError = true;
-            if (!toast.isActive(toastId)) {
-              toastId = toast.error(
-                languageTranslation("DATE_RANGE_MISMATCH")
-              );
-            }
-            return false;
-          } else if (key.item === undefined || element.item === undefined) {
-            checkError = true;
-            if (!toast.isActive(toastId)) {
-              toastId = toast.error(
-                languageTranslation("LINK_ERROR")
-              );
-            }
-            return false;
-          } else {
-            if (!checkError) {
-              selectedData.push({
-                avabilityId: parseInt(key.item.id),
-                requirementId: parseInt(element.item.id),
-                date: moment(element.dateString).format(dbAcceptableFormat),
-                status: "appointment",
-              });
-            }
-          }
-        } else {
-          checkError = true;
-          const { value } = await ConfirmBox({
-            title: languageTranslation("FEES_ERROR_MESSAGE"),
-            text: languageTranslation("LINKED_FEES_MESSAGE"),
-            type: "error",
-            showCancelButton: false,
-            confirmButtonText: "Ok",
-          });
-          return;
-        }
-      });
-      if (!checkError) {
-        onLinkAppointment(selectedData, "link");
-      }
-    }
     }
   };
 
@@ -3409,7 +3419,7 @@ const Appointment: FunctionComponent = (props: any) => {
   //       selectedCellsCareinstitution={selectedCellsCareinstitution}
   //       unlinkedBy={unlinkedBy}
   //     />
-  //   </Suspense>  
+  //   </Suspense>
   // }
   // if (openCareInstitutionBulkEmail) {
   //   const BulkEmailCareInstitutionModal = React.lazy(() => import('./BulkEmailCareInstitution'));
@@ -3425,7 +3435,7 @@ const Appointment: FunctionComponent = (props: any) => {
   //       unlinkedBy={unlinkedBy}
   //       isFromUnlink={isFromUnlink}
   //     />
-  //     </Suspense> 
+  //     </Suspense>
   // }
   // if (showUnlinkModal) {
   //   const UnlinkAppointment = React.lazy(() => import('./unlinkModal'));
@@ -3435,7 +3445,7 @@ const Appointment: FunctionComponent = (props: any) => {
   //       handleClose={() => setshowUnlinkModal(false)}
   //       handleUnlinkData={handleUnlinkData}
   //     />
-  //     </Suspense> 
+  //     </Suspense>
   // }
   return (
     <>
@@ -3741,15 +3751,16 @@ const Appointment: FunctionComponent = (props: any) => {
         isFromUnlink={isFromUnlink}
       />
       {/* {openCaregiverModal()} */}
-      {openCareGiverBulkEmail ? 
-      <BulkEmailCareGiverModal
-        openModal={openCareGiverBulkEmail}
-        qualification={props.qualification}
-        handleClose={() => setopenCareGiverBulkEmail(!openCareGiverBulkEmail)}
-        selectedCells={selectedCells}
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        unlinkedBy={unlinkedBy}
-      /> : null}
+      {openCareGiverBulkEmail ? (
+        <BulkEmailCareGiverModal
+          openModal={openCareGiverBulkEmail}
+          qualification={props.qualification}
+          handleClose={() => setopenCareGiverBulkEmail(!openCareGiverBulkEmail)}
+          selectedCells={selectedCells}
+          selectedCellsCareinstitution={selectedCellsCareinstitution}
+          unlinkedBy={unlinkedBy}
+        />
+      ) : null}
     </>
   );
 };

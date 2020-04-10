@@ -12,12 +12,12 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
 } from 'reactstrap';
 import {
   IAppointmentCareGiverForm,
   ICaregiverFormValue,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 import {
@@ -26,7 +26,7 @@ import {
   defaultDateFormat,
   appointmentDayFormat,
   dbAcceptableFormat,
-  AppConfig
+  AppConfig,
 } from '../../../../../config';
 import '../index.scss';
 import { LeasingContractQueries } from '../../../../../graphql/queries';
@@ -34,14 +34,16 @@ import { useLazyQuery } from '@apollo/react-hooks';
 
 const [GET_LEASING_CONTRACT] = LeasingContractQueries;
 
-const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
-  IAppointmentCareGiverForm &
-  any> = (
+const CaregiverFormView: FunctionComponent<
+  FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
+> = (
   props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   const { addCaregiverLoading } = props;
   // Query to get uploaded pdf
-  const [getLeasingContractPDF, { data:pdfData, loading }] = useLazyQuery<any>(GET_LEASING_CONTRACT);
+  const [getLeasingContractPDF, { data: pdfData, loading }] = useLazyQuery<any>(
+    GET_LEASING_CONTRACT
+  );
 
   //For saving both
   useEffect(() => {
@@ -80,7 +82,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       f,
       s,
       n,
-      status
+      status,
     },
     touched,
     errors,
@@ -99,33 +101,46 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     careGiversListArr,
     handleSelectUserList,
     handleLastTimeData,
-    selectedCells
+    selectedCells,
   } = props;
 
   useEffect(() => {
     // To check appointment with leasing careInst or not
     let isLeasingAppointment = false;
     if (selectedCells && selectedCells.length) {
-      isLeasingAppointment = selectedCells.filter((cell:any) => cell && cell.item && cell.item.appointments && cell.item.appointments.length && cell.item.appointments[0].cr && cell.item.appointments[0].cr.isLeasing).length ? true: false;     
+      isLeasingAppointment = selectedCells.filter(
+        (cell: any) =>
+          cell &&
+          cell.item &&
+          cell.item.appointments &&
+          cell.item.appointments.length &&
+          cell.item.appointments[0].cr &&
+          cell.item.appointments[0].cr.isLeasing
+      ).length
+        ? true
+        : false;
       if (isLeasingAppointment) {
-    const { id = '' , item = {}} = selectedCells[0] ? selectedCells[0] : {}
-      const {appointments = []} = item ? item : {}
-      const {avabilityId = '',id:appointmentId = ''} = appointments && appointments.length && appointments[0] ? appointments[0] : {}
-       
-      
-    getLeasingContractPDF({
-      variables: {
-        userId:parseInt(id),
-        availabilityId:[parseInt(avabilityId)],
-        appointmentId: [parseInt(appointmentId)],
-        documentUploadType: 'leasingContract',
-      }
-    });}}
-    },[selectedCells])
+        const { id = '', item = {} } = selectedCells[0] ? selectedCells[0] : {};
+        const { appointments = [] } = item ? item : {};
+        const { avabilityId = '', id: appointmentId = '' } =
+          appointments && appointments.length && appointments[0]
+            ? appointments[0]
+            : {};
 
-    
+        getLeasingContractPDF({
+          variables: {
+            userId: parseInt(id),
+            availabilityId: [parseInt(avabilityId)],
+            appointmentId: [parseInt(appointmentId)],
+            documentUploadType: 'leasingContract',
+          },
+        });
+      }
+    }
+  }, [selectedCells]);
+
   const [starMark, setstarMark] = useState<boolean>(false);
-  
+
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
@@ -135,8 +150,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     isMatching: boolean = false,
     isContract: boolean = false,
     isConfirm: boolean = false,
-    isContractInitiated:boolean=false,
-    isSingleButtonAccepted:boolean= false,
+    isContractInitiated: boolean = false,
+    isSingleButtonAccepted: boolean = false,
     isContractCancel: boolean = false;
 
   if (selctedAvailability || status) {
@@ -174,10 +189,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       status === 'contractcancelled'
     ) {
       isContractCancel = true;
-    }else if (selctedAvailability && selctedAvailability.status === 'accepted' || status === 'accepted') {
+    } else if (
+      (selctedAvailability && selctedAvailability.status === 'accepted') ||
+      status === 'accepted'
+    ) {
       isSingleButtonAccepted = true;
-  }
-    else if (
+    } else if (
       (selctedAvailability &&
         selctedAvailability.status === 'contractInitiated') ||
       status === 'contractInitiated'
@@ -203,16 +220,21 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     handleSelectUserList(data, name);
   };
 
-let dateCondition: any 
-if(activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]){
-  let now = moment().format(dbAcceptableFormat);
-   let  input = moment(activeDateCaregiver[0]).format(dbAcceptableFormat);
-   dateCondition =  now <= input;
-}
-      
-// Signed contract link
-const {getLeasingContractPDF:pdfDetails = []} = pdfData ? pdfData : {}
-const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
+  let dateCondition: any;
+  if (
+    activeDateCaregiver &&
+    activeDateCaregiver.length &&
+    activeDateCaregiver[0]
+  ) {
+    let now = moment().format(dbAcceptableFormat);
+    let input = moment(activeDateCaregiver[0]).format(dbAcceptableFormat);
+    dateCondition = now <= input;
+  }
+
+  // Signed contract link
+  const { getLeasingContractPDF: pdfDetails = [] } = pdfData ? pdfData : {};
+  const { document = '' } =
+    pdfDetails && pdfDetails.length ? pdfDetails[0] : {};
   return (
     <>
       <div className='form-section'>
@@ -224,7 +246,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
             'confirmation-bg': isConfirm,
             'cancel-contract-bg': isContractCancel,
             'accepted-bg': isSingleButtonAccepted,
-            'contact-initiate-bg':isContractInitiated,
+            'contact-initiate-bg': isContractInitiated,
           })}
         >
           <h5 className='content-title'>
@@ -273,6 +295,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                           placeholder={languageTranslation('NAME')}
                           value={name ? name : ''}
                         />
+                        {console.log('selectedCareGiver', selectedCareGiver)}
                         <InputGroupAddon
                           addonType='append'
                           className='cursor-pointer'
@@ -361,7 +384,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                                   e: React.ChangeEvent<HTMLInputElement>
                                 ) => {
                                   const {
-                                    target: { checked }
+                                    target: { checked },
                                   } = e;
                                   setFieldValue('f', checked);
                                 }}
@@ -383,7 +406,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                                   e: React.ChangeEvent<HTMLInputElement>
                                 ) => {
                                   const {
-                                    target: { checked }
+                                    target: { checked },
                                   } = e;
                                   setFieldValue('s', checked);
                                 }}
@@ -405,7 +428,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                                   e: React.ChangeEvent<HTMLInputElement>
                                 ) => {
                                   const {
-                                    target: { checked }
+                                    target: { checked },
                                   } = e;
                                   setFieldValue('n', checked);
                                 }}
@@ -885,7 +908,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked }
+                                target: { checked },
                               } = e;
                               setFieldValue('workingProofRecieved', checked);
                             }}
@@ -894,7 +917,16 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                         </div>
                       </FormGroup>
                     </div>
-                    {document ? <a href= {`${AppConfig.FILES_ENDPOINT}${document}`} target={'_blank'} className="view-more-link text-underline"><i className="fa fa-file-o mr-2"/>{languageTranslation('CONTRACT')}</a> : null}
+                    {document ? (
+                      <a
+                        href={`${AppConfig.FILES_ENDPOINT}${document}`}
+                        target={'_blank'}
+                        className='view-more-link text-underline'
+                      >
+                        <i className='fa fa-file-o mr-2' />
+                        {languageTranslation('CONTRACT')}
+                      </a>
+                    ) : null}
                   </Col>
                 </Row>
               </FormGroup>
@@ -964,7 +996,9 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                   className='btn-save'
                   color='primary'
                   onClick={handleSubmit}
-                  disabled={addCaregiverLoading ? true : !dateCondition ? true : false }
+                  disabled={
+                    addCaregiverLoading ? true : !dateCondition ? true : false
+                  }
                 >
                   {addCaregiverLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />

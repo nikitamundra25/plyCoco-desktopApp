@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
 import { languageTranslation, logger } from '../../../../../helpers';
 import close from '../../../../assets/img/cancel.svg';
@@ -12,7 +12,7 @@ const DetailListCareinstitution = (props: any) => {
     show,
     handleClose,
     selectedCellsCareinstitution,
-    fetchCareinstitutionList
+    fetchCareinstitutionList,
   } = props;
 
   const externalCloseBtn = (
@@ -21,7 +21,12 @@ const DetailListCareinstitution = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-
+  const [isExpand, setIsExpand] = useState<boolean>(false);
+  const [activeRow, setActiveRow] = useState<number>(-1);
+  const expandedText = (index: number) => {
+    setIsExpand(activeRow === index || activeRow === -1 ? !isExpand : isExpand);
+    setActiveRow(activeRow === index ? -1 : index);
+  };
   return (
     <div>
       <Modal
@@ -123,7 +128,11 @@ const DetailListCareinstitution = (props: any) => {
                                 </td>
                                 <td className='qualification-col word-wrap text-capitalize'>
                                   {elem.item && elem.item.qualificationId
-                                    ? elem.item.qualificationId.map((q: any,i:number) => (q && q.label ? q.label : "")).join(', ')
+                                    ? elem.item.qualificationId
+                                        .map((q: any) =>
+                                          q && q.label ? q.label : ''
+                                        )
+                                        .join(', ')
                                     : '-'}
                                 </td>
                                 <td className='datetime-col'>
@@ -162,9 +171,34 @@ const DetailListCareinstitution = (props: any) => {
                                   </span>
                                 </td>
                                 <td className='comment-col word-wrap'>
-                                  {elem.item.offerRemarks
+                                  {elem.item.offerRemarks ? (
+                                    elem.item.offerRemarks.length <= 100 ? (
+                                      elem.item.offerRemarks
+                                    ) : (
+                                      <p className='mb-0'>
+                                        {isExpand && activeRow === index
+                                          ? elem.item.offerRemarks
+                                          : elem.item.offerRemarks.substr(
+                                              0,
+                                              100
+                                            )}
+                                        ...
+                                        <span
+                                          className='view-more-link'
+                                          onClick={() => expandedText(index)}
+                                        >
+                                          {isExpand && activeRow === index
+                                            ? 'Read less'
+                                            : 'Read more'}
+                                        </span>
+                                      </p>
+                                    )
+                                  ) : (
+                                    '-'
+                                  )}
+                                  {/* {elem.item.offerRemarks
                                     ? elem.item.offerRemarks
-                                    : '-'}
+                                    : '-'} */}
                                 </td>
                               </tr>
                             ) : null;

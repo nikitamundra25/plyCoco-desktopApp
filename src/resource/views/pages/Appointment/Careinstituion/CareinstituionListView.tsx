@@ -72,6 +72,7 @@ const CarinstituionListView: FunctionComponent<
     getMoreCareInstituionList,
     updateCareInstitutionStatus,
     locationState,
+    starMarkCareinstitution
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
@@ -1272,7 +1273,9 @@ const CarinstituionListView: FunctionComponent<
                   >
                     <InfiniteLoader
                       loadMoreRows={({ startIndex, stopIndex }) =>
+                      !starMarkCareinstitution ?
                         loadMoreRows({ startIndex, stopIndex }) as any
+                        : ""
                       }
                       isRowLoaded={({ index }) => !!careInstitutionList[index]}
                       // isRowLoaded={() => false}

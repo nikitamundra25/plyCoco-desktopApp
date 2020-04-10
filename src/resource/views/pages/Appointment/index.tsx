@@ -117,6 +117,9 @@ const Appointment: FunctionComponent = (props: any) => {
   // manage star for caregiver
   const [starMarkCaregiver, setstarMarkCaregiver] = useState<boolean>(false);
 
+  // manage star for careinstitution form
+  const [starMarkCareinstitution, setstarMarkCareinstitution] = useState<boolean>(false);
+
   // state for care institution bulk email
   const [
     openCareInstitutionBulkEmail,
@@ -1061,6 +1064,7 @@ const Appointment: FunctionComponent = (props: any) => {
     if (name === "caregiver") {
       setcaregiversList(data);
     } else if (name === "careinstitution") {
+      setstarMarkCareinstitution(!starMarkCareinstitution)
       setcareinstitutionList(data);
     }
   };
@@ -3549,6 +3553,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     onDeleteEntries={onDeleteEntries}
                     onNewRequirement={() => setMultipleRequirement(true)}
                     locationState={locationState}
+                    starMarkCareinstitution={starMarkCareinstitution}
                   />
                 </Col>
                 <Col lg={"6"}>
@@ -3667,6 +3672,7 @@ const Appointment: FunctionComponent = (props: any) => {
                                   ? careInstitutionList.getUserByQualifications
                                   : []
                               }
+                              starMarkCareinstitution={starMarkCareinstitution}
                             />
                           );
                         }}

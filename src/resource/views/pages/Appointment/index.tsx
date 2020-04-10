@@ -114,6 +114,9 @@ const Appointment: FunctionComponent = (props: any) => {
     false
   );
 
+  // manage star for caregiver
+  const [starMarkCaregiver, setstarMarkCaregiver] = useState<boolean>(false);
+
   // state for care institution bulk email
   const [
     openCareInstitutionBulkEmail,
@@ -124,7 +127,7 @@ const Appointment: FunctionComponent = (props: any) => {
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [fetchingDept, setFetchingDept] = useState<boolean>(false);
   const [qualification, setqualification] = useState<any>([]);
-  const [caregiversList, setcaregiversList] = useState<Object[]>([]);
+  const [caregiversList, setcaregiversList] = useState<any[]>([]);
   const [totalCaregiver, setTotalCaregiver] = useState<number>(0);
   const [totalCareinstituion, setTotalCareinstituion] = useState<number>(0);
   const [careinstitutionList, setcareinstitutionList] = useState<Object[]>([]);
@@ -1053,7 +1056,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   }, [careGiversList, careInstitutionList]);
 
-  // Select particular user from nav bar
+  // Select particular user when click on form star 
   const handleSelectUserList = (data: any, name: string) => {
     if (name === "caregiver") {
       setcaregiversList(data);
@@ -1207,6 +1210,20 @@ const Appointment: FunctionComponent = (props: any) => {
       return true;
     }
   };
+
+  const onhandleCaregiverStar = (list: any, name: string) => {
+    console.log("list",list);
+    console.log("setcaregiversList",caregiversList);
+    if (!starMarkCaregiver) {
+      setstarMarkCaregiver(!starMarkCaregiver);
+      handleSecondStar(list, name);
+    } else {
+      
+      setstarMarkCaregiver(!starMarkCaregiver);
+      handleReset(name);
+    }
+  };
+
 
   // Reset the users list
   const handleReset = (name: string) => {
@@ -2074,10 +2091,9 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   // Select single user from list and hide the rest
-  const handleSecondStar = (list: object, index: number, name: string) => {
+  const handleSecondStar = (list: object, name: string) => {
     let temp: any = [];
     temp.push(list);
-
     if (name === "caregiver") {
       setcaregiversList(temp);
     }
@@ -3492,6 +3508,8 @@ const Appointment: FunctionComponent = (props: any) => {
                     getNext={getNext}
                     locationState={locationState}
                     onTerminateAggrement={onTerminateAggrement}
+                    onhandleCaregiverStar={onhandleCaregiverStar}
+                    starMarkCaregiver={starMarkCaregiver}
                   />
                   {/* care insitution list */}
                   <CarinstituionListView
@@ -3573,6 +3591,8 @@ const Appointment: FunctionComponent = (props: any) => {
                                   : []
                               }
                               handleLastTimeData={handleLastTimeData}
+                              onhandleCaregiverStar={onhandleCaregiverStar}
+                              starMarkCaregiver={starMarkCaregiver}
                             />
                           );
                         }}

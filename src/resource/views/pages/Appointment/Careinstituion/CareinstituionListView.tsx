@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, Suspense, lazy } from "react";
+import React, { FunctionComponent, useState, Suspense, lazy, useEffect } from "react";
 import { Table, Button, Nav, NavItem, NavLink } from "reactstrap";
 import { SelectableGroup } from "react-selectable-fast";
 import moment from "moment";
@@ -230,7 +230,7 @@ const CarinstituionListView: FunctionComponent<
               checkError = true;
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
-                 languageTranslation("LINK_ERROR")
+                  languageTranslation("LINK_ERROR")
                 );
               }
               return false;
@@ -293,7 +293,7 @@ const CarinstituionListView: FunctionComponent<
       }
     } else {
       if (!toast.isActive(toastId)) {
-        toastId = toast.error( 
+        toastId = toast.error(
           languageTranslation("SELECT_APPOINTMENT")
         );
       }
@@ -318,16 +318,29 @@ const CarinstituionListView: FunctionComponent<
 
   // show button for care institution
   const [showButton, setShowButton] = useState<boolean>(false);
+  const [showCareGiverEmail, setshowCareGiverEmail] = useState<boolean>(false);
 
-  // Open care giver bulk Email section
+  // Open care giver bulk Email section after care instituion email popup
   const handleCareGiverBulkEmail = (sortBy: string, showButton: boolean) => {
     setSortBy(sortBy);
     setShowButton(showButton);
-    setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+    if (!openCareGiverBulkEmail) {
+      setshowCareGiverEmail(true)
+    } else {
+      setshowCareGiverEmail(false)
+      setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+    }
     if (openCareGiverBulkEmail) {
       setunlinkedBy("");
     }
   };
+
+  //Open Care giver Modal
+  useEffect(() => {
+    if (openCareInstitutionBulkEmail && showCareGiverEmail) {
+      setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+    }
+  }, [openCareInstitutionBulkEmail]);
 
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
@@ -851,10 +864,10 @@ const CarinstituionListView: FunctionComponent<
                     "disabled-class"
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail("division", true);
                   handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
                   updateCareInstitutionStatus("offered");
+                  handleCareGiverBulkEmail("division", true);
                   // setOnOfferedCareInst();
                 }}
               >
@@ -1070,10 +1083,10 @@ const CarinstituionListView: FunctionComponent<
               <NavLink
                 disabled={
                   offerAppCond !== undefined ?
-                  offerAppCond && offerAppCond.length !== 0
-                    ? "disabled-class"
-                    : "" :
-                  "disabled-class"
+                    offerAppCond && offerAppCond.length !== 0
+                      ? "disabled-class"
+                      : "" :
+                    "disabled-class"
                 }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
@@ -1198,13 +1211,13 @@ const CarinstituionListView: FunctionComponent<
                   {languageTranslation("H")}
                 </div>
                 <div className=" s-col custom-appointment-col text-center">
-                {languageTranslation("S")}
+                  {languageTranslation("S")}
                 </div>
                 <div className=" u-col custom-appointment-col text-center">
-                {languageTranslation("A")}
+                  {languageTranslation("A")}
                 </div>
                 <div className=" v-col custom-appointment-col text-center">
-                {languageTranslation("V")}
+                  {languageTranslation("V")}
                 </div>
 
                 {/* array for showing day */}
@@ -1242,58 +1255,58 @@ const CarinstituionListView: FunctionComponent<
                   <Loader />
                 </div>
               ) : careInstitutionList && careInstitutionList.length ?
-                <SelectableGroup
-                  allowClickWithoutSelected
-                  className="custom-row-selector"
-                  clickClassName="tick"
-                  resetOnStart={true}
-                  onSelectionFinish={onSelectFinish}
-                  onSelectionClear={onSelectionClear}
-                  ignoreList={[
-                    ".name-col",
-                    ".h-col",
-                    ".s-col",
-                    ".u-col",
-                    ".v-col",
-                  ]}
-                >
-                  <InfiniteLoader
-                    loadMoreRows={({ startIndex, stopIndex }) =>
-                      loadMoreRows({ startIndex, stopIndex }) as any
-                    }
-                    isRowLoaded={({ index }) => !!careInstitutionList[index]}
-                    // isRowLoaded={() => false}
-                    rowCount={totalCareinstituion}
+                  <SelectableGroup
+                    allowClickWithoutSelected
+                    className="custom-row-selector"
+                    clickClassName="tick"
+                    resetOnStart={true}
+                    onSelectionFinish={onSelectFinish}
+                    onSelectionClear={onSelectionClear}
+                    ignoreList={[
+                      ".name-col",
+                      ".h-col",
+                      ".s-col",
+                      ".u-col",
+                      ".v-col",
+                    ]}
                   >
-                    {({ onRowsRendered, registerChild }) => (
-                      <AutoSizer className="autosizer-div">
-                        {({ width }) => (
-                          <List
-                            ref={registerChild}
-                            height={listcheight}
-                            onRowsRendered={onRowsRendered}
-                            rowCount={temp.length}
-                            rowHeight={30}
-                            width={widthForMonth}
-                            rowRenderer={({ index, key, style }) => {
-                              // Condition to manage careinstitution list & department list
-                              let list = temp[index];
-                              return renderTableRows(list, index, style);
-                            }}
-                          />
-                        )}
-                      </AutoSizer>
-                    )}
-                  </InfiniteLoader>
-                </SelectableGroup>
-              :  <div className='no-data-section pt-5 pb-5 bg-white text-center'>
-              <div className='no-data-icon'>
-                <i className='icon-ban' />
-              </div>
-              <h4 className='mb-1'>
-          {languageTranslation("NO_CAREINSTITUTION_ADDED")}{' '}
-              </h4>
-            </div>}
+                    <InfiniteLoader
+                      loadMoreRows={({ startIndex, stopIndex }) =>
+                        loadMoreRows({ startIndex, stopIndex }) as any
+                      }
+                      isRowLoaded={({ index }) => !!careInstitutionList[index]}
+                      // isRowLoaded={() => false}
+                      rowCount={totalCareinstituion}
+                    >
+                      {({ onRowsRendered, registerChild }) => (
+                        <AutoSizer className="autosizer-div">
+                          {({ width }) => (
+                            <List
+                              ref={registerChild}
+                              height={listcheight}
+                              onRowsRendered={onRowsRendered}
+                              rowCount={temp.length}
+                              rowHeight={30}
+                              width={widthForMonth}
+                              rowRenderer={({ index, key, style }) => {
+                                // Condition to manage careinstitution list & department list
+                                let list = temp[index];
+                                return renderTableRows(list, index, style);
+                              }}
+                            />
+                          )}
+                        </AutoSizer>
+                      )}
+                    </InfiniteLoader>
+                  </SelectableGroup>
+                  : <div className='no-data-section pt-5 pb-5 bg-white text-center'>
+                    <div className='no-data-icon'>
+                      <i className='icon-ban' />
+                    </div>
+                    <h4 className='mb-1'>
+                      {languageTranslation("NO_CAREINSTITUTION_ADDED")}{' '}
+                    </h4>
+                  </div>}
             </div>
           </div>
         </div>

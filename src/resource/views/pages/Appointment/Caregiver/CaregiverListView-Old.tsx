@@ -80,7 +80,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
       setstarMark(!starMark);
-      handleSecondStar(list, index, name);
+      handleSecondStar(list, name);
     } else {
       setstarMark(!starMark);
       handleReset(name);

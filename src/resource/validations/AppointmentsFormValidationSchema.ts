@@ -2,10 +2,12 @@ import * as Yup from 'yup';
 import {
   ICaregiverValidationFormValue,
   ICareinstituionValidationFormValue,
-  ITimeResponse
+  ITimeResponse,
+  IDateResponse
 } from '../../interfaces';
-import { languageTranslation, timeValidator } from '../../helpers';
+import { languageTranslation, timeValidator, dateValidator } from '../../helpers';
 import { NumberWithCommaRegex } from '../../config';
+import moment from 'moment';
 
 export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -53,7 +55,25 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     'check-num',
     languageTranslation('INVALID_NUMBER'),
     value => !value || NumberWithCommaRegex.test(value)
-  )
+  ),
+  
+  // workingHoursToDate: Yup.mixed().when('dateString', {
+  //   is: dateString =>
+  //   dateString ,
+  //   then: Yup.mixed().test({
+  //     name: 'validate-date',
+  //     test: function(val) {
+  //       const { path, createError } = this;
+  //       const { isValid, message }: IDateResponse = dateValidator(val, {
+  //         maxDate: moment()
+  //           .format(),
+  //         minDate: moment(dateString)
+  //           .format()
+  //       });
+  //       return !val || isValid || createError({ path, message });
+  //     }
+  //   }),
+  // })
 });
 
 export const CareInstitutionValidationSchema: Yup.ObjectSchema<Yup.Shape<

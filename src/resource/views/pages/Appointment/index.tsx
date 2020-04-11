@@ -387,7 +387,7 @@ const Appointment: FunctionComponent = (props: any) => {
     },
   });
 
-  // To get caregiver list from db
+  // To get department list
   const [
     getDepartmentList,
     { data: departmentList, loading: deptLoading },

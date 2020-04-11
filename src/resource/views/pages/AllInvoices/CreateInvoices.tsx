@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { useState, FunctionComponent, useEffect } from "react";
 import {
   Button,
   Table,
@@ -33,11 +33,132 @@ import {
   InvoiceSummaryFilter,
   StatusOptions,
   SortOptions,
+  CareInstInActiveAttrId,
+  deactivatedListColor,
+  CareInstTIMyoCYAttrId,
+  leasingListColor,
+  CareInstPlycocoAttrId,
+  selfEmployesListColor,
 } from "../../../../config";
-
+import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
+import { IReactSelectInterface } from "../../../../interfaces";
+import { CareInstitutionQueries } from "../../../../graphql/queries";
+import { useLazyQuery } from "@apollo/react-hooks";
+const [
+  GET_CARE_INSTITUTION_LIST,
+  ,
+  GET_DEPARTMENT_LIST,
+  ,
+  ,
+  ,
+] = CareInstitutionQueries;
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
+  const [careinstitutionFilter, setcareinstitutionFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+  // State for department options
+  const [careInstitutionDepartmentOption, setcareInstitutionDepartmentOption] = useState<
+  IReactSelectInterface[] | undefined
+>([]);
+  // To get caregiver list from db
+  const [
+    getDepartmentList,
+    { data: departmentList, loading: deptLoading },
+  ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
+
+  // To fetch all careinstitution list
+  const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
+    any
+  >(GET_CARE_INSTITUTION_LIST, {
+    fetchPolicy: "no-cache",
+  });
+
+  useEffect(() => {
+    fetchCareInstitutionList({
+      variables: {
+        searchBy: null,
+        sortBy: 3,
+        limit: 500,
+        page: 1,
+        isActive: "",
+      },
+    });
+  }, []);
+
+  // set careInstitution list options
+  const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
+  if (careInstituition && careInstituition.getCareInstitutions) {
+    const { getCareInstitutions } = careInstituition;
+    const { careInstitutionData, canstitution } = getCareInstitutions;
+    careInstitutionOptions.push({
+      label: languageTranslation("NAME"),
+      value: languageTranslation("ID"),
+      companyName: languageTranslation("COMPANY_NAME"),
+    });
+
+    careInstitutionData.map((data: any, index: any) => {
+      const { canstitution } = data;
+      let { attributes = [], companyName = "" } = canstitution
+        ? canstitution
+        : {};
+      attributes = attributes ? attributes : [];
+      careInstitutionOptions.push({
+        label: `${data.lastName}${" "}${data.firstName}`,
+        value: data.id,
+        color: attributes.includes(CareInstInActiveAttrId)
+          ? deactivatedListColor
+          : attributes.includes(CareInstTIMyoCYAttrId)
+          ? leasingListColor
+          : attributes.includes(CareInstPlycocoAttrId)
+          ? selfEmployesListColor
+          : "",
+        companyName,
+      });
+      return true;
+    });
+  }
+
+  // Options to show department data
+  useEffect(() => { 
+    let careInstitutionDepartment: IReactSelectInterface[] = [];
+    if (departmentList && departmentList.getDivision.length) {
+      const { getDivision } = departmentList;
+      careInstitutionDepartment = getDivision.map((dept: any) => ({
+        label: dept.name,
+        value: dept && dept.id ? dept.id.toString() : "",
+      }));
+      if(careInstitutionDepartment && careInstitutionDepartment.length){
+        setcareInstitutionDepartmentOption(careInstitutionDepartment)
+      }
+    }
+  }, [departmentList]);
+
+  // Select careinstitution or caregiver from navbar
+  const onhandleSelection = (value: IReactSelectInterface, name: string) => {
+    if (name === "careinstitution") {
+      setcareinstitutionFilter(value);
+    }
+  };
+
+  //  call department list query with every selection of care institution
+  useEffect(() => {
+    let userId: string =
+      careinstitutionFilter && careinstitutionFilter.value
+        ? careinstitutionFilter.value
+        : "";
+    if (userId) {
+      getDepartmentList({
+        variables: {
+          userId: parseInt(userId),
+          locked: false,
+        },
+      });
+    }else{
+      setcareInstitutionDepartmentOption([])
+    }
+  }, [careinstitutionFilter]);
   
   return (
     <>
@@ -65,9 +186,20 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             <div className="user-select mx-1 ">
               <Select
                 classNamePrefix="custom-inner-reactselect"
-                className={"custom-reactselect "}
-                placeholder="Maiwald Jacqueline"
-                // options={options}
+                className={
+                  "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
+                }
+                placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
+                options={careInstitutionOptions}
+                value={
+                  careinstitutionFilter && careinstitutionFilter.value !== ""
+                    ? careinstitutionFilter
+                    : null
+                }
+                components={{ Option: CareInstCustomOption }}
+                onChange={(value: any) =>
+                  onhandleSelection(value, "careinstitution")
+                }
                 isClearable={true}
               />
             </div>
@@ -75,8 +207,17 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
               <Select
                 classNamePrefix="custom-inner-reactselect"
                 className={"custom-reactselect "}
-                placeholder="Nursing service at Treptower Park"
-                // options={options}
+                placeholder={
+                    languageTranslation("SELECT_DEPARTMENT")
+                }
+                options={careInstitutionDepartmentOption}
+                noOptionsMessage={() => {
+                  return careinstitutionFilter && careinstitutionFilter.value !== ""
+                    ? languageTranslation("NO_OPTIONS")
+                    : languageTranslation(
+                        "SELECT_CAREINSTITUTION_FIRST"
+                      );
+                }}
                 isClearable={true}
               />
             </div>

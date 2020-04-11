@@ -38,6 +38,7 @@ import {
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
+  
   return (
     <>
       <div className="common-detail-page">

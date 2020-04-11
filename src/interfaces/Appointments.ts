@@ -165,6 +165,15 @@ export interface ICaregiverFormValue {
   s?: boolean;
   n?: boolean;
   status?: string;
+  workingHoursFromDate ?: string,
+  workingHoursFromTime?: string,
+  workingHoursToDate?: string,
+  workingHoursToTime?: string,
+  breakFromDate?: string,
+  breakFromTime?: string,
+  breakToDate?: string,
+  breakToTime?:string,
+  dateString?: string
 }
 
 export interface ICaregiverValidationFormValue {
@@ -176,6 +185,15 @@ export interface ICaregiverValidationFormValue {
   distanceInKM?: string;
   feePerKM?: string;
   otherExpenses?: string;
+  workingHoursFromDate?: string ,
+  workingHoursFromTime?: string ,
+  workingHoursToDate?: string ,
+  workingHoursToTime?: string ,
+  breakFromDate?: string ,
+  breakFromTime?: string ,
+  breakToDate?: string ,
+  breakToTime?: string ,
+  dateString?:string
 }
 
 export interface ICareinstituionValidationFormValue {

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import Select from 'react-select';
-import { FormikProps } from 'formik';
+import { FormikProps, Field } from 'formik';
 import moment from 'moment';
 import classnames from 'classnames';
 import {
@@ -22,15 +22,16 @@ import {
 import { languageTranslation } from '../../../../../helpers';
 import {
   NightAllowancePerHour,
-  State,
   defaultDateFormat,
   appointmentDayFormat,
   dbAcceptableFormat,
-  AppConfig
+  AppConfig,
+  DateTimeMask
 } from '../../../../../config';
 import '../index.scss';
 import { LeasingContractQueries } from '../../../../../graphql/queries';
 import { useLazyQuery } from '@apollo/react-hooks';
+import MaskedInput from 'react-text-mask';
 
 const [GET_LEASING_CONTRACT] = LeasingContractQueries;
 
@@ -215,6 +216,9 @@ if(activeDateCaregiver && activeDateCaregiver.length && activeDateCaregiver[0]){
 // Signed contract link
 const {getLeasingContractPDF:pdfDetails = []} = pdfData ? pdfData : {}
 const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
+
+
+
   return (
     <>
       <div className='form-section'>
@@ -792,33 +796,52 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                           {languageTranslation('WORKING_HOURS')}
                         </Label>
                       </Col>
-
                       <Col sm={'8'}>
                         <div className='required-input'>
                           <div className='custom-col inner-no-padding-col row'>
-                            <Col sm={'6'}>
-                              <div>
-                                <Select
-                                  classNamePrefix='custom-inner-reactselect'
-                                  className={
-                                    'custom-reactselect custom-reactselect-menu-width'
-                                  }
-                                  placeholder=''
-                                  options={State}
-                                />
-                              </div>
+              
+                          <Col sm={'6'}>
+                            <InputGroup className='flex-nowrap'>
+                          <Field name={'workingHoursFrom'}>
+                            {({ field }: any) => (
+                              <MaskedInput
+                                {...field}
+                                mask={DateTimeMask}
+                                className={
+                                  errors.workingHoursFrom && touched.workingHoursFrom
+                                    ? 'text-input error form-control'
+                                    : 'text-input form-control'
+                                }
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder={languageTranslation("DATE_TIME_FORMAT")}
+                                value={workingHoursFrom ? workingHoursFrom : ''}
+                              />
+                            )}
+                          </Field>
+                        </InputGroup>
                             </Col>
+
                             <Col sm={'6'}>
-                              <div>
-                                <Select
-                                  classNamePrefix='custom-inner-reactselect'
-                                  className={
-                                    'custom-reactselect custom-reactselect-menu-width'
-                                  }
-                                  placeholder=''
-                                  options={State}
-                                />
-                              </div>
+                            <InputGroup className='flex-nowrap'>
+                          <Field name={'workingHoursTo'}>
+                            {({ field }: any) => (
+                              <MaskedInput
+                                {...field}
+                                mask={DateTimeMask}
+                                className={
+                                  errors.workingHoursTo && touched.workingHoursTo
+                                    ? 'text-input error form-control'
+                                    : 'text-input form-control'
+                                }
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder={languageTranslation("DATE_TIME_FORMAT")}
+                                value={workingHoursTo ? workingHoursTo : ''}
+                              />
+                            )}
+                          </Field>
+                        </InputGroup>
                             </Col>
                           </div>
                         </div>
@@ -838,29 +861,48 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                       <Col sm={'8'}>
                         <div className='required-input'>
                           <div className='custom-col inner-no-padding-col row'>
-                            <Col sm={'6'}>
-                              <div>
-                                <Select
-                                  classNamePrefix='custom-inner-reactselect'
-                                  className={
-                                    'custom-reactselect custom-reactselect-menu-width'
-                                  }
-                                  placeholder=''
-                                  options={State}
-                                />
-                              </div>
+                          <Col sm={'6'}>
+                            <InputGroup className='flex-nowrap'>
+                          <Field name={'breakFrom'}>
+                            {({ field }: any) => (
+                              <MaskedInput
+                                {...field}
+                                mask={DateTimeMask}
+                                className={
+                                  errors.breakFrom && touched.breakFrom
+                                    ? 'text-input error form-control'
+                                    : 'text-input form-control'
+                                }
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder={languageTranslation("DATE_TIME_FORMAT")}
+                                value={breakFrom ? breakFrom : ''}
+                              />
+                            )}
+                          </Field>
+                        </InputGroup>
                             </Col>
-                            <Col sm={'6'}>
-                              <div>
-                                <Select
-                                  classNamePrefix='custom-inner-reactselect'
-                                  className={
-                                    'custom-reactselect custom-reactselect-menu-width'
-                                  }
-                                  placeholder=''
-                                  options={State}
-                                />
-                              </div>
+
+                             <Col sm={'6'}>
+                            <InputGroup className='flex-nowrap'>
+                          <Field name={'breakTo'}>
+                            {({ field }: any) => (
+                              <MaskedInput
+                                {...field}
+                                mask={DateTimeMask}
+                                className={
+                                  errors.breakTo && touched.breakTo
+                                    ? 'text-input error form-control'
+                                    : 'text-input form-control'
+                                }
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                placeholder={languageTranslation("DATE_TIME_FORMAT")}
+                                value={breakTo ? breakTo : ''}
+                              />
+                            )}
+                          </Field>
+                        </InputGroup>
                             </Col>
                           </div>
                         </div>

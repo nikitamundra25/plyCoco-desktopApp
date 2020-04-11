@@ -1217,18 +1217,16 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-
   const onhandleCaregiverStar = (list: any, name: string) => {
     if (!starMarkCaregiver) {
       setstarMarkCaregiver(!starMarkCaregiver);
       handleSecondStar(list, name);
-      } else if( list.id !== caregiversList[0].id){
-        handleSecondStar(list, name);
-      }
-      else {
-        setstarMarkCaregiver(!starMarkCaregiver);
-        handleReset(name);
-      }
+    } else if (list.id !== caregiversList[0].id) {
+      handleSecondStar(list, name);
+    } else {
+      setstarMarkCaregiver(!starMarkCaregiver);
+      handleReset(name);
+    }
   };
 
   // Reset the users list
@@ -2128,7 +2126,13 @@ const Appointment: FunctionComponent = (props: any) => {
       s,
       n,
       status,
+      workingHoursFrom,
+      workingHoursTo,
+      breakFrom,
+      breakTo,
     } = values;
+    console.log("values", values);
+
     let isBlockeddate =
       selectedCells &&
       selectedCells.length &&
@@ -2205,6 +2209,7 @@ const Appointment: FunctionComponent = (props: any) => {
           // To add mulitple availabilty
           selectedCells.forEach(async (element: any) => {
             const { id = "", dateString = "" } = element ? element : {};
+
             let CareGiverAvabilityInput: any = {
               userId: id ? parseInt(id) : "",
               date: dateString,
@@ -2236,6 +2241,10 @@ const Appointment: FunctionComponent = (props: any) => {
               s: s ? "available" : isBlockeddate ? "block" : "default",
               n: n ? "available" : isBlockeddate ? "block" : "default",
               status: status ? status : "default",
+              workingHoursFrom: workingHoursFrom ? workingHoursFrom : null,
+              workingHoursTo: workingHoursTo ? workingHoursTo : null,
+              breakFrom: breakFrom ? breakFrom : null,
+              breakTo: breakTo ? breakTo : null,
             };
             if (appointmentId) {
               await updateCaregiver({
@@ -2564,9 +2573,9 @@ const Appointment: FunctionComponent = (props: any) => {
               id: availabilityId,
               careGiverAvabilityInput: {
                 ...item,
-                f: languageTranslation("BLOCK"),
-                s: languageTranslation("BLOCK"),
-                n: languageTranslation("BLOCK"),
+                f: "block",
+                s: "block",
+                n: "block",
               },
             },
           });
@@ -2594,9 +2603,9 @@ const Appointment: FunctionComponent = (props: any) => {
             otherExpenses: null,
             remarksCareGiver: null,
             remarksInternal: null,
-            f: languageTranslation("BLOCK"),
-            s: languageTranslation("BLOCK"),
-            n: languageTranslation("BLOCK"),
+            f:"block",
+            s:"block",
+            n:"block",
             status: "default",
           });
         }
@@ -3027,6 +3036,10 @@ const Appointment: FunctionComponent = (props: any) => {
     s = "",
     n = "",
     status = "",
+    workingHoursFrom = "",
+    workingHoursTo = "",
+    breakFrom = "",
+    breakTo = "",
   } = item ? item : caregiver ? caregiver : {};
 
   const valuesForCaregiver: ICaregiverFormValue = {
@@ -3072,10 +3085,10 @@ const Appointment: FunctionComponent = (props: any) => {
     feePerKM: feePerKM ? feePerKM : "",
     travelAllowance: travelAllowance ? travelAllowance : "",
     otherExpenses: otherExpenses ? otherExpenses : "",
-    workingHoursFrom: "",
-    workingHoursTo: "",
-    breakFrom: "",
-    breakTo: "",
+    workingHoursFrom,
+    workingHoursTo,
+    breakFrom,
+    breakTo,
     remarksCareGiver: caregiver && remarksCareGiver ? remarksCareGiver : "",
     remarksInternal: caregiver && remarksInternal ? remarksInternal : "",
     f: f === "available" ? true : false,

@@ -90,6 +90,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     handleSelectUserList,
     addCareinstLoading,
     timeSlotError,
+    starMarkCareinstitution,
   } = props;
 
   let d = moment().format('L');
@@ -97,7 +98,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   let dtEnd: any = new Date(d + ' ' + endTime);
   let difference = dtEnd - dtStart;
 
-  const [starMark, setstarMark] = useState<boolean>(false);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
@@ -149,10 +149,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       careInstitutionListArr && careInstitutionListArr.result
         ? careInstitutionListArr.result
         : {};
-    setstarMark(!starMark);
     if (
       id &&
-      !starMark &&
+      !starMarkCareinstitution &&
       careInstitutionListArr &&
       careInstitutionListArr.result
     ) {
@@ -251,7 +250,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           <InputGroupText>
                             <i
                               className={
-                                starMark
+                                starMarkCareinstitution
                                   ? 'fa fa-star theme-text'
                                   : 'fa fa-star'
                               }

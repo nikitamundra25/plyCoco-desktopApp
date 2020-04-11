@@ -108,21 +108,46 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     handleLastTimeData,
     selectedCells,
     onhandleCaregiverStar,
-    starMarkCaregiver
+    starMarkCaregiver,
+    dateString
   } = props;
 
-// Find difference in workingHours 
+let dateData =  activeDateCaregiver
+  ? activeDateCaregiver
+      .map(
+        (dateString: string | undefined, index: number) =>
+          dateString
+            ? moment(dateString).format(
+                index !== activeDateCaregiver.length - 1
+                  ? 'dd DD'
+                  : `${appointmentDayFormat} ${defaultDateFormat}`
+              )
+            : null
+      )
+      .join(', ')
+  : null
+dateData = moment(dateData).subtract(1, 'd').format(defaultDateFormat);
+
+// Find difference in workingHours time
   let d = moment().format('L');
   let dtStart: any = new Date(d + ' ' + workingHoursFromTime);
   let dtEnd: any = new Date(d + ' ' + workingHoursToTime);
   let workingHoursdifference = dtEnd - dtStart;
 
-  // Find difference in break 
+  // Find difference in break time
   let dt = moment().format('L');
   let dtStart1: any = new Date(dt + ' ' + breakFromTime);
   let dtEnd1: any = new Date(dt + ' ' + breakToTime);
   let breakdifference = dtEnd1 - dtStart1;
+console.log("workingHoursFromDate",dateData);
 
+  // Find difference in workingHours date
+const workingHourDateValidator = () =>{
+  let current = moment().add(1, 'd').format(defaultDateFormat);
+  let dateFrom=  moment(workingHoursFromDate).isBetween(dateData, current)
+  console.log("dateFrom",dateFrom);
+
+}
   useEffect(() => {
     // To check appointment with leasing careInst or not
     let isLeasingAppointment = false;
@@ -831,7 +856,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                                     : 'text-input form-control'
                                 }
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                                onBlur={workingHourDateValidator}
                                 placeholder={languageTranslation("HOLIDAY_DATE_PLACEHOLDER")}
                                 value={workingHoursFromDate ? workingHoursFromDate : ''}
                               />

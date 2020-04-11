@@ -444,7 +444,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
               <div className="filter-form form-section mb-2">
                 <Form>
                   <Row>
-                    <Col lg={"3"} md={"3"}>
+                    {/* <Col lg={"3"} md={"3"}>
                       <FormGroup>
                         <Label for="search" className="col-form-label">
                           {languageTranslation("SEARCH_LABEL")} :
@@ -456,7 +456,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                           value={""}
                         />
                       </FormGroup>
-                    </Col>
+                    </Col> */}
                     <Col lg={"2"} md={"3"}>
                       <FormGroup>
                         <Label for="Selectregion" className="col-form-label">
@@ -638,54 +638,55 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                     </tbody>
                   </Table>
                 </div>
-                <div></div>
+                <Form className="form-section total-form-section bg-white">
+                  <div className="d-flex flex-wrap total-form-block">
+                    <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                      <FormGroup>
+                        <Row className="align-items-center">
+                          <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                            <Label className="form-label col-form-label">
+                              Total
+                            </Label>
+                          </Col>
+                          <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                            <div className="required-input">
+                              <Input
+                                type="text"
+                                name={"firstName"}
+                                placeholder={"Enter Total"}
+                                className="text-input text-capitalize"
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                      <FormGroup>
+                        <Row className="align-items-center">
+                          <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                            <Label className="form-label col-form-label">
+                              Total selection
+                            </Label>
+                          </Col>
+                          <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                            <div className="required-input">
+                              <Input
+                                type="text"
+                                name={"firstName"}
+                                placeholder={"Enter total selection"}
+                                className="text-input text-capitalize"
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                  </div>
+                </Form>
               </div>
             </CardBody>
           </div>
-          <Form className="form-section total-form-section">
-            <div className="d-flex flex-wrap total-form-block">
-              <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
-                <FormGroup>
-                  <Row className="align-items-center">
-                    <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                      <Label className="form-label col-form-label">Total</Label>
-                    </Col>
-                    <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                      <div className="required-input">
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Enter Total"}
-                          className="text-input text-capitalize"
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
-                <FormGroup>
-                  <Row className="align-items-center">
-                    <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                      <Label className="form-label col-form-label">
-                        Total selection
-                      </Label>
-                    </Col>
-                    <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                      <div className="required-input">
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Enter total selection"}
-                          className="text-input text-capitalize"
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-            </div>
-          </Form>
         </div>
       </Card>
     </>

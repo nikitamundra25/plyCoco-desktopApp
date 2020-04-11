@@ -12,7 +12,7 @@ import {
   CardBody,
   CardHeader,
   Nav,
-  UncontrolledTooltip
+  UncontrolledTooltip,
 } from "reactstrap";
 import Select from "react-select";
 import DayPickerInput from "react-day-picker/DayPickerInput";
@@ -32,7 +32,7 @@ import "react-day-picker/lib/style.css";
 import {
   InvoiceSummaryFilter,
   StatusOptions,
-  SortOptions
+  SortOptions,
 } from "../../../../config";
 
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
@@ -45,9 +45,11 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
           <div className="common-topheader d-flex  px-2 pb-1 invoice-header">
             <div className="header-nav-item">
               <span className="header-nav-icon">
-                <img src={refresh} alt="" />
+                <i className="fa fa-refresh "></i>
               </span>
-              <span className="header-nav-text">{languageTranslation("REFRESH")}</span>
+              <span className="header-nav-text">
+                {languageTranslation("RESET_LABEL")}
+              </span>
             </div>
 
             <div className="user-select mx-1 ">
@@ -81,19 +83,25 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
               <span className="header-nav-icon">
                 <img src={pen} alt="" />
               </span>
-              <span className="header-nav-text">{languageTranslation("CREATE")}</span>
+              <span className="header-nav-text">
+                {languageTranslation("CREATE")}
+              </span>
             </div>
             <div className="header-nav-item">
               <span className="header-nav-icon">
                 <img src={CompleteTime} alt="" />
               </span>
-              <span className="header-nav-text">{languageTranslation("TIMELY_COMPLETELY")}</span>
+              <span className="header-nav-text">
+                {languageTranslation("TIMELY_COMPLETELY")}
+              </span>
             </div>
             <div className="header-nav-item">
               <span className="header-nav-icon">
                 <img src={idea} alt="" />
               </span>
-              <span className="header-nav-text">{languageTranslation("CREATE_ALL_CAREGIVER")}</span>
+              <span className="header-nav-text">
+                {languageTranslation("CREATE_ALL_CAREGIVER")}
+              </span>
             </div>
             <div className="header-nav-item">
               <span className="header-nav-icon pr-0">
@@ -110,7 +118,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
               />
             </div>
 
-            <div className="user-select mx-1 ">
+            {/* <div className="user-select mx-1 ">
               <Select
                 classNamePrefix="custom-inner-reactselect"
                 className={"custom-reactselect "}
@@ -118,7 +126,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                 // options={options}
                 isClearable={true}
               />
-            </div>
+            </div> */}
             <div className="header-nav-item">
               <span className="header-nav-icon pr-0">
                 <img src={left_arrow} alt="" />
@@ -137,14 +145,14 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             <div className="filter-form form-section mb-2">
               <Form>
                 <Row>
-                  <Col lg={"3"} md={"3"}>
+                  {/* <Col lg={"3"} md={"3"}>
                     <FormGroup>
                       <Label for="search" className="col-form-label">
                         {languageTranslation("SEARCH_LABEL")} :
                       </Label>
                       <Input type="text" name="searchValue" id="search" />
                     </FormGroup>
-                  </Col>
+                  </Col> */}
                   <Col lg={"2"} md={"3"}>
                     <FormGroup>
                       <Label for="Selectregion" className="col-form-label">
@@ -206,35 +214,73 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                   <thead className="thead-bg">
                     <tr>
                       <th className="sno-col">{languageTranslation("S_NO")}</th>
-                      <th className="invoiceid-col"> {languageTranslation("ID")}</th>
+                      <th className="invoiceid-col">
+                        {" "}
+                        {languageTranslation("ID")}
+                      </th>
                       <th className="h-col">h</th>
-                      <th className="text-col"> {languageTranslation("TEXT")}</th>
-                      <th className="datetime-col">{languageTranslation("BEGIN")}</th>
-                      <th className="datetime-col">{languageTranslation("THE_END")}</th>
+                      <th className="text-col">
+                        {" "}
+                        {languageTranslation("TEXT")}
+                      </th>
+                      <th className="datetime-col">
+                        {languageTranslation("BEGIN")}
+                      </th>
+                      <th className="datetime-col">
+                        {languageTranslation("THE_END")}
+                      </th>
                       <th className="datetime-col">
                         {languageTranslation("BREAK")}{" "}
                         {languageTranslation("BEGIN")}
                       </th>
-                      <th className="datetime-col"> 
+                      <th className="datetime-col">
                         {languageTranslation("BREAK")}{" "}
                         {languageTranslation("END")}
                       </th>
-                      <th className="price-col"> {languageTranslation("PRICE")}</th>
-                      <th className="price-col">{languageTranslation("NIGHT")}</th>
-                      <th className="price-col">{languageTranslation("NIGHT")}</th>
-                      <th className="price-col">{languageTranslation("WEEKEND")}</th>
-                      <th className="price-col">{languageTranslation("WEEKEND")}</th>
-                      <th className="price-col">{languageTranslation("HOLIDAY")}</th>
-                      <th className="price-col">{languageTranslation("HOLIDAY")}</th>
-                      <th className="price-col"> {languageTranslation("KM")}</th>
-                      <th className="price-col">{languageTranslation("KM_PRICE")}</th>
-                      <th className="price-col">{languageTranslation("EXPENSES")}</th>
-                      <th className="price-col">{languageTranslation("TOTAL")}</th>
-                      <th className="price-col">{languageTranslation("COMMISSION")}</th>
-                      <th className="price-col">{languageTranslation("TOTAL")}</th>
-                      <th className={'text-center action-col'}>
-                      {languageTranslation('TABEL_HEAD_CG_ACTION')}
-                    </th>
+                      <th className="price-col">
+                        {" "}
+                        {languageTranslation("PRICE")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("NIGHT")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("NIGHT")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("WEEKEND")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("WEEKEND")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("HOLIDAY")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("HOLIDAY")}
+                      </th>
+                      <th className="price-col">
+                        {" "}
+                        {languageTranslation("KM")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("KM_PRICE")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("EXPENSES")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("TOTAL")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("COMMISSION")}
+                      </th>
+                      <th className="price-col">
+                        {languageTranslation("TOTAL")}
+                      </th>
+                      <th className={"text-center action-col"}>
+                        {languageTranslation("TABEL_HEAD_CG_ACTION")}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -273,81 +319,95 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                       <td className="price-col">384.00 &euro;</td>
                       <td className="price-col">34584.00 &euro;</td>
                       <td className="action-col">
-                      <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`viewcaregiver`}>
-                        <UncontrolledTooltip placement="top" target={`viewcaregiver`}>
-                          View Caregiver Profile
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`viewcareinstitution`}>
-                        <UncontrolledTooltip placement="top" target={`viewcareinstitution`}>
-                          View Care Institution Profile
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`appointmentdetails`}>
-                        <UncontrolledTooltip placement="top" target={`appointmentdetails`}>
-                         Show Appointment Details
-                        </UncontrolledTooltip>
-                        <i className="fa fa-calendar"></i>
-                      </span>
-                      
-                      
-                    </div>
-                  </td>
+                        <div className="action-btn">
+                          <span className="btn-icon mr-2" id={`viewcaregiver`}>
+                            <UncontrolledTooltip
+                              placement="top"
+                              target={`viewcaregiver`}
+                            >
+                              View Caregiver Profile
+                            </UncontrolledTooltip>
+                            <i className="fa fa-eye"></i>
+                          </span>
+                          <span
+                            className="btn-icon mr-2"
+                            id={`viewcareinstitution`}
+                          >
+                            <UncontrolledTooltip
+                              placement="top"
+                              target={`viewcareinstitution`}
+                            >
+                              View Care Institution Profile
+                            </UncontrolledTooltip>
+                            <i className="fa fa-eye"></i>
+                          </span>
+                          <span
+                            className="btn-icon mr-2"
+                            id={`appointmentdetails`}
+                          >
+                            <UncontrolledTooltip
+                              placement="top"
+                              target={`appointmentdetails`}
+                            >
+                              Show Appointment Details
+                            </UncontrolledTooltip>
+                            <i className="fa fa-calendar"></i>
+                          </span>
+                        </div>
+                      </td>
                     </tr>
                   </tbody>
                 </Table>
               </div>
               <Form className="form-section total-form-section bg-white">
-          <div className="d-flex flex-wrap total-form-block">
-            <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
-              <FormGroup>
-                <Row className="align-items-center">
-                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                    <Label className="form-label col-form-label">Total</Label>
+                <div className="d-flex flex-wrap total-form-block">
+                  <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                    <FormGroup>
+                      <Row className="align-items-center">
+                        <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                          <Label className="form-label col-form-label">
+                            Total
+                          </Label>
+                        </Col>
+                        <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                          <div className="required-input">
+                            <Input
+                              type="text"
+                              name={"firstName"}
+                              placeholder={"Enter Total"}
+                              className="text-input text-capitalize"
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
                   </Col>
-                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                    <div className="required-input">
-                      <Input
-                        type="text"
-                        name={"firstName"}
-                        placeholder={"Enter Total"}
-                        className="text-input text-capitalize"
-                      />
-                    </div>
+                  <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                    <FormGroup>
+                      <Row className="align-items-center">
+                        <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                          <Label className="form-label col-form-label">
+                            Total selection
+                          </Label>
+                        </Col>
+                        <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                          <div className="required-input">
+                            <Input
+                              type="text"
+                              name={"firstName"}
+                              placeholder={"Enter total selection"}
+                              className="text-input text-capitalize"
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </FormGroup>
                   </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-            <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
-              <FormGroup>
-                <Row className="align-items-center">
-                  <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                    <Label className="form-label col-form-label">
-                      Total selection
-                    </Label>
-                  </Col>
-                  <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                    <div className="required-input">
-                      <Input
-                        type="text"
-                        name={"firstName"}
-                        placeholder={"Enter total selection"}
-                        className="text-input text-capitalize"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-          </div>
-        </Form>
+                </div>
+              </Form>
             </div>
           </div>
         </div>
-        
       </div>
     </>
   );

@@ -111,6 +111,18 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     starMarkCaregiver
   } = props;
 
+// Find difference in workingHours 
+  let d = moment().format('L');
+  let dtStart: any = new Date(d + ' ' + workingHoursFromTime);
+  let dtEnd: any = new Date(d + ' ' + workingHoursToTime);
+  let workingHoursdifference = dtEnd - dtStart;
+
+  // Find difference in break 
+  let dt = moment().format('L');
+  let dtStart1: any = new Date(dt + ' ' + breakFromTime);
+  let dtEnd1: any = new Date(dt + ' ' + breakToTime);
+  let breakdifference = dtEnd1 - dtStart1;
+
   useEffect(() => {
     // To check appointment with leasing careInst or not
     let isLeasingAppointment = false;
@@ -920,11 +932,18 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               />
                             )}
                           </Field>
-                          {errors.workingHoursToTime && touched.workingHoursToTime && (
+                          {errors.workingHoursToTime ? (
+                          errors.workingHoursToTime &&
+                          touched.workingHoursToTime && (
                             <div className='required-tooltip'>
                               {errors.workingHoursToTime}
                             </div>
-                          )}
+                          )
+                        ) : touched.workingHoursToTime && workingHoursdifference <= 0 ? (
+                          <div className='required-tooltip'>
+                            {languageTranslation('VALID_TIME_RANGE')}
+                          </div>
+                        ) : null}
                         </InputGroup>
                             </Col>
                           </div>
@@ -1062,11 +1081,18 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               />
                             )}
                           </Field>
-                          {errors.breakToTime && touched.breakToTime && (
+                          {errors.breakToTime ? (
+                          errors.breakToTime &&
+                          touched.breakToTime && (
                             <div className='required-tooltip'>
                               {errors.breakToTime}
                             </div>
-                          )}
+                          )
+                        ) : touched.breakToTime && breakdifference <= 0 ? (
+                          <div className='required-tooltip'>
+                            {languageTranslation('VALID_TIME_RANGE')}
+                          </div>
+                        ) : null}
                         </InputGroup>
                             </Col>
                           </div>

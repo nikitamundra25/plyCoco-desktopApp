@@ -524,7 +524,6 @@ const CarinstituionListView: FunctionComponent<
       }
     });
   }
-  console.log("Email+++++++++Option", emailOptionCond);
 
   //to apply conditions on set on offered
   let setOnOfferCond: any;
@@ -744,9 +743,7 @@ const CarinstituionListView: FunctionComponent<
       </Suspense>
     }
   }
-  console.log("++++++++++++++++++Selected Care institution", selectedCellsCareinstitution &&
-    selectedCellsCareinstitution.length ? selectedCellsCareinstitution : null);
-
+  
   return (
     <>
       <div

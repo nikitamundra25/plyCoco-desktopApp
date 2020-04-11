@@ -27,9 +27,21 @@
     margin-bottom: 0.25rem !important;
   }
 }
-.invoice-header{
+.invoice-header {
   .user-select {
-    width:150px
+    width: 150px;
+    @media only screen and (max-width: 1400px) and (min-width: 992px) {
+      width: 130px;
+    }
+  }
+  .common-header-input {
+    @media only screen and (max-width: 1400px) and (min-width: 992px) {
+      width: 95px;
+    }
+    .DayPickerInput-Overlay {
+      right: 0;
+      left: auto;
+    }
   }
 }
 .total-form-section {
@@ -43,120 +55,126 @@
   .invoices-table {
     min-height: calc(100vh - 352px);
   }
-  .createinvoices-table{
+  .createinvoices-table {
     min-height: calc(100vh - 235px);
   }
   table {
-    th, td {
-      &.invoiceid-col{
-        width:70px;
-        min-width:70px;
+    th,
+    td {
+      &.invoiceid-col {
+        width: 70px;
+        min-width: 70px;
       }
-      &.careinstitution-col{
-        width:200px;
-         min-width:200px;
+      &.careinstitution-col {
+        width: 200px;
+        min-width: 200px;
       }
-      &.caregiver-col{
-        width:200px;
-        min-width:200px;
+      &.caregiver-col {
+        width: 200px;
+        min-width: 200px;
       }
       &.cancel-col {
-        width:110px;
-        min-width:110px;
+        width: 110px;
+        min-width: 110px;
       }
-      &.date-col{
-        width:80px;
-        min-width:80px;
+      &.date-col {
+        width: 80px;
+        min-width: 80px;
       }
-      &.checkbox-col{
-        width:50px;
-        min-width:50px;
+      &.checkbox-col {
+        width: 50px;
+        min-width: 50px;
       }
-      &.amount-col{
-        width:100px;
-        min-width:100px;
+      &.amount-col {
+        width: 100px;
+        min-width: 100px;
       }
-      &.comment-col{
-        width:150px;
-        min-width:150px;
+      &.comment-col {
+        width: 150px;
+        min-width: 150px;
       }
-      
     }
   }
 }
 
-.createinvoices-table{
-  th,td{
-    &.sno-col{
-      width:60px;
-      min-width:60px;
+.createinvoices-table {
+  th,
+  td {
+    &.sno-col {
+      width: 60px;
+      min-width: 60px;
     }
-    &.invoiceid-col{
-      width:70px;
-      min-width:70px;
-    }&.h-col{
-      width:50px;
+    &.invoiceid-col {
+      width: 70px;
+      min-width: 70px;
+    }
+    &.h-col {
+      width: 50px;
       min-width: 50px;
-    }&.text-col{
-      width:180px;
-      min-width:180px;
-    }&.datetime-col{
-      width:150px;
-      min-width:150px;
-    }&.price-col{
-      width:100px;
+    }
+    &.text-col {
+      width: 180px;
+      min-width: 180px;
+    }
+    &.datetime-col {
+      width: 150px;
+      min-width: 150px;
+    }
+    &.price-col {
+      width: 100px;
       min-width: 90px;
     }
   }
 }
 
-.payslipform-table{
-  td,th{
-    &.caregiver-col{
-      width:200px;
+.payslipform-table {
+  td,
+  th {
+    &.caregiver-col {
+      width: 200px;
     }
-    &.file-col{
-      width:150px;
+    &.file-col {
+      width: 150px;
     }
-    &.date-col{
-      width:70px;
+    &.date-col {
+      width: 70px;
     }
-    &.month-col{
-      width:100px;
+    &.month-col {
+      width: 100px;
     }
-    &.amount-col{
-      width:90px;
+    &.amount-col {
+      width: 90px;
     }
-    &.paymentamount-col{
-      width:120px;
+    &.paymentamount-col {
+      width: 120px;
     }
-    &.gross-col{
-      width:80px;
+    &.gross-col {
+      width: 80px;
     }
-    &.type-col{
-      width:180px;
+    &.type-col {
+      width: 180px;
     }
-    &.paid-col{
-      width:90px;
+    &.paid-col {
+      width: 90px;
     }
-    &.visible-col{
-      width:50px;
+    &.visible-col {
+      width: 50px;
     }
-    &.comment-col{
-      width:200px;
-      min-width:150px;
+    &.comment-col {
+      width: 200px;
+      min-width: 150px;
     }
-    
   }
 }
 
-.healthinsuraceform-table{
-  th,td{
-    &.sepa-col{
-      width:50px;
+.healthinsuraceform-table {
+  th,
+  td {
+    &.sepa-col {
+      width: 50px;
     }
-    &.action-col{
-      width:70px;
+    &.action-col {
+      width: 70px;
     }
   }
 }

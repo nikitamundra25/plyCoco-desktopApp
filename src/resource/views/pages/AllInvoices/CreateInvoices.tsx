@@ -145,14 +145,14 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             <div className="filter-form form-section mb-2">
               <Form>
                 <Row>
-                  <Col lg={"3"} md={"3"}>
+                  {/* <Col lg={"3"} md={"3"}>
                     <FormGroup>
                       <Label for="search" className="col-form-label">
                         {languageTranslation("SEARCH_LABEL")} :
                       </Label>
                       <Input type="text" name="searchValue" id="search" />
                     </FormGroup>
-                  </Col>
+                  </Col> */}
                   <Col lg={"2"} md={"3"}>
                     <FormGroup>
                       <Label for="Selectregion" className="col-form-label">

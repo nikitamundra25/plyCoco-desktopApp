@@ -2616,12 +2616,6 @@ const Appointment: FunctionComponent = (props: any) => {
             careGiverAvabilityInput: careGiverAvabilityInput,
           },
         });
-        // if (!toast.isActive(toastId)) {
-        //   toast.dismiss();
-        //   toastId = toast.success(
-        //     languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
-        //   );
-        // }
       }
     }
   };
@@ -3085,16 +3079,21 @@ const Appointment: FunctionComponent = (props: any) => {
     feePerKM: feePerKM ? feePerKM : "",
     travelAllowance: travelAllowance ? travelAllowance : "",
     otherExpenses: otherExpenses ? otherExpenses : "",
-    workingHoursFrom,
-    workingHoursTo,
-    breakFrom,
-    breakTo,
+    workingHoursFromDate : "",
+    workingHoursFromTime: "",
+    workingHoursToDate: "",
+    workingHoursToTime: "",
+    breakFromDate: "",
+    breakFromTime: "",
+    breakToDate: "",
+    breakToTime:"",
     remarksCareGiver: caregiver && remarksCareGiver ? remarksCareGiver : "",
     remarksInternal: caregiver && remarksInternal ? remarksInternal : "",
     f: f === "available" ? true : false,
     s: s === "available" ? true : false,
     n: n === "available" ? true : false,
     status: status ? status : "",
+    dateString
   };
 
   const [savingBoth, setsavingBoth] = useState(false);

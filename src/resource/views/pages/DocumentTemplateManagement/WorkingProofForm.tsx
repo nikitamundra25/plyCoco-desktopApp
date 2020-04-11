@@ -250,7 +250,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             <Row className="align-items-center">
                               <Col sm="4">
                                 <Label className="form-label col-form-label">
-                                  Document Type
+                                  {languageTranslation("DOCUMENT_TYPE_LABEL")}
                                 </Label>
                               </Col>
                               <Col sm="8">
@@ -492,13 +492,13 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                                 <Row className="align-items-center">
                                   <Col sm="4">
                                     <Label className="form-label col-form-label">
-                                      Caregiver
+                                      {languageTranslation("MENU_CAREGIVER")}
                                     </Label>
                                   </Col>
                                   <Col sm="8">
                                     <div>
                                       <Select
-                                        placeholder="Select Caregiver"
+                                        placeholder={languageTranslation("SELECT_CAREGIVER")}
                                         options={State}
                                         classNamePrefix="custom-inner-reactselect"
                                         className={"custom-reactselect"}

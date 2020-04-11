@@ -110,7 +110,7 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
             ? languageTranslation("CG_MENU_CREATE_TODO")
             : languageTranslation("CG_MENU_EDIT_TODO")}{" "}
           {""}
-          for {name}{" "}
+          {languageTranslation("FOR")} {name}{" "}
         </ModalHeader>
         <ModalBody>
           <div className="">

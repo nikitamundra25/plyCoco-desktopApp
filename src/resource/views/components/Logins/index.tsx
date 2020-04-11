@@ -93,7 +93,7 @@ const LoginLogs: FunctionComponent<any> = (props: any) => {
                         <i className='icon-ban' />
                       </div>
                       <h4 className='mb-1'>
-                        Currently there are no logs available.{' '}
+                      {languageTranslation("NO_LOGS_AVAILABLE")} {' '}
                       </h4>
                     </div>
                   </td>

@@ -152,7 +152,7 @@ const DocumentUploadModal = (props: any) => {
                             </div>
                           ) : isSubmit && documentUrls === null ? (
                             <div className='required-error'>
-                              Document is required
+                              {languageTranslation("REQUIRED_DOCUMENT")}
                             </div>
                           ) : null}
                         </Col>
@@ -173,7 +173,7 @@ const DocumentUploadModal = (props: any) => {
                             />
                             {isSubmit && !fileName ? (
                               <div className="required-tooltip">
-                                File name is required
+                                {languageTranslation("REQUIRED_FILENAME")}
                               </div>
                             ) : null}
                           </div>

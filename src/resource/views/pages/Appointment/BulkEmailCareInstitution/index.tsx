@@ -12,6 +12,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { DocumentMutations } from '../../../../../graphql/Mutations';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import ConfirmAppointmentPdf from '../../BulkEmailCareinstitution/PDF/ConfirmAppointmentPdf';
+import { languageTranslation } from '../../../../../helpers';
 
 const [ADD_DOCUMENT] = DocumentMutations;
 
@@ -66,14 +67,8 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
         //     documentInput
         //   }
         // });
-
-        console.log('pdfConfirmAppointment ', pdfConfirmAppointment);
-
-
       }
-
     }
-
   }, [confirmAppointmentPdfData]);
 
   const externalCloseBtn = (
@@ -96,7 +91,7 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
         size='xl'
       >
         <ModalHeader close={externalCloseBtn}>
-          Bulk Email Care Institution
+         {languageTranslation("BILK_EMAIL_CAREINSTITUTION")}
         </ModalHeader>
         <ModalBody>
           {/* {confirmAppointment && pdfConfirmAppointment ? (

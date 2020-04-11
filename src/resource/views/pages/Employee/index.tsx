@@ -645,21 +645,21 @@ const Employee: FunctionComponent = () => {
                                       changeAccessLevelValue('all', id)
                                     }
                                   >
-                                    All
+                                    {languageTranslation("ALL")}
                                   </DropdownItem>
                                   <DropdownItem
                                     onClick={() =>
                                       changeAccessLevelValue('basic', id)
                                     }
                                   >
-                                    Basic
+                                    {languageTranslation("EMPLOYEE_BASIC")}
                                   </DropdownItem>
                                   <DropdownItem
                                     onClick={() =>
                                       changeAccessLevelValue('invoice', id)
                                     }
                                   >
-                                    Invoice
+                                    {languageTranslation("EMPLOYEE_INVOICE")}
                                   </DropdownItem>
                                 </DropdownMenu>
                               </UncontrolledButtonDropdown>
@@ -782,9 +782,9 @@ const Employee: FunctionComponent = () => {
                           <i className='icon-ban' />
                         </div>
                         <h4 className='mb-1'>
-                          Currently there are no employees added.{' '}
+                         {languageTranslation("CURRENTLY_THERE_ARE_NO_EMPLOYEES")} {' '}
                         </h4>
-                        <p>Please click above button to add new. </p>
+                        <p>{languageTranslation("CLICK_ABOVE_TO_ADD_NEW")} </p>
                       </div>
                     )}
                   </td>

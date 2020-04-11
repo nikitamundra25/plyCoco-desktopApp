@@ -1,4 +1,10 @@
-import React, { FunctionComponent, useState, Suspense, lazy } from "react";
+import React, {
+  FunctionComponent,
+  useState,
+  Suspense,
+  lazy,
+  useEffect,
+} from "react";
 import { Table, Button, Nav, NavItem, NavLink } from "reactstrap";
 import { SelectableGroup } from "react-selectable-fast";
 import moment from "moment";
@@ -72,6 +78,7 @@ const CarinstituionListView: FunctionComponent<
     getMoreCareInstituionList,
     updateCareInstitutionStatus,
     locationState,
+    starMarkCareinstitution,
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
@@ -314,16 +321,29 @@ const CarinstituionListView: FunctionComponent<
 
   // show button for care institution
   const [showButton, setShowButton] = useState<boolean>(false);
+  const [showCareGiverEmail, setshowCareGiverEmail] = useState<boolean>(false);
 
-  // Open care giver bulk Email section
+  // Open care giver bulk Email section after care instituion email popup
   const handleCareGiverBulkEmail = (sortBy: string, showButton: boolean) => {
     setSortBy(sortBy);
     setShowButton(showButton);
-    setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+    if (!openCareGiverBulkEmail) {
+      setshowCareGiverEmail(true);
+    } else {
+      setshowCareGiverEmail(false);
+      setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+    }
     if (openCareGiverBulkEmail) {
       setunlinkedBy("");
     }
   };
+
+  //Open Care giver Modal
+  useEffect(() => {
+    if (openCareInstitutionBulkEmail && showCareGiverEmail) {
+      setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
+    }
+  }, [openCareInstitutionBulkEmail]);
 
   // open care institution bulk Email section
   const handleCareInstitutionBulkEmail = () => {
@@ -740,12 +760,6 @@ const CarinstituionListView: FunctionComponent<
       );
     }
   };
-  console.log(
-    "++++++++++++++++++Selected Care institution",
-    selectedCellsCareinstitution && selectedCellsCareinstitution.length
-      ? selectedCellsCareinstitution
-      : null
-  );
 
   return (
     <>
@@ -773,11 +787,11 @@ const CarinstituionListView: FunctionComponent<
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution &&
-                  selectedCellsCareinstitution.length &&
-                  selectedCellsCareinstitution[0].id === ""
-                    ? "disabled-class"
-                    : ""
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                  // ? "disabled-class"
+                  // : ""
                 }
                 onClick={() => {
                   handleRightMenuToggle();
@@ -840,11 +854,9 @@ const CarinstituionListView: FunctionComponent<
             <NavItem>
               <NavLink
                 disabled={
-                  selectedCellsCareinstitution &&
-                  selectedCellsCareinstitution.length &&
-                  selectedCellsCareinstitution[0].id === ""
-                    ? "disabled-class"
-                    : ""
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
                 }
                 onClick={() => {
                   handleRightMenuToggle();
@@ -866,10 +878,10 @@ const CarinstituionListView: FunctionComponent<
                     : "disabled-class"
                 }
                 onClick={() => {
-                  handleCareGiverBulkEmail("division", true);
                   handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
                   updateCareInstitutionStatus("offered");
+                  handleCareGiverBulkEmail("division", true);
                   // setOnOfferedCareInst();
                 }}
               >
@@ -1279,7 +1291,9 @@ const CarinstituionListView: FunctionComponent<
                 >
                   <InfiniteLoader
                     loadMoreRows={({ startIndex, stopIndex }) =>
-                      loadMoreRows({ startIndex, stopIndex }) as any
+                      !starMarkCareinstitution
+                        ? (loadMoreRows({ startIndex, stopIndex }) as any)
+                        : ""
                     }
                     isRowLoaded={({ index }) => !!careInstitutionList[index]}
                     // isRowLoaded={() => false}

@@ -64,7 +64,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onAddingRow,
     selectedCells,
     handleSelection,
-    handleSecondStar,
     handleReset,
     onReserve,
     onDeleteEntries,
@@ -81,23 +80,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onTerminateAggrement,
     updateLinkedStatus,
     updateCaregiverStatus,
+    onhandleCaregiverStar,
+    starMarkCaregiver,
   } = props;
 
-  const [starMark, setstarMark] = useState<boolean>(false);
   const [offerRequirements, setOfferRequirements] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [leasingContract, setleasingContract] = useState<boolean>(false);
-
-  const onhandleSecondStar = (list: object, index: number, name: string) => {
-    if (!starMark) {
-      setstarMark(!starMark);
-      handleSecondStar(list, index, name);
-    } else {
-      setstarMark(!starMark);
-      handleReset(name);
-    }
-  };
 
   const handleToggleMenuItem = () => {
     setopenToggleMenu(!openToggleMenu);
@@ -565,6 +555,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   //     />
   //   </Suspense>
   // }
+
   return (
     <div>
       <div
@@ -952,8 +943,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     // loadMoreRows={loadMore}
                     rowCount={totalCaregiver}
                     loadMoreRows={({ startIndex, stopIndex }) =>
-                      !starMark || locationState
-                        ? (getNext(careGiversList.lrngth) as any)
+                      !starMarkCaregiver ||
+                      locationState ||
+                      careGiversList.length > 1
+                        ? (getNext(careGiversList.length) as any)
                         : null
                     }
                   >
@@ -1036,14 +1029,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div
                                     className="custom-appointment-col s-col text-center"
                                     onClick={() =>
-                                      onhandleSecondStar(
-                                        list,
-                                        uIndex,
-                                        "caregiver"
-                                      )
+                                      onhandleCaregiverStar(list, "caregiver")
                                     }
                                   >
-                                    {starMark ? (
+                                    {starMarkCaregiver ? (
                                       <i className="fa fa-star theme-text" />
                                     ) : (
                                       <i className="fa fa-star-o" />
@@ -1052,14 +1041,10 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div
                                     className="custom-appointment-col u-col text-center"
                                     onClick={() =>
-                                      onhandleSecondStar(
-                                        list,
-                                        uIndex,
-                                        "caregiver"
-                                      )
+                                      onhandleCaregiverStar(list, "caregiver")
                                     }
                                   >
-                                    {starMark ? (
+                                    {starMarkCaregiver ? (
                                       <i className="fa fa-star theme-text" />
                                     ) : (
                                       <i className="fa fa-star-o" />

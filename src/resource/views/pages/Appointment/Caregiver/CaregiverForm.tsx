@@ -99,7 +99,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     careGiversListArr,
     handleSelectUserList,
     handleLastTimeData,
-    selectedCells
+    selectedCells,
+    onhandleCaregiverStar,
+    starMarkCaregiver
   } = props;
 
   useEffect(() => {
@@ -123,8 +125,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     });}}
     },[selectedCells])
 
-    
-  const [starMark, setstarMark] = useState<boolean>(false);
   
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
@@ -190,17 +190,19 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     let total = distanceInKM * feePerKM;
     setFieldValue('travelAllowance', total);
   };
-
+ 
   const handleUserList = (id: string, name: string) => {
     let data: any =
       careGiversListArr && careGiversListArr.result
         ? careGiversListArr.result
         : {};
-    setstarMark(!starMark && careGiversListArr && careGiversListArr.result);
-    if (id && !starMark) {
-      data = careGiversListArr.result.filter((x: any) => x.id === id);
+        if (id) {
+      data = careGiversListArr.result.filter((x: any) => x.id === id)[0];
+      onhandleCaregiverStar(data, name);
     }
-    handleSelectUserList(data, name);
+    // else if(!starMark){
+    //   onhandleCaregiverStar(data, name);
+    // }
   };
 
 let dateCondition: any 
@@ -277,18 +279,26 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                           addonType='append'
                           className='cursor-pointer'
                           onClick={() =>
-                            name
-                              ? handleUserList(
-                                  selectedCareGiver ? selectedCareGiver.id : '',
-                                  'caregiver'
-                                )
-                              : ''
+                            name ?
+                            handleUserList(
+                              selectedCareGiver ? selectedCareGiver.id : '',
+                              'caregiver'
+                            )
+                            : ""
                           }
+                          // onClick={() =>
+                          //   name
+                          //     ? handleUserList(
+                          //         selectedCareGiver ? selectedCareGiver.id : '',
+                          //         'caregiver'
+                          //       )
+                          //     : ''
+                          // }
                         >
                           <InputGroupText>
                             <i
                               className={
-                                starMark
+                                name && starMarkCaregiver
                                   ? 'fa fa-star theme-text'
                                   : 'fa fa-star'
                               }

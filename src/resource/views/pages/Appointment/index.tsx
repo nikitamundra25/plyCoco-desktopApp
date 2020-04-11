@@ -2834,6 +2834,7 @@ const Appointment: FunctionComponent = (props: any) => {
               moment(element.dateString).format(dbAcceptableFormat)
             ) {
               checkError = true;
+              toast.dismiss()
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
                   languageTranslation("DATE_RANGE_MISMATCH")

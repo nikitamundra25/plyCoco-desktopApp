@@ -493,7 +493,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               )
                             }
                           >
-                            Last Time
+                            {languageTranslation("LAST_TIME")}
                           </span>
                         </div>
                       </Col>
@@ -825,6 +825,11 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               />
                             )}
                           </Field>
+                          {errors.workingHoursFromDate && touched.workingHoursFromDate && (
+                            <div className='required-tooltip'>
+                              {errors.workingHoursFromDate}
+                            </div>
+                          )}
                         </InputGroup>
                             </Col>
                             <Col sm={'6'}>
@@ -846,6 +851,11 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               />
                             )}
                           </Field>
+                          {errors.workingHoursFromTime && touched.workingHoursFromTime && (
+                            <div className='required-tooltip'>
+                              {errors.workingHoursFromTime}
+                            </div>
+                          )}
                         </InputGroup>
                             </Col>
                           </div>
@@ -884,6 +894,11 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               />
                             )}
                           </Field>
+                          {errors.workingHoursToDate && touched.workingHoursToDate && (
+                            <div className='required-tooltip'>
+                              {errors.workingHoursToDate}
+                            </div>
+                          )}
                         </InputGroup>
                             </Col>
                             <Col sm={'6'}>
@@ -905,6 +920,11 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               />
                             )}
                           </Field>
+                          {errors.workingHoursToTime && touched.workingHoursToTime && (
+                            <div className='required-tooltip'>
+                              {errors.workingHoursToTime}
+                            </div>
+                          )}
                         </InputGroup>
                             </Col>
                           </div>
@@ -944,7 +964,13 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                                 value={breakFromDate ? breakFromDate : ''}
                               />
                             )}
-                          </Field>
+                          </Field> 
+                          {errors.breakFromDate && touched.breakFromDate && (
+                            <div className='required-tooltip'>
+                              {errors.breakFromDate}
+                            </div>
+                          )}
+
                         </InputGroup>
                             </Col>
 
@@ -967,6 +993,11 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               />
                             )}
                           </Field>
+                          {errors.breakFromTime && touched.breakFromTime && (
+                            <div className='required-tooltip'>
+                              {errors.breakFromTime}
+                            </div>
+                          )}
                         </InputGroup>
                             </Col>
                           </div>
@@ -1005,6 +1036,11 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               />
                             )}
                           </Field>
+                          {errors.breakToDate && touched.breakToDate && (
+                            <div className='required-tooltip'>
+                              {errors.breakToDate}
+                            </div>
+                          )}
                         </InputGroup>
                             </Col>
                             <Col sm={'6'}>
@@ -1026,6 +1062,11 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               />
                             )}
                           </Field>
+                          {errors.breakToTime && touched.breakToTime && (
+                            <div className='required-tooltip'>
+                              {errors.breakToTime}
+                            </div>
+                          )}
                         </InputGroup>
                             </Col>
                           </div>

@@ -56,7 +56,42 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     languageTranslation('INVALID_NUMBER'),
     value => !value || NumberWithCommaRegex.test(value)
   ),
-  
+  workingHoursFromTime: Yup.string()
+  .test({
+    name: 'validate-time',
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: ITimeResponse = timeValidator(val);
+      return !val || isValid || createError({ path, message });
+    }
+  }),
+  workingHoursToTime:Yup.string()
+  .test({
+    name: 'validate-time',
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: ITimeResponse = timeValidator(val);
+      return !val || isValid || createError({ path, message });
+    }
+  }),
+  breakFromTime: Yup.string()
+  .test({
+    name: 'validate-time',
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: ITimeResponse = timeValidator(val);
+      return !val || isValid || createError({ path, message });
+    }
+  }),
+  breakToTime: Yup.string()
+  .test({
+    name: 'validate-time',
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: ITimeResponse = timeValidator(val);
+      return !val || isValid || createError({ path, message });
+    }
+  }),
   // workingHoursToDate: Yup.mixed().when('dateString', {
   //   is: dateString =>
   //   dateString ,

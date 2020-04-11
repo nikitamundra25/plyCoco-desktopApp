@@ -221,6 +221,7 @@ const CarinstituionListView: FunctionComponent<
               moment(element.dateString).format(dbAcceptableFormat)
             ) {
               checkError = true;
+              toast.dismiss()
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
                   languageTranslation("DATE_RANGE_MISMATCH")

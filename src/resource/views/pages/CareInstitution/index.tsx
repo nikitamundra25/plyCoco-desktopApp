@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -6,43 +6,43 @@ import {
   CardBody,
   Table,
   UncontrolledTooltip,
-} from 'reactstrap';
+} from "reactstrap";
 import {
   AppRoutes,
   PAGE_LIMIT,
   sortFilter,
   defaultDateTimeFormat,
-} from '../../../../config';
-import { AppBreadcrumb } from '@coreui/react';
-import routes from '../../../../routes/routes';
-import { CareInstitutionQueries } from '../../../../graphql/queries';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+} from "../../../../config";
+import { AppBreadcrumb } from "@coreui/react";
+import routes from "../../../../routes/routes";
+import { CareInstitutionQueries } from "../../../../graphql/queries";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import {
   ICareInstitutionListDataInterface,
   ISearchValues,
   IReactSelectInterface,
   IReplaceObjectInterface,
-} from '../../../../interfaces';
-import { RouteComponentProps } from 'react-router';
-import PaginationComponent from '../../components/Pagination';
-import * as qs from 'query-string';
-import { useHistory, useLocation } from 'react-router-dom';
-import Search from '../../components/SearchFilter';
-import { Formik, FormikProps, FormikHelpers } from 'formik';
+} from "../../../../interfaces";
+import { RouteComponentProps } from "react-router";
+import PaginationComponent from "../../components/Pagination";
+import * as qs from "query-string";
+import { useHistory, useLocation } from "react-router-dom";
+import Search from "../../components/SearchFilter";
+import { Formik, FormikProps, FormikHelpers } from "formik";
 import {
   languageTranslation,
   logger,
   errorFormatter,
-} from '../../../../helpers';
-import { ConfirmBox } from '../../components/ConfirmBox';
-import { toast } from 'react-toastify';
-import moment from 'moment';
-import Loader from '../../containers/Loader/Loader';
-import ButtonTooltip from '../../components/Tooltip/ButtonTooltip';
+} from "../../../../helpers";
+import { ConfirmBox } from "../../components/ConfirmBox";
+import { toast } from "react-toastify";
+import moment from "moment";
+import Loader from "../../containers/Loader/Loader";
+import ButtonTooltip from "../../components/Tooltip/ButtonTooltip";
 import {
   CareInstitutionMutation,
   AdminProfileMutations,
-} from '../../../../graphql/Mutations';
+} from "../../../../graphql/Mutations";
 let toastId: any = null;
 const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
 
@@ -63,7 +63,7 @@ const CareInstitution = (props: RouteComponentProps) => {
     fetchCareInstitutionList,
     { data, called, loading, refetch },
   ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache",
   });
 
   let userData: [Object] | any;
@@ -92,45 +92,45 @@ const CareInstitution = (props: RouteComponentProps) => {
   useEffect(() => {
     const query = qs.parse(search);
 
-    let searchBy: string = '';
-    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
-    let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
+    let searchBy: string = "";
+    let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
+    let isActive: IReactSelectInterface | undefined = { label: "", value: "" };
     // To handle display and query param text
-    let sortByValue: string | undefined = '1';
+    let sortByValue: string | undefined = "1";
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
-        (key: string) => sortFilter[key] === query.sortBy,
+        (key: string) => sortFilter[key] === query.sortBy
       );
     }
 
     logger(sortByValue);
-    if (sortByValue === '3') {
-      sortBy.label = 'A-Z';
+    if (sortByValue === "3") {
+      sortBy.label = "A-Z";
     }
-    if (sortByValue === '4') {
-      sortBy.label = 'Z-A';
+    if (sortByValue === "4") {
+      sortBy.label = "Z-A";
     }
-    if (sortByValue === '2') {
-      sortBy.label = 'Oldest';
+    if (sortByValue === "2") {
+      sortBy.label = "Oldest";
     }
-    if (sortByValue === '1') {
-      sortBy.label = 'Newest';
+    if (sortByValue === "1") {
+      sortBy.label = "Newest";
     }
     if (query) {
-      searchBy = query.search ? (query.search as string) : '';
+      searchBy = query.search ? (query.search as string) : "";
       sortBy = sortByValue
         ? {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy,
-              ) || '1',
+                (key: any) => sortFilter[key] === query.sortBy
+              ) || "1",
           }
-        : { label: 'Newest', value: '1' };
+        : { label: "Newest", value: "1" };
       isActive = query.status
-        ? query.status === 'active'
-          ? { label: languageTranslation('ACTIVE'), value: 'true' }
-          : { label: languageTranslation('DISABLE'), value: 'false' }
+        ? query.status === "active"
+          ? { label: languageTranslation("ACTIVE"), value: "true" }
+          : { label: languageTranslation("DISABLE"), value: "false" }
         : undefined;
       setSearchValues({
         searchValue: searchBy,
@@ -147,17 +147,17 @@ const CareInstitution = (props: RouteComponentProps) => {
         limit: PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
         isActive: query.status
-          ? query.status === 'active'
-            ? 'true'
-            : 'false'
-          : '',
+          ? query.status === "active"
+            ? "true"
+            : "false"
+          : "",
       },
     });
   }, [search]); // It will run when the search value gets changed
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>,
+    { setSubmitting }: FormikHelpers<ISearchValues>
   ) => {
     let params: {
       [key: string]: any;
@@ -166,13 +166,13 @@ const CareInstitution = (props: RouteComponentProps) => {
     if (searchValue) {
       params.search = searchValue;
     }
-    if (isActive && isActive.value !== '') {
-      params.status = isActive.value === 'true' ? 'active' : 'disable';
+    if (isActive && isActive.value !== "") {
+      params.status = isActive.value === "true" ? "active" : "disable";
     }
-    if (sortBy && sortBy.value !== '') {
-      params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
+    if (sortBy && sortBy.value !== "") {
+      params.sortBy = sortBy.value !== "" ? sortFilter[sortBy.value] : "";
     }
-    const path = [pathname, qs.stringify(params)].join('?');
+    const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
     // logger('path', path);
   };
@@ -181,17 +181,17 @@ const CareInstitution = (props: RouteComponentProps) => {
     // logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?',
+      "?"
     );
     history.push(path);
   };
 
   const handleStatus = async (id: any, status: boolean) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
+      title: languageTranslation("CONFIRM_LABEL"),
       text: status
-        ? languageTranslation('CONFIRM_CARE_INSTITUTION_DISABLED_MSG')
-        : languageTranslation('CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG'),
+        ? languageTranslation("CONFIRM_CARE_INSTITUTION_DISABLED_MSG")
+        : languageTranslation("CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG"),
     });
     if (!value) {
       return;
@@ -207,14 +207,14 @@ const CareInstitution = (props: RouteComponentProps) => {
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('CARE_INSTITUTION_STATUS_UPDATE_MSG'),
+            languageTranslation("CARE_INSTITUTION_STATUS_UPDATE_MSG")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -223,23 +223,23 @@ const CareInstitution = (props: RouteComponentProps) => {
   };
 
   const {
-    searchValue = '',
+    searchValue = "",
     sortBy = undefined,
     isActive = undefined,
   } = searchValues ? searchValues : {};
 
   const queryVariables = {
     page: currentPage,
-    isActive: isActive ? isActive.value : '',
+    isActive: isActive ? isActive.value : "",
     sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
-    searchBy: searchValue ? searchValue : '',
+    searchBy: searchValue ? searchValue : "",
     limit: PAGE_LIMIT,
   };
 
   const onDelete = async (id: any) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CARE_INSTITUTION_DELETE_MSG'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_CARE_INSTITUTION_DELETE_MSG"),
     });
     if (!value) {
       return;
@@ -254,14 +254,14 @@ const CareInstitution = (props: RouteComponentProps) => {
         toast.dismiss();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CARE_INSTITUTION_DELETE_SUCCESS_MSG'),
+            languageTranslation("CARE_INSTITUTION_DELETE_SUCCESS_MSG")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
       }
     }
   };
@@ -270,7 +270,7 @@ const CareInstitution = (props: RouteComponentProps) => {
     if (CareIntitutionId) {
       const { addUser } = CareIntitutionId;
       props.history.push(
-        AppRoutes.ADD_CARE_INSTITUTION.replace(':id', addUser.id),
+        AppRoutes.ADD_CARE_INSTITUTION.replace(":id", addUser.id)
       );
     }
   }, [CareIntitutionId]);
@@ -279,7 +279,7 @@ const CareInstitution = (props: RouteComponentProps) => {
     addUser({
       variables: {
         careInstInput: {
-          firstName: '',
+          firstName: "",
         },
       },
     });
@@ -298,81 +298,81 @@ const CareInstitution = (props: RouteComponentProps) => {
           (user: ICareInstitutionListDataInterface, index: number) => {
             return tableData.push(
               <tr key={index}>
-                <td className={'sno-th-column text-center'}>
+                <td className={"sno-th-column text-center"}>
                   <span>{count++}</span>
                 </td>
 
                 <td>
-                  <div className='company-column text-capitalize'>
-                    <div className='company-text'>
-                      <i className='fa fa-building mr-2'></i>
+                  <div className="company-column text-capitalize">
+                    <div className="company-text">
+                      <i className="fa fa-building mr-2"></i>
                       <span
-                        className='cursor-pointer align-middle'
+                        className="cursor-pointer align-middle"
                         onClick={() =>
                           history.push(
                             AppRoutes.CARE_INSTITUION_VIEW.replace(
-                              ':id',
-                              user.id.toString(),
-                            ),
+                              ":id",
+                              user.id.toString()
+                            )
                           )
                         }
                       >
-                        {' '}
+                        {" "}
                         {user.canstitution && user.canstitution.companyName
                           ? user.canstitution.companyName
-                          : 'N/A'}
+                          : "N/A"}
                       </span>
                     </div>
-                    <p className='company-text'>
-                      <i className='fa fa-id-card mr-2'></i>
-                      <span className='align-middle'>
-                        {' '}
+                    <p className="company-text">
+                      <i className="fa fa-id-card mr-2"></i>
+                      <span className="align-middle">
+                        {" "}
                         {user.canstitution && user.canstitution.shortName
                           ? user.canstitution.shortName
-                          : 'N/A'}
+                          : "N/A"}
                       </span>
                     </p>
                   </div>
                 </td>
                 <td>
-                  <div className='info-column'>
-                    <div className='description-column'>
+                  <div className="info-column">
+                    <div className="description-column">
                       <span
-                        className='info-title text-capitalize'
+                        className="info-title text-capitalize"
                         onClick={() =>
                           history.push(
                             AppRoutes.CARE_INSTITUION_VIEW.replace(
-                              ':id',
-                              user.id.toString(),
-                            ),
+                              ":id",
+                              user.id.toString()
+                            )
                           )
                         }
                       >
                         {`${user.lastName} ${user.firstName}`}
                       </span>
-                      <p className='description-text'>
-                        <i className='fa fa-envelope mr-2'></i>
+                      <p className="description-text">
+                        <i className="fa fa-envelope mr-2"></i>
                         <a
                           href={`mailto:${user.email}`}
-                          className='align-middle info-link'
-                          target={'_blank'}
+                          className="align-middle info-link"
+                          target={"_blank"}
                         >
                           {user.email}
                         </a>
                       </p>
-                      <p className='description-text'>
-                        <i className='fa fa-user mr-2'></i>
-                        <span className='align-middle'>
-                          {user.userName ? user.userName : ''}
+                      <p className="description-text">
+                        <i className="fa fa-user mr-2"></i>
+                        <span className="align-middle">
+                          {user.userName ? user.userName : ""}
                         </span>
                       </p>
                       {user.phoneNumber ? (
-                        <p className='description-text'>
-                          <i className='fa fa-phone mr-2'></i>
+                        <p className="description-text">
+                          <i className="fa fa-phone mr-2"></i>
                           <a
-                            className='align-middle info-link'
+                            className="align-middle info-link"
                             href={`tel:${user.phoneNumber}`}
-                            target={'_blank'}
+                            target={"_blank"}
                           >
                             {user.phoneNumber}
                           </a>
@@ -382,10 +382,10 @@ const CareInstitution = (props: RouteComponentProps) => {
                   </div>
                 </td>
 
-                <td className='date-th-column '>
+                <td className="date-th-column ">
                   {user.createdAt
                     ? moment(user.createdAt).format(defaultDateTimeFormat)
-                    : ''}
+                    : ""}
                 </td>
                 {/* <td className="text-center">
                   <span
@@ -398,107 +398,107 @@ const CareInstitution = (props: RouteComponentProps) => {
                   </span>
                 </td> */}
                 <td>
-                  <div className='action-btn'>
+                  <div className="action-btn">
                     <ButtonTooltip
                       id={`edit${index}`}
-                      message={'Edit Care Institution'}
+                      message={"Edit Care Institution"}
                       redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
-                        ':id',
-                        user.id.toString(),
+                        ":id",
+                        user.id.toString()
                       )}
                     >
-                      <i className='fa fa-pencil'></i>
+                      <i className="fa fa-pencil"></i>
                     </ButtonTooltip>
                     <ButtonTooltip
                       id={`view${index}`}
-                      message={'View Care Institution'}
+                      message={"View Care Institution"}
                       redirectUrl={AppRoutes.CARE_INSTITUION_VIEW.replace(
-                        ':id',
-                        user.id.toString(),
+                        ":id",
+                        user.id.toString()
                       )}
                     >
-                      <i className='fa fa-eye'></i>
+                      <i className="fa fa-eye"></i>
                     </ButtonTooltip>
                     <span
                       id={`regenerate-password-${index}`}
-                      className='btn-icon mr-2'
+                      className="btn-icon mr-2"
                       onClick={() => generateNewPassword(user)}
                     >
                       <UncontrolledTooltip
-                        placement={'top'}
+                        placement={"top"}
                         target={`regenerate-password-${index}`}
                       >
-                        {languageTranslation('REGENERATE_PASSWORD')}
+                        {languageTranslation("REGENERATE_PASSWORD")}
                       </UncontrolledTooltip>
-                      <i className='fa fa-lock'></i>
+                      <i className="fa fa-lock"></i>
                     </span>
                     <span
-                      className='btn-icon '
+                      className="btn-icon "
                       id={`delete${index}`}
                       onClick={() => onDelete(user.id)}
                     >
                       <UncontrolledTooltip
-                        placement='top'
+                        placement="top"
                         target={`delete${index}`}
                       >
-                        Move to trash
+                        {languageTranslation("MOVE_TO_TRASH")}
                       </UncontrolledTooltip>
-                      <i className='fa fa-trash'></i>
+                      <i className="fa fa-trash"></i>
                     </span>
                   </div>
                 </td>
-              </tr>,
+              </tr>
             );
-          },
+          }
         )
       : tableData.push(
-          <tr className={'text-center no-hover-row'}>
-            <td colSpan={6} className={'pt-5 pb-5'}>
+          <tr className={"text-center no-hover-row"}>
+            <td colSpan={6} className={"pt-5 pb-5"}>
               {!query.page ? (
-                <div className='no-data-section'>
-                  <div className='no-data-icon'>
-                    <i className='icon-ban' />
+                <div className="no-data-section">
+                  <div className="no-data-icon">
+                    <i className="icon-ban" />
                   </div>
-                  <h4 className='mb-1'>
-                    Currently there are no care institution added.{' '}
+                  <h4 className="mb-1">
+                    {languageTranslation("NO_CARE_INSTITUTION_ADDED")}{" "}
                   </h4>
-                  <p>Please click above button to add new. </p>
+                  <p>{languageTranslation("CLICK_ABOVE_TO_ADD_NEW")} </p>
                 </div>
               ) : (
-                <div className='no-search-section'>
-                  <div className='no-data-icon'>
-                    <i className='icon-magnifier' />
+                <div className="no-search-section">
+                  <div className="no-data-icon">
+                    <i className="icon-magnifier" />
                   </div>
-                  <h4 className='mb-1'>
-                    No details found related your search{' '}
+                  <h4 className="mb-1">
+                    {languageTranslation("NO_SEARCH_FOUND")}{" "}
                   </h4>
-                  <div className='text-left search-text'>
+                  <div className="text-left search-text">
                     <p>
-                      <span className='pr-2'>&#8226;</span>Try to simplify your
-                      search
+                      <span className="pr-2">&#8226;</span>{" "}
+                      {languageTranslation("SIMPLIFY_SEARCH")}
                     </p>
                     <p>
-                      <span className='pr-2'>&#8226;</span>Use different
-                      keywords
+                      <span className="pr-2">&#8226;</span>{" "}
+                      {languageTranslation("DIFFERENT_KEYWORDS")}
                     </p>
                     <p>
-                      <span className='pr-2'>&#8226;</span>Make sure words are
-                      spelled correctly
+                      <span className="pr-2">&#8226;</span>
+                      {languageTranslation("SEARCH_CORRECTLY_SPELLED")}
                     </p>
                   </div>
                 </div>
               )}
             </td>
-          </tr>,
+          </tr>
         )}
   </>;
   // gernerate new password for care institution
   const [GenerateNewPassword] = useMutation<any, any>(GENERATE_NEW_PASSWORD);
   const generateNewPassword = async (careInstitution: any): Promise<void> => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_REGENERATE_PASSWORD_MESSAGE', {
-        userRole: languageTranslation('CAREINST_USERROLE'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_REGENERATE_PASSWORD_MESSAGE", {
+        userRole: languageTranslation("CAREINST_USERROLE"),
         email: careInstitution.email,
       }),
     });
@@ -516,9 +516,9 @@ const CareInstitution = (props: RouteComponentProps) => {
       });
 
       toastId = toast.success(
-        languageTranslation('NEW_PASSWORD_SENT_SUCCESS', {
+        languageTranslation("NEW_PASSWORD_SENT_SUCCESS", {
           email: careInstitution.email,
-        }),
+        })
       );
     } catch (error) {
       const message = errorFormatter(error.message);
@@ -533,28 +533,28 @@ const CareInstitution = (props: RouteComponentProps) => {
   return (
     <Card>
       <CardHeader>
-        <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
+        <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
         <div>
           <Button
-            color={'primary'}
-            className={'btn-add mr-3'}
+            color={"primary"}
+            className={"btn-add mr-3"}
             disabled={Loading}
-            id={'add-new-pm-tooltip'}
+            id={"add-new-pm-tooltip"}
             onClick={() => history.push(AppRoutes.CAREINSTITUTION_ARCHIVE)}
           >
-            <i className={'fa fa-archive'} />
-            &nbsp; {languageTranslation('VIEW_ARCHIVE')}
+            <i className={"fa fa-archive"} />
+            &nbsp; {languageTranslation("VIEW_ARCHIVE")}
           </Button>
 
           <Button
-            color={'primary'}
-            className={'btn-add'}
+            color={"primary"}
+            className={"btn-add"}
             disabled={Loading}
-            id={'add-new-pm-tooltip'}
+            id={"add-new-pm-tooltip"}
             onClick={() => handleAddNewCareInstitution()}
           >
-            <i className={'fa fa-plus'} />
-            &nbsp; Add New Care Institution
+            <i className={"fa fa-plus"} />
+            &nbsp; {languageTranslation("ADD_NEW_CARE_INSTITUTION")}
           </Button>
         </div>
       </CardHeader>
@@ -567,32 +567,36 @@ const CareInstitution = (props: RouteComponentProps) => {
             children={(props: FormikProps<ISearchValues>) => (
               <Search
                 {...props}
-                label={'care institution'}
+                label={"care institution"}
                 filterbyStatus={false}
               />
             )}
           />
         </div>
-        <div className='table-minheight '>
+        <div className="table-minheight ">
           <Table bordered hover responsive>
-            <thead className='thead-bg'>
+            <thead className="thead-bg">
               <tr>
-                <th className='sno-th-column text-center'>
-                  {languageTranslation('S_NO')}
+                <th className="sno-th-column text-center">
+                  {languageTranslation("S_NO")}
                 </th>
-                <th className='company-th-column'>Company Details</th>
-                <th>Care Institution Information</th>
-                <th className='date-th-column'>
-                  {languageTranslation('CREATED_DATE')}
+                <th className="company-th-column">
+                  {languageTranslation("COMPANY_DETAILS")}{" "}
+                </th>
+                <th>{languageTranslation("CARE_INSTITUTION_INFORMATION")} </th>
+                <th className="date-th-column">
+                  {languageTranslation("CREATED_DATE")}
                 </th>
                 {/* <th className='text-center status-column'>Status</th> */}
-                <th className='text-center'>Action</th>
+                <th className="text-center">
+                  {languageTranslation("TABLE_HEAD_ACTION")}{" "}
+                </th>
               </tr>
             </thead>
             <tbody>
               {!called || loading ? (
                 <tr>
-                  <td className={'table-loader'} colSpan={7}>
+                  <td className={"table-loader"} colSpan={7}>
                     <Loader />
                   </td>
                 </tr>

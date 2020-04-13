@@ -37,9 +37,7 @@ import { IBulkEmailVariables } from '../../../../interfaces';
 import { errorFormatter } from '../../../../helpers';
 import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
-import { useHistory } from 'react-router';
 import {
-  AppRoutes,
   client,
   dbAcceptableFormat,
   defaultDateFormat
@@ -80,9 +78,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     leasingContract,
     qualificationList,
     terminateAggrement,
-    showButton,
-    mailEvent,
-    updateLinkedStatus,
+    handleClose,
     label
   } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
@@ -289,7 +285,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
       }
-      props.handleClose();
+      if (handleClose) {
+        handleClose();
+      }else{
       setSubject('');
       setBody(undefined);
       setAttachments([]);
@@ -297,6 +295,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       setTemplate({ label: '', value: '' });
       setselectedCareGiver([]);
       setBulkCareGivers(false);
+    }
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -351,7 +350,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   }, []);
 
   const [careGiverData, setcareGiverData] = useState<Object[]>([]);
-  const [careGiverConfirm, setCaregiverConfirm] = useState<Object[]>([]);
   // get care giver list according to selected qualification in appointment section
 
   useEffect(() => {
@@ -1577,7 +1575,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           status: 'leasingContract'
         }
       })
-      updateLinkedStatus('contractInitiated')
+      // updateLinkedStatus('contractInitiated')
     }
   }, [leasingContactPdfData]);
 
@@ -1611,7 +1609,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           status: 'terminateAgreement'
         }
       });
-      updateLinkedStatus('contractcancelled')
+      // updateLinkedStatus('contractcancelled')
 
     }
   }, [terminationAgreementPdfData]);
@@ -1826,6 +1824,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   color='primary'
                   onClick={handleSendEmail}
                   className='btn-email-save ml-auto mr-2 btn btn-primary'
+                  disabled={bulkEmailLoading}
                 >
                   {bulkEmailLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
@@ -1851,9 +1850,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               </div> */}
             </div>
           </div>
-          {console.log( !leasingContactPdfData &&
-                leasingContract &&
-                pdfAppointmentDetails.length > 0 && signatureData ? true : false,'leasing condition')}
+      
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
@@ -1870,19 +1867,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   >
                     {({ blob, url, loading, error }: any) =>
-                     {
-                      console.log(url, blob,'in rendering');
-                       
-                      !loading ? setLeasingContactPdfData(blob) : null}
+                      !loading ? setLeasingContactPdfData(blob) : null
                     }
                   </PDFDownloadLink>
                 ) : null}
-                {console.log('terminate condition', !terminationAgreementPdfData &&
-                terminateAggrement &&
-                pdfTerminateAppointment &&
-                pdfTerminateAppointment.name &&
-                signatureData ? true : false)
-                }
+               
                 {!terminationAgreementPdfData && 
                 terminateAggrement &&
                 pdfTerminateAppointment &&

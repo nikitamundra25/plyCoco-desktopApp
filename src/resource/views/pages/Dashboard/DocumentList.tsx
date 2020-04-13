@@ -98,7 +98,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
                         <i className="icon-ban" />
                       </div>
                       <h4 className="mb-1">
-                        Currently there are no documents added.
+                        {languageTranslation("NO_DATA_IN_DOCUMENTS")}
                       </h4>
                     </div>
                   </td>

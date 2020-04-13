@@ -102,7 +102,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Place of Birth{" "}
+                         {languageTranslation("CAREGIVER_PLACE_OF_BIRTH_LABEL")} {" "}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -111,7 +111,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           <Field
                             component={FormikTextField}
                             name={"placeOfBirth"}
-                            placeholder="Place of Birth"
+                            placeholder={languageTranslation("CAREGIVER_PLACE_OF_BIRTH_LABEL")}
                             maxLength={50}
                           />
                         </div>

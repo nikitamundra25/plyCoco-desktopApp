@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FunctionComponent } from "react";
+import React, { useState, FunctionComponent } from "react";
 import {
   Modal,
   ModalHeader,
@@ -6,12 +6,7 @@ import {
   FormGroup,
   Label,
   Button,
-  ModalFooter,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledTooltip
+  ModalFooter
 } from "reactstrap";
 import close from "../../../../assets/img/cancel.svg";
 import closehover from "../../../../assets/img/cancel-hover.svg";

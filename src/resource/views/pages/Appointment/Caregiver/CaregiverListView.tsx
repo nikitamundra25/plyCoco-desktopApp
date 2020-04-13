@@ -1,19 +1,22 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, Suspense, lazy } from 'react';
 import { Nav, NavItem, NavLink, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import classnames from 'classnames';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import 'react-virtualized/styles.css'; // only needs to be imported once
-
 import { toast } from 'react-toastify';
 import { SelectableGroup } from 'react-selectable-fast';
+import {
+  InfiniteLoader,
+  Table,
+  ScrollSync,
+  AutoSizer,
+  List,
+} from 'react-virtualized';
 import {
   IAppointmentCareGiverList,
   IDaysArray,
 } from '../../../../../interfaces';
 import {
-  appointmentDateFormat,
   AppRoutes,
   selfEmployesListColor,
   leasingListColor,
@@ -24,9 +27,9 @@ import { dbAcceptableFormat } from '../../../../../config';
 import { languageTranslation } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
 import Cell from './Cell';
-import DetaillistCaregiverPopup from '../DetailedList/DetailListCaregiver';
-import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
-import UnlinkAppointment from '../unlinkModal';
+// import DetaillistCaregiverPopup from '../DetailedList/DetailListCaregiver';
+// const BulkEmailCareGiverModal = React.lazy(() => import('../BulkEmailCareGiver'));
+// import UnlinkAppointment from '../unlinkModal';
 import new_appointment from '../../../../assets/img/dropdown/new_appointment.svg';
 import reserve from '../../../../assets/img/dropdown/block.svg';
 import delete_appointment from '../../../../assets/img/dropdown/delete.svg';
@@ -41,22 +44,15 @@ import unset_confirm from '../../../../assets/img/dropdown/not_confirm.svg';
 import leasing_contact from '../../../../assets/img/dropdown/leasing.svg';
 import termination from '../../../../assets/img/dropdown/aggrement.svg';
 import refresh from '../../../../assets/img/refresh.svg';
-import '../index.scss';
-import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
-import {
-  InfiniteLoader,
-  Table,
-  ScrollSync,
-  AutoSizer,
-  List,
-} from 'react-virtualized';
+// import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { ConfirmBox } from '../../../components/ConfirmBox';
-// import styles from "react-virtualized/dist/";
-// const { Table, Column, AutoSizer, InfiniteLoader } = ReactVirtualized
-
+import '../index.scss';
+import 'react-virtualized/styles.css'; // only needs to be imported once
+import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
+import UnlinkAppointment from '../unlinkModal';
+import DetaillistCaregiverPopup from '../DetailedList/DetailListCaregiver';
+import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 let toastId: any = null;
-const STATUS_LOADING = 1;
-const STATUS_LOADED = 2;
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   props: IAppointmentCareGiverList
@@ -68,7 +64,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onAddingRow,
     selectedCells,
     handleSelection,
-    handleSecondStar,
     handleReset,
     onReserve,
     onDeleteEntries,
@@ -85,23 +80,16 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onTerminateAggrement,
     updateLinkedStatus,
     updateCaregiverStatus,
+    onhandleCaregiverStar,
+    starMarkCaregiver
   } = props;
 
-  const [starMark, setstarMark] = useState<boolean>(false);
   const [offerRequirements, setOfferRequirements] = useState<boolean>(false);
   const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [leasingContract, setleasingContract] = useState<boolean>(false);
 
-  const onhandleSecondStar = (list: object, index: number, name: string) => {
-    if (!starMark) {
-      setstarMark(!starMark);
-      handleSecondStar(list, index, name);
-    } else {
-      setstarMark(!starMark);
-      handleReset(name);
-    }
-  };
+
 
   const handleToggleMenuItem = () => {
     setopenToggleMenu(!openToggleMenu);
@@ -129,6 +117,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
 
   // To close the email pop-up
   const handleClose = () => {
+    console.log('in handleClose');
+    if ((leasingContract || terminateAggrement) && props.fetchingCareGiverData) {
+      console.log('in if');
+      props.fetchingCareGiverData()
+    }
     setopenCareGiverBulkEmail(false);
     setconfirmApp(false);
     setunlinkedBy('');
@@ -197,6 +190,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       selectedCells &&
       selectedCells.length
     ) {
+      if (selectedCellsCareinstitution.length !== selectedCells.length) {
+        toast.dismiss();
+        if (!toast.isActive(toastId)) {
+          toastId = toast.error(languageTranslation("LINK_SAME_LENGTH"));
+        }
+      } else {
       if (
         selectedCells[0].caregiver &&
         selectedCells[0].caregiver.attributes &&
@@ -215,11 +214,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         }
       }
 
-      if (selectedCellsCareinstitution.length !== selectedCells.length) {
-        if (!toast.isActive(toastId)) {
-          toastId = toast.error('Please select same length cells');
-        }
-      } else {
         let qualiCheck: any[] = [];
         selectedCells.map(async (key: any, index: number) => {
           const element = selectedCellsCareinstitution[index];
@@ -240,6 +234,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               );
             }
             if (qualiCheck && qualiCheck.length <= 0) {
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
                   languageTranslation('QUALIFICATION_UNMATCH')
@@ -253,17 +248,19 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               moment(element.dateString).format(dbAcceptableFormat)
             ) {
               checkError = true;
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
-                  'Date range between appointments & requirement mismatch.'
+                  languageTranslation("DATE_RANGE_MISMATCH")
                 );
               }
               return false;
             } else if (key.item === undefined || element.item === undefined) {
               checkError = true;
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
-                  'Create requirement or appointment first for all selected cells.'
+                  languageTranslation("LINK_ERROR")
                 );
               }
               return false;
@@ -292,6 +289,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         if (!checkError) {
           onLinkAppointment(selectedData, name);
         }
+      
       }
     }
   };
@@ -304,6 +302,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     setshowUnlinkModal(!showUnlinkModal);
   };
   const [isFromUnlink, setisFromUnlink] = useState(false);
+  
   const handleUnlinkData = (likedBy: string, check: boolean) => {
     setunlinkedBy(likedBy);
     let appointmentId: any = [];
@@ -335,7 +334,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       }
     } else {
       if (!toast.isActive(toastId)) {
-        toastId = toast.error('Please select appointment/s.');
+        toastId = toast.error(languageTranslation("SELECT_APPOINTMENT"));
       }
     }
   };
@@ -464,7 +463,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       ? true
       : false;
   }
-  console.log(isLeasingAppointment, 'isLeasingAppointment');
   let getheight: HTMLElement | null = document.getElementById('getheight');
   let listheight: number = 200;
   if (getheight) {
@@ -491,6 +489,73 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       temp.push({ ...element, new: item, row });
     });
   });
+  // if (openCareGiverBulkEmail) {
+  //   const BulkEmailCareGiverModal = lazy(() => import('../BulkEmailCareGiver'));
+  //   return <Suspense fallback={null}>
+  //   <BulkEmailCareGiverModal
+  //     updateLinkedStatus={props.fetchingCareGiverData}
+  //     openModal={openCareGiverBulkEmail}
+  //     qualification={
+  //       sortedQualificationList && sortedQualificationList
+  //         ? sortedQualificationList
+  //         : props.qualification
+  //     }
+  //     handleClose={handleClose}
+  //     gte={props.gte}
+  //     lte={props.lte}
+  //     selectedCells={selectedCells}
+  //     confirmApp={confirmApp}
+  //     selectedCellsCareinstitution={selectedCellsCareinstitution}
+  //     unlinkedBy={unlinkedBy}
+  //     isFromUnlink={isFromUnlink}
+  //     qualificationList={qualificationList}
+  //     offerRequirements={offerRequirements}
+  //     terminateAggrement={terminateAggrement}
+  //     leasingContract={leasingContract}
+  //   />
+  //   </Suspense>  
+  // }
+  // if (openCareInstitutionBulkEmail) {
+  //   const BulkEmailCareInstitutionModal= lazy(() => import('../BulkEmailCareInstitution'));
+  //   return <Suspense fallback={null}>
+  //     <BulkEmailCareInstitutionModal
+  //       openModal={openCareInstitutionBulkEmail}
+  //       handleClose={() => handleCareInstitutionBulkEmail()}
+  //       qualification={
+  //         sortedQualificationList && sortedQualificationList
+  //           ? sortedQualificationList
+  //           : props.qualification
+  //       }
+  //       selectedCellsCareinstitution={selectedCellsCareinstitution}
+  //       gte={props.gte}
+  //       lte={props.lte}
+  //       unlinkedBy={unlinkedBy}
+  //       isFromUnlink={isFromUnlink}
+  //     />
+  //     </Suspense>
+  // }
+  // if (showList) {
+  //   const DetaillistCaregiverPopup= lazy(() => import('../DetailedList/DetailListCaregiver'));
+  //   return <Suspense fallback={null}>
+  //     <DetaillistCaregiverPopup
+  //       show={showList ? true : false}
+  //       handleClose={() => setShowList(false)}
+  //       selectedCells={selectedCells}
+  //       qualificationList={qualificationList}
+  //     />
+  //   </Suspense>
+  // }
+  // if (showUnlinkModal) {
+  //   const UnlinkAppointment= lazy(() => import('../unlinkModal'));
+  //   return <Suspense fallback={null}>
+  //     <UnlinkAppointment
+  //       show={showUnlinkModal}
+  //       handleClose={() => setshowUnlinkModal(false)}
+  //       handleUnlinkData={handleUnlinkData}
+  //     />
+  //   </Suspense>
+  // }
+ 
   return (
     <div>
       <div
@@ -603,13 +668,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              // disabled={
-              //   selectedCells
-              //     ? selectedCells.length === 0 ||
-              //       (offferAll && offferAll.length !== 0) ||
-              //       (checkQuali && checkQuali.length === 0)
-              //     : true
-              // }
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (offferAll && offferAll.length !== 0) ||
+                    (checkQuali && checkQuali.length === 0)
+                  : true
+              }
               onClick={() => {
                 setopenToggleMenu(false);
                 setOfferRequirements(true);
@@ -813,15 +878,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     </Button>
                   </div>
                 </div>
-                <div className='custom-appointment-col h-col'>H</div>
+                <div className='custom-appointment-col h-col'> {languageTranslation("H")}</div>
                 <div className='custom-appointment-col s-col text-center'>
-                  S
+                {languageTranslation("S")}
                 </div>
                 <div className='custom-appointment-col u-col text-center'>
-                  U
+                {languageTranslation("U")}
                 </div>
                 <div className='custom-appointment-col v-col text-center'>
-                  V
+                {languageTranslation("V")}
                 </div>
                 {/* array for showing day */}
                 {daysArr.map(
@@ -871,10 +936,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     isRowLoaded={({ index }) => !!careGiversList[index]}
                     // loadMoreRows={loadMore}
                     rowCount={totalCaregiver}
-                    loadMoreRows={({ startIndex, stopIndex }) =>
-                      !starMark || locationState
-                        ? (getNext(careGiversList.lrngth) as any)
+                    loadMoreRows={
+                      ({ startIndex, stopIndex }) =>
+                      !starMarkCaregiver || locationState || careGiversList.length > 1
+                        ? (getNext(careGiversList.length) as any)
                         : null
+                      
                     }
                   >
                     {({ onRowsRendered, registerChild }) => (
@@ -956,14 +1023,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div
                                     className='custom-appointment-col s-col text-center'
                                     onClick={() =>
-                                      onhandleSecondStar(
+                                      onhandleCaregiverStar(
                                         list,
-                                        uIndex,
                                         'caregiver'
                                       )
                                     }
                                   >
-                                    {starMark ? (
+                                    {starMarkCaregiver ? (
                                       <i className='fa fa-star theme-text' />
                                     ) : (
                                       <i className='fa fa-star-o' />
@@ -972,14 +1038,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div
                                     className='custom-appointment-col u-col text-center'
                                     onClick={() =>
-                                      onhandleSecondStar(
+                                      onhandleCaregiverStar(
                                         list,
-                                        uIndex,
                                         'caregiver'
                                       )
                                     }
                                   >
-                                    {starMark ? (
+                                    {starMarkCaregiver ? (
                                       <i className='fa fa-star theme-text' />
                                     ) : (
                                       <i className='fa fa-star-o' />
@@ -1038,7 +1103,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     <i className='icon-ban' />
                   </div>
                   <h4 className='mb-1'>
-                    Currently there are no CareGiver added.{' '}
+              {languageTranslation("NO_CAREGIVER_ADDED")}{' '}
                   </h4>
                 </div>
               )}
@@ -1068,8 +1133,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           terminateAggrement={terminateAggrement}
           leasingContract={leasingContract}
         />
-      ) : null}
-      <BulkEmailCareInstitutionModal
+      ) : null} 
+       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() => handleCareInstitutionBulkEmail()}
         qualification={
@@ -1082,14 +1147,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         lte={props.lte}
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
-      />
-      <DetaillistCaregiverPopup
+      /> 
+       <DetaillistCaregiverPopup
         show={showList ? true : false}
         handleClose={() => setShowList(false)}
         selectedCells={selectedCells}
         qualificationList={qualificationList}
-      />
-      <UnlinkAppointment
+      /> 
+       <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}

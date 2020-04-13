@@ -131,16 +131,23 @@ let dateData =  activeDateCaregiver && activeDateCaregiver.length
 // console.log("workingHoursFromDate",sub);
 
 let current = moment().format(defaultDateFormat);
-// Find difference in workingHours date
-const workingHourDateValidator = () =>{
-  console.log("dateData",dateData);
-  
-  let dateFrom = dateDiffernceValidator(dateData, current , workingHoursFromDate)
-  console.log("dateFrom",dateFrom);
-}
 
-const  workingHourDateToValidator = () =>{
-  let validate = dateDiffernceValidator(workingHoursFromDate, current, workingHoursToDate)
+// Find difference in workingHours date
+
+const  workingHourDateValidator = (name: string) =>{
+  let validate: boolean= false
+  if(name=== "workingHoursFromDate"){
+    let dateFrom = dateDiffernceValidator(dateData, current , workingHoursFromDate)
+  }
+  else if(name=== "workingHoursToDate"){
+     validate = dateDiffernceValidator(workingHoursFromDate, current, workingHoursToDate)
+  }
+  else if(name === "breakFromDate"){
+    validate = dateDiffernceValidator(dateData, current, breakFromDate)
+     
+  }else if(name=== "breakToDate"){
+
+  }
   console.log("validate",validate);
 }
 
@@ -852,7 +859,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                                     : 'text-input form-control'
                                 }
                                 onChange={handleChange}
-                                onBlur={workingHourDateValidator}
+                                onBlur={workingHourDateValidator("workingHoursFromDate")}
                                 placeholder={languageTranslation("HOLIDAY_DATE_PLACEHOLDER")}
                                 value={workingHoursFromDate ? workingHoursFromDate : ''}
                               />
@@ -921,7 +928,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                                     : 'text-input form-control'
                                 }
                                 onChange={handleChange}
-                                onBlur={workingHourDateToValidator}
+                                onBlur={workingHourDateValidator("workingHoursToDate")}
                                 placeholder={languageTranslation("HOLIDAY_DATE_PLACEHOLDER")}
                                 value={workingHoursToDate ? workingHoursToDate : ''}
                               />
@@ -999,7 +1006,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                                     : 'text-input form-control'
                                 }
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                                onBlur={workingHourDateValidator("breakFromDate")}
                                 placeholder={languageTranslation("HOLIDAY_DATE_PLACEHOLDER")}
                                 value={breakFromDate ? breakFromDate : ''}
                               />
@@ -1070,7 +1077,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                                     : 'text-input form-control'
                                 }
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                                onBlur={workingHourDateValidator("breakToDate")}
                                 placeholder={languageTranslation("HOLIDAY_DATE_PLACEHOLDER")}
                                 value={breakToDate ? breakToDate : ''}
                               />

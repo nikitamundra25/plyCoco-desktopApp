@@ -4,6 +4,7 @@ import '../index.scss';
 import BulkEmailCaregiver from '../../BulkEmailCaregiver';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
+import { languageTranslation } from '../../../../../helpers';
 
 const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
   const {
@@ -37,7 +38,7 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
         centered
         size='xl'
       >
-        <ModalHeader close={externalCloseBtn}>Bulk Email Caregiver</ModalHeader>
+        <ModalHeader close={externalCloseBtn}>{languageTranslation("BULK_EMAIL_CAREGIVER")}</ModalHeader>
         <ModalBody>
           <BulkEmailCaregiver
           updateLinkedStatus={updateLinkedStatus}

@@ -104,7 +104,7 @@ const RemarkFormComponent: FunctionComponent<FormikProps<ICareGiverValues> & {
                           type="textarea"
                           name={"remarkData"}
                           onChange={handleChange}
-                          placeholder="Enter your remark"
+                          placeholder={languageTranslation("ENTER_REMARK")}
                           value={remarkData}
                           className="height-textarea "
                           maxLength={1000}

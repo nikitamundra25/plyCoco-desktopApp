@@ -374,7 +374,7 @@ const ArchiveCareInstitution: FunctionComponent = () => {
                           <i className='icon-ban' />
                         </div>
                         <h4 className='mb-1'>
-                          Currently there is no data in trash.
+                          {languageTranslation("NO_DATA_IN_TRASH")}
                         </h4>
                       </div>
                     )}

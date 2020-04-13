@@ -989,7 +989,7 @@ const CotactFormComponent: any = (
                         placement='top'
                         target='addAttribute'
                       >
-                        Click To Add New Attribute
+                        {languageTranslation("ADD_NEW_ATTRIBUTE")}
                       </UncontrolledTooltip>
                     </div>
                   </div>

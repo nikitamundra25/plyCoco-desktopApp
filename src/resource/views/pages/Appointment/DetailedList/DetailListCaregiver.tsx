@@ -261,7 +261,7 @@ const DetailListCaregiver = (props: any) => {
                                   <i className='icon-ban' />
                                 </div>
                                 <h4 className='mb-1'>
-                                  Currently there are no data found.{' '}
+                        {languageTranslation("NO_DATA_FOUND")}{' '}
                                 </h4>
                               </div>
                             </td>

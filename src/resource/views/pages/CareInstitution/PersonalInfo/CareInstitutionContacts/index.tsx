@@ -433,7 +433,6 @@ const CareInstitutionContacts: any = (props: any) => {
     remark,
     attributeId: attributes,
   };
-console.log("gender",gender);
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
@@ -502,7 +501,7 @@ console.log("gender",gender);
                               <span className='align-middle'>
                                 <i className='fa fa-plus mr-1'></i>
                               </span>
-                              <span className='align-middle'>New contact</span>
+                              <span className='align-middle'>{languageTranslation("NEW_CONTACT")} </span>
                             </>
                           )}{' '}
                         </NavLink>

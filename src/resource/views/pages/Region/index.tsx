@@ -203,7 +203,7 @@ export const Region: FunctionComponent = () => {
               <th className='text-center'>
                 {languageTranslation('CURRENT_ONGOING_APPOINTMENTS_COUNTER')}
               </th>
-              <th className='date-th-column'>Created Date and Time</th>
+              <th className='date-th-column'>{languageTranslation("CREATED_DATE_TIME")} </th>
               {/* <th className="text-center">Action</th> */}
             </tr>
           </thead>
@@ -245,9 +245,9 @@ export const Region: FunctionComponent = () => {
                         <i className='icon-ban' />
                       </div>
                       <h4 className='mb-1'>
-                        Currently there are no regions added.{' '}
+                  {languageTranslation("NO_REGIONS_ADDED")}{' '}
                       </h4>
-                      <p>Please click above button to add new.</p>
+                      <p>{languageTranslation("CLICK_ABOVE_TO_ADD_NEW")} </p>
                     </div>
                   )}
                 </td>

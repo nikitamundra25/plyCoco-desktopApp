@@ -19,7 +19,7 @@ import {
   ICaregiverFormValue,
   IReactSelectInterface
 } from '../../../../../interfaces';
-import { languageTranslation } from '../../../../../helpers';
+import { languageTranslation, dateDiffernceValidator } from '../../../../../helpers';
 import {
   NightAllowancePerHour,
   defaultDateFormat,
@@ -126,7 +126,6 @@ let dateData =  activeDateCaregiver
       )
       .join(', ')
   : null
-dateData = moment(dateData).subtract(1, 'd').format(defaultDateFormat);
 
 // Find difference in workingHours time
   let d = moment().format('L');
@@ -139,15 +138,20 @@ dateData = moment(dateData).subtract(1, 'd').format(defaultDateFormat);
   let dtStart1: any = new Date(dt + ' ' + breakFromTime);
   let dtEnd1: any = new Date(dt + ' ' + breakToTime);
   let breakdifference = dtEnd1 - dtStart1;
-console.log("workingHoursFromDate",dateData);
+// console.log("workingHoursFromDate",sub);
 
-  // Find difference in workingHours date
+let current = moment().add(1, 'd').format(defaultDateFormat);
+// Find difference in workingHours date
 const workingHourDateValidator = () =>{
-  let current = moment().add(1, 'd').format(defaultDateFormat);
-  let dateFrom=  moment(workingHoursFromDate).isBetween(dateData, current)
+  let dateFrom = dateDiffernceValidator(dateData, current , workingHoursFromDate)
   console.log("dateFrom",dateFrom);
-
 }
+
+const  workingHourDateToValidator = () =>{
+  let validate = dateDiffernceValidator(workingHoursFromDate, current, workingHoursToDate)
+  console.log("validate",validate);
+}
+
   useEffect(() => {
     // To check appointment with leasing careInst or not
     let isLeasingAppointment = false;
@@ -925,7 +929,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                                     : 'text-input form-control'
                                 }
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                                onBlur={workingHourDateToValidator}
                                 placeholder={languageTranslation("HOLIDAY_DATE_PLACEHOLDER")}
                                 value={workingHoursToDate ? workingHoursToDate : ''}
                               />

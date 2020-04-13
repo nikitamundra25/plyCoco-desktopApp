@@ -990,7 +990,9 @@
   "SELECT_ALL_APPOINTMENT_OF_CG": "Select all appointments of the caregiver",
   "DETAILED_LIST": "Detailed List",
   "SORT_BY_DIVISION": "Select available caregivers, offer them appointments and set them on offered (sorted by division)",
-  "SORT_BY_DAY":"Select available caregivers, offer them appointments and set them on offered (sorted by day)","NO_DIREACT_BOOKING":"Select available caregivers, offer hem appointments and set them on offered (no direct booking; sorted by division)","NO_DIRECT_BOOKING_DAY":"Select available caregivers, offer them appointments and set  them on offered (no direct booking; sorted by day)",
+  "SORT_BY_DAY":"Select available caregivers, offer them appointments and set them on offered (sorted by day)",
+  "NO_DIREACT_BOOKING":"Select available caregivers, offer hem appointments and set them on offered (no direct booking; sorted by division)",
+  "NO_DIRECT_BOOKING_DAY":"Select available caregivers, offer them appointments and set  them on offered (no direct booking; sorted by day)",
   "SET_ON_OFF":"Set on offered",
   "RESET_OFF":"Reset offered",
   "CONNECT_APPOINTMENT":"Connect appointments",
@@ -1126,5 +1128,7 @@
   "LOGOUT":"Logout",
   "FOR":"for",
   "Today":"Today",
-  "SELECT_APPOINTMENT_LABEL":"Select appointment"
+  "SELECT_APPOINTMENT_LABEL":"Select appointment",
+  "LAST_TIME":"Last Time",
+  "SELECT_CAREINSTITUTION_FIRST": "Select careInstitution first"
 }

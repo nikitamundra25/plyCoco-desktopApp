@@ -28,6 +28,7 @@ import "./index.scss";
 import moment from "moment";
 import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
 
+
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
 ) => {
@@ -68,22 +69,22 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   // To check whether any filter is set or not
   let isFilterSet: boolean =
     (caregiverSoloFilter && caregiverSoloFilter.value ? true : false) ||
-    (careinstitutionSoloFilter && careinstitutionSoloFilter.value
-      ? true
-      : false) ||
-    (positive && positive.length ? true : false) ||
-    (negative && negative.length ? true : false) ||
-    (qualification && qualification.length ? true : false) ||
-    (filterByAppointments && filterByAppointments.value)
+      (careinstitutionSoloFilter && careinstitutionSoloFilter.value
+        ? true
+        : false) ||
+      (positive && positive.length ? true : false) ||
+      (negative && negative.length ? true : false) ||
+      (qualification && qualification.length ? true : false) ||
+      (filterByAppointments && filterByAppointments.value)
       ? true
       : false ||
         month !==
-          moment()
-            .month(moment().month())
-            .format(appointmentMonthFormat) ||
+        moment()
+          .month(moment().month())
+          .format(appointmentMonthFormat) ||
         userId
-      ? true
-      : false;
+        ? true
+        : false;
 
   const toggle = () => setOpen(!dropdownOpen);
 
@@ -132,6 +133,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     1
   );
 
+  const formatDate = () => {
+    return month ? `${month} ${year}` : ""
+  }
+
   return (
     <>
       <div className="sticky-common-header">
@@ -150,13 +155,14 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           <div className="common-header-input pr-1">
             <DayPickerInput
               onDayChange={handleDayClick}
+              formatDate={formatDate}
               value={month ? `${month} ${year}` : ""}
               dayPickerProps={{
                 month: setNewDate,
                 canChangeMonth: false,
-                disabledDays: {
-                  daysOfWeek: [0, 1, 2, 3, 4, 5, 6]
-                }
+                // disabledDays: {
+                //   daysOfWeek: [0, 1, 2, 3, 4, 5, 6]
+                // }
               }}
               inputProps={{ readOnly: true }}
             />
@@ -264,7 +270,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
               value={
                 careinstitutionSoloFilter &&
-                careinstitutionSoloFilter.value !== ""
+                  careinstitutionSoloFilter.value !== ""
                   ? careinstitutionSoloFilter
                   : null
               }
@@ -306,8 +312,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 placeholder={
                   user
                     ? user === "avability"
-                      ?  languageTranslation("CAREGIVER_AVABILITY")
-                      :  languageTranslation("CAREINST_REQUIREMENT")
+                      ? languageTranslation("CAREGIVER_AVABILITY")
+                      : languageTranslation("CAREINST_REQUIREMENT")
                     : languageTranslation("CAREGIVER_AVABILITY")
                 }
                 type="text"

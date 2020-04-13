@@ -131,6 +131,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       appointmentId: number[];
       availabilityId: number[];
       status: string;
+      pdfAppointmentDetails:any;
     }
   >(GENERATE_LEASING_CONTRACT_LINK_TOKEN);
 
@@ -1553,11 +1554,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         document: leasingContactPdfData
       };
 
-      addUserDocuments({
-        variables: {
-          documentInput
-        }
-      });
+      // addUserDocuments({
+      //   variables: {
+      //     documentInput
+      //   }
+      // });
 
       UpdateLeasingContractStatus({
         variables: {
@@ -1572,7 +1573,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           appointmentId: appointmentIds,
           availabilityId: avabilityIds,
           userId: parseInt(userId),
-          status: 'leasingContract'
+          status: 'leasingContract',
+          pdfAppointmentDetails
         }
       })
       // updateLinkedStatus('contractInitiated')
@@ -1588,11 +1590,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         documentUploadType: 'terminateAgreement',
         document: terminationAgreementPdfData
       };
-      addUserDocuments({
-        variables: {
-          documentInput
-        }
-      });
+      // addUserDocuments({
+      //   variables: {
+      //     documentInput
+      //   }
+      // });
       UpdateLeasingContractStatus({
         variables: {
           appointmentId: appointmentIds,
@@ -1606,7 +1608,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           appointmentId: appointmentIds,
           availabilityId: avabilityIds,
           userId: parseInt(userId),
-          status: 'terminateAgreement'
+          status: 'terminateAgreement',
+          pdfAppointmentDetails: [pdfTerminateAppointment]
         }
       });
       // updateLinkedStatus('contractcancelled')

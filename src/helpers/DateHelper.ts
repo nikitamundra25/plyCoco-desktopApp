@@ -107,19 +107,21 @@ export const getYears = (n: number = 10): number[] => {
 };
 
 
-export const dateDiffernceValidator = (dateFrom: any, dateTo:any, dateCheck: any) => {
-  console.log("dateFromdateFrom",dateFrom);
-  
-  let date:any = dateFrom.split(".");
-  let month:any = dateTo.split(".");
-  let year:any = dateCheck.split(".");
-  
-  let from = new Date(date[2], parseInt(date[1])-1, date[0]);  // -1 because months are from 0 to 11
-  let to   = new Date(month[2], parseInt(month[1])-1, month[0]);
-  let check = new Date(year[2], parseInt(year[1])-1, year[0]);
-  console.log("from", from, to, check);
-  
-  console.log(check >= from && check <= to)
-  let res: any = check >= from && check <= to
+export const dateDiffernceValidator = (dateFrom: any, dateTo: any, dateCheck: any) => {
+  console.log("dateFromdateFrom", dateFrom);
+
+  let date: any = dateFrom.split(".");
+  let month: any = dateTo.split(".");
+  let year: any = dateCheck.split(".");
+
+  let from = new Date(date[2], parseInt(date[1]) - 1, date[0]);  // -1 because months are from 0 to 11
+  let to = new Date(month[2], parseInt(month[1]) - 1, month[0]);
+  let check = new Date(year[2], parseInt(year[1]) - 1, year[0]);
+  console.log("from", moment(from).format(defaultDateFormat));
+  console.log("to", moment(to).format(defaultDateFormat));
+  console.log("check", moment(check).format(defaultDateFormat));
+
+  console.log(moment(check).format(defaultDateFormat) >= moment(from).format(defaultDateFormat))
+  let res: any = check >= from
   return res;
 }

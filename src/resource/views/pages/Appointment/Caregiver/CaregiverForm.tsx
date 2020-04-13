@@ -112,19 +112,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     dateString
   } = props;
 
-let dateData =  activeDateCaregiver
-  ? activeDateCaregiver
-      .map(
-        (dateString: string | undefined, index: number) =>
-          dateString
-            ? moment(dateString).format(
-                index !== activeDateCaregiver.length - 1
-                  ? 'dd DD'
-                  : `${appointmentDayFormat} ${defaultDateFormat}`
-              )
-            : null
-      )
-      .join(', ')
+  
+let dateData =  activeDateCaregiver && activeDateCaregiver.length
+  ? moment(activeDateCaregiver[0]).format(defaultDateFormat)
   : null
 
 // Find difference in workingHours time
@@ -140,9 +130,11 @@ let dateData =  activeDateCaregiver
   let breakdifference = dtEnd1 - dtStart1;
 // console.log("workingHoursFromDate",sub);
 
-let current = moment().add(1, 'd').format(defaultDateFormat);
+let current = moment().format(defaultDateFormat);
 // Find difference in workingHours date
 const workingHourDateValidator = () =>{
+  console.log("dateData",dateData);
+  
   let dateFrom = dateDiffernceValidator(dateData, current , workingHoursFromDate)
   console.log("dateFrom",dateFrom);
 }

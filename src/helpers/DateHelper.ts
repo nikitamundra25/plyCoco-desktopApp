@@ -108,15 +108,18 @@ export const getYears = (n: number = 10): number[] => {
 
 
 export const dateDiffernceValidator = (dateFrom: any, dateTo:any, dateCheck: any) => {
-  let d1:any = dateFrom.split(".");
-  let d2:any = dateTo.split(".");
-  let c:any = dateCheck.split(".");
+  console.log("dateFromdateFrom",dateFrom);
   
-  let from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-  let to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-  let check = new Date(c[2], parseInt(c[1])-1, c[0]);
+  let date:any = dateFrom.split(".");
+  let month:any = dateTo.split(".");
+  let year:any = dateCheck.split(".");
   
-  console.log(check > from && check < to)
-  let res: any = check > from && check < to
+  let from = new Date(date[2], parseInt(date[1])-1, date[0]);  // -1 because months are from 0 to 11
+  let to   = new Date(month[2], parseInt(month[1])-1, month[0]);
+  let check = new Date(year[2], parseInt(year[1])-1, year[0]);
+  console.log("from", from, to, check);
+  
+  console.log(check >= from && check <= to)
+  let res: any = check >= from && check <= to
   return res;
 }

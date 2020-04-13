@@ -3,9 +3,13 @@ import { UncontrolledTooltip, Table } from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 import { IInvoiceList } from "../../../../../interfaces";
 import Loader from "../../../containers/Loader/Loader";
+import { AppRoutes } from "../../../../../config";
+import { useHistory } from "react-router-dom";
 
 const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
   const { invoiceListLoading, invoiceList } = props;
+  let history = useHistory();
+console.log("invoiceList",invoiceList);
 
   return (
     <div className="table-minheight createinvoices-table">
@@ -50,9 +54,20 @@ const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
               </td>
             </tr>
           ) : invoiceList && invoiceList.length ? (
-            invoiceList.result.map((list: any, index: number) => {
+            invoiceList.map((list: any, index: number) => {
                 console.log("list",list);
-                
+                let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : ""
+                let timeStamp: any = ""
+                console.log("time",time);
+                 if(time === "f" || time === "s" || time === "n"){
+                    timeStamp = "08"
+                 }else{
+                     let splitData = time === "f" ? "f" : time === "s" ? "s" : time === "n" ? "n" : ""
+                     console.log("splitData",splitData);
+                     
+                     let split = time.split()
+                    timeStamp = ""
+                 }
               return (
                 <tr className="sno-col" key={index}>
                   <td className="checkbox-th-column text-center">
@@ -67,9 +82,8 @@ const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
                       <label className="">1</label>
                     </span>
                   </td>
-                  <td className="invoiceid-col"> 5465465</td>
-                  <td className="h-col"> 12.00</td>
-
+              <td className="invoiceid-col"> {list.id}</td>
+                  <td className="h-col">{timeStamp} </td>
                   <td className="text-col">WG in leipzig</td>
                   <td className="datetime-col">Mon 03.03.2020 19:00</td>
                   <td className="datetime-col">Mon 03.03.2020 19:00</td>
@@ -82,15 +96,24 @@ const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
                   <td className="price-col">00.00 &euro;</td>
                   <td className="price-col">00.00 &euro;</td>
                   <td className="price-col">00.00 &euro;</td>
-                  <td className="price-col">00.00 </td>
-                  <td className="price-col">00.30 &euro;</td>
-                  <td className="price-col">00.00 &euro;</td>
+                  <td className="price-col">{list.ca.distanceInKM ? list.ca.distanceInKM : "-"} </td>
+                  <td className="price-col">{list.ca.feePerKM ? `${list.ca.feePerKM} &euro` : "-"} </td>
+                  <td className="price-col">{list.ca.otherExpenses ? `${list.ca.otherExpenses} &euro` : "-"} </td>
                   <td className="price-col">384.00 &euro;</td>
                   <td className="price-col">384.00 &euro;</td>
                   <td className="price-col">34584.00 &euro;</td>
                   <td className="action-col">
                     <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`viewcaregiver`}>
+                      <span className="btn-icon mr-2" id={`viewcaregiver`} 
+                       onClick={() =>
+                        history.push(
+                           AppRoutes.CARE_GIVER_VIEW.replace(
+                            ":id",
+                                list.ca.userId
+                              )  
+                        )
+                      }
+                     >
                         <UncontrolledTooltip
                           placement="top"
                           target={`viewcaregiver`}
@@ -102,6 +125,14 @@ const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
                       <span
                         className="btn-icon mr-2"
                         id={`viewcareinstitution`}
+                        onClick={() =>
+                            history.push(
+                               AppRoutes.CARE_INSTITUION_VIEW.replace(
+                                ":id",
+                                    list.cr.userId
+                                  )  
+                            )
+                          }
                       >
                         <UncontrolledTooltip
                           placement="top"
@@ -127,7 +158,7 @@ const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
             })
           ) : (
             <tr className={"text-center no-hover-row"}>
-             
+              <td colSpan={12} className={"pt-5 pb-5"}>
                 <div className="no-data-section">
                   <div className="no-data-icon">
                     <i className="icon-ban" />
@@ -135,7 +166,9 @@ const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
                   <h4 className="mb-1">
                     {languageTranslation("NO_CAREGIVER_ADDED")}{" "}
                   </h4>
+                  
                 </div>
+              </td>
             </tr>
           )}
         </tbody>

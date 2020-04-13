@@ -27,8 +27,6 @@ import left_arrow from "../../../../assets/img/leftarrow.svg";
 import "react-day-picker/lib/style.css";
 import {
   InvoiceSummaryFilter,
-  StatusOptions,
-  SortOptions,
   CareInstInActiveAttrId,
   deactivatedListColor,
   CareInstTIMyoCYAttrId,
@@ -41,10 +39,16 @@ import {
 } from "../../../../../config";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
 import { IReactSelectInterface } from "../../../../../interfaces";
-import { CareInstitutionQueries, InvoiceQueries, CareGiverQueries } from "../../../../../graphql/queries";
+import {
+  CareInstitutionQueries,
+  InvoiceQueries,
+  CareGiverQueries,
+} from "../../../../../graphql/queries";
 import { useLazyQuery } from "@apollo/react-hooks";
 import moment from "moment";
 import InvoiceList from "./InvoiceList";
+import CustomOption from "../../../components/CustomOptions";
+import InvoiceNavbar from "./InvoiceNavbar";
 const [
   GET_CARE_INSTITUTION_LIST,
   ,
@@ -53,28 +57,35 @@ const [
   ,
   ,
 ] = CareInstitutionQueries;
-const [
-    GET_INVOICE_LIST
-] = InvoiceQueries;
+const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
-    // select Careinstitution
+  // select Careinstitution
   const [careinstitutionFilter, setcareinstitutionFilter] = useState<
     IReactSelectInterface | undefined
   >(undefined);
 
-//   Store selectedDepartment
-const [departmentFilter, setdepartmentFilter] = useState<
-IReactSelectInterface | undefined
->(undefined);
+  // select Careinstitution
+  const [caregiverFilter, setcaregiverFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+
+  //   Store selectedDepartment
+  const [departmentFilter, setdepartmentFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+
+  //  State for handling date filter
+  const [dateFilter, setDateFilter] = useState<string>("");
 
   // State for department options
-  const [careInstitutionDepartmentOption, setcareInstitutionDepartmentOption] = useState<
-  IReactSelectInterface[] | undefined
->([]);
+  const [
+    careInstitutionDepartmentOption,
+    setcareInstitutionDepartmentOption,
+  ] = useState<IReactSelectInterface[] | undefined>([]);
 
   // Default value is start & end of month
   let gte: string = moment().startOf("month").format(dbAcceptableFormat);
@@ -85,14 +96,10 @@ IReactSelectInterface | undefined
     { data: departmentList, loading: deptLoading },
   ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
 
-  // To fetch invoice list 
+  // To fetch invoice list
   const [
     fetchInvoiceList,
-    {
-      data: invoiceList,
-      loading: invoiceListLoading,
-      refetch
-    },
+    { data: invoiceList, loading: invoiceListLoading, refetch },
   ] = useLazyQuery<any, any>(GET_INVOICE_LIST, {
     fetchPolicy: "no-cache",
     // notifyOnNetworkStatusChange: true
@@ -117,13 +124,18 @@ IReactSelectInterface | undefined
     });
   }, []);
 
- // To fetch the list of all caregiver
- const [
-    fetchCareGivers,
-    { data: careGivers},
-  ] = useLazyQuery<any>(GET_CAREGIVER_BY_NAME, {
-    fetchPolicy: "no-cache",
-  });
+  useEffect(() => {
+    let activeDate = moment().format(dbAcceptableFormat);
+    setDateFilter(activeDate);
+  }, []);
+
+  // To fetch the list of all caregiver
+  const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
+    GET_CAREGIVER_BY_NAME,
+    {
+      fetchPolicy: "no-cache",
+    }
+  );
   useEffect(() => {
     // Fetch list of caregivers
     fetchCareGivers({
@@ -135,29 +147,35 @@ IReactSelectInterface | undefined
     });
   }, []);
 
- // to get list of all invoices
- const getInvoiceListData = (
-  ) => {
-    // get careGivers list
+  // to get list of all invoices
+  const getInvoiceListData = () => {
     fetchInvoiceList({
       variables: {
         searchBy: null,
-        caregiverId: null,
-        careInstitutionId: careinstitutionFilter && careinstitutionFilter.value? parseInt(careinstitutionFilter.value) : null,
-        divisionId: null,
-        startDate: gte? gte:  null,
-        endDate: lte ? lte:  null,
+        caregiverId:
+          caregiverFilter && caregiverFilter.value
+            ? parseInt(caregiverFilter.value)
+            : null,
+        careInstitutionId:
+          careinstitutionFilter && careinstitutionFilter.value
+            ? parseInt(careinstitutionFilter.value)
+            : null,
+        divisionId:
+          departmentFilter && departmentFilter.value
+            ? parseInt(departmentFilter.value)
+            : null,
+        startDate: gte ? gte : null,
+        endDate: lte ? lte : null,
         limit: PAGE_LIMIT,
-        page: 1
+        page: 1,
       },
     });
   };
 
-  
-  // Fetch single data of particular caregiver
+  // Call function to fetch invoice list
   useEffect(() => {
     getInvoiceListData();
-  }, [careinstitutionFilter,departmentFilter ]);
+  }, [careinstitutionFilter, departmentFilter, caregiverFilter]);
 
   // set careInstitution list options
   const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
@@ -192,41 +210,40 @@ IReactSelectInterface | undefined
     });
   }
 
-   // set careGivers list options
-   const careGiversOptions: IReactSelectInterface[] | undefined = [];
-   if (
-     careGivers &&
-     careGivers.getCaregiverByName &&
-     careGivers.getCaregiverByName.result
-   ) {
-     careGiversOptions.push({
-       label: languageTranslation("NAME"),
-       value: languageTranslation("ID"),
-       color: "",
-     });
-     careGivers.getCaregiverByName.result.forEach(
-       ({ id, firstName, lastName, isActive, caregiver }: any) => {
-         let { attributes = [] } = caregiver ? caregiver : {};
-         // To check null values
-         attributes = attributes ? attributes : [];
-         careGiversOptions.push({
-           label: `${lastName}${" "}${firstName}`,
-           value: id,
-           color: !isActive
-             ? deactivatedListColor
-             : attributes.includes(CaregiverTIMyoCYAttrId)
-               ? leasingListColor
-               : attributes.includes("Plycoco")
-                 ? selfEmployesListColor
-                 : "",
-         });
-       }
-     );
-   }
+  // set careGivers list options
+  const careGiversOptions: IReactSelectInterface[] | undefined = [];
+  if (
+    careGivers &&
+    careGivers.getCaregiverByName &&
+    careGivers.getCaregiverByName.result
+  ) {
+    careGiversOptions.push({
+      label: languageTranslation("NAME"),
+      value: languageTranslation("ID"),
+      color: "",
+    });
+    careGivers.getCaregiverByName.result.forEach(
+      ({ id, firstName, lastName, isActive, caregiver }: any) => {
+        let { attributes = [] } = caregiver ? caregiver : {};
+        // To check null values
+        attributes = attributes ? attributes : [];
+        careGiversOptions.push({
+          label: `${lastName}${" "}${firstName}`,
+          value: id,
+          color: !isActive
+            ? deactivatedListColor
+            : attributes.includes(CaregiverTIMyoCYAttrId)
+            ? leasingListColor
+            : attributes.includes("Plycoco")
+            ? selfEmployesListColor
+            : "",
+        });
+      }
+    );
+  }
 
-   
   // Options to show department data
-  useEffect(() => { 
+  useEffect(() => {
     let careInstitutionDepartment: IReactSelectInterface[] = [];
     if (departmentList && departmentList.getDivision.length) {
       const { getDivision } = departmentList;
@@ -234,8 +251,8 @@ IReactSelectInterface | undefined
         label: dept.name,
         value: dept && dept.id ? dept.id.toString() : "",
       }));
-      if(careInstitutionDepartment && careInstitutionDepartment.length){
-        setcareInstitutionDepartmentOption(careInstitutionDepartment)
+      if (careInstitutionDepartment && careInstitutionDepartment.length) {
+        setcareInstitutionDepartmentOption(careInstitutionDepartment);
       }
     }
   }, [departmentList]);
@@ -244,9 +261,10 @@ IReactSelectInterface | undefined
   const onhandleSelection = (value: IReactSelectInterface, name: string) => {
     if (name === "careinstitution") {
       setcareinstitutionFilter(value);
-    }
-    else if(name==="department"){
-        setdepartmentFilter(value)
+    } else if (name === "department") {
+      setdepartmentFilter(value);
+    } else if (name === "caregiver") {
+      setcaregiverFilter(value);
     }
   };
 
@@ -263,147 +281,56 @@ IReactSelectInterface | undefined
           locked: false,
         },
       });
-    }else{
-      setcareInstitutionDepartmentOption([])
+    } else {
+      setcareInstitutionDepartmentOption([]);
     }
   }, [careinstitutionFilter]);
-  
+
+  const handleDayClick = (selectedDay: any) => {
+    let date = moment(selectedDay).format(dbAcceptableFormat);
+    setDateFilter(date);
+  };
+
+  const handleArrowDayChange = (name: string) => {
+    let date: any = "";
+    if (name === "previous") {
+      date = moment(dateFilter)
+        .subtract(1, "months")
+        .format(dbAcceptableFormat);
+    } else {
+      date = moment(dateFilter).add(1, "months").format(dbAcceptableFormat);
+    }
+    setDateFilter(date);
+  };
+
   return (
     <>
       <div className="common-detail-page">
         <div className="common-detail-section">
-          <div className="common-topheader d-flex  px-2 pb-1 invoice-header">
-            <div className="header-nav-item">
-              <span className="header-nav-icon">
-                <i className="fa fa-refresh "></i>
-              </span>
-              <span className="header-nav-text">
-                {languageTranslation("RESET_LABEL")}
-              </span>
-            </div>
+          <InvoiceNavbar
+            onhandleSelection={onhandleSelection}
+            careGiversOptions={careGiversOptions}
+            careInstitutionOptions={careInstitutionOptions}
+            careinstitutionFilter={careinstitutionFilter}
+            careInstitutionDepartmentOption={careInstitutionDepartmentOption}
+            departmentFilter={departmentFilter}
+            caregiverFilter={caregiverFilter}
+            handleDayClick={handleDayClick}
+            handleArrowDayChange={handleArrowDayChange}
+            dateFilter={dateFilter}
+          />
 
-            <div className="user-select mx-1 ">
-              <Select
-                classNamePrefix="custom-inner-reactselect"
-                className={
-                    "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
-                  }
-                placeholder="Maiwald Jacqueline"
-                 options={careGiversOptions}
-                isClearable={true}
-              />
-            </div>
-            <div className="user-select mx-1 ">
-              <Select
-                classNamePrefix="custom-inner-reactselect"
-                className={
-                  "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
-                }
-                placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
-                options={careInstitutionOptions}
-                value={
-                  careinstitutionFilter && careinstitutionFilter.value !== ""
-                    ? careinstitutionFilter
-                    : null
-                }
-                components={{ Option: CareInstCustomOption }}
-                onChange={(value: any) =>
-                  onhandleSelection(value, "careinstitution")
-                }
-                isClearable={true}
-              />
-            </div>
-            <div className="user-select mx-1 ">
-              <Select
-                classNamePrefix="custom-inner-reactselect"
-                className={"custom-reactselect "}
-                placeholder={
-                    languageTranslation("SELECT_DEPARTMENT")
-                }
-                options={careInstitutionDepartmentOption}
-                noOptionsMessage={() => {
-                  return careinstitutionFilter && careinstitutionFilter.value !== ""
-                    ? languageTranslation("NO_OPTIONS")
-                    : languageTranslation(
-                        "SELECT_CAREINSTITUTION_FIRST"
-                      );
-                }}
-                value={departmentFilter && departmentFilter.value !== ""
-                ? departmentFilter
-                : null }
-                onChange={(value: any) =>
-                    onhandleSelection(value, "department")
-                  }
-                isClearable={true}
-              />
-            </div>
-            <div className="header-nav-item">
-              <span className="header-nav-icon">
-                <img src={pen} alt="" />
-              </span>
-              <span className="header-nav-text">
-                {languageTranslation("CREATE")}
-              </span>
-            </div>
-            <div className="header-nav-item">
-              <span className="header-nav-icon">
-                <img src={CompleteTime} alt="" />
-              </span>
-              <span className="header-nav-text">
-                {languageTranslation("TIMELY_COMPLETELY")}
-              </span>
-            </div>
-            <div className="header-nav-item">
-              <span className="header-nav-icon">
-                <img src={idea} alt="" />
-              </span>
-              <span className="header-nav-text">
-                {languageTranslation("CREATE_ALL_CAREGIVER")}
-              </span>
-            </div>
-            <div className="header-nav-item">
-              <span className="header-nav-icon pr-0">
-                <img src={massege} alt="" />
-              </span>
-            </div>
-            <div className="user-select mx-1 ">
-              <Select
-                classNamePrefix="custom-inner-reactselect"
-                className={"custom-reactselect "}
-                placeholder="Select Month Summary"
-                options={InvoiceSummaryFilter}
-                isClearable={true}
-              />
-            </div>
-
-            {/* <div className="user-select mx-1 ">
-              <Select
-                classNamePrefix="custom-inner-reactselect"
-                className={"custom-reactselect "}
-                placeholder="Nursing service at Treptower Park"
-                // options={options}
-                isClearable={true}
-              />
-            </div> */}
-            <div className="header-nav-item">
-              <span className="header-nav-icon pr-0">
-                <img src={left_arrow} alt="" />
-              </span>
-            </div>
-            <div className="common-header-input pr-1">
-              <DayPickerInput />
-            </div>
-            <div className="header-nav-item">
-              <span className="header-nav-icon pr-0">
-                <img src={right_arrow} alt="" />
-              </span>
-            </div>
-          </div>
           <div className="common-content flex-grow-1">
             <div className="common-content flex-grow-1  p-0 all-invoice">
-             <InvoiceList 
-             invoiceListLoading ={invoiceListLoading}
-             invoiceList={invoiceList && invoiceList.data && invoiceList.data.getAllAppointment && invoiceList.data.getAllAppointment.length ? invoiceList.data.getAllAppointment : [] }
+              <InvoiceList
+                invoiceListLoading={invoiceListLoading}
+                invoiceList={
+                  invoiceList &&
+                  invoiceList.getAllAppointment &&
+                  invoiceList.getAllAppointment.length
+                    ? invoiceList.getAllAppointment
+                    : []
+                }
               />
               <Form className="form-section total-form-section bg-white">
                 <div className="d-flex flex-wrap total-form-block">

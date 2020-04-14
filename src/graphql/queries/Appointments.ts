@@ -213,6 +213,10 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         remarksCareGiver
         remarksInternal
         status
+        workingHoursFrom,
+        workingHoursTo,
+        breakFrom,
+        breakTo,
       }
       requirementData {
         id

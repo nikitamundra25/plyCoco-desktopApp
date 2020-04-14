@@ -781,6 +781,10 @@ const Appointment: FunctionComponent = (props: any) => {
         remarksCareGiver = "",
         remarksInternal = "",
         status = "",
+        workingHoursFrom = "",
+        workingHoursTo = "",
+        breakFrom = "",
+        breakTo = "",
       } = avabilityData ? avabilityData : {};
       const {
         id: ID = "",
@@ -823,6 +827,10 @@ const Appointment: FunctionComponent = (props: any) => {
             travelAllowance,
             workingProofRecieved,
             status: status ? status : "",
+            workingHoursFrom,
+            workingHoursTo,
+            breakFrom,
+            breakTo,
           },
         },
       ];

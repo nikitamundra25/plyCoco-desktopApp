@@ -198,7 +198,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
           }
         }
       }
-      console.log("validate", validate);
     }
 
     useEffect(() => {
@@ -1287,7 +1286,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     className='btn-save'
                     color='primary'
                     onClick={handleSubmit}
-                    disabled={addCaregiverLoading ? true : !dateCondition ? true : false}
+                    disabled={addCaregiverLoading ? true : appointmentId ? false : !dateCondition ? true : false}
                   >
                     {addCaregiverLoading ? (
                       <i className='fa fa-spinner fa-spin mr-2' />

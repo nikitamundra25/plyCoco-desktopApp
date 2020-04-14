@@ -391,6 +391,12 @@ const DetailListCaregiver = (props: any) => {
                                     ? 'matching-bg'
                                     : elem.item.status === 'confirmed'
                                     ? 'contract-bg'
+                                    : elem.item.status === 'contractcancelled'
+                                    ? 'cancel-contract-bg'
+                                    : elem.item.status === 'contractInitiated'
+                                    ? 'contact-initiate-bg'
+                                    : elem.item.status === 'accepted'
+                                    ? 'accepted-bg'
                                     : 'availability-bg'
                                 }
                               >

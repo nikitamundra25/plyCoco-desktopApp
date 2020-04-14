@@ -227,6 +227,7 @@ const CarinstituionListView: FunctionComponent<
               moment(element.dateString).format(dbAcceptableFormat)
             ) {
               checkError = true;
+              toast.dismiss()
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
                   languageTranslation("DATE_RANGE_MISMATCH")
@@ -525,7 +526,6 @@ const CarinstituionListView: FunctionComponent<
       }
     });
   }
-  console.log("Email+++++++++Option", emailOptionCond);
 
   //to apply conditions on set on offered
   let setOnOfferCond: any;

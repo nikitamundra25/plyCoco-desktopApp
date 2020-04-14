@@ -20,11 +20,11 @@ const Cell = ({
 
   let canstitutionCell: any =
     selectedCellsCareinstitution &&
-    selectedCellsCareinstitution.length &&
-    selectedCellsCareinstitution[0] &&
-    selectedCellsCareinstitution[0].item &&
-    selectedCellsCareinstitution[0].item.appointments &&
-    selectedCellsCareinstitution[0].item.appointments[0]
+      selectedCellsCareinstitution.length &&
+      selectedCellsCareinstitution[0] &&
+      selectedCellsCareinstitution[0].item &&
+      selectedCellsCareinstitution[0].item.appointments &&
+      selectedCellsCareinstitution[0].item.appointments[0]
       ? selectedCellsCareinstitution[0].item.appointments[0].id
       : '';
 
@@ -45,8 +45,8 @@ const Cell = ({
     isContract: boolean = false,
     isConfirm: boolean = false,
     isContractCancel: boolean = false,
-    isContractInitiated:boolean=false,
-    isSingleButtonAccepted:boolean= false
+    isContractInitiated: boolean = false,
+    isSingleButtonAccepted: boolean = false
   if (item) {
     if (item.status === 'default') {
       isRequirment = true;
@@ -58,12 +58,12 @@ const Cell = ({
       isConfirm = true;
     } else if (item.status === 'contractcancelled') {
       isContractCancel = true;
-    }else if (item.status === 'contractInitiated') {
+    } else if (item.status === 'contractInitiated') {
       isContractInitiated = true;
-    }else if (item.status === 'accepted') {
+    } else if (item.status === 'accepted') {
       isSingleButtonAccepted = true;
+    }
   }
-}
   return (
     <>
       <div
@@ -75,11 +75,11 @@ const Cell = ({
           'cursor-pointer': true,
           'selecting-cell-bg': !isSelected
             ? (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
-              isSelecting
+            isSelecting
             : true,
           // 'selecting-cell': isSelecting,
           weekend: daysArr,
-          'contact-initiate-bg':isContractInitiated && !isSelected ? isContractInitiated : false,
+          'contact-initiate-bg': isContractInitiated && !isSelected ? isContractInitiated : false,
           'cancel-contract-bg':
             isContractCancel && !isSelected ? isContractCancel : false,
           'block-bg': item ? (isBlocked ? true : false) : false,
@@ -101,15 +101,17 @@ const Cell = ({
         {item ? (
           item.status === 'confirmed' ? (
             <i className='fa fa-circle-o'></i>
+          ) : item.status === 'timeSheetPending' ? (
+            <i className='far fa-clock'></i>
           ) : isBlocked ? (
             <i className='fa fa-ban'></i>
           ) : (
-            <>
-              {item.f === 'available' ? 'f' : null}
-              {item.s === 'available' ? 's' : null}
-              {item.n === 'available' ? 'n' : null}
-            </>
-          )
+                  <>
+                    {item.f === 'available' ? 'f' : null}
+                    {item.s === 'available' ? 's' : null}
+                    {item.n === 'available' ? 'n' : null}
+                  </>
+                )
         ) : null}
       </div>
     </>

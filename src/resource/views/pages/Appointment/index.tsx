@@ -113,7 +113,11 @@ const Appointment: FunctionComponent = (props: any) => {
   const [openCareGiverBulkEmail, setopenCareGiverBulkEmail] = useState<boolean>(
     false
   );
-
+  // Sate for working hours error
+  const [workingHoursFromErrMsg, setworkingHoursFromErrMsg] = useState<string>("");
+  const [workingHoursToErrMsg, setworkingHoursToErrMsg] = useState<string>("");
+  const [breakHoursFromErrMsg, setbreakHoursFromErrMsg] = useState<string>("");
+  const [breakHoursToErrMsg, setbreakHoursToErrMsg] = useState<string>("");
   // manage star for caregiver
   const [starMarkCaregiver, setstarMarkCaregiver] = useState<boolean>(false);
 
@@ -777,6 +781,10 @@ const Appointment: FunctionComponent = (props: any) => {
         remarksCareGiver = "",
         remarksInternal = "",
         status = "",
+        workingHoursFrom = "",
+        workingHoursTo = "",
+        breakFrom = "",
+        breakTo = "",
       } = avabilityData ? avabilityData : {};
       const {
         id: ID = "",
@@ -819,6 +827,10 @@ const Appointment: FunctionComponent = (props: any) => {
             travelAllowance,
             workingProofRecieved,
             status: status ? status : "",
+            workingHoursFrom,
+            workingHoursTo,
+            breakFrom,
+            breakTo,
           },
         },
       ];
@@ -2128,10 +2140,14 @@ const Appointment: FunctionComponent = (props: any) => {
       s,
       n,
       status,
-      workingHoursFrom,
-      workingHoursTo,
-      breakFrom,
-      breakTo,
+      workingHoursFromDate,
+      workingHoursFromTime,
+      workingHoursToDate,
+      workingHoursToTime,
+      breakFromDate,
+      breakFromTime,
+      breakToDate,
+      breakToTime,
     } = values;
     console.log("values", values);
 
@@ -2146,149 +2162,155 @@ const Appointment: FunctionComponent = (props: any) => {
         : false;
 
     try {
+      console.log(">>>>>>>>>>>>>>", (workingHoursFromErrMsg === "" && workingHoursToErrMsg === "" && breakHoursFromErrMsg === "" && breakHoursToErrMsg === ""));
+
       // To ignore availabilities in case of block appointment
-      if (f || s || n || isBlockeddate) {
-        setTimeSlotError("");
-        if (selectedCells && selectedCells.length) {
-          const {
-            id: ID = "",
-            firstName = "",
-            lastName = "",
-            email = "",
-            caregiver: caregiverData = {},
-            dateString: dateData = "",
-            item: Item = "",
-            qualificationIds = "",
-          } =
-            selectedCells && selectedCells.length && selectedCells[0]
-              ? selectedCells[0]
-              : {};
-          let caregiverdata: any = [
-            {
-              id: ID,
-              firstName,
-              email,
-              lastName,
-              qualificationIds,
-              caregiver: {
-                ...caregiverData,
+      if ((workingHoursFromErrMsg === "" && workingHoursToErrMsg === "" && breakHoursFromErrMsg === "" && breakHoursToErrMsg === "")) {
+
+        if (f || s || n || isBlockeddate) {
+          setTimeSlotError("");
+          if (selectedCells && selectedCells.length) {
+            const {
+              id: ID = "",
+              firstName = "",
+              lastName = "",
+              email = "",
+              caregiver: caregiverData = {},
+              dateString: dateData = "",
+              item: Item = "",
+              qualificationIds = "",
+            } =
+              selectedCells && selectedCells.length && selectedCells[0]
+                ? selectedCells[0]
+                : {};
+            let caregiverdata: any = [
+              {
+                id: ID,
+                firstName,
+                email,
+                lastName,
+                qualificationIds,
+                caregiver: {
+                  ...caregiverData,
+                },
+                dateString: dateData,
+                item: {
+                  appointmentId,
+                  name,
+                  date: dateData,
+                  fee: fee ? parseFloat(fee.replace(/,/g, ".")) : null,
+                  nightFee: nightFee
+                    ? parseFloat(nightFee.replace(/,/g, "."))
+                    : null,
+                  weekendAllowance: weekendAllowance
+                    ? parseFloat(weekendAllowance.replace(/,/g, "."))
+                    : null,
+                  holidayAllowance: holidayAllowance
+                    ? parseFloat(holidayAllowance.replace(/,/g, "."))
+                    : null,
+                  distanceInKM,
+                  feePerKM,
+                  lastName,
+                  f: f ? "available" : isBlockeddate ? "block" : "default",
+                  n: n ? "available" : isBlockeddate ? "block" : "default",
+                  s: s ? "available" : isBlockeddate ? "block" : "default",
+                  nightAllowance:
+                    nightAllowance && nightAllowance.value
+                      ? nightAllowance.value
+                      : null,
+                  otherExpenses,
+                  remarksCareGiver,
+                  remarksInternal,
+                  travelAllowance,
+                  workingProofRecieved,
+                  status,
+                },
               },
-              dateString: dateData,
-              item: {
-                appointmentId,
+            ];
+            console.log("${workingHoursFromDate},${workingHoursFromTime}", workingHoursFromDate, workingHoursFromTime);
+
+            // To add mulitple availabilty
+            selectedCells.forEach(async (element: any) => {
+              const { id = "", dateString = "" } = element ? element : {};
+
+              let CareGiverAvabilityInput: any = {
+                userId: id ? parseInt(id) : "",
+                date: dateString,
                 name,
-                date: dateData,
                 fee: fee ? parseFloat(fee.replace(/,/g, ".")) : null,
-                nightFee: nightFee
-                  ? parseFloat(nightFee.replace(/,/g, "."))
-                  : null,
                 weekendAllowance: weekendAllowance
                   ? parseFloat(weekendAllowance.replace(/,/g, "."))
                   : null,
                 holidayAllowance: holidayAllowance
                   ? parseFloat(holidayAllowance.replace(/,/g, "."))
                   : null,
-                distanceInKM,
-                feePerKM,
-                lastName,
-                f: f ? "available" : isBlockeddate ? "block" : "default",
-                n: n ? "available" : isBlockeddate ? "block" : "default",
-                s: s ? "available" : isBlockeddate ? "block" : "default",
+                nightFee: nightFee
+                  ? parseFloat(nightFee.replace(/,/g, "."))
+                  : null,
                 nightAllowance:
                   nightAllowance && nightAllowance.value
                     ? nightAllowance.value
                     : null,
-                otherExpenses,
-                remarksCareGiver,
-                remarksInternal,
-                travelAllowance,
-                workingProofRecieved,
-                status,
-              },
-            },
-          ];
-
-          // To add mulitple availabilty
-          selectedCells.forEach(async (element: any) => {
-            const { id = "", dateString = "" } = element ? element : {};
-
-            let CareGiverAvabilityInput: any = {
-              userId: id ? parseInt(id) : "",
-              date: dateString,
-              name,
-              fee: fee ? parseFloat(fee.replace(/,/g, ".")) : null,
-              weekendAllowance: weekendAllowance
-                ? parseFloat(weekendAllowance.replace(/,/g, "."))
-                : null,
-              holidayAllowance: holidayAllowance
-                ? parseFloat(holidayAllowance.replace(/,/g, "."))
-                : null,
-              nightFee: nightFee
-                ? parseFloat(nightFee.replace(/,/g, "."))
-                : null,
-              nightAllowance:
-                nightAllowance && nightAllowance.value
-                  ? nightAllowance.value
+                workingProofRecieved: workingProofRecieved ? true : false,
+                distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
+                feePerKM: feePerKM ? parseFloat(feePerKM) : null,
+                travelAllowance: travelAllowance
+                  ? parseFloat(travelAllowance)
                   : null,
-              workingProofRecieved: workingProofRecieved ? true : false,
-              distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
-              feePerKM: feePerKM ? parseFloat(feePerKM) : null,
-              travelAllowance: travelAllowance
-                ? parseFloat(travelAllowance)
-                : null,
-              otherExpenses: otherExpenses ? parseFloat(otherExpenses) : null,
-              remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
-              remarksInternal: remarksInternal ? remarksInternal : null,
-              f: f ? "available" : isBlockeddate ? "block" : "default",
-              s: s ? "available" : isBlockeddate ? "block" : "default",
-              n: n ? "available" : isBlockeddate ? "block" : "default",
-              status: status ? status : "default",
-              workingHoursFrom: workingHoursFrom ? workingHoursFrom : null,
-              workingHoursTo: workingHoursTo ? workingHoursTo : null,
-              breakFrom: breakFrom ? breakFrom : null,
-              breakTo: breakTo ? breakTo : null,
-            };
-            if (appointmentId) {
-              await updateCaregiver({
-                variables: {
-                  id: parseInt(appointmentId),
-                  careGiverAvabilityInput: CareGiverAvabilityInput,
-                },
-              });
-              if (!toast.isActive(toastId)) {
-                toastId = toast.success(
-                  languageTranslation(
-                    "CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG"
-                  )
-                );
+                otherExpenses: otherExpenses ? parseFloat(otherExpenses) : null,
+                remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
+                remarksInternal: remarksInternal ? remarksInternal : null,
+                f: f ? "available" : isBlockeddate ? "block" : "default",
+                s: s ? "available" : isBlockeddate ? "block" : "default",
+                n: n ? "available" : isBlockeddate ? "block" : "default",
+                status: status ? status : "default",
+                workingHoursFrom: workingHoursFromDate ? `${workingHoursFromDate},${workingHoursFromTime}` : null,
+                workingHoursTo: workingHoursToDate ? `${workingHoursToDate},${workingHoursToTime}` : null,
+                breakFrom: breakFromDate ? `${breakFromDate},${breakFromTime}` : null,
+                breakTo: breakToDate ? `${breakToDate},${breakToTime}` : null,
+              };
+              if (appointmentId) {
+                await updateCaregiver({
+                  variables: {
+                    id: parseInt(appointmentId),
+                    careGiverAvabilityInput: CareGiverAvabilityInput,
+                  },
+                });
+                if (!toast.isActive(toastId)) {
+                  toastId = toast.success(
+                    languageTranslation(
+                      "CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG"
+                    )
+                  );
+                }
+                setsavingBoth(false);
+              } else {
+                await addCaregiver({
+                  variables: {
+                    careGiverAvabilityInput: [
+                      {
+                        ...CareGiverAvabilityInput,
+                      },
+                    ],
+                  },
+                });
+                setMultipleAvailability(false);
+                toast.dismiss();
+                // if (!toast.isActive(toastId)) {
+                //   toastId = toast.success(
+                //     languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
+                //   );
+                // }
               }
-              setsavingBoth(false);
-            } else {
-              await addCaregiver({
-                variables: {
-                  careGiverAvabilityInput: [
-                    {
-                      ...CareGiverAvabilityInput,
-                    },
-                  ],
-                },
-              });
-              setMultipleAvailability(false);
-              toast.dismiss();
-              // if (!toast.isActive(toastId)) {
-              //   toastId = toast.success(
-              //     languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
-              //   );
-              // }
+            });
+            if (!appointmentId) {
+              setSelectedCells(caregiverdata);
             }
-          });
-          if (!appointmentId) {
-            setSelectedCells(caregiverdata);
           }
+        } else {
+          setTimeSlotError(languageTranslation("WORKING_SHIFT_ERROR"));
+          return;
         }
-      } else {
-        setTimeSlotError(languageTranslation("WORKING_SHIFT_ERROR"));
-        return;
       }
     } catch (error) {
       const message = errorFormatter(error);
@@ -2836,6 +2858,7 @@ const Appointment: FunctionComponent = (props: any) => {
               moment(element.dateString).format(dbAcceptableFormat)
             ) {
               checkError = true;
+              toast.dismiss()
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
                   languageTranslation("DATE_RANGE_MISMATCH")
@@ -3038,6 +3061,11 @@ const Appointment: FunctionComponent = (props: any) => {
     breakTo = "",
   } = item ? item : caregiver ? caregiver : {};
 
+  const workingHoursFromDateData = workingHoursFrom ? workingHoursFrom.split(',') : null
+  const workingHoursToDateData = workingHoursTo ? workingHoursTo.split(',') : null
+  const breakFromDateData = breakFrom ? breakFrom.split(',') : null
+  const breakToDateData = breakTo ? breakTo.split(',') : null
+
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
     name: name ? name : firstName ? `${lastName} ${firstName}` : "",
@@ -3081,14 +3109,14 @@ const Appointment: FunctionComponent = (props: any) => {
     feePerKM: feePerKM ? feePerKM : "",
     travelAllowance: travelAllowance ? travelAllowance : "",
     otherExpenses: otherExpenses ? otherExpenses : "",
-    workingHoursFromDate: "",
-    workingHoursFromTime: "",
-    workingHoursToDate: "",
-    workingHoursToTime: "",
-    breakFromDate: "",
-    breakFromTime: "",
-    breakToDate: "",
-    breakToTime: "",
+    workingHoursFromDate: workingHoursFromDateData && workingHoursFromDateData.length ? workingHoursFromDateData[0] : "",
+    workingHoursFromTime: workingHoursFromDateData && workingHoursFromDateData.length ? workingHoursFromDateData[1] : "",
+    workingHoursToDate: workingHoursToDateData && workingHoursToDateData.length ? workingHoursToDateData[0] : "",
+    workingHoursToTime: workingHoursToDateData && workingHoursToDateData.length ? workingHoursToDateData[1] : "",
+    breakFromDate:  breakFromDateData && breakFromDateData.length ? breakFromDateData[0] : "",
+    breakFromTime: breakFromDateData && breakFromDateData.length ? breakFromDateData[1] : "",
+    breakToDate: breakToDateData && breakToDateData.length ? breakToDateData[0] : "",
+    breakToTime: breakToDateData && breakToDateData.length ? breakToDateData[1] : "",
     remarksCareGiver: caregiver && remarksCareGiver ? remarksCareGiver : "",
     remarksInternal: caregiver && remarksInternal ? remarksInternal : "",
     f: f === "available" ? true : false,
@@ -3613,6 +3641,14 @@ const Appointment: FunctionComponent = (props: any) => {
                               handleLastTimeData={handleLastTimeData}
                               onhandleCaregiverStar={onhandleCaregiverStar}
                               starMarkCaregiver={starMarkCaregiver}
+                              setworkingHoursFromErrMsg={setworkingHoursFromErrMsg}
+                              workingHoursFromErrMsg={workingHoursFromErrMsg}
+                              setworkingHoursToErrMsg={setworkingHoursToErrMsg}
+                              workingHoursToErrMsg={workingHoursToErrMsg}
+                              setbreakHoursToErrMsg={setbreakHoursToErrMsg}
+                              breakHoursToErrMsg={breakHoursToErrMsg}
+                              setbreakHoursFromErrMsg={setbreakHoursFromErrMsg}
+                              breakHoursFromErrMsg={breakHoursFromErrMsg}
                             />
                           );
                         }}

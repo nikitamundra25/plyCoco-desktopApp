@@ -280,10 +280,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       avabilityIds = appointedCells.map((cell:any) => parseInt(cell.item.appointments[0].avabilityId));
       requirementIds = appointedCells.map((cell:any) => parseInt(cell.item.appointments[0].requirementId));
     }
-    console.log(appointmentIds,avabilityIds,requirementIds,'requirementIds+++'); 
   }
   useEffect(() => {
-    console.log(temporaryWorkerPdf,'temporaryWorkerPdf in use effect');
     if (temporaryWorkerPdf) {
     let documentInput: any = {
       appointmentId: appointmentIds,
@@ -492,14 +490,15 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 data.caregivername
                 }</b></span></br>`;
             });
+            
             const bodyData: any = `<span>${languageTranslation("UNLINK_EMAIL_CAREINSTITUTION_BODY")}</br></br>${divRow}</span>`;
             const editorState = bodyData
               ? HtmlToDraftConverter(bodyData)
               : '';
 
-            let subject: string = `${languageTranslation("UNLINK_SUBJECT")} ${moment(
+            let subject: string = `${languageTranslation("UNLINK_SUBJECT")} ${apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0] && apointedCareGiver[0].date ? moment(
               apointedCareGiver[0].date
-            ).format('DD.MM')},${' '}${apointedCareGiver[0].division}`;
+            ).format('DD.MM'): ""},${' '}${ apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0] && apointedCareGiver[0].division ? apointedCareGiver[0].division : ""}`;
             setBody(editorState);
             setSubject(subject);
             // setTemplate({
@@ -627,7 +626,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   };
 
-  console.log("careInstData",careInstData);
   
 
   const handleSendEmail = (e: React.FormEvent<any>) => {
@@ -841,6 +839,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   color='primary'
                   onClick={handleSendEmail}
                   className='btn-email-save ml-auto mr-2 btn btn-primary'
+                  disabled={bulkEmailLoading}
                 >
                   {bulkEmailLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />

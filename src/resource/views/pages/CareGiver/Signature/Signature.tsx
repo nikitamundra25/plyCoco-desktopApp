@@ -1,25 +1,26 @@
 import React, { FunctionComponent } from "react";
 import { FormGroup, Label, Col, Row, Button, Form } from "reactstrap";
 import signature from "../../../../assets/img/sign.png";
+import { languageTranslation } from "../../../../../helpers";
 const Signature: FunctionComponent = () => {
   return (
     <>
       <div className="signature-section">
         <div>
-          <h5 className="content-title">Current Signature</h5>
+          <h5 className="content-title">{languageTranslation("CURRENT_SIGNATURE")} </h5>
           <div className="form-card">
             <div>
               <img src={signature} alt="signature" />
             </div>
           </div>
           <Button color="danger" type="submit" size="sm" className="mb-3">
-            <i className="fa fa-times mr-2"></i>Clear
+            <i className="fa fa-times mr-2"></i>{languageTranslation("CLEAR")} 
           </Button>
         </div>
         <Form className="form-section">
           <Row>
             <Col lg={"12"}>
-              <h5 className="main-title mb-4">Upload Signature</h5>
+              <h5 className="main-title mb-4">{languageTranslation("UPLOAD_SIGNATURE")} </h5>
               <div className="form-card">
                 <Row>
                   <Col lg={"12"}>
@@ -27,9 +28,9 @@ const Signature: FunctionComponent = () => {
                       <Row>
                         <Col sm="12">
                           <Label className="form-label col-form-label text-left">
-                            Signature{" "}
+                           {languageTranslation("SIGNATURE")} {" "}
                             <span>
-                              (maximum 100kByte, only jpg, png or gif files)
+                             {languageTranslation("SIGNATURE_VALIDATION_MSG")}
                             </span>
                           </Label>
                         </Col>
@@ -47,7 +48,7 @@ const Signature: FunctionComponent = () => {
                             >
                               <span className="choosefile-label">
                                 <i className="fa fa-folder-open-o mr-2"></i>{" "}
-                                <span>Choose a file</span>
+                                <span>{languageTranslation("CHOOSE_FILE")} </span>
                               </span>
                             </Label>
                           </div>
@@ -67,7 +68,7 @@ const Signature: FunctionComponent = () => {
                     size="sm"
                     className="mb-3 mr-3"
                   >
-                    <i className="fa fa-upload mr-2"></i>Upload
+                    <i className="fa fa-upload mr-2"></i>{languageTranslation("UPLOAD")}
                   </Button>
                 </div>
               </div>
@@ -75,7 +76,7 @@ const Signature: FunctionComponent = () => {
           </Row>
         </Form>
         <div>
-          <h5 className="content-title">Sign here with mouse</h5>
+          <h5 className="content-title">{languageTranslation("SIGN_WITH_MOUSE")} </h5>
           <div className="form-card">
             <div className="bg-white py-5 w-100"></div>
           </div>
@@ -86,10 +87,10 @@ const Signature: FunctionComponent = () => {
               size="sm"
               className="mb-3 mr-3"
             >
-              <i className="fa fa-check mr-2"></i>Save Signature
+              <i className="fa fa-check mr-2"></i> {languageTranslation("SAVE_SIGNATURE")}
             </Button>
             <Button color="danger" type="submit" size="sm" className="mb-3">
-              <i className="fa fa-times mr-2"></i>Empty Signature
+              <i className="fa fa-times mr-2"></i>{languageTranslation("EMPTY_SIGNATURE")}
             </Button>
           </div>
         </div>

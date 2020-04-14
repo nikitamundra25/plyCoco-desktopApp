@@ -27,3 +27,4 @@ export * from "./Offer";
 export * from "./AttributeFilter";
 export * from "./BulkEmailCaregiver";
 export * from "./PDF";
+export * from "./Invoice";

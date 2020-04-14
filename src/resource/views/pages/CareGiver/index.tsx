@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from "react";
 import {
   Button,
   Card,
@@ -8,39 +8,39 @@ import {
   Row,
   Table,
   UncontrolledTooltip,
-} from 'reactstrap';
-import * as qs from 'query-string';
-import { toast } from 'react-toastify';
-import moment from 'moment';
-import { useLocation, useHistory } from 'react-router';
-import { AppBreadcrumb } from '@coreui/react';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
-import { FormikHelpers, Formik, FormikProps } from 'formik';
+} from "reactstrap";
+import * as qs from "query-string";
+import { toast } from "react-toastify";
+import moment from "moment";
+import { useLocation, useHistory } from "react-router";
+import { AppBreadcrumb } from "@coreui/react";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { FormikHelpers, Formik, FormikProps } from "formik";
 import {
   AppRoutes,
   PAGE_LIMIT,
   sortFilter,
   defaultDateTimeFormat,
-} from '../../../../config';
-import routes from '../../../../routes/routes';
-import Search from '../../components/SearchFilter';
-import ButtonTooltip from '../../components/Tooltip/ButtonTooltip';
-import { languageTranslation, errorFormatter } from '../../../../helpers';
-import { ISearchValues, IReactSelectInterface } from '../../../../interfaces';
+} from "../../../../config";
+import routes from "../../../../routes/routes";
+import Search from "../../components/SearchFilter";
+import ButtonTooltip from "../../components/Tooltip/ButtonTooltip";
+import { languageTranslation, errorFormatter } from "../../../../helpers";
+import { ISearchValues, IReactSelectInterface } from "../../../../interfaces";
 import {
   CareGiverMutations,
   AdminProfileMutations,
-} from '../../../../graphql/Mutations';
-import { ConfirmBox } from '../../components/ConfirmBox';
-import PaginationComponent from '../../components/Pagination';
-import Loader from '../../containers/Loader/Loader';
-import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
-import { CareGiverQueries } from '../../../../graphql/queries';
+} from "../../../../graphql/Mutations";
+import { ConfirmBox } from "../../components/ConfirmBox";
+import PaginationComponent from "../../components/Pagination";
+import Loader from "../../containers/Loader/Loader";
+import { NoSearchFound } from "../../components/SearchFilter/NoSearchFound";
+import { CareGiverQueries } from "../../../../graphql/queries";
 
 const [GET_CAREGIVERS] = CareGiverQueries;
 const [, , UPDATE_CARE_GIVER_STATUS, DELETE_CAREGIVER] = CareGiverMutations;
 const [, , GENERATE_NEW_PASSWORD] = AdminProfileMutations;
-let toastId: any = '';
+let toastId: any = "";
 
 const CareGiver: FunctionComponent = () => {
   let history = useHistory();
@@ -56,7 +56,7 @@ const CareGiver: FunctionComponent = () => {
     any,
     any
   >(GET_CAREGIVERS, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache",
   });
 
   // Mutation to update caregiver status
@@ -69,53 +69,53 @@ const CareGiver: FunctionComponent = () => {
 
   useEffect(() => {
     const query = qs.parse(search);
-    let searchBy: string = '';
-    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
-    let isActive: IReactSelectInterface | undefined = { label: '', value: '' };
+    let searchBy: string = "";
+    let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
+    let isActive: IReactSelectInterface | undefined = { label: "", value: "" };
     // To handle display and query param text
-    let sortByValue: string | undefined = '1';
+    let sortByValue: string | undefined = "1";
     if (query.sortBy) {
       sortByValue = Object.keys(sortFilter).find(
-        (key: string) => sortFilter[key] === query.sortBy,
+        (key: string) => sortFilter[key] === query.sortBy
       );
     }
-    if (sortByValue === '3') {
-      sortBy.label = 'A-Z';
+    if (sortByValue === "3") {
+      sortBy.label = "A-Z";
     }
-    if (sortByValue === '4') {
-      sortBy.label = 'Z-A';
+    if (sortByValue === "4") {
+      sortBy.label = "Z-A";
     }
-    if (sortByValue === '2') {
-      sortBy.label = 'Oldest';
+    if (sortByValue === "2") {
+      sortBy.label = "Oldest";
     }
-    if (sortByValue === '1') {
-      sortBy.label = 'Newest';
+    if (sortByValue === "1") {
+      sortBy.label = "Newest";
     }
     if (query) {
-      searchBy = query.search ? (query.search as string) : '';
+      searchBy = query.search ? (query.search as string) : "";
       sortBy = sortByValue
         ? {
             ...sortBy,
             value:
               Object.keys(sortFilter).find(
-                (key: any) => sortFilter[key] === query.sortBy,
-              ) || '1',
+                (key: any) => sortFilter[key] === query.sortBy
+              ) || "1",
           }
-        : { label: 'Newest', value: '1' };
+        : { label: "Newest", value: "1" };
       isActive = query.status
-        ? query.status === 'active'
-          ? { label: languageTranslation('ACTIVE'), value: 'true' }
-          : { label: languageTranslation('DISABLE'), value: 'false' }
-        : { label: '', value: '' };
+        ? query.status === "active"
+          ? { label: languageTranslation("ACTIVE"), value: "true" }
+          : { label: languageTranslation("DISABLE"), value: "false" }
+        : { label: "", value: "" };
       setSearchValues({
         searchValue: searchBy,
         sortBy,
         isActive,
       });
       setIsFilter(
-        searchBy !== '' ||
+        searchBy !== "" ||
           query.status !== undefined ||
-          query.sortBy !== undefined,
+          query.sortBy !== undefined
       );
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
@@ -127,16 +127,16 @@ const CareGiver: FunctionComponent = () => {
         limit: PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
         isActive: query.status
-          ? query.status === 'active'
-            ? 'true'
-            : 'false'
-          : '',
+          ? query.status === "active"
+            ? "true"
+            : "false"
+          : "",
       },
     });
   }, [search]); // It will run when the search value gets changed
 
   const {
-    searchValue = '',
+    searchValue = "",
     sortBy = undefined,
     isActive = undefined,
   } = searchValues ? searchValues : {};
@@ -149,7 +149,7 @@ const CareGiver: FunctionComponent = () => {
 
   const handleSubmit = async (
     { searchValue, isActive, sortBy }: ISearchValues,
-    { setSubmitting }: FormikHelpers<ISearchValues>,
+    { setSubmitting }: FormikHelpers<ISearchValues>
   ) => {
     let params: {
       [key: string]: any;
@@ -158,28 +158,28 @@ const CareGiver: FunctionComponent = () => {
     if (searchValue) {
       params.search = searchValue;
     }
-    if (isActive && isActive.value !== '') {
-      params.status = isActive.value === 'true' ? 'active' : 'disable';
+    if (isActive && isActive.value !== "") {
+      params.status = isActive.value === "true" ? "active" : "disable";
     }
-    if (sortBy && sortBy.value !== '') {
-      params.sortBy = sortBy.value !== '' ? sortFilter[sortBy.value] : '';
+    if (sortBy && sortBy.value !== "") {
+      params.sortBy = sortBy.value !== "" ? sortFilter[sortBy.value] : "";
     }
-    const path = [pathname, qs.stringify(params)].join('?');
+    const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
   };
 
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?',
+      "?"
     );
     history.push(path);
   };
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CAREGIVER_DELETE_MSG'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_CAREGIVER_DELETE_MSG"),
     });
     if (!value) {
       return;
@@ -191,18 +191,18 @@ const CareGiver: FunctionComponent = () => {
       });
       refetch();
       if (!toast.isActive(toastId)) {
-        toastId = toast.success('Caregiver moved to trash.');
+        toastId = toast.success(languageTranslation("CAREGIVER_MOVE_TO_TRASH"));
       }
     }
   };
 
   const onStatusUpdate = async (id: string, status: boolean) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
+      title: languageTranslation("CONFIRM_LABEL"),
       text: languageTranslation(
         status
-          ? 'CONFIRM_CAREGIVER_STATUS_ACTIVATE_MSG'
-          : 'CONFIRM_CAREGIVER_STATUS_DISABLED_MSG',
+          ? "CONFIRM_CAREGIVER_STATUS_ACTIVATE_MSG"
+          : "CONFIRM_CAREGIVER_STATUS_DISABLED_MSG"
       ),
     });
     if (!value) {
@@ -219,14 +219,14 @@ const CareGiver: FunctionComponent = () => {
         refetch();
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CAREGIVER_STATUS_UPDATE_MSG'),
+            languageTranslation("CAREGIVER_STATUS_UPDATE_MSG")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -246,9 +246,9 @@ const CareGiver: FunctionComponent = () => {
   // gernerate new password for caregiver
   const generateNewPassword = async (caregiverData: any): Promise<void> => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_REGENERATE_PASSWORD_MESSAGE', {
-        userRole: languageTranslation('CAREGIVER_USERROLE'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_REGENERATE_PASSWORD_MESSAGE", {
+        userRole: languageTranslation("CAREGIVER_USERROLE"),
         email: caregiverData.email,
       }),
     });
@@ -266,9 +266,9 @@ const CareGiver: FunctionComponent = () => {
       });
 
       toastId = toast.success(
-        languageTranslation('NEW_PASSWORD_SENT_SUCCESS', {
+        languageTranslation("NEW_PASSWORD_SENT_SUCCESS", {
           email: caregiverData.email,
-        }),
+        })
       );
     } catch (error) {
       const message = errorFormatter(error.message);
@@ -283,30 +283,30 @@ const CareGiver: FunctionComponent = () => {
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
-    <Row className='m-0'>
-      <Col xs={'12'} lg={'12'} className='p-0'>
+    <Row className="m-0">
+      <Col xs={"12"} lg={"12"} className="p-0">
         <Card>
           <CardHeader>
-            <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
+            <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
             <div>
               <Button
-                color={'primary'}
-                className={'btn-add mr-3'}
-                id={'add-new-pm-tooltip'}
+                color={"primary"}
+                className={"btn-add mr-3"}
+                id={"add-new-pm-tooltip"}
                 onClick={() => history.push(AppRoutes.CAREGIVER_ARCHIVE)}
               >
-                <i className={'fa fa-archive'} />
-                &nbsp; {languageTranslation('VIEW_ARCHIVE')}
+                <i className={"fa fa-archive"} />
+                &nbsp; {languageTranslation("VIEW_ARCHIVE")}
               </Button>
 
               <Button
-                color={'primary'}
-                className={'btn-add'}
-                id={'add-new-pm-tooltip'}
+                color={"primary"}
+                className={"btn-add"}
+                id={"add-new-pm-tooltip"}
                 onClick={() => history.push(AppRoutes.ADD_CARE_GIVER)}
               >
-                <i className={'fa fa-plus'} />
-                &nbsp; Add New Caregiver
+                <i className={"fa fa-plus"} />
+                &nbsp; {languageTranslation("ADD_NEW_CAREGIVER")}
               </Button>
             </div>
           </CardHeader>
@@ -321,15 +321,15 @@ const CareGiver: FunctionComponent = () => {
                     {...props}
                     filterbyStatus={false}
                     searchPlacholderText={languageTranslation(
-                      'SEARCH_CAREGIVER_PLACEHOLDER',
+                      "SEARCH_CAREGIVER_PLACEHOLDER"
                     )}
                   />
                 )}
               />
             </div>
-            <div className='table-minheight '>
+            <div className="table-minheight ">
               <Table bordered hover responsive>
-                <thead className='thead-bg'>
+                <thead className="thead-bg">
                   <tr>
                     {/* <th>
                   <div className='table-checkbox-wrap'>
@@ -353,32 +353,32 @@ const CareGiver: FunctionComponent = () => {
                     </div>
                   </div>
                 </th> */}
-                    <th className='sno-th-column text-center'>
-                      {languageTranslation('S_NO')}
+                    <th className="sno-th-column text-center">
+                      {languageTranslation("S_NO")}
                     </th>
-                    <th>{languageTranslation('TABEL_HEAD_CG_INFO')}</th>
-                    <th className='qualifications-th-column'>
-                      {languageTranslation('TABEL_HEAD_CG_QUALIFICATION')}
+                    <th>{languageTranslation("TABEL_HEAD_CG_INFO")}</th>
+                    <th className="qualifications-th-column">
+                      {languageTranslation("TABEL_HEAD_CG_QUALIFICATION")}
                     </th>
-                    <th>{languageTranslation('TABEL_HEAD_CG_REGION')}</th>
-                    <th className='applying-th-column'>
-                      {languageTranslation('TABEL_HEAD_CG_APPLYING_AS')}
+                    <th>{languageTranslation("TABEL_HEAD_CG_REGION")}</th>
+                    <th className="applying-th-column">
+                      {languageTranslation("TABEL_HEAD_CG_APPLYING_AS")}
                     </th>
-                    <th className='date-th-column'>
-                      {languageTranslation('CREATED_DATE')}
+                    <th className="date-th-column">
+                      {languageTranslation("CREATED_DATE")}
                     </th>
                     {/* <th className={'text-center status-column'}>
                       {languageTranslation('TABEL_HEAD_CG_STATUS')}
                     </th> */}
-                    <th className={'text-center'}>
-                      {languageTranslation('TABEL_HEAD_CG_ACTION')}
+                    <th className={"text-center"}>
+                      {languageTranslation("TABEL_HEAD_CG_ACTION")}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {!called || loading ? (
                     <tr>
-                      <td className={'table-loader'} colSpan={8}>
+                      <td className={"table-loader"} colSpan={8}>
                         <Loader />
                       </td>
                     </tr>
@@ -389,66 +389,66 @@ const CareGiver: FunctionComponent = () => {
                     data.getCaregivers.result.map(
                       (careGiverData: any, index: number) => {
                         const replaceObj: any = {
-                          ':id': careGiverData.id,
-                          ':userName': careGiverData.userName,
+                          ":id": careGiverData.id,
+                          ":userName": careGiverData.userName,
                         };
                         return (
                           <tr key={index}>
-                            <td className='sno-th-column text-center'>
+                            <td className="sno-th-column text-center">
                               <span>{count++}</span>
                             </td>
                             <td>
-                              <div className='info-column'>
-                                <div className='description-column'>
+                              <div className="info-column">
+                                <div className="description-column">
                                   <span
                                     onClick={() =>
                                       history.push(
                                         AppRoutes.CARE_GIVER_VIEW.replace(
                                           /:id/gi,
-                                          function(matched) {
+                                          function (matched) {
                                             return replaceObj[matched];
-                                          },
-                                        ),
+                                          }
+                                        )
                                       )
                                     }
-                                    className='info-title text-capitalize'
+                                    className="info-title text-capitalize"
                                   >{`${careGiverData.salutation} ${careGiverData.lastName} ${careGiverData.firstName}`}</span>
-                                  <p className='description-text'>
-                                    <i className='fa fa-user mr-2'></i>
-                                    <span className='align-middle'>
+                                  <p className="description-text">
+                                    <i className="fa fa-user mr-2"></i>
+                                    <span className="align-middle">
                                       {careGiverData.userName}
                                     </span>
                                   </p>
-                                  <p className='description-text'>
-                                    <i className='fa fa-envelope mr-2'></i>
+                                  <p className="description-text">
+                                    <i className="fa fa-envelope mr-2"></i>
                                     <a
                                       href={`mailto:${careGiverData.email}`}
-                                      className='align-middle info-link'
-                                      target={'_blank'}
+                                      className="align-middle info-link"
+                                      target={"_blank"}
                                     >
                                       {careGiverData.email}
                                     </a>
                                   </p>
 
                                   {careGiverData.phoneNumber ? (
-                                    <p className='description-text'>
-                                      <i className='fa fa-phone mr-2'></i>
+                                    <p className="description-text">
+                                      <i className="fa fa-phone mr-2"></i>
                                       <a
-                                        className='align-middle info-link'
+                                        className="align-middle info-link"
                                         href={`tel:${careGiverData.phoneNumber}`}
-                                        target={'_blank'}
+                                        target={"_blank"}
                                       >
                                         {careGiverData.phoneNumber}
                                       </a>
                                     </p>
                                   ) : (
-                                    ''
+                                    ""
                                   )}
                                 </div>
                               </div>
                             </td>
                             <td>
-                              <div className='region-list  text-capitalize'>
+                              <div className="region-list  text-capitalize">
                                 {careGiverData.qualifications &&
                                 careGiverData.qualifications.length ? (
                                   readMore && readMoreIndex === index ? (
@@ -456,13 +456,13 @@ const CareGiver: FunctionComponent = () => {
                                       (qualification: any, index: number) => {
                                         return (
                                           <span
-                                            className='region-label'
+                                            className="region-label"
                                             key={index}
                                           >
                                             {qualification.name}
                                           </span>
                                         );
-                                      },
+                                      }
                                     )
                                   ) : (
                                     careGiverData.qualifications
@@ -471,13 +471,13 @@ const CareGiver: FunctionComponent = () => {
                                         (qualification: any, index: number) => {
                                           return (
                                             <span
-                                              className='region-label'
+                                              className="region-label"
                                               key={index}
                                             >
                                               {qualification.name}
                                             </span>
                                           );
-                                        },
+                                        }
                                       )
                                   )
                                 ) : (
@@ -489,25 +489,25 @@ const CareGiver: FunctionComponent = () => {
                                     onClick={() =>
                                       readMoreQualificationData(index)
                                     }
-                                    className='view-more-link theme-text'
+                                    className="view-more-link theme-text"
                                   >
                                     <br />
                                     {readMore && readMoreIndex === index
-                                      ? languageTranslation('SHOW_LESS')
-                                      : languageTranslation('SHOW_MORE')}
+                                      ? languageTranslation("SHOW_LESS")
+                                      : languageTranslation("SHOW_MORE")}
                                   </span>
                                 ) : null}
                               </div>
                             </td>
                             <td>
-                              <div className=' text-capitalize'>
+                              <div className=" text-capitalize">
                                 {careGiverData &&
                                 careGiverData.regions &&
                                 careGiverData.regions.length ? (
                                   careGiverData.regions.map(
                                     (wZ: any, index: number) => (
                                       <span key={index}>{wZ.regionName}</span>
-                                    ),
+                                    )
                                   )
                                 ) : (
                                   <div>-</div>
@@ -516,22 +516,22 @@ const CareGiver: FunctionComponent = () => {
                             </td>
                             <td>
                               <div>
-                                <span className='align-middle'>
+                                <span className="align-middle">
                                   {careGiverData &&
                                   careGiverData.caregiver &&
                                   careGiverData.caregiver.legalForm
                                     ? careGiverData.caregiver.legalForm
-                                    : 'N/A'}
+                                    : "N/A"}
                                 </span>
                               </div>
                             </td>
 
-                            <td className='date-th-column '>
+                            <td className="date-th-column ">
                               {careGiverData.createdAt
                                 ? moment(careGiverData.createdAt).format(
-                                    defaultDateTimeFormat,
+                                    defaultDateTimeFormat
                                   )
-                                : '-'}
+                                : "-"}
                             </td>
 
                             {/* <td className="text-center">
@@ -551,86 +551,88 @@ const CareGiver: FunctionComponent = () => {
                                   : languageTranslation("DISABLE")}
                               </span>
                             </td> */}
-                            <td className='text-center'>
-                              <div className='action-btn'>
+                            <td className="text-center">
+                              <div className="action-btn">
                                 <ButtonTooltip
                                   id={`edit${index}`}
                                   message={languageTranslation(
-                                    'CAREGIVER_EDIT',
+                                    "CAREGIVER_EDIT"
                                   )}
                                   redirectUrl={AppRoutes.CARE_GIVER_VIEW.replace(
                                     /:id/gi,
-                                    function(matched) {
+                                    function (matched) {
                                       return replaceObj[matched];
-                                    },
+                                    }
                                   )}
                                 >
-                                  {' '}
-                                  <i className='fa fa-pencil'></i>
+                                  {" "}
+                                  <i className="fa fa-pencil"></i>
                                 </ButtonTooltip>
                                 <ButtonTooltip
                                   id={`view${index}`}
                                   message={languageTranslation(
-                                    'CAREGIVER_VIEW',
+                                    "CAREGIVER_VIEW"
                                   )}
                                   redirectUrl={AppRoutes.CARE_GIVER_VIEW.replace(
                                     /:id/gi,
-                                    function(matched) {
+                                    function (matched) {
                                       return replaceObj[matched];
-                                    },
+                                    }
                                   )}
                                 >
-                                  {' '}
-                                  <i className='fa fa-eye'></i>
+                                  {" "}
+                                  <i className="fa fa-eye"></i>
                                 </ButtonTooltip>
                                 <span
                                   id={`regenerate-password-${index}`}
-                                  className='btn-icon mr-2'
+                                  className="btn-icon mr-2"
                                   onClick={() =>
                                     generateNewPassword(careGiverData)
                                   }
                                 >
                                   <UncontrolledTooltip
-                                    placement={'top'}
+                                    placement={"top"}
                                     target={`regenerate-password-${index}`}
                                   >
-                                    {languageTranslation('REGENERATE_PASSWORD')}
+                                    {languageTranslation("REGENERATE_PASSWORD")}
                                   </UncontrolledTooltip>
-                                  <i className='fa fa-lock'></i>
+                                  <i className="fa fa-lock"></i>
                                 </span>
                                 <span
                                   id={`delete${index}`}
-                                  className='btn-icon mr-2'
+                                  className="btn-icon mr-2"
                                   onClick={() => onDelete(careGiverData.id)}
                                 >
                                   <UncontrolledTooltip
-                                    placement={'top'}
+                                    placement={"top"}
                                     target={`delete${index}`}
                                   >
-                                    {languageTranslation('CAREGIVER_DELETE')}
+                                    {languageTranslation("CAREGIVER_DELETE")}
                                   </UncontrolledTooltip>
-                                  <i className='fa fa-trash'></i>
+                                  <i className="fa fa-trash"></i>
                                 </span>
                               </div>
                             </td>
                           </tr>
                         );
-                      },
+                      }
                     )
                   ) : (
-                    <tr className={'text-center no-hover-row'}>
-                      <td colSpan={8} className={'pt-5 pb-5'}>
+                    <tr className={"text-center no-hover-row"}>
+                      <td colSpan={8} className={"pt-5 pb-5"}>
                         {isFilterApplied ? (
                           <NoSearchFound />
                         ) : (
-                          <div className='no-data-section'>
-                            <div className='no-data-icon'>
-                              <i className='icon-ban' />
+                          <div className="no-data-section">
+                            <div className="no-data-icon">
+                              <i className="icon-ban" />
                             </div>
-                            <h4 className='mb-1'>
-                              Currently there are no caregiver added.{' '}
+                            <h4 className="mb-1">
+                              {languageTranslation("NO_CAREGIVER_ADDED")}{" "}
                             </h4>
-                            <p>Please click above button to add new. </p>
+                            <p>
+                              {languageTranslation("CLICK_ABOVE_TO_ADD_NEW")}{" "}
+                            </p>
                           </div>
                         )}
                       </td>

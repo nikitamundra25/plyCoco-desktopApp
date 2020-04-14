@@ -5,7 +5,7 @@ import RegionFormComponent from './RegionFormComponent';
 import { RegionValidationSchema } from '../../../../validations/RegionValidationSchema';
 import { RegionQueries } from '../../../../../graphql/queries/Region';
 import { useParams, useHistory } from 'react-router';
-import { logger } from '../../../../../helpers';
+import { logger, languageTranslation } from '../../../../../helpers';
 import { useMutation } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
 import { AppRoutes } from '../../../../../config';
@@ -50,7 +50,7 @@ export const AddRegion: FunctionComponent<{
         },
       });
       if (!toast.isActive(toastId)) {
-        toastId = toast.success('Region Added Successfully.');
+        toastId = toast.success(languageTranslation("REGION_ADDED_SUCCESSFULLY"));
       }
       props.toggle();
       props.refetch();

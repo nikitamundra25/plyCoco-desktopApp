@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FunctionComponent } from "react";
+import React, { useState, FunctionComponent } from "react";
 import {
   Modal,
   ModalHeader,
@@ -6,12 +6,7 @@ import {
   FormGroup,
   Label,
   Button,
-  ModalFooter,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledTooltip
+  ModalFooter
 } from "reactstrap";
 import close from "../../../../assets/img/cancel.svg";
 import closehover from "../../../../assets/img/cancel-hover.svg";
@@ -77,7 +72,7 @@ const UnlinkAppointment: FunctionComponent<any> = (props: IUnlinkInterface) => {
                         setcheckMark(checked);
                       }}
                     />
-                    <Label for="isWorkingProof">
+                    <Label for="checkMark">
                       {languageTranslation("CHECK_APPOINTMENT")}
                     </Label>
                   </div>
@@ -87,8 +82,8 @@ const UnlinkAppointment: FunctionComponent<any> = (props: IUnlinkInterface) => {
           </div>
           {/* </div> */}
         </ModalBody>
-        <ModalFooter>
-          <div className="d-flex align-items-center justify-content-between w-100">
+        <ModalFooter className="unlink-btn-wrap">
+          <div className="d-flex align-items-center  w-100 unlink-btn-block">
             <Button
               className={"btn-save text-capitalize"}
               color="primary"

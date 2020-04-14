@@ -2,10 +2,12 @@ import * as Yup from 'yup';
 import {
   ICaregiverValidationFormValue,
   ICareinstituionValidationFormValue,
-  ITimeResponse
+  ITimeResponse,
+  IDateResponse
 } from '../../interfaces';
-import { languageTranslation, timeValidator } from '../../helpers';
+import { languageTranslation, timeValidator, dateValidator } from '../../helpers';
 import { NumberWithCommaRegex } from '../../config';
+import moment from 'moment';
 
 export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
@@ -53,7 +55,60 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     'check-num',
     languageTranslation('INVALID_NUMBER'),
     value => !value || NumberWithCommaRegex.test(value)
-  )
+  ),
+  workingHoursFromTime: Yup.string()
+  .test({
+    name: 'validate-time',
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: ITimeResponse = timeValidator(val);
+      return !val || isValid || createError({ path, message });
+    }
+  }).when('workingHoursFromDate', {
+    is: workingHoursFromDate =>
+      workingHoursFromDate,
+    then: Yup.string().required(languageTranslation('TIME_REQUIRED'))
+  }),
+  workingHoursToTime:Yup.string()
+  .test({
+    name: 'validate-time',
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: ITimeResponse = timeValidator(val);
+      return !val || isValid || createError({ path, message });
+    }
+  }).when('workingHoursToDate', {
+    is: workingHoursToDate =>
+      workingHoursToDate,
+    then: Yup.string().required(languageTranslation('TIME_REQUIRED'))
+  }),
+  breakFromTime: Yup.string()
+  .test({
+    name: 'validate-time',
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: ITimeResponse = timeValidator(val);
+      return !val || isValid || createError({ path, message });
+    }
+  }).when('breakFromDate', {
+    is: breakFromDate =>
+      breakFromDate,
+    then: Yup.string().required(languageTranslation('TIME_REQUIRED'))
+  }),
+  breakToTime: Yup.string()
+  .test({
+    name: 'validate-time',
+    test: function(val) {
+      const { path, createError } = this;
+      const { isValid, message }: ITimeResponse = timeValidator(val);
+      return !val || isValid || createError({ path, message });
+    }
+  })
+ .when('breakToDate', {
+    is: breakToDate =>
+      breakToDate,
+    then: Yup.string().required(languageTranslation('TIME_REQUIRED'))
+  })
 });
 
 export const CareInstitutionValidationSchema: Yup.ObjectSchema<Yup.Shape<

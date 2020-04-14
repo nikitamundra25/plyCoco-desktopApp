@@ -45,7 +45,7 @@ export const AttachmentList: FunctionComponent<{
                           {item.fileName}
                         </a>
                         <span className="new-tag d-inline-flex align-items-center justify-content-center">
-                          NEW
+                          {languageTranslation("NEW")}
                         </span>
                       </>
                     ) : (

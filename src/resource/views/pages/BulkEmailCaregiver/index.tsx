@@ -37,9 +37,7 @@ import { IBulkEmailVariables } from '../../../../interfaces';
 import { errorFormatter } from '../../../../helpers';
 import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
-import { useHistory } from 'react-router';
 import {
-  AppRoutes,
   client,
   dbAcceptableFormat,
   defaultDateFormat
@@ -81,7 +79,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     qualificationList,
     terminateAggrement,
     handleClose,
-    updateLinkedStatus,
     label
   } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
@@ -134,6 +131,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       appointmentId: number[];
       availabilityId: number[];
       status: string;
+      pdfAppointmentDetails:any;
     }
   >(GENERATE_LEASING_CONTRACT_LINK_TOKEN);
 
@@ -353,7 +351,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   }, []);
 
   const [careGiverData, setcareGiverData] = useState<Object[]>([]);
-  const [careGiverConfirm, setCaregiverConfirm] = useState<Object[]>([]);
   // get care giver list according to selected qualification in appointment section
 
   useEffect(() => {
@@ -1557,11 +1554,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         document: leasingContactPdfData
       };
 
-      addUserDocuments({
-        variables: {
-          documentInput
-        }
-      });
+      // addUserDocuments({
+      //   variables: {
+      //     documentInput
+      //   }
+      // });
 
       UpdateLeasingContractStatus({
         variables: {
@@ -1576,7 +1573,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           appointmentId: appointmentIds,
           availabilityId: avabilityIds,
           userId: parseInt(userId),
-          status: 'leasingContract'
+          status: 'leasingContract',
+          pdfAppointmentDetails
         }
       })
       // updateLinkedStatus('contractInitiated')
@@ -1592,11 +1590,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         documentUploadType: 'terminateAgreement',
         document: terminationAgreementPdfData
       };
-      addUserDocuments({
-        variables: {
-          documentInput
-        }
-      });
+      // addUserDocuments({
+      //   variables: {
+      //     documentInput
+      //   }
+      // });
       UpdateLeasingContractStatus({
         variables: {
           appointmentId: appointmentIds,
@@ -1610,7 +1608,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           appointmentId: appointmentIds,
           availabilityId: avabilityIds,
           userId: parseInt(userId),
-          status: 'terminateAgreement'
+          status: 'terminateAgreement',
+          pdfAppointmentDetails: [pdfTerminateAppointment]
         }
       });
       // updateLinkedStatus('contractcancelled')
@@ -1828,6 +1827,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   color='primary'
                   onClick={handleSendEmail}
                   className='btn-email-save ml-auto mr-2 btn btn-primary'
+                  disabled={bulkEmailLoading}
                 >
                   {bulkEmailLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
@@ -1853,9 +1853,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               </div> */}
             </div>
           </div>
-          {console.log( !leasingContactPdfData &&
-                leasingContract &&
-                pdfAppointmentDetails.length > 0 && signatureData ? true : false,'leasing condition')}
+      
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
@@ -1876,12 +1874,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     }
                   </PDFDownloadLink>
                 ) : null}
-                {console.log('terminate condition', !terminationAgreementPdfData &&
-                terminateAggrement &&
-                pdfTerminateAppointment &&
-                pdfTerminateAppointment.name &&
-                signatureData ? true : false)
-                }
+               
                 {!terminationAgreementPdfData && 
                 terminateAggrement &&
                 pdfTerminateAppointment &&

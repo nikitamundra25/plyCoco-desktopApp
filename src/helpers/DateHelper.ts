@@ -94,6 +94,68 @@ export const dateValidator = (
   }
 };
 
+// Date Validator witout min max date count
+export const dateValidatorNorm = (
+  dateString: string,
+  options: IDateValidatorOptions = {
+    seperator: ".",
+    minDate: moment()
+      .subtract(100, "years")
+      .format(),
+    maxDate: moment().format()
+  }
+): IDateResponse => {
+  const date = dateString ? dateString.replace(/\D+/g, "") : "";
+  // Parse the date parts to integers
+  const parts: string[] = dateString
+    ? dateString.split(options.seperator || ".")
+    : [];
+  const day: number = Number(parts[0]);
+  const month: number = Number(parts[1]);
+  const year: number = Number(parts[2]);
+  if (!dateString) {
+    return {
+      isValid: false,
+      message: languageTranslation("ENTER_DATE")
+    };
+  }
+  if (month > 12 || month === 0) {
+    return {
+      isValid: false,
+      message: languageTranslation("ENTER_VALID_MONTH")
+    };
+  }
+  const monthLength: number[] = [
+    31,
+    28,
+    31,
+    30,
+    31,
+    30,
+    31,
+    31,
+    30,
+    31,
+    30,
+    31
+  ];
+
+  if (date !== "") {
+    // To check leap year
+    if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
+      monthLength[1] = 29;
+    return {
+      isValid: day > 0 && day <= monthLength[month - 1],
+      message: languageTranslation("ENTER_VALID_DATE")
+    };
+  } else {
+    return {
+      isValid: true,
+      message: "Date is valid"
+    };
+  }
+};
+
 /**
  * get next n years
  */
@@ -105,3 +167,18 @@ export const getYears = (n: number = 10): number[] => {
   }
   return years;
 };
+
+
+export const dateDiffernceValidator = (dateFrom: any, dateTo: any, dateCheck: any, name: string) => {
+  let date: any = dateFrom.split(".");
+  let month: any = dateTo.split(".");
+  let year: any = dateCheck.split(".");
+
+  let from = new Date(date[2], parseInt(date[1]) - 1, date[0]);  // -1 because months are from 0 to 11
+  let to = new Date(month[2], parseInt(month[1]) - 1, month[0]);
+  let check = new Date(year[2], parseInt(year[1]) - 1, year[0]);
+  let res: any
+  res = check >= from
+  return res;
+
+}

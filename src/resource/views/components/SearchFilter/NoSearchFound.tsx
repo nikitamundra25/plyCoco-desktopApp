@@ -1,4 +1,5 @@
 import React from 'react';
+import { languageTranslation } from '../../../../helpers';
 
 export const NoSearchFound: React.FC = () => {
   return (
@@ -6,17 +7,16 @@ export const NoSearchFound: React.FC = () => {
       <div className='no-data-icon'>
         <i className='icon-magnifier' />
       </div>
-      <h4 className='mb-1'>No details found related to your search </h4>
+      <h4 className='mb-1'>{languageTranslation("NO_SEARCH_FOUND")} </h4>
       <div className='text-left search-text'>
         <p>
-          <span className='pr-2'>&#8226;</span>Try to simplify your search
+          <span className='pr-2'>&#8226;</span>{languageTranslation("SIMPLIFY_SEARCH")}
         </p>
         <p>
-          <span className='pr-2'>&#8226;</span>Use different keywords
+          <span className='pr-2'>&#8226;</span>{languageTranslation("DIFFERENT_KEYWORDS")}
         </p>
         <p>
-          <span className='pr-2'>&#8226;</span>Make sure words are spelled
-          correctly
+          <span className='pr-2'>&#8226;</span> {languageTranslation("SEARCH_CORRECTLY_SPELLED")}
         </p>
       </div>
     </div>

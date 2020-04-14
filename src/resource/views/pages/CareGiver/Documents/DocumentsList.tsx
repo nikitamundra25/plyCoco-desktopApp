@@ -207,9 +207,9 @@ const DocumentsList: FunctionComponent<IDocumentListInteface> = (
                     <i className='icon-ban' />
                   </div>
                   <h4 className='mb-1'>
-                    Currently there are no documents added.{' '}
+                  {languageTranslation("NO_DATA_IN_DOCUMENTS")} {' '}
                   </h4>
-                  <p>Please click above button to add new document. </p>
+                  <p>{languageTranslation("CLICK_TO_ADD_NEW_DOCUMENT")} </p>
                 </div>
               </td>
             </tr>

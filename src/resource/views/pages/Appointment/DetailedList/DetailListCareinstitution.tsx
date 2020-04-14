@@ -3,7 +3,6 @@ import { Modal, ModalHeader, ModalBody, Table } from 'reactstrap';
 import { languageTranslation, logger } from '../../../../../helpers';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
-import refresh from '../../../../assets/img/refresh.svg';
 import moment from 'moment';
 import { defaultDateFormat } from './../../../../../config/constant';
 
@@ -12,7 +11,6 @@ const DetailListCareinstitution = (props: any) => {
     show,
     handleClose,
     selectedCellsCareinstitution,
-    fetchCareinstitutionList,
   } = props;
 
   const externalCloseBtn = (
@@ -212,7 +210,7 @@ const DetailListCareinstitution = (props: any) => {
                                 <i className='icon-ban' />
                               </div>
                               <h4 className='mb-1'>
-                                Currently there are no data found.{' '}
+                              {languageTranslation('NO_DATA_FOUND')}{' '}
                               </h4>
                             </div>
                           </td>

@@ -5,7 +5,7 @@ import Loader from "../../containers/Loader/Loader";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import {
   defaultDateTimeFormatForDashboard,
-  AppRoutes
+  AppRoutes,
 } from "../../../../config";
 import moment from "moment";
 import incorrect from "../../../assets/img/incorrect.svg";
@@ -70,7 +70,7 @@ const IncorrectLoginList: FunctionComponent<RouteComponentProps> = (
                         </td>
                         <td>
                           <div
-                            className="text-capitalize view-more-link word-wrap one-line-text"
+                            className="text-capitalize view-more-link one-line-text"
                             onClick={() =>
                               history.push(
                                 item.user.userRole === "caregiver"
@@ -88,7 +88,7 @@ const IncorrectLoginList: FunctionComponent<RouteComponentProps> = (
                             {item.user.lastName} {item.user.firstName}
                           </div>
                         </td>
-                        <td className="username-column word-wrap one-line-text  ">
+                        <td className="username-column one-line-text  ">
                           {item.user.userName}
                         </td>
                         <td className="ipaddress-column">
@@ -108,7 +108,7 @@ const IncorrectLoginList: FunctionComponent<RouteComponentProps> = (
                         <i className="icon-ban" />
                       </div>
                       <h4 className="mb-1">
-                        Currently there are no logs available.
+                        {languageTranslation("NO_LOGS_AVAILABLE")}
                       </h4>
                     </div>
                   </td>

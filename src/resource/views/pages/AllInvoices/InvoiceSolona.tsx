@@ -11,10 +11,10 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Nav
+  Nav,
 } from "reactstrap";
 import Select from "react-select";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import logger from "redux-logger";
 import { languageTranslation } from "../../../../helpers";
 import Search from "../../components/SearchFilter/index";
@@ -45,7 +45,7 @@ import createReminder from "../../../assets/img/header-icons/tab-icons/create-re
 import { FormikHelpers, FormikProps, Formik } from "formik";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
-import {  StatusOptions, SortOptions } from "../../../../config";
+import { StatusOptions, SortOptions } from "../../../../config";
 import sent from "../../../assets/img/header-icons/sent.svg";
 import unsent from "../../../assets/img/header-icons/unsent.svg";
 import "./index.scss";
@@ -57,12 +57,12 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
+    { value: "vanilla", label: "Vanilla" },
   ];
   const [tabChange, setTabChange] = useState(1);
   const tabChangehandler = (currentTab: any) => {
-    setTabChange(currentTab)
-  }
+    setTabChange(currentTab);
+  };
   return (
     <>
       <Card>
@@ -73,16 +73,16 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                 <li className="nav-item">
                   <a
                     className={`nav-link ${tabChange == 1 ? "active" : ""}`}
-                    onClick={() => tabChangehandler(1)}>
-                    <span className="nav-text text-capitalize">
-                      General
-                    </span>
+                    onClick={() => tabChangehandler(1)}
+                  >
+                    <span className="nav-text text-capitalize">General</span>
                   </a>
                 </li>
                 <li className="nav-item">
                   <a
                     className={`nav-link ${tabChange == 2 ? "active" : ""}`}
-                    onClick={() => tabChangehandler(2)}>
+                    onClick={() => tabChangehandler(2)}
+                  >
                     <span className="nav-text text-capitalize">
                       Dunning and export
                     </span>
@@ -90,9 +90,8 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                 </li>
               </Nav>
             </div>
-            {tabChange == 1 ?
+            {tabChange == 1 ? (
               <div className="common-topheader d-flex  px-2 mb-1">
-
                 <div className="header-nav-colmn-items">
                   <div className="header-nav-heading mx-1">Filter</div>
                   <div className="header-nav-item ">
@@ -133,7 +132,9 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                   </div>
                 </div>
                 <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">View Invoice PDFs</div>
+                  <div className="header-nav-heading mx-1">
+                    View Invoice PDFs
+                  </div>
                   <div className="header-nav-item ">
                     <span className="header-nav-icon">
                       <img src={PlyCocoreceipt} alt="" />
@@ -144,9 +145,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                     <span className="header-nav-icon">
                       <img src={SpecialistInvoice} alt="" />
                     </span>
-                    <span className="header-nav-text">
-                      Save invoice
-               </span>
+                    <span className="header-nav-text">Save invoice</span>
                   </div>
                 </div>
                 <div className="header-nav-colmn-items">
@@ -157,24 +156,26 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                     <span className="header-nav-icon">
                       <img src={Again} alt="" />
                     </span>
-                    
+
                     <span className="header-nav-text">again</span>
                   </div>
                   <div className="header-nav-item">
-                  <span className="header-nav-icon">
+                    <span className="header-nav-icon">
                       <img src={sent} alt="" />
                     </span>
                     <span className="header-nav-text">Sent today</span>
                   </div>
                   <div className="header-nav-item">
-                  <span className="header-nav-icon">
+                    <span className="header-nav-icon">
                       <img src={unsent} alt="" />
                     </span>
                     <span className="header-nav-text">Unsent</span>
                   </div>
                 </div>
                 <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1">Paid &amp; Unpaid</div>
+                  <div className="header-nav-heading mx-1">
+                    Paid &amp; Unpaid
+                  </div>
 
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
@@ -213,7 +214,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                     </span>
                     <span className="header-nav-text">
                       interior design professional
-               </span>
+                    </span>
                   </div>
                   <div className="header-nav-item">
                     <span className="header-nav-icon">
@@ -233,8 +234,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                   </div>
                 </div>
               </div>
-              :
-
+            ) : (
               <div className="common-topheader d-flex  px-2 mb-1">
                 <div className="header-nav-colmn-items">
                   <div className="header-nav-heading mx-1">Reminders</div>
@@ -307,7 +307,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                     </span>
                     <span className="header-nav-text">
                       Create cancellation invoice
-     </span>
+                    </span>
                   </div>
                   <div className="header-nav-item ">
                     <span className="header-nav-icon">
@@ -324,7 +324,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                     </span>
                     <span className="header-nav-text">
                       Append order number Plycoco
-     </span>
+                    </span>
                   </div>
                   <div className="header-nav-item ">
                     <span className="header-nav-icon">
@@ -332,7 +332,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                     </span>
                     <span className="header-nav-text">
                       Append order number specialist
-     </span>
+                    </span>
                   </div>
                 </div>
                 <div className="header-nav-colmn-items">
@@ -351,24 +351,18 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                   </div>
                 </div>
               </div>
-
-            }
+            )}
 
             <CardBody>
               <div className="filter-form form-section mb-2">
                 <Form>
                   <Row>
-                  <Col lg={"3"} md={"3"}>
+                    <Col lg={"3"} md={"3"}>
                       <FormGroup>
                         <Label for="search" className="col-form-label">
                           {languageTranslation("SEARCH_LABEL")} :
                         </Label>
-                        <Input
-                          type="text"
-                          name="searchValue"
-                          id="search"
-                         
-                        />
+                        <Input type="text" name="searchValue" id="search" />
                       </FormGroup>
                     </Col>
                     <Col lg={"2"} md={"3"}>
@@ -432,14 +426,16 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
               </div>
               <div className="common-content flex-grow-1  p-0 all-invoice">
                 <div className="table-minheight invoices-table">
-                <Table bordered hover responsive>
+                  <Table bordered hover responsive>
                     <thead className="thead-bg">
                       <tr>
                         <th className="invoiceid-col">
                           {" "}
                           {languageTranslation("NUMBER")}{" "}
                         </th>
-                        <th className="careinstitution-col">{languageTranslation("MENU_INSTITUTION")}</th>
+                        <th className="careinstitution-col">
+                          {languageTranslation("MENU_INSTITUTION")}
+                        </th>
                         <th className="caregiver-col">
                           {" "}
                           {languageTranslation("MENU_CAREGIVER")}
@@ -452,7 +448,10 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                           {" "}
                           {languageTranslation("CANCELED_BY")}
                         </th>
-                        <th className="invoiceid-col"> {languageTranslation("INVOICE_NUMBER_F")}</th>
+                        <th className="invoiceid-col">
+                          {" "}
+                          {languageTranslation("INVOICE_NUMBER_F")}
+                        </th>
                         <th className="date-col">
                           {languageTranslation("DATE")}
                         </th>
@@ -501,8 +500,18 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                     <tbody>
                       <tr>
                         <td className="invoiceid-col"> 230004</td>
-                        <td className="careinstitution-col"> <Link to="#" className="view-more-link">John Doe</Link></td>
-                        <td className="caregiver-col"> <Link to="#" className="view-more-link">Testwerk</Link></td>
+                        <td className="careinstitution-col">
+                          {" "}
+                          <Link to="#" className="view-more-link">
+                            John Doe
+                          </Link>
+                        </td>
+                        <td className="caregiver-col">
+                          {" "}
+                          <Link to="#" className="view-more-link">
+                            Testwerk
+                          </Link>
+                        </td>
                         <td className="cancel-col"></td>
                         <td className="cancel-col"></td>
                         <td className="invoiceid-col">230005</td>
@@ -510,7 +519,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                         <td className="amount-col">234.02</td>
                         <td className="date-col">17-09-2013</td>
                         <td className="date-col"></td>
-                         <td className="date-col"></td>
+                        <td className="date-col"></td>
                         <td className="date-col">16-09-2013</td>
                         <td className="date-col">16-09-2013</td>
                         <td className="date-col">16-09-2013</td>
@@ -529,60 +538,63 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                         <td className="amount-col">234.02</td>
                         <td className="amount-col">234.02</td>
                         <td className="amount-col">234.02</td>
-                        
-                        <td className="comment-col"><span className="word-wrap">am 16.00</span></td>
+
+                        <td className="comment-col">
+                          <span className="word-wrap">am 16.00</span>
+                        </td>
                       </tr>
                     </tbody>
                   </Table>
                 </div>
-                
+                <Form className="form-section total-form-section bg-white">
+                  <div className="d-flex flex-wrap total-form-block">
+                    <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                      <FormGroup>
+                        <Row className="align-items-center">
+                          <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                            <Label className="form-label col-form-label">
+                              Total
+                            </Label>
+                          </Col>
+                          <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                            <div className="required-input">
+                              <Input
+                                type="text"
+                                name={"firstName"}
+                                placeholder={"Enter Total"}
+                                className="text-input text-capitalize"
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                    <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                      <FormGroup>
+                        <Row className="align-items-center">
+                          <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                            <Label className="form-label col-form-label">
+                              Total selection
+                            </Label>
+                          </Col>
+                          <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                            <div className="required-input">
+                              <Input
+                                type="text"
+                                name={"firstName"}
+                                placeholder={"Enter total selection"}
+                                className="text-input text-capitalize"
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                  </div>
+                </Form>
               </div>
             </CardBody>
           </div>
-          <Form className="form-section total-form-section">
-            <div className="d-flex flex-wrap total-form-block">
-              <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
-                <FormGroup>
-                  <Row className="align-items-center">
-                    <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                      <Label className="form-label col-form-label">Total</Label>
-                    </Col>
-                    <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                      <div className="required-input">
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Enter Total"}
-                          className="text-input text-capitalize"
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-              <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
-                <FormGroup>
-                  <Row className="align-items-center">
-                    <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                      <Label className="form-label col-form-label">
-                        Total selection
-                      </Label>
-                    </Col>
-                    <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                      <div className="required-input">
-                        <Input
-                          type="text"
-                          name={"firstName"}
-                          placeholder={"Enter total selection"}
-                          className="text-input text-capitalize"
-                        />
-                      </div>
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </Col>
-            </div>
-          </Form>
         </div>
       </Card>
     </>

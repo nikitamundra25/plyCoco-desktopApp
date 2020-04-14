@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import {
   FormGroup,
   Label,
@@ -7,7 +7,7 @@ import {
   Row,
   Form,
   Table,
-  UncontrolledTooltip
+  UncontrolledTooltip,
 } from "reactstrap";
 import moment from "moment";
 import Dropzone from "react-dropzone";
@@ -16,17 +16,19 @@ import {
   languageTranslation,
   logger,
   formatFileSize,
-  errorFormatter
+  errorFormatter,
 } from "../../../../helpers";
 import {
   State,
   AcceptedDocumentFile,
   maxFileSize10MB,
-  DocumentTempSelect
+  DocumentTempSelect,
 } from "../../../../config";
 import {
   IWorkingProofFormValues,
-  IDocumentInputInterface
+  IDocumentInputInterface,
+  IReactSelectInterface,
+  IQualifications,
 } from "../../../../interfaces";
 import displaydoc from "../../../assets/img/display-doc.svg";
 import upload from "../../../assets/img/upload.svg";
@@ -35,22 +37,30 @@ import hideoldfile from "../../../assets/img/hide-old-file.svg";
 import hidemapped from "../../../assets/img/block-file.svg";
 import "./index.scss";
 import { FormikProps } from "formik";
-import { useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
 import {
   DocumentUploadMutations,
-  DocumentMutations
+  DocumentMutations,
 } from "../../../../graphql/Mutations";
 
 import { toast } from "react-toastify";
 import DocumentPreview from "./DocumentPreview";
 import Loader from "../../containers/Loader/Loader";
+import PerformedWork from "./PerformedWork";
+import { AppointmentsQueries, GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
 const [ADD_DOCUMENT] = DocumentUploadMutations;
 const [, , , , , , , , , GET_DOCUMENTS_FROM_OUTLOOK] = DocumentMutations;
-
+const [ ,
+  ,
+  ,
+  ,
+  ,
+  GET_APPOINTMENT_DETAILS_BY_USERID]= AppointmentsQueries;
 let toastId: any;
 
-const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
-  any> = (props: FormikProps<IWorkingProofFormValues> & any) => {
+const WorkingProofForm: FunctionComponent<
+  FormikProps<IWorkingProofFormValues> & any
+> = (props: FormikProps<IWorkingProofFormValues> & any) => {
   const {
     documentList,
     refetch,
@@ -62,22 +72,43 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
     rowIndex,
     setRowIndex,
     documentType,
-    setdocumentType
+    setdocumentType,
+    careGiversOptions,
   } = props;
 
   const handleSelect = (value: any) => {
     setdocumentType(value);
   };
+  // qualifications list
+  const { data: qualificationList } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
   // Mutation to upload document
   const [addUserDocuments] = useMutation<
     { addUserDocuments: IWorkingProofFormValues },
     { documentInput: IDocumentInputInterface }
   >(ADD_DOCUMENT);
 
+ // To fetch appointment list by caregiver Id
+ const [
+  getDataByCaregiverUserId,
+  { data: caregiverData, loading: caregiverDataLoading },
+] = useLazyQuery<any, any>(GET_APPOINTMENT_DETAILS_BY_USERID, {
+  fetchPolicy: "no-cache",
+  // notifyOnNetworkStatusChange: true
+});
+
+
   const [loading, setLoading] = useState<boolean>(false);
+
+  // State for performed work section filter
+  const [searchById, setsearchById] = useState<string>("");
+  const [caregiverFilter, setcaregiverFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+  const [appointmentData, setappointmentData] = useState<any>([]);
+
   const [
     getWorkProofFromOutlookQuery,
-    { data, loading: fetchingLWorkProof, error: outlookError }
+    { data, loading: fetchingLWorkProof, error: outlookError },
   ] = useMutation<
     {
       getWorkProofFromOutlookQuery: any;
@@ -94,13 +125,13 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
           isDocumentTemplate: true,
           documentUploadType:
             documentType && documentType.value ? documentType.value : "",
-          document: file
+          document: file,
         };
 
         await addUserDocuments({
           variables: {
-            documentInput
-          }
+            documentInput,
+          },
         });
         if (!toast.isActive(toastId)) {
           toast.dismiss();
@@ -150,8 +181,8 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
       await getWorkProofFromOutlookQuery({
         variables: {
           documentType:
-            documentType && documentType.value ? documentType.value : ""
-        }
+            documentType && documentType.value ? documentType.value : "",
+        },
       });
       if (!toast.isActive(toastId)) {
         toast.dismiss();
@@ -166,6 +197,39 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
     }
     setLoading(false);
   };
+
+  // Call when select caregiver in performed work section
+  useEffect(() => {
+    if(caregiverFilter && caregiverFilter.value){
+      getDataByCaregiverUserId({
+        variables: {
+          userId : caregiverFilter && caregiverFilter.value ? parseInt(caregiverFilter.value) : null
+        },
+      });
+    }
+  }, [caregiverFilter]);
+
+  useEffect(() => {
+    console.log("efbjdgfvd");
+    
+    if(caregiverData && caregiverData.getAppointmentDetailsByUserId && caregiverData.getAppointmentDetailsByUserId.length){
+      setappointmentData(caregiverData.getAppointmentDetailsByUserId)
+    }
+  }, [caregiverData]);
+
+  const handleChange = (e: any, name: string) => {
+    if (name === "id") {
+      console.log("eeee", e.target.value);
+      setsearchById(e.target.value);
+      setcaregiverFilter(undefined);
+    } else {
+      console.log("hjdbfhjdv", e);
+      setcaregiverFilter(e);
+      setsearchById("");
+    }
+  };
+console.log("appointmentData",appointmentData);
+
   return (
     <>
       <div className="common-detail-page">
@@ -279,7 +343,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                             </div>
                           ) : null}
                           <Dropzone
-                            onDrop={acceptedFiles => {
+                            onDrop={(acceptedFiles) => {
                               handleUpload(acceptedFiles);
                             }}
                             maxSize={maxFileSize10MB}
@@ -291,7 +355,7 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                               getInputProps,
                               isDragActive,
                               isDragReject,
-                              rejectedFiles
+                              rejectedFiles,
                             }) => {
                               let isValidFile = true;
                               if (rejectedFiles.length > 0) {
@@ -459,141 +523,13 @@ const WorkingProofForm: FunctionComponent<FormikProps<IWorkingProofFormValues> &
                     />
                   </Col>
                   <Col lg={"4"}>
-                    <div>
-                      <h5 className="content-title">
-                        {languageTranslation("PERFORMED_WORK_HEADING")}
-                      </h5>
-                      <div className="working-height">
-                        <div className="document-form py-2 px-3">
-                          <Row>
-                            <Col lg={"12"}>
-                              <FormGroup>
-                                <Row className="align-items-center">
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label">
-                                      {languageTranslation("ID")}
-                                    </Label>
-                                  </Col>
-                                  <Col sm="8">
-                                    <div>
-                                      <Input
-                                        type="text"
-                                        name={"lastName"}
-                                        placeholder={languageTranslation("ID")}
-                                        className="width-common"
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
-                            </Col>
-                            <Col lg={"12"}>
-                              <FormGroup>
-                                <Row className="align-items-center">
-                                  <Col sm="4">
-                                    <Label className="form-label col-form-label">
-                                      {languageTranslation("MENU_CAREGIVER")}
-                                    </Label>
-                                  </Col>
-                                  <Col sm="8">
-                                    <div>
-                                      <Select
-                                        placeholder={languageTranslation("SELECT_CAREGIVER")}
-                                        options={State}
-                                        classNamePrefix="custom-inner-reactselect"
-                                        className={"custom-reactselect"}
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </FormGroup>
-                            </Col>
-                          </Row>
-                        </div>
-                        <Table bordered hover responsive>
-                          <thead className="thead-bg">
-                            <tr>
-                              <td>Begin</td>
-                              <td>Facility</td>
-                              <td>Department</td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>
-                                <div className="d-flex align-items-center">
-                                  <span className=" checkbox-custom  mr-2">
-                                    <input
-                                      type="checkbox"
-                                      id="checkAll"
-                                      className=""
-                                    />
-                                    <label className=""></label>
-                                  </span>
-                                  <div>20.08.2019</div>
-                                </div>
-                              </td>
-                              <td>Nursing</td>
-                              <td>central department</td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div className="d-flex align-items-center">
-                                  <span className=" checkbox-custom  mr-2">
-                                    <input
-                                      type="checkbox"
-                                      id="checkAll"
-                                      className=""
-                                    />
-                                    <label className=""></label>
-                                  </span>
-                                  <div>20.08.2019</div>
-                                </div>
-                              </td>
-                              <td>Nursing</td>
-                              <td>central department</td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div className="d-flex align-items-center">
-                                  <span className=" checkbox-custom  mr-2">
-                                    <input
-                                      type="checkbox"
-                                      id="checkAll"
-                                      className=""
-                                    />
-                                    <label className=""></label>
-                                  </span>
-                                  <div>20.08.2019</div>
-                                </div>
-                              </td>
-                              <td>Nursing</td>
-                              <td>central department</td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div className="d-flex align-items-center">
-                                  <span className=" checkbox-custom  mr-2">
-                                    <input
-                                      type="checkbox"
-                                      id="checkAll"
-                                      className=""
-                                    />
-                                    <label className=""></label>
-                                  </span>
-                                  <div>20.08.2019</div>
-                                </div>
-                              </td>
-                              <td>Nursing</td>
-                              <td>central department</td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                        <div className="d-flex align-items-center justify-content-center  py-3 document-preview">
-                          <span>Above data is static</span>
-                        </div>
-                      </div>
-                    </div>
+                    <PerformedWork
+                      careGiversOptions={careGiversOptions}
+                      handleChange={handleChange}
+                      appointmentList = {appointmentData && appointmentData.length ? appointmentData : []}
+                      caregiverDataLoading={caregiverDataLoading}
+                      qualificationList={qualificationList && qualificationList.getQualifications && qualificationList.getQualifications.length ? qualificationList.getQualifications : []}
+                    />
                   </Col>
                 </Row>
               </Form>

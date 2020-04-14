@@ -10,23 +10,12 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
-import Select from "react-select";
-import DayPickerInput from "react-day-picker/DayPickerInput";
 import { languageTranslation } from "../../../../../helpers";
-import refresh from "../../../assets/img/refresh.svg";
-
-import pen from "../../../../assets/img/header-icons/pen.svg";
-import CompleteTime from "../../../../assets/img/header-icons/tab-icons/complete-time.svg";
-import idea from "../../../../assets/img/header-icons/tab-icons/idea.svg";
-import massege from "../../../../assets/img/header-icons/tab-icons/massege.svg";
 
 import { RouteComponentProps } from "react-router";
 import "../index.scss";
-import right_arrow from "../../../../assets/img/rightarrow.svg";
-import left_arrow from "../../../../assets/img/leftarrow.svg";
 import "react-day-picker/lib/style.css";
 import {
-  InvoiceSummaryFilter,
   CareInstInActiveAttrId,
   deactivatedListColor,
   CareInstTIMyoCYAttrId,

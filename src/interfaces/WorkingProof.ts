@@ -1,3 +1,5 @@
+import { IReactSelectInterface } from "./Constant";
+
 export interface IWorkingProofFormValues {
   document: File | null;
 }
@@ -21,4 +23,12 @@ export interface IDocumentInputInterface {
 export interface IDocumentPreviewInterface {
   documentUrls: string;
   imageUrls: string;
+}
+
+export interface IDocumentPerformedWorkInterface{
+  careGiversOptions: IReactSelectInterface[] | undefined
+  handleChange: (value:any, name:string) => void
+  appointmentList: any
+  caregiverDataLoading: boolean
+  qualificationList: any
 }

@@ -5,8 +5,9 @@ import Loader from "../../containers/Loader/Loader";
 import { languageTranslation } from "../../../../helpers";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-export const CareInstitutionListComponent: FunctionComponent<ICareGiverListComponentProps &
-  any> = (props: ICareGiverListComponentProps & any) => {
+export const CareInstitutionListComponent: FunctionComponent<
+  ICareGiverListComponentProps & any
+> = (props: ICareGiverListComponentProps & any) => {
   const {
     careInstitutions,
     handleSelectAll,
@@ -17,7 +18,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
     handleInfiniteScroll,
     page,
     bulkcareGivers,
-    careInstData
+    careInstData,
   } = props;
 
   const handleChecked = (id: string) => {
@@ -27,15 +28,15 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
       );
       const e = {
         target: {
-          checked: !found
-        }
+          checked: !found,
+        },
       };
       handleCheckElement(e, id);
     } else {
       const e = {
         target: {
-          checked: true
-        }
+          checked: true,
+        },
       };
       handleCheckElement(e, id);
     }
@@ -47,9 +48,9 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
     lastName = "",
     email = "",
     id = "",
-    userId = '',
+    userId = "",
     canstitution = {},
-    contact = []
+    contact = [],
   } = getCareInstitution ? getCareInstitution : {};
   const { companyName = "" } = canstitution ? canstitution : {};
   const temp = [
@@ -59,8 +60,8 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
       name: [lastName, firstName].join(" "),
       email,
       userId,
-      id
-    }
+      id,
+    },
   ];
 
   if (contact && contact.length) {
@@ -71,7 +72,7 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
         email = "",
         contact_type = {},
         id = "",
-        userId = ''
+        userId = "",
       } = item ? item : {};
       temp.push({
         id,
@@ -82,81 +83,83 @@ export const CareInstitutionListComponent: FunctionComponent<ICareGiverListCompo
             ? contact_type.contactType
             : "",
         name: [surName, firstName].join(" "),
-        email
+        email,
       });
     });
   }
 
-  
-  
   return (
     <Col lg={"6"} className="pr-lg-0">
-      <Table bordered hover responsive className="mb-0">
-        <thead className="thead-bg">
-          <tr>
-            <th className="checkbox-th-column"></th>
-            <th className="">{languageTranslation("MENU_INSTITUTION")}</th>
-            <th className="">{languageTranslation("CONTACT")}</th>
-            <th>{languageTranslation("NAME")}</th>
-            <th className="">{languageTranslation("EMAIL")}</th>
-            {/* <th>{languageTranslation('SALUTATION')}</th> */}
-          </tr>
-        </thead>
-        <tbody>
-          {loading ? (
+      <div className="careinstitution-list custom-scroll">
+        <Table bordered hover responsive className="mb-0">
+          <thead className="thead-bg">
             <tr>
-              <td className={"table-loader"} colSpan={8}>
-                <Loader />
-              </td>
+              <th className="checkbox-th-column"></th>
+              <th className="">{languageTranslation("MENU_INSTITUTION")}</th>
+              <th className="">{languageTranslation("CONTACT")}</th>
+              <th>{languageTranslation("NAME")}</th>
+              <th className="">{languageTranslation("EMAIL")}</th>
+              {/* <th>{languageTranslation('SALUTATION')}</th> */}
             </tr>
-          ) : temp && temp.length ? (
-            temp.map((item: any, index: number) => {
-              const {
-                companyName = "",
-                contactType = "",
-                name = "",
-                email = ""
-              } = item ? item : {};
-              return (
-                <tr
-                  key={index}
-                  onClick={(e: any) => {
-                    handleChecked(item.id);
-                  }}
-                  className="cursor-pointer"
-                >
-                  <td>
-                    <span className=" checkbox-custom  ">
-                      <input
-                        type="checkbox"
-                        id="check"
-                        name="checkbox"
-                        className=""
-                        checked={
-                          selectedCareGiver &&
-                          selectedCareGiver.length &&
-                          selectedCareGiver.indexOf(parseInt( item.id)) > -1
-                            ? true
-                            : false
-                        }
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          handleCheckElement(e,  item.id);
-                        }}
-                      />
-                      <label className=""></label>
-                    </span>
-                  </td>
-                  <td>{companyName}</td>
-                  <td>{contactType}</td>
-                  <td>{name}</td>
-                  <td>{email}</td>
-                  {/* <td>{item.salutation}</td> */}
-                </tr>
-              );
-            })
-          ) : null}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td className={"table-loader"} colSpan={8}>
+                  <Loader />
+                </td>
+              </tr>
+            ) : temp && temp.length ? (
+              temp.map((item: any, index: number) => {
+                const {
+                  companyName = "",
+                  contactType = "",
+                  name = "",
+                  email = "",
+                } = item ? item : {};
+                return (
+                  <tr
+                    key={index}
+                    onClick={(e: any) => {
+                      handleChecked(item.id);
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <td>
+                      <span className=" checkbox-custom  ">
+                        <input
+                          type="checkbox"
+                          id="check"
+                          name="checkbox"
+                          className=""
+                          checked={
+                            selectedCareGiver &&
+                            selectedCareGiver.length &&
+                            selectedCareGiver.indexOf(parseInt(item.id)) > -1
+                              ? true
+                              : false
+                          }
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            handleCheckElement(e, item.id);
+                          }}
+                        />
+                        <label className=""></label>
+                      </span>
+                    </td>
+                    <td>{companyName}</td>
+                    <td>{contactType}</td>
+                    <td>{name}</td>
+                    <td>{email}</td>
+                    {/* <td>{item.salutation}</td> */}
+                  </tr>
+                );
+              })
+            ) : null}
+          </tbody>
+        </Table>
+      </div>
     </Col>
   );
 };

@@ -147,7 +147,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       let validate: boolean = false
       if (name === "workingHoursFromDate") {
         validate = dateDiffernceValidator(dateData, current, workingHoursFromDate, name)
-        console.log("workingHoursFromDate", validate);
         if (!validate) {
           setworkingHoursFromErrMsg("Enter Valid Date")
         } else {
@@ -161,7 +160,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       }
       else if (name === "workingHoursToDate") {
         validate = dateDiffernceValidator(workingHoursFromDate, current, workingHoursToDate, name)
-        console.log("dateFromdateFrom", validate);
         if (!validate) {
           setworkingHoursToErrMsg("Enter Valid Date")
         } else {
@@ -908,7 +906,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                           {...field}
                                           mask={DateMask}
                                           className={
-                                            errors.workingHoursFromDate && touched.workingHoursFromDate
+                                            workingHoursFromErrMsg && workingHoursFromErrMsg !== ""
                                               ? 'text-input error form-control'
                                               : 'text-input form-control'
                                           }
@@ -977,7 +975,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                           {...field}
                                           mask={DateMask}
                                           className={
-                                            errors.workingHoursToDate && touched.workingHoursToDate
+                                            workingHoursToErrMsg && workingHoursToErrMsg !== ""
                                               ? 'text-input error form-control'
                                               : 'text-input form-control'
                                           }
@@ -1055,7 +1053,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                           {...field}
                                           mask={DateMask}
                                           className={
-                                            errors.breakFromDate && touched.breakFromDate
+                                            breakHoursFromErrMsg && breakHoursFromErrMsg !== "" 
                                               ? 'text-input error form-control'
                                               : 'text-input form-control'
                                           }
@@ -1126,7 +1124,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                           {...field}
                                           mask={DateMask}
                                           className={
-                                            errors.breakToDate && touched.breakToDate
+                                            breakHoursToErrMsg && breakHoursToErrMsg !== ""
                                               ? 'text-input error form-control'
                                               : 'text-input form-control'
                                           }

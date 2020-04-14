@@ -307,11 +307,34 @@ query getAppointmentDetailsByUserId($userId: ID) {
 }
 `;
 
+const GET_APPOINTMENT_DETAILS_BY_ID = gql`
+query getAppointmentDetailsById($id: ID) {
+  getAppointmentDetailsById(id: $id) {
+    id
+    avabilityId
+    requirementId
+    status
+    date
+ ca{
+  id
+ }
+    cr{
+      id
+      name
+      division{
+        name
+        qualifications
+      }
+    }
+  }
+}
+`;
 export const AppointmentsQueries = [
   GET_USERS_BY_QUALIFICATION_ID,
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
   GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
   GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION,
-  GET_APPOINTMENT_DETAILS_BY_USERID
+  GET_APPOINTMENT_DETAILS_BY_USERID,
+  GET_APPOINTMENT_DETAILS_BY_ID
 ];

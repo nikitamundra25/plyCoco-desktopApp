@@ -98,6 +98,15 @@ const UN_LINK_REQUIREMENT = gql`
   }
 `;
 
+const MAP_WORKPROOF_WITH_APPOINTMENT = gql`
+  mutation MapWorkProofWithAppointment($appointmentInput:AppointmentInput!) {
+    mapWorkProofWithAppointment(appointmentInput: $appointmentInput) {
+      appointmentId
+   workProofId
+    }
+  }
+`;
+
 export const AppointmentMutations = [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
@@ -107,4 +116,5 @@ export const AppointmentMutations = [
   DELETE_CAREGIVER_AVABILITY,
   LINK_REQUIREMENT,
   UN_LINK_REQUIREMENT,
+  MAP_WORKPROOF_WITH_APPOINTMENT
 ];

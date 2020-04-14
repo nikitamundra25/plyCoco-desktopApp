@@ -1133,7 +1133,9 @@
   "FOR":"for",
   "Today":"Today",
   "SELECT_APPOINTMENT_LABEL":"Select appointment" ,
-  "SELECT_CAREINSTITUTION_FIRST": "Select careInstitution first"
+  "SELECT_CAREINSTITUTION_FIRST": "Select careInstitution first",
+  "NO_APPOINTMENT_CREATED_ACC_TO_SEARCH": "Currently no appointment has been created according to search" 
+
 
 
 }

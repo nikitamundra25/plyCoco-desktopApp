@@ -23,7 +23,24 @@ import { defaultDateFormat } from "../../../../config";
 const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
   props: IDocumentPerformedWorkInterface
 ) => {
-  const { careGiversOptions ,handleChange, appointmentList,caregiverDataLoading, qualificationList} = props;
+  const {
+    careGiversOptions,
+    handleChange,
+    appointmentList,
+    caregiverDataLoading,
+    qualificationList,
+    onFilterById,
+    handleSelect,
+    checkboxMark
+  } = props;
+
+  const handleKeyPress = (e: any) => {
+    if (e.which === 13 || e.keyCode === 13) {
+      onFilterById(e.target.value);
+    } else {
+      return;
+    }
+  };
 
   return (
     <div>
@@ -48,7 +65,8 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                         name={"id"}
                         placeholder={languageTranslation("ID")}
                         className="width-common"
-                        onChange={(e:any)=>handleChange(e,"id")}
+                        onChange={(e: any) => handleChange(e, "id")}
+                        onKeyPress={(e: any) => handleKeyPress(e)}
                       />
                     </div>
                   </Col>
@@ -71,7 +89,9 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                         classNamePrefix="custom-inner-reactselect"
                         className={"custom-reactselect"}
                         components={{ Option: CustomOption }}
-                        onChange={(value:any)=>handleChange(value,"caregiver")}
+                        onChange={(value: any) =>
+                          handleChange(value, "caregiver")
+                        }
                       />
                     </div>
                   </Col>
@@ -83,71 +103,96 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
-            <td></td>
-            <td>Id</td>
-              <td>Begin</td>
-              <td>Facility</td>
-              <td>Department</td>
+              <td></td>
+              <td>{languageTranslation("ID")} </td>
+              <td>{languageTranslation("BEGIN")} </td>
+              <td>{languageTranslation("FACILITY")} </td>
+              <td>{languageTranslation("DEPARTMENT")} </td>
             </tr>
           </thead>
           <tbody>
-          {caregiverDataLoading ? (
-            <tr>
-              <td className={"table-loader"} colSpan={8}>
-                <Loader />
-              </td>
-            </tr>
-          ) : appointmentList && appointmentList.length ? (
-            appointmentList.map((list: any, index: number) => {
+            {caregiverDataLoading ? (
+              <tr>
+                <td className={"table-loader"} colSpan={8}>
+                  <Loader />
+                </td>
+              </tr>
+            ) : appointmentList && appointmentList.length ? (
+              appointmentList.map((list: any, index: number) => {
                 let qualiName: string = "";
-  if (list.cr && list.cr.division &&  list.cr.division.qualifications && list.cr.division.qualifications.length) {
-    let temp = qualificationList.filter((elem: any) =>
-    list.cr.division.qualifications.find((id: any) => elem.id === id)
-    );
-    if (temp && temp.length) {
-      temp.map((key: any) => {
-        qualiName += `${key.name} `;
-      });
-    }
-  }
-              return (
-            <tr>
-            <td> <span className=" checkbox-custom">
-                    <input type="checkbox" id="checkAll" className="" />
-                    <label className=""></label>
-                  </span></td>
-            <td>{list.id} </td>
-              <td>
-                {/* <div className="d-flex align-items-center"> */}
-                 
-                  <div>{moment(list.date).format(defaultDateFormat)} </div>
-                {/* </div> */}
-              </td>
-              <td>{qualiName ? qualiName : "-"}</td>
-              <td>{list.cr && list.cr.division &&  list.cr.division.name? list.cr.division.name  : "-"} </td>
-            </tr>
-           );
-        })
-      ) : (
-        <tr className={"text-center no-hover-row"}>
-          <td colSpan={12} className={"pt-5 pb-5"}>
-            <div className="no-data-section">
-              <div className="no-data-icon">
-                <i className="icon-ban" />
-              </div>
-              <h4 className="mb-1">
-                {languageTranslation("NO_CAREGIVER_ADDED")}{" "}
-              </h4>
-              
-            </div>
-          </td>
-        </tr>
-      )}
+                if (
+                  list.cr &&
+                  list.cr.division &&
+                  list.cr.division.qualifications &&
+                  list.cr.division.qualifications.length
+                ) {
+                  let temp = qualificationList.filter((elem: any) =>
+                    list.cr.division.qualifications.find(
+                      (id: any) => elem.id === id
+                    )
+                  );
+                  if (temp && temp.length) {
+                    temp.map((key: any) => {
+                      qualiName += `${key.name} `;
+                    });
+                  }
+                }
+        
+                
+                return (
+                  <tr>
+                    <td>
+                      {" "}
+                      <span className=" checkbox-custom">
+                        <input
+                          type="checkbox"
+                          id="checkAll"
+                          className=""
+                          checked={
+                            checkboxMark.includes(parseInt(list.id)) ? true : false
+                          }
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            handleSelect(e,list.id);
+                          }}
+                        />
+                        <label className=""></label>
+                      </span>
+                    </td>
+                    <td>{list.id} </td>
+                    <td>
+                      {/* <div className="d-flex align-items-center"> */}
+                      <div>{moment(list.date).format(defaultDateFormat)} </div>
+                      {/* </div> */}
+                    </td>
+                    <td>{qualiName ? qualiName : "-"}</td>
+                    <td>
+                      {list.cr && list.cr.division && list.cr.division.name
+                        ? list.cr.division.name
+                        : "-"}{" "}
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr className={"text-center no-hover-row"}>
+                <td colSpan={12} className={"pt-5 pb-5"}>
+                  <div className="no-data-section">
+                    <div className="no-data-icon">
+                      <i className="icon-ban" />
+                    </div>
+                    <h4 className="mb-1">
+                      {languageTranslation(
+                        "NO_APPOINTMENT_CREATED_ACC_TO_SEARCH"
+                      )}{" "}
+                    </h4>
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </Table>
-        <div className="d-flex align-items-center justify-content-center  py-3 document-preview">
-          <span>Above data is static</span>
-        </div>
       </div>
     </div>
   );

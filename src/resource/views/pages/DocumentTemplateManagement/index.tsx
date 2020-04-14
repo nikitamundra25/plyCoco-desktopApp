@@ -41,7 +41,7 @@ const WorkingProof: FunctionComponent = () => {
   );
 
   const [documentType, setdocumentType] = useState<IReactSelectInterface>({
-    value: 'Working Proof',
+    value: 'workingProof',
     label: 'Working Proof'
   });
 

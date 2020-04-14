@@ -8,6 +8,7 @@ import {
   Form,
   Table,
   UncontrolledTooltip,
+  Button
 } from "reactstrap";
 import moment from "moment";
 import Dropzone from "react-dropzone";
@@ -29,6 +30,7 @@ import {
   IDocumentInputInterface,
   IReactSelectInterface,
   IQualifications,
+  IAppointmentInput,
 } from "../../../../interfaces";
 import displaydoc from "../../../assets/img/display-doc.svg";
 import upload from "../../../assets/img/upload.svg";
@@ -41,6 +43,7 @@ import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
 import {
   DocumentUploadMutations,
   DocumentMutations,
+  AppointmentMutations
 } from "../../../../graphql/Mutations";
 
 import { toast } from "react-toastify";
@@ -50,12 +53,20 @@ import PerformedWork from "./PerformedWork";
 import { AppointmentsQueries, GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
 const [ADD_DOCUMENT] = DocumentUploadMutations;
 const [, , , , , , , , , GET_DOCUMENTS_FROM_OUTLOOK] = DocumentMutations;
+const [  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  MAP_WORKPROOF_WITH_APPOINTMENT] = AppointmentMutations
 const [ ,
   ,
   ,
   ,
   ,
-  GET_APPOINTMENT_DETAILS_BY_USERID]= AppointmentsQueries;
+  GET_APPOINTMENT_DETAILS_BY_USERID, GET_APPOINTMENT_DETAILS_BY_ID]= AppointmentsQueries;
 let toastId: any;
 
 const WorkingProofForm: FunctionComponent<
@@ -87,7 +98,7 @@ const WorkingProofForm: FunctionComponent<
     { documentInput: IDocumentInputInterface }
   >(ADD_DOCUMENT);
 
- // To fetch appointment list by caregiver Id
+ // To fetch appointment list by caregiver Id GET_APPOINTMENT_DETAILS_BY_ID
  const [
   getDataByCaregiverUserId,
   { data: caregiverData, loading: caregiverDataLoading },
@@ -96,6 +107,20 @@ const WorkingProofForm: FunctionComponent<
   // notifyOnNetworkStatusChange: true
 });
 
+ // To fetch appointment list by caregiver Id 
+ const [
+  getAppointmentDataById,
+  { data: appointmentDataById, loading: appointmentIdLoading },
+] = useLazyQuery<any, any>(GET_APPOINTMENT_DETAILS_BY_ID, {
+  fetchPolicy: "no-cache",
+  // notifyOnNetworkStatusChange: true
+});
+ 
+  // Mutation to upload document
+  const [mapDocumentsWithAppointment] = useMutation<
+    { Appointment: any },
+    { appointmentInput: IAppointmentInput }
+  >(MAP_WORKPROOF_WITH_APPOINTMENT);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -105,6 +130,7 @@ const WorkingProofForm: FunctionComponent<
     IReactSelectInterface | undefined
   >(undefined);
   const [appointmentData, setappointmentData] = useState<any>([]);
+  const [checkboxMark, setcheckboxMark] = useState<any>([]);
 
   const [
     getWorkProofFromOutlookQuery,
@@ -209,9 +235,16 @@ const WorkingProofForm: FunctionComponent<
     }
   }, [caregiverFilter]);
 
+
+
   useEffect(() => {
-    console.log("efbjdgfvd");
-    
+    if(appointmentDataById && appointmentDataById.getAppointmentDetailsById){ 
+      setappointmentData([appointmentDataById.getAppointmentDetailsById])
+    }
+  }, [appointmentDataById]);
+
+
+  useEffect(() => {
     if(caregiverData && caregiverData.getAppointmentDetailsByUserId && caregiverData.getAppointmentDetailsByUserId.length){
       setappointmentData(caregiverData.getAppointmentDetailsByUserId)
     }
@@ -219,16 +252,40 @@ const WorkingProofForm: FunctionComponent<
 
   const handleChange = (e: any, name: string) => {
     if (name === "id") {
-      console.log("eeee", e.target.value);
       setsearchById(e.target.value);
       setcaregiverFilter(undefined);
     } else {
-      console.log("hjdbfhjdv", e);
       setcaregiverFilter(e);
       setsearchById("");
     }
   };
-console.log("appointmentData",appointmentData);
+
+const onFilterById = (value:any) => {
+  if(value){ 
+  getAppointmentDataById({
+    variables: {
+      id : searchById ? parseInt(searchById) : null
+    },
+  });
+}
+}
+
+const handleSelectCheckbox = (e: React.ChangeEvent<HTMLInputElement>, id:string) =>{
+const { target } = e;
+const { checked } = target;
+if(checked){
+  setcheckboxMark((selectedCareGiver: any) => [
+    ...selectedCareGiver,
+    parseInt(id)
+  ]);
+}else{
+  if (checkboxMark.indexOf(parseInt(id)) > -1) {
+    checkboxMark.splice(checkboxMark.indexOf(parseInt(id)), 1);
+    setcheckboxMark([...checkboxMark]);
+  }
+}
+}
+
 
   return (
     <>
@@ -278,6 +335,16 @@ console.log("appointmentData",appointmentData);
                 <span className="header-nav-text">
                   {languageTranslation("HIDE_OLD_FILES_HEADER")}
                 </span>
+              </div>
+              <div className='ml-auto'>
+                <Button
+                  color='primary'
+                  // onClick={handleSendEmail}
+                  className='btn-email-save ml-auto mr-2 btn btn-primary'
+               
+                >
+                  <span>{languageTranslation('SEND')}</span>
+                </Button>
               </div>
             </div>
           </div>
@@ -527,9 +594,12 @@ console.log("appointmentData",appointmentData);
                       careGiversOptions={careGiversOptions}
                       handleChange={handleChange}
                       appointmentList = {appointmentData && appointmentData.length ? appointmentData : []}
-                      caregiverDataLoading={caregiverDataLoading}
+                      caregiverDataLoading={caregiverDataLoading ? caregiverDataLoading :  appointmentIdLoading}
                       qualificationList={qualificationList && qualificationList.getQualifications && qualificationList.getQualifications.length ? qualificationList.getQualifications : []}
-                    />
+                      onFilterById={onFilterById}
+                      handleSelect={handleSelectCheckbox}
+                      checkboxMark={checkboxMark}
+                />
                   </Col>
                 </Row>
               </Form>

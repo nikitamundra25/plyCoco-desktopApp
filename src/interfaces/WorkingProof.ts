@@ -8,6 +8,11 @@ export interface IWorkingProofValidationSchema {
   document: File | null;
 }
 
+export interface IAppointmentInput {
+  appointmentId: number | null
+   workProofId : number | null
+}
+
 export interface IDocumentInterface {
   id: any;
   document: string;
@@ -31,4 +36,7 @@ export interface IDocumentPerformedWorkInterface{
   appointmentList: any
   caregiverDataLoading: boolean
   qualificationList: any
+  onFilterById:(value:any) => void;
+  handleSelect: (e:React.ChangeEvent<HTMLInputElement> , id:string) => void;
+  checkboxMark: any
 }

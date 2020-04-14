@@ -36,27 +36,32 @@
           &.date-column {
             width: 100px;
             min-width: 100px;
+            max-width: 100px;
           }
           &.name-column {
             width: 150px;
             min-width: 100px;
-            max-width: 200px;
+            max-width: 150px;
           }
           &.username-column {
             width: 150px;
             min-width: 100px;
+            max-width: 150px;
           }
           &.type-column {
             width: 80px;
             min-width: 80px;
+            max-width: 80px;
           }
           &.doctype-column {
             width: 150px;
             min-width: 100px;
+            max-width: 150px;
           }
           &.ipaddress-column {
             width: 80px;
             min-width: 80px;
+            max-width: 90px;
           }
         }
       }

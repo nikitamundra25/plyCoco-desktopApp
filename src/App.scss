@@ -375,7 +375,7 @@ body {
   }
 
   .custom-careinstitution-height {
-    height: calc(100vh - 385px);
+    height: calc(100vh - 415px);
     overflow-y: auto;
     overflow-x: hidden;
     @media only screen and (max-width: 991px) {
@@ -889,7 +889,7 @@ body {
       height: 35px;
     }
     &:hover {
-      background-color: #976511!important;
+      background-color: #976511 !important;
     }
   }
 }
@@ -3460,6 +3460,8 @@ html:not([dir="rtl"]) {
       }
       .attribute-div {
         flex: 1;
+        max-width: calc(100% - 185px);
+
         // min-width: 275px;
       }
     }

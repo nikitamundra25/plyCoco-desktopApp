@@ -72,7 +72,7 @@ const UnlinkAppointment: FunctionComponent<any> = (props: IUnlinkInterface) => {
                         setcheckMark(checked);
                       }}
                     />
-                    <Label for="isWorkingProof">
+                    <Label for="checkMark">
                       {languageTranslation("CHECK_APPOINTMENT")}
                     </Label>
                   </div>

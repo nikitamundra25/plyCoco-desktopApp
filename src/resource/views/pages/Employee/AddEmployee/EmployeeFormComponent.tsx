@@ -703,7 +703,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         type="radio"
                                         id="permission-1"
                                         name="accessLevel"
-                                        label="All"
+                                        label={languageTranslation("All")}
                                         checked={
                                           accessLevel === "all" ? true : false
                                         }
@@ -716,7 +716,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         type="radio"
                                         id="permission-2"
                                         name="accessLevel"
-                                        label="Basic"
+                                        label={languageTranslation("EMPLOYEE_BASIC")}
                                         checked={
                                           accessLevel === "basic" ? true : false
                                         }
@@ -729,7 +729,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         type="radio"
                                         id="permission-3"
                                         name="accessLevel"
-                                        label="Invoice"
+                                        label={languageTranslation("EMPLOYEE_INVOICE")}
                                         checked={
                                           accessLevel === "invoice"
                                             ? true

@@ -6,16 +6,22 @@ import {
   FormGroup,
   Label,
   Button,
-  ModalFooter
+  ModalFooter,
 } from "reactstrap";
 import close from "../../../assets/img/cancel.svg";
 import closehover from "../../../assets/img/cancel-hover.svg";
 import { languageTranslation, formatFileSize } from "../../../../helpers";
 
 const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
-  const { show, handleClose, documentUrls,imageUrls ,documentSelectionId} = props;
-    console.log("documentSelectionId",documentSelectionId);
-    
+  const {
+    show,
+    handleClose,
+    documentUrls,
+    imageUrls,
+    documentSelectionId,
+  } = props;
+  console.log("documentSelectionId", documentSelectionId);
+
   const externalCloseBtn = (
     <button
       className="close modal-close"
@@ -28,60 +34,56 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
     </button>
   );
 
-  let fileType: any = documentSelectionId && documentSelectionId.fileName ? documentSelectionId.fileName.substr(documentSelectionId.fileName.lastIndexOf('.') + 1) : ""
+  let fileType: any =
+    documentSelectionId && documentSelectionId.fileName
+      ? documentSelectionId.fileName.substr(
+          documentSelectionId.fileName.lastIndexOf(".") + 1
+        )
+      : "";
   return (
     <div>
       <Modal
         isOpen={show}
-        className="common-modal attribute-modal"
+        className="common-modal popup-modal"
         centered
         size="l"
       >
         <ModalHeader close={externalCloseBtn}>
-         {languageTranslation("FILE_DOWNLOAD")}
+          {languageTranslation("FILE_DOWNLOAD")}
         </ModalHeader>
         <ModalBody>
-          <div className=" align-items-center mb-2">
-            {/* <div className='custom-header-nav-item mr-3'> */}
-            {/* <span className='custom-header-nav-icon'>
-                <img src={filter} alt='' />
-              </span> */}
-            <div className="unlink-label mb-2">
-                {languageTranslation("OPEN_SAVE_FILE")}
-            </div>
-            <div className="d-flex flex-column justify-content-between">
-              <span>
-               Name: {documentSelectionId.fileName}
-               </span>
-               <span>
-               Type: {`${fileType}, ${formatFileSize(documentSelectionId.fileSize)}`}
-               </span>
-            </div>
+          <div className="unlink-label mb-2">
+            {languageTranslation("OPEN_SAVE_FILE")}
           </div>
-          {/* </div> */}
+
+          <div className="d-flex  justify-content-between filelist-name">
+            <span className="text-label">Name:</span>
+            <span className="text-value"> {documentSelectionId.fileName} </span>
+          </div>
+          <div className="d-flex  justify-content-between filelist-name">
+            <span className="text-label">Type:</span>
+            <span className="text-value">{`${fileType}, ${formatFileSize(
+              documentSelectionId.fileSize
+            )}`}</span>
+          </div>
         </ModalBody>
         <ModalFooter className="unlink-btn-wrap">
-          <div className="d-flex align-items-center  w-100 ">
-            <Button
-              className={"btn-save text-capitalize"}
-              color="primary"
-            >
-                {/* <a href={documentUrls} download  target="_blank">  */}
-             {languageTranslation("OPENFILE")}
-                  {/* </a> */}
+          <div className="d-flex align-items-center justify-content-end w-100 ">
+            <Button className={" text-capitalize mr-2"} color="primary">
+              {/* <a href={documentUrls} download  target="_blank">  */}
+              {languageTranslation("OPENFILE")}
+              {/* </a> */}
             </Button>
 
-            <a href={imageUrls ? imageUrls : documentUrls} download>
+            <a
+              href={imageUrls ? imageUrls : documentUrls}
+              download
+              className={" btn-primary text-capitalize mr-2"}
+            >
+              {languageTranslation("SUBMIT")}
+            </a>
             <Button
-              className={"btn-save text-capitalize"}
-              color="primary"
-              type="submit"
-            >    
-           {languageTranslation("SUBMIT")}
-            </Button>
-</a>
-            <Button
-              className={"btn-save text-capitalize"}
+              className={" text-capitalize"}
               color="secondary"
               onClick={handleClose}
             >

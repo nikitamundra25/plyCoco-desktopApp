@@ -1006,7 +1006,9 @@ const Appointment: FunctionComponent = (props: any) => {
               let records = user.careinstitution_requirements.filter(
                 (available: any) =>
                   moment(d.dateString).isSame(moment(available.date), "day")
-              );
+              )
+              // To sort requirements by id
+              .sort((a:any,b:any) => b.id - a.id);
               for (let i = 0; i < records.length; i++) {
                 // To update the status of selected cell accordingly
                 if (

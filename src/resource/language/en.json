@@ -1130,5 +1130,6 @@
   "Today":"Today",
   "SELECT_APPOINTMENT_LABEL":"Select appointment",
   "LAST_TIME":"Last Time",
-  "SELECT_CAREINSTITUTION_FIRST": "Select careInstitution first"
+  "SELECT_CAREINSTITUTION_FIRST": "Select careInstitution first",
+  "NO_INVOICE_FOR_LIST": "No contract list for invoice creation"
 }

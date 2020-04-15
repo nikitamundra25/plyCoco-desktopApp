@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
   const { invoiceListLoading, invoiceList } = props;
   let history = useHistory();
-console.log("invoiceList",invoiceList);
+  console.log("invoiceList", invoiceList);
 
   return (
     <div className="table-minheight createinvoices-table">
@@ -55,19 +55,19 @@ console.log("invoiceList",invoiceList);
             </tr>
           ) : invoiceList && invoiceList.length ? (
             invoiceList.map((list: any, index: number) => {
-                console.log("list",list);
-                let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : ""
-                let timeStamp: any = ""
-                console.log("time",time);
-                 if(time === "f" || time === "s" || time === "n"){
-                    timeStamp = "08"
-                 }else{
-                     let splitData = time === "f" ? "f" : time === "s" ? "s" : time === "n" ? "n" : ""
-                     console.log("splitData",splitData);
-                     
-                     let split = time.split()
-                    timeStamp = ""
-                 }
+              console.log("list", list);
+              let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : ""
+              let timeStamp: any = ""
+              console.log("time", time);
+              if (time === "f" || time === "s" || time === "n") {
+                timeStamp = "08"
+              } else {
+                let splitData = time === "f" ? "f" : time === "s" ? "s" : time === "n" ? "n" : ""
+                console.log("splitData", splitData);
+
+                let split = time.split()
+                timeStamp = ""
+              }
               return (
                 <tr className="sno-col" key={index}>
                   <td className="checkbox-th-column text-center">
@@ -77,12 +77,12 @@ console.log("invoiceList",invoiceList);
                         id="check"
                         className=""
                         name={"status"}
-                        // checked={"true"}
+                      // checked={"true"}
                       />
                       <label className="">1</label>
                     </span>
                   </td>
-              <td className="invoiceid-col"> {list.id}</td>
+                  <td className="invoiceid-col"> {list.id}</td>
                   <td className="h-col">{timeStamp} </td>
                   <td className="text-col">WG in leipzig</td>
                   <td className="datetime-col">Mon 03.03.2020 19:00</td>
@@ -104,16 +104,16 @@ console.log("invoiceList",invoiceList);
                   <td className="price-col">34584.00 &euro;</td>
                   <td className="action-col">
                     <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`viewcaregiver`} 
-                       onClick={() =>
-                        history.push(
-                           AppRoutes.CARE_GIVER_VIEW.replace(
-                            ":id",
-                                list.ca.userId
-                              )  
-                        )
-                      }
-                     >
+                      <span className="btn-icon mr-2" id={`viewcaregiver`}
+                        onClick={() =>
+                          history.push(
+                            AppRoutes.CARE_GIVER_VIEW.replace(
+                              ":id",
+                              list.ca.userId
+                            )
+                          )
+                        }
+                      >
                         <UncontrolledTooltip
                           placement="top"
                           target={`viewcaregiver`}
@@ -126,13 +126,13 @@ console.log("invoiceList",invoiceList);
                         className="btn-icon mr-2"
                         id={`viewcareinstitution`}
                         onClick={() =>
-                            history.push(
-                               AppRoutes.CARE_INSTITUION_VIEW.replace(
-                                ":id",
-                                    list.cr.userId
-                                  )  
+                          history.push(
+                            AppRoutes.CARE_INSTITUION_VIEW.replace(
+                              ":id",
+                              list.cr.userId
                             )
-                          }
+                          )
+                        }
                       >
                         <UncontrolledTooltip
                           placement="top"
@@ -142,7 +142,14 @@ console.log("invoiceList",invoiceList);
                         </UncontrolledTooltip>
                         <i className="fa fa-eye"></i>
                       </span>
-                      <span className="btn-icon mr-2" id={`appointmentdetails`}>
+                      <span
+                        onClick={() =>
+                          history.push({
+                            pathname: AppRoutes.APPOINTMENT,
+                            state: { caregiver: list.ca.userId, name: list.ca.name, canstitution: list.cr.userId, avabilityId: list.avabilityId }
+                          })
+                        }
+                        className="btn-icon mr-2" id={`appointmentdetails`}>
                         <UncontrolledTooltip
                           placement="top"
                           target={`appointmentdetails`}
@@ -157,20 +164,20 @@ console.log("invoiceList",invoiceList);
               );
             })
           ) : (
-            <tr className={"text-center no-hover-row"}>
-              <td colSpan={12} className={"pt-5 pb-5"}>
-                <div className="no-data-section">
-                  <div className="no-data-icon">
-                    <i className="icon-ban" />
-                  </div>
-                  <h4 className="mb-1">
-                    {languageTranslation("NO_CAREGIVER_ADDED")}{" "}
-                  </h4>
-                  
-                </div>
-              </td>
-            </tr>
-          )}
+                <tr className={"text-center no-hover-row"}>
+                  <td colSpan={12} className={"pt-5 pb-5"}>
+                    <div className="no-data-section">
+                      <div className="no-data-icon">
+                        <i className="icon-ban" />
+                      </div>
+                      <h4 className="mb-1">
+                        {languageTranslation("NO_INVOICE_FOR_LIST")}{" "}
+                      </h4>
+
+                    </div>
+                  </td>
+                </tr>
+              )}
         </tbody>
       </Table>
     </div>

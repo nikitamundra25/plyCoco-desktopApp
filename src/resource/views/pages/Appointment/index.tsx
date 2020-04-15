@@ -1291,6 +1291,9 @@ const Appointment: FunctionComponent = (props: any) => {
         value: locationState.canstitution,
       });
     }
+    if (locationState && locationState.avabilityId) {
+      onFilterByUserId(locationState.avabilityId, "avability")
+    }
   }, [locationState]);
 
   const fetchData = () => {
@@ -3113,7 +3116,7 @@ const Appointment: FunctionComponent = (props: any) => {
     workingHoursFromTime: workingHoursFromDateData && workingHoursFromDateData.length ? workingHoursFromDateData[1] : "",
     workingHoursToDate: workingHoursToDateData && workingHoursToDateData.length ? workingHoursToDateData[0] : "",
     workingHoursToTime: workingHoursToDateData && workingHoursToDateData.length ? workingHoursToDateData[1] : "",
-    breakFromDate:  breakFromDateData && breakFromDateData.length ? breakFromDateData[0] : "",
+    breakFromDate: breakFromDateData && breakFromDateData.length ? breakFromDateData[0] : "",
     breakFromTime: breakFromDateData && breakFromDateData.length ? breakFromDateData[1] : "",
     breakToDate: breakToDateData && breakToDateData.length ? breakToDateData[0] : "",
     breakToTime: breakToDateData && breakToDateData.length ? breakToDateData[1] : "",

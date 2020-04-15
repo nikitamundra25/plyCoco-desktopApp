@@ -51,9 +51,11 @@ import DocumentPreview from "./DocumentPreview";
 import Loader from "../../containers/Loader/Loader";
 import PerformedWork from "./PerformedWork";
 import { AppointmentsQueries, GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
+import DisplayDifferentModal from "./DisplayDifferentModal";
 const [ADD_DOCUMENT] = DocumentUploadMutations;
 const [, , , , , , , , , GET_DOCUMENTS_FROM_OUTLOOK] = DocumentMutations;
 const [  ,
+  ,
   ,
   ,
   ,
@@ -117,13 +119,22 @@ const WorkingProofForm: FunctionComponent<
 });
  
   // Mutation to upload document
-  const [mapDocumentsWithAppointment] = useMutation<
+  const [mapDocumentsWithAppointment, {loading: mapWorkproofLoading}] = useMutation<
     { Appointment: any },
-    { appointmentInput: IAppointmentInput }
-  >(MAP_WORKPROOF_WITH_APPOINTMENT);
+    { appointmentId: number | null ,
+      workProofId : number | null
+    }
+  >(MAP_WORKPROOF_WITH_APPOINTMENT,{
+    onCompleted(){
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation('MAP_WORKPROOF_SUCCESSFULLY'));
+      }
+    }
+  });
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [documentSelectionId, setdocumentSelectionId] = useState<number|null>(null);
+  const [documentSelectionId, setdocumentSelectionId] = useState<any>({});
+  const [showModal, setshowModal] = useState<boolean>(false);
 
   // State for performed work section filter
   const [searchById, setsearchById] = useState<string>("");
@@ -142,7 +153,7 @@ const WorkingProofForm: FunctionComponent<
     },
     any
   >(GET_DOCUMENTS_FROM_OUTLOOK);
-  
+
   const handleUpload = async (file: any) => {
     try {
       if (file.length > 0) {
@@ -182,9 +193,9 @@ const WorkingProofForm: FunctionComponent<
     }
   };
 
-  const handlePreview = async (document: string, index: number, id: string) => {
+  const handlePreview = async (document: string, index: number, id: string, item: any) => {
     setRowIndex(index);
-    setdocumentSelectionId(parseInt(id))
+    setdocumentSelectionId(item)
     let sampleFileUrl = "";
     if (process.env.NODE_ENV === "production") {
       sampleFileUrl = document;
@@ -292,25 +303,33 @@ if(checked){
 const handleLinkDocument = async() =>{
 console.log("checkboxMark",checkboxMark);
 console.log("document",documentSelectionId);
+const id = documentSelectionId ? documentSelectionId.id : null
 try {
-  let appointmentInput = {
-    appointmentId:checkboxMark, 
-    workProofId:documentSelectionId
-  }
-  console.log("appointmentInput",appointmentInput);
-  // await mapDocumentsWithAppointment({
-  //   variables: {
-  //     appointmentInput
-  //   },
-  // });
+  
+  await mapDocumentsWithAppointment({
+    variables: {
+      appointmentId : checkboxMark, 
+      workProofId : id
+    },
+  });
 } catch (error) {
   const message = errorFormatter(error.message);
-  toast.dismiss();
-  toast.error(message);
+  if (!toast.isActive(toastId)) {
+    toast.dismiss();
+    toast.error(languageTranslation("SOMETHING_WENT_WRONG_"));
+  }
   logger(error);
 }
 }
 
+const onhandleDisplayDifferent = async() => {
+  if(documentSelectionId && documentSelectionId.id){
+    setshowModal(true)
+  }else{
+    toast.success("Please select document");
+
+  }
+}
   return (
     <>
       <div className="common-detail-page">
@@ -328,7 +347,9 @@ try {
                   {languageTranslation("RETRIVE_WORK_PROOF")}
                 </span>
               </div>
-              <div className="header-nav-item">
+              <div className="header-nav-item"
+              onClick = {()=>onhandleDisplayDifferent()}
+              >
                 <span className="header-nav-icon">
                   <img src={displaydoc} alt="" />
                 </span>
@@ -365,7 +386,13 @@ try {
                   color='primary'
                   onClick={handleLinkDocument}
                   className='btn-email-save ml-auto mr-2 btn btn-primary'
+                  disabled={mapWorkproofLoading}
                 >
+                    {mapWorkproofLoading ? (
+                    <i className='fa fa-spinner fa-spin mr-2' />
+                  ) : (
+                    ""
+                  )}
                   <span>{languageTranslation('SUBMIT')}</span>
                 </Button>
               </div>
@@ -552,7 +579,8 @@ try {
                                                 handlePreview(
                                                   item.document,
                                                   index,
-                                                  item.id
+                                                  item.id,
+                                                  item
                                                 );
                                               }}
                                             >
@@ -631,6 +659,13 @@ try {
           </div>
         </div>
       </div>
+      <DisplayDifferentModal 
+      show={showModal}
+      handleClose={() => setshowModal(false)}
+      documentUrls = {documentUrls}
+      imageUrls = {imageUrls}
+      documentSelectionId={documentSelectionId}
+     />
     </>
   );
 };

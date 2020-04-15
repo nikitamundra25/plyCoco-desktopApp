@@ -1130,5 +1130,9 @@
   "Today":"Today",
   "SELECT_APPOINTMENT_LABEL":"Select appointment",
   "SELECT_CAREINSTITUTION_FIRST": "Select careInstitution first",
-  "NO_APPOINTMENT_CREATED_ACC_TO_SEARCH": "Currently no appointment has been created according to search" 
+  "NO_APPOINTMENT_CREATED_ACC_TO_SEARCH": "Currently no appointment has been created according to search" ,
+  "MAP_WORKPROOF_SUCCESSFULLY":"Document has been mapped successfully",
+  "SOMETHING_WENT_WRONG_":"Something went wrong! try again.",
+  "FILE_DOWNLOAD":"File download",
+  "OPEN_SAVE_FILE":"Do you want to open or save this file?"
 }

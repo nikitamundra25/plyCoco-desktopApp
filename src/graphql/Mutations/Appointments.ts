@@ -99,10 +99,11 @@ const UN_LINK_REQUIREMENT = gql`
 `;
 
 const MAP_WORKPROOF_WITH_APPOINTMENT = gql`
-  mutation MapWorkProofWithAppointment($appointmentInput:AppointmentInput!) {
-    mapWorkProofWithAppointment(appointmentInput: $appointmentInput) {
+  mutation MapWorkProofWithAppointment($appointmentId:[ID!],$workProofId:ID) {
+    mapWorkProofWithAppointment(appointmentId: $appointmentId, workProofId: $workProofId) { 
       appointmentId
-   workProofId
+      workProofId
+      appointmentStatus
     }
   }
 `;

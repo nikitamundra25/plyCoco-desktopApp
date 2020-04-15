@@ -19,6 +19,7 @@ import {
   leasingListColor,
   selfEmployesListColor
 } from "../../../../config";
+import DisplayDifferentModal from './DisplayDifferentModal';
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const [GET_DOCUMENT_TEMPLATE] = DocumentQueries;
 const [, , , DELETE_DOCUMENT] = DocumentMutations;
@@ -197,6 +198,7 @@ if (
           );
         }}
       />
+     
     </>
   );
 };

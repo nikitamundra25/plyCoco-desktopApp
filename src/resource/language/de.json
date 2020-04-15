@@ -1134,8 +1134,7 @@
   "Today":"Today",
   "SELECT_APPOINTMENT_LABEL":"Select appointment" ,
   "SELECT_CAREINSTITUTION_FIRST": "Select careInstitution first",
-  "NO_APPOINTMENT_CREATED_ACC_TO_SEARCH": "Currently no appointment has been created according to search" 
-
-
-
+  "NO_APPOINTMENT_CREATED_ACC_TO_SEARCH": "Currently no appointment has been created according to search" ,
+  "MAP_WORKPROOF_SUCCESSFULLY":"Dokument wurde erfolgreich zugeordnet",
+  "SOMETHING_WENT_WRONG_":"Etwas ist schief gelaufen! Versuch es noch einmal."
 }

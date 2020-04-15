@@ -36,6 +36,7 @@ import {
   PAGE_LIMIT,
   CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
+  defaultDateFormat,
 } from "../../../../../config";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
 import { IReactSelectInterface } from "../../../../../interfaces";
@@ -76,6 +77,12 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   const [caregiverFilter, setcaregiverFilter] = useState<
     IReactSelectInterface | undefined
   >(undefined);
+
+  // select Careinstitution
+  const [monthFilter, setmonthFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   //   Store selectedDepartment
@@ -189,8 +196,24 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   // Call function to fetch invoice list
   useEffect(() => {
+    if(monthFilter && monthFilter.value){
+      const{ value} = monthFilter
+    if(value==="weekly"){
+      gte = moment().startOf('week').format(dbAcceptableFormat);
+      lte = moment().endOf('week').format(dbAcceptableFormat);
+    }else if(value==="everySixMonths"){
+      gte = moment().startOf("month").format(dbAcceptableFormat);
+      lte= moment(gte).add(6, 'M').endOf('month').format(dbAcceptableFormat);
+  }else if(value==="perMonth"){
+     gte= moment().startOf("month").format(dbAcceptableFormat);
+     lte= moment().endOf("month").format(dbAcceptableFormat);
+  }else if(value==="all"){
+     gte = "";
+     lte = ""
+  }
+}
     getInvoiceListData();
-  }, [careinstitutionFilter, departmentFilter, caregiverFilter]);
+  }, [careinstitutionFilter, departmentFilter, caregiverFilter,monthFilter]);
 
   // set careInstitution list options
   const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
@@ -280,6 +303,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       setdepartmentFilter(value);
     } else if (name === "caregiver") {
       setcaregiverFilter(value);
+    } else if(name==="monthSummary"){
+      setmonthFilter(value)
+      
     }
   };
 

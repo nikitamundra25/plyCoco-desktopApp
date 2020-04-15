@@ -1089,8 +1089,8 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCells && selectedCells.length ? selectedCells[0] : {};
 
   const handleSelection = async (selectedCellsData: any, name: string) => {
-    console.log("selectedCellsData",selectedCellsData);
-    
+    console.log("selectedCellsData", selectedCellsData);
+
     setTimeSlotError("");
     const { item = {}, dept = {}, id = "", dateString = "" } =
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
@@ -1296,7 +1296,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
     if (locationState && locationState.avabilityId) {
-      onFilterByUserId(locationState.avabilityId, "avability")
+      onFilterByUserId(locationState.avabilityId, "avability");
     }
   }, [locationState]);
 
@@ -1574,6 +1574,8 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCellsCareinstitution[0]
         ? selectedCellsCareinstitution[0]
         : {};
+    console.log("qualificationIds", qualificationIds);
+
     if (deptId && (updateCanstitutionFormikValues || !(item && item.id))) {
       if (departmentList && departmentList.getDivision.length) {
         const { getDivision } = departmentList;
@@ -1609,6 +1611,10 @@ const Appointment: FunctionComponent = (props: any) => {
               ...values,
               id: values && values.appointmentId ? values.appointmentId : "",
               department: careInstituionDept,
+              qualificationId:
+                item.qualificationId && item.qualificationId.length
+                  ? item.qualificationId
+                  : values.qualificationId,
               address: departmentData ? departmentData.address : "",
               contactPerson: departmentData ? departmentData.contactPerson : "",
               departmentOfferRemarks: departmentData

@@ -490,14 +490,15 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 data.caregivername
                 }</b></span></br>`;
             });
+            
             const bodyData: any = `<span>${languageTranslation("UNLINK_EMAIL_CAREINSTITUTION_BODY")}</br></br>${divRow}</span>`;
             const editorState = bodyData
               ? HtmlToDraftConverter(bodyData)
               : '';
 
-            let subject: string = `${languageTranslation("UNLINK_SUBJECT")} ${moment(
+            let subject: string = `${languageTranslation("UNLINK_SUBJECT")} ${apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0] && apointedCareGiver[0].date ? moment(
               apointedCareGiver[0].date
-            ).format('DD.MM')},${' '}${apointedCareGiver[0].division}`;
+            ).format('DD.MM'): ""},${' '}${ apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0] && apointedCareGiver[0].division ? apointedCareGiver[0].division : ""}`;
             setBody(editorState);
             setSubject(subject);
             // setTemplate({

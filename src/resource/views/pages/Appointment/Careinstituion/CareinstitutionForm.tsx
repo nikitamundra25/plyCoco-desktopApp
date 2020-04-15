@@ -813,7 +813,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   color='primary'
                   onClick={handleSubmit}
                   disabled={
-                    addCareinstLoading ? true : !dateCondition ? true : false
+                    addCareinstLoading ? true : appointmentId ? false : !dateCondition ? true : false
                   }
                 >
                   {addCareinstLoading ? (

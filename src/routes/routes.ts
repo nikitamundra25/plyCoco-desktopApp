@@ -67,7 +67,7 @@ const PaySlipForm = React.lazy(() =>
 );
 
 const CreateInvoices = React.lazy(() =>
-  import("../resource/views/pages/AllInvoices/CreateInvoices")
+  import("../resource/views/pages/AllInvoices/CreateInvoice/index")
 );
 const PrintInvoices = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/PrintInvoices")

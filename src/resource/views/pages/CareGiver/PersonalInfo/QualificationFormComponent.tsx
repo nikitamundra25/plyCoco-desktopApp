@@ -5,14 +5,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FormikProps } from "formik";
 import {
   IReactSelectInterface,
-  ICareGiverValues
+  ICareGiverValues,
 } from "../../../../../interfaces";
 import { languageTranslation } from "../../../../../helpers";
 import Select from "react-select";
 
-const QualificationFormComponent: FunctionComponent<FormikProps<
-  ICareGiverValues
-> & { qualificationList: IReactSelectInterface[] | undefined }> = (
+const QualificationFormComponent: FunctionComponent<
+  FormikProps<ICareGiverValues> & {
+    qualificationList: IReactSelectInterface[] | undefined;
+  }
+> = (
   props: FormikProps<ICareGiverValues> & {
     qualificationList: IReactSelectInterface[] | undefined;
   }
@@ -22,7 +24,7 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
     IReactSelectInterface
   >({
     label: "",
-    value: ""
+    value: "",
   });
 
   const { qualifications } = values;
@@ -52,7 +54,10 @@ const QualificationFormComponent: FunctionComponent<FormikProps<
                 {qualifications.map(
                   (qualification: IReactSelectInterface, index: number) => {
                     return (
-                      <li key={index} className="text-capitalize">
+                      <li
+                        key={index}
+                        className="text-capitalize  one-line-text"
+                      >
                         {qualification.label}
                       </li>
                     );

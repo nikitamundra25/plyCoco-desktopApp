@@ -5,7 +5,7 @@ import Loader from "../../containers/Loader/Loader";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import {
   defaultDateTimeFormatForDashboard,
-  AppRoutes
+  AppRoutes,
 } from "../../../../config";
 import moment from "moment";
 import users from "../../../assets/img/users.svg";
@@ -73,7 +73,7 @@ const RegistrationList: FunctionComponent<RouteComponentProps> = (
                         </td>
                         <td className="name-column">
                           <div
-                            className="text-capitalize view-more-link word-wrap one-line-text"
+                            className="text-capitalize view-more-link  one-line-text"
                             onClick={() =>
                               history.push(
                                 item.userRole === "caregiver"
@@ -91,7 +91,7 @@ const RegistrationList: FunctionComponent<RouteComponentProps> = (
                             {item.lastName} {item.firstName}
                           </div>
                         </td>
-                        <td className="username-column word-wrap one-line-text">
+                        <td className="username-column one-line-text">
                           {item.userName}
                         </td>
                         <td className="type-column">{item.userRole}</td>

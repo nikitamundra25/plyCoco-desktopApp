@@ -166,7 +166,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             : null,
         startDate: gte ? gte : null,
         endDate: lte ? lte : null,
-        limit: PAGE_LIMIT,
+        limit: 20,
         page: 1,
       },
     });
@@ -200,10 +200,10 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         color: attributes.includes(CareInstInActiveAttrId)
           ? deactivatedListColor
           : attributes.includes(CareInstTIMyoCYAttrId)
-          ? leasingListColor
-          : attributes.includes(CareInstPlycocoAttrId)
-          ? selfEmployesListColor
-          : "",
+            ? leasingListColor
+            : attributes.includes(CareInstPlycocoAttrId)
+              ? selfEmployesListColor
+              : "",
         companyName,
       });
       return true;
@@ -233,10 +233,10 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
           color: !isActive
             ? deactivatedListColor
             : attributes.includes(CaregiverTIMyoCYAttrId)
-            ? leasingListColor
-            : attributes.includes("Plycoco")
-            ? selfEmployesListColor
-            : "",
+              ? leasingListColor
+              : attributes.includes("Plycoco")
+                ? selfEmployesListColor
+                : "",
         });
       }
     );
@@ -326,11 +326,13 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                 invoiceListLoading={invoiceListLoading}
                 invoiceList={
                   invoiceList &&
-                  invoiceList.getAllAppointment &&
-                  invoiceList.getAllAppointment.length
-                    ? invoiceList.getAllAppointment
+                    invoiceList.getAllAppointment &&
+                    invoiceList.getAllAppointment.result.length
+                    ? invoiceList.getAllAppointment.result
                     : []
                 }
+                totalCount={invoiceList &&
+                  invoiceList.getAllAppointment ? invoiceList.getAllAppointment.totalCount : 0}
               />
               <Form className="form-section total-form-section bg-white">
                 <div className="d-flex flex-wrap total-form-block">

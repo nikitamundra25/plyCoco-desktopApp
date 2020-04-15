@@ -123,6 +123,7 @@ const WorkingProofForm: FunctionComponent<
   >(MAP_WORKPROOF_WITH_APPOINTMENT);
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [documentSelectionId, setdocumentSelectionId] = useState<number|null>(null);
 
   // State for performed work section filter
   const [searchById, setsearchById] = useState<string>("");
@@ -141,6 +142,7 @@ const WorkingProofForm: FunctionComponent<
     },
     any
   >(GET_DOCUMENTS_FROM_OUTLOOK);
+  
   const handleUpload = async (file: any) => {
     try {
       if (file.length > 0) {
@@ -180,8 +182,9 @@ const WorkingProofForm: FunctionComponent<
     }
   };
 
-  const handlePreview = async (document: string, index: number) => {
+  const handlePreview = async (document: string, index: number, id: string) => {
     setRowIndex(index);
+    setdocumentSelectionId(parseInt(id))
     let sampleFileUrl = "";
     if (process.env.NODE_ENV === "production") {
       sampleFileUrl = document;
@@ -286,6 +289,27 @@ if(checked){
 }
 }
 
+const handleLinkDocument = async() =>{
+console.log("checkboxMark",checkboxMark);
+console.log("document",documentSelectionId);
+try {
+  let appointmentInput = {
+    appointmentId:checkboxMark, 
+    workProofId:documentSelectionId
+  }
+  console.log("appointmentInput",appointmentInput);
+  // await mapDocumentsWithAppointment({
+  //   variables: {
+  //     appointmentInput
+  //   },
+  // });
+} catch (error) {
+  const message = errorFormatter(error.message);
+  toast.dismiss();
+  toast.error(message);
+  logger(error);
+}
+}
 
   return (
     <>
@@ -339,11 +363,10 @@ if(checked){
               <div className='ml-auto'>
                 <Button
                   color='primary'
-                  // onClick={handleSendEmail}
+                  onClick={handleLinkDocument}
                   className='btn-email-save ml-auto mr-2 btn btn-primary'
-               
                 >
-                  <span>{languageTranslation('SEND')}</span>
+                  <span>{languageTranslation('SUBMIT')}</span>
                 </Button>
               </div>
             </div>
@@ -528,7 +551,8 @@ if(checked){
                                               onClick={() => {
                                                 handlePreview(
                                                   item.document,
-                                                  index
+                                                  index,
+                                                  item.id
                                                 );
                                               }}
                                             >

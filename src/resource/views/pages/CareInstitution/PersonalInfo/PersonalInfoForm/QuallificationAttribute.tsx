@@ -54,9 +54,9 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           <div className='common-list-body custom-scrollbar'>
             {qualificationId && qualificationId.length ? (
               <ul className='common-list list-unstyled'>
-                {qualificationId.map((qualification: IReactSelectInterface) => {
+                {qualificationId.map((qualification: IReactSelectInterface, index:number) => {
                   return (
-                    <li className='text-capitalize'>{qualification.label}</li>
+                    <li className='text-capitalize' key={index}>{qualification.label}</li>
                   );
                 })}
               </ul>

@@ -2918,6 +2918,7 @@ const Appointment: FunctionComponent = (props: any) => {
         temp.includes(qual.value)
       );
       setqualification(qual);
+      setstarMarkCaregiver(false)
       fetchData();
     }
   };

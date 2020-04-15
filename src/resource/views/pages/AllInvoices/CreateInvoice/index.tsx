@@ -20,7 +20,7 @@ import CompleteTime from "../../../../assets/img/header-icons/tab-icons/complete
 import idea from "../../../../assets/img/header-icons/tab-icons/idea.svg";
 import massege from "../../../../assets/img/header-icons/tab-icons/massege.svg";
 
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, useLocation } from "react-router";
 import "../index.scss";
 import right_arrow from "../../../../assets/img/rightarrow.svg";
 import left_arrow from "../../../../assets/img/leftarrow.svg";
@@ -49,6 +49,8 @@ import moment from "moment";
 import InvoiceList from "./InvoiceList";
 import CustomOption from "../../../components/CustomOptions";
 import InvoiceNavbar from "./InvoiceNavbar";
+import * as qs from "query-string";
+
 const [
   GET_CARE_INSTITUTION_LIST,
   ,
@@ -63,6 +65,8 @@ const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
+  const { search } = useLocation();
+  const query = qs.parse(search);
   // select Careinstitution
   const [careinstitutionFilter, setcareinstitutionFilter] = useState<
     IReactSelectInterface | undefined
@@ -72,6 +76,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   const [caregiverFilter, setcaregiverFilter] = useState<
     IReactSelectInterface | undefined
   >(undefined);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   //   Store selectedDepartment
   const [departmentFilter, setdepartmentFilter] = useState<
@@ -149,6 +154,8 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   // to get list of all invoices
   const getInvoiceListData = () => {
+    console.log("currentPage",currentPage);
+    
     fetchInvoiceList({
       variables: {
         searchBy: null,
@@ -166,11 +173,19 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             : null,
         startDate: gte ? gte : null,
         endDate: lte ? lte : null,
-        limit: 20,
-        page: 1,
+        limit: PAGE_LIMIT,
+        page: query.page ? parseInt(query.page as string) : 1,
       },
     });
   };
+
+  useEffect(() => {
+    if (query) {
+      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+    }
+    // call query
+    getInvoiceListData()
+  }, [search]); // It will run when the search value gets changed
 
   // Call function to fetch invoice list
   useEffect(() => {
@@ -324,6 +339,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             <div className="common-content flex-grow-1  p-0 all-invoice">
               <InvoiceList
                 invoiceListLoading={invoiceListLoading}
+                currentPage={currentPage}
                 invoiceList={
                   invoiceList &&
                     invoiceList.getAllAppointment &&

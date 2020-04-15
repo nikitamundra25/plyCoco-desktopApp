@@ -3,17 +3,16 @@ import { UncontrolledTooltip, Table } from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 import { IInvoiceList } from "../../../../../interfaces";
 import Loader from "../../../containers/Loader/Loader";
-import { AppRoutes } from "../../../../../config";
+import { AppRoutes, PAGE_LIMIT } from "../../../../../config";
 import { useHistory, useLocation } from "react-router-dom";
 import PaginationComponent from "../../../components/Pagination";
 import * as qs from "query-string";
 
 const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
   const { search, pathname } = useLocation();
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const { invoiceListLoading, invoiceList, totalCount } = props;
+  const { invoiceListLoading, invoiceList, totalCount, currentPage } = props;
   let history = useHistory();
-  console.log("invoiceList", invoiceList);
+
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
@@ -21,6 +20,8 @@ const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
     );
     history.push(path);
   };
+
+ let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
     <>
       <div className="table-minheight createinvoices-table">
@@ -90,16 +91,16 @@ const InvoiceList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
                           name={"status"}
                         // checked={"true"}
                         />
-                        <label className="">1</label>
+                        <label className="">{count++}</label>
                       </span>
                     </td>
                     <td className="invoiceid-col"> {list.id}</td>
                     <td className="h-col">{timeStamp} </td>
                     <td className="text-col">WG in leipzig</td>
-                    <td className="datetime-col">Mon 03.03.2020 19:00</td>
-                    <td className="datetime-col">Mon 03.03.2020 19:00</td>
-                    <td className="datetime-col">Mon 03.03.2020 19:00</td>
-                    <td className="datetime-col">Mon 03.03.2020 19:00</td>
+                    <td className="datetime-col">{list.ca.workingHoursFrom ? list.ca.workingHoursFrom : "-"} </td>
+                    <td className="datetime-col">{list.ca.workingHoursTo ? list.ca.workingHoursTo : "-"}</td>
+                    <td className="datetime-col">{list.ca.breakTo ? list.ca.breakTo : "-"}</td>
+                    <td className="datetime-col">{list.ca.breakFrom ? list.ca.breakFrom : "-"}</td>
                     <td className="price-col">3,200.00 &euro;</td>
                     <td className="price-col">00.00 &euro;</td>
                     <td className="price-col">00.00 &euro;</td>

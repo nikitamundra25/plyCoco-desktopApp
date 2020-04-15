@@ -984,7 +984,7 @@
   "POST": "Post",
   "SENT_POST": "Sent Post",
   "FEES_ERROR_MESSAGE": "Connect is not possible!",
-  "LINKED_FEES_MESSAGE": "Caregiver has not yet signed the regulation amount",
+  "LINKED_FEES_MESSAGE": "Fees details are still missing",
   "NEW_APPOINTMENT": "New appointment",
   "DELETE_FREE_APPOINTMENT": "Delete free appointments",
   "SELECT_ALL_APPOINTMENT_OF_CG": "Select all appointments of the caregiver",
@@ -1163,5 +1163,6 @@
   "HEALTH_INSURANCE_FORM":"HealthInsuranceForm",
   "PDF_1":"pdf1",
   "PDF_2":"pdf2",
-  "OPEN_PDF":"openpdf"
+  "OPEN_PDF":"openpdf",
+  "SELECT_CAREINSTITUTION":"Select careinstitution"
 }

@@ -1089,6 +1089,8 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCells && selectedCells.length ? selectedCells[0] : {};
 
   const handleSelection = async (selectedCellsData: any, name: string) => {
+    console.log("selectedCellsData",selectedCellsData);
+    
     setTimeSlotError("");
     const { item = {}, dept = {}, id = "", dateString = "" } =
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
@@ -2010,6 +2012,7 @@ const Appointment: FunctionComponent = (props: any) => {
           .forEach((division: any) => {
             division.availabilityData = [];
             division.canstitution = careInstData.canstitution;
+            division.qualificationId = careInstData.qualificationId;
             division.careInstId = careInstData.id;
             division.isActive = careInstData.isActive;
             division.deptId = division.id;

@@ -31,7 +31,7 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
     qualificationList,
     onFilterById,
     handleSelect,
-    checkboxMark
+    checkboxMark,
   } = props;
 
   const handleKeyPress = (e: any) => {
@@ -103,11 +103,11 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
-              <td></td>
-              <td>{languageTranslation("ID")} </td>
-              <td>{languageTranslation("BEGIN")} </td>
-              <td>{languageTranslation("FACILITY")} </td>
-              <td>{languageTranslation("DEPARTMENT")} </td>
+              <th></th>
+              <th>{languageTranslation("ID")} </th>
+              <th>{languageTranslation("BEGIN")} </th>
+              <th>{languageTranslation("MENU_INSTITUTION")} </th>
+              <th>{languageTranslation("DEPARTMENT")} </th>
             </tr>
           </thead>
           <tbody>
@@ -137,8 +137,7 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                     });
                   }
                 }
-        
-                
+
                 return (
                   <tr>
                     <td>
@@ -149,12 +148,14 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                           id="checkAll"
                           className=""
                           checked={
-                            checkboxMark.includes(parseInt(list.id)) ? true : false
+                            checkboxMark.includes(parseInt(list.id))
+                              ? true
+                              : false
                           }
                           onChange={(
                             e: React.ChangeEvent<HTMLInputElement>
                           ) => {
-                            handleSelect(e,list.id);
+                            handleSelect(e, list.id);
                           }}
                         />
                         <label className=""></label>

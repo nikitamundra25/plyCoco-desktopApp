@@ -27,9 +27,7 @@ import "react-day-picker/lib/style.css";
 import "./index.scss";
 import moment from "moment";
 import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
-import formatDate from 'react-day-picker/moment';
-import 'moment/locale/it';
-import MomentLocaleUtils from 'react-day-picker/moment';
+
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav

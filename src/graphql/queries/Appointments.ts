@@ -60,6 +60,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           travelAllowance
           holidayAllowance
           nightFee
+          workingHoursFrom
+          workingHoursTo
+          breakFrom
+          breakTo
           nightAllowance
           workingProofRecieved
           distanceInKM
@@ -209,6 +213,10 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         remarksCareGiver
         remarksInternal
         status
+        workingHoursFrom,
+        workingHoursTo,
+        breakFrom,
+        breakTo,
       }
       requirementData {
         id

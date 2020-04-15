@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import close from "../../../assets/img/cancel.svg";
 import closehover from "../../../assets/img/cancel-hover.svg";
-import { languageTranslation, formatFileSize } from "../../../../helpers";
+import { languageTranslation, formatFileSize, downloadFile } from "../../../../helpers";
 
 const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
   const { show, handleClose, documentUrls,imageUrls ,documentSelectionId} = props;
@@ -65,6 +65,7 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
             <Button
               className={"btn-save text-capitalize"}
               color="primary"
+              onClick = {()=> downloadFile(imageUrls ? imageUrls : documentUrls,documentSelectionId.fileName )}
             >
                 {/* <a href={documentUrls} download  target="_blank">  */}
              {languageTranslation("OPENFILE")}

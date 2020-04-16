@@ -985,7 +985,7 @@
   "POST":"Post",
   "SENT_POST":"Post gesendet",
   "FEES_ERROR_MESSAGE":"Eine Verbindung ist nicht möglich!",
-  "LINKED_FEES_MESSAGE":"Gebührenangaben fehlen noch",
+  "LINKED_FEES_MESSAGE":"Die Pflegekraft hat den Regulierungsbetrag noch nicht unterzeichnet",
   "NEW_APPOINTMENT":"Neuer Termin",
   "DELETE_FREE_APPOINTMENT":"Alle freien Termine löschen",
   "SELECT_ALL_APPOINTMENT_OF_CG":"Alle Termine der Pflegekraft auswählen",
@@ -1171,7 +1171,9 @@
 
 
 
-"SELECT_CAREINSTITUTION":"Select careinstitution"
+"SELECT_CAREINSTITUTION":"Select careinstitution",
+"SHORT_NAME_REQUIRED":"ShortName is required"
+
 
 
 }

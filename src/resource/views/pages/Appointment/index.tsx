@@ -203,6 +203,14 @@ const Appointment: FunctionComponent = (props: any) => {
   // >([]);
 
   const [timeSlotError, setTimeSlotError] = useState<string>("");
+
+  // maintain solo caregiver
+  const [starCaregiver, setstarCaregiver] = useState<IStarInterface>({
+    isStar: false,
+    setIndex: -1,
+    id: "",
+  });
+
   // maintain solo careinstitution
   const [starCanstitution, setstarCanstitution] = useState<IStarInterface>({
     isStar: false,
@@ -247,7 +255,7 @@ const Appointment: FunctionComponent = (props: any) => {
     fetchCareInstitutionList({
       variables: {
         searchBy: null,
-        sortBy: 3,
+        sortBy: 5,
         limit: 30,
         page: 1,
         isActive: "",
@@ -917,6 +925,8 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // To store users list into state
   useEffect(() => {
+    console.log("starCaregiver",starCaregiver);
+    
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
     let careGiverSelectedCell =
       selectedCells && selectedCells.length ? [...selectedCells] : [];
@@ -975,18 +985,17 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         });
       }
-      // if (locationState && locationState.caregiver) {
-      //   let list: any = result.filter(
-      //     (list: any) => list.id === locationState.caregiver
-      //   );
-      //   setcaregiversList(list);
-      // } else {
-
       if (careGiverSelectedCell && careGiverSelectedCell.length) {
         setSelectedCells(careGiverSelectedCell);
       }
-
+      if (starCaregiver && starCaregiver.isStar) {
+        let list: any = result.filter(
+          (list: any) => list.id === starCaregiver.id
+        );
+         setcaregiversList(list);
+      } else{ 
       setcaregiversList(result);
+    }
       // }
     }
 
@@ -1057,12 +1066,14 @@ const Appointment: FunctionComponent = (props: any) => {
         setselectedCellsCareinstitution(careInstSelectedCell);
       }
       setcareinstitutionList(result);
+      
       if (
-        locationState &&
-        locationState.canstitution &&
-        result &&
-        result.length &&
-        result[0]
+        // locationState &&
+        // localocationStatetionState.canstitution &&
+        // result &&
+        // result.length &&
+        // result[0]
+        careinstitutionSoloFilter && careinstitutionSoloFilter.value
       ) {
         handleFirstStarCanstitution(result[0], 1);
       } else {
@@ -1089,8 +1100,6 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCells && selectedCells.length ? selectedCells[0] : {};
 
   const handleSelection = async (selectedCellsData: any, name: string) => {
-    console.log("selectedCellsData", selectedCellsData);
-
     setTimeSlotError("");
     const { item = {}, dept = {}, id = "", dateString = "" } =
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
@@ -1236,9 +1245,19 @@ const Appointment: FunctionComponent = (props: any) => {
   const onhandleCaregiverStar = (list: any, name: string) => {
     if (!starMarkCaregiver) {
       setstarMarkCaregiver(!starMarkCaregiver);
+      setstarCaregiver({
+        isStar: true,
+        setIndex: -1,
+        id: list.id,
+      })
       handleSecondStar(list, name);
     } else if (list.id !== caregiversList[0].id) {
       handleSecondStar(list, name);
+      setstarCaregiver({
+        isStar: true,
+        setIndex: -1,
+        id: list.id,
+      })
     } else {
       setstarMarkCaregiver(!starMarkCaregiver);
       handleReset(name);
@@ -1377,12 +1396,12 @@ const Appointment: FunctionComponent = (props: any) => {
 
     careInstitutionData.map((data: any, index: any) => {
       const { canstitution } = data;
-      let { attributes = [], companyName = "" } = canstitution
+      let { attributes = [], companyName = "", shortName= "" } = canstitution
         ? canstitution
         : {};
       attributes = attributes ? attributes : [];
       careInstitutionOptions.push({
-        label: `${data.lastName}${" "}${data.firstName}`,
+        label: shortName,
         value: data.id,
         color: attributes.includes(CareInstInActiveAttrId)
           ? deactivatedListColor
@@ -1574,7 +1593,6 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCellsCareinstitution[0]
         ? selectedCellsCareinstitution[0]
         : {};
-    console.log("qualificationIds", qualificationIds);
 
     if (deptId && (updateCanstitutionFormikValues || !(item && item.id))) {
       if (departmentList && departmentList.getDivision.length) {
@@ -1612,9 +1630,9 @@ const Appointment: FunctionComponent = (props: any) => {
               id: values && values.appointmentId ? values.appointmentId : "",
               department: careInstituionDept,
               qualificationId:
-                item.qualificationId && item.qualificationId.length
+               item && item !== undefined && item.qualificationId && item.qualificationId.length 
                   ? item.qualificationId
-                  : values.qualificationId,
+                  : values && values.qualificationId ?  values.qualificationId : [],
               address: departmentData ? departmentData.address : "",
               contactPerson: departmentData ? departmentData.contactPerson : "",
               departmentOfferRemarks: departmentData
@@ -2066,6 +2084,7 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
     //  setcareinstitutionList()
+
     if (!starCanstitution.isStar) {
       setstarCanstitution({
         isStar: true,
@@ -2085,6 +2104,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       setcareInstituionDeptData([]);
     }
+    
     if (list) {
       if (list.id && !starCanstitution.isStar) {
         setFetchingDept(true);
@@ -2095,9 +2115,11 @@ const Appointment: FunctionComponent = (props: any) => {
           },
         });
       }
-    } else {
+    } 
+     else {
       setcareInstituionDeptData([]);
     }
+  
   };
 
   //  handle second star of careinstitution and autoselect department
@@ -3785,6 +3807,8 @@ const Appointment: FunctionComponent = (props: any) => {
                                   : []
                               }
                               starMarkCareinstitution={starMarkCareinstitution}
+                              handleFirstStarCanstitution={handleFirstStarCanstitution}
+                              starCanstitution={starCanstitution}
                             />
                           );
                         }}

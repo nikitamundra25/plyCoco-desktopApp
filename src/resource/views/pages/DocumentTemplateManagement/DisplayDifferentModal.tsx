@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { useState, FunctionComponent  } from "react";
 import {
   Modal,
   ModalHeader,
@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import close from "../../../assets/img/cancel.svg";
 import closehover from "../../../assets/img/cancel-hover.svg";
-import { languageTranslation, formatFileSize, downloadFile } from "../../../../helpers";
+import { languageTranslation, formatFileSize } from "../../../../helpers";
 
 const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
   const {
@@ -40,7 +40,10 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
           documentSelectionId.fileName.lastIndexOf(".") + 1
         )
       : "";
+
+
   return (
+    
     <div>
       <Modal
         isOpen={show}
@@ -69,15 +72,10 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
         </ModalBody>
         <ModalFooter className="unlink-btn-wrap">
           <div className="d-flex align-items-center justify-content-end w-100 ">
-            <Button className={" text-capitalize mr-2"} color="primary">
-              {/* <a href={documentUrls} download  target="_blank">  */}
-              {languageTranslation("OPENFILE")}
-              {/* </a> */}
-            </Button>
-
             <a
               href={imageUrls ? imageUrls : documentUrls}
-              download
+              download ="MyGoogleLogo"
+              target ="_blank"
               className={" btn-primary text-capitalize mr-2"}
             >
               {languageTranslation("SUBMIT")}

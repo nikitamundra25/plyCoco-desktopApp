@@ -150,8 +150,7 @@ const WorkingProofForm: FunctionComponent<
   >(undefined);
   const [appointmentData, setappointmentData] = useState<any>([]);
   const [checkboxMark, setcheckboxMark] = useState<any>([]);
-  const [fileRotation, setfileRotation] = useState<string>('');
-
+  const [currentAngel, setcurrentAngel] = useState<number>(0);
   const [
     getWorkProofFromOutlookQuery,
     { data, loading: fetchingLWorkProof, error: outlookError },
@@ -207,6 +206,7 @@ const WorkingProofForm: FunctionComponent<
     id: string,
     item: any
   ) => {
+    setcurrentAngel(0)
     setRowIndex(index);
     setdocumentSelectionId(item);
     let sampleFileUrl = "";
@@ -348,7 +348,18 @@ const WorkingProofForm: FunctionComponent<
   };
 
   const onRotateFile = (name:string) => {
-    setfileRotation(name)
+    let angle:number = currentAngel
+    if(name==="turnLeft"){
+        angle = currentAngel + 90
+    }else if(name==="turnRight"){
+      angle = currentAngel + (-90)
+
+    }else if(name==="turn180"){
+      angle = currentAngel + 180
+
+    }
+    console.log("angle",angle);
+    setcurrentAngel(angle)
   }
 
   return (
@@ -682,7 +693,7 @@ const WorkingProofForm: FunctionComponent<
                     <DocumentPreview
                       documentUrls={documentUrls}
                       imageUrls={imageUrls}
-                      fileRotation={fileRotation}
+                      currentAngel={currentAngel}
                     />
                   </Col>
                   <Col lg={"4"}>

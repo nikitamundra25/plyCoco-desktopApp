@@ -11,9 +11,8 @@ const DocumentPreview: FunctionComponent<IDocumentPreviewInterface> = (props: ID
   const {
     documentUrls,
     imageUrls,
-    fileRotation
+    currentAngel
   } = props;
-console.log("fileRotation",fileRotation);
 
   return (
     <>
@@ -21,12 +20,17 @@ console.log("fileRotation",fileRotation);
       <div className="document-preview d-flex justify-content-center working-height">
         {documentUrls ?
           <div className="d-flex align-items-center justify-content-center w-100 preview-section">
-            <embed src={documentUrls} type="application/pdf" width="100%" height="100%" />
+            <embed 
+            className= {`img-fluid`}
+            style={{transform: `rotate(${currentAngel}deg)`}} src={documentUrls}  
+             type="application/pdf" width="100%" height="100%" id="file"/>
           </div>
           :
           imageUrls ?
             <div className="d-flex align-items-center justify-content-center preview-section">
-              <img className="img-fluid" /* src={imageUrls}  */alt="" style={{transform: `rotate(${90}deg)`}} src={imageUrls}  />
+              <img className= {`img-fluid`}  
+            style={{transform: `rotate(${currentAngel}deg)`}} src={imageUrls}  
+              alt="" id="file" />
             </div>
             :
             <div className="d-flex align-items-center justify-content-center flex-column nodocument-section">

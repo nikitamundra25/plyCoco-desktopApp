@@ -40,6 +40,7 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
           documentSelectionId.fileName.lastIndexOf(".") + 1
         )
       : "";
+
   return (
     <div>
       <Modal
@@ -69,15 +70,10 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
         </ModalBody>
         <ModalFooter className="unlink-btn-wrap">
           <div className="d-flex align-items-center justify-content-end w-100 ">
-            <Button className={" text-capitalize mr-2"} color="primary">
-              {/* <a href={documentUrls} download  target="_blank">  */}
-              {languageTranslation("OPENFILE")}
-              {/* </a> */}
-            </Button>
-
             <a
               href={imageUrls ? imageUrls : documentUrls}
-              download
+              download="MyGoogleLogo"
+              target="_blank"
               className={"btn btn-primary text-capitalize mr-2"}
             >
               {languageTranslation("SUBMIT")}

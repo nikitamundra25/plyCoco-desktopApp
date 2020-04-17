@@ -255,7 +255,7 @@ const Appointment: FunctionComponent = (props: any) => {
       variables: {
         searchBy: null,
         sortBy: 5,
-        limit: 30,
+        limit: 100,
         page: 1,
         isActive: "",
       },
@@ -545,6 +545,8 @@ const Appointment: FunctionComponent = (props: any) => {
       },
     });
   };
+
+
   // by clicking on apply filter to get care giver and care institution list accordingly
   const applyFilter = (
     userRole: string | null,
@@ -2984,6 +2986,21 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
+  // function to load or search data in careinstitution dropdowwn
+  const handleLoadMoreCanstitution = (input: any) => {
+    console.log("input",input);
+    
+    fetchCareInstitutionList({
+      variables: {
+        searchBy: input ? input : "",
+        sortBy: 5,
+        limit: 100,
+        page: 1,
+        isActive: "",
+      },
+    });
+  }
+
   const onCaregiverQualificationFilter = () => {
     if (selectedCells && selectedCells.length) {
       let temp: string[] = [];
@@ -3597,6 +3614,7 @@ const Appointment: FunctionComponent = (props: any) => {
             setIsPositive={setIsPositive}
             isNegative={isNegative}
             setIsNegative={setIsNegative}
+            handleLoadMoreCanstitution={handleLoadMoreCanstitution}
           />
           <div className="common-content flex-grow-1">
             <div>

@@ -1135,5 +1135,8 @@
   "MAP_WORKPROOF_SUCCESSFULLY": "Document has been mapped successfully",
   "SOMETHING_WENT_WRONG_": "Something went wrong! try again.",
   "FILE_DOWNLOAD": "File download",
-  "OPEN_SAVE_FILE": "Do you want to open or save this file?"
+  "OPEN_SAVE_FILE": "Do you want to open or save this file?",
+  "TURN_LEFT": "Turn Left",
+  "TURN_RIGHT": "Turn Right",
+  "TURN_180": "Turn 180°"
 }

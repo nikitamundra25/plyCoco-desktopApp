@@ -8,7 +8,7 @@ import {
   Form,
   Table,
   UncontrolledTooltip,
-  Button
+  Button,
 } from "reactstrap";
 import moment from "moment";
 import Dropzone from "react-dropzone";
@@ -34,41 +34,43 @@ import {
 } from "../../../../interfaces";
 import displaydoc from "../../../assets/img/display-doc.svg";
 import upload from "../../../assets/img/upload.svg";
-import locked_caregiver from "../../../assets/img/block-caregiver.svg";
+// import locked_caregiver from "../../../assets/img/block-caregiver.svg";
 import hideoldfile from "../../../assets/img/hide-old-file.svg";
-import hidemapped from "../../../assets/img/block-file.svg";
+// import hidemapped from "../../../assets/img/block-file.svg";
+import delete_icon from "../../../assets/img/clear.svg";
+import turn_left from "../../../assets/img/turn_left.svg";
+import turn_right from "../../../assets/img/turn_right.svg";
+import turn_180 from "../../../assets/img/turn_180.svg";
 import "./index.scss";
 import { FormikProps } from "formik";
 import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
 import {
   DocumentUploadMutations,
   DocumentMutations,
-  AppointmentMutations
+  AppointmentMutations,
 } from "../../../../graphql/Mutations";
 
 import { toast } from "react-toastify";
 import DocumentPreview from "./DocumentPreview";
 import Loader from "../../containers/Loader/Loader";
 import PerformedWork from "./PerformedWork";
-import { AppointmentsQueries, GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
+import {
+  AppointmentsQueries,
+  GET_QUALIFICATION_ATTRIBUTE,
+} from "../../../../graphql/queries";
 import DisplayDifferentModal from "./DisplayDifferentModal";
 const [ADD_DOCUMENT] = DocumentUploadMutations;
 const [, , , , , , , , , GET_DOCUMENTS_FROM_OUTLOOK] = DocumentMutations;
-const [  ,
+const [, , , , , , , , MAP_WORKPROOF_WITH_APPOINTMENT] = AppointmentMutations;
+const [
   ,
   ,
   ,
   ,
   ,
-  ,
-  ,
-  MAP_WORKPROOF_WITH_APPOINTMENT] = AppointmentMutations
-const [ ,
-  ,
-  ,
-  ,
-  ,
-  GET_APPOINTMENT_DETAILS_BY_USERID, GET_APPOINTMENT_DETAILS_BY_ID]= AppointmentsQueries;
+  GET_APPOINTMENT_DETAILS_BY_USERID,
+  GET_APPOINTMENT_DETAILS_BY_ID,
+] = AppointmentsQueries;
 let toastId: any;
 
 const WorkingProofForm: FunctionComponent<
@@ -93,43 +95,48 @@ const WorkingProofForm: FunctionComponent<
     setdocumentType(value);
   };
   // qualifications list
-  const { data: qualificationList } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
+  const { data: qualificationList } = useQuery<IQualifications>(
+    GET_QUALIFICATION_ATTRIBUTE
+  );
   // Mutation to upload document
   const [addUserDocuments] = useMutation<
     { addUserDocuments: IWorkingProofFormValues },
     { documentInput: IDocumentInputInterface }
   >(ADD_DOCUMENT);
 
- // To fetch appointment list by caregiver Id GET_APPOINTMENT_DETAILS_BY_ID
- const [
-  getDataByCaregiverUserId,
-  { data: caregiverData, loading: caregiverDataLoading },
-] = useLazyQuery<any, any>(GET_APPOINTMENT_DETAILS_BY_USERID, {
-  fetchPolicy: "no-cache",
-  // notifyOnNetworkStatusChange: true
-});
+  // To fetch appointment list by caregiver Id GET_APPOINTMENT_DETAILS_BY_ID
+  const [
+    getDataByCaregiverUserId,
+    { data: caregiverData, loading: caregiverDataLoading },
+  ] = useLazyQuery<any, any>(GET_APPOINTMENT_DETAILS_BY_USERID, {
+    fetchPolicy: "no-cache",
+    // notifyOnNetworkStatusChange: true
+  });
 
- // To fetch appointment list by caregiver Id 
- const [
-  getAppointmentDataById,
-  { data: appointmentDataById, loading: appointmentIdLoading },
-] = useLazyQuery<any, any>(GET_APPOINTMENT_DETAILS_BY_ID, {
-  fetchPolicy: "no-cache",
-  // notifyOnNetworkStatusChange: true
-});
- 
+  // To fetch appointment list by caregiver Id
+  const [
+    getAppointmentDataById,
+    { data: appointmentDataById, loading: appointmentIdLoading },
+  ] = useLazyQuery<any, any>(GET_APPOINTMENT_DETAILS_BY_ID, {
+    fetchPolicy: "no-cache",
+    // notifyOnNetworkStatusChange: true
+  });
+
   // Mutation to upload document
-  const [mapDocumentsWithAppointment, {loading: mapWorkproofLoading}] = useMutation<
+  const [
+    mapDocumentsWithAppointment,
+    { loading: mapWorkproofLoading },
+  ] = useMutation<
     { Appointment: any },
-    { appointmentId: number | null ,
-      workProofId : number | null
-    }
-  >(MAP_WORKPROOF_WITH_APPOINTMENT,{
-    onCompleted(){
+    { appointmentId: number | null; workProofId: number | null }
+  >(MAP_WORKPROOF_WITH_APPOINTMENT, {
+    onCompleted() {
       if (!toast.isActive(toastId)) {
-        toastId = toast.success(languageTranslation('MAP_WORKPROOF_SUCCESSFULLY'));
+        toastId = toast.success(
+          languageTranslation("MAP_WORKPROOF_SUCCESSFULLY")
+        );
       }
-    }
+    },
   });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -193,9 +200,14 @@ const WorkingProofForm: FunctionComponent<
     }
   };
 
-  const handlePreview = async (document: string, index: number, id: string, item: any) => {
+  const handlePreview = async (
+    document: string,
+    index: number,
+    id: string,
+    item: any
+  ) => {
     setRowIndex(index);
-    setdocumentSelectionId(item)
+    setdocumentSelectionId(item);
     let sampleFileUrl = "";
     if (process.env.NODE_ENV === "production") {
       sampleFileUrl = document;
@@ -240,27 +252,31 @@ const WorkingProofForm: FunctionComponent<
 
   // Call when select caregiver in performed work section
   useEffect(() => {
-    if(caregiverFilter && caregiverFilter.value){
+    if (caregiverFilter && caregiverFilter.value) {
       getDataByCaregiverUserId({
         variables: {
-          userId : caregiverFilter && caregiverFilter.value ? parseInt(caregiverFilter.value) : null
+          userId:
+            caregiverFilter && caregiverFilter.value
+              ? parseInt(caregiverFilter.value)
+              : null,
         },
       });
     }
   }, [caregiverFilter]);
 
-
-
   useEffect(() => {
-    if(appointmentDataById && appointmentDataById.getAppointmentDetailsById){ 
-      setappointmentData([appointmentDataById.getAppointmentDetailsById])
+    if (appointmentDataById && appointmentDataById.getAppointmentDetailsById) {
+      setappointmentData([appointmentDataById.getAppointmentDetailsById]);
     }
   }, [appointmentDataById]);
 
-
   useEffect(() => {
-    if(caregiverData && caregiverData.getAppointmentDetailsByUserId && caregiverData.getAppointmentDetailsByUserId.length){
-      setappointmentData(caregiverData.getAppointmentDetailsByUserId)
+    if (
+      caregiverData &&
+      caregiverData.getAppointmentDetailsByUserId &&
+      caregiverData.getAppointmentDetailsByUserId.length
+    ) {
+      setappointmentData(caregiverData.getAppointmentDetailsByUserId);
     }
   }, [caregiverData]);
 
@@ -274,62 +290,63 @@ const WorkingProofForm: FunctionComponent<
     }
   };
 
-const onFilterById = (value:any) => {
-  if(value){ 
-  getAppointmentDataById({
-    variables: {
-      id : searchById ? parseInt(searchById) : null
-    },
-  });
-}
-}
+  const onFilterById = (value: any) => {
+    if (value) {
+      getAppointmentDataById({
+        variables: {
+          id: searchById ? parseInt(searchById) : null,
+        },
+      });
+    }
+  };
 
-const handleSelectCheckbox = (e: React.ChangeEvent<HTMLInputElement>, id:string) =>{
-const { target } = e;
-const { checked } = target;
-if(checked){
-  setcheckboxMark((selectedCareGiver: any) => [
-    ...selectedCareGiver,
-    parseInt(id)
-  ]);
-}else{
-  if (checkboxMark.indexOf(parseInt(id)) > -1) {
-    checkboxMark.splice(checkboxMark.indexOf(parseInt(id)), 1);
-    setcheckboxMark([...checkboxMark]);
-  }
-}
-}
+  const handleSelectCheckbox = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => {
+    const { target } = e;
+    const { checked } = target;
+    if (checked) {
+      setcheckboxMark((selectedCareGiver: any) => [
+        ...selectedCareGiver,
+        parseInt(id),
+      ]);
+    } else {
+      if (checkboxMark.indexOf(parseInt(id)) > -1) {
+        checkboxMark.splice(checkboxMark.indexOf(parseInt(id)), 1);
+        setcheckboxMark([...checkboxMark]);
+      }
+    }
+  };
 
-const handleLinkDocument = async() =>{
-console.log("checkboxMark",checkboxMark);
-console.log("document",documentSelectionId);
-const id = documentSelectionId ? documentSelectionId.id : null
-try {
-  
-  await mapDocumentsWithAppointment({
-    variables: {
-      appointmentId : checkboxMark, 
-      workProofId : id
-    },
-  });
-} catch (error) {
-  const message = errorFormatter(error.message);
-  if (!toast.isActive(toastId)) {
-    toast.dismiss();
-    toast.error(languageTranslation("SOMETHING_WENT_WRONG_"));
-  }
-  logger(error);
-}
-}
+  const handleLinkDocument = async () => {
+    console.log("checkboxMark", checkboxMark);
+    console.log("document", documentSelectionId);
+    const id = documentSelectionId ? documentSelectionId.id : null;
+    try {
+      await mapDocumentsWithAppointment({
+        variables: {
+          appointmentId: checkboxMark,
+          workProofId: id,
+        },
+      });
+    } catch (error) {
+      const message = errorFormatter(error.message);
+      if (!toast.isActive(toastId)) {
+        toast.dismiss();
+        toast.error(languageTranslation("SOMETHING_WENT_WRONG_"));
+      }
+      logger(error);
+    }
+  };
 
-const onhandleDisplayDifferent = async() => {
-  if(documentSelectionId && documentSelectionId.id){
-    setshowModal(true)
-  }else{
-    toast.success("Please select document");
-
-  }
-}
+  const onhandleDisplayDifferent = async () => {
+    if (documentSelectionId && documentSelectionId.id) {
+      setshowModal(true);
+    } else {
+      toast.success("Please select document");
+    }
+  };
   return (
     <>
       <div className="common-detail-page">
@@ -347,8 +364,9 @@ const onhandleDisplayDifferent = async() => {
                   {languageTranslation("RETRIVE_WORK_PROOF")}
                 </span>
               </div>
-              <div className="header-nav-item"
-              onClick = {()=>onhandleDisplayDifferent()}
+              <div
+                className="header-nav-item"
+                onClick={() => onhandleDisplayDifferent()}
               >
                 <span className="header-nav-icon">
                   <img src={displaydoc} alt="" />
@@ -359,41 +377,55 @@ const onhandleDisplayDifferent = async() => {
               </div>
               <div className="header-nav-item">
                 <span className="header-nav-icon">
-                  <img src={hidemapped} alt="" />
-                </span>
-                <span className="header-nav-text">
-                  {languageTranslation("HIDE_MAPPED_HEADER")}
-                </span>
-              </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
-                  <img src={locked_caregiver} alt="" />
-                </span>
-                <span className="header-nav-text">
-                  {languageTranslation("HIDE_LOCKED_CAREGIVER_HEADER")}
-                </span>
-              </div>
-              <div className="header-nav-item">
-                <span className="header-nav-icon">
                   <img src={hideoldfile} alt="" />
                 </span>
                 <span className="header-nav-text">
                   {languageTranslation("HIDE_OLD_FILES_HEADER")}
                 </span>
               </div>
-              <div className='ml-auto'>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={turn_left} alt="" />
+                </span>
+                <span className="header-nav-text">
+                  {languageTranslation("TURN_LEFT")}
+                </span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={turn_180} alt="" />
+                </span>
+                <span className="header-nav-text">
+                  {languageTranslation("TURN_180")}
+                </span>
+              </div>
+              <div className="header-nav-item">
+                <span className="header-nav-icon">
+                  <img src={turn_right} alt="" />
+                </span>
+                <span className="header-nav-text">
+                  {languageTranslation("TURN_RIGHT")}
+                </span>
+              </div>
+
+              <div className="header-nav-item">
+                <span className="header-nav-icon pr-0">
+                  <img src={delete_icon} alt="" />
+                </span>
+              </div>
+              <div className="ml-auto">
                 <Button
-                  color='primary'
+                  color="primary"
                   onClick={handleLinkDocument}
-                  className='btn-email-save ml-auto mr-2 btn btn-primary'
+                  className="btn-email-save ml-auto mr-2 btn btn-primary"
                   disabled={mapWorkproofLoading}
                 >
-                    {mapWorkproofLoading ? (
-                    <i className='fa fa-spinner fa-spin mr-2' />
+                  {mapWorkproofLoading ? (
+                    <i className="fa fa-spinner fa-spin mr-2" />
                   ) : (
                     ""
                   )}
-                  <span>{languageTranslation('SUBMIT')}</span>
+                  <span>{languageTranslation("SUBMIT")}</span>
                 </Button>
               </div>
             </div>
@@ -645,13 +677,27 @@ const onhandleDisplayDifferent = async() => {
                     <PerformedWork
                       careGiversOptions={careGiversOptions}
                       handleChange={handleChange}
-                      appointmentList = {appointmentData && appointmentData.length ? appointmentData : []}
-                      caregiverDataLoading={caregiverDataLoading ? caregiverDataLoading :  appointmentIdLoading}
-                      qualificationList={qualificationList && qualificationList.getQualifications && qualificationList.getQualifications.length ? qualificationList.getQualifications : []}
+                      appointmentList={
+                        appointmentData && appointmentData.length
+                          ? appointmentData
+                          : []
+                      }
+                      caregiverDataLoading={
+                        caregiverDataLoading
+                          ? caregiverDataLoading
+                          : appointmentIdLoading
+                      }
+                      qualificationList={
+                        qualificationList &&
+                        qualificationList.getQualifications &&
+                        qualificationList.getQualifications.length
+                          ? qualificationList.getQualifications
+                          : []
+                      }
                       onFilterById={onFilterById}
                       handleSelect={handleSelectCheckbox}
                       checkboxMark={checkboxMark}
-                />
+                    />
                   </Col>
                 </Row>
               </Form>
@@ -659,13 +705,13 @@ const onhandleDisplayDifferent = async() => {
           </div>
         </div>
       </div>
-      <DisplayDifferentModal 
-      show={showModal}
-      handleClose={() => setshowModal(false)}
-      documentUrls = {documentUrls}
-      imageUrls = {imageUrls}
-      documentSelectionId={documentSelectionId}
-     />
+      <DisplayDifferentModal
+        show={showModal}
+        handleClose={() => setshowModal(false)}
+        documentUrls={documentUrls}
+        imageUrls={imageUrls}
+        documentSelectionId={documentSelectionId}
+      />
     </>
   );
 };

@@ -103,7 +103,10 @@ const Cell = ({
             <i className='fa fa-circle-o'></i>
           ) : item.status === 'timeSheetPending' ? (
             <i className='far fa-clock'></i>
-          ) : isBlocked ? (
+          ) :  item.status === 'timeSheetUpdated' ? (
+            <i  className="fa fa-check"></i>
+          ) :
+           isBlocked ? (
             <i className='fa fa-ban'></i>
           ) : (
                   <>

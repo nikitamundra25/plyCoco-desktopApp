@@ -136,7 +136,7 @@ export interface IDate {
 
 export interface IStarInterface {
   isStar: boolean;
-  setIndex: number;
+  setIndex?: number;
   id: string;
 }
 

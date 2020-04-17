@@ -2,7 +2,9 @@ import { IReactSelectInterface } from "./Constant";
 
 export interface IInvoiceList{
   invoiceListLoading: boolean
-  invoiceList: any
+  invoiceList: any,
+  totalCount: number,
+  currentPage: number
   }
 
   export interface IInvoiceNavBar {

@@ -139,6 +139,9 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar> = (props: IInvoiceNavBar)
         placeholder="Select Month Summary"
         options={InvoiceSummaryFilter}
         isClearable={true}
+        onChange={(value: any) =>
+          onhandleSelection(value, "monthSummary")
+        }
       />
     </div>
 

@@ -536,3 +536,17 @@ body {
   padding-top: 46px;
   height: calc(50vh - 90px) !important;
 }
+.appointment-row{
+  .appointment-calander-col{
+    @media  (min-width: 2500px) {
+      flex: 0 0 1568px;
+         max-width: 1568px;
+    }
+  }
+  .appointment-form-col{
+    @media (min-width: 2500px) {
+      flex: 0 0 calc(100% - 1568px);
+         max-width:calc(100% - 1568px);
+    }
+  }
+}

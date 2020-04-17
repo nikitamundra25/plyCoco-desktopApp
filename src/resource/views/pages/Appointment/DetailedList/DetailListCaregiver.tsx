@@ -330,7 +330,7 @@ const DetailListCaregiver = (props: any) => {
                             {languageTranslation('KILOMETER')}
                           </th>
                           <th className='whitespace-nowrap text-center'>
-                            {languageTranslation('FEE_PER_KM')}
+                            {languageTranslation('FEE_PER_KM')} 3
                           </th>
 
                           <th className='whitespace-nowrap '>

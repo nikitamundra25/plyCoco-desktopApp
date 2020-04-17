@@ -413,7 +413,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                               </Label>
                             </div>
                           </FormGroup>
-                          <FormGroup check inline>
+                          <FormGroup check inline className="night-allawance-label-wrap">
                             <div className=' checkbox-custom mb-2'>
                               <input
                                 type='checkbox'
@@ -436,7 +436,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                             </div>
                           </FormGroup>
                           {timeSlotError && (
-                            <div className='required-checkbox-error'>
+                            <div className='required-checkbox-error night-allawance-error'>
                               {timeSlotError}
                             </div>
                           )}
@@ -513,7 +513,7 @@ const {document=''} = pdfDetails && pdfDetails.length ? pdfDetails[0] : {}
                         <div className='d-flex align-items-center flex-wrap justify-content-between'>
                           <div className='required-input nightfee-input mb-1'>
                             <InputGroup className='flex-nowrap'>
-                              <Input
+                              <Input 
                                 type='text'
                                 name={'nightFee'}
                                 value={nightFee ? nightFee : ''}

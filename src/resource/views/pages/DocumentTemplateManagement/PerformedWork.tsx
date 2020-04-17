@@ -50,7 +50,7 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
       <div className="working-height">
         <div className="document-form py-2 px-3">
           <Row>
-            {/*<Col lg={"12"}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row className="align-items-center">
                   <Col sm="4">
@@ -72,7 +72,7 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                   </Col>
                 </Row>
               </FormGroup>
-            </Col> */}
+            </Col>
             <Col lg={"12"}>
               <FormGroup>
                 <Row className="align-items-center">

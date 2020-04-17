@@ -28,6 +28,7 @@ export interface IDocumentInputInterface {
 export interface IDocumentPreviewInterface {
   documentUrls: string;
   imageUrls: string;
+  fileRotation?: string
 }
 
 export interface IDocumentPerformedWorkInterface{

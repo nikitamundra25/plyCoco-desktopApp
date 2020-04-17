@@ -72,8 +72,8 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
           <div className="d-flex align-items-center justify-content-end w-100 ">
             <a
               href={imageUrls ? imageUrls : documentUrls}
-              download="MyGoogleLogo"
-              target="_blank"
+              download
+              // target="_blank"
               className={"btn btn-primary text-capitalize mr-2"}
             >
               {languageTranslation("SUBMIT")}

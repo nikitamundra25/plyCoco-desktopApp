@@ -150,6 +150,7 @@ const WorkingProofForm: FunctionComponent<
   >(undefined);
   const [appointmentData, setappointmentData] = useState<any>([]);
   const [checkboxMark, setcheckboxMark] = useState<any>([]);
+  const [fileRotation, setfileRotation] = useState<string>('');
 
   const [
     getWorkProofFromOutlookQuery,
@@ -320,8 +321,6 @@ const WorkingProofForm: FunctionComponent<
   };
 
   const handleLinkDocument = async () => {
-    console.log("checkboxMark", checkboxMark);
-    console.log("document", documentSelectionId);
     const id = documentSelectionId ? documentSelectionId.id : null;
     try {
       await mapDocumentsWithAppointment({
@@ -347,6 +346,11 @@ const WorkingProofForm: FunctionComponent<
       toast.success("Please select document");
     }
   };
+
+  const onRotateFile = (name:string) => {
+    setfileRotation(name)
+  }
+
   return (
     <>
       <div className="common-detail-page">
@@ -383,7 +387,10 @@ const WorkingProofForm: FunctionComponent<
                   {languageTranslation("HIDE_OLD_FILES_HEADER")}
                 </span>
               </div>
-              <div className="header-nav-item">
+              <div className="header-nav-item" 
+                onClick={() => onRotateFile("turnLeft")}
+              
+              >
                 <span className="header-nav-icon">
                   <img src={turn_left} alt="" />
                 </span>
@@ -391,7 +398,9 @@ const WorkingProofForm: FunctionComponent<
                   {languageTranslation("TURN_LEFT")}
                 </span>
               </div>
-              <div className="header-nav-item">
+              <div className="header-nav-item"
+             onClick={() => onRotateFile("turn180")}
+              >
                 <span className="header-nav-icon">
                   <img src={turn_180} alt="" />
                 </span>
@@ -399,7 +408,9 @@ const WorkingProofForm: FunctionComponent<
                   {languageTranslation("TURN_180")}
                 </span>
               </div>
-              <div className="header-nav-item">
+              <div className="header-nav-item"
+               onClick={() => onRotateFile("turnRight")}
+              >
                 <span className="header-nav-icon">
                   <img src={turn_right} alt="" />
                 </span>
@@ -671,6 +682,7 @@ const WorkingProofForm: FunctionComponent<
                     <DocumentPreview
                       documentUrls={documentUrls}
                       imageUrls={imageUrls}
+                      fileRotation={fileRotation}
                     />
                   </Col>
                   <Col lg={"4"}>

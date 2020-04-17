@@ -11,7 +11,9 @@ const DocumentPreview: FunctionComponent<IDocumentPreviewInterface> = (props: ID
   const {
     documentUrls,
     imageUrls,
+    fileRotation
   } = props;
+console.log("fileRotation",fileRotation);
 
   return (
     <>
@@ -24,7 +26,7 @@ const DocumentPreview: FunctionComponent<IDocumentPreviewInterface> = (props: ID
           :
           imageUrls ?
             <div className="d-flex align-items-center justify-content-center preview-section">
-              <img className="img-fluid" src={imageUrls} alt="" />
+              <img className="img-fluid" /* src={imageUrls}  */alt="" style={{transform: `rotate(${90}deg)`}} src={imageUrls}  />
             </div>
             :
             <div className="d-flex align-items-center justify-content-center flex-column nodocument-section">

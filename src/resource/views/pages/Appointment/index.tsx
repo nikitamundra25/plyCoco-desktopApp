@@ -207,7 +207,6 @@ const Appointment: FunctionComponent = (props: any) => {
   // maintain solo caregiver
   const [starCaregiver, setstarCaregiver] = useState<IStarInterface>({
     isStar: false,
-    setIndex: -1,
     id: "",
   });
 
@@ -1247,7 +1246,6 @@ const Appointment: FunctionComponent = (props: any) => {
       setstarMarkCaregiver(!starMarkCaregiver);
       setstarCaregiver({
         isStar: true,
-        setIndex: -1,
         id: list.id,
       })
       handleSecondStar(list, name);
@@ -1255,7 +1253,6 @@ const Appointment: FunctionComponent = (props: any) => {
       handleSecondStar(list, name);
       setstarCaregiver({
         isStar: true,
-        setIndex: -1,
         id: list.id,
       })
     } else {

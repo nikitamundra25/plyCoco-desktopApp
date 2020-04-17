@@ -78,7 +78,7 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
             <a
               href={imageUrls ? imageUrls : documentUrls}
               download
-              className={" btn-primary text-capitalize mr-2"}
+              className={"btn btn-primary text-capitalize mr-2"}
             >
               {languageTranslation("SUBMIT")}
             </a>

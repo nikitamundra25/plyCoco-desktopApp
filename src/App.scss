@@ -536,16 +536,17 @@ body {
         }
       }
       .input-group-prepend {
-        border: 1px solid $light_gray;
         background: $white;
         margin-left: 1px;
         border-right: 0;
       }
       .input-group-text {
         background: $white;
+        border: 1px solid $light_gray;
         border: 0px;
         border-radius: 0;
         color: $black;
+        border: 1px solid #ccc;
       }
       .login-btn {
         color: $white;
@@ -1392,8 +1393,15 @@ html:not([dir="rtl"]) {
       font-size: $font_11;
       position: absolute;
       bottom: -6px;
+      &.night-allawance-error {
+        line-height: 10px;
+        font-size: 10px;
+        bottom: -5px;
+      }
     }
-
+    .night-allawance-label-wrap{
+      padding-bottom: 6px;
+    }
     .form-control {
       border-radius: 0px;
       color: $light_black;
@@ -4282,4 +4290,19 @@ html:not([dir="rtl"]) {
   position: fixed;
   left: 50%;
   transform: translate(0px, 0px);
+}
+.appointment-row-wrap{
+  .appointment-calander-col{
+    display: inline;
+    @media  (min-width: 1900px) {
+      flex: 0 0 1568px;
+         max-width: 1568px;
+    }
+  }
+  .appointment-form-col{
+    @media (min-width: 1900px) {
+      flex: 0 0 calc(100% - 1568px);
+         max-width:calc(100% - 1568px);
+    }
+  }
 }

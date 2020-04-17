@@ -3519,8 +3519,8 @@ const Appointment: FunctionComponent = (props: any) => {
           />
           <div className="common-content flex-grow-1">
             <div>
-              <Row>
-                <Col lg={"6"}>
+              <Row className="appointment-row">
+                <Col lg={"6"} className="appointment-calander-col">
                   {/* caregiver list view */}
                   <CaregiverListView
                     updateLinkedStatus={updateLinkedStatus}
@@ -3596,7 +3596,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     starMarkCareinstitution={starMarkCareinstitution}
                   />
                 </Col>
-                <Col lg={"6"}>
+                <Col lg={"6"} className="appointment-form-col">
                   <Row>
                     <Col
                       lg={"6"}

@@ -924,7 +924,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // To store users list into state
   useEffect(() => {
-    console.log("starCaregiver",starCaregiver);
     
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
     let careGiverSelectedCell =

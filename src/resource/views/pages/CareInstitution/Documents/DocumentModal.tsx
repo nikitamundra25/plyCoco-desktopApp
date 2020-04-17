@@ -201,7 +201,7 @@ const DocumentUploadModal = (props: any) => {
                           }}
                           classNamePrefix="custom-inner-reactselect"
                           className={"custom-reactselect"}
-                          isDisabled={isMissingDocEditable || defaultDocument}
+                          // isDisabled={isMissingDocEditable || defaultDocument}
                         />
                       </Col>
                     </Row>

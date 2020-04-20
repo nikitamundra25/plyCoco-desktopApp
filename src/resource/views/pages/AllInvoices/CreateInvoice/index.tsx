@@ -10,7 +10,7 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
-import { languageTranslation } from "../../../../../helpers";
+import { languageTranslation, errorFormatter } from "../../../../../helpers";
 
 import { RouteComponentProps, useLocation } from "react-router";
 import "../index.scss";
@@ -34,12 +34,16 @@ import {
   InvoiceQueries,
   CareGiverQueries,
 } from "../../../../../graphql/queries";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import moment from "moment";
 import InvoiceList from "./InvoiceList";
 import CustomOption from "../../../components/CustomOptions";
 import InvoiceNavbar from "./InvoiceNavbar";
 import * as qs from "query-string";
+import { toast } from "react-toastify";
+import { InvoiceMutations } from "../../../../../graphql/Mutations";
+
+let toastId: any = null;
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -51,7 +55,8 @@ const [
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
-
+//Create New Invoice PDF
+const [CREATE_INVOICE] = InvoiceMutations
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
@@ -61,6 +66,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   const [careinstitutionFilter, setcareinstitutionFilter] = useState<
     IReactSelectInterface | undefined
   >(undefined);
+
+  // selected Appointment data
+  const [selectedAppointment, setselectedAppointment] = useState<any[]>([]);
 
   // select Careinstitution
   const [caregiverFilter, setcaregiverFilter] = useState<
@@ -87,6 +95,14 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     careInstitutionDepartmentOption,
     setcareInstitutionDepartmentOption,
   ] = useState<IReactSelectInterface[] | undefined>([]);
+
+  //
+  const [CreateInvoice] = useMutation<
+    {
+      invoiceInput: any;
+    }
+  >(CREATE_INVOICE);
+
 
   // Default value is start & end of month
   let gte: string = moment().startOf("month").format(dbAcceptableFormat);
@@ -150,8 +166,8 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   // to get list of all invoices
   const getInvoiceListData = () => {
-    console.log("currentPage",currentPage);
-    
+    console.log("currentPage", currentPage);
+
     fetchInvoiceList({
       variables: {
         searchBy: null,
@@ -185,24 +201,24 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   // Call function to fetch invoice list
   useEffect(() => {
-    if(monthFilter && monthFilter.value){
-      const{ value} = monthFilter
-    if(value==="weekly"){
-      gte = moment().startOf('week').format(dbAcceptableFormat);
-      lte = moment().endOf('week').format(dbAcceptableFormat);
-    }else if(value==="everySixMonths"){
-      gte = moment().startOf("month").format(dbAcceptableFormat);
-      lte= moment(gte).add(6, 'M').endOf('month').format(dbAcceptableFormat);
-  }else if(value==="perMonth"){
-     gte= moment().startOf("month").format(dbAcceptableFormat);
-     lte= moment().endOf("month").format(dbAcceptableFormat);
-  }else if(value==="all"){
-     gte = "";
-     lte = ""
-  }
-}
+    if (monthFilter && monthFilter.value) {
+      const { value } = monthFilter
+      if (value === "weekly") {
+        gte = moment().startOf('week').format(dbAcceptableFormat);
+        lte = moment().endOf('week').format(dbAcceptableFormat);
+      } else if (value === "everySixMonths") {
+        gte = moment().startOf("month").format(dbAcceptableFormat);
+        lte = moment(gte).add(6, 'M').endOf('month').format(dbAcceptableFormat);
+      } else if (value === "perMonth") {
+        gte = moment().startOf("month").format(dbAcceptableFormat);
+        lte = moment().endOf("month").format(dbAcceptableFormat);
+      } else if (value === "all") {
+        gte = "";
+        lte = ""
+      }
+    }
     getInvoiceListData();
-  }, [careinstitutionFilter, departmentFilter, caregiverFilter,monthFilter]);
+  }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter]);
 
   // set careInstitution list options
   const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
@@ -292,9 +308,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       setdepartmentFilter(value);
     } else if (name === "caregiver") {
       setcaregiverFilter(value);
-    } else if(name==="monthSummary"){
+    } else if (name === "monthSummary") {
       setmonthFilter(value)
-      
+
     }
   };
 
@@ -333,6 +349,68 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     setDateFilter(date);
   };
 
+  const handleCheckedChange = (e: any, list: any) => {
+    const { checked } = e.target
+    if (checked === true) {
+      selectedAppointment.push(list)
+      setselectedAppointment(selectedAppointment)
+    } else {
+      const arrayIndex: number = selectedAppointment.findIndex((data: any) => data.id === list.id)
+      selectedAppointment.splice(arrayIndex, 1)
+      setselectedAppointment(selectedAppointment)
+    }
+  }
+
+  const handleCreateInvoice = async () => {
+    console.log("in handle Selected Invoice Created Data", selectedAppointment)
+    let singleCareGiverData: any[] = [], amont: number = 0, selectedAppointmentId: any[] = [], singleCareInstData: any[] = []
+
+    try {
+      if (selectedAppointment && selectedAppointment.length) {
+        selectedAppointment.forEach((appointmentData: any) => {
+          console.log("????????????", appointmentData);
+          if (appointmentData.ca && appointmentData.cr) {
+            singleCareGiverData.push(appointmentData.ca.userId)
+            singleCareInstData.push(appointmentData.cr.userId)
+            selectedAppointmentId.push(appointmentData.id)
+            console.log("+++++++++++++++singleCareGiverData", singleCareGiverData[singleCareGiverData.length - 1]);
+            if (singleCareGiverData[singleCareGiverData.length - 1] !== appointmentData.ca.userId) {
+              console.log("MMMMMMMMMMMMMMM");
+            } else {
+              console.log("*****************In else condition");
+            }
+          } else {
+            const message = errorFormatter("Selected appointment don't have care giver");
+            if (!toast.isActive(toastId)) {
+              toastId = toast.warn(message)
+            }
+          }
+        });
+        const invoiceInput: any = {
+          caregiverId: singleCareGiverData[singleCareGiverData.length - 1],
+          careInstitutionId: singleCareGiverData[singleCareGiverData.length - 1],
+          appointmentIds: selectedAppointmentId,
+          status: "unpaid",
+          subTotal: "20",
+          amount: "20",
+          tax: "20",
+          careInstitutionName: "Gunjali9989",
+          careGiverName: "aayushi"
+        }
+        await CreateInvoice({
+          variables: {
+            invoiceInput: invoiceInput
+          },
+        });
+      }
+    } catch (error) {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+  }
+
   return (
     <>
       <div className="common-detail-page">
@@ -348,6 +426,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             handleDayClick={handleDayClick}
             handleArrowDayChange={handleArrowDayChange}
             dateFilter={dateFilter}
+            handleCreateInvoice={() => handleCreateInvoice()}
           />
 
           <div className="common-content flex-grow-1">
@@ -355,6 +434,8 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
               <InvoiceList
                 invoiceListLoading={invoiceListLoading}
                 currentPage={currentPage}
+                selectedAppointment={selectedAppointment}
+                handleCheckedChange={(e: any, list: any) => handleCheckedChange(e, list)}
                 invoiceList={
                   invoiceList &&
                     invoiceList.getAllAppointment &&

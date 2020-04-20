@@ -14,7 +14,7 @@ import left_arrow from "../../../../assets/img/leftarrow.svg";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
 
-const InvoiceNavbar: FunctionComponent<IInvoiceNavBar> = (props: IInvoiceNavBar) => {
+const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceNavBar & any) => {
   const {
     onhandleSelection,
     careGiversOptions,
@@ -25,7 +25,8 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar> = (props: IInvoiceNavBar)
     caregiverFilter,
     handleDayClick,
     handleArrowDayChange,
-    dateFilter
+    dateFilter,
+    handleCreateInvoice
   } = props;
 
   return (
@@ -107,7 +108,7 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar> = (props: IInvoiceNavBar)
       <span className="header-nav-icon">
         <img src={pen} alt="" />
       </span>
-      <span className="header-nav-text">
+      <span onClick={handleCreateInvoice} className="header-nav-text">
         {languageTranslation("CREATE")}
       </span>
     </div>

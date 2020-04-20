@@ -112,6 +112,7 @@ const CarinstituionListView: FunctionComponent<
           deptId = "",
           divisions = [],
         } = careInstData ? careInstData : {};
+        
         let qualification1: IReactSelectInterface[] = [];
         if (
           qualificationList &&
@@ -122,15 +123,17 @@ const CarinstituionListView: FunctionComponent<
           qualification1 = qualificationList.filter(({ value }: any) =>
             item.qualificationId.includes(value)
           );
-        } else if (qualificationId && qualificationId.length) {
+        } else if (qualificationId && qualificationId.length) {   
           qualification1 = qualificationList.filter(({ value }: any) =>
             qualificationId.includes(value)
           );
         }
+        
         let temp = {
           ...item,
           qualificationId: qualification1 ? qualification1 : [],
         };
+        
         return {
           id: deptId ? userId : id,
           firstName,
@@ -143,7 +146,7 @@ const CarinstituionListView: FunctionComponent<
           canstitution,
           dept: { id: deptId, name },
           item:
-            temp && temp.qualificationId && temp.qualificationId ? temp : item,
+            temp && temp.qualificationId && temp.qualificationId.length ? temp : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : "",
           divisions,
@@ -362,7 +365,7 @@ const CarinstituionListView: FunctionComponent<
   const loadMoreRows = ({ startIndex, stopIndex }: any) => {
     getMoreCareInstituionList(careInstitutionList.length);
   };
-
+  
   const renderTableRows = (list: any, index: any, style: any) => {
     // select careInstitution if no department is available
     // if (starCanstitution.isStar && !list ) {
@@ -390,7 +393,7 @@ const CarinstituionListView: FunctionComponent<
         (item: any) => item.id === list.id
       );
     }
-
+    
     // let temp: any[] = [];
     // if (listData && listData.length) {
     // listData.forEach((list: any, index: number) => {
@@ -430,7 +433,7 @@ const CarinstituionListView: FunctionComponent<
           id={`careinst-${list.id}`}
         >
           <Link
-            to={AppRoutes.CARE_INSTITUION_VIEW.replace(":id", list.id)}
+            to={AppRoutes.CARE_INSTITUION_VIEW.replace(":id", starCanstitution.isStar ? secondStarCanstitution && secondStarCanstitution.isStar ? list.userId : starCanstitution.id : list.id)}
             target="_blank"
             className="text-body"
           >

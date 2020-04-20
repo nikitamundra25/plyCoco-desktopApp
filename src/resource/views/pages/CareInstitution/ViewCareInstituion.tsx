@@ -5,6 +5,7 @@ import { Button } from "reactstrap";
 import Select from "react-select";
 import { FormikProps } from "formik";
 import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
+import { useHistory } from "react-router";
 import {
   AppRoutes,
   deactivatedListColor,
@@ -28,14 +29,12 @@ import {
 import { CareInstitutionMutation } from "../../../../graphql/Mutations";
 import Loader from "../../containers/Loader/Loader";
 import { languageTranslation } from "../../../../helpers";
-import CustomOption from "../../components/CustomOptions";
 import add from "../../../assets/img/add.svg";
 import reminder from "../../../assets/img/reminder.svg";
 import password from "../../../assets/img/password.svg";
 import appointment from "../../../assets/img/appointment.svg";
 import clear from "../../../assets/img/clear.svg";
 import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
-import { useHistory } from "react-router";
 
 const PersonalInformation = React.lazy(() => import("./PersonalInfo"));
 const Offers = React.lazy(() => import("./Offers"));
@@ -52,21 +51,17 @@ const CreateTodo = React.lazy(() =>
 
 const [
   GET_CARE_INSTITUTION_LIST,
-  GET_CARE_INSTITUION_BY_ID,
-  GET_DEPARTMENT_LIST
 ] = CareInstitutionQueries;
 
 const [
-  UPDATE_CARE_INSTITUTION,
-  UPDATE_CARE_INSTITUTION_STATUS,
-  UPDATE_DEPARTMENT_CARE_INSTITUTION,
-  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
-  DELETE_CARE_INSTITUTION,
-  ADD_CARE_INSTITUTION,
-  ADD_NEW_CONTACT_CARE_INSTITUTION,
-  ADD_NEW_CARE_INTITUTION,
-  ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ADD_NEW_CARE_INTITUTION
 ] = CareInstitutionMutation;
 
 const CareInstitutionSidebar = React.lazy(() =>
@@ -86,10 +81,6 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   const Id: any | undefined = id;
   const [showToDo, setShowToDo] = useState<boolean>(false);
   let history = useHistory();
-  let sortBy: IReactSelectInterface | undefined = {
-    label: "3",
-    value: "Sort by A-Z"
-  };
 
   const [isnewDataUpdate, setisnewDataUpdate] = useState(false);
 
@@ -147,13 +138,13 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
   let CareInstitutionList: IReactSelectInterface[] = [];
   if (careInstituition && careInstituition.getCareInstitutions) {
     const { getCareInstitutions } = careInstituition;
-    const { careInstitutionData, canstitution } = getCareInstitutions;
+    const { careInstitutionData } = getCareInstitutions;
     CareInstitutionList.push({
       label: languageTranslation("NAME"),
       value: languageTranslation("ID"),
       companyName: languageTranslation("COMPANY_NAME")
     });
-    careInstitutionData.map((data: any, index: any) => {
+    careInstitutionData.map((data: any) => {
       const { canstitution } = data;
       let { attributes = [], companyName = "" } = canstitution
         ? canstitution
@@ -268,6 +259,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       }
     });
   };
+  console.log(selectUser,'selectUser+++');
+  
   return (
     <div>
       <div className="common-detail-page">
@@ -288,7 +281,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                           "custom-reactselect custom-reactselect-careinst-menu-width"
                         }
                         defaultValue={selectUser}
-                        placeholder="Select Caregiver"
+                        placeholder={languageTranslation("SELECT_CAREINSTITUTION")}
                         value={selectUser}
                         onChange={(e: any) => handleSelect(e)}
                         options={CareInstitutionList}
@@ -406,7 +399,10 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                         careInstituition.getCareInstitutions
                           .careInstitutionData &&
                         selectUser &&
-                        selectUser.value
+                        selectUser.value && careInstituition.getCareInstitutions.careInstitutionData.find(
+                          (careInstitutionData: any) =>
+                            careInstitutionData.id === selectUser.value
+                        )
                           ? careInstituition.getCareInstitutions.careInstitutionData.find(
                               (careInstitutionData: any) =>
                                 careInstitutionData.id === selectUser.value

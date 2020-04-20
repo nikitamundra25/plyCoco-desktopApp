@@ -52,12 +52,10 @@ const QuallificationAttribute: FunctionComponent<
           </div>
           <div className="common-list-body custom-scrollbar">
             {qualificationId && qualificationId.length ? (
-              <ul className="common-list list-unstyled">
-                {qualificationId.map((qualification: IReactSelectInterface) => {
+              <ul className='common-list list-unstyled'>
+                {qualificationId.map((qualification: IReactSelectInterface, index:number) => {
                   return (
-                    <li className="text-capitalize one-line-text">
-                      {qualification.label}
-                    </li>
+                    <li className="text-capitalize one-line-text" key={index}>{qualification.label}</li>
                   );
                 })}
               </ul>

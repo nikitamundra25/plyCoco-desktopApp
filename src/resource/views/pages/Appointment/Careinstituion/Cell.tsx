@@ -49,7 +49,11 @@ let showAppointment: boolean = false;
 if (canstitutionCell && careinstitutionCell) {
   if (canstitutionCell === careinstitutionCell) {
     showAppointment = true;
+  }else{
+    showAppointment = false;
   }
+}else{
+  showAppointment = false;
 }
 
   if (item) {

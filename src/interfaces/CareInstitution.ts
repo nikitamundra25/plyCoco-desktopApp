@@ -65,6 +65,7 @@ export interface ICareInstitutionValidationSchema {
   remarksViewable?: string | null;
   country?: IReactSelectInterface;
   state?: IReactSelectInterface;
+  shortName?: string | null;
 }
 
 export interface ICareInstitutionContactValidationSchema {

@@ -99,7 +99,7 @@
   "MENU_EMPLOYEE":"Mitarbeiter",
   "MENU_CAREGIVER":"Pflegekraft",
   "MENU_INSTITUTION":"Pflegeeinrichtung",
-  "MENU_APPOINTMENTS":"Einstellungen",
+  "MENU_APPOINTMENTS":"Terminkalender",
   "MENU_EMAIL":"E-Mails",
   "MENU_TO_DO_CARE_GIVER":"To-Do-Aufgaben Pflegekraft",
   "MENU_TO_DO_INSTITUTION":"To-Do-Aufgaben Pflegeeinrichtungen",
@@ -985,7 +985,7 @@
   "POST":"Post",
   "SENT_POST":"Post gesendet",
   "FEES_ERROR_MESSAGE":"Eine Verbindung ist nicht möglich!",
-  "LINKED_FEES_MESSAGE":"Pflegekraft hat den Regulierungsbetrag noch nicht unterzeichnet",
+  "LINKED_FEES_MESSAGE":"Die Pflegekraft hat den Regulierungsbetrag noch nicht unterzeichnet",
   "NEW_APPOINTMENT":"Neuer Termin",
   "DELETE_FREE_APPOINTMENT":"Alle freien Termine löschen",
   "SELECT_ALL_APPOINTMENT_OF_CG":"Alle Termine der Pflegekraft auswählen",
@@ -1166,6 +1166,14 @@
 "HEALTH_INSURANCE_FORM":"HealthInsuranceForm",
 "PDF_1":"pdf1",
 "PDF_2":"pdf2",
-"OPEN_PDF":"openpdf"
+"OPEN_PDF":"openpdf",
+
+
+
+
+"SELECT_CAREINSTITUTION":"Select careinstitution",
+"SHORT_NAME_REQUIRED":"ShortName is required"
+
+
 
 }

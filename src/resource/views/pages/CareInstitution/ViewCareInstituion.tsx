@@ -281,7 +281,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                           "custom-reactselect custom-reactselect-careinst-menu-width"
                         }
                         defaultValue={selectUser}
-                        placeholder="Select Caregiver"
+                        placeholder={languageTranslation("SELECT_CAREINSTITUTION")}
                         value={selectUser}
                         onChange={(e: any) => handleSelect(e)}
                         options={CareInstitutionList}

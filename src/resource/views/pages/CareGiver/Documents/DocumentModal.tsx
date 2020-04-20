@@ -196,7 +196,7 @@ const DocumentUploadModal = (props: IDocumentModelInterface) => {
                           placeholder={languageTranslation('DOCUMENT_TYPE')}
                           classNamePrefix='custom-inner-reactselect'
                           className={'custom-reactselect'}
-                          isDisabled={isMissingDocEditable || defaultDocument}
+                          // isDisabled={isMissingDocEditable || defaultDocument}
                         />
                       </Col>
                     </Row>

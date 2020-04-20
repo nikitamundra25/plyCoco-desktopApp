@@ -358,13 +358,26 @@ const Appointment: FunctionComponent = (props: any) => {
   });
 
   // Mutation to delete caregiver
-  const [deleteCaregiverRequirement, {}] = useMutation<
+  const [deleteCaregiverAvailability, {}] = useMutation<
     {
-      deleteCaregiver: any;
+      deleteCaregiverAvailability: any;
     },
     { id: number[] }
   >(DELETE_CAREGIVER_AVABILITY, {
-    onCompleted() {
+    onCompleted({deleteCareGiverAvability}:any) {
+      console.log(deleteCareGiverAvability,'deleteCaregiverAvailability+++++');
+      deleteCareGiverAvability.forEach((element:any) => {
+        const temp = [...caregiversList];
+      const selectedCaregiverCells = selectedCells ? [...selectedCells] : []
+      let index:number= temp.findIndex((caregiver:any) => caregiver.id === element.userId);
+      for (let i = 0; i < temp[index].availabilityData.length; i++) {
+        let availabilityRows:any[] = [...temp[index].availabilityData[i]];
+        let availabilityIndex:number = availabilityRows.findIndex((e:any) => e.id === element.id)
+        if (availabilityIndex > -1) {
+          temp[index].availabilityData[i].splice(availabilityIndex,1)
+        }
+      }
+      });
       setPage(1);
       fetchingCareGiverData();
       setselctedAvailability({});
@@ -1600,7 +1613,7 @@ const Appointment: FunctionComponent = (props: any) => {
           });
           // canstitutionRefetch();
         } else {
-          await deleteCaregiverRequirement({
+          await deleteCaregiverAvailability({
             variables: {
               id: [parseInt(id)],
             },
@@ -2857,7 +2870,7 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         if (value) {
           if (userRole === "caregiver") {
-            await deleteCaregiverRequirement({
+            await deleteCaregiverAvailability({
               variables: {
                 id: reservedEntries.map((element: any) =>
                   parseInt(element.item.id)

@@ -489,6 +489,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       temp.push({ ...element, new: item, row });
     });
   });
+
+  //reserved condition
+  let reserveCondition: any;
+  if (selectedCells && selectedCells.length) {
+    reserveCondition = selectedCells.filter((x: any) => {
+      if (x.item) {
+        return x.item && x.item.status === 'default';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
   // if (openCareGiverBulkEmail) {
   //   const BulkEmailCareGiverModal = lazy(() => import('../BulkEmailCareGiver'));
   //   return <Suspense fallback={null}>
@@ -589,7 +601,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={
+                reserveCondition && reserveCondition.length === 0 ? true : false
+              }
               onClick={() => {
                 setopenToggleMenu(false);
                 onReserve ? onReserve() : undefined;

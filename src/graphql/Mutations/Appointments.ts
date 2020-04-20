@@ -41,7 +41,27 @@ const ADD_INSTITUTION_REQUIREMENT = gql`
       careInstitutionRequirementInput: $careInstitutionRequirementInput
     ) {
       id
-      status
+   userId
+   date
+   name
+   startTime
+   endTime
+   divisionId
+   qualificationId
+   address
+   contactPerson
+   departmentOfferRemarks
+   departmentBookingRemarks
+   departmentRemarks
+   isWorkingProof
+   offerRemarks
+   bookingRemarks
+   comments
+   f
+   s
+   n
+   status
+   isLeasing
     }
   }
 `;
@@ -92,12 +112,28 @@ const UPDATE_INSTITUTION_REQUIREMENT = gql`
       id: $id
       careInstitutionRequirementInput: $careInstitutionRequirementInput
     ) {
-      userId
       id
+      userId
+      date
+      name
+      startTime
+      endTime
+      divisionId
+      qualificationId
+      address
+      contactPerson
+      departmentOfferRemarks
+      departmentBookingRemarks
+      departmentRemarks
+      isWorkingProof
+      offerRemarks
+      bookingRemarks
+      comments
       f
       s
       n
       status
+      isLeasing
     }
   }
 `;
@@ -115,6 +151,7 @@ const DELETE_CAREINSTITUTION_REQUIREMENT = gql`
   mutation DeleteCareInstitutionRequirement($id: [ID]!) {
     deleteCareInstitutionRequirement(id: $id) {
       id
+      userId
     }
   }
 `;

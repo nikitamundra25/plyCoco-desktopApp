@@ -662,6 +662,7 @@ const CarinstituionListView: FunctionComponent<
         )
       : []
     : careInstituionDeptData;
+    
   // To manage case of solo careInst and department selection if no department is there
   if (starCanstitution.isStar && listData && !listData.length) {
     listData = careInstitutionList.filter(

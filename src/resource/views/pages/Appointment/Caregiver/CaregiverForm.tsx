@@ -12,12 +12,12 @@ import {
   Button,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
 } from 'reactstrap';
 import {
   IAppointmentCareGiverForm,
   ICaregiverFormValue,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../../interfaces';
 import { languageTranslation, dateDiffernceValidator, dateValidator, dateValidatorNorm } from '../../../../../helpers';
 import {

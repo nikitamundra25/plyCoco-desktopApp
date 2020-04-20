@@ -556,6 +556,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   //   </Suspense>
   // }
 
+  console.log(selectedCells, 'selectedCellssssss');
+  
   return (
     <div>
       <div

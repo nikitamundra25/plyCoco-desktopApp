@@ -489,6 +489,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       temp.push({ ...element, new: item, row });
     });
   });
+
+  //reserved condition
+  let reserveCondition: any;
+  if (selectedCells && selectedCells.length) {
+    reserveCondition = selectedCells.filter((x: any) => {
+      if (x.item) {
+        return x.item && x.item.status === 'default';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
   // if (openCareGiverBulkEmail) {
   //   const BulkEmailCareGiverModal = lazy(() => import('../BulkEmailCareGiver'));
   //   return <Suspense fallback={null}>
@@ -589,7 +601,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={
+                reserveCondition && reserveCondition.length === 0 ? true : false
+              }
               onClick={() => {
                 setopenToggleMenu(false);
                 onReserve ? onReserve() : undefined;
@@ -606,11 +620,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells && selectedCells.length
                   ? selectedCells.filter(
-                      (availability: any) =>
-                        (availability && !availability.item) ||
-                        (availability.item &&
-                          availability.item.status === "default")
-                    ).length
+                    (availability: any) =>
+                      (availability && !availability.item) ||
+                      (availability.item &&
+                        availability.item.status === "default")
+                  ).length
                     ? false
                     : true
                   : true
@@ -671,8 +685,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (offferAll && offferAll.length !== 0) ||
-                    (checkQuali && checkQuali.length === 0)
+                  (offferAll && offferAll.length !== 0) ||
+                  (checkQuali && checkQuali.length === 0)
                   : true
               }
               onClick={() => {
@@ -693,7 +707,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (connectAppCondition && connectAppCondition.length !== 0)
+                  (connectAppCondition && connectAppCondition.length !== 0)
                   : true
               }
               onClick={() => {
@@ -712,7 +726,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (disconnectAppCond && disconnectAppCond.length !== 0)
+                  (disconnectAppCond && disconnectAppCond.length !== 0)
                   : true
               }
               onClick={() => {
@@ -732,8 +746,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (disconnectAppCond && disconnectAppCond.length !== 0) ||
-                    isLeasingAppointment
+                  (disconnectAppCond && disconnectAppCond.length !== 0) ||
+                  isLeasingAppointment
                   : true
               }
               onClick={() => {
@@ -754,9 +768,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (selectedCells[0].item &&
-                      selectedCells[0].item.status !== "linked") ||
-                    isLeasingAppointment
+                  (selectedCells[0].item &&
+                    selectedCells[0].item.status !== "linked") ||
+                  isLeasingAppointment
                   : true
               }
             >
@@ -777,9 +791,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
-                    (selectedCells[0].item &&
-                      selectedCells[0].item.status !== "confirmed") ||
-                    isLeasingAppointment
+                  (selectedCells[0].item &&
+                    selectedCells[0].item.status !== "confirmed") ||
+                  isLeasingAppointment
                   : true
               }
             >
@@ -800,17 +814,17 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               disabled={
                 selectedCells && selectedCells.length
                   ? selectedCells.filter(
-                      (availability: any) =>
-                        (availability && !availability.item) ||
-                        !isLeasingAppointment ||
-                        (availability.item &&
-                          availability.item.appointments &&
-                          availability.item.appointments.length &&
-                          availability.item.appointments[0] &&
-                          availability.item.appointments[0].cr &&
-                          availability.item.appointments[0].cr.status !==
-                            "confirmed")
-                    ).length
+                    (availability: any) =>
+                      (availability && !availability.item) ||
+                      !isLeasingAppointment ||
+                      (availability.item &&
+                        availability.item.appointments &&
+                        availability.item.appointments.length &&
+                        availability.item.appointments[0] &&
+                        availability.item.appointments[0].cr &&
+                        availability.item.appointments[0].cr.status !==
+                        "confirmed")
+                  ).length
                     ? true
                     : false
                   : true
@@ -928,7 +942,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   allowClickWithoutSelected
                   className="custom-row-selector"
                   clickClassName="tick"
-                  resetOnStart={true}
+                  resetOnStart={false}
+                  allowCtrlClick={true}
                   onSelectionFinish={onSelectFinish}
                   ignoreList={[
                     ".name-col",
@@ -944,8 +959,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                     rowCount={totalCaregiver}
                     loadMoreRows={({ startIndex, stopIndex }) =>
                       !starMarkCaregiver ||
-                      locationState ||
-                      careGiversList.length > 1
+                        locationState ||
+                        careGiversList.length > 1
                         ? (getNext(careGiversList.length) as any)
                         : null
                     }
@@ -994,16 +1009,16 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                         ? deactivatedListColor
                                         : list.caregiver &&
                                           list.caregiver.attributes
-                                        ? list.caregiver.attributes.includes(
+                                          ? list.caregiver.attributes.includes(
                                             CaregiverTIMyoCYAttrId
                                           )
-                                          ? leasingListColor
-                                          : list.caregiver.attributes.includes(
+                                            ? leasingListColor
+                                            : list.caregiver.attributes.includes(
                                               "Plycoco"
                                             )
-                                          ? selfEmployesListColor
-                                          : ""
-                                        : "",
+                                              ? selfEmployesListColor
+                                              : ""
+                                          : "",
                                     }}
                                     title={[list.lastName, list.firstName].join(
                                       " "
@@ -1020,8 +1035,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     >
                                       {row === 0
                                         ? [list.lastName, list.firstName].join(
-                                            " "
-                                          )
+                                          " "
+                                        )
                                         : ""}
                                     </Link>
                                   </div>
@@ -1035,8 +1050,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     {starMarkCaregiver ? (
                                       <i className="fa fa-star theme-text" />
                                     ) : (
-                                      <i className="fa fa-star-o" />
-                                    )}
+                                        <i className="fa fa-star-o" />
+                                      )}
                                   </div>
                                   <div
                                     className="custom-appointment-col u-col text-center"
@@ -1047,8 +1062,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     {starMarkCaregiver ? (
                                       <i className="fa fa-star theme-text" />
                                     ) : (
-                                      <i className="fa fa-star-o" />
-                                    )}
+                                        <i className="fa fa-star-o" />
+                                      )}
                                   </div>
                                   <div
                                     className="custom-appointment-col v-col text-center"
@@ -1098,15 +1113,15 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   </InfiniteLoader>
                 </SelectableGroup>
               ) : (
-                <div className="no-data-section pt-5 pb-5 bg-white text-center">
-                  <div className="no-data-icon">
-                    <i className="icon-ban" />
-                  </div>
-                  <h4 className="mb-1">
-                    {languageTranslation("NO_CAREGIVER_ADDED")}{" "}
-                  </h4>
-                </div>
-              )}
+                    <div className="no-data-section pt-5 pb-5 bg-white text-center">
+                      <div className="no-data-icon">
+                        <i className="icon-ban" />
+                      </div>
+                      <h4 className="mb-1">
+                        {languageTranslation("NO_CAREGIVER_ADDED")}{" "}
+                      </h4>
+                    </div>
+                  )}
             </div>
           </div>
         </div>

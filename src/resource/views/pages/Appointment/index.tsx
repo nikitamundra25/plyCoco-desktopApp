@@ -828,6 +828,7 @@ const Appointment: FunctionComponent = (props: any) => {
         s = "",
         n = "",
         fee = "",
+        date: dateStr='',
         nightFee = "",
         weekendAllowance = "",
         holidayAllowance = "",
@@ -860,7 +861,7 @@ const Appointment: FunctionComponent = (props: any) => {
           caregiver: {
             ...caregiverData,
           },
-          dateString: dateData,
+          dateString: dateStr,
           qualificationIds: qualificationId1,
           firstName: firstname,
           email,
@@ -893,6 +894,7 @@ const Appointment: FunctionComponent = (props: any) => {
           },
         },
       ];
+      
       // setselectedCareGiver(caregiverdata);
       setSelectedCells(caregiverdata);
       /*  */
@@ -974,8 +976,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // To store users list into state
   useEffect(() => {
-    console.log("starCaregiver", starCaregiver);
-
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
     let careGiverSelectedCell =
       selectedCells && selectedCells.length ? [...selectedCells] : [];

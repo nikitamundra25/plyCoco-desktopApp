@@ -271,44 +271,9 @@ const Appointment: FunctionComponent = (props: any) => {
       careGiverAvabilityInput: any;
     }
   >(ADD_CAREGIVER_AVABILITY, {
-    onCompleted({addCareGiverAvability}) {
-      console.log(addCareGiverAvability,'addCareGiverAvability');
-      if (caregiversList && caregiversList.length) {
-        const temp = [...caregiversList];
-        const selectedCaregiverCells = selectedCells ? [...selectedCells] : []
-        addCareGiverAvability.forEach((availability:any) => {
-          let index:number= temp.findIndex((caregiver:any) => caregiver.id === availability.userId)
-          console.log(temp[index],'temp[index]',temp[index].availabilityData.length);
-          
-          if (temp[index].availabilityData) {
-            for (let i = 0; i < temp[index].availabilityData.length; i++) {
-              let element:any[] = [...temp[index].availabilityData[i]];
-              console.log(i, element,'elemnttttt', element.filter((e:any) => moment(availability.date).isSame(moment(e.date), "day")))
-              let cellIndex:number = selectedCaregiverCells.findIndex((cell:any) => moment(availability.date).isSame(moment(cell.dateString), "day"))
-              if (selectedCaregiverCells[cellIndex]) {
-                selectedCaregiverCells[cellIndex] = {
-                  ...selectedCaregiverCells[cellIndex],
-                  item:availability
-                }
-              }
-              // To check this row have this date entry or not
-              if (element.filter((e:any) => moment(e.date).isSame(moment(availability.date), "day")).length === 0) {
-                console.log('in iffffffffffffffffffffffff');
-                
-                temp[index].availabilityData[i] = [...element, availability];
-                break;
-              }
-            }
-          }
-          console.log(temp,'tempppppp',selectedCaregiverCells);
-          
-        });
-        console.log(selectedCaregiverCells,'selectedCaregiverCells after oncomplete');
-        
-        setSelectedCells(selectedCaregiverCells)
-      }
+    onCompleted() {
       setPage(1);
-      // fetchingCareGiverData();
+      fetchingCareGiverData();
       toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -337,18 +302,7 @@ const Appointment: FunctionComponent = (props: any) => {
       careGiverAvabilityInput: any;
     }
   >(UPDATE_CAREGIVER_AVABILITY, {
-    onCompleted({updateCareGiverAvability}) {
-      console.log(updateCareGiverAvability,'data oncomplete');
-      const temp = [...caregiversList];
-      const selectedCaregiverCells = selectedCells ? [...selectedCells] : []
-      let index:number= temp.findIndex((caregiver:any) => caregiver.id === updateCareGiverAvability.userId);
-      for (let i = 0; i < temp[index].availabilityData.length; i++) {
-        let element:any[] = [...temp[index].availabilityData[i]];
-        let availabilityIndex:number = element.findIndex((e:any) => e.id === updateCareGiverAvability.id)
-        if (availabilityIndex > -1) {
-          temp[index].availabilityData[i][availabilityIndex] = updateCareGiverAvability
-        }
-      }
+    onCompleted() {
       setPage(1);
       fetchingCareGiverData();
     },
@@ -618,47 +572,47 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   // Update status on adding caregiver avability
-  // useEffect(() => {
-  //   if (addCaregiverRes && addCaregiverRes.addCareGiverAvability) {
-  //     const { addCareGiverAvability } = addCaregiverRes;
-  //     const { id: Id='', status='' } = addCareGiverAvability && addCareGiverAvability.length ? addCareGiverAvability[0] : {};
-  //     const { 
-  //       id = "",
-  //       firstName = "",
-  //       lastName = "",
-  //       email = "",
-  //       caregiver: caregiverData = {},
-  //       dateString: dateData = "",
-  //       item = "",
-  //       qualificationIds = "",
-  //     } =
-  //       selectedCells && selectedCells.length && selectedCells[0]
-  //         ? selectedCells[0]
-  //         : {};
+  useEffect(() => {
+    if (addCaregiverRes && addCaregiverRes.addCareGiverAvability) {
+      const { addCareGiverAvability } = addCaregiverRes;
+      const { id: Id='', status='' } = addCareGiverAvability && addCareGiverAvability.length ? addCareGiverAvability[0] : {};
+      const { 
+        id = "",
+        firstName = "",
+        lastName = "",
+        email = "",
+        caregiver: caregiverData = {},
+        dateString: dateData = "",
+        item = "",
+        qualificationIds = "",
+      } =
+        selectedCells && selectedCells.length && selectedCells[0]
+          ? selectedCells[0]
+          : {};
 
-  //     let caregiverdata: any = [
-  //       {
-  //         id,
-  //         firstName,
-  //         lastName,
-  //         email,
-  //         qualificationIds,
-  //         caregiver: {
-  //           ...caregiverData,
-  //         },
-  //         dateString: dateData,
-  //         item: {
-  //           ...item,
-  //           // appointmentId: id ? id : '',
-  //           id: Id ? Id : "",
-  //           status,
-  //         },
-  //       },
-  //     ];
+      let caregiverdata: any = [
+        {
+          id,
+          firstName,
+          lastName,
+          email,
+          qualificationIds,
+          caregiver: {
+            ...caregiverData,
+          },
+          dateString: dateData,
+          item: {
+            ...item,
+            // appointmentId: id ? id : '',
+            id: Id ? Id : "",
+            status,
+          },
+        },
+      ];
 
-  //     setSelectedCells(caregiverdata);
-  //   }
-  // }, [addCaregiverRes]);
+      setSelectedCells(caregiverdata);
+    }
+  }, [addCaregiverRes]);
 
   // Update status on adding careinsttution requirement
   useEffect(() => {

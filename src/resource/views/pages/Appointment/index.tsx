@@ -433,7 +433,9 @@ const Appointment: FunctionComponent = (props: any) => {
   const [linkRequirement, { loading: linkLoading }] = useMutation<{
     appointmentInput: IlinkAppointmentInput;
   }>(LINK_REQUIREMENT, {
-    onCompleted() {
+    onCompleted(addAppointment:any) {
+      console.log(addAppointment,'dataaaaaaa');
+      
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("LINKED_APPOINTMENTS"));
       }

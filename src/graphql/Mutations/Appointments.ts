@@ -126,6 +126,17 @@ const LINK_REQUIREMENT = gql`
       avabilityId
       requirementId
       status
+      date
+      appointmentId
+      unlinkedBy
+      ca{
+        id
+      }
+      cr{
+        id
+      }
+      appointmentStatus
+      workProofId
     }
   }
 `;

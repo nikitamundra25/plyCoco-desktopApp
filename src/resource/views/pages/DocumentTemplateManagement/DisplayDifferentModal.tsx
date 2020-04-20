@@ -80,14 +80,17 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
         </ModalBody>
         <ModalFooter className="unlink-btn-wrap">
           <div className="d-flex align-items-center justify-content-end w-100 ">
-          <a href= {imageUrls ? imageUrls : documentUrls} download>
-          {languageTranslation("SUBMIT")}
-
-</a>
-             <Button
+          <Button
               className={" text-capitalize"}
-              color="secondary"
+              color="primary"
               onClick={()=> download(imageUrls ? imageUrls : documentUrls,documentSelectionId.fileName )}
+            >
+          {languageTranslation("SUBMIT")}
+            </Button> 
+             <Button
+              className={" text-capitalize ml-2"}
+              color="secondary"
+              onClick={handleClose}
             >
               {languageTranslation("CANCEL")}
             </Button> 

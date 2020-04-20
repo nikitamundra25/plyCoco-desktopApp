@@ -265,7 +265,7 @@ const Appointment: FunctionComponent = (props: any) => {
     { error, data: addCaregiverRes, loading: addCaregiverLoading },
   ] = useMutation<
     {
-      addCareGiverAvability: [IAddCargiverAppointmentRes];
+      addCareGiverAvability: IAddCargiverAppointmentRes;
     },
     {
       careGiverAvabilityInput: any;
@@ -575,7 +575,7 @@ const Appointment: FunctionComponent = (props: any) => {
   useEffect(() => {
     if (addCaregiverRes && addCaregiverRes.addCareGiverAvability) {
       const { addCareGiverAvability } = addCaregiverRes;
-      const { id: Id='', status='' } = addCareGiverAvability && addCareGiverAvability.length ? addCareGiverAvability[0] : {};
+      const { id: Id='', status='' } = addCareGiverAvability
       const { 
         id = "",
         firstName = "",

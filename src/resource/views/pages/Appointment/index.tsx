@@ -368,7 +368,6 @@ const Appointment: FunctionComponent = (props: any) => {
       console.log(deleteCareGiverAvability,'deleteCaregiverAvailability+++++');
       deleteCareGiverAvability.forEach((element:any) => {
         const temp = [...caregiversList];
-      const selectedCaregiverCells = selectedCells ? [...selectedCells] : []
       let index:number= temp.findIndex((caregiver:any) => caregiver.id === element.userId);
       for (let i = 0; i < temp[index].availabilityData.length; i++) {
         let availabilityRows:any[] = [...temp[index].availabilityData[i]];
@@ -378,8 +377,8 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       }
       });
-      setPage(1);
-      fetchingCareGiverData();
+      // setPage(1);
+      // fetchingCareGiverData();
       setselctedAvailability({});
       setSelectedCells([]);
     },

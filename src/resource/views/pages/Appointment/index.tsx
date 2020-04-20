@@ -433,13 +433,99 @@ const Appointment: FunctionComponent = (props: any) => {
   const [linkRequirement, { loading: linkLoading }] = useMutation<{
     appointmentInput: IlinkAppointmentInput;
   }>(LINK_REQUIREMENT, {
-    onCompleted(addAppointment:any) {
+    onCompleted({addAppointment}:any) {
       console.log(addAppointment,'dataaaaaaa');
-      
+      const temp = [...caregiversList];
+      const careInstList:any = [...careinstitutionList];
+      const selectedCaregiverCells = selectedCells ? [...selectedCells] : []
+      const selectedCareInstCells = selectedCellsCareinstitution ? [...selectedCellsCareinstitution] : []
+      addAppointment.forEach((appointment:any) => {
+        console.log(appointment,'appointment in foreach');
+        let caregiverIndex:number= temp.findIndex((caregiver:any) => appointment.ca && caregiver.id === appointment.ca.userId);
+        let careInstIndex:number= careInstList.findIndex((ci:any) => appointment.cr && ci.id === appointment.cr.userId);
+        let availabilityDataIndex:number = -1;
+        let requirementDataIndex:number = -1;
+        let availabilityIndex:number = -1;
+        let requirementIndex:number = -1;
+        for (let j = 0; j < careInstList[careInstIndex].availabilityData.length; j++) {
+          let requirementRows:any[] = [...careInstList[careInstIndex].availabilityData[j]];
+          requirementIndex = requirementRows.findIndex((e:any) => e.id === appointment.requirementId)
+          if (requirementIndex > -1) {
+            requirementDataIndex = j;
+            break;
+          }
+        }
+        for (let i = 0; i < temp[caregiverIndex].availabilityData.length; i++) {
+          let availabilityRows:any[] = [...temp[caregiverIndex].availabilityData[i]];
+          availabilityIndex = availabilityRows.findIndex((e:any) => e.id === appointment.avabilityId)
+          if (availabilityIndex > -1) {
+            availabilityDataIndex = i;
+            break;
+          }
+        }
+        if (requirementIndex > -1 && requirementDataIndex > -1 && availabilityDataIndex > -1 && availabilityIndex > -1) {
+          // To add the appoitments after connection
+          const {id='', name='', status='', qualificationId=[], address='', startTime='', endTime='', isLeasing=false, division={} } = careInstList[careInstIndex].availabilityData[requirementDataIndex][requirementIndex] ? careInstList[careInstIndex].availabilityData[requirementDataIndex][requirementIndex] : {}
+          temp[caregiverIndex].availabilityData[availabilityDataIndex][availabilityIndex] = {...temp[caregiverIndex].availabilityData[availabilityDataIndex][availabilityIndex],status:'linked', appointments:[{...appointment,cr:{
+            id,
+            name,
+            status,
+            qualificationId,
+            address,
+            startTime,
+            endTime,
+            isLeasing,
+            division
+          }}]}
+          careInstList[careInstIndex].availabilityData[requirementDataIndex][availabilityIndex] = {...careInstList[careInstIndex].availabilityData[requirementDataIndex][availabilityIndex],status:'linked', appointments:[{...appointment,ca:{
+            ...appointment.ca,
+            name: [temp[caregiverIndex].lastName, temp[caregiverIndex].firstName].join(' ')
+          }}]}
+        // To update the selected caregiver & careInst cell
+        let cellIndex:number = selectedCaregiverCells.findIndex((cell:any) =>cell.item &&(appointment.avabilityId) === cell.item.id)
+        if (selectedCaregiverCells[cellIndex]) {
+          selectedCaregiverCells[cellIndex] = {
+            ...selectedCaregiverCells[cellIndex],
+            item:{
+              ...selectedCaregiverCells[cellIndex].item,
+              status:'linked',
+              appointments:[{...appointment,cr:{
+                id,
+                name,
+                status,
+                qualificationId,
+                address,
+                startTime,
+                endTime,
+                isLeasing,
+                division
+              }}]
+            }
+          }
+        }
+        let cellInstIndex:number = selectedCareInstCells.findIndex((cell:any) =>cell.item && (appointment.requirementId) === cell.item.id)
+        if (selectedCareInstCells[cellInstIndex]) {
+          selectedCareInstCells[cellInstIndex] = {
+            ...selectedCareInstCells[cellInstIndex],
+            item:{
+              ...selectedCareInstCells[cellInstIndex].item,
+              status:'linked',
+              appointments:[{...appointment,ca:{
+                ...appointment.ca,
+                name: [temp[caregiverIndex].lastName, temp[caregiverIndex].firstName].join(' ')
+              }}]
+            }
+          }
+        }
+      }
+      });
+      setSelectedCells(selectedCaregiverCells)
+      setselectedCellsCareinstitution(selectedCareInstCells)
+      console.log(temp,'temppppp');
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("LINKED_APPOINTMENTS"));
       }
-      fetchData();
+      // fetchData();
     },
   });
 
@@ -1962,7 +2048,7 @@ const Appointment: FunctionComponent = (props: any) => {
           appointmentInput: selectedOption,
         },
       });
-      updateLinkedStatus(name);
+      // updateLinkedStatus(name);
     } else {
       updateLinkedStatus(name);
       await unLinkRequirement({

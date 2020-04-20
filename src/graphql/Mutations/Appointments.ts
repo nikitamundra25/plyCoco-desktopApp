@@ -130,9 +130,11 @@ const LINK_REQUIREMENT = gql`
       appointmentId
       unlinkedBy
       ca{
+        userId
         id
       }
       cr{
+        userId
         id
       }
       appointmentStatus

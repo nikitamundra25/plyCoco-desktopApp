@@ -441,12 +441,15 @@ const Appointment: FunctionComponent = (props: any) => {
       const selectedCareInstCells = selectedCellsCareinstitution ? [...selectedCellsCareinstitution] : []
       addAppointment.forEach((appointment:any) => {
         console.log(appointment,'appointment in foreach');
-        let caregiverIndex:number= temp.findIndex((caregiver:any) => appointment.ca && caregiver.id === appointment.ca.userId);
-        let careInstIndex:number= careInstList.findIndex((ci:any) => appointment.cr && ci.id === appointment.cr.userId);
         let availabilityDataIndex:number = -1;
         let requirementDataIndex:number = -1;
         let availabilityIndex:number = -1;
         let requirementIndex:number = -1;
+        // To find index of particular caregiver in list
+        let caregiverIndex:number= temp.findIndex((caregiver:any) => appointment.ca && caregiver.id === appointment.ca.userId);
+        // To find index of particular care institution in list
+        let careInstIndex:number= careInstList.findIndex((ci:any) => appointment.cr && ci.id === appointment.cr.userId);
+        // To find the exact index of requirement
         for (let j = 0; j < careInstList[careInstIndex].availabilityData.length; j++) {
           let requirementRows:any[] = [...careInstList[careInstIndex].availabilityData[j]];
           requirementIndex = requirementRows.findIndex((e:any) => e.id === appointment.requirementId)
@@ -455,6 +458,7 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
+        // To find the exact index of availability
         for (let i = 0; i < temp[caregiverIndex].availabilityData.length; i++) {
           let availabilityRows:any[] = [...temp[caregiverIndex].availabilityData[i]];
           availabilityIndex = availabilityRows.findIndex((e:any) => e.id === appointment.avabilityId)

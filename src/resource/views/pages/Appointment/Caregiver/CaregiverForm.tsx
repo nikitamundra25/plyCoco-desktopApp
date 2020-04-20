@@ -1286,7 +1286,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     className='btn-save'
                     color='primary'
                     onClick={handleSubmit}
-                    disabled={addCaregiverLoading ? true : appointmentId ? false : !dateCondition ? true : false}
+                    disabled={addCaregiverLoading 
+                      // ? true : appointmentId ? false : !dateCondition ? true : false
+                    }
                   >
                     {addCaregiverLoading ? (
                       <i className='fa fa-spinner fa-spin mr-2' />

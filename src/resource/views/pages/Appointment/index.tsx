@@ -278,7 +278,6 @@ const Appointment: FunctionComponent = (props: any) => {
         addCareGiverAvability.forEach((availability:any) => {
           let index:number= temp.findIndex((caregiver:any) => caregiver.id === availability.userId)
           console.log(temp[index],'temp[index]',temp[index].availabilityData.length);
-          
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
               let element:any[] = [...temp[index].availabilityData[i]];
@@ -293,20 +292,17 @@ const Appointment: FunctionComponent = (props: any) => {
               // To check this row have this date entry or not
               if (element.filter((e:any) => moment(e.date).isSame(moment(availability.date), "day")).length === 0) {
                 console.log('in iffffffffffffffffffffffff');
-                
                 temp[index].availabilityData[i] = [...element, availability];
                 break;
               }
             }
           }
           console.log(temp,'tempppppp',selectedCaregiverCells);
-          
         });
         console.log(selectedCaregiverCells,'selectedCaregiverCells after oncomplete');
-        
         setSelectedCells(selectedCaregiverCells)
       }
-      setPage(1);
+      // setPage(1);
       // fetchingCareGiverData();
       toast.dismiss();
       if (!toast.isActive(toastId)) {
@@ -337,7 +333,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_CAREGIVER_AVABILITY, {
     onCompleted({updateCareGiverAvability}) {
-      console.log(updateCareGiverAvability,'data oncomplete');
+      console.log(updateCareGiverAvability,'data oncomplete',selectedCells);
       const temp = [...caregiversList];
       const selectedCaregiverCells = selectedCells ? [...selectedCells] : []
       let index:number= temp.findIndex((caregiver:any) => caregiver.id === updateCareGiverAvability.userId);
@@ -347,9 +343,17 @@ const Appointment: FunctionComponent = (props: any) => {
         if (availabilityIndex > -1) {
           temp[index].availabilityData[i][availabilityIndex] = updateCareGiverAvability
         }
+        let cellIndex:number = selectedCaregiverCells.findIndex((cell:any) =>cell.item &&(updateCareGiverAvability.id) === cell.item.id)
+        if (selectedCaregiverCells[cellIndex]) {
+          selectedCaregiverCells[cellIndex] = {
+            ...selectedCaregiverCells[cellIndex],
+            item:updateCareGiverAvability
+          }
+        }
       }
-      setPage(1);
-      fetchingCareGiverData();
+      setSelectedCells(selectedCaregiverCells)
+      // setPage(1);
+      // fetchingCareGiverData();
     },
   });
 
@@ -2400,7 +2404,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     },
                   });
                   setMultipleAvailability(false);
-              setSelectedCells(caregiverdata);
+              // setSelectedCells(caregiverdata);
             }
           }
         } else {

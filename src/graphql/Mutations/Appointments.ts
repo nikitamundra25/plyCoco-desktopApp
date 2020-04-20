@@ -142,6 +142,7 @@ const DELETE_CAREGIVER_AVABILITY = gql`
   mutation DeleteCareGiverAvability($id: [ID]) {
     deleteCareGiverAvability(id: $id) {
       id
+      userId
     }
   }
 `;

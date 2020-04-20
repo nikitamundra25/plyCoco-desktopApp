@@ -291,6 +291,7 @@ const Appointment: FunctionComponent = (props: any) => {
               }
               // To check this row have this date entry or not
               if (element.filter((e:any) => moment(e.date).isSame(moment(availability.date), "day")).length === 0) {
+                console.log('in iffffffffffffffffffffffff');
                 temp[index].availabilityData[i] = [...element, availability];
                 break;
               }
@@ -299,7 +300,7 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         setSelectedCells(selectedCaregiverCells)
       }
-      setPage(1);
+      // setPage(1);
       // fetchingCareGiverData();
       toast.dismiss();
       if (!toast.isActive(toastId)) {
@@ -330,7 +331,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_CAREGIVER_AVABILITY, {
     onCompleted({updateCareGiverAvability}) {
-      console.log(updateCareGiverAvability,'data oncomplete');
+      console.log(updateCareGiverAvability,'data oncomplete',selectedCells);
       const temp = [...caregiversList];
       const selectedCaregiverCells = selectedCells ? [...selectedCells] : []
       let index:number= temp.findIndex((caregiver:any) => caregiver.id === updateCareGiverAvability.userId);
@@ -340,22 +341,42 @@ const Appointment: FunctionComponent = (props: any) => {
         if (availabilityIndex > -1) {
           temp[index].availabilityData[i][availabilityIndex] = updateCareGiverAvability
         }
+        let cellIndex:number = selectedCaregiverCells.findIndex((cell:any) =>cell.item &&(updateCareGiverAvability.id) === cell.item.id)
+        if (selectedCaregiverCells[cellIndex]) {
+          selectedCaregiverCells[cellIndex] = {
+            ...selectedCaregiverCells[cellIndex],
+            item:updateCareGiverAvability
+          }
+        }
       }
-      setPage(1);
-      fetchingCareGiverData();
+      setSelectedCells(selectedCaregiverCells)
+      // setPage(1);
+      // fetchingCareGiverData();
     },
   });
 
   // Mutation to delete caregiver
-  const [deleteCaregiverRequirement, {}] = useMutation<
+  const [deleteCaregiverAvailability, {}] = useMutation<
     {
-      deleteCaregiver: any;
+      deleteCaregiverAvailability: any;
     },
     { id: number[] }
   >(DELETE_CAREGIVER_AVABILITY, {
-    onCompleted() {
-      setPage(1);
-      fetchingCareGiverData();
+    onCompleted({deleteCareGiverAvability}:any) {
+      console.log(deleteCareGiverAvability,'deleteCaregiverAvailability+++++');
+      deleteCareGiverAvability.forEach((element:any) => {
+        const temp = [...caregiversList];
+      let index:number= temp.findIndex((caregiver:any) => caregiver.id === element.userId);
+      for (let i = 0; i < temp[index].availabilityData.length; i++) {
+        let availabilityRows:any[] = [...temp[index].availabilityData[i]];
+        let availabilityIndex:number = availabilityRows.findIndex((e:any) => e.id === element.id)
+        if (availabilityIndex > -1) {
+          temp[index].availabilityData[i].splice(availabilityIndex,1)
+        }
+      }
+      });
+      // setPage(1);
+      // fetchingCareGiverData();
       setselctedAvailability({});
       setSelectedCells([]);
     },
@@ -1668,7 +1689,7 @@ const Appointment: FunctionComponent = (props: any) => {
           });
           // canstitutionRefetch();
         } else {
-          await deleteCaregiverRequirement({
+          await deleteCaregiverAvailability({
             variables: {
               id: [parseInt(id)],
             },
@@ -2461,7 +2482,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     },
                   });
                   setMultipleAvailability(false);
-              setSelectedCells(caregiverdata);
+              // setSelectedCells(caregiverdata);
             }
           }
         } else {
@@ -2914,7 +2935,7 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         if (value) {
           if (userRole === "caregiver") {
-            await deleteCaregiverRequirement({
+            await deleteCaregiverAvailability({
               variables: {
                 id: reservedEntries.map((element: any) =>
                   parseInt(element.item.id)

@@ -3,7 +3,7 @@ import { UncontrolledTooltip, Table } from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 import { IInvoiceList } from "../../../../../interfaces";
 import Loader from "../../../containers/Loader/Loader";
-import { AppRoutes, PAGE_LIMIT } from "../../../../../config";
+import { AppRoutes, PAGE_LIMIT, defaultDateFormat, dbAcceptableFormat } from "../../../../../config";
 import { useHistory, useLocation } from "react-router-dom";
 import PaginationComponent from "../../../components/Pagination";
 import * as qs from "query-string";
@@ -81,13 +81,14 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                 let start_time = workBegain && workBegain.length ? workBegain[1] : null;
                 let enddate = workEnd && workEnd.length ? workEnd[0] : null;
                 let end_time = workEnd && workEnd.length ? workEnd[1] : null;
-
-                let datetimeA: any = initialdate ? new Date(initialdate + start_time) : "";
-                let datetimeB: any = enddate ? new Date(enddate + end_time) : null;
+                console.log(initialdate,'initialdate',start_time, moment(`${initialdate} ${start_time}`, `${defaultDateFormat} HH:mm`).format());
+                
+                let datetimeA: any = initialdate ? moment(`${initialdate} ${start_time}`, `${defaultDateFormat} HH:mm`).format() : "";
+                let datetimeB: any = enddate ? moment(`${enddate} ${end_time}`, `${defaultDateFormat} HH:mm`).format() : null;
 
                 // let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
                 // let hours = duration ? duration.asHours() : null;
-                let diffDate = datetimeB - datetimeA
+                let diffDate:any = (new Date(datetimeB).getTime() - new Date(datetimeA).getTime()) / (3600 * 1000)
                 console.log("+++++++++++++duration", datetimeB, ">>>>>>>>>>>>>", datetimeA, "??????", diffDate);
                 let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : ""
                 let timeStamp: any = ""

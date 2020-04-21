@@ -150,10 +150,10 @@ const CarinstituionListView: FunctionComponent<
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : "",
           divisions,
-          // isLeasing:
-          // canstitution && canstitution.attributes
-          // ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
-          // : false
+          isLeasing:
+          canstitution && canstitution.attributes
+            ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
+            : false
         };
       });
       handleSelection(selectedRows, "careinstitution");
@@ -873,13 +873,13 @@ const CarinstituionListView: FunctionComponent<
             <NavItem className="bordernav" />
             <NavItem>
               <NavLink
-                disabled={
-                  emailOptionCond !== undefined
-                    ? emailOptionCond && emailOptionCond.length !== 0
-                      ? "disabled-class"
-                      : ""
-                    : "disabled-class"
-                }
+                // disabled={
+                //   emailOptionCond !== undefined
+                //     ? emailOptionCond && emailOptionCond.length !== 0
+                //       ? "disabled-class"
+                //       : ""
+                //     : "disabled-class"
+                // }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
@@ -894,13 +894,13 @@ const CarinstituionListView: FunctionComponent<
             </NavItem>
             <NavItem>
               <NavLink
-                disabled={
-                  emailOptionCond !== undefined
-                    ? emailOptionCond && emailOptionCond.length !== 0
-                      ? "disabled-class"
-                      : ""
-                    : "disabled-class"
-                }
+                // disabled={
+                //   emailOptionCond !== undefined
+                //     ? emailOptionCond && emailOptionCond.length !== 0
+                //       ? "disabled-class"
+                //       : ""
+                //     : "disabled-class"
+                // }
                 onClick={() => {
                   handleCareGiverBulkEmail("day", true);
                   handleCareInstitutionBulkEmail();
@@ -915,13 +915,13 @@ const CarinstituionListView: FunctionComponent<
             </NavItem>
             <NavItem>
               <NavLink
-                disabled={
-                  emailOptionCond !== undefined
-                    ? emailOptionCond && emailOptionCond.length !== 0
-                      ? "disabled-class"
-                      : ""
-                    : "disabled-class"
-                }
+                // disabled={
+                //   emailOptionCond !== undefined
+                //     ? emailOptionCond && emailOptionCond.length !== 0
+                //       ? "disabled-class"
+                //       : ""
+                //     : "disabled-class"
+                // }
                 onClick={() => {
                   handleCareGiverBulkEmail("division", false);
                   handleCareInstitutionBulkEmail();
@@ -936,13 +936,13 @@ const CarinstituionListView: FunctionComponent<
             </NavItem>
             <NavItem>
               <NavLink
-                disabled={
-                  emailOptionCond !== undefined
-                    ? emailOptionCond && emailOptionCond.length !== 0
-                      ? "disabled-class"
-                      : ""
-                    : "disabled-class"
-                }
+                // disabled={
+                //   emailOptionCond !== undefined
+                //     ? emailOptionCond && emailOptionCond.length !== 0
+                //       ? "disabled-class"
+                //       : ""
+                //     : "disabled-class"
+                // }
                 onClick={() => {
                   handleCareGiverBulkEmail("day", false);
                   handleCareInstitutionBulkEmail();
@@ -957,13 +957,13 @@ const CarinstituionListView: FunctionComponent<
             </NavItem>
             <NavItem>
               <NavLink
-                disabled={
-                  setOnOfferCond !== undefined
-                    ? setOnOfferCond && setOnOfferCond.length !== 0
-                      ? "disabled-class"
-                      : ""
-                    : "disabled-class"
-                }
+                // disabled={
+                //   setOnOfferCond !== undefined
+                //     ? setOnOfferCond && setOnOfferCond.length !== 0
+                //       ? "disabled-class"
+                //       : ""
+                //     : "disabled-class"
+                // }
               >
                 <img src={set_confirm} className="mr-2" alt="" />
                 <span
@@ -978,13 +978,13 @@ const CarinstituionListView: FunctionComponent<
             </NavItem>
             <NavItem>
               <NavLink
-                disabled={
-                  resetOffCond !== undefined
-                    ? resetOffCond && resetOffCond.length !== 0
-                      ? "disabled-class"
-                      : ""
-                    : "disabled-class"
-                }
+                // disabled={
+                //   resetOffCond !== undefined
+                //     ? resetOffCond && resetOffCond.length !== 0
+                //       ? "disabled-class"
+                //       : ""
+                //     : "disabled-class"
+                // }
               >
                 <img src={unset_confirm} className="mr-2" alt="" />
                 <span
@@ -1018,13 +1018,13 @@ const CarinstituionListView: FunctionComponent<
             </NavItem>
             <NavItem>
               <NavLink
-                disabled={
-                  disconnectAppCond !== undefined
-                    ? disconnectAppCond && disconnectAppCond.length !== 0
-                      ? "disabled-class"
-                      : ""
-                    : "disabled-class"
-                }
+                // disabled={
+                //   disconnectAppCond !== undefined
+                //     ? disconnectAppCond && disconnectAppCond.length !== 0
+                //       ? "disabled-class"
+                //       : ""
+                //     : "disabled-class"
+                // }
                 onClick={() => {
                   handleRightMenuToggle();
                   handleUnLinkAppointments("unlink");

@@ -17,29 +17,27 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from 'reactstrap';
 import MaskedInput from 'react-text-mask';
 import { languageTranslation } from '../../../../../helpers';
 import {
   IAppointmentCareInstitutionForm,
   ICareinstitutionFormValue,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../../interfaces';
 import {
   ShiftTime,
   TimeMask,
   appointmentDayFormat,
   defaultDateFormat,
-  dbAcceptableFormat
+  dbAcceptableFormat,
 } from '../../../../../config';
 import '../index.scss';
 
-const CareinstitutionFormView: FunctionComponent<FormikProps<
-  ICareinstitutionFormValue
-> &
-  IAppointmentCareInstitutionForm &
-  any> = (
+const CareinstitutionFormView: FunctionComponent<
+  FormikProps<ICareinstitutionFormValue> & IAppointmentCareInstitutionForm & any
+> = (
   props: FormikProps<ICareinstitutionFormValue> &
     IAppointmentCareInstitutionForm &
     any
@@ -67,7 +65,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       offerRemarks,
       bookingRemarks,
       comments,
-      status
+      status,
     },
     touched,
     errors,
@@ -92,7 +90,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     timeSlotError,
     starMarkCareinstitution,
     handleFirstStarCanstitution,
-    starCanstitution
+    selectedCellsCareinstitution,
+    starCanstitution,
   } = props;
 
   let d = moment().format('L');
@@ -116,7 +115,6 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     isContract: boolean = false,
     isConfirm: boolean = false,
     isOffered: boolean = false;
-
   if (selctedRequirement || status) {
     if (
       (selctedRequirement && selctedRequirement.status === 'default') ||
@@ -151,12 +149,12 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
       careInstitutionListArr && careInstitutionListArr.result
         ? careInstitutionListArr.result
         : {};
-    if (
-      id 
-    ) {
+    if (id) {
       data = careInstitutionListArr.result.filter((x: any) => x.id === id)[0];
-      let index = careInstitutionListArr.result.findIndex( (el:any) => el.id === id ) 
-        handleFirstStarCanstitution(data, index);
+      let index = careInstitutionListArr.result.findIndex(
+        (el: any) => el.id === id
+      );
+      handleFirstStarCanstitution(data, index);
     }
   };
 
@@ -178,6 +176,19 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     dateCondition = now <= input;
   }
 
+  let isLeasingAppointment = false;
+  // To check appointment with leasing careInst or not
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    isLeasingAppointment = selectedCellsCareinstitution.filter(
+      (cell: any) => cell && cell.item && cell.item.isLeasing
+    ).length
+      ? true
+      : false;
+  }
+  console.log('selectedCellsCareinstitution',selectedCellsCareinstitution);
+  
+  console.log('isLeasingAppointment', isLeasingAppointment);
+
   return (
     <>
       <div className='form-section '>
@@ -187,7 +198,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             'requirement-bg': isRequirment,
             'matching-bg': isMatching,
             'contract-bg': isConfirm,
-            'availability-bg': isOffered
+            'availability-bg': isOffered,
           })}
         >
           <h5 className='content-title'>
@@ -203,7 +214,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         {languageTranslation('APPOINTMENT_ID')}
                       </Label>
                     </Col>
-                    <Col sm='7'>
+                    <Col sm='3'>
                       <div className='required-input'>
                         <Input
                           value={appointmentId}
@@ -212,6 +223,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                         />
                       </div>
                     </Col>
+                    {isLeasingAppointment ? (
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          uber solona
+                        </Label>
+                      </Col>
+                    ) : null}
                   </Row>
                 </FormGroup>
               </Col>
@@ -248,10 +266,13 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               : ''
                           }
                         >
-                          <InputGroupText>  
+                          <InputGroupText>
                             <i
                               className={
-                              name && starCanstitution.isStar && parseInt(starCanstitution.id) === parseInt(selectedCareinstitution.id)
+                                name &&
+                                starCanstitution.isStar &&
+                                parseInt(starCanstitution.id) ===
+                                  parseInt(selectedCareinstitution.id)
                                   ? 'fa fa-star theme-text'
                                   : 'fa fa-star'
                               }
@@ -357,7 +378,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                             </div>
                           )}
                           <InputGroupAddon addonType='append'>
-                          <InputGroupText>{languageTranslation("UHR")}</InputGroupText>
+                            <InputGroupText>
+                              {languageTranslation('UHR')}
+                            </InputGroupText>
                           </InputGroupAddon>
                         </InputGroup>
                       </div>
@@ -436,7 +459,9 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                           </div>
                         ) : null}
                         <InputGroupAddon addonType='append'>
-                          <InputGroupText>{languageTranslation("UHR")}</InputGroupText>
+                          <InputGroupText>
+                            {languageTranslation('UHR')}
+                          </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
                     </div>
@@ -524,7 +549,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   <Col sm='7'>
                     <div className='required-input'>
                       <Select
-                        placeholder={languageTranslation("SELECT_DEPARTMENT")}
+                        placeholder={languageTranslation('SELECT_DEPARTMENT')}
                         options={careInstitutionDepartment}
                         isDisabled={
                           careInstitutionDepartment.length <= 0 ? true : false
@@ -706,7 +731,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
-                                target: { checked }
+                                target: { checked },
                               } = e;
                               setFieldValue('isWorkingProof', checked);
                             }}
@@ -814,7 +839,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
                   color='primary'
                   onClick={handleSubmit}
                   disabled={
-                    addCareinstLoading ? true : appointmentId ? false : !dateCondition ? true : false
+                    addCareinstLoading /*  ? true : appointmentId ? false : !dateCondition ? true : false */
                   }
                 >
                   {addCareinstLoading ? (

@@ -25,4 +25,22 @@ const GET_GLOBAL_HOLIDAYS = gql`
   }
 `;
 
-export const GlobalHolidaysQueries = [GET_GLOBAL_HOLIDAYS];
+const GET_GLOBAL_CAREGIVER_HOLIDAYS = gql`
+query GetGlobalCaregiverHolidays(
+  $gte: String
+  $lte: String
+  $stateId: [Int]
+) {
+  getCaregiverGlobalHolidays(
+    gte: $gte
+    lte: $lte
+    stateId: $stateId
+  ) {
+    id
+    date
+    note
+  }
+}
+`;
+
+export const GlobalHolidaysQueries = [GET_GLOBAL_HOLIDAYS, GET_GLOBAL_CAREGIVER_HOLIDAYS];

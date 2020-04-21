@@ -56,7 +56,7 @@ const [
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
-const [GET_GLOBAL_HOLIDAYS] = GlobalHolidaysQueries
+const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries
 //Create New Invoice PDF
 const [CREATE_INVOICE] = InvoiceMutations
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
@@ -127,10 +127,26 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     // notifyOnNetworkStatusChange: true
   });
 
+  useEffect(() => {
+    if (invoiceList &&
+      invoiceList.getAllAppointment &&
+      invoiceList.getAllAppointment.result.length) {
+      const { result } = invoiceList.getAllAppointment
+      const startDate: string = result[0].date
+      const endDate: string = result[result.length - 1].date
+      console.log(">>>>>>>>>>>>>>>>>", startDate, ">>>>>>>>>", endDate);
+      getAllHolidays(startDate, endDate)
+    }
+    console.log("In this use effect");
+
+  }, [invoiceList]);
+
+
   // To Fetch golbal holidays and weekends
   const [
     getGlobalHolidays,
-  ] = useLazyQuery<any, any>(GET_GLOBAL_HOLIDAYS, {
+    { data: careGiverHolidays }
+  ] = useLazyQuery<any, any>(GET_GLOBAL_CAREGIVER_HOLIDAYS, {
     fetchPolicy: "no-cache",
     // notifyOnNetworkStatusChange: true
   });
@@ -179,10 +195,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   //To get all holidays and weekends
   const getAllHolidays = (startDate: string, endDate: string) => {
     getGlobalHolidays({
-      variables:{
-        startDate,
-        endDate,
-        hideWeekends: false
+      variables: {
+        gte: startDate,
+        lte: endDate,
       }
     })
   }
@@ -461,6 +476,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                 invoiceListLoading={invoiceListLoading}
                 currentPage={currentPage}
                 selectedAppointment={selectedAppointment}
+                careGiverHolidays={careGiverHolidays}
                 handleCheckedChange={(e: any, list: any) => handleCheckedChange(e, list)}
                 invoiceList={
                   invoiceList &&

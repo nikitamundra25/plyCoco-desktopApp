@@ -723,12 +723,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={
-                selectedCells
-                  ? selectedCells.length === 0 ||
-                  (disconnectAppCond && disconnectAppCond.length !== 0)
-                  : true
-              }
+              // disabled={
+              //   selectedCells
+              //     ? selectedCells.length === 0 ||
+              //     (disconnectAppCond && disconnectAppCond.length !== 0)
+              //     : true
+              // }
               onClick={() => {
                 setopenToggleMenu(false);
                 handleUnLinkAppointments();
@@ -942,8 +942,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   allowClickWithoutSelected
                   className="custom-row-selector"
                   clickClassName="tick"
-                  resetOnStart={false}
-                  allowCtrlClick={true}
+                  resetOnStart={true}
+                  allowCtrlClick={false}
                   onSelectionFinish={onSelectFinish}
                   ignoreList={[
                     ".name-col",

@@ -2758,6 +2758,11 @@ const Appointment: FunctionComponent = (props: any) => {
           selectedCells[0].item.n === "block"
         : false;
 
+        let isWorkProofStatus : boolean =  workingHoursFromDate || 
+        workingHoursToDate ||
+        breakFromDate ||
+        breakToDate ? true : false
+
     try {
       // To ignore availabilities in case of block appointment
       if (
@@ -2822,7 +2827,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   remarksInternal,
                   travelAllowance,
                   workingProofRecieved,
-                  status,
+                  status: isWorkProofStatus ? "timeSheetUpdated" : status,
                 },
               },
             ];

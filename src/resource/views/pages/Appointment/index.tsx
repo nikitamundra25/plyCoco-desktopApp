@@ -799,7 +799,6 @@ const Appointment: FunctionComponent = (props: any) => {
     appointmentInput: IUnlinkAppointmentInput;
   }>(UN_LINK_REQUIREMENT, {
     onCompleted({ deleteAppointment }: any) {
-      console.log(deleteAppointment, "deleteAppointment");
       const temp = [...caregiversList];
       const careInstList: any = [...careinstitutionList];
       const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
@@ -821,7 +820,6 @@ const Appointment: FunctionComponent = (props: any) => {
         let careInstIndex: number = careInstList.findIndex(
           (ci: any) => appointment.cr && ci.id === appointment.cr.userId
         );
-        console.log("careInstIndex",careInstIndex);
         
         // To find the exact index of requirement
         for (
@@ -832,7 +830,6 @@ const Appointment: FunctionComponent = (props: any) => {
           let requirementRows: any[] = [
             ...careInstList[careInstIndex].availabilityData[j],
           ];
-          console.log("requirementRows",requirementRows);
           
           requirementIndex = requirementRows.findIndex(
             (e: any) => e.appointments && e.appointments.length && e.appointments[0] && e.appointments[0].id === appointment.id
@@ -847,7 +844,6 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityRows: any[] = [
             ...temp[caregiverIndex].availabilityData[i],
           ];
-          console.log("availabilityRows",availabilityRows);
           
           availabilityIndex = availabilityRows.findIndex(
             (e: any) => e.appointments && e.appointments.length && e.appointments[0] && e.appointments[0].id === appointment.id
@@ -857,10 +853,6 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
-        console.log("requirementIndex", requirementIndex);
-        console.log("availabilityIndex", availabilityIndex);
-        console.log("requirementDataIndex", requirementDataIndex);
-        console.log("availabilityDataIndex", availabilityDataIndex);
 
         if (
           requirementIndex > -1 &&
@@ -965,7 +957,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // To fetch avabality & requirement by id
   const [
     fetchAppointmentFilterById,
-    { data: appointmentFilterById },
+    { data: appointmentFilterById, loading: idSearchAppointmentLoading },
   ] = useLazyQuery<any, any>(GET_CAREINSTITUTION_REQUIREMENT_BY_ID, {
     fetchPolicy: "no-cache",
   });
@@ -4323,6 +4315,7 @@ const Appointment: FunctionComponent = (props: any) => {
                               setbreakHoursFromErrMsg={setbreakHoursFromErrMsg}
                               breakHoursFromErrMsg={breakHoursFromErrMsg}
                               starCaregiver={starCaregiver}
+                              idSearchAppointmentLoading={idSearchAppointmentLoading}
                             />
                           );
                         }}
@@ -4399,6 +4392,7 @@ const Appointment: FunctionComponent = (props: any) => {
                                 handleFirstStarCanstitution
                               }
                               starCanstitution={starCanstitution}
+                              idSearchAppointmentLoading={idSearchAppointmentLoading}
                             />
                           );
                         }}

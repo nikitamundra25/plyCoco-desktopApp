@@ -34,6 +34,7 @@ import {
   dbAcceptableFormat
 } from '../../../../../config';
 import '../index.scss';
+import Loader from '../../../containers/Loader/Loader';
 
 const CareinstitutionFormView: FunctionComponent<FormikProps<
   ICareinstitutionFormValue
@@ -92,7 +93,8 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
     timeSlotError,
     starMarkCareinstitution,
     handleFirstStarCanstitution,
-    starCanstitution
+    starCanstitution,
+    idSearchAppointmentLoading
   } = props;
 
   let d = moment().format('L');
@@ -181,6 +183,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
   return (
     <>
       <div className='form-section '>
+        {idSearchAppointmentLoading ?  <Loader/> : 
         <div
           className={classnames({
             'form-card custom-height custom-scrollbar': true,
@@ -831,6 +834,7 @@ const CareinstitutionFormView: FunctionComponent<FormikProps<
             </Col>
           </Row>
         </div>
+}
       </div>
     </>
   );

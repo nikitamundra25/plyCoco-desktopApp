@@ -33,6 +33,7 @@ import {
   CareInstitutionQueries,
   InvoiceQueries,
   CareGiverQueries,
+  GlobalHolidaysQueries,
 } from "../../../../../graphql/queries";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import moment from "moment";
@@ -55,6 +56,7 @@ const [
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
+const [GET_GLOBAL_HOLIDAYS] = GlobalHolidaysQueries
 //Create New Invoice PDF
 const [CREATE_INVOICE] = InvoiceMutations
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
@@ -125,6 +127,13 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     // notifyOnNetworkStatusChange: true
   });
 
+  // To Fetch golbal holidays and weekends
+  const [
+    getGlobalHolidays,
+  ] = useLazyQuery<any, any>(GET_GLOBAL_HOLIDAYS, {
+    fetchPolicy: "no-cache",
+    // notifyOnNetworkStatusChange: true
+  });
   // To fetch all careinstitution list
   const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
     any
@@ -167,6 +176,16 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     });
   }, []);
 
+  //To get all holidays and weekends
+  const getAllHolidays = (startDate: string, endDate: string) => {
+    getGlobalHolidays({
+      variables:{
+        startDate,
+        endDate,
+        hideWeekends: false
+      }
+    })
+  }
   // to get list of all invoices
   const getInvoiceListData = () => {
     console.log("currentPage", currentPage);

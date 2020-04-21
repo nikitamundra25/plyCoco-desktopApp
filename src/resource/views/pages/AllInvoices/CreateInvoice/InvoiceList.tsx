@@ -82,7 +82,7 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                 let enddate = workEnd && workEnd.length ? workEnd[0] : null;
                 let end_time = workEnd && workEnd.length ? workEnd[1] : null;
 
-                let datetimeA: any = initialdate ? new Date(initialdate + start_time) : "";
+                let datetimeA: any = initialdate ? new Date(initialdate) : "";
                 let datetimeB: any = enddate ? new Date(enddate + end_time) : null;
 
                 // let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
@@ -97,7 +97,6 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                 } else {
                   let splitData = time === "f" ? "f" : time === "s" ? "s" : time === "n" ? "n" : ""
                   console.log("splitData", splitData);
-
                   // let split = time.split()
                   timeStamp = ""
                 }

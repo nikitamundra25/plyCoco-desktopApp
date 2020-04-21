@@ -53,7 +53,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onAddingRow,
     selectedCells,
     handleSelection,
-    handleSecondStar,
     handleReset,
     onReserve,
     onDeleteEntries,
@@ -80,7 +79,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   const onhandleSecondStar = (list: object, index: number, name: string) => {
     if (!starMark) {
       setstarMark(!starMark);
-      handleSecondStar(list, name);
+      // handleSecondStar(list, name);
     } else {
       setstarMark(!starMark);
       handleReset(name);

@@ -92,6 +92,11 @@ export default {
           url: AppRoutes.CREATEINVOICES,
         },
         {
+          name: languageTranslation("MENU_LEASING_CREATE_INVOICE"),
+          icon: "icon-invoice",
+          url: AppRoutes.LEASINGCREATEINVOICE,
+        },
+        {
           name: languageTranslation("MENU_CREATE_FREETEXT_INVOICE"),
           icon: "icon-create-freetext-invoice",
           url: AppRoutes.ALLINVOICES,

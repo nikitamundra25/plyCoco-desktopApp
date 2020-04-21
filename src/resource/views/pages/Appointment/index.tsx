@@ -573,19 +573,16 @@ const Appointment: FunctionComponent = (props: any) => {
   useEffect(() => {
     if (addCaregiverRes && addCaregiverRes.addCareGiverAvability) {
       const { addCareGiverAvability } = addCaregiverRes;
-      const { id: Id = '', status = '' } =
-        addCareGiverAvability && addCareGiverAvability.length
-          ? addCareGiverAvability[0]
-          : {};
-      const {
-        id = '',
-        firstName = '',
-        lastName = '',
-        email = '',
+      const { id: Id='', status='' } = addCareGiverAvability && addCareGiverAvability.length ? addCareGiverAvability[0] : {};
+      const { 
+        id = "",
+        firstName = "",
+        lastName = "",
+        email = "",
         caregiver: caregiverData = {},
-        dateString: dateData = '',
-        item = '',
-        qualificationIds = '',
+        dateString: dateData = "",
+        item = "",
+        qualificationIds = "",
       } =
         selectedCells && selectedCells.length && selectedCells[0]
           ? selectedCells[0]

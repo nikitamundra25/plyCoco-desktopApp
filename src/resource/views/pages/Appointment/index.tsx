@@ -778,7 +778,7 @@ const Appointment: FunctionComponent = (props: any) => {
         s = "",
         n = "",
         fee = "",
-        date: dateStr='',
+        date: dateStr = "",
         nightFee = "",
         weekendAllowance = "",
         holidayAllowance = "",
@@ -844,7 +844,7 @@ const Appointment: FunctionComponent = (props: any) => {
           },
         },
       ];
-      
+
       // setselectedCareGiver(caregiverdata);
       setSelectedCells(caregiverdata);
       /*  */
@@ -991,10 +991,10 @@ const Appointment: FunctionComponent = (props: any) => {
         let list: any = result.filter(
           (list: any) => list.id === starCaregiver.id
         );
-         setcaregiversList(list);
-      } else{ 
-      setcaregiversList(result);
-    }
+        setcaregiversList(list);
+      } else {
+        setcaregiversList(result);
+      }
       // }
     }
 
@@ -1065,14 +1065,15 @@ const Appointment: FunctionComponent = (props: any) => {
         setselectedCellsCareinstitution(careInstSelectedCell);
       }
       setcareinstitutionList(result);
-      
+
       if (
         // locationState &&
         // localocationStatetionState.canstitution &&
         // result &&
         // result.length &&
         // result[0]
-        careinstitutionSoloFilter && careinstitutionSoloFilter.value
+        careinstitutionSoloFilter &&
+        careinstitutionSoloFilter.value
       ) {
         handleFirstStarCanstitution(result[0], 1);
       } else {
@@ -1247,14 +1248,14 @@ const Appointment: FunctionComponent = (props: any) => {
       setstarCaregiver({
         isStar: true,
         id: list.id,
-      })
+      });
       handleSecondStar(list, name);
     } else if (list.id !== caregiversList[0].id) {
       handleSecondStar(list, name);
       setstarCaregiver({
         isStar: true,
         id: list.id,
-      })
+      });
     } else {
       setstarMarkCaregiver(!starMarkCaregiver);
       handleReset(name);
@@ -1393,7 +1394,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
     careInstitutionData.map((data: any, index: any) => {
       const { canstitution } = data;
-      let { attributes = [], companyName = "", shortName= "" } = canstitution
+      let { attributes = [], companyName = "", shortName = "" } = canstitution
         ? canstitution
         : {};
       attributes = attributes ? attributes : [];
@@ -1627,9 +1628,14 @@ const Appointment: FunctionComponent = (props: any) => {
               id: values && values.appointmentId ? values.appointmentId : "",
               department: careInstituionDept,
               qualificationId:
-               item && item !== undefined && item.qualificationId && item.qualificationId.length 
+                item &&
+                item !== undefined &&
+                item.qualificationId &&
+                item.qualificationId.length
                   ? item.qualificationId
-                  : values && values.qualificationId ?  values.qualificationId : [],
+                  : values && values.qualificationId
+                  ? values.qualificationId
+                  : [],
               address: departmentData ? departmentData.address : "",
               contactPerson: departmentData ? departmentData.contactPerson : "",
               departmentOfferRemarks: departmentData
@@ -2101,7 +2107,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       setcareInstituionDeptData([]);
     }
-    
+
     if (list) {
       if (list.id && !starCanstitution.isStar) {
         setFetchingDept(true);
@@ -2112,11 +2118,9 @@ const Appointment: FunctionComponent = (props: any) => {
           },
         });
       }
-    } 
-     else {
+    } else {
       setcareInstituionDeptData([]);
     }
-  
   };
 
   //  handle second star of careinstitution and autoselect department
@@ -3432,8 +3436,8 @@ const Appointment: FunctionComponent = (props: any) => {
   };
   // function to load or search data in careinstitution dropdowwn
   const handleLoadMoreCanstitution = (input: any) => {
-    console.log("input",input);
-    
+    console.log("input", input);
+
     fetchCareInstitutionList({
       variables: {
         searchBy: input ? input : "",
@@ -3443,7 +3447,7 @@ const Appointment: FunctionComponent = (props: any) => {
         isActive: "",
       },
     });
-  }
+  };
   const isUnLinkable: boolean =
     item &&
     item.appointments &&
@@ -3751,7 +3755,7 @@ const Appointment: FunctionComponent = (props: any) => {
                         }}
                       />
                     </Col>
-                    <Col lg={"6"} className="pl-lg-0 ">
+                    <Col lg={"6"} className="pl-lg-0">
                       <Formik
                         initialValues={valuesForCareIntituionForm}
                         onSubmit={handleSubmitCareinstitutionForm}
@@ -3768,6 +3772,9 @@ const Appointment: FunctionComponent = (props: any) => {
                               addCareinstLoading={
                                 addCareinstLoading ||
                                 updateCareinstitutionLoading
+                              }
+                              selectedCellsCareinstitution={
+                                selectedCellsCareinstitution
                               }
                               setsavingBoth={() => setsavingBoth(false)}
                               activeDateCareinstitution={
@@ -3818,7 +3825,9 @@ const Appointment: FunctionComponent = (props: any) => {
                                   : []
                               }
                               starMarkCareinstitution={starMarkCareinstitution}
-                              handleFirstStarCanstitution={handleFirstStarCanstitution}
+                              handleFirstStarCanstitution={
+                                handleFirstStarCanstitution
+                              }
                               starCanstitution={starCanstitution}
                             />
                           );
@@ -3835,7 +3844,7 @@ const Appointment: FunctionComponent = (props: any) => {
                             selectedCellsCareinstitution.length === 1 &&
                             selectedCells &&
                             selectedCells.length === 1
-                              ? !isCareinstituionData && dateCondition
+                              ? !isCareinstituionData /* && dateCondition */
                                 ? false
                                 : true
                               : true

@@ -90,6 +90,7 @@ const CareinstitutionFormView: FunctionComponent<
     timeSlotError,
     starMarkCareinstitution,
     handleFirstStarCanstitution,
+    selectedCellsCareinstitution,
     starCanstitution,
   } = props;
 
@@ -114,7 +115,6 @@ const CareinstitutionFormView: FunctionComponent<
     isContract: boolean = false,
     isConfirm: boolean = false,
     isOffered: boolean = false;
-
   if (selctedRequirement || status) {
     if (
       (selctedRequirement && selctedRequirement.status === "default") ||
@@ -176,6 +176,19 @@ const CareinstitutionFormView: FunctionComponent<
     dateCondition = now <= input;
   }
 
+  let isLeasingAppointment = false;
+  // To check appointment with leasing careInst or not
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    isLeasingAppointment = selectedCellsCareinstitution.filter(
+      (cell: any) => cell && cell.item && cell.item.isLeasing
+    ).length
+      ? true
+      : false;
+  }
+  console.log("selectedCellsCareinstitution", selectedCellsCareinstitution);
+
+  console.log("isLeasingAppointment", isLeasingAppointment);
+
   return (
     <>
       <div className="form-section ">
@@ -210,11 +223,31 @@ const CareinstitutionFormView: FunctionComponent<
                             placeholder={languageTranslation("APPOINTMENT_ID")}
                           />
                         </div>
-                        <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
-                          {languageTranslation("ABOUT_SOLONA")}
-                        </div>
+                        {isLeasingAppointment ? (
+                          <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
+                            TIMyoCY
+                          </div>
+                        ) : (
+                          <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
+                            Plycoco
+                          </div>
+                        )}
                       </div>
+                      {/* <div className='required-input'>
+                        <Input
+                          value={appointmentId}
+                          disabled
+                          placeholder={languageTranslation('APPOINTMENT_ID')}
+                        />
+                      </div> */}
                     </Col>
+                    {/* {isLeasingAppointment ? (
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                         TIMyoCY
+                        </Label>
+                      </Col>
+                    ) : null} */}
                   </Row>
                 </FormGroup>
               </Col>
@@ -824,13 +857,7 @@ const CareinstitutionFormView: FunctionComponent<
                   color="primary"
                   onClick={handleSubmit}
                   disabled={
-                    addCareinstLoading
-                      ? true
-                      : appointmentId
-                      ? false
-                      : !dateCondition
-                      ? true
-                      : false
+                    addCareinstLoading /*  ? true : appointmentId ? false : !dateCondition ? true : false */
                   }
                 >
                   {addCareinstLoading ? (

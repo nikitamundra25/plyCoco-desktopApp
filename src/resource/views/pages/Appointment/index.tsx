@@ -2737,224 +2737,216 @@ const Appointment: FunctionComponent = (props: any) => {
   //   }
   // };
 
-  // submit caregiver form
-  const handleSubmitCaregiverForm = async (
-    values: ICaregiverFormValue,
-    { setSubmitting }: FormikHelpers<ICaregiverFormValue>
-  ) => {
-    const {
-      name,
-      appointmentId,
-      fee,
-      nightFee,
-      nightAllowance,
-      holidayAllowance,
-      weekendAllowance,
-      workingProofRecieved,
-      distanceInKM,
-      feePerKM,
-      travelAllowance,
-      otherExpenses,
-      remarksCareGiver,
-      remarksInternal,
-      f,
-      s,
-      n,
-      status,
-      workingHoursFromDate,
-      workingHoursFromTime,
-      workingHoursToDate,
-      workingHoursToTime,
-      breakFromDate,
-      breakFromTime,
-      breakToDate,
-      breakToTime,
-    } = values;
+// submit caregiver form
+const handleSubmitCaregiverForm = async (
+  values: ICaregiverFormValue,
+  { setSubmitting }: FormikHelpers<ICaregiverFormValue>
+) => {
+  const {
+    name,
+    appointmentId,
+    fee,
+    nightFee,
+    nightAllowance,
+    holidayAllowance,
+    weekendAllowance,
+    workingProofRecieved,
+    distanceInKM,
+    feePerKM,
+    travelAllowance,
+    otherExpenses,
+    remarksCareGiver,
+    remarksInternal,
+    f,
+    s,
+    n,
+    status,
+    workingHoursFromDate,
+    workingHoursFromTime,
+    workingHoursToDate,
+    workingHoursToTime,
+    breakFromDate,
+    breakFromTime,
+    breakToDate,
+    breakToTime,
+  } = values;
 
-    let isBlockeddate =
-      selectedCells &&
-      selectedCells.length &&
-      selectedCells[0] &&
-      selectedCells[0].item
-        ? selectedCells[0].item.f === "block" ||
-          selectedCells[0].item.s === "block" ||
-          selectedCells[0].item.n === "block"
-        : false;
+  let isBlockeddate =
+    selectedCells &&
+    selectedCells.length &&
+    selectedCells[0] &&
+    selectedCells[0].item
+      ? selectedCells[0].item.f === "block" ||
+        selectedCells[0].item.s === "block" ||
+        selectedCells[0].item.n === "block"
+      : false;
 
-    try {
-      // To ignore availabilities in case of block appointment
-      if (
-        workingHoursFromErrMsg === '' &&
-        workingHoursToErrMsg === '' &&
-        breakHoursFromErrMsg === '' &&
-        breakHoursToErrMsg === ''
-      ) {
-        if (f || s || n || isBlockeddate) {
-          setTimeSlotError('');
-          if (selectedCells && selectedCells.length) {
-            const {
-              id: ID = '',
-              firstName = '',
-              lastName = '',
-              email = '',
-              caregiver: caregiverData = {},
-              dateString: dateData = '',
-              item: Item = '',
-              qualificationIds = '',
-            } =
-              selectedCells && selectedCells.length && selectedCells[0]
-                ? selectedCells[0]
-                : {};
-            let caregiverdata: any = [
-              {
-                id: ID,
-                firstName,
-                email,
-                lastName,
-                qualificationIds,
-                caregiver: {
-                  ...caregiverData,
-                },
-                dateString: dateData,
-                item: {
-                  appointmentId,
-                  name,
-                  date: dateData,
-                  fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
-                  nightFee: nightFee
-                    ? parseFloat(nightFee.replace(/,/g, '.'))
-                    : null,
-                  weekendAllowance: weekendAllowance
-                    ? parseFloat(weekendAllowance.replace(/,/g, '.'))
-                    : null,
-                  holidayAllowance: holidayAllowance
-                    ? parseFloat(holidayAllowance.replace(/,/g, '.'))
-                    : null,
-                  distanceInKM,
-                  feePerKM,
-                  lastName,
-                  f: f ? 'available' : isBlockeddate ? 'block' : 'default',
-                  n: n ? 'available' : isBlockeddate ? 'block' : 'default',
-                  s: s ? 'available' : isBlockeddate ? 'block' : 'default',
-                  nightAllowance:
-                    nightAllowance && nightAllowance.value
-                      ? nightAllowance.value
-                      : null,
-                  otherExpenses,
-                  remarksCareGiver,
-                  remarksInternal,
-                  travelAllowance,
-                  workingProofRecieved,
-                  status,
-                },
+  try {
+    // To ignore availabilities in case of block appointment
+    if (
+      workingHoursFromErrMsg === "" &&
+      workingHoursToErrMsg === "" &&
+      breakHoursFromErrMsg === "" &&
+      breakHoursToErrMsg === ""
+    ) {
+      if (f || s || n || isBlockeddate) {
+        setTimeSlotError("");
+        if (selectedCells && selectedCells.length) {
+          const {
+            id: ID = "",
+            firstName = "",
+            lastName = "",
+            email = "",
+            caregiver: caregiverData = {},
+            dateString: dateData = "",
+            item: Item = "",
+            qualificationIds = "",
+          } =
+            selectedCells && selectedCells.length && selectedCells[0]
+              ? selectedCells[0]
+              : {};
+          let caregiverdata: any = [
+            {
+              id: ID,
+              firstName,
+              email,
+              lastName,
+              qualificationIds,
+              caregiver: {
+                ...caregiverData,
               },
-            ];
-
-            let careGiverAvabilityInput: any[] = [];
-            // To add mulitple availabilty
-            selectedCells.forEach(async (element: any) => {
-              const { id = "", dateString = "" } = element ? element : {};
-              let temp: any = {
-                userId: id ? parseInt(id) : "",
-                date: dateString,
+              dateString: dateData,
+              item: {
+                appointmentId,
                 name,
-                fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
+                date: dateData,
+                fee: fee ? parseFloat(fee.replace(/,/g, ".")) : null,
+                nightFee: nightFee
+                  ? parseFloat(nightFee.replace(/,/g, "."))
+                  : null,
                 weekendAllowance: weekendAllowance
-                  ? parseFloat(weekendAllowance.replace(/,/g, '.'))
+                  ? parseFloat(weekendAllowance.replace(/,/g, "."))
                   : null,
                 holidayAllowance: holidayAllowance
-                  ? parseFloat(holidayAllowance.replace(/,/g, '.'))
+                  ? parseFloat(holidayAllowance.replace(/,/g, "."))
                   : null,
-                nightFee: nightFee
-                  ? parseFloat(nightFee.replace(/,/g, '.'))
-                  : null,
+                distanceInKM,
+                feePerKM,
+                lastName,
+                f: f ? "available" : isBlockeddate ? "block" : "default",
+                n: n ? "available" : isBlockeddate ? "block" : "default",
+                s: s ? "available" : isBlockeddate ? "block" : "default",
                 nightAllowance:
                   nightAllowance && nightAllowance.value
                     ? nightAllowance.value
                     : null,
-                workingProofRecieved: workingProofRecieved ? true : false,
-                distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
-                feePerKM: feePerKM ? parseFloat(feePerKM) : null,
-                travelAllowance: travelAllowance
-                  ? parseFloat(travelAllowance)
+                otherExpenses,
+                remarksCareGiver,
+                remarksInternal,
+                travelAllowance,
+                workingProofRecieved,
+                status,
+              },
+            },
+          ];
+
+          let careGiverAvabilityInput: any[] = [];
+          // To add mulitple availabilty
+          selectedCells.forEach(async (element: any) => {
+            const { id = "", dateString = "" } = element ? element : {};
+            let temp: any = {
+              userId: id ? parseInt(id) : "",
+              date: dateString,
+              name,
+              fee: fee ? parseFloat(fee.replace(/,/g, ".")) : null,
+              weekendAllowance: weekendAllowance
+                ? parseFloat(weekendAllowance.replace(/,/g, "."))
+                : null,
+              holidayAllowance: holidayAllowance
+                ? parseFloat(holidayAllowance.replace(/,/g, "."))
+                : null,
+              nightFee: nightFee
+                ? parseFloat(nightFee.replace(/,/g, "."))
+                : null,
+              nightAllowance:
+                nightAllowance && nightAllowance.value
+                  ? nightAllowance.value
                   : null,
-                otherExpenses: otherExpenses ? parseFloat(otherExpenses) : null,
-                remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
-                remarksInternal: remarksInternal ? remarksInternal : null,
-                f: f ? 'available' : isBlockeddate ? 'block' : 'default',
-                s: s ? 'available' : isBlockeddate ? 'block' : 'default',
-                n: n ? 'available' : isBlockeddate ? 'block' : 'default',
-                status: status ? status : 'default',
-                workingHoursFrom: workingHoursFromDate
-                  ? `${workingHoursFromDate},${workingHoursFromTime}`
-                  : null,
-                workingHoursTo: workingHoursToDate
-                  ? `${workingHoursToDate},${workingHoursToTime}`
-                  : null,
-                breakFrom: breakFromDate
-                  ? `${breakFromDate},${breakFromTime}`
-                  : null,
-                breakTo: breakToDate ? `${breakToDate},${breakToTime}` : null,
-              };
-              careGiverAvabilityInput = [...careGiverAvabilityInput, temp];
-              if (appointmentId) {
-                await updateCaregiver({
-                  variables: {
-                    id: parseInt(appointmentId),
-                    careGiverAvabilityInput: CareGiverAvabilityInput,
-                  },
-                });
-                if (!toast.isActive(toastId)) {
-                  toastId = toast.success(
-                    languageTranslation(
-                      'CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG'
-                    )
-                  );
-                }
-                setsavingBoth(false);
-              } else {
-                await addCaregiver({
-                  variables: {
-                    careGiverAvabilityInput: [
-                      {
-                        ...CareGiverAvabilityInput,
-                      },
-                    ],
-                  },
-                });
-                setMultipleAvailability(false);
-                toast.dismiss();
-                // if (!toast.isActive(toastId)) {
-                //   toastId = toast.success(
-                //     languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
-                //   );
-                // }
-              }
-            });
-            if (!appointmentId) {
-              await addCaregiverAvailability({
+              workingProofRecieved: workingProofRecieved ? true : false,
+              distanceInKM: distanceInKM ? parseFloat(distanceInKM) : null,
+              feePerKM: feePerKM ? parseFloat(feePerKM) : null,
+              travelAllowance: travelAllowance
+                ? parseFloat(travelAllowance)
+                : null,
+              otherExpenses: otherExpenses ? parseFloat(otherExpenses) : null,
+              remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
+              remarksInternal: remarksInternal ? remarksInternal : null,
+              f: f ? "available" : isBlockeddate ? "block" : "default",
+              s: s ? "available" : isBlockeddate ? "block" : "default",
+              n: n ? "available" : isBlockeddate ? "block" : "default",
+              status: status ? status : "default",
+              workingHoursFrom: workingHoursFromDate
+                ? `${workingHoursFromDate},${workingHoursFromTime}`
+                : null,
+              workingHoursTo: workingHoursToDate
+                ? `${workingHoursToDate},${workingHoursToTime}`
+                : null,
+              breakFrom: breakFromDate
+                ? `${breakFromDate},${breakFromTime}`
+                : null,
+              breakTo: breakToDate ? `${breakToDate},${breakToTime}` : null,
+            };
+            careGiverAvabilityInput = [...careGiverAvabilityInput, temp];
+            if (appointmentId) {
+              await updateCaregiver({
                 variables: {
-                  careGiverAvabilityInput,
+                  id: parseInt(appointmentId),
+                  careGiverAvabilityInput: temp,
                 },
               });
-              setMultipleAvailability(false);
-              // setSelectedCells(caregiverdata);
+              if (!toast.isActive(toastId)) {
+                toastId = toast.success(
+                  languageTranslation(
+                    "CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG"
+                  )
+                );
+              }
+              setsavingBoth(false);
+            } else {
+              toast.dismiss();
+              // if (!toast.isActive(toastId)) {
+              //   toastId = toast.success(
+              //     languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
+              //   );
+              // }
             }
+          });
+          if (!appointmentId) {
+            await addCaregiverAvailability({
+              variables: {
+                careGiverAvabilityInput,
+              },
+            });
+            setMultipleAvailability(false);
+            // setSelectedCells(caregiverdata);
           }
-        } else {
-          setTimeSlotError(languageTranslation('WORKING_SHIFT_ERROR'));
-          return;
         }
-      }
-    } catch (error) {
-      const message = errorFormatter(error);
-      console.log(message, "message");
-      if (!toast.isActive(toastId)) {
-        toastId = toast.error(message);
+      } else {
+        setTimeSlotError(languageTranslation("WORKING_SHIFT_ERROR"));
+        return;
       }
     }
-    setSubmitting(false);
-  };
+  } catch (error) {
+    const message = errorFormatter(error);
+    console.log(message, "message");
+    if (!toast.isActive(toastId)) {
+      toastId = toast.error(message);
+    }
+  }
+  setSubmitting(false);
+};
+
+
 
   // submit careinstitution form
   const handleSubmitCareinstitutionForm = async (
@@ -3249,24 +3241,24 @@ const Appointment: FunctionComponent = (props: any) => {
               id: availabilityId,
               careGiverAvabilityInput: {
                 ...item,
-                f: 'block',
-                s: 'block',
-                n: 'block',
+                f: "block",
+                s: "block",
+                n: "block",
               },
             },
           });
           toast.dismiss();
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
-              languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG')
+              languageTranslation("CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG")
             );
           }
         } else {
           careGiverAvabilityInput.push({
-            userId: id ? parseInt(id) : '',
+            userId: id ? parseInt(id) : "",
             date: dateString
               ? moment(dateString).format(dbAcceptableFormat)
-              : '',
+              : "",
             fee: null,
             weekendAllowance: null,
             holidayAllowance: null,
@@ -3279,15 +3271,15 @@ const Appointment: FunctionComponent = (props: any) => {
             otherExpenses: null,
             remarksCareGiver: null,
             remarksInternal: null,
-            f: 'block',
-            s: 'block',
-            n: 'block',
-            status: 'default',
+            f: "block",
+            s: "block",
+            n: "block",
+            status: "default",
           });
         }
       });
       if (careGiverAvabilityInput && careGiverAvabilityInput.length) {
-        await addCaregiver({
+        await addCaregiverAvailability({
           variables: {
             careGiverAvabilityInput: careGiverAvabilityInput,
           },

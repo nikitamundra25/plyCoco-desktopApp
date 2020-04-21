@@ -520,12 +520,15 @@ const Appointment: FunctionComponent = (props: any) => {
             careInst.deptId === updateCareInstitutionRequirement.divisionId
         );
       } else {
+        console.log("updateCareInstitutionRequirement",updateCareInstitutionRequirement);
         temp = [...careinstitutionList];
         index = temp.findIndex(
           (careInst: any) =>
             careInst.id === updateCareInstitutionRequirement.userId
         );
       }
+      
+      if( index > -1){
       for (let i = 0; i < temp[index].availabilityData.length; i++) {
         let element: any[] = [...temp[index].availabilityData[i]];
         let availabilityIndex: number = element.findIndex(
@@ -555,6 +558,7 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       }
       setselectedCellsCareinstitution(selectedCareInstCells);
+    }
       // canstitutionRefetch();
     },
   });
@@ -583,7 +587,7 @@ const Appointment: FunctionComponent = (props: any) => {
         } else {
           index = temp.findIndex((ele: any) => ele.id === careInst.userId);
         }
-
+        if( index > -1){
         if (temp[index].availabilityData) {
           for (let i = 0; i < temp[index].availabilityData.length; i++) {
             let element: any[] = [...temp[index].availabilityData[i]];
@@ -598,6 +602,7 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         }
+      }
       });
       // canstitutionRefetch();
       setselectedCellsCareinstitution([]);

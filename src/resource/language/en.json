@@ -1176,5 +1176,6 @@
   "TURN_180": "Turn 180°",
   "MENU_LEASING_CREATE_INVOICE": "Create Leasing Invoice",
   "NIGHT_PER_HOUR": "Night/hr",
-  "TOTAL_NIGHT_CHARGE": "Total Night Charge"
+  "TOTAL_NIGHT_CHARGE": "Total Night Charge",
+  "QUALIFICATION_FOR_CHARGE":"Qualification for charge"
 }

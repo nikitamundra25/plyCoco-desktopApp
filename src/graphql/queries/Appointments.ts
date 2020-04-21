@@ -112,6 +112,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           isWorkingProof
           name
           offerRemarks
+          qualificationForCharge
           qualificationId
           startTime
           userId
@@ -213,10 +214,10 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         remarksCareGiver
         remarksInternal
         status
-        workingHoursFrom,
-        workingHoursTo,
-        breakFrom,
-        breakTo,
+        workingHoursFrom
+        workingHoursTo
+        breakFrom
+        breakTo
       }
       requirementData {
         id
@@ -296,46 +297,46 @@ const GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION = gql`
 `;
 
 const GET_APPOINTMENT_DETAILS_BY_USERID = gql`
-query getAppointmentDetailsByUserId($userId: ID) {
-  getAppointmentDetailsByUserId(userId: $userId) {
-    id
-    date
- ca{
-  id
- }
-    cr{
+  query getAppointmentDetailsByUserId($userId: ID) {
+    getAppointmentDetailsByUserId(userId: $userId) {
       id
-      name
-      division{
+      date
+      ca {
+        id
+      }
+      cr {
+        id
         name
-        qualifications
+        division {
+          name
+          qualifications
+        }
       }
     }
   }
-}
 `;
 
 const GET_APPOINTMENT_DETAILS_BY_ID = gql`
-query getAppointmentDetailsById($id: ID) {
-  getAppointmentDetailsById(id: $id) {
-    id
-    avabilityId
-    requirementId
-    status
-    date
- ca{
-  id
- }
-    cr{
+  query getAppointmentDetailsById($id: ID) {
+    getAppointmentDetailsById(id: $id) {
       id
-      name
-      division{
+      avabilityId
+      requirementId
+      status
+      date
+      ca {
+        id
+      }
+      cr {
+        id
         name
-        qualifications
+        division {
+          name
+          qualifications
+        }
       }
     }
   }
-}
 `;
 export const AppointmentsQueries = [
   GET_USERS_BY_QUALIFICATION_ID,
@@ -344,5 +345,5 @@ export const AppointmentsQueries = [
   GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
   GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION,
   GET_APPOINTMENT_DETAILS_BY_USERID,
-  GET_APPOINTMENT_DETAILS_BY_ID
+  GET_APPOINTMENT_DETAILS_BY_ID,
 ];

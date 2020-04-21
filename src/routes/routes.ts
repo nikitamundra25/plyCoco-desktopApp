@@ -156,6 +156,9 @@ const pdf2 = React.lazy(() =>
   import("../resource/views/pages/BulkEmailCaregiver/PDF/ConfirmAppointmentPdf")
 );
 
+const createLeasingInvoice =  React.lazy(() =>
+import("../resource/views/pages/AllInvoices/CreateLeasingInvoice")
+);
 const routes = [
   {
     path: AppRoutes.LOGIN,
@@ -429,6 +432,12 @@ const routes = [
     exact: true
   },
   {
+    path: AppRoutes.LEASINGCREATEINVOICE,
+    name: languageTranslation("MENU_LEASING_CREATE_INVOICE"),
+    component: createLeasingInvoice,
+    exact: true
+  },
+  {
     path: AppRoutes.PRINTINVOICES,
     name: languageTranslation("PRINT_INVOICE"),
     component: PrintInvoices,
@@ -463,7 +472,7 @@ const routes = [
     name: languageTranslation("OPEN_PDF"),
     component: openpdf,
     exact: true
-  }
+  },
 ];
 
 export default routes;

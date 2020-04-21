@@ -8,9 +8,9 @@ import { useHistory, useLocation } from "react-router-dom";
 import PaginationComponent from "../../../components/Pagination";
 import * as qs from "query-string";
 
-const LeasingList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
+const LeasingList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList & any) => {
   const { search, pathname } = useLocation();
-  const { invoiceListLoading, invoiceList, totalCount, currentPage } = props;
+  const { invoiceListLoading, invoiceList, totalCount, currentPage, selectedAppointment, handleCheckedChange } = props;
   let history = useHistory();
 
   const onPageChanged = (currentPage: number) => {
@@ -21,7 +21,8 @@ const LeasingList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
     history.push(path);
   };
 
- let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+
   return (
     <>
       <div className="table-minheight createinvoices-table">
@@ -89,6 +90,7 @@ const LeasingList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
                           id="check"
                           className=""
                           name={"status"}
+                          onChange={(e: any) => handleCheckedChange(e, list)}
                         // checked={"true"}
                         />
                         <label className="">{count++}</label>
@@ -97,10 +99,10 @@ const LeasingList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
                     <td className="invoiceid-col"> {list.id}</td>
                     <td className="h-col">{timeStamp} </td>
                     <td className="text-col">WG in leipzig</td>
-                    <td className="datetime-col">{list.ca.workingHoursFrom ? list.ca.workingHoursFrom : "-"} </td>
-                    <td className="datetime-col">{list.ca.workingHoursTo ? list.ca.workingHoursTo : "-"}</td>
-                    <td className="datetime-col">{list.ca.breakTo ? list.ca.breakTo : "-"}</td>
-                    <td className="datetime-col">{list.ca.breakFrom ? list.ca.breakFrom : "-"}</td>
+                    <td className="datetime-col">{list.ca && list.ca.workingHoursFrom ? list.ca.workingHoursFrom : "-"} </td>
+                    <td className="datetime-col">{list.ca && list.ca.workingHoursTo ? list.ca.workingHoursTo : "-"}</td>
+                    <td className="datetime-col">{list.ca && list.ca.breakTo ? list.ca.breakTo : "-"}</td>
+                    <td className="datetime-col">{list.ca && list.ca.breakFrom ? list.ca.breakFrom : "-"}</td>
                     <td className="price-col">3,200.00 &euro;</td>
                     <td className="price-col">00.00 &euro;</td>
                     <td className="price-col">00.00 &euro;</td>
@@ -108,9 +110,9 @@ const LeasingList: FunctionComponent<IInvoiceList> = (props: IInvoiceList) => {
                     <td className="price-col">00.00 &euro;</td>
                     <td className="price-col">00.00 &euro;</td>
                     <td className="price-col">00.00 &euro;</td>
-                    <td className="price-col">{list.ca.distanceInKM ? list.ca.distanceInKM : "-"} </td>
-                    <td className="price-col">{list.ca.feePerKM ? `${list.ca.feePerKM} &euro` : "-"} </td>
-                    <td className="price-col">{list.ca.otherExpenses ? `${list.ca.otherExpenses} &euro` : "-"} </td>
+                    <td className="price-col">{list.ca && list.ca.distanceInKM ? list.ca.distanceInKM : "-"} </td>
+                    <td className="price-col">{list.ca && list.ca.feePerKM ? `${list.ca.feePerKM} &euro` : "-"} </td>
+                    <td className="price-col">{list.ca && list.ca.otherExpenses ? `${list.ca.otherExpenses} &euro` : "-"} </td>
                     <td className="price-col">384.00 &euro;</td>
                     <td className="price-col">384.00 &euro;</td>
                     <td className="price-col">34584.00 &euro;</td>

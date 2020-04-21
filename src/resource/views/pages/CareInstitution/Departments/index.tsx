@@ -12,12 +12,12 @@ import {
   IReactSelectInterface,
   IAddTimeFormValues,
   IAttributeOptions,
-  IAttributeValues
+  IAttributeValues,
 } from '../../../../../interfaces';
 import { toast } from 'react-toastify';
 import {
   AddDepartmentValidationSchema,
-  AddTimeValidationSchema
+  AddTimeValidationSchema,
 } from '../../../../validations';
 import { CareInstitutionQueries } from '../../../../../graphql/queries';
 import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
@@ -37,7 +37,7 @@ const [
   GET_CAREINSTITUTION_ATTRIBUTES,
   ,
   ,
-  GET_DIVISION_DETAILS_BY_ID
+  GET_DIVISION_DETAILS_BY_ID,
 ] = CareInstitutionQueries;
 
 const [
@@ -50,7 +50,7 @@ const [
   ,
   ,
   ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT
+  DELETE_DEPARTMENT,
 ] = CareInstitutionMutation;
 
 let toastId: any = '';
@@ -84,7 +84,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   // To get caregiver list from db
   const [
     getDepartmentList,
-    { data: departmentList, refetch, loading }
+    { data: departmentList, refetch, loading },
   ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
 
   // To get caregiver list from db
@@ -102,7 +102,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
             return temp.push({
               label: attr.name,
               value: attr.id,
-              color: attr ? attr.color : ''
+              color: attr ? attr.color : '',
             });
           });
         }
@@ -111,7 +111,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         setTimesData(getDivisionsDetails.times);
         setQualifications(getDivisionsDetails.qualifications);
         setAttributes(temp);
-      }
+      },
     }
   );
 
@@ -130,7 +130,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     qualificationData.getQualifications.forEach((quali: any) => {
       qualificationList.push({
         label: quali.name,
-        value: quali.id
+        value: quali.id,
       });
     });
   }
@@ -142,7 +142,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         careInstitutionAttrOpt.push({
           label: name,
           value: id ? id.toString() : '',
-          color
+          color,
         })
     );
   }
@@ -152,8 +152,25 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     getDepartmentList({
       variables: {
         userId: parseInt(Id),
-        locked: filterValue
-      }
+        locked: filterValue,
+      },
+    });
+    setDepartmentDetails({
+      id: '',
+      userId: parseInt(Id),
+      name: '',
+      anonymousName: '',
+      anonymousName2: '',
+      address: '',
+      contactPerson: '',
+      phoneNumber: '',
+      faxNumber: '',
+      email: '',
+      commentsOffer: '',
+      commentsCareGiver: '',
+      commentsVisibleInternally: '',
+      locked: false,
+      times: [],
     });
     setUserId(Id);
   }, [Id]);
@@ -166,8 +183,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setResetTimeForm(true);
     getDepartmentById({
       variables: {
-        id: parseInt(item.id)
-      }
+        id: parseInt(item.id),
+      },
     });
   };
   const handleSubmit = async (
@@ -195,17 +212,17 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         attributes:
           attributes && attributes.length
             ? attributes.map(({ value }: IReactSelectInterface) =>
-              parseInt(value)
-            )
-            : []
+                parseInt(value)
+              )
+            : [],
       };
 
       if (isActive > -1) {
         await updateDivision({
           variables: {
             id: parseInt(departmentDetails.id),
-            divisionInput: departmentInput
-          }
+            divisionInput: departmentInput,
+          },
         });
         toast.success(
           languageTranslation('UPDATE_DEPARTMENT_CARE_INSTITUTION')
@@ -214,8 +231,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         await addDivision({
           variables: {
             id: parseInt(Id),
-            divisionInput: departmentInput
-          }
+            divisionInput: departmentInput,
+          },
         });
         resetForm();
         setResetTimeForm(true);
@@ -258,7 +275,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       locked: departmentDetails.locked,
       times: departmentDetails.times,
       qualifications: departmentDetails.qualifications,
-      attributes: departmentDetails.attributes
+      attributes: departmentDetails.attributes,
     };
   } else {
     values = {
@@ -278,7 +295,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       locked: false,
       times: [],
       qualifications: [],
-      attributes: []
+      attributes: [],
     };
   }
 
@@ -297,7 +314,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
           userId: values.userId,
           begin: TimeValues.begin,
           end: TimeValues.end,
-          comment: TimeValues.comment
+          comment: TimeValues.comment,
         };
         let temp: any = [];
         temp = [...timesData];
@@ -319,7 +336,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     userId: parseInt(Id),
     begin: '',
     end: '',
-    comment: ''
+    comment: '',
   };
 
   const addNewDepartment = async () => {
@@ -339,7 +356,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       commentsCareGiver: '',
       commentsVisibleInternally: '',
       locked: false,
-      times: []
+      times: [],
     });
     setResetTimeForm(true);
     setTimesData([]);
@@ -354,15 +371,15 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_DEPARTMENT_DELETE_MSG')
+      text: languageTranslation('CONFIRM_DEPARTMENT_DELETE_MSG'),
     });
     if (!value) {
       return;
     } else {
       await deleteDivision({
         variables: {
-          id: parseInt(id)
-        }
+          id: parseInt(id),
+        },
       });
       refetch();
       setDepartmentDetails({
@@ -380,7 +397,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         commentsCareGiver: '',
         commentsVisibleInternally: '',
         locked: false,
-        times: []
+        times: [],
       });
       setResetTimeForm(true);
       setTimesData([]);
@@ -399,8 +416,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     await getDepartmentList({
       variables: {
         userId: parseInt(Id),
-        locked: value
-      }
+        locked: value,
+      },
     });
     setDepartmentDetails({
       id: '',
@@ -417,7 +434,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       commentsCareGiver: '',
       commentsVisibleInternally: '',
       locked: false,
-      times: []
+      times: [],
     });
     setResetTimeForm(true);
     setTimesData([]);
@@ -485,39 +502,40 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                     <ul className='common-list list-unstyled mb-0'>
                       {departmentList && departmentList.getDivision.length
                         ? departmentList.getDivision.map(
-                          (item: any, index: number) => {
-                            return (
-                              <li
-                                key={index}
-                                className={
-                                  'cursor-pointer list-item text-capitalize ' +
-                                  (isActive === item.id ? 'active' : '')}
-                              >
-                                <span
-                                  onClick={() => {
-                                    onDepartmentClick(item);
-                                  }}
-                                  className='list-item-text'
+                            (item: any, index: number) => {
+                              return (
+                                <li
+                                  key={index}
+                                  className={
+                                    'cursor-pointer list-item text-capitalize ' +
+                                    (isActive === item.id ? 'active' : '')
+                                  }
                                 >
-                                  {item.name}
-                                </span>{' '}
-                                <span
-                                  id={`delete${index}`}
-                                  className='list-item-icon'
-                                  onClick={() => onDelete(item.id)}
-                                >
-                                  <UncontrolledTooltip
-                                    placement={'top'}
-                                    target={`delete${index}`}
+                                  <span
+                                    onClick={() => {
+                                      onDepartmentClick(item);
+                                    }}
+                                    className='list-item-text  one-line-text'
                                   >
-                                    {languageTranslation('DEPARTMENT_DELETE')}
-                                  </UncontrolledTooltip>
-                                  <i className='fa fa-trash'></i>
-                                </span>
-                              </li>
-                            );
-                          }
-                        )
+                                    {item.name}
+                                  </span>{' '}
+                                  <span
+                                    id={`delete${index}`}
+                                    className='list-item-icon'
+                                    onClick={() => onDelete(item.id)}
+                                  >
+                                    <UncontrolledTooltip
+                                      placement={'top'}
+                                      target={`delete${index}`}
+                                    >
+                                      {languageTranslation('DEPARTMENT_DELETE')}
+                                    </UncontrolledTooltip>
+                                    <i className='fa fa-trash'></i>
+                                  </span>
+                                </li>
+                              );
+                            }
+                          )
                         : null}
                     </ul>
                   </div>

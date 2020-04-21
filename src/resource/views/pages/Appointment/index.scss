@@ -73,7 +73,8 @@
           width: 14px;
           position: absolute;
           left: 10px;
-          top: 4px;
+          top: 50%;
+          transform: translateY(-50%);
         }
         &:hover {
           background: $card_header_bg;
@@ -303,6 +304,12 @@
   &.modal-xl {
     max-width: 1280px;
   }
+  &.modal-dialog-centered {
+    @media (min-width: 576px) {
+      min-height: 100vh;
+      margin: 0px auto;
+    }
+  }
   .modal-content {
     .modal-body {
       padding: 12px 10px 0px;
@@ -346,10 +353,10 @@
     }
     .unlink-btn-block {
       justify-content: space-between;
-        flex-wrap: wrap;
-        @media only screen and (max-width: 580px) {
-          justify-content:center;
-        }
+      flex-wrap: wrap;
+      @media only screen and (max-width: 580px) {
+        justify-content: center;
+      }
     }
     button {
       @media only screen and (max-width: 580px) {
@@ -403,10 +410,6 @@ body {
     right: 0px;
     max-width: 260px;
   }
-}
-.unlink-label {
-  font-size: $font_13;
-  font-family: $font_Frutiger_Bold;
 }
 
 .detail-table {
@@ -463,13 +466,13 @@ body {
 .calender-section {
   position: relative;
   width: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
-  font-family: $font_open_sans;
-  background: $white;
-  min-height: calc(50vh - 75px);
-  &.loader-height{
-    height: calc(50vh - 75px);
+  // overflow-y: auto;
+  // overflow-x: auto;
+  // font-family: "Open Sans", sans-serif;
+  // background: #fff;
+  // min-height: calc(50vh - 75px);
+  &.loader-height {
+    height: calc(50vh - 80px);
   }
   .custom-appointment-calendar-body {
     width: 100%;
@@ -480,6 +483,13 @@ body {
 
   .custom-appointment-calendar {
     // height: calc(50vh - 80px);
+    position: relative;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+    font-family: $font_open_sans;
+    background: $white;
+    min-height: calc(50vh - 80px);
     .custom-appointment-calendar-head {
       // position: sticky;
       position: absolute;
@@ -534,7 +544,7 @@ body {
 
 .ReactVirtualized__List {
   padding-top: 46px;
-  height: calc(50vh - 90px) !important;
+  height: calc(50vh - 80px) !important;
 }
 .appointment-row{
   .appointment-calander-col{

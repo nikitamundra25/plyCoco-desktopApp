@@ -5,7 +5,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  UncontrolledTooltip
+  UncontrolledTooltip,
 } from "reactstrap";
 import Select from "react-select";
 import { languageTranslation } from "../../../../../helpers";
@@ -26,7 +26,7 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
     onDeleteNegativeUser,
     handleSelect,
     selectedOption,
-    setSelectedOption
+    setSelectedOption,
   } = props;
 
   if (
@@ -77,46 +77,44 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
       <div className="common-list-body custom-scrollbar">
         <ul className="common-list list-unstyled mb-0">
           {negativeUser &&
-            negativeUser.getNegativeList &&
-            negativeUser.getNegativeList.negativeList
+          negativeUser.getNegativeList &&
+          negativeUser.getNegativeList.negativeList
             ? negativeUser.getNegativeList.negativeList.map(
-              (item: any, index: number) => {
-                return (
-                  <li
-                    key={index}
-                    className={"cursor-pointer list-item text-capitalize "}
-                  >
-                    <div className="list-item-text view-more-link"
-                      onClick={() =>
-                        history.push(
-                          AppRoutes.CARE_GIVER_VIEW.replace(
-                            /:id/gi,
-                            item.id
-                          )
-                        )
-                      }
+                (item: any, index: number) => {
+                  return (
+                    <li
+                      key={index}
+                      className={"cursor-pointer list-item text-capitalize "}
                     >
-                      {item && item.lastName + " " + item.firstName}
-                    </div>
-                    <div className="list-item-icon">
-                      <span
-                        id={`delete${index}`}
-                        className={`btn-icon mr-2`}
-                        onClick={() => onDeleteNegativeUser(item.id)}
+                      <div
+                        className="list-item-text view-more-link  one-line-text"
+                        onClick={() =>
+                          history.push(
+                            AppRoutes.CARE_GIVER_VIEW.replace(/:id/gi, item.id)
+                          )
+                        }
                       >
-                        <UncontrolledTooltip
-                          placement={"top"}
-                          target={`delete${index}`}
+                        {item && item.lastName + " " + item.firstName}
+                      </div>
+                      <div className="list-item-icon">
+                        <span
+                          id={`delete${index}`}
+                          className={`btn-icon mr-2`}
+                          onClick={() => onDeleteNegativeUser(item.id)}
                         >
-                          {languageTranslation("DELETE")}
-                        </UncontrolledTooltip>
-                        <i className="fa fa-trash"></i>
-                      </span>
-                    </div>
-                  </li>
-                );
-              }
-            )
+                          <UncontrolledTooltip
+                            placement={"top"}
+                            target={`delete${index}`}
+                          >
+                            {languageTranslation("DELETE")}
+                          </UncontrolledTooltip>
+                          <i className="fa fa-trash"></i>
+                        </span>
+                      </div>
+                    </li>
+                  );
+                }
+              )
             : null}
         </ul>
       </div>
@@ -124,22 +122,26 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
         <FormGroup className="mb-0">
           <Select
             placeholder={languageTranslation("SELECT_CAREGIVER")}
-            options={caregiverOptions && caregiverOptions.length > 1 ? caregiverOptions : []}
+            options={
+              caregiverOptions && caregiverOptions.length > 1
+                ? caregiverOptions
+                : []
+            }
             menuPlacement={"top"}
             className="attribute-select"
             classNamePrefix="attribute-inner-select"
-            onChange={value => {
+            onChange={(value) => {
               handleSelect(value);
               setSelectedOption(null);
             }}
             noOptionsMessage={() => {
               return caregiverOptions && caregiverOptions.length > 1
-                ? 'No Care Giver'
-                : 'No Care Giver';
+                ? "No Care Giver"
+                : "No Care Giver";
             }}
             value={selectedOption}
             components={{ Option: CareInstCustomOption }}
-            isOptionDisabled={option =>
+            isOptionDisabled={(option) =>
               option.value === languageTranslation("ID")
             }
           />

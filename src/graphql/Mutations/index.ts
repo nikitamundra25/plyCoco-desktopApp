@@ -14,3 +14,4 @@ export * from "./Appointments";
 export * from "./AttributeFilter";
 export * from "./GlobalCalendar";
 export * from "./LeasingContract";
+export * from "./Invoice";

@@ -6,7 +6,29 @@ const ADD_CAREGIVER_AVABILITY = gql`
   ) {
     addCareGiverAvability(careGiverAvabilityInput: $careGiverAvabilityInput) {
       id
+      userId
+      date
+      name
+      fee
+      weekendAllowance
+      holidayAllowance
+      nightFee
+      nightAllowance
+      workingProofRecieved
+      distanceInKM
+      feePerKM
+      travelAllowance
+      otherExpenses
+      remarksCareGiver
+      remarksInternal
+      f
+      s
+      n
       status
+      workingHoursFrom
+      workingHoursTo
+      breakFrom
+      breakTo
     }
   }
 `;
@@ -33,12 +55,30 @@ const UPDATE_CAREGIVER_AVABILITY = gql`
       id: $id
       careGiverAvabilityInput: $careGiverAvabilityInput
     ) {
-      userId
       id
+      userId
+      date
+      name
+      fee
+      weekendAllowance
+      holidayAllowance
+      nightFee
+      nightAllowance
+      workingProofRecieved
+      distanceInKM
+      feePerKM
+      travelAllowance
+      otherExpenses
+      remarksCareGiver
+      remarksInternal
       f
       s
       n
       status
+      workingHoursFrom
+      workingHoursTo
+      breakFrom
+      breakTo
     }
   }
 `;
@@ -98,6 +138,16 @@ const UN_LINK_REQUIREMENT = gql`
   }
 `;
 
+const MAP_WORKPROOF_WITH_APPOINTMENT = gql`
+  mutation MapWorkProofWithAppointment($appointmentId:[ID!],$workProofId:ID) {
+    mapWorkProofWithAppointment(appointmentId: $appointmentId, workProofId: $workProofId) { 
+      appointmentId
+      workProofId
+      appointmentStatus
+    }
+  }
+`;
+
 export const AppointmentMutations = [
   ADD_CAREGIVER_AVABILITY,
   ADD_INSTITUTION_REQUIREMENT,
@@ -107,4 +157,5 @@ export const AppointmentMutations = [
   DELETE_CAREGIVER_AVABILITY,
   LINK_REQUIREMENT,
   UN_LINK_REQUIREMENT,
+  MAP_WORKPROOF_WITH_APPOINTMENT
 ];

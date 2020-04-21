@@ -184,9 +184,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                     </td>
                     <td className='price-col'>00.00 &euro;</td>
                     <td className='price-col'>
-                      {list.ca && list.ca.nightFee
-                        ? list.ca.nightFee
-                        : '-'}{' '}
+                      {list.ca && list.ca.nightFee ? list.ca.nightFee : '-'}{' '}
                     </td>
                     <td className='price-col'>00.00 &euro;</td>
                     <td className='price-col'>
@@ -195,9 +193,13 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                         : '-'}{' '}
                     </td>
                     <td className='price-col'>00.00 &euro;</td>
-                    <td className='price-col'> {list.ca && list.ca.holidayAllowance
+                    <td className='price-col'>
+                      {' '}
+                      {list.ca && list.ca.holidayAllowance
                         ? list.ca.holidayAllowance
-                        : '-'}{' '} &euro;</td>
+                        : '-'}{' '}
+                      &euro;
+                    </td>
                     <td className='price-col'>
                       {/* {list.ca && list.ca.distanceInKM
                         ? list.ca.distanceInKM

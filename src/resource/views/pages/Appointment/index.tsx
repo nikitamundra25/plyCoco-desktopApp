@@ -359,6 +359,7 @@ const Appointment: FunctionComponent = (props: any) => {
       let index: number = temp.findIndex(
         (caregiver: any) => caregiver.id === updateCareGiverAvability.userId
       );
+      if(index > -1){
       for (let i = 0; i < temp[index].availabilityData.length; i++) {
         let element: any[] = [...temp[index].availabilityData[i]];
         let availabilityIndex: number = element.findIndex(
@@ -381,6 +382,7 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       }
       setSelectedCells(selectedCaregiverCells);
+    }
       // setPage(1);
       // fetchingCareGiverData();
     },
@@ -400,6 +402,7 @@ const Appointment: FunctionComponent = (props: any) => {
         let index: number = temp.findIndex(
           (caregiver: any) => caregiver.id === element.userId
         );
+      if(index > -1){
         for (let i = 0; i < temp[index].availabilityData.length; i++) {
           let availabilityRows: any[] = [...temp[index].availabilityData[i]];
           let availabilityIndex: number = availabilityRows.findIndex(
@@ -409,6 +412,7 @@ const Appointment: FunctionComponent = (props: any) => {
             temp[index].availabilityData[i].splice(availabilityIndex, 1);
           }
         }
+      }
       });
       // setPage(1);
       // fetchingCareGiverData();

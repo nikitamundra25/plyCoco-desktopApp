@@ -33,6 +33,7 @@ import {
   CareInstitutionQueries,
   InvoiceQueries,
   CareGiverQueries,
+  GlobalHolidaysQueries,
 } from "../../../../../graphql/queries";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import moment from "moment";
@@ -55,6 +56,7 @@ const [
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
+const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries
 //Create New Invoice PDF
 const [CREATE_INVOICE] = InvoiceMutations
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
@@ -125,6 +127,29 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     // notifyOnNetworkStatusChange: true
   });
 
+  useEffect(() => {
+    if (invoiceList &&
+      invoiceList.getAllAppointment &&
+      invoiceList.getAllAppointment.result.length) {
+      const { result } = invoiceList.getAllAppointment
+      const startDate: string = result[0].date
+      const endDate: string = result[result.length - 1].date
+      console.log(">>>>>>>>>>>>>>>>>", startDate, ">>>>>>>>>", endDate);
+      getAllHolidays(startDate, endDate)
+    }
+    console.log("In this use effect");
+
+  }, [invoiceList]);
+
+
+  // To Fetch golbal holidays and weekends
+  const [
+    getGlobalHolidays,
+    { data: careGiverHolidays }
+  ] = useLazyQuery<any, any>(GET_GLOBAL_CAREGIVER_HOLIDAYS, {
+    fetchPolicy: "no-cache",
+    // notifyOnNetworkStatusChange: true
+  });
   // To fetch all careinstitution list
   const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
     any
@@ -167,6 +192,15 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     });
   }, []);
 
+  //To get all holidays and weekends
+  const getAllHolidays = (startDate: string, endDate: string) => {
+    getGlobalHolidays({
+      variables: {
+        gte: startDate,
+        lte: endDate,
+      }
+    })
+  }
   // to get list of all invoices
   const getInvoiceListData = () => {
     console.log("currentPage", currentPage);
@@ -442,6 +476,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                 invoiceListLoading={invoiceListLoading}
                 currentPage={currentPage}
                 selectedAppointment={selectedAppointment}
+                careGiverHolidays={careGiverHolidays}
                 handleCheckedChange={(e: any, list: any) => handleCheckedChange(e, list)}
                 invoiceList={
                   invoiceList &&

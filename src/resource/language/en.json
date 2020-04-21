@@ -1185,5 +1185,7 @@
   "HOLIDAY_IN_H": "Holiday in h",
   "HOLIDAY_IN": "Holiday in",
   "TIMYOC_SUM": "TiMyocy sum",
-  "CAREGIVER_GROSS": "Caregiver gross/h"
+  "CAREGIVER_GROSS": "Caregiver gross/h",
+  "NIGHT_PER_HOUR": "Night/hr",
+  "TOTAL_NIGHT_CHARGE": "Total Night Charge"
 }

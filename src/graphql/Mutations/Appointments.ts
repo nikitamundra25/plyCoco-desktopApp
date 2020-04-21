@@ -41,7 +41,27 @@ const ADD_INSTITUTION_REQUIREMENT = gql`
       careInstitutionRequirementInput: $careInstitutionRequirementInput
     ) {
       id
-      status
+   userId
+   date
+   name
+   startTime
+   endTime
+   divisionId
+   qualificationId
+   address
+   contactPerson
+   departmentOfferRemarks
+   departmentBookingRemarks
+   departmentRemarks
+   isWorkingProof
+   offerRemarks
+   bookingRemarks
+   comments
+   f
+   s
+   n
+   status
+   isLeasing
     }
   }
 `;
@@ -92,12 +112,28 @@ const UPDATE_INSTITUTION_REQUIREMENT = gql`
       id: $id
       careInstitutionRequirementInput: $careInstitutionRequirementInput
     ) {
-      userId
       id
+      userId
+      date
+      name
+      startTime
+      endTime
+      divisionId
+      qualificationId
+      address
+      contactPerson
+      departmentOfferRemarks
+      departmentBookingRemarks
+      departmentRemarks
+      isWorkingProof
+      offerRemarks
+      bookingRemarks
+      comments
       f
       s
       n
       status
+      isLeasing
     }
   }
 `;
@@ -106,6 +142,7 @@ const DELETE_CAREGIVER_AVABILITY = gql`
   mutation DeleteCareGiverAvability($id: [ID]) {
     deleteCareGiverAvability(id: $id) {
       id
+      userId
     }
   }
 `;
@@ -114,6 +151,7 @@ const DELETE_CAREINSTITUTION_REQUIREMENT = gql`
   mutation DeleteCareInstitutionRequirement($id: [ID]!) {
     deleteCareInstitutionRequirement(id: $id) {
       id
+      userId
     }
   }
 `;
@@ -125,6 +163,19 @@ const LINK_REQUIREMENT = gql`
       avabilityId
       requirementId
       status
+      date
+      appointmentId
+      unlinkedBy
+      ca{
+        userId
+        id
+      }
+      cr{
+        userId
+        id
+      }
+      appointmentStatus
+      workProofId
     }
   }
 `;
@@ -132,6 +183,13 @@ const LINK_REQUIREMENT = gql`
 const UN_LINK_REQUIREMENT = gql`
   mutation DeleteAppointment($appointmentInput: [AppointmentInput]) {
     deleteAppointment(appointmentInput: $appointmentInput) {
+      id
+      cr{
+        userId
+      }
+      ca{
+        userId
+      }
       deleteAll
       unlinkedBy
     }

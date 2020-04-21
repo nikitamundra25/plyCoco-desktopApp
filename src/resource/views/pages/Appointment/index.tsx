@@ -653,7 +653,7 @@ const Appointment: FunctionComponent = (props: any) => {
             isLeasing,
             division
           }}]}
-          careInstList[careInstIndex].availabilityData[requirementDataIndex][availabilityIndex] = {...careInstList[careInstIndex].availabilityData[requirementDataIndex][availabilityIndex],status:'linked', appointments:[{...appointment,ca:{
+          careInstList[careInstIndex].availabilityData[requirementDataIndex][requirementIndex] = {...careInstList[careInstIndex].availabilityData[requirementDataIndex][requirementIndex],status:'linked', appointments:[{...appointment,ca:{
             ...appointment.ca,
             name: [temp[caregiverIndex].lastName, temp[caregiverIndex].firstName].join(' ')
           }}]}
@@ -679,7 +679,7 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         }
-        let cellInstIndex:number = selectedCareInstCells.findIndex((cell:any) =>cell.item && (appointment.requirementId) === cell.item.id)
+        let cellInstIndex:number = selectedCareInstCells.findIndex((cell:any) =>cell.item && (appointment.requirementId) === cell.item.id);
         if (selectedCareInstCells[cellInstIndex]) {
           selectedCareInstCells[cellInstIndex] = {
             ...selectedCareInstCells[cellInstIndex],
@@ -697,7 +697,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       setSelectedCells(selectedCaregiverCells)
       setselectedCellsCareinstitution(selectedCareInstCells)
-      console.log(temp,'temppppp');
+      console.log(temp,selectedCareInstCells,careInstList,'temppppp');
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("LINKED_APPOINTMENTS"));
       }
@@ -1591,7 +1591,7 @@ const Appointment: FunctionComponent = (props: any) => {
     } else{
       console.log(caregiversList,'careGiversList on star');
       
-      if (caregiversList && caregiversList.length === 1) {
+      if (caregiverSoloFilter && caregiverSoloFilter.value && caregiversList && caregiversList.length === 1) {
         await setcaregiverSoloFilter(undefined);
         getCaregiverData(1)
       }
@@ -2443,6 +2443,11 @@ console.log("careinstitutionList",careinstitutionList);
         id: list ? list.id : "",
       });
     } else {
+      if (
+        careinstitutionSoloFilter && careinstitutionSoloFilter.value && careinstitutionList && careinstitutionList.length === 1) {
+        await setcareinstitutionSoloFilter(undefined);
+        getCareInstituionData()
+      }
       setstarCanstitution({
         isStar: false,
         setIndex: -1,

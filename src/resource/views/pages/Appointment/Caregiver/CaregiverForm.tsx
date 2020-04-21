@@ -221,39 +221,37 @@ const CaregiverFormView: FunctionComponent<
       }
     }
   };
-
+  let isLeasingAppointment = false;
+  // To check appointment with leasing careInst or not
+  if (selectedCells && selectedCells.length) {
+    isLeasingAppointment = selectedCells.filter(
+      (cell: any) =>
+        cell &&
+        cell.item &&
+        cell.item.appointments &&
+        cell.item.appointments.length &&
+        cell.item.appointments[0].cr &&
+        cell.item.appointments[0].cr.isLeasing
+    ).length
+      ? true
+      : false;
+  }
   useEffect(() => {
-    // To check appointment with leasing careInst or not
-    let isLeasingAppointment = false;
-    if (selectedCells && selectedCells.length) {
-      isLeasingAppointment = selectedCells.filter(
-        (cell: any) =>
-          cell &&
-          cell.item &&
-          cell.item.appointments &&
-          cell.item.appointments.length &&
-          cell.item.appointments[0].cr &&
-          cell.item.appointments[0].cr.isLeasing
-      ).length
-        ? true
-        : false;
-      if (isLeasingAppointment) {
-        const { id = "", item = {} } = selectedCells[0] ? selectedCells[0] : {};
-        const { appointments = [] } = item ? item : {};
-        const { avabilityId = "", id: appointmentId = "" } =
-          appointments && appointments.length && appointments[0]
-            ? appointments[0]
-            : {};
-
-        getLeasingContractPDF({
-          variables: {
-            userId: parseInt(id),
-            availabilityId: [parseInt(avabilityId)],
-            appointmentId: [parseInt(appointmentId)],
-            documentUploadType: "leasingContract",
-          },
-        });
-      }
+    if (isLeasingAppointment) {
+      const { id = '', item = {} } = selectedCells[0] ? selectedCells[0] : {};
+      const { appointments = [] } = item ? item : {};
+      const { avabilityId = '', id: appointmentId = '' } =
+        appointments && appointments.length && appointments[0]
+          ? appointments[0]
+          : {};
+      getLeasingContractPDF({
+        variables: {
+          userId: parseInt(id),
+          availabilityId: [parseInt(avabilityId)],
+          appointmentId: [parseInt(appointmentId)],
+          documentUploadType: 'leasingContract',
+        },
+      });
     }
   }, [selectedCells]);
 
@@ -400,6 +398,15 @@ const CaregiverFormView: FunctionComponent<
                           className="width-common"
                         />
                       </div>
+                      {isLeasingAppointment ? (
+                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                            TIMyoCY
+                          </div>
+                        ) : (
+                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                            Plycoco
+                          </div>
+                        )}
                     </Col>
                   </Row>
                 </FormGroup>

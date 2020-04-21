@@ -54,10 +54,6 @@ const GET_INVOICE_LIST = gql`
 `;
 
 
-
-
-
-
 export const InvoiceQueries = [
   GET_INVOICE_LIST
 ];

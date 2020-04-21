@@ -9,3 +9,4 @@ export * from './ErrorFormatter';
 export * from './GermanNumberFormat';
 export * from './GetDaysByMonth';
 export * from './TimeDifference';
+export * from './ConverturlIntoBase64'

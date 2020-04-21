@@ -378,21 +378,26 @@ const CaregiverFormView: FunctionComponent<
                       </Label>
                     </Col>
                     <Col sm='8'>
-                    <div className="d-flex align-items-center justify-content-between flex-wrap">
-                        <div className="required-input appointment-id-width">
+                      <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                        <div className='required-input appointment-id-width'>
                           <Input
-                            type="text"
+                            type='text'
                             disabled={true}
-                            name={"appointmentId"}
+                            name={'appointmentId'}
                             value={appointmentId ? appointmentId : null}
-                            placeholder={languageTranslation("APPOINTMENT_ID")}
-                            className="width-common"
+                            placeholder={languageTranslation('APPOINTMENT_ID')}
+                            className='width-common'
                           />
                         </div>
-                        {isLeasingAppointment ?  <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
-                        TIMyoCY
-                        </div> : null}
-                       
+                        {isLeasingAppointment ? (
+                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                            TIMyoCY
+                          </div>
+                        ) : (
+                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                            Plycoco
+                          </div>
+                        )}
                       </div>
                       {/* <div className='required-input'>
                         <Input

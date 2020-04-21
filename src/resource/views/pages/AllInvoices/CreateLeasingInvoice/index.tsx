@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent, useEffect } from "react";
+import React, { useState, FunctionComponent, useEffect } from 'react';
 import {
   Button,
   Table,
@@ -9,12 +9,12 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
-} from "reactstrap";
-import { languageTranslation, errorFormatter } from "../../../../../helpers";
+} from 'reactstrap';
+import { languageTranslation, errorFormatter } from '../../../../../helpers';
 
-import { RouteComponentProps, useLocation } from "react-router";
-import "../index.scss";
-import "react-day-picker/lib/style.css";
+import { RouteComponentProps, useLocation } from 'react-router';
+import '../index.scss';
+import 'react-day-picker/lib/style.css';
 import {
   CareInstInActiveAttrId,
   deactivatedListColor,
@@ -26,22 +26,22 @@ import {
   CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
   defaultDateFormat,
-} from "../../../../../config";
-import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
-import { IReactSelectInterface } from "../../../../../interfaces";
+} from '../../../../../config';
+import CareInstCustomOption from '../../../components/CustomOptions/CustomCareInstOptions';
+import { IReactSelectInterface } from '../../../../../interfaces';
 import {
   CareInstitutionQueries,
   InvoiceQueries,
   CareGiverQueries,
-} from "../../../../../graphql/queries";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import moment from "moment";
-import InvoiceList from "./LeasingList";
-import CustomOption from "../../../components/CustomOptions";
-import InvoiceNavbar from "./LeasingNavbar";
-import * as qs from "query-string";
-import { toast } from "react-toastify";
-import { InvoiceMutations } from "../../../../../graphql/Mutations";
+} from '../../../../../graphql/queries';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import moment from 'moment';
+import InvoiceList from './LeasingList';
+import CustomOption from '../../../components/CustomOptions';
+import InvoiceNavbar from './LeasingNavbar';
+import * as qs from 'query-string';
+import { toast } from 'react-toastify';
+import { InvoiceMutations } from '../../../../../graphql/Mutations';
 
 let toastId: any = null;
 
@@ -56,7 +56,7 @@ const [
 const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 //Create New Invoice PDF
-const [CREATE_INVOICE] = InvoiceMutations
+const [CREATE_INVOICE] = InvoiceMutations;
 
 const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
@@ -89,7 +89,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   >(undefined);
 
   //  State for handling date filter
-  const [dateFilter, setDateFilter] = useState<string>("");
+  const [dateFilter, setDateFilter] = useState<string>('');
 
   // State for department options
   const [
@@ -98,16 +98,13 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   ] = useState<IReactSelectInterface[] | undefined>([]);
 
   //
-  const [CreateInvoice] = useMutation<
-    {
-      invoiceInput: any;
-    }
-  >(CREATE_INVOICE);
-
+  const [CreateInvoice] = useMutation<{
+    invoiceInput: any;
+  }>(CREATE_INVOICE);
 
   // Default value is start & end of month
-  let gte: string = moment().startOf("month").format(dbAcceptableFormat);
-  let lte: string = moment().endOf("month").format(dbAcceptableFormat);
+  let gte: string = moment().startOf('month').format(dbAcceptableFormat);
+  let lte: string = moment().endOf('month').format(dbAcceptableFormat);
   // To get caregiver list from db
   const [
     getDepartmentList,
@@ -119,7 +116,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     fetchInvoiceList,
     { data: invoiceList, loading: invoiceListLoading, refetch },
   ] = useLazyQuery<any, any>(GET_INVOICE_LIST, {
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
     // notifyOnNetworkStatusChange: true
   });
 
@@ -127,7 +124,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
     any
   >(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
@@ -137,7 +134,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         sortBy: 3,
         limit: 500,
         page: 1,
-        isActive: "",
+        isActive: '',
       },
     });
   }, []);
@@ -151,14 +148,14 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
     GET_CAREGIVER_BY_NAME,
     {
-      fetchPolicy: "no-cache",
+      fetchPolicy: 'no-cache',
     }
   );
   useEffect(() => {
     // Fetch list of caregivers
     fetchCareGivers({
       variables: {
-        searchBy: "",
+        searchBy: '',
         limit: 500,
         page: 1,
       },
@@ -167,7 +164,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   // to get list of all invoices
   const getInvoiceListData = () => {
-    console.log("currentPage", currentPage);
+    console.log('currentPage', currentPage);
 
     fetchInvoiceList({
       variables: {
@@ -197,25 +194,25 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
     // call query
-    getInvoiceListData()
+    getInvoiceListData();
   }, [search]); // It will run when the search value gets changed
 
   // Call function to fetch invoice list
   useEffect(() => {
     if (monthFilter && monthFilter.value) {
-      const { value } = monthFilter
-      if (value === "weekly") {
+      const { value } = monthFilter;
+      if (value === 'weekly') {
         gte = moment().startOf('week').format(dbAcceptableFormat);
         lte = moment().endOf('week').format(dbAcceptableFormat);
-      } else if (value === "everySixMonths") {
-        gte = moment().startOf("month").format(dbAcceptableFormat);
+      } else if (value === 'everySixMonths') {
+        gte = moment().startOf('month').format(dbAcceptableFormat);
         lte = moment(gte).add(6, 'M').endOf('month').format(dbAcceptableFormat);
-      } else if (value === "perMonth") {
-        gte = moment().startOf("month").format(dbAcceptableFormat);
-        lte = moment().endOf("month").format(dbAcceptableFormat);
-      } else if (value === "all") {
-        gte = "";
-        lte = ""
+      } else if (value === 'perMonth') {
+        gte = moment().startOf('month').format(dbAcceptableFormat);
+        lte = moment().endOf('month').format(dbAcceptableFormat);
+      } else if (value === 'all') {
+        gte = '';
+        lte = '';
       }
     }
     getInvoiceListData();
@@ -227,27 +224,27 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     const { getCareInstitutions } = careInstituition;
     const { careInstitutionData, canstitution } = getCareInstitutions;
     careInstitutionOptions.push({
-      label: languageTranslation("NAME"),
-      value: languageTranslation("ID"),
-      companyName: languageTranslation("COMPANY_NAME"),
+      label: languageTranslation('NAME'),
+      value: languageTranslation('ID'),
+      companyName: languageTranslation('COMPANY_NAME'),
     });
 
     careInstitutionData.map((data: any, index: any) => {
       const { canstitution } = data;
-      let { attributes = [], companyName = "" } = canstitution
+      let { attributes = [], companyName = '' } = canstitution
         ? canstitution
         : {};
       attributes = attributes ? attributes : [];
       careInstitutionOptions.push({
-        label: `${data.lastName}${" "}${data.firstName}`,
+        label: `${data.lastName}${' '}${data.firstName}`,
         value: data.id,
         color: attributes.includes(CareInstInActiveAttrId)
           ? deactivatedListColor
           : attributes.includes(CareInstTIMyoCYAttrId)
-            ? leasingListColor
-            : attributes.includes(CareInstPlycocoAttrId)
-              ? selfEmployesListColor
-              : "",
+          ? leasingListColor
+          : attributes.includes(CareInstPlycocoAttrId)
+          ? selfEmployesListColor
+          : '',
         companyName,
       });
       return true;
@@ -262,9 +259,9 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     careGivers.getCaregiverByName.result
   ) {
     careGiversOptions.push({
-      label: languageTranslation("NAME"),
-      value: languageTranslation("ID"),
-      color: "",
+      label: languageTranslation('NAME'),
+      value: languageTranslation('ID'),
+      color: '',
     });
     careGivers.getCaregiverByName.result.forEach(
       ({ id, firstName, lastName, isActive, caregiver }: any) => {
@@ -272,15 +269,15 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         // To check null values
         attributes = attributes ? attributes : [];
         careGiversOptions.push({
-          label: `${lastName}${" "}${firstName}`,
+          label: `${lastName}${' '}${firstName}`,
           value: id,
           color: !isActive
             ? deactivatedListColor
             : attributes.includes(CaregiverTIMyoCYAttrId)
-              ? leasingListColor
-              : attributes.includes("Plycoco")
-                ? selfEmployesListColor
-                : "",
+            ? leasingListColor
+            : attributes.includes('Plycoco')
+            ? selfEmployesListColor
+            : '',
         });
       }
     );
@@ -293,7 +290,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       const { getDivision } = departmentList;
       careInstitutionDepartment = getDivision.map((dept: any) => ({
         label: dept.name,
-        value: dept && dept.id ? dept.id.toString() : "",
+        value: dept && dept.id ? dept.id.toString() : '',
       }));
       if (careInstitutionDepartment && careInstitutionDepartment.length) {
         setcareInstitutionDepartmentOption(careInstitutionDepartment);
@@ -303,15 +300,14 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   // Select careinstitution or caregiver from navbar
   const onhandleSelection = (value: IReactSelectInterface, name: string) => {
-    if (name === "careinstitution") {
+    if (name === 'careinstitution') {
       setcareinstitutionFilter(value);
-    } else if (name === "department") {
+    } else if (name === 'department') {
       setdepartmentFilter(value);
-    } else if (name === "caregiver") {
+    } else if (name === 'caregiver') {
       setcaregiverFilter(value);
-    } else if (name === "monthSummary") {
-      setmonthFilter(value)
-
+    } else if (name === 'monthSummary') {
+      setmonthFilter(value);
     }
   };
 
@@ -320,7 +316,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     let userId: string =
       careinstitutionFilter && careinstitutionFilter.value
         ? careinstitutionFilter.value
-        : "";
+        : '';
     if (userId) {
       getDepartmentList({
         variables: {
@@ -339,68 +335,82 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   };
 
   const handleArrowDayChange = (name: string) => {
-    let date: any = "";
-    if (name === "previous") {
+    let date: any = '';
+    if (name === 'previous') {
       date = moment(dateFilter)
-        .subtract(1, "months")
+        .subtract(1, 'months')
         .format(dbAcceptableFormat);
     } else {
-      date = moment(dateFilter).add(1, "months").format(dbAcceptableFormat);
+      date = moment(dateFilter).add(1, 'months').format(dbAcceptableFormat);
     }
     setDateFilter(date);
   };
 
   const handleCheckedChange = (e: any, list: any) => {
-    const { checked } = e.target
+    const { checked } = e.target;
     if (checked === true) {
-      selectedAppointment.push(list)
-      setselectedAppointment(selectedAppointment)
+      selectedAppointment.push(list);
+      setselectedAppointment(selectedAppointment);
     } else {
-      const arrayIndex: number = selectedAppointment.findIndex((data: any) => data.id === list.id)
-      selectedAppointment.splice(arrayIndex, 1)
-      setselectedAppointment(selectedAppointment)
+      const arrayIndex: number = selectedAppointment.findIndex(
+        (data: any) => data.id === list.id
+      );
+      selectedAppointment.splice(arrayIndex, 1);
+      setselectedAppointment(selectedAppointment);
     }
-  }
+  };
 
   const handleCreateInvoice = async () => {
-    console.log("in handle Selected Invoice Created Data", selectedAppointment)
-    let singleCareGiverData: any[] = [], amont: number = 0, selectedAppointmentId: any[] = [], singleCareInstData: any[] = []
+    console.log('in handle Selected Invoice Created Data', selectedAppointment);
+    let singleCareGiverData: any[] = [],
+      amont: number = 0,
+      selectedAppointmentId: any[] = [],
+      singleCareInstData: any[] = [];
 
     try {
       if (selectedAppointment && selectedAppointment.length) {
         selectedAppointment.forEach((appointmentData: any) => {
-          console.log("????????????", appointmentData);
+          console.log('????????????', appointmentData);
           if (appointmentData.ca && appointmentData.cr) {
-            singleCareGiverData.push(appointmentData.ca.userId)
-            singleCareInstData.push(appointmentData.cr.userId)
-            selectedAppointmentId.push(appointmentData.id)
-            console.log("+++++++++++++++singleCareGiverData", singleCareGiverData[singleCareGiverData.length - 1]);
-            if (singleCareGiverData[singleCareGiverData.length - 1] !== appointmentData.ca.userId) {
-              console.log("MMMMMMMMMMMMMMM");
+            singleCareGiverData.push(appointmentData.ca.userId);
+            singleCareInstData.push(appointmentData.cr.userId);
+            selectedAppointmentId.push(appointmentData.id);
+            console.log(
+              '+++++++++++++++singleCareGiverData',
+              singleCareGiverData[singleCareGiverData.length - 1]
+            );
+            if (
+              singleCareGiverData[singleCareGiverData.length - 1] !==
+              appointmentData.ca.userId
+            ) {
+              console.log('MMMMMMMMMMMMMMM');
             } else {
-              console.log("*****************In else condition");
+              console.log('*****************In else condition');
             }
           } else {
-            const message = errorFormatter("Selected appointment don't have care giver");
+            const message = errorFormatter(
+              "Selected appointment don't have care giver"
+            );
             if (!toast.isActive(toastId)) {
-              toastId = toast.warn(message)
+              toastId = toast.warn(message);
             }
           }
         });
         const invoiceInput: any = {
           caregiverId: singleCareGiverData[singleCareGiverData.length - 1],
-          careInstitutionId: singleCareGiverData[singleCareGiverData.length - 1],
+          careInstitutionId:
+            singleCareGiverData[singleCareGiverData.length - 1],
           appointmentIds: selectedAppointmentId,
-          status: "unpaid",
-          subTotal: "20",
-          amount: "20",
-          tax: "20",
-          careInstitutionName: "Gunjali9989",
-          careGiverName: "aayushi"
-        }
+          status: 'unpaid',
+          subTotal: '20',
+          amount: '20',
+          tax: '20',
+          careInstitutionName: 'Gunjali9989',
+          careGiverName: 'aayushi',
+        };
         await CreateInvoice({
           variables: {
-            invoiceInput: invoiceInput
+            invoiceInput: invoiceInput,
           },
         });
       }
@@ -410,12 +420,12 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         toastId = toast.error(message);
       }
     }
-  }
+  };
 
   return (
     <>
-      <div className="common-detail-page">
-        <div className="common-detail-section">
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
           <InvoiceNavbar
             onhandleSelection={onhandleSelection}
             careGiversOptions={careGiversOptions}
@@ -429,62 +439,66 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             dateFilter={dateFilter}
             handleCreateInvoice={() => handleCreateInvoice()}
           />
-
-          <div className="common-content flex-grow-1">
-            <div className="common-content flex-grow-1  p-0 all-invoice">
+          <div className='common-content flex-grow-1'>
+            <div className='common-content flex-grow-1  p-0 all-invoice'>
               <InvoiceList
                 invoiceListLoading={invoiceListLoading}
                 currentPage={currentPage}
                 selectedAppointment={selectedAppointment}
-                handleCheckedChange={(e: any, list: any) => handleCheckedChange(e, list)}
+                handleCheckedChange={(e: any, list: any) =>
+                  handleCheckedChange(e, list)
+                }
                 invoiceList={
                   invoiceList &&
-                    invoiceList.getAllAppointment &&
-                    invoiceList.getAllAppointment.result.length
+                  invoiceList.getAllAppointment &&
+                  invoiceList.getAllAppointment.result.length
                     ? invoiceList.getAllAppointment.result
                     : []
                 }
-                totalCount={invoiceList &&
-                  invoiceList.getAllAppointment ? invoiceList.getAllAppointment.totalCount : 0}
+                totalCount={
+                  invoiceList && invoiceList.getAllAppointment
+                    ? invoiceList.getAllAppointment.totalCount
+                    : 0
+                }
               />
-              <Form className="form-section total-form-section bg-white">
-                <div className="d-flex flex-wrap total-form-block">
-                  <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+              <Form className='form-section total-form-section bg-white'>
+                <div className='d-flex flex-wrap total-form-block'>
+                  <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                     <FormGroup>
-                      <Row className="align-items-center">
-                        <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                          <Label className="form-label col-form-label">
+                      <Row className='align-items-center'>
+                        <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                          <Label className='form-label col-form-label'>
                             Total
                           </Label>
                         </Col>
-                        <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                          <div className="required-input">
+                        <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                          <div className='required-input'>
                             <Input
-                              type="text"
-                              name={"firstName"}
-                              placeholder={"Enter Total"}
-                              className="text-input text-capitalize"
+                              type='text'
+                              name={'firstName'}
+                              placeholder={'Enter Total'}
+                              className='text-input text-capitalize'
                             />
                           </div>
                         </Col>
                       </Row>
                     </FormGroup>
                   </Col>
-                  <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                  <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                     <FormGroup>
-                      <Row className="align-items-center">
-                        <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                          <Label className="form-label col-form-label">
+                      <Row className='align-items-center'>
+                        <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                          <Label className='form-label col-form-label'>
                             Total selection
                           </Label>
                         </Col>
-                        <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                          <div className="required-input">
+                        <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                          <div className='required-input'>
                             <Input
-                              type="text"
-                              name={"firstName"}
-                              placeholder={"Enter total selection"}
-                              className="text-input text-capitalize"
+                              type='text'
+                              name={'firstName'}
+                              placeholder={'Enter total selection'}
+                              className='text-input text-capitalize'
                             />
                           </div>
                         </Col>

@@ -224,7 +224,11 @@ const CareinstitutionFormView: FunctionComponent<
                           <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
                             TIMyoCY
                           </div>
-                        ) : null}
+                        ) : (
+                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                            Plycoco
+                          </div>
+                        )}
                       </div>
                       {/* <div className='required-input'>
                         <Input

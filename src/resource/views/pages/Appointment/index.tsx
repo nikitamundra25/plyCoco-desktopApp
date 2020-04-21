@@ -710,9 +710,10 @@ const Appointment: FunctionComponent = (props: any) => {
     deleteAppointment: IunlinkResponse;
     appointmentInput: IUnlinkAppointmentInput;
   }>(UN_LINK_REQUIREMENT, {
-    onCompleted(unlinkResponse) {
-      if (unlinkResponse && unlinkResponse.deleteAppointment) {
-        const { deleteAppointment } = unlinkResponse;
+    onCompleted({deleteAppointment}:any) {
+      console.log(deleteAppointment,'deleteAppointment');
+      
+      if (deleteAppointment) {
         const { deleteAll, unlinkedBy } = deleteAppointment;
         if (deleteAll) {
           if (unlinkedBy === "caregiver") {

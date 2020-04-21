@@ -42,11 +42,20 @@ const GET_INVOICE_LIST = gql`
       breakFrom
       f
       n
-      s    
+      s   
+      distanceInKM
+      feePerKM
+      otherExpenses 
     }
     cr{
       userId
-      divisionId
+      division {
+        id
+        name
+      }
+      f
+      s
+      n
     }
     }
   }

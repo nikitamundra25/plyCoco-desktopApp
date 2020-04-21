@@ -90,6 +90,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   //  State for handling date filter
   const [dateFilter, setDateFilter] = useState<string>("");
 
+  //  State for Total amount selected
+  const [totalAmount, settotalAmount] = useState<string>("");
+
   // State for department options
   const [
     careInstitutionDepartmentOption,
@@ -363,7 +366,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   const handleCreateInvoice = async () => {
     console.log("in handle Selected Invoice Created Data", selectedAppointment)
-    let singleCareGiverData: any[] = [], amont: number = 0, selectedAppointmentId: any[] = [], singleCareInstData: any[] = []
+    let singleCareGiverData: any[] = [], selectedAppointmentId: any[] = [], singleCareInstData: any[] = [], amount: number = 0, subTotal: number = 0
 
     try {
       if (selectedAppointment && selectedAppointment.length) {
@@ -378,6 +381,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
               console.log("MMMMMMMMMMMMMMM");
             } else {
               console.log("*****************In else condition");
+              subTotal += appointmentData.ca && appointmentData.ca.fee ? (appointmentData.ca.fee * 100) : 0
             }
           } else {
             const message = errorFormatter("Selected appointment don't have care giver");
@@ -386,14 +390,17 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             }
           }
         });
+        console.log("*****************subTotal", subTotal * 0.19);
+        const totalAmount: any = (subTotal) + (subTotal * 0.19)
+        settotalAmount(totalAmount)
         const invoiceInput: any = {
           caregiverId: singleCareGiverData[singleCareGiverData.length - 1],
           careInstitutionId: singleCareGiverData[singleCareGiverData.length - 1],
           appointmentIds: selectedAppointmentId,
           status: "unpaid",
-          subTotal: "20",
-          amount: "20",
-          tax: "20",
+          subTotal: `${subTotal}`,
+          amount: `${totalAmount}`,
+          tax: `${subTotal * 0.19}`,
           careInstitutionName: "Gunjali9989",
           careGiverName: "aayushi"
         }
@@ -461,7 +468,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                             <Input
                               type="text"
                               name={"firstName"}
-                              placeholder={"Enter Total"}
+                              placeholder={"Total Amount"}
+                              disable={true}
+                              value={totalAmount}
                               className="text-input text-capitalize"
                             />
                           </div>
@@ -482,7 +491,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                             <Input
                               type="text"
                               name={"firstName"}
-                              placeholder={"Enter total selection"}
+                              placeholder={"Total selection"}
+                              disable={true}
+                              value={selectedAppointment.length}
                               className="text-input text-capitalize"
                             />
                           </div>

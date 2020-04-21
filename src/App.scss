@@ -1399,7 +1399,7 @@ html:not([dir="rtl"]) {
         bottom: -5px;
       }
     }
-    .night-allawance-label-wrap{
+    .night-allawance-label-wrap {
       padding-bottom: 6px;
     }
     .form-control {
@@ -3694,9 +3694,17 @@ html:not([dir="rtl"]) {
 .custom-toaster {
   width: 360px;
   font-family: $font_open_sans;
-  @media only screen and (max-width: 360px) {
-    width: 100%;
+  @media only screen and (max-width: 480px) {
+    margin: 0 auto;
+    top: 2em;
+    left: unset;
   }
+  @media only screen and (max-width: 380px) {
+    padding: 0px 12px;
+    width: 100%;
+    right: unset;
+  }
+
   .Toastify__toast {
     &.Toastify__toast--success {
       border-radius: 10px;
@@ -3804,10 +3812,6 @@ html:not([dir="rtl"]) {
     }
   }
 }
-// .loader {
-//   margin-left: -12px;
-//   margin-right: 8px;
-// }
 
 // modal css
 .common-modal {
@@ -4291,18 +4295,18 @@ html:not([dir="rtl"]) {
   left: 50%;
   transform: translate(0px, 0px);
 }
-.appointment-row-wrap{
-  .appointment-calander-col{
+.appointment-row-wrap {
+  .appointment-calander-col {
     display: inline;
-    @media  (min-width: 1900px) {
+    @media (min-width: 1900px) {
       flex: 0 0 1568px;
-         max-width: 1568px;
+      max-width: 1568px;
     }
   }
-  .appointment-form-col{
+  .appointment-form-col {
     @media (min-width: 1900px) {
       flex: 0 0 calc(100% - 1568px);
-         max-width:calc(100% - 1568px);
+      max-width: calc(100% - 1568px);
     }
   }
 }

@@ -119,6 +119,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       breakHoursToErrMsg,
       setbreakHoursFromErrMsg,
       breakHoursFromErrMsg,
+      starCaregiver
     } = props;
 
 
@@ -399,7 +400,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             <InputGroupText>
                               <i
                                 className={
-                                  name && starMarkCaregiver
+                                  name && starCaregiver && starCaregiver.isStar
                                     ? 'fa fa-star theme-text'
                                     : 'fa fa-star'
                                 }

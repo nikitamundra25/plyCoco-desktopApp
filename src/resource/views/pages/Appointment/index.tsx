@@ -4046,6 +4046,7 @@ const Appointment: FunctionComponent = (props: any) => {
                               breakHoursToErrMsg={breakHoursToErrMsg}
                               setbreakHoursFromErrMsg={setbreakHoursFromErrMsg}
                               breakHoursFromErrMsg={breakHoursFromErrMsg}
+                              starCaregiver={starCaregiver}
                             />
                           );
                         }}

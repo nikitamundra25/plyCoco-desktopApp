@@ -82,12 +82,13 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                 let enddate = workEnd && workEnd.length ? workEnd[0] : null;
                 let end_time = workEnd && workEnd.length ? workEnd[1] : null;
 
-                let datetimeA: any = initialdate ? moment(initialdate + " " + start_time) : "";
-                let datetimeB: any = enddate ? moment(enddate + " " + end_time) : "";
+                let datetimeA: any = initialdate ? new Date(initialdate + start_time) : "";
+                let datetimeB: any = enddate ? new Date(enddate + end_time) : null;
 
-                let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
-                let hours = duration ? duration.asHours() : null;
-                console.log("+++++++++++++", hours);
+                // let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
+                // let hours = duration ? duration.asHours() : null;
+                let diffDate = datetimeB - datetimeA
+                console.log("+++++++++++++duration", datetimeB, ">>>>>>>>>>>>>", datetimeA, "??????", diffDate);
                 let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : ""
                 let timeStamp: any = ""
                 console.log("time", time);

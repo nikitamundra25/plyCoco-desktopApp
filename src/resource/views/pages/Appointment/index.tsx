@@ -205,6 +205,7 @@ const Appointment: FunctionComponent = (props: any) => {
   const [starCaregiver, setstarCaregiver] = useState<IStarInterface>({
     isStar: false,
     id: "",
+    isSecondStar: false
   });
 
   // maintain solo careinstitution
@@ -481,7 +482,7 @@ const Appointment: FunctionComponent = (props: any) => {
         });
         setselectedCellsCareinstitution(selectedCareInstCells);
       }
-      setPage(1);
+      // setPage(1);
       // canstitutionRefetch();
     },
   });
@@ -1289,14 +1290,14 @@ const Appointment: FunctionComponent = (props: any) => {
       if (careGiverSelectedCell && careGiverSelectedCell.length) {
         setSelectedCells(careGiverSelectedCell);
       }
-      if (starCaregiver && starCaregiver.isStar) {
-        let list: any = result.filter(
-          (list: any) => list.id === starCaregiver.id
-        );
-        setcaregiversList(list);
-      } else {
+      // if (starCaregiver && starCaregiver.isStar) {
+      //   let list: any = result.filter(
+      //     (list: any) => list.id === starCaregiver.id
+      //   );
+      //   setcaregiversList(list);
+      // } else {
         setcaregiversList(result);
-      }
+      // }
       // }
     }
 
@@ -1546,24 +1547,45 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  const onhandleCaregiverStar = (list: any, name: string) => {
-    if (!starMarkCaregiver) {
-      setstarMarkCaregiver(!starMarkCaregiver);
+  const onhandleCaregiverStar = async(id: string, isSecondStar: boolean) => {
+    console.log(starMarkCaregiver,'starMarkCaregiver');
+    
+    // if (starMarkCaregiver && caregiverSoloFilter && caregiverSoloFilter.value) {
+    //   console.log('in ifffff');
+      
+    // }
+    if (starCaregiver && (!starCaregiver.isStar || isSecondStar)) {
+      // setstarMarkCaregiver(!starMarkCaregiver);
       setstarCaregiver({
         isStar: true,
-        id: list.id,
+        id: id,
+        isSecondStar
       });
-      handleSecondStar(list, name);
-    } else if (list.id !== caregiversList[0].id) {
-      handleSecondStar(list, name);
+      // handleSecondStar(list, name);
+    } else{
+      console.log(caregiversList,'careGiversList on star');
+      
+      if (caregiversList && caregiversList.length === 1) {
+        await setcaregiverSoloFilter(undefined);
+        getCaregiverData(1)
+      }
       setstarCaregiver({
-        isStar: true,
-        id: list.id,
+        isStar: false,
+        id: '',
+        isSecondStar
       });
-    } else {
-      setstarMarkCaregiver(!starMarkCaregiver);
-      handleReset(name);
-    }
+    } 
+    
+    // else if (list.id !== caregiversList[0].id) {
+    //   // handleSecondStar(list, name);
+    //   setstarCaregiver({
+    //     isStar: true,
+    //     id: list.id,
+    //   });
+    // } else {
+    //   setstarMarkCaregiver(!starMarkCaregiver);
+    //   handleReset(name);
+    // }
   };
 
   // Reset the users list
@@ -2443,13 +2465,13 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   // Select single user from list and hide the rest
-  const handleSecondStar = (list: object, name: string) => {
-    let temp: any = [];
-    temp.push(list);
-    if (name === "caregiver") {
-      setcaregiversList(temp);
-    }
-  };
+  // const handleSecondStar = (list: object, name: string) => {
+  //   let temp: any = [];
+  //   temp.push(list);
+  //   if (name === "caregiver") {
+  //     setcaregiversList(temp);
+  //   }
+  // };
 
   // submit caregiver form
   const handleSubmitCaregiverForm = async (
@@ -3900,7 +3922,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     careGiversList={caregiversList ? caregiversList : []}
                     onAddingRow={onAddingRow}
                     selectedCells={selectedCells}
-                    handleSecondStar={handleSecondStar}
+                    // handleSecondStar={handleSecondStar}
                     handleReset={handleReset}
                     qualification={qualification}
                     gte={gteDayData}
@@ -3925,6 +3947,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     onTerminateAggrement={onTerminateAggrement}
                     onhandleCaregiverStar={onhandleCaregiverStar}
                     starMarkCaregiver={starMarkCaregiver}
+                    starCaregiver={starCaregiver}
                   />
                   {/* care insitution list */}
                   <CarinstituionListView

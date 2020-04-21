@@ -380,11 +380,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             addonType='append'
                             className='cursor-pointer'
                             onClick={() =>
-                              name ?
-                                handleUserList(
-                                  selectedCareGiver ? selectedCareGiver.id : '',
-                                  'caregiver'
-                                )
+                              name ? onhandleCaregiverStar(selectedCareGiver ? selectedCareGiver.id : '', false)
+                                // handleUserList(
+                                //   selectedCareGiver ? selectedCareGiver.id : '',
+                                //   'caregiver'
+                                // )
                                 : ""
                             }
                           // onClick={() =>

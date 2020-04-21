@@ -239,14 +239,15 @@ const PersonalInformation: any = (props: any) => {
         AttributeData.push(parseInt(attribute.value)),
       );
     }
-
+    // var temp to manage if shortName is not entered, store companyName.
+let temp =  values.shortName ? values.shortName.trim() : values.companyName ? values.companyName.trim() : ""
     try {
       const careInstitutionInput: any = {
         gender: values && values.gender ? values.gender.value : '',
         salutation: values && values.salutation ? values.salutation.value : '',
         firstName: values.firstName ? values.firstName.trim() : '',
         lastName: values.lastName ? values.lastName.trim() : '',
-        shortName: values.shortName ? values.shortName.trim() : '',
+        shortName: temp,
         companyName: values.companyName ? values.companyName.trim() : '',
         phoneNumber: values.phoneNumber,
         mobileNumber: values.mobileNumber,

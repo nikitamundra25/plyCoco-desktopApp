@@ -310,7 +310,6 @@ const Appointment: FunctionComponent = (props: any) => {
                   moment(e.date).isSame(moment(availability.date), "day")
                 ).length === 0
               ) {
-                console.log("in iffffffffffffffffffffffff");
                 temp[index].availabilityData[i] = [...element, availability];
                 break;
               }
@@ -455,15 +454,17 @@ const Appointment: FunctionComponent = (props: any) => {
                     "day"
                   )
               );
+
+             let qualification = qualificationList.filter(({ value }: any) =>
+             requirement.qualificationId.includes(value)
+             );
+             
               if (selectedCareInstCells[cellIndex]) {
                 selectedCareInstCells[cellIndex] = {
                   ...selectedCareInstCells[cellIndex],
                   item: {
                     ...requirement,
-                    qualificationId: selectedCareInstCells[cellIndex].item
-                      .qualificationId
-                      ? selectedCareInstCells[cellIndex].item.qualificationId
-                      : [],
+                     qualificationId: qualification && qualification.length ? qualification : []
                   },
                 };
               }
@@ -479,6 +480,8 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         });
+        console.log("selectedCareInstCells",selectedCareInstCells);
+        
         setselectedCellsCareinstitution(selectedCareInstCells);
       }
       setPage(1);
@@ -2767,7 +2770,7 @@ const Appointment: FunctionComponent = (props: any) => {
             },
           },
         ];
-
+        let careInstitutionRequirementInput: any[] = [];
         selectedCellsCareinstitution.forEach(async (element: any) => {
           const { id = "", dateString = "", canstitution = {} } = element
             ? element
@@ -2776,7 +2779,7 @@ const Appointment: FunctionComponent = (props: any) => {
             ? canstitution
             : {};
 
-          let careInstitutionRequirementInput: ICareinstitutionFormSubmitValue = {
+          let stemp: ICareinstitutionFormSubmitValue = {
             userId: id ? parseInt(id) : 0,
             date: dateString,
             name,
@@ -2806,12 +2809,13 @@ const Appointment: FunctionComponent = (props: any) => {
             status: status ? status : "default",
             isLeasing: attributes.includes(CareInstTIMyoCYAttrId),
           };
+          careInstitutionRequirementInput = [...careInstitutionRequirementInput, stemp];
 
           if (appointmentId) {
             await updateCareinstitutionRequirment({
               variables: {
                 id: parseInt(appointmentId),
-                careInstitutionRequirementInput,
+                careInstitutionRequirementInput: stemp,
               },
             });
             setsavingBoth(false);
@@ -2823,26 +2827,39 @@ const Appointment: FunctionComponent = (props: any) => {
               );
             }
           } else {
-            await addCareinstitutionRequirment({
-              variables: {
-                careInstitutionRequirementInput: [
-                  careInstitutionRequirementInput,
-                ],
-              },
-            });
-            setMultipleRequirement(false);
+            // await addCareinstitutionRequirment({
+            //   variables: {
+            //     careInstitutionRequirementInput: [
+            //       careInstitutionRequirementInput,
+            //     ],
+            //   },
+            // });
+            // setMultipleRequirement(false);
             toast.dismiss();
-            if (!toast.isActive(toastId)) {
-              toastId = toast.success(
-                languageTranslation(
-                  "CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG"
-                )
-              );
-            }
+            // if (!toast.isActive(toastId)) {
+            //   toastId = toast.success(
+            //     languageTranslation(
+            //       "CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG"
+            //     )
+            //   );
+            // }
           }
         });
         if (!appointmentId) {
-          setselectedCellsCareinstitution(data);
+          await addCareinstitutionRequirment({
+            variables: {
+              careInstitutionRequirementInput
+            },
+          });
+          setMultipleRequirement(false);
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation(
+                "CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG"
+              )
+            );
+          }
+          //  setselectedCellsCareinstitution(data);
         }
       }
       // canstitutionRefetch();

@@ -1543,16 +1543,17 @@ const Appointment: FunctionComponent = (props: any) => {
         setselectedCellsCareinstitution(careInstSelectedCell);
       }
       setcareinstitutionList(result);
-
-      if (careinstitutionSoloFilter && careinstitutionSoloFilter.value) {
+      // To set solo state in case of search by care-institution
+      if (careinstitutionSoloFilter && careinstitutionSoloFilter.value && starCanstitution && (!starCanstitution.isStar || starCanstitution.id !== result[0].id)) {
         handleFirstStarCanstitution(result[0], 1);
-      } else {
-        setstarCanstitution({
-          isStar: false,
-          setIndex: -1,
-          id: "",
-        });
-      }
+      } 
+      // else {
+      //   setstarCanstitution({
+      //     isStar: false,
+      //     setIndex: -1,
+      //     id: "",
+      //   });
+      // }
     }
   }, [careGiversList, careInstitutionList]);
 
@@ -1809,7 +1810,7 @@ const Appointment: FunctionComponent = (props: any) => {
         label: locationState.name,
         value: locationState.caregiver,
       });
-    } else if (locationState && locationState.canstitution) {
+    } else if (locationState && locationState.canstitution && action === "PUSH") {
       setcareinstitutionSoloFilter({
         label: locationState.name,
         value: locationState.canstitution,
@@ -2585,7 +2586,8 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
     //  setcareinstitutionList()
-
+    console.log('handleFirstStarCanstitution', starCanstitution);
+    
     if (!starCanstitution.isStar) {
       setstarCanstitution({
         isStar: true,

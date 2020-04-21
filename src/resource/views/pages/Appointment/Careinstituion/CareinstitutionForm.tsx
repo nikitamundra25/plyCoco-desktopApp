@@ -185,8 +185,8 @@ const CareinstitutionFormView: FunctionComponent<
       ? true
       : false;
   }
-  console.log('selectedCellsCareinstitution',selectedCellsCareinstitution);
-  
+  console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
+
   console.log('isLeasingAppointment', isLeasingAppointment);
 
   return (
@@ -209,27 +209,41 @@ const CareinstitutionFormView: FunctionComponent<
               <Col lg={'12'}>
                 <FormGroup>
                   <Row>
-                    <Col sm='5'>
+                    <Col sm='4'>
                       <Label className='form-label col-form-label'>
                         {languageTranslation('APPOINTMENT_ID')}
                       </Label>
                     </Col>
-                    <Col sm='3'>
-                      <div className='required-input'>
+                    <Col sm='8'>
+                      <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                        <div className='required-input appointment-id-width'>
+                          <Input
+                            value={appointmentId}
+                            disabled
+                            placeholder={languageTranslation('APPOINTMENT_ID')}
+                          />
+                        </div>
+                        {isLeasingAppointment ? (
+                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                            TIMyoCY
+                          </div>
+                        ) : null}
+                      </div>
+                      {/* <div className='required-input'>
                         <Input
                           value={appointmentId}
                           disabled
                           placeholder={languageTranslation('APPOINTMENT_ID')}
                         />
-                      </div>
+                      </div> */}
                     </Col>
-                    {isLeasingAppointment ? (
+                    {/* {isLeasingAppointment ? (
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
-                          uber solona
+                         TIMyoCY
                         </Label>
                       </Col>
-                    ) : null}
+                    ) : null} */}
                   </Row>
                 </FormGroup>
               </Col>
@@ -237,12 +251,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('NAME')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <InputGroup>
                         <Input
@@ -289,12 +303,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('DATE')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='text-value one-line-text'>
                       {activeDateCareinstitution
                         ? activeDateCareinstitution
@@ -347,12 +361,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('START_WORKING')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='d-flex align-items-center justify-content-between flex-wrap'>
                       <div className='required-input clockshift-input'>
                         <InputGroup className='flex-nowrap'>
@@ -422,12 +436,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('END_WORKING')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input clockshift-input'>
                       <InputGroup className='flex-nowrap'>
                         <Field name={'endTime'}>
@@ -472,12 +486,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('QUALIFICATION')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='postion-relative'>
                       <Button
                         className={
@@ -541,12 +555,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('DEPARTMENT')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <Select
                         placeholder={languageTranslation('SELECT_DEPARTMENT')}
@@ -582,12 +596,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('ADDRESS')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <Input
                         type='textarea'
@@ -606,12 +620,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('CONTACT_PERSON')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <Input
                         type='text'
@@ -629,12 +643,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('REMARKS_OFFER_DEPARTMENT')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <Input
                         className='textarea-custom form-control'
@@ -656,12 +670,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('REMARKS_BOOKING_DEPARTEMENT')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <Input
                         className='textarea-custom form-control'
@@ -685,14 +699,14 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation(
                         'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
                       )}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <Input
                         className='textarea-custom form-control'
@@ -712,12 +726,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('WORKING_PROOF_NECESSARY')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <FormGroup check inline>
                         <div className=' checkbox-custom mb-0'>
@@ -747,12 +761,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('REMARK_OFFER')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <Input
                         className='textarea-custom form-control'
@@ -773,12 +787,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('REMARK_BOOKING')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <Input
                         className='textarea-custom form-control'
@@ -799,12 +813,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm='5'>
+                  <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation('COMMENT_ONLY_VISIBLE_INTERNALLY')}
                     </Label>
                   </Col>
-                  <Col sm='7'>
+                  <Col sm='8'>
                     <div className='required-input'>
                       <Input
                         className='textarea-custom form-control'

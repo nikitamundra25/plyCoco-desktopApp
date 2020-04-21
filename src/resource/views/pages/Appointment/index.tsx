@@ -573,16 +573,19 @@ const Appointment: FunctionComponent = (props: any) => {
   useEffect(() => {
     if (addCaregiverRes && addCaregiverRes.addCareGiverAvability) {
       const { addCareGiverAvability } = addCaregiverRes;
-      const { id: Id='', status='' } = addCareGiverAvability && addCareGiverAvability.length ? addCareGiverAvability[0] : {};
-      const { 
-        id = "",
-        firstName = "",
-        lastName = "",
-        email = "",
+      const { id: Id = '', status = '' } =
+        addCareGiverAvability && addCareGiverAvability.length
+          ? addCareGiverAvability[0]
+          : {};
+      const {
+        id = '',
+        firstName = '',
+        lastName = '',
+        email = '',
         caregiver: caregiverData = {},
-        dateString: dateData = "",
-        item = "",
-        qualificationIds = "",
+        dateString: dateData = '',
+        item = '',
+        qualificationIds = '',
       } =
         selectedCells && selectedCells.length && selectedCells[0]
           ? selectedCells[0]
@@ -3701,7 +3704,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   <Row>
                     <Col
                       lg={'6'}
-                      className='px-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'
+                      className='pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'
                     >
                       <Formik
                         initialValues={valuesForCaregiver}
@@ -3757,7 +3760,7 @@ const Appointment: FunctionComponent = (props: any) => {
                         }}
                       />
                     </Col>
-                    <Col lg={'6'}>
+                    <Col lg={'6'} className='pl-lg-0'>
                       <Formik
                         initialValues={valuesForCareIntituionForm}
                         onSubmit={handleSubmitCareinstitutionForm}

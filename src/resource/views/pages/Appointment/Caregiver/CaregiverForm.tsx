@@ -377,8 +377,24 @@ const CaregiverFormView: FunctionComponent<
                         {languageTranslation('APPOINTMENT_ID')}
                       </Label>
                     </Col>
-                    <Col sm='3'>
-                      <div className='required-input'>
+                    <Col sm='8'>
+                    <div className="d-flex align-items-center justify-content-between flex-wrap">
+                        <div className="required-input appointment-id-width">
+                          <Input
+                            type="text"
+                            disabled={true}
+                            name={"appointmentId"}
+                            value={appointmentId ? appointmentId : null}
+                            placeholder={languageTranslation("APPOINTMENT_ID")}
+                            className="width-common"
+                          />
+                        </div>
+                        {isLeasingAppointment ?  <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
+                        TIMyoCY
+                        </div> : null}
+                       
+                      </div>
+                      {/* <div className='required-input'>
                         <Input
                           type='text'
                           disabled={true}
@@ -387,15 +403,15 @@ const CaregiverFormView: FunctionComponent<
                           placeholder={languageTranslation('APPOINTMENT_ID')}
                           className='width-common'
                         />
-                      </div>
+                      </div> */}
                     </Col>
-                    {isLeasingAppointment ? (
+                    {/* {isLeasingAppointment ? (
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
-                          uber solona
+                         TIMyoCY
                         </Label>
                       </Col>
-                    ) : null}
+                    ) : null} */}
                   </Row>
                 </FormGroup>
               </Col>

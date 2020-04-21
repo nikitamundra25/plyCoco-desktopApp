@@ -93,6 +93,7 @@ const CareinstitutionFormView: FunctionComponent<
     handleFirstStarCanstitution,
     starCanstitution,
     idSearchAppointmentLoading,
+    selectedCellsCareinstitution
   } = props;
 
   let d = moment().format("L");
@@ -116,7 +117,6 @@ const CareinstitutionFormView: FunctionComponent<
     isContract: boolean = false,
     isConfirm: boolean = false,
     isOffered: boolean = false;
-
   if (selctedRequirement || status) {
     if (
       (selctedRequirement && selctedRequirement.status === "default") ||
@@ -178,6 +178,19 @@ const CareinstitutionFormView: FunctionComponent<
     dateCondition = now <= input;
   }
 
+  let isLeasingAppointment = false;
+  // To check appointment with leasing careInst or not
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    isLeasingAppointment = selectedCellsCareinstitution.filter(
+      (cell: any) => cell && cell.item && cell.item.isLeasing
+    ).length
+      ? true
+      : false;
+  }
+  console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
+
+  console.log('isLeasingAppointment', isLeasingAppointment);
+
   return (
     <>
       <div className="form-section ">
@@ -204,20 +217,43 @@ const CareinstitutionFormView: FunctionComponent<
               <Col lg={"12"}>
                 <FormGroup>
                   <Row>
-                    <Col sm="5">
-                      <Label className="form-label col-form-label">
-                        {languageTranslation("APPOINTMENT_ID")}
+                    <Col sm='4'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('APPOINTMENT_ID')}
                       </Label>
                     </Col>
-                    <Col sm="7">
-                      <div className="required-input">
+                    <Col sm='8'>
+                      <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                        <div className='required-input appointment-id-width'>
+                          <Input
+                            value={appointmentId}
+                            disabled
+                            placeholder={languageTranslation('APPOINTMENT_ID')}
+                          />
+                        </div>
+                        {isLeasingAppointment ? (
+                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                            TIMyoCY
+                          </div>
+                        ) : <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                        Plycoco
+                      </div>}
+                      </div>
+                      {/* <div className='required-input'>
                         <Input
                           value={appointmentId}
                           disabled
                           placeholder={languageTranslation("APPOINTMENT_ID")}
                         />
-                      </div>
+                      </div> */}
                     </Col>
+                    {/* {isLeasingAppointment ? (
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                         TIMyoCY
+                        </Label>
+                      </Col>
+                    ) : null} */}
                   </Row>
                 </FormGroup>
               </Col>
@@ -410,15 +446,15 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("END_WORKING")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('END_WORKING')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input clockshift-input">
-                      <InputGroup className="flex-nowrap">
-                        <Field name={"endTime"}>
+                  <Col sm='8'>
+                    <div className='required-input clockshift-input'>
+                      <InputGroup className='flex-nowrap'>
+                        <Field name={'endTime'}>
                           {({ field }: any) => (
                             <MaskedInput
                               {...field}
@@ -460,13 +496,13 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("QUALIFICATION")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('QUALIFICATION')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="postion-relative">
+                  <Col sm='8'>
+                    <div className='postion-relative'>
                       <Button
                         className={
                           qualificationId && qualificationId.length
@@ -529,15 +565,15 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("DEPARTMENT")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('DEPARTMENT')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Select
-                        placeholder={languageTranslation("SELECT_DEPARTMENT")}
+                        placeholder={languageTranslation('SELECT_DEPARTMENT')}
                         options={careInstitutionDepartment}
                         isDisabled={
                           careInstitutionDepartment.length <= 0 ? true : false
@@ -570,13 +606,13 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("ADDRESS")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('ADDRESS')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
                         type="textarea"
                         name={"address"}
@@ -594,13 +630,13 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("CONTACT_PERSON")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('CONTACT_PERSON')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
                         type="text"
                         disabled={true}
@@ -617,13 +653,13 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("REMARKS_OFFER_DEPARTMENT")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('REMARKS_OFFER_DEPARTMENT')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -644,13 +680,13 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("REMARKS_BOOKING_DEPARTEMENT")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('REMARKS_BOOKING_DEPARTEMENT')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -673,15 +709,15 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
                       {languageTranslation(
                         "REMARK_DEPARTMENT_VISIBLE_INTERNALLY"
                       )}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -700,13 +736,13 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("WORKING_PROOF_NECESSARY")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('WORKING_PROOF_NECESSARY')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <FormGroup check inline>
                         <div className=" checkbox-custom mb-0">
                           <input
@@ -735,13 +771,13 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("REMARK_OFFER")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('REMARK_OFFER')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -761,13 +797,13 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("REMARK_BOOKING")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('REMARK_BOOKING')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -787,13 +823,13 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("COMMENT_ONLY_VISIBLE_INTERNALLY")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('COMMENT_ONLY_VISIBLE_INTERNALLY')}
                     </Label>
                   </Col>
-                  <Col sm="7">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -827,8 +863,7 @@ const CareinstitutionFormView: FunctionComponent<
                   color="primary"
                   onClick={handleSubmit}
                   disabled={
-                    addCareinstLoading
-                    // ? true : appointmentId ? false : !dateCondition ? true : false
+                    addCareinstLoading /*  ? true : appointmentId ? false : !dateCondition ? true : false */
                   }
                 >
                   {addCareinstLoading ? (

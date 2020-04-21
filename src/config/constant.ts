@@ -223,8 +223,8 @@ export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
 ];
 
 export const DocumentTempSelect: IReactSelectInterface[] = [
-  { value: "Working Proof", label: "Working Proof" },
-  { value: "Sick Note", label: "Sick Note" }
+  { value: "workingProof", label: "Working Proof" },
+  { value: "sickNote", label: "Sick Note" }
 ];
 export const Gender: IReactSelectInterface[] = [
   {

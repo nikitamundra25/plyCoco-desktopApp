@@ -36,9 +36,9 @@ import {
 } from "../../../../../graphql/queries";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import moment from "moment";
-import InvoiceList from "./InvoiceList";
+import InvoiceList from "./LeasingList";
 import CustomOption from "../../../components/CustomOptions";
-import InvoiceNavbar from "./InvoiceNavbar";
+import InvoiceNavbar from "./LeasingNavbar";
 import * as qs from "query-string";
 import { toast } from "react-toastify";
 import { InvoiceMutations } from "../../../../../graphql/Mutations";
@@ -57,7 +57,8 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 //Create New Invoice PDF
 const [CREATE_INVOICE] = InvoiceMutations
-const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
+
+const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
   const { search } = useLocation();
@@ -499,4 +500,4 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     </>
   );
 };
-export default CreateInvoice;
+export default CreateLeasingInvoice;

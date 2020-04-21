@@ -7,6 +7,7 @@ import { AppRoutes, PAGE_LIMIT } from "../../../../../config";
 import { useHistory, useLocation } from "react-router-dom";
 import PaginationComponent from "../../../components/Pagination";
 import * as qs from "query-string";
+import moment from "moment";
 
 const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList & any) => {
   const { search, pathname } = useLocation();
@@ -70,7 +71,23 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
               </tr>
             ) : invoiceList && invoiceList.length ? (
               invoiceList.map((list: any, index: number) => {
-                console.log("list", list);
+                let workBegain: any, workEnd: any
+                if (list && list.ca && list.ca.workingHoursFrom) {
+                  workBegain = list.ca.workingHoursFrom.split(",")
+                  workEnd = list.ca.workingHoursTo.split(",")
+                }
+                //Combime date and time 
+                let initialdate = workBegain && workBegain.length ? workBegain[0] : null;
+                let start_time = workBegain && workBegain.length ? workBegain[1] : null;
+                let enddate = workEnd && workEnd.length ? workEnd[0] : null;
+                let end_time = workEnd && workEnd.length ? workEnd[1] : null;
+
+                let datetimeA: any = initialdate ? moment(initialdate + " " + start_time) : "";
+                let datetimeB: any = enddate ? moment(enddate + " " + end_time) : "";
+
+                let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
+                let hours = duration ? duration.asHours() : null;
+                console.log("+++++++++++++", hours);
                 let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : ""
                 let timeStamp: any = ""
                 console.log("time", time);
@@ -99,13 +116,13 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                       </span>
                     </td>
                     <td className="invoiceid-col"> {list.id}</td>
-                    <td className="h-col">{timeStamp} </td>
-                    <td className="text-col">WG in leipzig</td>
+                    <td className="h-col">{list.ca && list.ca.workingHoursFrom ? list.ca.workingHoursFrom : "-"} </td>
+                    <td className="text-col">{list.cr && list.cr.division ? list.cr.division.name : "-"}</td>
                     <td className="datetime-col">{list.ca && list.ca.workingHoursFrom ? list.ca.workingHoursFrom : "-"} </td>
                     <td className="datetime-col">{list.ca && list.ca.workingHoursTo ? list.ca.workingHoursTo : "-"}</td>
                     <td className="datetime-col">{list.ca && list.ca.breakTo ? list.ca.breakTo : "-"}</td>
                     <td className="datetime-col">{list.ca && list.ca.breakFrom ? list.ca.breakFrom : "-"}</td>
-                    <td className="price-col">3,200.00 &euro;</td>
+                    <td className="price-col">{list.ca && list.ca.fee ? <>{list.ca.fee * 100}.00 &euro;</> : "-"}</td>
                     <td className="price-col">00.00 &euro;</td>
                     <td className="price-col">00.00 &euro;</td>
                     <td className="price-col">00.00 &euro;</td>
@@ -113,8 +130,8 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                     <td className="price-col">00.00 &euro;</td>
                     <td className="price-col">00.00 &euro;</td>
                     <td className="price-col">{list.ca && list.ca.distanceInKM ? list.ca.distanceInKM : "-"} </td>
-                    <td className="price-col">{list.ca && list.ca.feePerKM ? `${list.ca.feePerKM} &euro` : "-"} </td>
-                    <td className="price-col">{list.ca && list.ca.otherExpenses ? `${list.ca.otherExpenses} &euro` : "-"} </td>
+                    <td className="price-col">{list.ca && list.ca.feePerKM ? <>{list.ca.feePerKM}&euro;</> : "-"} </td>
+                    <td className="price-col">{list.ca && list.ca.otherExpenses ? <>{list.ca.otherExpenses} &euro;</> : "-"} </td>
                     <td className="price-col">384.00 &euro;</td>
                     <td className="price-col">384.00 &euro;</td>
                     <td className="price-col">34584.00 &euro;</td>

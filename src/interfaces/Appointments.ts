@@ -238,6 +238,7 @@ export interface ICareinstitutionFormValue {
   startTime: string;
   endTime: string;
   qualificationId: IReactSelectInterface[] | undefined;
+  qualificationForCharge?:IReactSelectInterface | undefined
   address: string;
   contactPerson: string;
   departmentOfferRemarks?: string;
@@ -261,6 +262,7 @@ export interface ICareinstitutionFormSubmitValue {
   endTime: string;
   divisionId: number | null;
   qualificationId: number[];
+  qualificationForCharge?:any; 
   address: string;
   contactPerson: string;
   departmentOfferRemarks: string | null;

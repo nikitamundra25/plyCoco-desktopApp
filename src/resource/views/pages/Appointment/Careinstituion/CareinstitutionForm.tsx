@@ -55,6 +55,7 @@ const CareinstitutionFormView: FunctionComponent<
       startTime,
       endTime,
       qualificationId,
+      qualificationForCharge,
       department,
       address,
       contactPerson,
@@ -93,7 +94,6 @@ const CareinstitutionFormView: FunctionComponent<
     selectedCellsCareinstitution,
     starCanstitution,
   } = props;
-
   let d = moment().format('L');
   let dtStart: any = new Date(d + ' ' + startTime);
   let dtEnd: any = new Date(d + ' ' + endTime);
@@ -101,6 +101,8 @@ const CareinstitutionFormView: FunctionComponent<
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
+    console.log('props.values', props.values);
+
     setFieldValue(name, selectOption);
     if (name === 'department') {
       setcareInstituionDept(selectOption, props.values);
@@ -179,16 +181,11 @@ const CareinstitutionFormView: FunctionComponent<
   let isLeasingAppointment = false;
   // To check appointment with leasing careInst or not
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-    isLeasingAppointment = selectedCellsCareinstitution.filter(
-      (cell: any) => cell && cell.item && cell.item.isLeasing
-    ).length
-      ? true
-      : false;
+    isLeasingAppointment =
+      selectedCellsCareinstitution &&
+      selectedCellsCareinstitution[0] &&
+      selectedCellsCareinstitution[0].isLeasing;
   }
-  console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
-
-  console.log('isLeasingAppointment', isLeasingAppointment);
-
   return (
     <>
       <div className='form-section '>
@@ -552,6 +549,45 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
+            {isLeasingAppointment ? (
+              <Col lg={'12'}>
+                <FormGroup>
+                  <Row>
+                    <Col sm='4'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('QUALIFICATION_FOR_CHARGE')}
+                      </Label>
+                    </Col>
+                    <Col sm='8'>
+                      <div className='postion-relative'>
+                        <Select
+                          options={qualificationList}
+                          placeholder={languageTranslation(
+                            'QUALIFICATION_FOR_CHARGE'
+                          )}
+                          className={
+                            errors.qualificationForCharge &&
+                            touched.qualificationForCharge
+                              ? 'custom-reactselect error'
+                              : 'custom-reactselect'
+                          }
+                          classNamePrefix='custom-inner-reactselect'
+                          onChange={(value: any) =>
+                            handleSelect(value, 'qualificationForCharge')
+                          }
+                          value={
+                            qualificationForCharge
+                              ? qualificationForCharge
+                              : null
+                          }
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </FormGroup>
+              </Col>
+            ) : null}
+
             <Col lg={'12'}>
               <FormGroup>
                 <Row>

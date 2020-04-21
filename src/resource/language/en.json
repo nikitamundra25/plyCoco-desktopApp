@@ -1174,5 +1174,6 @@
   "TURN_LEFT": "Turn Left",
   "TURN_RIGHT": "Turn Right",
   "TURN_180": "Turn 180°",
-  "MENU_LEASING_CREATE_INVOICE":"Create Leasing Invoice"
+  "MENU_LEASING_CREATE_INVOICE":"Create Leasing Invoice",
+  "QUALIFICATION_FOR_CHARGE":"Qualification for charge"
 }

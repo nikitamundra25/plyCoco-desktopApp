@@ -713,11 +713,11 @@ const Appointment: FunctionComponent = (props: any) => {
             ],
           };
           careInstList[careInstIndex].availabilityData[requirementDataIndex][
-            availabilityIndex
+            requirementIndex
           ] = {
             ...careInstList[careInstIndex].availabilityData[
               requirementDataIndex
-            ][availabilityIndex],
+            ][requirementIndex],
             status: "linked",
             appointments: [
               {
@@ -788,9 +788,9 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         }
       });
-      setSelectedCells(selectedCaregiverCells);
-      setselectedCellsCareinstitution(selectedCareInstCells);
-      console.log(temp, "temppppp");
+      setSelectedCells(selectedCaregiverCells)
+      setselectedCellsCareinstitution(selectedCareInstCells)
+      console.log(temp,selectedCareInstCells,careInstList,'temppppp');
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("LINKED_APPOINTMENTS"));
       }
@@ -1612,16 +1612,17 @@ const Appointment: FunctionComponent = (props: any) => {
         setselectedCellsCareinstitution(careInstSelectedCell);
       }
       setcareinstitutionList(result);
-
-      if (careinstitutionSoloFilter && careinstitutionSoloFilter.value) {
+      // To set solo state in case of search by care-institution
+      if (careinstitutionSoloFilter && careinstitutionSoloFilter.value && starCanstitution && (!starCanstitution.isStar || starCanstitution.id !== result[0].id)) {
         handleFirstStarCanstitution(result[0], 1);
-      } else {
-        setstarCanstitution({
-          isStar: false,
-          setIndex: -1,
-          id: "",
-        });
-      }
+      } 
+      // else {
+      //   setstarCanstitution({
+      //     isStar: false,
+      //     setIndex: -1,
+      //     id: "",
+      //   });
+      // }
     }
   }, [careGiversList, careInstitutionList]);
 
@@ -1808,10 +1809,10 @@ const Appointment: FunctionComponent = (props: any) => {
         isSecondStar,
       });
       // handleSecondStar(list, name);
-    } else {
-      console.log(caregiversList, "careGiversList on star");
-
-      if (caregiversList && caregiversList.length === 1) {
+    } else{
+      console.log(caregiversList,'careGiversList on star');
+      
+      if (caregiverSoloFilter && caregiverSoloFilter.value && caregiversList && caregiversList.length === 1) {
         await setcaregiverSoloFilter(undefined);
         getCaregiverData(1);
       }
@@ -1878,7 +1879,7 @@ const Appointment: FunctionComponent = (props: any) => {
         label: locationState.name,
         value: locationState.caregiver,
       });
-    } else if (locationState && locationState.canstitution) {
+    } else if (locationState && locationState.canstitution && action === "PUSH") {
       setcareinstitutionSoloFilter({
         label: locationState.name,
         value: locationState.canstitution,
@@ -2654,7 +2655,8 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
     //  setcareinstitutionList()
-
+    console.log('handleFirstStarCanstitution', starCanstitution);
+    
     if (!starCanstitution.isStar) {
       setstarCanstitution({
         isStar: true,
@@ -2662,6 +2664,11 @@ const Appointment: FunctionComponent = (props: any) => {
         id: list ? list.id : "",
       });
     } else {
+      if (
+        careinstitutionSoloFilter && careinstitutionSoloFilter.value && careinstitutionList && careinstitutionList.length === 1) {
+        await setcareinstitutionSoloFilter(undefined);
+        getCareInstituionData()
+      }
       setstarCanstitution({
         isStar: false,
         setIndex: -1,

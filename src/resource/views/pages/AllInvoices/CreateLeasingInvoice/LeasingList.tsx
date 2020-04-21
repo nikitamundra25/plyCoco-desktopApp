@@ -8,7 +8,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import PaginationComponent from "../../../components/Pagination";
 import * as qs from "query-string";
 
-const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList & any) => {
+const LeasingList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList & any) => {
   const { search, pathname } = useLocation();
   const { invoiceListLoading, invoiceList, totalCount, currentPage, selectedAppointment, handleCheckedChange } = props;
   let history = useHistory();
@@ -22,8 +22,6 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
   };
 
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
-
-  console.log("*************selectedAppointment", selectedAppointment);
 
   return (
     <>
@@ -208,4 +206,4 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
   );
 };
 
-export default InvoiceList;
+export default LeasingList;

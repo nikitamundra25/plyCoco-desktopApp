@@ -880,6 +880,11 @@ const CarinstituionListView: FunctionComponent<
                 //       : ""
                 //     : "disabled-class"
                 // }
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   handleRightMenuToggle();
@@ -901,6 +906,11 @@ const CarinstituionListView: FunctionComponent<
                 //       : ""
                 //     : "disabled-class"
                 // }
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
                 onClick={() => {
                   handleCareGiverBulkEmail("day", true);
                   handleCareInstitutionBulkEmail();
@@ -922,6 +932,11 @@ const CarinstituionListView: FunctionComponent<
                 //       : ""
                 //     : "disabled-class"
                 // }
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
                 onClick={() => {
                   handleCareGiverBulkEmail("division", false);
                   handleCareInstitutionBulkEmail();
@@ -943,6 +958,11 @@ const CarinstituionListView: FunctionComponent<
                 //       : ""
                 //     : "disabled-class"
                 // }
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
                 onClick={() => {
                   handleCareGiverBulkEmail("day", false);
                   handleCareInstitutionBulkEmail();
@@ -964,6 +984,11 @@ const CarinstituionListView: FunctionComponent<
                 //       : ""
                 //     : "disabled-class"
                 // }
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
               >
                 <img src={set_confirm} className="mr-2" alt="" />
                 <span
@@ -985,6 +1010,11 @@ const CarinstituionListView: FunctionComponent<
                 //       : ""
                 //     : "disabled-class"
                 // }
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
               >
                 <img src={unset_confirm} className="mr-2" alt="" />
                 <span
@@ -1025,6 +1055,11 @@ const CarinstituionListView: FunctionComponent<
                 //       : ""
                 //     : "disabled-class"
                 // }
+                disabled={
+                  selectedCellsCareinstitution
+                    ? selectedCellsCareinstitution.length === 0
+                    : true
+                }
                 onClick={() => {
                   handleRightMenuToggle();
                   handleUnLinkAppointments("unlink");

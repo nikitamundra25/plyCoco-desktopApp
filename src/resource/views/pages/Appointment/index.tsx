@@ -3846,7 +3846,7 @@ const Appointment: FunctionComponent = (props: any) => {
                             selectedCellsCareinstitution.length === 1 &&
                             selectedCells &&
                             selectedCells.length === 1
-                              ? !isCareinstituionData && dateCondition
+                              ? !isCareinstituionData /* && dateCondition */
                                 ? false
                                 : true
                               : true

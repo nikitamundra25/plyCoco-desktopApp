@@ -816,6 +816,8 @@ const Appointment: FunctionComponent = (props: any) => {
         let careInstIndex: number = careInstList.findIndex(
           (ci: any) => appointment.cr && ci.id === appointment.cr.userId
         );
+        console.log("careInstIndex",careInstIndex);
+        
         // To find the exact index of requirement
         for (
           let j = 0;
@@ -825,8 +827,10 @@ const Appointment: FunctionComponent = (props: any) => {
           let requirementRows: any[] = [
             ...careInstList[careInstIndex].availabilityData[j],
           ];
+          console.log("requirementRows",requirementRows);
+          
           requirementIndex = requirementRows.findIndex(
-            (e: any) => e.id === appointment.requirementId
+            (e: any) => e.appointments && e.appointments.length && e.appointments[0].id ? e.appointments[0].id : "-1" === appointment.id
           );
           if (requirementIndex > -1) {
             requirementDataIndex = j;
@@ -838,8 +842,10 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityRows: any[] = [
             ...temp[caregiverIndex].availabilityData[i],
           ];
+          console.log("availabilityRows",availabilityRows);
+          
           availabilityIndex = availabilityRows.findIndex(
-            (e: any) => e.id === appointment.avabilityId
+            (e: any) => e.appointments && e.appointments.length ? e.appointments[0].id : '-1' === appointment.id
           );
           if (availabilityIndex > -1) {
             availabilityDataIndex = i;
@@ -856,7 +862,78 @@ const Appointment: FunctionComponent = (props: any) => {
           requirementDataIndex > -1 &&
           availabilityDataIndex > -1 &&
           availabilityIndex > -1
-        ) {
+        )  {
+          // To add the appoitments after connection
+      console.log("careInstList",careInstList);
+      
+          console.log("jjjj",careInstList[careInstIndex].availabilityData[
+            requirementDataIndex
+          ][requirementIndex]);
+          
+          const {
+            id = "",
+            name = "",
+            status = "",
+            qualificationId = [],
+            address = "",
+            startTime = "",
+            endTime = "",
+            isLeasing = false,
+            division = {},
+          } = careInstList[careInstIndex].availabilityData[
+            requirementDataIndex
+          ][requirementIndex]
+            ? careInstList[careInstIndex].availabilityData[
+                requirementDataIndex
+              ][requirementIndex]
+            : {};
+          temp[caregiverIndex].availabilityData[availabilityDataIndex][
+            availabilityIndex
+          ] = {
+            ...temp[caregiverIndex].availabilityData[availabilityDataIndex][
+              availabilityIndex
+            ],
+            status: "default",
+            appointments: [
+              {
+                ...appointment,
+                cr: {
+                  id,
+                  name,
+                  status,
+                  qualificationId,
+                  address,
+                  startTime,
+                  endTime,
+                  isLeasing,
+                  division,
+                },
+              },
+            ],
+          };
+          careInstList[careInstIndex].availabilityData[requirementDataIndex][
+            availabilityIndex
+          ] = {
+            ...careInstList[careInstIndex].availabilityData[
+              requirementDataIndex
+            ][availabilityIndex],
+            status: "default",
+            appointments: [
+              {
+                ...appointment,
+                ca: {
+                  ...appointment.ca,
+                  name: [
+                    temp[caregiverIndex].lastName,
+                    temp[caregiverIndex].firstName,
+                  ].join(" "),
+                },
+              },
+            ],
+          };
+          // To update the selected caregiver & careInst cell
+       
+        
         }
       });
 

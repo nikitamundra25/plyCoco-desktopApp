@@ -183,6 +183,13 @@ const LINK_REQUIREMENT = gql`
 const UN_LINK_REQUIREMENT = gql`
   mutation DeleteAppointment($appointmentInput: [AppointmentInput]) {
     deleteAppointment(appointmentInput: $appointmentInput) {
+      id
+      cr{
+        userId
+      }
+      ca{
+        userId
+      }
       deleteAll
       unlinkedBy
     }

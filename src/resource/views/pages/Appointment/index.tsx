@@ -810,7 +810,12 @@ const Appointment: FunctionComponent = (props: any) => {
     onCompleted({ deleteAppointment }: any) {
       const temp = [...caregiversList];
       const careInstList: any = [...careinstitutionList];
+      const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
+      const selectedCareInstCells = selectedCellsCareinstitution
+        ? [...selectedCellsCareinstitution]
+        : [];
       deleteAppointment.forEach((appointment: any) => {
+        const { deleteAll, unlinkedBy } = appointment;
         let availabilityDataIndex: number = -1;
         let requirementDataIndex: number = -1;
         let availabilityIndex: number = -1;
@@ -836,7 +841,7 @@ const Appointment: FunctionComponent = (props: any) => {
           ];
           
           requirementIndex = requirementRows.findIndex(
-            (e: any) => e.appointments && e.appointments.length && e.appointments[0].id ? e.appointments[0].id : "-1" === appointment.id
+            (e: any) => e.appointments && e.appointments.length && e.appointments[0] && e.appointments[0].id === appointment.id
           );
           if (requirementIndex > -1) {
             requirementDataIndex = j;
@@ -850,7 +855,7 @@ const Appointment: FunctionComponent = (props: any) => {
           ];
           
           availabilityIndex = availabilityRows.findIndex(
-            (e: any) => e.appointments && e.appointments.length ? e.appointments[0].id : '-1' === appointment.id
+            (e: any) => e.appointments && e.appointments.length && e.appointments[0] && e.appointments[0].id === appointment.id
           );
           if (availabilityIndex > -1) {
             availabilityDataIndex = i;
@@ -865,24 +870,12 @@ const Appointment: FunctionComponent = (props: any) => {
           availabilityIndex > -1
         )  {
           // To add the appoitments after connection
-          
-          const {
-            id = "",
-            name = "",
-            status = "",
-            qualificationId = [],
-            address = "",
-            startTime = "",
-            endTime = "",
-            isLeasing = false,
-            division = {},
-          } = careInstList[careInstIndex].availabilityData[
+      console.log("careInstList",careInstList);
+      
+          console.log("jjjj",careInstList[careInstIndex].availabilityData[
             requirementDataIndex
-          ][requirementIndex]
-            ? careInstList[careInstIndex].availabilityData[
-                requirementDataIndex
-              ][requirementIndex]
-            : {};
+          ][requirementIndex]);
+          // To update data in caregiver list
           temp[caregiverIndex].availabilityData[availabilityDataIndex][
             availabilityIndex
           ] = {
@@ -890,63 +883,77 @@ const Appointment: FunctionComponent = (props: any) => {
               availabilityIndex
             ],
             status: "default",
-            appointments: [
-              {
-                ...appointment,
-                cr: {
-                  id,
-                  name,
-                  status,
-                  qualificationId,
-                  address,
-                  startTime,
-                  endTime,
-                  isLeasing,
-                  division,
-                },
-              },
-            ],
+            appointments: [],
           };
+          // To update data in care institution list
           careInstList[careInstIndex].availabilityData[requirementDataIndex][
-            availabilityIndex
+            requirementIndex
           ] = {
             ...careInstList[careInstIndex].availabilityData[
               requirementDataIndex
-            ][availabilityIndex],
+            ][requirementIndex],
             status: "default",
-            appointments: [
-              {
-                ...appointment,
-                ca: {
-                  ...appointment.ca,
-                  name: [
-                    temp[caregiverIndex].lastName,
-                    temp[caregiverIndex].firstName,
-                  ].join(" "),
-                },
-              },
-            ],
+            appointments: []
           };
+          if (deleteAll) {
+            if (unlinkedBy === "caregiver" || unlinkedBy==="employee") {
+              temp[caregiverIndex].availabilityData[availabilityDataIndex].splice(availabilityIndex,1)
+              setSelectedCells([]);
+            } else if (unlinkedBy === "canstitution" || unlinkedBy==="employee") {
+              careInstList[careInstIndex].availabilityData[requirementDataIndex].splice(requirementIndex, 1)
+              setselectedCellsCareinstitution([]);
+            }
+          }
           // To update the selected caregiver & careInst cell
-       
-        
-        }
-      });
-
-      if (deleteAppointment) {
-        const { deleteAll, unlinkedBy } = deleteAppointment;
-        if (deleteAll) {
-          if (unlinkedBy === "caregiver") {
-            setSelectedCells([]);
-          } else if (unlinkedBy === "canstitution") {
-            setselectedCellsCareinstitution([]);
+          if (!(deleteAll && (unlinkedBy === "caregiver" || unlinkedBy==="employee"))) {
+            
+            let cellIndex: number = selectedCaregiverCells.findIndex(
+              (cell: any) => cell.item && cell.item.appointments && cell.item.appointments.length && cell.item.appointments[0]  && appointment.id === cell.item.appointments[0].id
+            );
+            if (selectedCaregiverCells[cellIndex]) {
+              selectedCaregiverCells[cellIndex] = {
+                ...selectedCaregiverCells[cellIndex],
+                item: {
+                  ...selectedCaregiverCells[cellIndex].item,
+                  status: "default",
+                  appointments: [],
+                },
+              };
+            }
+          }
+          if (!(deleteAll && (unlinkedBy === "canstitution" || unlinkedBy==="employee"))) {
+            let cellInstIndex: number = selectedCareInstCells.findIndex(
+              (cell: any) =>
+              cell.item && cell.item.appointments && cell.item.appointments.length && cell.item.appointments[0]  && appointment.id === cell.item.appointments[0].id
+            );
+            if (selectedCareInstCells[cellInstIndex]) {
+              selectedCareInstCells[cellInstIndex] = {
+                ...selectedCareInstCells[cellInstIndex],
+                item: {
+                  ...selectedCareInstCells[cellInstIndex].item,
+                  status: "default",
+                  appointments: [],
+                },
+              };
+            }
+            setselectedCellsCareinstitution(selectedCareInstCells)
           }
         }
-      }
+      });
+      // if (deleteAppointment) {
+      //   const { deleteAll, unlinkedBy } = deleteAppointment;
+      //   if (deleteAll) {
+      //     if (unlinkedBy === "caregiver") {
+      //       setSelectedCells([]);
+      //     } else if (unlinkedBy === "canstitution") {
+      //       setselectedCellsCareinstitution([]);
+      //     }
+      //   }
+      // }
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("UN_LINKED_APPOINTMENTS"));
       }
-      fetchData();
+      // fetchData();
     },
   });
 

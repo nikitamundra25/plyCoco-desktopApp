@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import close from "../../../assets/img/cancel.svg";
 import closehover from "../../../assets/img/cancel-hover.svg";
-import { languageTranslation, formatFileSize } from "../../../../helpers";
+import { languageTranslation, formatFileSize, toDataUrl } from "../../../../helpers";
 
 const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
   const {
@@ -41,6 +41,16 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
         )
       : "";
 
+        
+      const download = (dataurl:any, filename: any) => {
+        toDataUrl(dataurl, (myBase64:any) => {
+              let a = document.createElement("a");
+              a.href = myBase64;
+              a.setAttribute("download", filename);
+              a.click();
+            });
+      }
+
   return (
     <div>
       <Modal
@@ -70,21 +80,20 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
         </ModalBody>
         <ModalFooter className="unlink-btn-wrap">
           <div className="d-flex align-items-center justify-content-end w-100 ">
-            <a
-              href={imageUrls ? imageUrls : documentUrls}
-              download="MyGoogleLogo"
-              target="_blank"
-              className={"btn btn-primary text-capitalize mr-2"}
-            >
-              {languageTranslation("SUBMIT")}
-            </a>
-            <Button
+          <Button
               className={" text-capitalize"}
+              color="primary"
+              onClick={()=> download(imageUrls ? imageUrls : documentUrls,documentSelectionId.fileName )}
+            >
+          {languageTranslation("SUBMIT")}
+            </Button> 
+             <Button
+              className={" text-capitalize ml-2"}
               color="secondary"
               onClick={handleClose}
             >
               {languageTranslation("CANCEL")}
-            </Button>
+            </Button> 
           </div>
         </ModalFooter>
       </Modal>

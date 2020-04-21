@@ -27,6 +27,8 @@ import "react-day-picker/lib/style.css";
 import "./index.scss";
 import moment from "moment";
 import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
+import AsyncSelect from 'react-select/async';
+import CareInstitutionDropdownList from "../../components/DropdownList";
 
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
@@ -56,6 +58,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     isNegative,
     setIsNegative,
     positive,
+    handleLoadMoreCanstitution,
     negative
   } = props;
   const { month = "", year = "" } = daysData ? daysData : {};
@@ -137,6 +140,9 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     return month ? `${month} ${year}` : ""
   }
 
+ const handleLoadMoreCanstitutionData = (input:any) => {
+  handleLoadMoreCanstitution(input)
+ }
   return (
     <>
       <div className="sticky-common-header">
@@ -262,7 +268,29 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className="user-select mx-1">
-            <Select
+          
+         <CareInstitutionDropdownList
+          careInstitutionList={careInstitutionList}
+          handleLoadMoreCanstitution={handleLoadMoreCanstitution}
+          placeholderLabel = {languageTranslation("SELECT_CARE_INSTITUTION")}
+         />
+
+          {/* <AsyncSelect 
+          cacheOptions 
+          defaultOptions = {careInstitutionList}
+          loadOptions={promiseOptions} 
+          // options={careInstitutionList}
+          placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
+          classNamePrefix="custom-inner-reactselect"
+              className={
+                "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
+              }
+              components={{ Option: CareInstCustomOption }}
+              /> */}
+
+
+
+            {/* <Select
               classNamePrefix="custom-inner-reactselect"
               className={
                 "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
@@ -280,7 +308,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 handleUserList(value, "careinstitution")
               }
               isClearable={true}
-            />
+            /> */}
           </div>
           <div
             className={`header-nav-item pt-1 ${!isFilterSet ? "disable" : ""}`}

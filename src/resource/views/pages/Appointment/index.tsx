@@ -203,6 +203,13 @@ const Appointment: FunctionComponent = (props: any) => {
   // >([]);
 
   const [timeSlotError, setTimeSlotError] = useState<string>("");
+
+  // maintain solo caregiver
+  const [starCaregiver, setstarCaregiver] = useState<IStarInterface>({
+    isStar: false,
+    id: "",
+  });
+
   // maintain solo careinstitution
   const [starCanstitution, setstarCanstitution] = useState<IStarInterface>({
     isStar: false,
@@ -247,7 +254,7 @@ const Appointment: FunctionComponent = (props: any) => {
     fetchCareInstitutionList({
       variables: {
         searchBy: null,
-        sortBy: 3,
+        sortBy: 5,
         limit: 30,
         page: 1,
         isActive: "",
@@ -771,6 +778,7 @@ const Appointment: FunctionComponent = (props: any) => {
         s = "",
         n = "",
         fee = "",
+        date: dateStr='',
         nightFee = "",
         weekendAllowance = "",
         holidayAllowance = "",
@@ -803,7 +811,7 @@ const Appointment: FunctionComponent = (props: any) => {
           caregiver: {
             ...caregiverData,
           },
-          dateString: dateData,
+          dateString: dateStr,
           qualificationIds: qualificationId1,
           firstName: firstname,
           email,
@@ -836,6 +844,7 @@ const Appointment: FunctionComponent = (props: any) => {
           },
         },
       ];
+      
       // setselectedCareGiver(caregiverdata);
       setSelectedCells(caregiverdata);
       /*  */
@@ -975,18 +984,17 @@ const Appointment: FunctionComponent = (props: any) => {
           }
         });
       }
-      // if (locationState && locationState.caregiver) {
-      //   let list: any = result.filter(
-      //     (list: any) => list.id === locationState.caregiver
-      //   );
-      //   setcaregiversList(list);
-      // } else {
-
       if (careGiverSelectedCell && careGiverSelectedCell.length) {
         setSelectedCells(careGiverSelectedCell);
       }
-
+      if (starCaregiver && starCaregiver.isStar) {
+        let list: any = result.filter(
+          (list: any) => list.id === starCaregiver.id
+        );
+         setcaregiversList(list);
+      } else{ 
       setcaregiversList(result);
+    }
       // }
     }
 
@@ -1057,12 +1065,14 @@ const Appointment: FunctionComponent = (props: any) => {
         setselectedCellsCareinstitution(careInstSelectedCell);
       }
       setcareinstitutionList(result);
+      
       if (
-        locationState &&
-        locationState.canstitution &&
-        result &&
-        result.length &&
-        result[0]
+        // locationState &&
+        // localocationStatetionState.canstitution &&
+        // result &&
+        // result.length &&
+        // result[0]
+        careinstitutionSoloFilter && careinstitutionSoloFilter.value
       ) {
         handleFirstStarCanstitution(result[0], 1);
       } else {
@@ -1234,9 +1244,17 @@ const Appointment: FunctionComponent = (props: any) => {
   const onhandleCaregiverStar = (list: any, name: string) => {
     if (!starMarkCaregiver) {
       setstarMarkCaregiver(!starMarkCaregiver);
+      setstarCaregiver({
+        isStar: true,
+        id: list.id,
+      })
       handleSecondStar(list, name);
     } else if (list.id !== caregiversList[0].id) {
       handleSecondStar(list, name);
+      setstarCaregiver({
+        isStar: true,
+        id: list.id,
+      })
     } else {
       setstarMarkCaregiver(!starMarkCaregiver);
       handleReset(name);
@@ -1292,6 +1310,9 @@ const Appointment: FunctionComponent = (props: any) => {
         label: locationState.name,
         value: locationState.canstitution,
       });
+    }
+    if (locationState && locationState.avabilityId) {
+      onFilterByUserId(locationState.avabilityId, "avability");
     }
   }, [locationState]);
 
@@ -1372,12 +1393,12 @@ const Appointment: FunctionComponent = (props: any) => {
 
     careInstitutionData.map((data: any, index: any) => {
       const { canstitution } = data;
-      let { attributes = [], companyName = "" } = canstitution
+      let { attributes = [], companyName = "", shortName= "" } = canstitution
         ? canstitution
         : {};
       attributes = attributes ? attributes : [];
       careInstitutionOptions.push({
-        label: `${data.lastName}${" "}${data.firstName}`,
+        label: shortName,
         value: data.id,
         color: attributes.includes(CareInstInActiveAttrId)
           ? deactivatedListColor
@@ -1569,6 +1590,7 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCellsCareinstitution[0]
         ? selectedCellsCareinstitution[0]
         : {};
+
     if (deptId && (updateCanstitutionFormikValues || !(item && item.id))) {
       if (departmentList && departmentList.getDivision.length) {
         const { getDivision } = departmentList;
@@ -1604,6 +1626,10 @@ const Appointment: FunctionComponent = (props: any) => {
               ...values,
               id: values && values.appointmentId ? values.appointmentId : "",
               department: careInstituionDept,
+              qualificationId:
+               item && item !== undefined && item.qualificationId && item.qualificationId.length 
+                  ? item.qualificationId
+                  : values && values.qualificationId ?  values.qualificationId : [],
               address: departmentData ? departmentData.address : "",
               contactPerson: departmentData ? departmentData.contactPerson : "",
               departmentOfferRemarks: departmentData
@@ -2007,6 +2033,7 @@ const Appointment: FunctionComponent = (props: any) => {
           .forEach((division: any) => {
             division.availabilityData = [];
             division.canstitution = careInstData.canstitution;
+            division.qualificationId = careInstData.qualificationId;
             division.careInstId = careInstData.id;
             division.isActive = careInstData.isActive;
             division.deptId = division.id;
@@ -2054,6 +2081,7 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
     //  setcareinstitutionList()
+
     if (!starCanstitution.isStar) {
       setstarCanstitution({
         isStar: true,
@@ -2073,6 +2101,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       setcareInstituionDeptData([]);
     }
+    
     if (list) {
       if (list.id && !starCanstitution.isStar) {
         setFetchingDept(true);
@@ -2083,9 +2112,11 @@ const Appointment: FunctionComponent = (props: any) => {
           },
         });
       }
-    } else {
+    } 
+     else {
       setcareInstituionDeptData([]);
     }
+  
   };
 
   //  handle second star of careinstitution and autoselect department
@@ -3399,7 +3430,20 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
   };
-
+  // function to load or search data in careinstitution dropdowwn
+  const handleLoadMoreCanstitution = (input: any) => {
+    console.log("input",input);
+    
+    fetchCareInstitutionList({
+      variables: {
+        searchBy: input ? input : "",
+        sortBy: 5,
+        limit: 100,
+        page: 1,
+        isActive: "",
+      },
+    });
+  }
   const isUnLinkable: boolean =
     item &&
     item.appointments &&
@@ -3480,6 +3524,14 @@ const Appointment: FunctionComponent = (props: any) => {
       now <= inputCareinst && now <= inputCaregiver ? true : false;
   }
 
+  let isSaveBoth: boolean = false;
+  isSaveBoth =
+    selectedCellsCareinstitution &&
+    selectedCellsCareinstitution.length === 1 &&
+    selectedCells &&
+    selectedCells.length === 1
+      ? false
+      : true;
   // if (openCareGiverBulkEmail) {
   //   const BulkEmailCareGiverModal = React.lazy(() => import('./BulkEmailCareGiver'));
   //   return <Suspense fallback={null}>
@@ -3558,6 +3610,7 @@ const Appointment: FunctionComponent = (props: any) => {
             setIsPositive={setIsPositive}
             isNegative={isNegative}
             setIsNegative={setIsNegative}
+            handleLoadMoreCanstitution={handleLoadMoreCanstitution}
           />
           <div className="common-content flex-grow-1">
             <div>
@@ -3765,6 +3818,8 @@ const Appointment: FunctionComponent = (props: any) => {
                                   : []
                               }
                               starMarkCareinstitution={starMarkCareinstitution}
+                              handleFirstStarCanstitution={handleFirstStarCanstitution}
+                              starCanstitution={starCanstitution}
                             />
                           );
                         }}
@@ -3776,10 +3831,13 @@ const Appointment: FunctionComponent = (props: any) => {
                           className="btn-common  mt-0 mb-2 mx-2"
                           color="primary"
                           disabled={
-                            selectedCells !== undefined &&
-                            !isCareinstituionData &&
-                            dateCondition
-                              ? false
+                            selectedCellsCareinstitution &&
+                            selectedCellsCareinstitution.length === 1 &&
+                            selectedCells &&
+                            selectedCells.length === 1
+                              ? !isCareinstituionData && dateCondition
+                                ? false
+                                : true
                               : true
                           }
                           onClick={() => handleSaveBoth()}

@@ -89,6 +89,8 @@ const CareinstitutionFormView: FunctionComponent<
     addCareinstLoading,
     timeSlotError,
     starMarkCareinstitution,
+    handleFirstStarCanstitution,
+    starCanstitution,
   } = props;
 
   let d = moment().format("L");
@@ -147,15 +149,13 @@ const CareinstitutionFormView: FunctionComponent<
       careInstitutionListArr && careInstitutionListArr.result
         ? careInstitutionListArr.result
         : {};
-    if (
-      id &&
-      !starMarkCareinstitution &&
-      careInstitutionListArr &&
-      careInstitutionListArr.result
-    ) {
-      data = careInstitutionListArr.result.filter((x: any) => x.id === id);
+    if (id) {
+      data = careInstitutionListArr.result.filter((x: any) => x.id === id)[0];
+      let index = careInstitutionListArr.result.findIndex(
+        (el: any) => el.id === id
+      );
+      handleFirstStarCanstitution(data, index);
     }
-    handleSelectUserList(data, name);
   };
 
   const DepartmentError: any = errors.department;
@@ -175,6 +175,7 @@ const CareinstitutionFormView: FunctionComponent<
     let input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
     dateCondition = now <= input;
   }
+
   return (
     <>
       <div className="form-section ">
@@ -253,7 +254,10 @@ const CareinstitutionFormView: FunctionComponent<
                           <InputGroupText>
                             <i
                               className={
-                                starMarkCareinstitution
+                                name &&
+                                starCanstitution.isStar &&
+                                parseInt(starCanstitution.id) ===
+                                  parseInt(selectedCareinstitution.id)
                                   ? "fa fa-star theme-text"
                                   : "fa fa-star"
                               }

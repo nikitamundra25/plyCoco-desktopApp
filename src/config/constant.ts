@@ -1256,16 +1256,16 @@ export const InvoiceFilter: IReactSelectInterface[] = [
   { value: "Select all", label: languageTranslation("SELECT_ALL") }
 ];
 export const InvoiceSummaryFilter: IReactSelectInterface[] = [
-  { value: "All", label: languageTranslation("ALL") },
+  { value: "all", label: languageTranslation("ALL") },
   {
-    value: "Weekly",
+    value: "weekly",
     label: languageTranslation("WEEKLY")
   },
   {
-    value: "Every six months",
+    value: "everySixMonths",
     label: languageTranslation("EVERY_SIX_MONTH")
   },
-  { value: "Per month", label: languageTranslation("PER_MONTH") }
+  { value: "perMonth", label: languageTranslation("PER_MONTH") }
 ];
 
 export const CaregiverTIMyoCYAttrId: number = 9;

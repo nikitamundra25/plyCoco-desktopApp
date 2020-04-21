@@ -6,7 +6,29 @@ const ADD_CAREGIVER_AVABILITY = gql`
   ) {
     addCareGiverAvability(careGiverAvabilityInput: $careGiverAvabilityInput) {
       id
+      userId
+      date
+      name
+      fee
+      weekendAllowance
+      holidayAllowance
+      nightFee
+      nightAllowance
+      workingProofRecieved
+      distanceInKM
+      feePerKM
+      travelAllowance
+      otherExpenses
+      remarksCareGiver
+      remarksInternal
+      f
+      s
+      n
       status
+      workingHoursFrom
+      workingHoursTo
+      breakFrom
+      breakTo
     }
   }
 `;
@@ -33,12 +55,30 @@ const UPDATE_CAREGIVER_AVABILITY = gql`
       id: $id
       careGiverAvabilityInput: $careGiverAvabilityInput
     ) {
-      userId
       id
+      userId
+      date
+      name
+      fee
+      weekendAllowance
+      holidayAllowance
+      nightFee
+      nightAllowance
+      workingProofRecieved
+      distanceInKM
+      feePerKM
+      travelAllowance
+      otherExpenses
+      remarksCareGiver
+      remarksInternal
       f
       s
       n
       status
+      workingHoursFrom
+      workingHoursTo
+      breakFrom
+      breakTo
     }
   }
 `;

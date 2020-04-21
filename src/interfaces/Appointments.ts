@@ -46,6 +46,7 @@ export interface IAppointmentNav {
   positive: number[];
   negative: number[];
   setIsNegative: React.Dispatch<React.SetStateAction<number[]>>;
+  handleLoadMoreCanstitution: (input:any) => void;
 }
 
 export interface IAppointmentCareGiverList {
@@ -136,7 +137,7 @@ export interface IDate {
 
 export interface IStarInterface {
   isStar: boolean;
-  setIndex: number;
+  setIndex?: number;
   id: string;
 }
 

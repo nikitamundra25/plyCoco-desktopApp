@@ -21,7 +21,9 @@ const GET_INVOICE_LIST = gql`
     limit: $limit
   ) 
   {
-      id
+    totalCount
+    result{
+    id
     avabilityId
     requirementId
     date
@@ -38,22 +40,17 @@ const GET_INVOICE_LIST = gql`
       workingHoursTo
       breakTo
       breakFrom
-      distanceInKM
-          feePerKM
-          otherExpenses
-          travelAllowance
       f
       n
       s    
     }
     cr{
       userId
-      f
-      s
-      n
+      divisionId
     }
-}
+    }
   }
+}
 `;
 
 

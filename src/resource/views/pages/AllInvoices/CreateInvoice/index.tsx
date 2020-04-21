@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, useLocation } from "react-router";
 import "../index.scss";
 import "react-day-picker/lib/style.css";
 import {
@@ -25,6 +25,7 @@ import {
   PAGE_LIMIT,
   CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
+  defaultDateFormat,
 } from "../../../../../config";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
 import { IReactSelectInterface } from "../../../../../interfaces";
@@ -38,6 +39,8 @@ import moment from "moment";
 import InvoiceList from "./InvoiceList";
 import CustomOption from "../../../components/CustomOptions";
 import InvoiceNavbar from "./InvoiceNavbar";
+import * as qs from "query-string";
+
 const [
   GET_CARE_INSTITUTION_LIST,
   ,
@@ -52,6 +55,8 @@ const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
+  const { search } = useLocation();
+  const query = qs.parse(search);
   // select Careinstitution
   const [careinstitutionFilter, setcareinstitutionFilter] = useState<
     IReactSelectInterface | undefined
@@ -61,6 +66,13 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   const [caregiverFilter, setcaregiverFilter] = useState<
     IReactSelectInterface | undefined
   >(undefined);
+
+  // select Careinstitution
+  const [monthFilter, setmonthFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   //   Store selectedDepartment
   const [departmentFilter, setdepartmentFilter] = useState<
@@ -138,6 +150,8 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   // to get list of all invoices
   const getInvoiceListData = () => {
+    console.log("currentPage",currentPage);
+    
     fetchInvoiceList({
       variables: {
         searchBy: null,
@@ -156,15 +170,39 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         startDate: gte ? gte : null,
         endDate: lte ? lte : null,
         limit: PAGE_LIMIT,
-        page: 1,
+        page: query.page ? parseInt(query.page as string) : 1,
       },
     });
   };
 
+  useEffect(() => {
+    if (query) {
+      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+    }
+    // call query
+    getInvoiceListData()
+  }, [search]); // It will run when the search value gets changed
+
   // Call function to fetch invoice list
   useEffect(() => {
+    if(monthFilter && monthFilter.value){
+      const{ value} = monthFilter
+    if(value==="weekly"){
+      gte = moment().startOf('week').format(dbAcceptableFormat);
+      lte = moment().endOf('week').format(dbAcceptableFormat);
+    }else if(value==="everySixMonths"){
+      gte = moment().startOf("month").format(dbAcceptableFormat);
+      lte= moment(gte).add(6, 'M').endOf('month').format(dbAcceptableFormat);
+  }else if(value==="perMonth"){
+     gte= moment().startOf("month").format(dbAcceptableFormat);
+     lte= moment().endOf("month").format(dbAcceptableFormat);
+  }else if(value==="all"){
+     gte = "";
+     lte = ""
+  }
+}
     getInvoiceListData();
-  }, [careinstitutionFilter, departmentFilter, caregiverFilter]);
+  }, [careinstitutionFilter, departmentFilter, caregiverFilter,monthFilter]);
 
   // set careInstitution list options
   const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
@@ -189,10 +227,10 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         color: attributes.includes(CareInstInActiveAttrId)
           ? deactivatedListColor
           : attributes.includes(CareInstTIMyoCYAttrId)
-          ? leasingListColor
-          : attributes.includes(CareInstPlycocoAttrId)
-          ? selfEmployesListColor
-          : "",
+            ? leasingListColor
+            : attributes.includes(CareInstPlycocoAttrId)
+              ? selfEmployesListColor
+              : "",
         companyName,
       });
       return true;
@@ -222,10 +260,10 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
           color: !isActive
             ? deactivatedListColor
             : attributes.includes(CaregiverTIMyoCYAttrId)
-            ? leasingListColor
-            : attributes.includes("Plycoco")
-            ? selfEmployesListColor
-            : "",
+              ? leasingListColor
+              : attributes.includes("Plycoco")
+                ? selfEmployesListColor
+                : "",
         });
       }
     );
@@ -254,6 +292,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       setdepartmentFilter(value);
     } else if (name === "caregiver") {
       setcaregiverFilter(value);
+    } else if(name==="monthSummary"){
+      setmonthFilter(value)
+      
     }
   };
 
@@ -313,13 +354,16 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             <div className="common-content flex-grow-1  p-0 all-invoice">
               <InvoiceList
                 invoiceListLoading={invoiceListLoading}
+                currentPage={currentPage}
                 invoiceList={
                   invoiceList &&
-                  invoiceList.getAllAppointment &&
-                  invoiceList.getAllAppointment.length
-                    ? invoiceList.getAllAppointment
+                    invoiceList.getAllAppointment &&
+                    invoiceList.getAllAppointment.result.length
+                    ? invoiceList.getAllAppointment.result
                     : []
                 }
+                totalCount={invoiceList &&
+                  invoiceList.getAllAppointment ? invoiceList.getAllAppointment.totalCount : 0}
               />
               <Form className="form-section total-form-section bg-white">
                 <div className="d-flex flex-wrap total-form-block">

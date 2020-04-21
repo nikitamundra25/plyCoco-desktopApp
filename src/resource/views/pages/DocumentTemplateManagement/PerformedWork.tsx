@@ -72,7 +72,7 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                   </Col>
                 </Row>
               </FormGroup>
-            </Col>{" "}
+            </Col>
             <Col lg={"12"}>
               <FormGroup>
                 <Row className="align-items-center">

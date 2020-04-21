@@ -379,15 +379,20 @@ const CaregiverFormView: FunctionComponent<
                       </Label>
                     </Col>
                     <Col sm="8">
-                      <div className="required-input">
-                        <Input
-                          type="text"
-                          disabled={true}
-                          name={"appointmentId"}
-                          value={appointmentId ? appointmentId : null}
-                          placeholder={languageTranslation("APPOINTMENT_ID")}
-                          className="width-common"
-                        />
+                      <div className="d-flex align-items-center justify-content-between flex-wrap">
+                        <div className="required-input appointment-id-width">
+                          <Input
+                            type="text"
+                            disabled={true}
+                            name={"appointmentId"}
+                            value={appointmentId ? appointmentId : null}
+                            placeholder={languageTranslation("APPOINTMENT_ID")}
+                            className="width-common"
+                          />
+                        </div>
+                        <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
+                          {languageTranslation("ABOUT_SOLONA")}
+                        </div>
                       </div>
                     </Col>
                   </Row>

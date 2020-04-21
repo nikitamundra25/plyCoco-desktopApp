@@ -1138,5 +1138,6 @@
   "OPEN_SAVE_FILE": "Do you want to open or save this file?",
   "TURN_LEFT": "Turn Left",
   "TURN_RIGHT": "Turn Right",
-  "TURN_180": "Turn 180°"
+  "TURN_180": "Turn 180°",
+  "ABOUT_SOLONA": "About Solona"
 }

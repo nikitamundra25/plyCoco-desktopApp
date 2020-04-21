@@ -559,4 +559,14 @@ body {
          max-width:calc(100% - 1568px);
     }
   }
+.appointment-id-width {
+  width: 80px;
 }
+.uber-solona {
+  background: $solona_color;
+  padding: 3px 4px;
+  color: $black;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: $font_12;
+}}

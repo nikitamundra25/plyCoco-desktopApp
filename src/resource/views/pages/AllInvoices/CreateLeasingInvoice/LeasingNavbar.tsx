@@ -14,7 +14,7 @@ import left_arrow from "../../../../assets/img/leftarrow.svg";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
 
-const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceNavBar & any) => {
+const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceNavBar & any) => {
   const {
     onhandleSelection,
     careGiversOptions,
@@ -181,4 +181,4 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
   );
 };
 
-export default InvoiceNavbar;
+export default LeasingNavbar;

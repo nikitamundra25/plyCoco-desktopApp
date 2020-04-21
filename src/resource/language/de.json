@@ -1174,5 +1174,7 @@
 "SOMETHING_WENT_WRONG_": "Etwas ist schief gelaufen! Versuch es noch einmal.",
 "TURN_LEFT": "Links drehen",
 "TURN_RIGHT": "Rechts drehen",
-"TURN_180": "180° drehen"
+"TURN_180": "180° drehen",
+"MENU_LEASING_CREATE_INVOICE":"Leasingrechnung erstellen"
+
 }

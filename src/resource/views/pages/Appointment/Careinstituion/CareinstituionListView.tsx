@@ -366,6 +366,7 @@ const CarinstituionListView: FunctionComponent<
     getMoreCareInstituionList(careInstitutionList.length);
   };
   
+  console.log(selectedCellsCareinstitution,'selectedCellsCareinstitution')
   const renderTableRows = (list: any, index: any, style: any) => {
     // select careInstitution if no department is available
     // if (starCanstitution.isStar && !list ) {

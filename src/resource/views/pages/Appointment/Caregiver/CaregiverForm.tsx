@@ -297,7 +297,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       if (id) {
         data = careGiversListArr.result.filter((x: any) => x.id === id)[0];
         onhandleCaregiverStar(data, name);
-      }
+      } 
       // else if(!starMark){
       //   onhandleCaregiverStar(data, name);
       // }

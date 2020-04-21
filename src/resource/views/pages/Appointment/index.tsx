@@ -458,7 +458,7 @@ const Appointment: FunctionComponent = (props: any) => {
              let qualification = qualificationList.filter(({ value }: any) =>
              requirement.qualificationId.includes(value)
              );
-             
+
               if (selectedCareInstCells[cellIndex]) {
                 selectedCareInstCells[cellIndex] = {
                   ...selectedCareInstCells[cellIndex],
@@ -480,8 +480,6 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         });
-        console.log("selectedCareInstCells",selectedCareInstCells);
-        
         setselectedCellsCareinstitution(selectedCareInstCells);
       }
       setPage(1);
@@ -505,6 +503,9 @@ const Appointment: FunctionComponent = (props: any) => {
     onCompleted({ updateCareInstitutionRequirement }) {
       let temp: any = [],
         index: number = -1;
+        const selectedCareInstCells = selectedCellsCareinstitution
+        ? [...selectedCellsCareinstitution]
+        : [];
       if (starCanstitution && starCanstitution.isStar) {
         temp = [...careInstituionDeptData];
         index = temp.findIndex(
@@ -528,7 +529,24 @@ const Appointment: FunctionComponent = (props: any) => {
             availabilityIndex
           ] = updateCareInstitutionRequirement;
         }
+        let cellIndex: number = selectedCareInstCells.findIndex(
+          (cell: any) =>
+            cell.item && updateCareInstitutionRequirement.id === cell.item.id
+        );
+        let qualification = qualificationList.filter(({ value }: any) =>
+        updateCareInstitutionRequirement.qualificationId.includes(value)
+        );
+        if (selectedCareInstCells[cellIndex]) {
+          selectedCareInstCells[cellIndex] = {
+            ...selectedCareInstCells[cellIndex],
+            item: {
+              ...updateCareInstitutionRequirement,
+               qualificationId: qualification && qualification.length ? qualification : []
+            }
+          };
+        }
       }
+      setselectedCellsCareinstitution(selectedCareInstCells)
       // canstitutionRefetch();
     },
   });
@@ -748,7 +766,7 @@ const Appointment: FunctionComponent = (props: any) => {
     {
       data: careInstitutionList,
       loading: careinstitutionLoading,
-      refetch: canstitutionRefetch,
+      // refetch: canstitutionRefetch,
       fetchMore: fetchMoreCareInstituionList,
     },
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
@@ -2080,6 +2098,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
   };
+console.log("careinstitutionList",careinstitutionList);
 
   const updateCareInstitutionStatus = async (name: string) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
@@ -2142,7 +2161,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   setSelectedCells(temp);
                 }
               }
-              fetchingCareGiverData();
+              // fetchingCareGiverData();
             }
             if (!toast.isActive(toastId)) {
               if (name === "confirmed") {

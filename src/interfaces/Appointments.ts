@@ -223,6 +223,7 @@ export interface IAddCargiverAppointmentRes {
   userId: string;
   status: string;
   divisionId: any
+  qualificationId: any
 }
 
 export interface IReactSelectTimeInterface {

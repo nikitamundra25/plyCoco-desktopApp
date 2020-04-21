@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState, Suspense } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useHistory } from "react-router";
 import { Col, Row, Button } from "reactstrap";
 import moment from "moment";
 import { toast } from "react-toastify";
@@ -90,6 +90,10 @@ let toastId: any = null;
 const Appointment: FunctionComponent = (props: any) => {
   // To fetch id from display appointments
   const { state: locationState }: any = useLocation();
+  // To check whether it comes from caregiver or careInstitution page or not
+  const {action} = useHistory()
+  console.log(useLocation(),'++++location state++++++++');
+  
   const [daysData, setDaysData] = useState<IGetDaysArrayByMonthRes | null>(
     null
   );
@@ -1627,7 +1631,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //To set locationstate data into filter
   useEffect(() => {
-    if (locationState && locationState.caregiver) {
+    if (locationState && locationState.caregiver && action === 'PUSH') {
       setcaregiverSoloFilter({
         label: locationState.name,
         value: locationState.caregiver,

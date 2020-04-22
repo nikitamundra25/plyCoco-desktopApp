@@ -293,8 +293,8 @@ const CaregiverFormView: FunctionComponent<
     ) {
       isContract = true;
     } else if (
-      (selctedAvailability && selctedAvailability.status === "confirmed") ||
-      status === "confirmed"
+      (selctedAvailability && (selctedAvailability.status === "confirmed" ||  selctedAvailability.status === "timeSheetUpdated")) ||
+      (status === "confirmed" || status === "timeSheetUpdated")
     ) {
       isConfirm = true;
     } else if (

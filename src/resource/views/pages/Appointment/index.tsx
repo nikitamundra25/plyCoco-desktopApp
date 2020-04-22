@@ -3150,7 +3150,7 @@ const handleSubmitCaregiverForm = async (
               f: f ? "available" : isBlockeddate ? "block" : "default",
               s: s ? "available" : isBlockeddate ? "block" : "default",
               n: n ? "available" : isBlockeddate ? "block" : "default",
-              status: isWorkProofStatus? "timeSheetUpdated ": status ? status : "default",
+              status: isWorkProofStatus? "timeSheetUpdated": status ? status : "default",
               workingHoursFrom: workingHoursFromDate
                 ? `${workingHoursFromDate},${workingHoursFromTime}`
                 : null,

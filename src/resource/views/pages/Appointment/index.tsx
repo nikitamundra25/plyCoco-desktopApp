@@ -371,7 +371,9 @@ const Appointment: FunctionComponent = (props: any) => {
         if (availabilityIndex > -1) {
           temp[index].availabilityData[i][
             availabilityIndex
-          ] = updateCareGiverAvability;
+          ] = {...temp[index].availabilityData[i][
+            availabilityIndex
+          ], updateCareGiverAvability}
         }
         let cellIndex: number = selectedCaregiverCells.findIndex(
           (cell: any) =>
@@ -380,7 +382,7 @@ const Appointment: FunctionComponent = (props: any) => {
         if (selectedCaregiverCells[cellIndex]) {
           selectedCaregiverCells[cellIndex] = {
             ...selectedCaregiverCells[cellIndex],
-            item: updateCareGiverAvability,
+            item: {...selectedCaregiverCells[cellIndex].item, updateCareGiverAvability},
           };
         }
       }
@@ -767,7 +769,7 @@ const Appointment: FunctionComponent = (props: any) => {
         if (starCanstitution &&
           secondStarCanstitution && (starCanstitution.isStar || secondStarCanstitution.isStar) && deptList && deptList.length) {
              deptIndex = deptList.findIndex(
-              (ci: any) => appointment.cr && ci.userId.toString() === appointment.cr.userId
+              (ci: any) => appointment.cr && appointment.cr.division && appointment.cr.division.id === ci.id
             );
         }
         console.log(careInstIndex,'careInstIndex-----');
@@ -789,6 +791,11 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
+        console.log(deptList, deptIndex,requirementIndex,
+          requirementDataIndex,
+          availabilityDataIndex,
+          availabilityIndex, '************');
+        
         // To find the exact index of requirement in dept list
         for (
           let j = 0;
@@ -887,6 +894,8 @@ const Appointment: FunctionComponent = (props: any) => {
               },
             ],
           };
+          console.log(requirementDeptIndex, requirementDeptDataIndex, 'dept indexxxx');
+          
           if (requirementDeptIndex > -1 && requirementDeptDataIndex > -1) {
             deptList[deptIndex].availabilityData[requirementDeptDataIndex][
               requirementDeptIndex
@@ -967,7 +976,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       setSelectedCells(selectedCaregiverCells)
       setselectedCellsCareinstitution(selectedCareInstCells)
-      console.log(temp,selectedCareInstCells,careInstList,'temppppp');
+      console.log(temp,selectedCareInstCells,careInstList,deptList,'temppppp');
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('LINKED_APPOINTMENTS'));
       }
@@ -981,6 +990,8 @@ const Appointment: FunctionComponent = (props: any) => {
     appointmentInput: IUnlinkAppointmentInput;
   }>(UN_LINK_REQUIREMENT, {
     onCompleted({ deleteAppointment }: any) {
+      console.log(deleteAppointment,'deleteAppointment');
+      
       const temp = [...caregiversList];
       const careInstList: any = [...careinstitutionList];
       let deptList: any = [];
@@ -1014,7 +1025,7 @@ const Appointment: FunctionComponent = (props: any) => {
         if (starCanstitution &&
           secondStarCanstitution && (starCanstitution.isStar || secondStarCanstitution.isStar) && deptList && deptList.length) {
              deptIndex = deptList.findIndex(
-              (ci: any) => appointment.cr && ci.userId.toString() === appointment.cr.userId
+              (ci: any) => appointment.cr && appointment.cr.division && appointment.cr.division.id === ci.id
             );
         }
         // To find the exact index of requirement
@@ -1066,7 +1077,8 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
-
+        console.log('above iffff');
+        
         if (
           requirementIndex > -1 &&
           requirementDataIndex > -1 &&

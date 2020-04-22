@@ -942,7 +942,7 @@ const CaregiverFormView: FunctionComponent<
               </>
             )}
             {selctedAvailability &&
-            selctedAvailability.status === "confirmed" &&
+            (selctedAvailability.status === "confirmed" || selctedAvailability.status === 'timeSheetUpdated') &&
             new Date(activeDateCaregiver[0]) <= new Date() ? (
               <>
                 <Col lg={"12"}>

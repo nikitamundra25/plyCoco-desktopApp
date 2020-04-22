@@ -388,7 +388,8 @@ const CaregiverFormView: FunctionComponent<
                       </Label>
                     </Col>
                     <Col sm="8">
-                      <div className="required-input">
+                    <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                      <div className="required-input appointment-id-width">
                         <Input
                           type="text"
                           disabled={true}
@@ -407,6 +408,7 @@ const CaregiverFormView: FunctionComponent<
                             Plycoco
                           </div>
                         )}
+                      </div>
                     </Col>
                   </Row>
                 </FormGroup>

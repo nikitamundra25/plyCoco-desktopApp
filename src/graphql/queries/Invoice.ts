@@ -62,7 +62,51 @@ const GET_INVOICE_LIST = gql`
 }
 `;
 
+const GET_ALL_INVOICE_LIST = gql`
+  query getInvoices(
+      $status: String
+      $sortBy: Int
+      $limit: Int
+    $page: Int
+  ) {getInvoices(
+    status:  $status
+    sortBy:  $sortBy
+    page: $page
+    limit: $limit
+  ) 
+  {
+    result{
+      id
+      invoiceNumber
+      caregiverId
+      careInstitutionId
+      appointmentIds
+      status
+      amount
+      tax
+      invoiceDate
+      dueDdate
+      doubtful
+      irrecoverable
+      paymentMethod
+      invoiceType
+      subTotal
+      careGiverName
+      careInstitutionName
+      caregiver{
+        id
+      }
+      careinstitution{
+        id
+      }
+    }
+    totalCount
+  }
+}
+`;
+
 
 export const InvoiceQueries = [
-  GET_INVOICE_LIST
+  GET_INVOICE_LIST,
+  GET_ALL_INVOICE_LIST
 ];

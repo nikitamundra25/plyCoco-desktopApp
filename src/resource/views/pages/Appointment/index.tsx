@@ -566,25 +566,27 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_INSTITUTION_REQUIREMENT, {
     onCompleted({ updateCareInstitutionRequirement }) {
-      let temp: any = [],
-        index: number = -1;
+      let temp: any = [...careinstitutionList];
+      let deptList: any = [];
+      if (starCanstitution && starCanstitution.isStar && careInstituionDeptData.length) {
+        deptList = [...careInstituionDeptData];
+      } 
       const selectedCareInstCells = selectedCellsCareinstitution
-        ? [...selectedCellsCareinstitution]
-        : [];
-      if (starCanstitution && starCanstitution.isStar) {
-        temp = [...careInstituionDeptData];
-        index = temp.findIndex(
-          (careInst: any) =>
-            careInst.deptId === updateCareInstitutionRequirement.divisionId
-        );
-      } else {
-        console.log("updateCareInstitutionRequirement",updateCareInstitutionRequirement);
-        temp = [...careinstitutionList];
+      ? [...selectedCellsCareinstitution]
+      : [];
+      
+      let index: number = -1;
         index = temp.findIndex(
           (careInst: any) =>
             careInst.id === updateCareInstitutionRequirement.userId
         );
-      }
+
+        let deptIndex:number = -1;
+        if (starCanstitution && starCanstitution.isStar && deptList.length) {
+          deptIndex = deptList.findIndex(
+            (careInst: any) => careInst.deptId === updateCareInstitutionRequirement.divisionId
+          );
+        } 
       
       if( index > -1){
       for (let i = 0; i < temp[index].availabilityData.length; i++) {
@@ -615,8 +617,42 @@ const Appointment: FunctionComponent = (props: any) => {
           };
         }
       }
-      setselectedCellsCareinstitution(selectedCareInstCells);
     }
+
+      if(deptIndex > -1 ){
+    if (starCanstitution && starCanstitution.isStar && deptList.length && deptList[deptIndex].availabilityData) {
+      for (let i = 0; i < deptList[deptIndex].availabilityData.length; i++) {
+        let element: any[] = [...deptList[deptIndex].availabilityData[i]];
+        let availabilityIndex: number = element.findIndex(
+          (e: any) => e.id === updateCareInstitutionRequirement.id
+        );
+        if (availabilityIndex > -1) {
+          temp[index].availabilityData[i][
+            availabilityIndex
+          ] = updateCareInstitutionRequirement;
+        }
+        let cellIndex: number = selectedCareInstCells.findIndex(
+          (cell: any) =>
+            cell.item && updateCareInstitutionRequirement.id === cell.item.id
+        );
+        let qualification = qualificationList.filter(({ value }: any) =>
+          updateCareInstitutionRequirement.qualificationId.includes(value)
+        );
+        if (selectedCareInstCells[cellIndex]) {
+          selectedCareInstCells[cellIndex] = {
+            ...selectedCareInstCells[cellIndex],
+            item: {
+              ...updateCareInstitutionRequirement,
+              qualificationId:
+                qualification && qualification.length ? qualification : [],
+            },
+          };
+        }
+      }
+    }
+  }
+    setselectedCellsCareinstitution(selectedCareInstCells);
+
       // canstitutionRefetch();
     },
   });

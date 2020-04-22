@@ -54,7 +54,7 @@ const Cell = ({
       isMatching = true;
     } else if (item.status === 'contract') {
       isContract = true;
-    } else if (item.status === 'confirmed') {
+    } else if (item.status === 'confirmed' || item.status === 'timeSheetUpdated') {
       isConfirm = true;
     } else if (item.status === 'contractcancelled') {
       isContractCancel = true;
@@ -64,6 +64,7 @@ const Cell = ({
       isSingleButtonAccepted = true;
     }
   }
+  
   return (
     <>
       <div

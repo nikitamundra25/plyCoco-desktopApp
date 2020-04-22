@@ -429,14 +429,15 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         settotalAmount(totalAmount)
         const invoiceInput: any = {
           caregiverId: singleCareGiverData[singleCareGiverData.length - 1],
-          careInstitutionId: singleCareGiverData[singleCareGiverData.length - 1],
+          careInstitutionId: singleCareInstData[singleCareInstData.length - 1],
           appointmentIds: selectedAppointmentId,
           status: "unpaid",
           subTotal: `${subTotal}`,
           amount: `${totalAmount}`,
           tax: `${subTotal * 0.19}`,
           careInstitutionName: "Gunjali9989",
-          careGiverName: "aayushi"
+          careGiverName: "aayushi",
+          invoiceType: "selfEmployeed"
         }
         await CreateInvoice({
           variables: {

@@ -108,8 +108,11 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                 //Find Total Ammount
                 let totalAmount: number = 0
                 if (list && list.ca) {
-                  totalAmount = (list.ca.fee * 100)
+                  totalAmount = (list.ca.fee * 100) + (list.ca.distanceInKM ? list.ca.distanceInKM : 0 * list.ca.feePerKM ? list.ca.feePerKM : 0) + (list.ca && list.ca.otherExpenses ? list.ca.otherExpenses : 0) +
+                    (list.ca && list.ca.workingHoursFrom ? (4 * parseFloat(diffDate)).toFixed(2) : 0)
                 }
+                console.log("++++++++++++++++++++", list);
+
                 return (
                   <tr className="sno-col" key={index}>
                     <td className="checkbox-th-column text-center">
@@ -142,9 +145,9 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                     <td className="price-col">{list.ca && list.ca.distanceInKM ? list.ca.distanceInKM : "-"} </td>
                     <td className="price-col">{list.ca && list.ca.feePerKM ? <>{list.ca.feePerKM}&euro;</> : "-"} </td>
                     <td className="price-col">{list.ca && list.ca.otherExpenses ? <>{list.ca.otherExpenses} &euro;</> : <>00.00 &euro;</>} </td>
-                    <td className="price-col">{list.ca && (list.ca.distanceInKM && list.ca.feePerKM) || list.ca &&list.ca.otherExpenses ? (list.ca.distanceInKM ? list.ca.distanceInKM : 0 * list.ca.feePerKM ? list.ca.feePerKM : 0) + (list.ca.otherExpenses ? list.ca.otherExpenses : 0) : "00"}.00 &euro;</td>
-                    <td className="price-col">{list.ca && list.ca.workingHoursFrom ? <>{(4 * parseFloat(diffDate)).toFixed(2)}</> : <>00</>}.00 &euro;</td>
-                    <td className="price-col">{totalAmount}.00 &euro;</td>
+                    <td className="price-col">{list.ca && ((list.ca.distanceInKM && list.ca.feePerKM) || (list.ca.otherExpenses)) ? ((list.ca.distanceInKM ? list.ca.distanceInKM : 0) * (list.ca.feePerKM ? list.ca.feePerKM : 0)) + (list.ca && list.ca.otherExpenses ? list.ca.otherExpenses : 0) : "00"}.00 &euro;</td>
+                    <td className="price-col">{list.ca && list.ca.workingHoursFrom ? <>{(4 * parseFloat(diffDate)).toFixed(2)}</> : <>00.00</>} &euro;</td>
+                    <td className="price-col">{totalAmount} &euro;</td>
                     <td className="action-col">
                       <div className="action-btn">
                         <span className="btn-icon mr-2" id={`viewcaregiver`}

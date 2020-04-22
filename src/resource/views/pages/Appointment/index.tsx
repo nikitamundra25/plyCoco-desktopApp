@@ -772,7 +772,6 @@ const Appointment: FunctionComponent = (props: any) => {
               (ci: any) => appointment.cr && appointment.cr.division && appointment.cr.division.id === ci.id
             );
         }
-        console.log(careInstIndex,'careInstIndex-----');
         
         // To find the exact index of requirement in care Institution list
         for (
@@ -791,11 +790,7 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
-        console.log(deptList, deptIndex,requirementIndex,
-          requirementDataIndex,
-          availabilityDataIndex,
-          availabilityIndex, '************');
-        
+      
         // To find the exact index of requirement in dept list
         for (
           let j = 0;
@@ -894,7 +889,6 @@ const Appointment: FunctionComponent = (props: any) => {
               },
             ],
           };
-          console.log(requirementDeptIndex, requirementDeptDataIndex, 'dept indexxxx');
           
           if (requirementDeptIndex > -1 && requirementDeptDataIndex > -1) {
             deptList[deptIndex].availabilityData[requirementDeptDataIndex][
@@ -990,7 +984,6 @@ const Appointment: FunctionComponent = (props: any) => {
     appointmentInput: IUnlinkAppointmentInput;
   }>(UN_LINK_REQUIREMENT, {
     onCompleted({ deleteAppointment }: any) {
-      console.log(deleteAppointment,'deleteAppointment');
       
       const temp = [...caregiversList];
       const careInstList: any = [...careinstitutionList];
@@ -1077,7 +1070,6 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
-        console.log('above iffff');
         
         if (
           requirementIndex > -1 &&
@@ -1086,11 +1078,7 @@ const Appointment: FunctionComponent = (props: any) => {
           availabilityIndex > -1
         )  {
           // To add the appoitments after connection
-      console.log("careInstList",careInstList);
       
-          console.log("jjjj",careInstList[careInstIndex].availabilityData[
-            requirementDataIndex
-          ][requirementIndex]);
           // To update data in caregiver list
           temp[caregiverIndex].availabilityData[availabilityDataIndex][
             availabilityIndex
@@ -1112,7 +1100,7 @@ const Appointment: FunctionComponent = (props: any) => {
             appointments: []
           };
           if (requirementDeptIndex > -1 && requirementDeptDataIndex > -1) {
-            console.log('in if');
+       
             
             deptList[deptIndex].availabilityData[requirementDeptDataIndex][
               requirementDeptIndex
@@ -1124,23 +1112,20 @@ const Appointment: FunctionComponent = (props: any) => {
               appointments: []
             };
           }
-          console.log('deptList******', deptList);
           
           if (deleteAll) {
             if (unlinkedBy === "caregiver" || unlinkedBy==="employee") {
-              console.log('if unlinked by employee');
+              
               
               temp[caregiverIndex].availabilityData[availabilityDataIndex].splice(availabilityIndex,1)
               setSelectedCells([]);
             } 
             if (unlinkedBy === "canstitution" || unlinkedBy==="employee") {
-              console.log('if unlinked by employee careInst');
               careInstList[careInstIndex].availabilityData[requirementDataIndex].splice(requirementIndex, 1)
               if (starCanstitution &&
                 secondStarCanstitution && (starCanstitution.isStar || secondStarCanstitution.isStar) && deptList && deptList.length) {
                   deptList[deptIndex].availabilityData[requirementDeptDataIndex].splice(requirementDeptIndex, 1)
               }
-              console.log(careInstList,'after unlink');
               
               setselectedCellsCareinstitution([]);
             }
@@ -2038,9 +2023,10 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       }else{
         console.log("call api here");
+        
         fetchAppointmentFilterById({
           variables: {
-            id: parseInt(appointId[0].avabilityId),
+            id: name === "careinstitution" ? parseInt(appointId[0].avabilityId): parseInt(appointId[0].requirementId),
             searchIn: name === "careinstitution" ? "avability": "requirement"
           }
         });

@@ -430,26 +430,36 @@ const Appointment: FunctionComponent = (props: any) => {
   >(ADD_INSTITUTION_REQUIREMENT, {
     onCompleted({ addCareInstitutionRequirement }) {
       if (careinstitutionList && careinstitutionList.length) {
-        let temp: any = [];
-        if (starCanstitution && starCanstitution.isStar) {
-          temp = [...careInstituionDeptData];
-        } else {
-          temp = [...careinstitutionList];
-        }
+        let temp: any = [...careinstitutionList];
+        let deptList: any = [];
+        if (starCanstitution && starCanstitution.isStar && careInstituionDeptData.length) {
+          deptList = [...careInstituionDeptData];
+        } 
+        console.log(deptList,'deptList---');
+        
+        // else {
+        //   temp = [...careinstitutionList];
+        // }
         const selectedCareInstCells = selectedCellsCareinstitution
           ? [...selectedCellsCareinstitution]
           : [];
         addCareInstitutionRequirement.forEach((requirement: any) => {
-          let index: number = -1;
-          if (starCanstitution && starCanstitution.isStar) {
-            index = temp.findIndex(
+          let index: number = temp.findIndex(
+                (careInst: any) => careInst.id === requirement.userId
+              );
+          let deptIndex:number = -1;
+          if (starCanstitution && starCanstitution.isStar && deptList.length) {
+            deptIndex = deptList.findIndex(
               (careInst: any) => careInst.deptId === requirement.divisionId
             );
-          } else {
-            index = temp.findIndex(
-              (careInst: any) => careInst.id === requirement.userId
-            );
-          }
+          } 
+          console.log(deptIndex,'deptIndex');
+          
+          // else {
+          //   index = temp.findIndex(
+          //     (careInst: any) => careInst.id === requirement.userId
+          //   );
+          // }
 
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
@@ -484,7 +494,48 @@ const Appointment: FunctionComponent = (props: any) => {
                   moment(e.date).isSame(moment(requirement.date), "day")
                 ).length === 0
               ) {
+                console.log('in ifffffff');
                 temp[index].availabilityData[i] = [...element, requirement];
+                break;
+              }
+            }
+          }
+          console.log(temp,'temp++++++++');
+          
+          if (starCanstitution && starCanstitution.isStar && deptList.length && deptList[deptIndex].availabilityData) {
+            for (let i = 0; i < deptList[deptIndex].availabilityData.length; i++) {
+              let element: any[] = [...deptList[deptIndex].availabilityData[i]];
+              let cellIndex: number = selectedCareInstCells.findIndex(
+                (cell: any) =>
+                  moment(requirement.date).isSame(
+                    moment(cell.dateString),
+                    "day"
+                  )
+              );
+
+              let qualification = qualificationList.filter(({ value }: any) =>
+                requirement.qualificationId.includes(value)
+              );
+
+              if (selectedCareInstCells[cellIndex]) {
+                selectedCareInstCells[cellIndex] = {
+                  ...selectedCareInstCells[cellIndex],
+                  item: {
+                    ...requirement,
+                    qualificationId:
+                      qualification && qualification.length
+                        ? qualification
+                        : [],
+                  },
+                };
+              }
+              // To check this row have this date entry or not
+              if (
+                element.filter((e: any) =>
+                  moment(e.date).isSame(moment(requirement.date), "day")
+                ).length === 0
+              ) {
+                deptList[deptIndex].availabilityData[i] = [...element, requirement];
                 break;
               }
             }
@@ -614,15 +665,26 @@ const Appointment: FunctionComponent = (props: any) => {
     onCompleted({ addAppointment }: any) {
       const temp = [...caregiversList];
       const careInstList: any = [...careinstitutionList];
+      let deptList: any = [];
+      if (starCanstitution &&
+        secondStarCanstitution && (starCanstitution.isStar || secondStarCanstitution.isStar) && careInstituionDeptData && careInstituionDeptData.length) {
+        deptList = [...careInstituionDeptData]
+      }
+      // starCanstitution &&
+      // secondStarCanstitution && (starCanstitution.isStar || secondStarCanstitution.isStar) && careInstituionDeptData && careInstituionDeptData.length ? [...careInstituionDeptData] : [...careinstitutionList];
       const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
       const selectedCareInstCells = selectedCellsCareinstitution
         ? [...selectedCellsCareinstitution]
         : [];
+      console.log(careInstList,'careInstList');
+      
       addAppointment.forEach((appointment: any) => {
         let availabilityDataIndex: number = -1;
         let requirementDataIndex: number = -1;
+        let requirementDeptDataIndex: number = -1;
         let availabilityIndex: number = -1;
         let requirementIndex: number = -1;
+        let requirementDeptIndex: number = -1;
         // To find index of particular caregiver in list
         let caregiverIndex: number = temp.findIndex(
           (caregiver: any) =>
@@ -630,12 +692,22 @@ const Appointment: FunctionComponent = (props: any) => {
         );
         // To find index of particular care institution in list
         let careInstIndex: number = careInstList.findIndex(
-          (ci: any) => appointment.cr && ci.id === appointment.cr.userId
+          (ci: any) => appointment.cr && (ci.id === appointment.cr.userId)
         );
-        // To find the exact index of requirement
+        let deptIndex: number = -1;
+        // To find index of particular care institution dept in list
+        if (starCanstitution &&
+          secondStarCanstitution && (starCanstitution.isStar || secondStarCanstitution.isStar) && deptList && deptList.length) {
+             deptIndex = deptList.findIndex(
+              (ci: any) => appointment.cr && ci.userId.toString() === appointment.cr.userId
+            );
+        }
+        console.log(careInstIndex,'careInstIndex-----');
+        
+        // To find the exact index of requirement in care Institution list
         for (
           let j = 0;
-          j < careInstList[careInstIndex].availabilityData.length;
+          careInstIndex > -1 && j < careInstList[careInstIndex].availabilityData.length;
           j++
         ) {
           let requirementRows: any[] = [
@@ -646,6 +718,23 @@ const Appointment: FunctionComponent = (props: any) => {
           );
           if (requirementIndex > -1) {
             requirementDataIndex = j;
+            break;
+          }
+        }
+        // To find the exact index of requirement in dept list
+        for (
+          let j = 0;
+          deptIndex > -1 && j < deptList[deptIndex].availabilityData.length;
+          j++
+        ) {
+          let requirementRows: any[] = [
+            ...deptList[deptIndex].availabilityData[j],
+          ];
+          requirementDeptIndex = requirementRows.findIndex(
+            (e: any) => e.id === appointment.requirementId
+          );
+          if (requirementDeptIndex > -1) {
+            requirementDeptDataIndex = j;
             break;
           }
         }
@@ -730,6 +819,28 @@ const Appointment: FunctionComponent = (props: any) => {
               },
             ],
           };
+          if (requirementDeptIndex > -1 && requirementDeptDataIndex > -1) {
+            deptList[deptIndex].availabilityData[requirementDeptDataIndex][
+              requirementDeptIndex
+            ] = {
+              ...deptList[deptIndex].availabilityData[
+                requirementDeptDataIndex
+              ][requirementDeptIndex],
+              status: "linked",
+              appointments: [
+                {
+                  ...appointment,
+                  ca: {
+                    ...appointment.ca,
+                    name: [
+                      temp[caregiverIndex].lastName,
+                      temp[caregiverIndex].firstName,
+                    ].join(" "),
+                  },
+                },
+              ],
+            };
+          }
           // To update the selected caregiver & careInst cell
           let cellIndex: number = selectedCaregiverCells.findIndex(
             (cell: any) => cell.item && appointment.avabilityId === cell.item.id
@@ -2237,7 +2348,8 @@ const Appointment: FunctionComponent = (props: any) => {
             },
           },
         ];
-
+        console.log(data, temp, 'in dept use effect');
+        
         if (
           selectedCellsCareinstitution &&
           selectedCellsCareinstitution.length

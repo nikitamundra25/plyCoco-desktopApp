@@ -2588,28 +2588,32 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   }, [careInstituionShift]);
 
+
   // to update caregiver status as set on confirmed or reset confirmed
   const updateCaregiverStatus = async (name: string) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async (element) => {
-        const { item } = element;
-        if (item && item.id) {
+        const { item , id} = element;
+        const Item = {...item}
+        if (Item && Item.id) {
           if (
             name === 'confirmed'
-              ? item.status === 'linked'
-              : item.status === 'confirmed'
+              ? Item.status === 'linked'
+              : Item.status === 'confirmed'
           ) {
-            let availabilityId: number = item.id ? parseInt(item.id) : 0;
-            delete item.id;
-            delete item.__typename;
-            delete item.appointments;
-            delete item.division;
-            delete item.qualificationId;
+            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+            delete Item.id;
+            delete Item.__typename;
+            delete Item.appointments;
+            delete Item.division;
+            delete Item.qualificationId;
+            delete Item.lastName;
             await updateCaregiver({
               variables: {
                 id: availabilityId,
                 careGiverAvabilityInput: {
-                  ...item,
+                  ...Item,
+                  userId: id,
                   status: name === 'confirmed' ? 'confirmed' : 'linked',
                 },
               },
@@ -2945,9 +2949,10 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
     //  setcareinstitutionList()
-    console.log('handleFirstStarCanstitution', starCanstitution, index);
+  
     
     if (!starCanstitution.isStar) {
+      
       if (index < 0) {
         setcareinstitutionSoloFilter({
           label:list ? list.id : '',
@@ -2960,6 +2965,7 @@ const Appointment: FunctionComponent = (props: any) => {
         id: list ? list.id : '',
       });
     } else {
+      
       if (
         careinstitutionSoloFilter && careinstitutionSoloFilter.value && careinstitutionList && careinstitutionList.length === 1) {
         await setcareinstitutionSoloFilter(undefined);

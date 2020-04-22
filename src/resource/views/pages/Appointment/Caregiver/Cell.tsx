@@ -64,7 +64,6 @@ const Cell = ({
       isSingleButtonAccepted = true;
     }
   }
-  console.log("item",item);
   
   return (
     <>

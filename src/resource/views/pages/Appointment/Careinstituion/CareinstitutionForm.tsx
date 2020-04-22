@@ -152,7 +152,9 @@ console.log(selctedRequirement,'selctedRequirement');
       careInstitutionListArr && careInstitutionListArr.result
         ? careInstitutionListArr.result
         : {};
-    if (id) {
+        console.log("careInstitutionListArr",careInstitutionListArr && careInstitutionListArr.result ? careInstitutionListArr.result : {});
+        
+    if (id && careInstitutionListArr && careInstitutionListArr.result && careInstitutionListArr && careInstitutionListArr.result.length) {
       data = careInstitutionListArr.result.filter((x: any) => x.id === id)[0];
       let index = careInstitutionListArr.result.findIndex(
         (el: any) => el.id === id

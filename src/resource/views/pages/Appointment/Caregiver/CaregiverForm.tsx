@@ -293,8 +293,8 @@ const CaregiverFormView: FunctionComponent<
     ) {
       isContract = true;
     } else if (
-      (selctedAvailability && selctedAvailability.status === "confirmed") ||
-      status === "confirmed"
+      (selctedAvailability && (selctedAvailability.status === "confirmed" ||  selctedAvailability.status === "timeSheetUpdated")) ||
+      (status === "confirmed" || status === "timeSheetUpdated")
     ) {
       isConfirm = true;
     } else if (
@@ -438,7 +438,9 @@ const CaregiverFormView: FunctionComponent<
                             name
                               ? onhandleCaregiverStar(
                                   selectedCareGiver ? selectedCareGiver.id : "",
-                                  false
+                                  false, careGiversListArr && careGiversListArr.result && careGiversListArr.result.length ?careGiversListArr.result.findIndex(
+                                    (cg: any) => selectedCareGiver && cg.id === selectedCareGiver.id
+                                  ) < 0 ? true : false : false
                                 )
                               : // handleUserList(
                                 //   selectedCareGiver ? selectedCareGiver.id : '',
@@ -942,7 +944,7 @@ const CaregiverFormView: FunctionComponent<
               </>
             )}
             {selctedAvailability &&
-            selctedAvailability.status === "confirmed" &&
+            (selctedAvailability.status === "confirmed" || selctedAvailability.status === 'timeSheetUpdated') &&
             new Date(activeDateCaregiver[0]) <= new Date() ? (
               <>
                 <Col lg={"12"}>

@@ -368,23 +368,26 @@ const Appointment: FunctionComponent = (props: any) => {
         let availabilityIndex: number = element.findIndex(
           (e: any) => e.id === updateCareGiverAvability.id
         );
+        console.log(updateCareGiverAvability,'updateCareGiverAvability');
         if (availabilityIndex > -1) {
           temp[index].availabilityData[i][
             availabilityIndex
           ] = {...temp[index].availabilityData[i][
             availabilityIndex
-          ], updateCareGiverAvability}
+          ], ...updateCareGiverAvability}
+          break;
         }
-        let cellIndex: number = selectedCaregiverCells.findIndex(
-          (cell: any) =>
-            cell.item && updateCareGiverAvability.id === cell.item.id
+      }
+      console.log(temp,'temppppp');
+      let cellIndex: number = selectedCaregiverCells.findIndex(
+        (cell: any) =>
+        cell.item && updateCareGiverAvability.id === cell.item.id
         );
         if (selectedCaregiverCells[cellIndex]) {
-          selectedCaregiverCells[cellIndex] = {
-            ...selectedCaregiverCells[cellIndex],
-            item: {...selectedCaregiverCells[cellIndex].item, updateCareGiverAvability},
-          };
-        }
+        selectedCaregiverCells[cellIndex] = {
+          ...selectedCaregiverCells[cellIndex],
+          item: {...selectedCaregiverCells[cellIndex].item, ...updateCareGiverAvability},
+        };
       }
       setSelectedCells(selectedCaregiverCells);
     }
@@ -609,27 +612,19 @@ const Appointment: FunctionComponent = (props: any) => {
         let availabilityIndex: number = element.findIndex(
           (e: any) => e.id === updateCareInstitutionRequirement.id
         );
+        // if (availabilityIndex > -1) {
+        //   temp[index].availabilityData[i][
+        //     availabilityIndex
+        //   ] = updateCareInstitutionRequirement;
+        // }
+
         if (availabilityIndex > -1) {
           temp[index].availabilityData[i][
             availabilityIndex
-          ] = updateCareInstitutionRequirement;
-        }
-        let cellIndex: number = selectedCareInstCells.findIndex(
-          (cell: any) =>
-            cell.item && updateCareInstitutionRequirement.id === cell.item.id
-        );
-        let qualification = qualificationList.filter(({ value }: any) =>
-          updateCareInstitutionRequirement.qualificationId.includes(value)
-        );
-        if (selectedCareInstCells[cellIndex]) {
-          selectedCareInstCells[cellIndex] = {
-            ...selectedCareInstCells[cellIndex],
-            item: {
-              ...updateCareInstitutionRequirement,
-              qualificationId:
-                qualification && qualification.length ? qualification : [],
-            },
-          };
+          ] = {...temp[index].availabilityData[i][
+            availabilityIndex
+          ], ...updateCareInstitutionRequirement}
+          break;
         }
       }
     }
@@ -643,31 +638,60 @@ const Appointment: FunctionComponent = (props: any) => {
           (e: any) => e.id === updateCareInstitutionRequirement.id
         );
         
+        // if (availabilityIndex > -1) {
+        //   deptList[deptIndex].availabilityData[i][
+        //     availabilityIndex
+        //   ] = updateCareInstitutionRequirement;
+        // }
+
         if (availabilityIndex > -1) {
           deptList[deptIndex].availabilityData[i][
             availabilityIndex
-          ] = updateCareInstitutionRequirement;
+          ] = {...deptList[deptIndex].availabilityData[i][
+            availabilityIndex
+          ], ...updateCareInstitutionRequirement}
+          break;
         }
-        let cellIndex: number = selectedCareInstCells.findIndex(
-          (cell: any) =>
-            cell.item && updateCareInstitutionRequirement.divisionId === cell.item.id
-        );
-        let qualification = qualificationList.filter(({ value }: any) =>
-          updateCareInstitutionRequirement.qualificationId.includes(value)
-        );
-        if (selectedCareInstCells[cellIndex]) {
-          selectedCareInstCells[cellIndex] = {
-            ...selectedCareInstCells[cellIndex],
-            item: {
-              ...updateCareInstitutionRequirement,
-              qualificationId:
-                qualification && qualification.length ? qualification : [],
-            },
-          };
-        }
+
+        // let cellIndex: number = selectedCareInstCells.findIndex(
+        //   (cell: any) =>
+        //     cell.item && updateCareInstitutionRequirement.divisionId === cell.item.id
+        // );
+        // let qualification = qualificationList.filter(({ value }: any) =>
+        //   updateCareInstitutionRequirement.qualificationId.includes(value)
+        // );
+        // if (selectedCareInstCells[cellIndex]) {
+        //   selectedCareInstCells[cellIndex] = {
+        //     ...selectedCareInstCells[cellIndex],
+        //     item: {
+        //       ...updateCareInstitutionRequirement,
+        //       qualificationId:
+        //         qualification && qualification.length ? qualification : [],
+        //     },
+        //   };
+        // }
       }
     }
   }
+  let cellIndex: number = selectedCareInstCells.findIndex(
+    (cell: any) =>
+       cell.item && updateCareInstitutionRequirement.id === cell.item.id
+   );
+   let qualification = qualificationList.filter(({ value }: any) =>
+     updateCareInstitutionRequirement.qualificationId.includes(value)
+   );
+  
+   if (selectedCareInstCells[cellIndex]) {
+     selectedCareInstCells[cellIndex] = {
+       ...selectedCareInstCells[cellIndex],
+       item: {
+         ...selectedCareInstCells[cellIndex].item,
+         ...updateCareInstitutionRequirement,
+         qualificationId:
+           qualification && qualification.length ? qualification : [],
+       },
+     };
+   } 
     setselectedCellsCareinstitution(selectedCareInstCells);
 
       // canstitutionRefetch();
@@ -1570,6 +1594,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
       setselectedCellsCareinstitution(careinstitutionvalue);
       const {
+        userId:caregiverUserId = '',
         f = '',
         s = '',
         n = '',
@@ -1603,7 +1628,8 @@ const Appointment: FunctionComponent = (props: any) => {
       } = selectedCells && selectedCells.length ? selectedCells[0] : {};
       let caregiverdata: any = [
         {
-          id: ID,
+          // id: ID,
+          id:caregiverUserId,
           caregiver: {
             ...caregiverData,
           },
@@ -2048,14 +2074,20 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  const onhandleCaregiverStar = async (id: string, isSecondStar: boolean) => {
-    console.log(starMarkCaregiver, "starMarkCaregiver");
+  const onhandleCaregiverStar = async (id: string, isSecondStar: boolean, isNotExistInList:boolean = false) => {
+    console.log(starMarkCaregiver, "starMarkCaregiver", id, 'idddddddddddd',isNotExistInList);
 
     // if (starMarkCaregiver && caregiverSoloFilter && caregiverSoloFilter.value) {
     //   console.log('in ifffff');
 
     // }
     if (starCaregiver && (!starCaregiver.isStar || isSecondStar)) {
+      if (isNotExistInList) {
+        setcaregiverSoloFilter({
+          label:id,
+          value:id
+        })
+      }
       // setstarMarkCaregiver(!starMarkCaregiver);
       setstarCaregiver({
         isStar: true,
@@ -2561,28 +2593,32 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   }, [careInstituionShift]);
 
+
   // to update caregiver status as set on confirmed or reset confirmed
   const updateCaregiverStatus = async (name: string) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async (element) => {
-        const { item } = element;
-        if (item && item.id) {
+        const { item , id} = element;
+        const Item = {...item}
+        if (Item && Item.id) {
           if (
             name === 'confirmed'
-              ? item.status === 'linked'
-              : item.status === 'confirmed'
+              ? Item.status === 'linked'
+              : Item.status === 'confirmed'
           ) {
-            let availabilityId: number = item.id ? parseInt(item.id) : 0;
-            delete item.id;
-            delete item.__typename;
-            delete item.appointments;
-            delete item.division;
-            delete item.qualificationId;
+            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+            delete Item.id;
+            delete Item.__typename;
+            delete Item.appointments;
+            delete Item.division;
+            delete Item.qualificationId;
+            delete Item.lastName;
             await updateCaregiver({
               variables: {
                 id: availabilityId,
                 careGiverAvabilityInput: {
-                  ...item,
+                  ...Item,
+                  userId: id,
                   status: name === 'confirmed' ? 'confirmed' : 'linked',
                 },
               },
@@ -2918,9 +2954,10 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
     //  setcareinstitutionList()
-    console.log('handleFirstStarCanstitution', starCanstitution, index);
+  
     
     if (!starCanstitution.isStar) {
+      
       if (index < 0) {
         setcareinstitutionSoloFilter({
           label:list ? list.id : '',
@@ -2933,6 +2970,7 @@ const Appointment: FunctionComponent = (props: any) => {
         id: list ? list.id : '',
       });
     } else {
+      
       if (
         careinstitutionSoloFilter && careinstitutionSoloFilter.value && careinstitutionList && careinstitutionList.length === 1) {
         await setcareinstitutionSoloFilter(undefined);
@@ -3147,7 +3185,7 @@ const handleSubmitCaregiverForm = async (
               f: f ? "available" : isBlockeddate ? "block" : "default",
               s: s ? "available" : isBlockeddate ? "block" : "default",
               n: n ? "available" : isBlockeddate ? "block" : "default",
-              status: isWorkProofStatus? "timeSheetUpdated ": status ? status : "default",
+              status: isWorkProofStatus? "timeSheetUpdated": status ? status : "default",
               workingHoursFrom: workingHoursFromDate
                 ? `${workingHoursFromDate},${workingHoursFromTime}`
                 : null,
@@ -4305,6 +4343,7 @@ const handleSubmitCaregiverForm = async (
       });
     }
   };
+  
   // function to load or search data in careinstitution dropdowwn
   const handleLoadMoreCanstitution = (input: any) => {
     console.log('input', input);

@@ -160,12 +160,14 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
       );
     }
     try {
+         // var temp to manage if shortName is not entered, store companyName.
+let temp =  values.shortName ? values.shortName.trim() : values.companyName ? values.companyName.trim() : ""
       const dataSubmit: any = {
         gender: values && values.gender ? values.gender.value : '',
         salutation: values && values.salutation ? values.salutation.value : '',
         firstName: values.firstName ? values.firstName.trim() : '',
         lastName: values.lastName ? values.lastName.trim() : '',
-        shortName: values.shortName ? values.shortName.trim() : '',
+        shortName: temp,
         companyName: values.companyName ? values.companyName.trim() : '',
         anonymousName: values.anonymousName,
         anonymousName2: values.anonymousName2,

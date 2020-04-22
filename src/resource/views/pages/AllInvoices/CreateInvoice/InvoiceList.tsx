@@ -3,14 +3,15 @@ import { UncontrolledTooltip, Table } from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 import { IInvoiceList } from "../../../../../interfaces";
 import Loader from "../../../containers/Loader/Loader";
-import { AppRoutes, PAGE_LIMIT } from "../../../../../config";
+import { AppRoutes, PAGE_LIMIT, defaultDateFormat, dbAcceptableFormat } from "../../../../../config";
 import { useHistory, useLocation } from "react-router-dom";
 import PaginationComponent from "../../../components/Pagination";
 import * as qs from "query-string";
+import moment from "moment";
 
 const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList & any) => {
   const { search, pathname } = useLocation();
-  const { invoiceListLoading, invoiceList, totalCount, currentPage, selectedAppointment, handleCheckedChange } = props;
+  const { invoiceListLoading, invoiceList, totalCount, currentPage, selectedAppointment, handleCheckedChange, careGiverHolidays } = props;
   let history = useHistory();
 
   const onPageChanged = (currentPage: number) => {
@@ -22,9 +23,6 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
   };
 
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
-
-  console.log("*************selectedAppointment", selectedAppointment);
-
   return (
     <>
       <div className="table-minheight createinvoices-table">
@@ -44,8 +42,8 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                 {languageTranslation("BREAK")} {languageTranslation("END")}
               </th>
               <th className="price-col"> {languageTranslation("PRICE")}</th>
-              <th className="price-col">{languageTranslation("NIGHT")}</th>
-              <th className="price-col">{languageTranslation("NIGHT")}</th>
+              <th className="price-col">{languageTranslation("NIGHT_PER_HOUR")}</th>
+              <th className="price-col">{languageTranslation("TOTAL_NIGHT_CHARGE")}</th>
               <th className="price-col">{languageTranslation("WEEKEND")}</th>
               <th className="price-col">{languageTranslation("WEEKEND")}</th>
               <th className="price-col">{languageTranslation("HOLIDAY")}</th>
@@ -70,7 +68,24 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
               </tr>
             ) : invoiceList && invoiceList.length ? (
               invoiceList.map((list: any, index: number) => {
-                console.log("list", list);
+                let workBegain: any, workEnd: any
+                if (list && list.ca && list.ca.workingHoursFrom) {
+                  workBegain = list.ca.workingHoursFrom.split(",")
+                  workEnd = list.ca.workingHoursTo.split(",")
+                }
+                //Combime date and time 
+                let initialdate = workBegain && workBegain.length ? workBegain[0] : null;
+                let start_time = workBegain && workBegain.length ? workBegain[1] : null;
+                let enddate = workEnd && workEnd.length ? workEnd[0] : null;
+                let end_time = workEnd && workEnd.length ? workEnd[1] : null;
+                console.log(initialdate, 'initialdate', start_time, moment(`${initialdate} ${start_time}`, `${defaultDateFormat} HH:mm`).format());
+
+                let datetimeA: any = initialdate ? moment(`${initialdate} ${start_time}`, `${defaultDateFormat} HH:mm`).format() : "";
+                let datetimeB: any = enddate ? moment(`${enddate} ${end_time}`, `${defaultDateFormat} HH:mm`).format() : null;
+
+                // let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
+                // let hours = duration ? duration.asHours() : null;
+                let diffDate: any = (new Date(datetimeB).getTime() - new Date(datetimeA).getTime()) / (3600 * 1000)
                 let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : ""
                 let timeStamp: any = ""
                 console.log("time", time);
@@ -79,10 +94,25 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                 } else {
                   let splitData = time === "f" ? "f" : time === "s" ? "s" : time === "n" ? "n" : ""
                   console.log("splitData", splitData);
-
                   // let split = time.split()
                   timeStamp = ""
                 }
+                //Show Weekend day
+                const dayData = new Date(list.date).getDay()
+                let isWeekendDay: boolean = (dayData === 6) || (dayData === 0) ? true : false
+                let hasHoliday: any
+                if (careGiverHolidays && careGiverHolidays.length) {
+                  hasHoliday = careGiverHolidays.filter((data: any) => data.date === list.date)
+                }
+
+                //Find Total Ammount
+                let totalAmount: number = 0
+                if (list && list.ca) {
+                  totalAmount = (list.ca.fee * 100) + (list.ca.distanceInKM ? list.ca.distanceInKM : 0 * list.ca.feePerKM ? list.ca.feePerKM : 0) + (list.ca && list.ca.otherExpenses ? list.ca.otherExpenses : 0) +
+                    (list.ca && list.ca.workingHoursFrom ? (4 * parseFloat(diffDate)).toFixed(2) : 0)
+                }
+                console.log("++++++++++++++++++++", list);
+
                 return (
                   <tr className="sno-col" key={index}>
                     <td className="checkbox-th-column text-center">
@@ -99,25 +129,25 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                       </span>
                     </td>
                     <td className="invoiceid-col"> {list.id}</td>
-                    <td className="h-col">{timeStamp} </td>
-                    <td className="text-col">WG in leipzig</td>
+                    <td className="h-col">{list.ca && list.ca.workingHoursFrom ? parseFloat(diffDate).toFixed(2) : "-"} </td>
+                    <td className="text-col">{list.cr && list.cr.division ? list.cr.division.name : "-"}</td>
                     <td className="datetime-col">{list.ca && list.ca.workingHoursFrom ? list.ca.workingHoursFrom : "-"} </td>
                     <td className="datetime-col">{list.ca && list.ca.workingHoursTo ? list.ca.workingHoursTo : "-"}</td>
                     <td className="datetime-col">{list.ca && list.ca.breakTo ? list.ca.breakTo : "-"}</td>
                     <td className="datetime-col">{list.ca && list.ca.breakFrom ? list.ca.breakFrom : "-"}</td>
-                    <td className="price-col">3,200.00 &euro;</td>
+                    <td className="price-col">{list.ca && list.ca.fee ? <>{list.ca.fee * 100}.00 &euro;</> : "-"}</td>
+                    <td className="price-col">{list.ca && list.ca.nightFee ? <>{list.ca.nightFee}.00 &euro;</> : "-"}</td>
                     <td className="price-col">00.00 &euro;</td>
-                    <td className="price-col">00.00 &euro;</td>
-                    <td className="price-col">00.00 &euro;</td>
-                    <td className="price-col">00.00 &euro;</td>
-                    <td className="price-col">00.00 &euro;</td>
-                    <td className="price-col">00.00 &euro;</td>
+                    <td className="price-col">{list.ca && list.ca.weekendAllowance ? <>{list.ca.weekendAllowance}.00 &euro;</> : "-"}</td>
+                    <td className="price-col">{list.ca && list.ca.weekendAllowance && isWeekendDay ? <>{(parseFloat(list.ca.weekendAllowance) * parseFloat(diffDate)).toFixed(2)} &euro;</> : <>00.00 &euro;</>}</td>
+                    <td className="price-col">{list.ca && list.ca.holidayAllowance ? <>{list.ca.holidayAllowance}.00 &euro;</> : "-"}</td>
+                    <td className="price-col">{list.ca && list.ca.holidayAllowance && hasHoliday && hasHoliday.length ? <>{(parseFloat(list.ca.holidayAllowance) * parseFloat(diffDate)).toFixed(2)} &euro;</> : <>00.00 &euro;</>}</td>
                     <td className="price-col">{list.ca && list.ca.distanceInKM ? list.ca.distanceInKM : "-"} </td>
-                    <td className="price-col">{list.ca && list.ca.feePerKM ? `${list.ca.feePerKM} &euro` : "-"} </td>
-                    <td className="price-col">{list.ca && list.ca.otherExpenses ? `${list.ca.otherExpenses} &euro` : "-"} </td>
-                    <td className="price-col">384.00 &euro;</td>
-                    <td className="price-col">384.00 &euro;</td>
-                    <td className="price-col">34584.00 &euro;</td>
+                    <td className="price-col">{list.ca && list.ca.feePerKM ? <>{list.ca.feePerKM}&euro;</> : "-"} </td>
+                    <td className="price-col">{list.ca && list.ca.otherExpenses ? <>{list.ca.otherExpenses} &euro;</> : <>00.00 &euro;</>} </td>
+                    <td className="price-col">{list.ca && ((list.ca.distanceInKM && list.ca.feePerKM) || (list.ca.otherExpenses)) ? ((list.ca.distanceInKM ? list.ca.distanceInKM : 0) * (list.ca.feePerKM ? list.ca.feePerKM : 0)) + (list.ca && list.ca.otherExpenses ? list.ca.otherExpenses : 0) : "00"}.00 &euro;</td>
+                    <td className="price-col">{list.ca && list.ca.workingHoursFrom ? <>{(4 * parseFloat(diffDate)).toFixed(2)}</> : <>00.00</>} &euro;</td>
+                    <td className="price-col">{totalAmount} &euro;</td>
                     <td className="action-col">
                       <div className="action-btn">
                         <span className="btn-icon mr-2" id={`viewcaregiver`}

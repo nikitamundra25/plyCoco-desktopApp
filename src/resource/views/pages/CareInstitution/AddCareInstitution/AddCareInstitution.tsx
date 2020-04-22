@@ -392,7 +392,6 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                     <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                       <Label className="form-label col-form-label">
                         {languageTranslation("SHORT_NAME")}
-                        <span className="required">*</span>
                       </Label>
                     </Col>
                     <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
@@ -404,18 +403,10 @@ const AddCareInstitution: FunctionComponent<FormikProps<
                           onBlur={handleBlur}
                           value={shortName}
                           placeholder={languageTranslation("SHORT_NAME")}
-                          className={
-                            errors.shortName && touched.shortName
-                              ? "text-input error text-capitalize"
-                              : "text-input text-capitalize"
-                          }
+                          className="width-common"
                           maxLength={50}
                         />
-                        {errors.shortName && touched.shortName && (
-                        <div className="required-tooltip">
-                          {errors.shortName}
-                        </div>
-                      )}
+                       
                       </div>
                     </Col>
                   </Row>

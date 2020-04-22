@@ -82,6 +82,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     updateCaregiverStatus,
     onhandleCaregiverStar,
     starMarkCaregiver,
+    starCaregiver
   } = props;
 
   const [offerRequirements, setOfferRequirements] = useState<boolean>(false);
@@ -483,8 +484,19 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       widthForMonth = 1538;
     }
   }
+  let listData = starCaregiver.isStar || starCaregiver.isSecondStar 
+  ? careGiversList.filter((cg:any) => cg.id === starCaregiver.id) :
+  careGiversList
+  // ? careInstitutionList
+  // : secondStarCanstitution.isStar
+  // ? careInstituionDeptData && careInstituionDeptData.length
+  //   ? careInstituionDeptData.filter(
+  //       (dept: any) => dept.id === secondStarCanstitution.id
+  //     )
+  //   : []
+  // : careInstituionDeptData;
   let temp: any[] = [];
-  careGiversList.forEach((element: any, index: number) => {
+  listData.forEach((element: any) => {
     element.availabilityData.forEach((item: any, row: number) => {
       temp.push({ ...element, new: item, row });
     });
@@ -568,6 +580,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   //   </Suspense>
   // }
 
+  
   return (
     <div>
       <div
@@ -1045,11 +1058,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div
                                     className='custom-appointment-col s-col text-center'
                                     onClick={() =>
-                                      onhandleCaregiverStar(list, 'caregiver')
+                                      onhandleCaregiverStar(list.id, false)
                                     }
                                   >
-                                    {starMarkCaregiver ? (
-                                      <i className='fa fa-star theme-text' />
+                                    {starCaregiver && starCaregiver.isStar && starCaregiver.id === list.id ? (
+                                      <i className="fa fa-star theme-text" />
                                     ) : (
                                       <i className='fa fa-star-o' />
                                     )}
@@ -1057,11 +1070,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div
                                     className='custom-appointment-col u-col text-center'
                                     onClick={() =>
-                                      onhandleCaregiverStar(list, 'caregiver')
+                                      onhandleCaregiverStar(list.id, starCaregiver && !starCaregiver.isSecondStar)
                                     }
                                   >
-                                    {starMarkCaregiver ? (
-                                      <i className='fa fa-star theme-text' />
+                                    {starCaregiver && starCaregiver.isSecondStar && starCaregiver.id === list.id ? (
+                                      <i className="fa fa-star theme-text" />
                                     ) : (
                                       <i className='fa fa-star-o' />
                                     )}

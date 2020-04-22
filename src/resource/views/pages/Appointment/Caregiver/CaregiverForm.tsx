@@ -39,6 +39,7 @@ import "../index.scss";
 import { LeasingContractQueries } from "../../../../../graphql/queries";
 import { useLazyQuery } from "@apollo/react-hooks";
 import MaskedInput from "react-text-mask";
+import Loader from "../../../containers/Loader/Loader";
 
 const [GET_LEASING_CONTRACT] = LeasingContractQueries;
 
@@ -125,6 +126,8 @@ const CaregiverFormView: FunctionComponent<
     breakHoursToErrMsg,
     setbreakHoursFromErrMsg,
     breakHoursFromErrMsg,
+    starCaregiver,
+    idSearchAppointmentLoading,
   } = props;
 
   let dateData =
@@ -218,7 +221,6 @@ const CaregiverFormView: FunctionComponent<
       }
     }
   };
-
   let isLeasingAppointment = false;
   // To check appointment with leasing careInst or not
   if (selectedCells && selectedCells.length) {
@@ -291,8 +293,11 @@ const CaregiverFormView: FunctionComponent<
     ) {
       isContract = true;
     } else if (
-      (selctedAvailability && selctedAvailability.status === "confirmed") ||
-      status === "confirmed"
+      (selctedAvailability &&
+        (selctedAvailability.status === "confirmed" ||
+          selctedAvailability.status === "timeSheetUpdated")) ||
+      status === "confirmed" ||
+      status === "timeSheetUpdated"
     ) {
       isConfirm = true;
     } else if (
@@ -353,6 +358,9 @@ const CaregiverFormView: FunctionComponent<
   return (
     <>
       <div className="form-section">
+        {/* {idSearchAppointmentLoading ? (
+          <Loader />
+        ) : ( */}
         <div
           className={classnames({
             "form-card custom-height custom-scrollbar": true,
@@ -367,6 +375,11 @@ const CaregiverFormView: FunctionComponent<
           <h5 className="content-title">
             {languageTranslation("MENU_CAREGIVER")}
           </h5>
+          {idSearchAppointmentLoading ? (
+            <div className="appointment-form-loader">
+              <Loader />
+            </div>
+          ) : null}
           <Row>
             {appointmentId ? (
               <Col lg={"12"}>
@@ -399,24 +412,7 @@ const CaregiverFormView: FunctionComponent<
                           </div>
                         )}
                       </div>
-                      {/* <div className='required-input'>
-                        <Input
-                          type='text'
-                          disabled={true}
-                          name={'appointmentId'}
-                          value={appointmentId ? appointmentId : null}
-                          placeholder={languageTranslation('APPOINTMENT_ID')}
-                          className='width-common'
-                        />
-                      </div> */}
                     </Col>
-                    {/* {isLeasingAppointment ? (
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                         TIMyoCY
-                        </Label>
-                      </Col>
-                    ) : null} */}
                   </Row>
                 </FormGroup>
               </Col>
@@ -443,11 +439,26 @@ const CaregiverFormView: FunctionComponent<
                           className="cursor-pointer"
                           onClick={() =>
                             name
-                              ? handleUserList(
+                              ? onhandleCaregiverStar(
                                   selectedCareGiver ? selectedCareGiver.id : "",
-                                  "caregiver"
+                                  false,
+                                  careGiversListArr &&
+                                    careGiversListArr.result &&
+                                    careGiversListArr.result.length
+                                    ? careGiversListArr.result.findIndex(
+                                        (cg: any) =>
+                                          selectedCareGiver &&
+                                          cg.id === selectedCareGiver.id
+                                      ) < 0
+                                      ? true
+                                      : false
+                                    : false
                                 )
-                              : ""
+                              : // handleUserList(
+                                //   selectedCareGiver ? selectedCareGiver.id : '',
+                                //   'caregiver'
+                                // )
+                                ""
                           }
                           // onClick={() =>
                           //   name
@@ -461,7 +472,7 @@ const CaregiverFormView: FunctionComponent<
                           <InputGroupText>
                             <i
                               className={
-                                name && starMarkCaregiver
+                                name && starCaregiver && starCaregiver.isStar
                                   ? "fa fa-star theme-text"
                                   : "fa fa-star"
                               }
@@ -945,7 +956,8 @@ const CaregiverFormView: FunctionComponent<
               </>
             )}
             {selctedAvailability &&
-            selctedAvailability.status === "confirmed" &&
+            (selctedAvailability.status === "confirmed" ||
+              selctedAvailability.status === "timeSheetUpdated") &&
             new Date(activeDateCaregiver[0]) <= new Date() ? (
               <>
                 <Col lg={"12"}>
@@ -1413,7 +1425,8 @@ const CaregiverFormView: FunctionComponent<
                   color="primary"
                   onClick={handleSubmit}
                   disabled={
-                    addCaregiverLoading /* ? true : appointmentId ? false : !dateCondition ? true : false */
+                    addCaregiverLoading
+                    // ? true : appointmentId ? false : !dateCondition ? true : false
                   }
                 >
                   {addCaregiverLoading ? (
@@ -1429,6 +1442,7 @@ const CaregiverFormView: FunctionComponent<
             </Col>
           </Row>
         </div>
+        {/* )} */}
       </div>
     </>
   );

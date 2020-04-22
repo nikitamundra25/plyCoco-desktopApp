@@ -1131,6 +1131,8 @@
   "SELECT_APPOINTMENT_LABEL": "Select appointment",
   "LAST_TIME": "Last Time",
   "SELECT_CAREINSTITUTION_FIRST": "Select careInstitution first",
+  " EDIT_EMPLOYEE": "Edit Employee",
+  " VIEW_EMPLOYEE": "View Employee",
   "NO_INVOICE_FOR_LIST": "No contract list for invoice creation",
   "ROUTE_LOGIN": "Login",
   "DASHBOARD": "Dashboard",
@@ -1174,5 +1176,18 @@
   "TURN_LEFT": "Turn Left",
   "TURN_RIGHT": "Turn Right",
   "TURN_180": "Turn 180°",
-  "MENU_LEASING_CREATE_INVOICE": "Create Leasing Invoice"
+  "MENU_LEASING_CREATE_INVOICE": "Create Leasing Invoice",
+  "QUALIFICATION_FOR_CHARGE": "Qualification for charge",
+  "QUALIFICATION_PER_HOUR": "Qualification per hour",
+  "MARGIN_PER_HOUR": "Margin per hour",
+  "NIGHT_IN_H": "Night in h",
+  "NIGNT_IN": "Night in ",
+  "SUNDAY_IN_H": "Sunday in h",
+  "SUNDAY_IN": "Sunday in ",
+  "HOLIDAY_IN_H": "Holiday in h",
+  "HOLIDAY_IN": "Holiday in ",
+  "TIMYOC_SUM": "TiMyocy sum",
+  "CAREGIVER_GROSS": "Caregiver gross/h",
+  "NIGHT_PER_HOUR": "Night/hr",
+  "TOTAL_NIGHT_CHARGE": "Total Night Charge"
 }

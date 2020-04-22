@@ -61,7 +61,7 @@ export interface IAppointmentCareGiverList {
     name: string,
     index: number
   ) => void | undefined;
-  handleSecondStar: (list: object, name: string) => void;
+  // handleSecondStar: (list: object, name: string) => void;
   handleReset: (name: string) => void;
   totalCaregiver: number;
   getNext: (skip: number) => void;
@@ -84,8 +84,9 @@ export interface IAppointmentCareGiverList {
   onTerminateAggrement: () => Promise<void>;
   locationState: any;
   careinstitutionSoloFilter: IReactSelectInterface | undefined;
-  onhandleCaregiverStar: (list: object, name: string) => void;
-  starMarkCaregiver: boolean
+  onhandleCaregiverStar: (id: string, isSecondStar:boolean) => void;
+  starMarkCaregiver: boolean;
+  starCaregiver: IStarInterface
 }
 
 export interface IAppointmentCareInstitutionList {
@@ -139,6 +140,7 @@ export interface IStarInterface {
   isStar: boolean;
   setIndex?: number;
   id: string;
+  isSecondStar?:boolean;
 }
 
 export interface ICaregiverFormValue {
@@ -223,6 +225,8 @@ export interface IAddCargiverAppointmentRes {
   id: string;
   userId: string;
   status: string;
+  divisionId: any
+  qualificationId: any
 }
 
 export interface IReactSelectTimeInterface {
@@ -238,6 +242,7 @@ export interface ICareinstitutionFormValue {
   startTime: string;
   endTime: string;
   qualificationId: IReactSelectInterface[] | undefined;
+  qualificationForCharge?:IReactSelectInterface | undefined
   address: string;
   contactPerson: string;
   departmentOfferRemarks?: string;
@@ -261,6 +266,7 @@ export interface ICareinstitutionFormSubmitValue {
   endTime: string;
   divisionId: number | null;
   qualificationId: number[];
+  qualificationForCharge?:any; 
   address: string;
   contactPerson: string;
   departmentOfferRemarks: string | null;

@@ -54,7 +54,7 @@ const Cell = ({
       isMatching = true;
     } else if (item.status === 'contract') {
       isContract = true;
-    } else if (item.status === 'confirmed') {
+    } else if (item.status === 'confirmed' || item.status === 'timeSheetUpdated') {
       isConfirm = true;
     } else if (item.status === 'contractcancelled') {
       isContractCancel = true;
@@ -64,6 +64,7 @@ const Cell = ({
       isSingleButtonAccepted = true;
     }
   }
+  
   return (
     <>
       <div
@@ -103,7 +104,10 @@ const Cell = ({
             <i className='fa fa-circle-o'></i>
           ) : item.status === 'timeSheetPending' ? (
             <i className='far fa-clock'></i>
-          ) : isBlocked ? (
+          ) :  item.status === 'timeSheetUpdated' ? (
+            <i  className="fa fa-check"></i>
+          ) :
+           isBlocked ? (
             <i className='fa fa-ban'></i>
           ) : (
                   <>

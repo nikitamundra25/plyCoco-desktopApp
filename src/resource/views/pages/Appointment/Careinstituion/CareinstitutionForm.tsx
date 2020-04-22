@@ -95,6 +95,7 @@ const CareinstitutionFormView: FunctionComponent<
     idSearchAppointmentLoading,
     selectedCellsCareinstitution
   } = props;
+console.log(selctedRequirement,'selctedRequirement');
 
   let d = moment().format("L");
   let dtStart: any = new Date(d + " " + startTime);
@@ -156,7 +157,7 @@ const CareinstitutionFormView: FunctionComponent<
       let index = careInstitutionListArr.result.findIndex(
         (el: any) => el.id === id
       );
-      handleFirstStarCanstitution(data, index);
+      handleFirstStarCanstitution({id}, index);
     }
   };
 

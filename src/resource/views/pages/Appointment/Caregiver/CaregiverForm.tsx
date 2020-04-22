@@ -438,7 +438,9 @@ const CaregiverFormView: FunctionComponent<
                             name
                               ? onhandleCaregiverStar(
                                   selectedCareGiver ? selectedCareGiver.id : "",
-                                  false
+                                  false, careGiversListArr && careGiversListArr.result && careGiversListArr.result.length ?careGiversListArr.result.findIndex(
+                                    (cg: any) => selectedCareGiver && cg.id === selectedCareGiver.id
+                                  ) < 0 ? true : false : false
                                 )
                               : // handleUserList(
                                 //   selectedCareGiver ? selectedCareGiver.id : '',

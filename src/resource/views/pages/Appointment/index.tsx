@@ -368,23 +368,26 @@ const Appointment: FunctionComponent = (props: any) => {
         let availabilityIndex: number = element.findIndex(
           (e: any) => e.id === updateCareGiverAvability.id
         );
+        console.log(updateCareGiverAvability,'updateCareGiverAvability');
         if (availabilityIndex > -1) {
           temp[index].availabilityData[i][
             availabilityIndex
           ] = {...temp[index].availabilityData[i][
             availabilityIndex
-          ], updateCareGiverAvability}
+          ], ...updateCareGiverAvability}
+          break;
         }
-        let cellIndex: number = selectedCaregiverCells.findIndex(
-          (cell: any) =>
-            cell.item && updateCareGiverAvability.id === cell.item.id
+      }
+      console.log(temp,'temppppp');
+      let cellIndex: number = selectedCaregiverCells.findIndex(
+        (cell: any) =>
+        cell.item && updateCareGiverAvability.id === cell.item.id
         );
         if (selectedCaregiverCells[cellIndex]) {
-          selectedCaregiverCells[cellIndex] = {
-            ...selectedCaregiverCells[cellIndex],
-            item: {...selectedCaregiverCells[cellIndex].item, updateCareGiverAvability},
-          };
-        }
+        selectedCaregiverCells[cellIndex] = {
+          ...selectedCaregiverCells[cellIndex],
+          item: {...selectedCaregiverCells[cellIndex].item, ...updateCareGiverAvability},
+        };
       }
       setSelectedCells(selectedCaregiverCells);
     }

@@ -261,12 +261,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
+                  <Col sm="4">
                     <Label className="form-label col-form-label">
                       {languageTranslation("NAME")}
                     </Label>
                   </Col>
-                  <Col sm="7">
+                  <Col sm="8">
                     <div className="required-input">
                       <InputGroup>
                         <Input
@@ -313,12 +313,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
+                  <Col sm="4">
                     <Label className="form-label col-form-label">
                       {languageTranslation("DATE")}
                     </Label>
                   </Col>
-                  <Col sm="7">
+                  <Col sm="8">
                     <div className="text-value one-line-text">
                       {activeDateCareinstitution
                         ? activeDateCareinstitution
@@ -371,12 +371,12 @@ const CareinstitutionFormView: FunctionComponent<
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm="5">
+                  <Col sm="4">
                     <Label className="form-label col-form-label">
                       {languageTranslation("START_WORKING")}
                     </Label>
                   </Col>
-                  <Col sm="7">
+                  <Col sm="8">
                     <div className="d-flex align-items-center justify-content-between flex-wrap">
                       <div className="required-input clockshift-input">
                         <InputGroup className="flex-nowrap">

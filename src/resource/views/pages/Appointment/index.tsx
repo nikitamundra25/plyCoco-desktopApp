@@ -446,6 +446,8 @@ const Appointment: FunctionComponent = (props: any) => {
           ? [...selectedCellsCareinstitution]
           : [];
         addCareInstitutionRequirement.forEach((requirement: any) => {
+          console.log(requirement,'requirement');
+          
           let index: number = temp.findIndex(
                 (careInst: any) => careInst.id === requirement.userId
               );
@@ -466,6 +468,8 @@ const Appointment: FunctionComponent = (props: any) => {
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
               let element: any[] = [...temp[index].availabilityData[i]];
+              console.log(element,'elemettt');
+              
               let cellIndex: number = selectedCareInstCells.findIndex(
                 (cell: any) =>
                   moment(requirement.date).isSame(
@@ -494,10 +498,16 @@ const Appointment: FunctionComponent = (props: any) => {
               if (
                 element.filter((e: any) =>
                   moment(e.date).isSame(moment(requirement.date), "day")
-                ).length === 0
+                ).length === 0 || i === temp[index].availabilityData.length - 1
               ) {
-                console.log('in ifffffff');
+                if (element.filter((e: any) =>
+                moment(e.date).isSame(moment(requirement.date), "day")
+              ).length === 0) {
                 temp[index].availabilityData[i] = [...element, requirement];
+                } else {
+                // To add new row in case of no row is left
+                  temp[index].availabilityData[i+1] = [ requirement];        
+                }
                 break;
               }
             }
@@ -543,6 +553,8 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         });
+        console.log(deptList,'deptList++++');
+        
         setselectedCellsCareinstitution(selectedCareInstCells);
       }
       // setPage(1);
@@ -2847,9 +2859,15 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
     //  setcareinstitutionList()
-    console.log('handleFirstStarCanstitution', starCanstitution);
+    console.log('handleFirstStarCanstitution', starCanstitution, index);
     
     if (!starCanstitution.isStar) {
+      if (index < 0) {
+        setcareinstitutionSoloFilter({
+          label:list ? list.id : '',
+          value:list ? list.id : '',
+        })
+      }
       setstarCanstitution({
         isStar: true,
         setIndex: index,

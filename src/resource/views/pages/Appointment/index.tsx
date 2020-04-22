@@ -1875,7 +1875,9 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       }
       // To default select department in case of selected solo careinstitution
-      if (dept && dept.id) {
+      if (dept && dept.id && !(item && item.id) 
+      // && (!careInstituionDept || careInstituionDept && careInstituionDept.value !== dept.id)
+      ) {
         setcareInstituionDept({
           label: dept.name,
           value: dept.id,

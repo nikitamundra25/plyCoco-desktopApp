@@ -173,6 +173,10 @@ const LINK_REQUIREMENT = gql`
       cr{
         userId
         id
+        division {
+          id
+          name
+        }
       }
       appointmentStatus
       workProofId

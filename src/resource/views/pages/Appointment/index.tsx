@@ -612,27 +612,19 @@ const Appointment: FunctionComponent = (props: any) => {
         let availabilityIndex: number = element.findIndex(
           (e: any) => e.id === updateCareInstitutionRequirement.id
         );
+        // if (availabilityIndex > -1) {
+        //   temp[index].availabilityData[i][
+        //     availabilityIndex
+        //   ] = updateCareInstitutionRequirement;
+        // }
+
         if (availabilityIndex > -1) {
           temp[index].availabilityData[i][
             availabilityIndex
-          ] = updateCareInstitutionRequirement;
-        }
-        let cellIndex: number = selectedCareInstCells.findIndex(
-          (cell: any) =>
-            cell.item && updateCareInstitutionRequirement.id === cell.item.id
-        );
-        let qualification = qualificationList.filter(({ value }: any) =>
-          updateCareInstitutionRequirement.qualificationId.includes(value)
-        );
-        if (selectedCareInstCells[cellIndex]) {
-          selectedCareInstCells[cellIndex] = {
-            ...selectedCareInstCells[cellIndex],
-            item: {
-              ...updateCareInstitutionRequirement,
-              qualificationId:
-                qualification && qualification.length ? qualification : [],
-            },
-          };
+          ] = {...temp[index].availabilityData[i][
+            availabilityIndex
+          ], ...updateCareInstitutionRequirement}
+          break;
         }
       }
     }
@@ -646,31 +638,60 @@ const Appointment: FunctionComponent = (props: any) => {
           (e: any) => e.id === updateCareInstitutionRequirement.id
         );
         
+        // if (availabilityIndex > -1) {
+        //   deptList[deptIndex].availabilityData[i][
+        //     availabilityIndex
+        //   ] = updateCareInstitutionRequirement;
+        // }
+
         if (availabilityIndex > -1) {
           deptList[deptIndex].availabilityData[i][
             availabilityIndex
-          ] = updateCareInstitutionRequirement;
+          ] = {...deptList[deptIndex].availabilityData[i][
+            availabilityIndex
+          ], ...updateCareInstitutionRequirement}
+          break;
         }
-        let cellIndex: number = selectedCareInstCells.findIndex(
-          (cell: any) =>
-            cell.item && updateCareInstitutionRequirement.divisionId === cell.item.id
-        );
-        let qualification = qualificationList.filter(({ value }: any) =>
-          updateCareInstitutionRequirement.qualificationId.includes(value)
-        );
-        if (selectedCareInstCells[cellIndex]) {
-          selectedCareInstCells[cellIndex] = {
-            ...selectedCareInstCells[cellIndex],
-            item: {
-              ...updateCareInstitutionRequirement,
-              qualificationId:
-                qualification && qualification.length ? qualification : [],
-            },
-          };
-        }
+
+        // let cellIndex: number = selectedCareInstCells.findIndex(
+        //   (cell: any) =>
+        //     cell.item && updateCareInstitutionRequirement.divisionId === cell.item.id
+        // );
+        // let qualification = qualificationList.filter(({ value }: any) =>
+        //   updateCareInstitutionRequirement.qualificationId.includes(value)
+        // );
+        // if (selectedCareInstCells[cellIndex]) {
+        //   selectedCareInstCells[cellIndex] = {
+        //     ...selectedCareInstCells[cellIndex],
+        //     item: {
+        //       ...updateCareInstitutionRequirement,
+        //       qualificationId:
+        //         qualification && qualification.length ? qualification : [],
+        //     },
+        //   };
+        // }
       }
     }
   }
+  let cellIndex: number = selectedCareInstCells.findIndex(
+    (cell: any) =>
+       cell.item && updateCareInstitutionRequirement.id === cell.item.id
+   );
+   let qualification = qualificationList.filter(({ value }: any) =>
+     updateCareInstitutionRequirement.qualificationId.includes(value)
+   );
+  
+   if (selectedCareInstCells[cellIndex]) {
+     selectedCareInstCells[cellIndex] = {
+       ...selectedCareInstCells[cellIndex],
+       item: {
+         ...selectedCareInstCells[cellIndex].item,
+         ...updateCareInstitutionRequirement,
+         qualificationId:
+           qualification && qualification.length ? qualification : [],
+       },
+     };
+   } 
     setselectedCellsCareinstitution(selectedCareInstCells);
 
       // canstitutionRefetch();

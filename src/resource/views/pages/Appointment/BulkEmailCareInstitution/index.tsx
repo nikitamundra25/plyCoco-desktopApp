@@ -10,8 +10,6 @@ import closehover from '../../../../assets/img/cancel-hover.svg';
 import BulkEmailCareInstitution from '../../BulkEmailCareinstitution';
 import { useMutation } from '@apollo/react-hooks';
 import { DocumentMutations } from '../../../../../graphql/Mutations';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import ConfirmAppointmentPdf from '../../BulkEmailCareinstitution/PDF/ConfirmAppointmentPdf';
 import { languageTranslation } from '../../../../../helpers';
 
 const [ADD_DOCUMENT] = DocumentMutations;

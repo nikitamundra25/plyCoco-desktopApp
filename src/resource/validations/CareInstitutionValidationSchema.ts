@@ -82,9 +82,7 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation('COUNTRY_REQUIRED'))
   ,
   state: Yup.mixed()
-    .required(languageTranslation('STATE_REQUIRED')),
- shortName:  Yup.mixed()
-    .required(languageTranslation('SHORT_NAME_REQUIRED'))
+    .required(languageTranslation('STATE_REQUIRED'))
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<

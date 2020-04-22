@@ -3,10 +3,15 @@ import { UncontrolledTooltip, Table } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
 import { IInvoiceList } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
-import { AppRoutes, PAGE_LIMIT } from '../../../../../config';
+import {
+  AppRoutes,
+  PAGE_LIMIT,
+  defaultDateFormat,
+} from '../../../../../config';
 import { useHistory, useLocation } from 'react-router-dom';
 import PaginationComponent from '../../../components/Pagination';
 import * as qs from 'query-string';
+import moment from 'moment';
 
 const LeasingList: FunctionComponent<IInvoiceList & any> = (
   props: IInvoiceList & any
@@ -19,6 +24,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
     currentPage,
     selectedAppointment,
     handleCheckedChange,
+    careGiverHolidays,
   } = props;
   let history = useHistory();
 
@@ -31,7 +37,6 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
   };
 
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
-  console.log('invoiceList', invoiceList);
   let qualiFilter: any;
   qualiFilter = invoiceList.filter((item: any) => {
     return item &&
@@ -42,21 +47,6 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
       ? item.ca.user.caregiver.attributes.includes(9)
       : null;
   });
-  console.log('qualiFilter', qualiFilter);
-  // let leasingInvoiceList: any[] = [];
-  // let temp: any[] = [];
-  // if (qualiFilter) {
-  //   leasingInvoiceList.push(qualiFilter);
-  // }
-  // console.log(
-  //   'leasingInvoiceList',
-  //   leasingInvoiceList &&
-  //     leasingInvoiceList[0] &&
-  //     leasingInvoiceList[0].map((item: any) => {
-  //       console.log('item', item);
-  //     })
-  // );
-
   return (
     <>
       <div className='table-minheight createinvoices-table'>
@@ -114,13 +104,40 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
           <tbody>
             {invoiceListLoading ? (
               <tr>
-                <td className={'table-loader'} colSpan={8}>
+                <td className={'table-loader'} colSpan={13}>
                   <Loader />
                 </td>
               </tr>
             ) : qualiFilter && qualiFilter.length ? (
               qualiFilter.map((list: any, index: number) => {
-                console.log('list', list);
+                let workBegain: any, workEnd: any;
+                if (list && list.ca && list.ca.workingHoursFrom) {
+                  workBegain = list.ca.workingHoursFrom.split(',');
+                  workEnd = list.ca.workingHoursTo.split(',');
+                }
+                //Combime date and time
+                let initialdate =
+                  workBegain && workBegain.length ? workBegain[0] : null;
+                let start_time =
+                  workBegain && workBegain.length ? workBegain[1] : null;
+                let enddate = workEnd && workEnd.length ? workEnd[0] : null;
+                let end_time = workEnd && workEnd.length ? workEnd[1] : null;
+                let datetimeA: any = initialdate
+                  ? moment(
+                      `${initialdate} ${start_time}`,
+                      `${defaultDateFormat} HH:mm`
+                    ).format()
+                  : '';
+                let datetimeB: any = enddate
+                  ? moment(
+                      `${enddate} ${end_time}`,
+                      `${defaultDateFormat} HH:mm`
+                    ).format()
+                  : null;
+                let diffDate: any =
+                  (new Date(datetimeB).getTime() -
+                    new Date(datetimeA).getTime()) /
+                  (3600 * 1000);
                 let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : '';
                 let timeStamp: any = '';
                 console.log('time', time);
@@ -139,6 +156,22 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
 
                   // let split = time.split()
                   timeStamp = '';
+                }
+                //Show Weekend day
+                let isWeekendDay: boolean = false;
+                const dayData = new Date(list.date).getDay();
+                isWeekendDay = dayData === 6 || dayData === 0 ? true : false;
+                let hasHoliday: any;
+                if (careGiverHolidays && careGiverHolidays.length) {
+                  hasHoliday = careGiverHolidays.filter(
+                    (data: any) => data.date === list.date
+                  );
+                }
+
+                //Find Total Ammount
+                let totalAmount: number = 0;
+                if (list && list.ca) {
+                  totalAmount = list.ca.fee * 100;
                 }
                 return (
                   <tr className='sno-col' key={index}>
@@ -184,26 +217,61 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                     </td>
                     <td className='price-col'>00.00 &euro;</td>
                     <td className='price-col'>
-                      {list.ca && list.ca.nightFee ? list.ca.nightFee : '-'}{' '}
-                    </td>
-                    <td className='price-col'>00.00 &euro;</td>
-                    <td className='price-col'>
-                      {list.ca && list.ca.weekendAllowance
-                        ? list.ca.weekendAllowance
-                        : '-'}{' '}
-                    </td>
-                    <td className='price-col'>00.00 &euro;</td>
-                    <td className='price-col'>
-                      {' '}
-                      {list.ca && list.ca.holidayAllowance
-                        ? list.ca.holidayAllowance
-                        : '-'}{' '}
-                      &euro;
+                      {list.ca && list.ca.nightFee ? (
+                        <>{list.ca.nightFee}.00 &euro;</>
+                      ) : (
+                        '-'
+                      )}
                     </td>
                     <td className='price-col'>
-                      {/* {list.ca && list.ca.distanceInKM
-                        ? list.ca.distanceInKM
-                        : '-'}{' '} */}
+                      {list.ca && list.ca.nightFee ? (
+                        <>{list.ca.nightFee}.00 &euro;</>
+                      ) : (
+                        '-'
+                      )}
+                    </td>
+                    <td className='price-col'>
+                      {list.ca && list.ca.weekendAllowance ? (
+                        <>{list.ca.weekendAllowance}.00 &euro;</>
+                      ) : (
+                        '-'
+                      )}
+                    </td>
+                    <td className='price-col'>
+                      {list.ca && list.ca.weekendAllowance && isWeekendDay ? (
+                        <>
+                          {(
+                            parseFloat(list.ca.weekendAllowance) *
+                            parseFloat(diffDate)
+                          ).toFixed(2)}{' '}
+                          &euro;
+                        </>
+                      ) : (
+                        <>00.00 &euro;</>
+                      )}
+                    </td>
+                    <td className='price-col'>
+                      {list.ca && list.ca.holidayAllowance ? (
+                        <>{list.ca.holidayAllowance}.00 &euro;</>
+                      ) : (
+                        '-'
+                      )}
+                    </td>
+                    <td className='price-col'>
+                      {list.ca &&
+                      list.ca.holidayAllowance &&
+                      hasHoliday &&
+                      hasHoliday.length ? (
+                        <>
+                          {(
+                            parseFloat(list.ca.holidayAllowance) *
+                            parseFloat(diffDate)
+                          ).toFixed(2)}{' '}
+                          &euro;
+                        </>
+                      ) : (
+                        <>00.00 &euro;</>
+                      )}
                     </td>
                     <td className='price-col'>
                       {/* {list.ca && list.ca.feePerKM

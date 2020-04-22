@@ -1,15 +1,5 @@
 import React, { useState, FunctionComponent, useEffect } from 'react';
-import {
-  Button,
-  Table,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-  Col,
-  UncontrolledTooltip,
-} from 'reactstrap';
+import { Form, FormGroup, Input, Label, Row, Col } from 'reactstrap';
 import { languageTranslation, errorFormatter } from '../../../../../helpers';
 
 import { RouteComponentProps, useLocation } from 'react-router';
@@ -25,19 +15,17 @@ import {
   PAGE_LIMIT,
   CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
-  defaultDateFormat,
 } from '../../../../../config';
-import CareInstCustomOption from '../../../components/CustomOptions/CustomCareInstOptions';
 import { IReactSelectInterface } from '../../../../../interfaces';
 import {
   CareInstitutionQueries,
   InvoiceQueries,
   CareGiverQueries,
+  GlobalHolidaysQueries,
 } from '../../../../../graphql/queries';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import moment from 'moment';
 import InvoiceList from './LeasingList';
-import CustomOption from '../../../components/CustomOptions';
 import InvoiceNavbar from './LeasingNavbar';
 import * as qs from 'query-string';
 import { toast } from 'react-toastify';
@@ -54,10 +42,9 @@ const [
   ,
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
+const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
-//Create New Invoice PDF
-const [CREATE_INVOICE] = InvoiceMutations;
-
+const [, CREATE_LEASING_INVOICE] = InvoiceMutations;
 const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
@@ -98,9 +85,9 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   ] = useState<IReactSelectInterface[] | undefined>([]);
 
   //
-  const [CreateInvoice] = useMutation<{
+  const [CreateLeasingInvoice] = useMutation<{
     invoiceInput: any;
-  }>(CREATE_INVOICE);
+  }>(CREATE_LEASING_INVOICE);
 
   // Default value is start & end of month
   let gte: string = moment().startOf('month').format(dbAcceptableFormat);
@@ -126,7 +113,14 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   >(GET_CARE_INSTITUTION_LIST, {
     fetchPolicy: 'no-cache',
   });
-
+  // To Fetch golbal holidays and weekends
+  const [getGlobalHolidays, { data: careGiverHolidays }] = useLazyQuery<
+    any,
+    any
+  >(GET_GLOBAL_CAREGIVER_HOLIDAYS, {
+    fetchPolicy: 'no-cache',
+    // notifyOnNetworkStatusChange: true
+  });
   useEffect(() => {
     fetchCareInstitutionList({
       variables: {
@@ -138,11 +132,31 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       },
     });
   }, []);
-
+  //To get all holidays and weekends
+  const getAllHolidays = (startDate: string, endDate: string) => {
+    getGlobalHolidays({
+      variables: {
+        gte: startDate,
+        lte: endDate,
+      },
+    });
+  };
   useEffect(() => {
     let activeDate = moment().format(dbAcceptableFormat);
     setDateFilter(activeDate);
   }, []);
+  useEffect(() => {
+    if (
+      invoiceList &&
+      invoiceList.getAllAppointment &&
+      invoiceList.getAllAppointment.result.length
+    ) {
+      const { result } = invoiceList.getAllAppointment;
+      const startDate: string = result[0].date;
+      const endDate: string = result[result.length - 1].date;
+      getAllHolidays(startDate, endDate);
+    }
+  }, [invoiceList]);
 
   // To fetch the list of all caregiver
   const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
@@ -151,6 +165,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       fetchPolicy: 'no-cache',
     }
   );
+
   useEffect(() => {
     // Fetch list of caregivers
     fetchCareGivers({
@@ -164,8 +179,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   // to get list of all invoices
   const getInvoiceListData = () => {
-    console.log('currentPage', currentPage);
-
     fetchInvoiceList({
       variables: {
         searchBy: null,
@@ -197,7 +210,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     getInvoiceListData();
   }, [search]); // It will run when the search value gets changed
 
-  // Call function to fetch invoice list
+  // Call function to fetch invoice list according to duration
   useEffect(() => {
     if (monthFilter && monthFilter.value) {
       const { value } = monthFilter;
@@ -218,7 +231,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     getInvoiceListData();
   }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter]);
 
-  // set careInstitution list options
+  //  show careInstitution list options
   const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
   if (careInstituition && careInstituition.getCareInstitutions) {
     const { getCareInstitutions } = careInstituition;
@@ -251,7 +264,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     });
   }
 
-  // set careGivers list options
+  // show careGivers list options
   const careGiversOptions: IReactSelectInterface[] | undefined = [];
   if (
     careGivers &&
@@ -346,9 +359,10 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     setDateFilter(date);
   };
 
+  // to check the fields of the invoice list
   const handleCheckedChange = (e: any, list: any) => {
     const { checked } = e.target;
-    if (checked === true) {
+    if (checked) {
       selectedAppointment.push(list);
       setselectedAppointment(selectedAppointment);
     } else {
@@ -359,26 +373,20 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       setselectedAppointment(selectedAppointment);
     }
   };
-
+  // when clicking on create invoice
   const handleCreateInvoice = async () => {
     console.log('in handle Selected Invoice Created Data', selectedAppointment);
     let singleCareGiverData: any[] = [],
-      amont: number = 0,
       selectedAppointmentId: any[] = [],
       singleCareInstData: any[] = [];
 
     try {
       if (selectedAppointment && selectedAppointment.length) {
         selectedAppointment.forEach((appointmentData: any) => {
-          console.log('????????????', appointmentData);
           if (appointmentData.ca && appointmentData.cr) {
             singleCareGiverData.push(appointmentData.ca.userId);
             singleCareInstData.push(appointmentData.cr.userId);
             selectedAppointmentId.push(appointmentData.id);
-            console.log(
-              '+++++++++++++++singleCareGiverData',
-              singleCareGiverData[singleCareGiverData.length - 1]
-            );
             if (
               singleCareGiverData[singleCareGiverData.length - 1] !==
               appointmentData.ca.userId
@@ -407,8 +415,9 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
           tax: '20',
           careInstitutionName: 'Gunjali9989',
           careGiverName: 'aayushi',
+          invoiceType: 'leasing',
         };
-        await CreateInvoice({
+        await CreateLeasingInvoice({
           variables: {
             invoiceInput: invoiceInput,
           },
@@ -448,6 +457,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
                 handleCheckedChange={(e: any, list: any) =>
                   handleCheckedChange(e, list)
                 }
+                careGiverHolidays={careGiverHolidays}
                 invoiceList={
                   invoiceList &&
                   invoiceList.getAllAppointment &&

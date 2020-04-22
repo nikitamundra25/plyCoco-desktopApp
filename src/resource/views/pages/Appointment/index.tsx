@@ -362,6 +362,7 @@ const Appointment: FunctionComponent = (props: any) => {
       let index: number = temp.findIndex(
         (caregiver: any) => caregiver.id === updateCareGiverAvability.userId
       );
+      if(index > -1){
       for (let i = 0; i < temp[index].availabilityData.length; i++) {
         let element: any[] = [...temp[index].availabilityData[i]];
         let availabilityIndex: number = element.findIndex(
@@ -370,7 +371,9 @@ const Appointment: FunctionComponent = (props: any) => {
         if (availabilityIndex > -1) {
           temp[index].availabilityData[i][
             availabilityIndex
-          ] = updateCareGiverAvability;
+          ] = {...temp[index].availabilityData[i][
+            availabilityIndex
+          ], updateCareGiverAvability}
         }
         let cellIndex: number = selectedCaregiverCells.findIndex(
           (cell: any) =>
@@ -379,11 +382,12 @@ const Appointment: FunctionComponent = (props: any) => {
         if (selectedCaregiverCells[cellIndex]) {
           selectedCaregiverCells[cellIndex] = {
             ...selectedCaregiverCells[cellIndex],
-            item: updateCareGiverAvability,
+            item: {...selectedCaregiverCells[cellIndex].item, updateCareGiverAvability},
           };
         }
       }
       setSelectedCells(selectedCaregiverCells);
+    }
       // setPage(1);
       // fetchingCareGiverData();
     },
@@ -403,6 +407,7 @@ const Appointment: FunctionComponent = (props: any) => {
         let index: number = temp.findIndex(
           (caregiver: any) => caregiver.id === element.userId
         );
+      if(index > -1){
         for (let i = 0; i < temp[index].availabilityData.length; i++) {
           let availabilityRows: any[] = [...temp[index].availabilityData[i]];
           let availabilityIndex: number = availabilityRows.findIndex(
@@ -412,6 +417,7 @@ const Appointment: FunctionComponent = (props: any) => {
             temp[index].availabilityData[i].splice(availabilityIndex, 1);
           }
         }
+      }
       });
       // setPage(1);
       // fetchingCareGiverData();
@@ -444,6 +450,8 @@ const Appointment: FunctionComponent = (props: any) => {
           ? [...selectedCellsCareinstitution]
           : [];
         addCareInstitutionRequirement.forEach((requirement: any) => {
+          console.log(requirement,'requirement');
+          
           let index: number = temp.findIndex(
                 (careInst: any) => careInst.id === requirement.userId
               );
@@ -464,6 +472,8 @@ const Appointment: FunctionComponent = (props: any) => {
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
               let element: any[] = [...temp[index].availabilityData[i]];
+              console.log(element,'elemettt');
+              
               let cellIndex: number = selectedCareInstCells.findIndex(
                 (cell: any) =>
                   moment(requirement.date).isSame(
@@ -492,10 +502,16 @@ const Appointment: FunctionComponent = (props: any) => {
               if (
                 element.filter((e: any) =>
                   moment(e.date).isSame(moment(requirement.date), "day")
-                ).length === 0
+                ).length === 0 || i === temp[index].availabilityData.length - 1
               ) {
-                console.log('in ifffffff');
+                if (element.filter((e: any) =>
+                moment(e.date).isSame(moment(requirement.date), "day")
+              ).length === 0) {
                 temp[index].availabilityData[i] = [...element, requirement];
+                } else {
+                // To add new row in case of no row is left
+                  temp[index].availabilityData[i+1] = [ requirement];        
+                }
                 break;
               }
             }
@@ -541,6 +557,8 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         });
+        console.log(deptList,'deptList++++');
+        
         setselectedCellsCareinstitution(selectedCareInstCells);
       }
       // setPage(1);
@@ -562,24 +580,30 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_INSTITUTION_REQUIREMENT, {
     onCompleted({ updateCareInstitutionRequirement }) {
-      let temp: any = [],
-        index: number = -1;
+      let temp: any = [...careinstitutionList];
+      let deptList: any = [];
+      if (starCanstitution && starCanstitution.isStar && careInstituionDeptData.length) {
+        deptList = [...careInstituionDeptData];
+      } 
       const selectedCareInstCells = selectedCellsCareinstitution
-        ? [...selectedCellsCareinstitution]
-        : [];
-      if (starCanstitution && starCanstitution.isStar) {
-        temp = [...careInstituionDeptData];
-        index = temp.findIndex(
-          (careInst: any) =>
-            careInst.deptId === updateCareInstitutionRequirement.divisionId
-        );
-      } else {
-        temp = [...careinstitutionList];
+      ? [...selectedCellsCareinstitution]
+      : [];
+      
+      let index: number = -1;
         index = temp.findIndex(
           (careInst: any) =>
             careInst.id === updateCareInstitutionRequirement.userId
         );
-      }
+
+        let deptIndex:number = -1;
+        if (starCanstitution && starCanstitution.isStar && deptList.length) {
+          
+          deptIndex = deptList.findIndex(
+            (careInst: any) => careInst.deptId === updateCareInstitutionRequirement.divisionId
+          );
+        } 
+      
+      if( index > -1){
       for (let i = 0; i < temp[index].availabilityData.length; i++) {
         let element: any[] = [...temp[index].availabilityData[i]];
         let availabilityIndex: number = element.findIndex(
@@ -608,7 +632,44 @@ const Appointment: FunctionComponent = (props: any) => {
           };
         }
       }
-      setselectedCellsCareinstitution(selectedCareInstCells);
+    }
+
+      if(deptIndex > -1 ){
+    if (starCanstitution && starCanstitution.isStar && deptList.length && deptList[deptIndex].availabilityData && deptList[deptIndex].availabilityData.length) {
+      for (let i = 0; i < deptList[deptIndex].availabilityData.length; i++) {
+        let element: any[] = [...deptList[deptIndex].availabilityData[i]];
+        
+        let availabilityIndex: number = element.findIndex(
+          (e: any) => e.id === updateCareInstitutionRequirement.id
+        );
+        
+        if (availabilityIndex > -1) {
+          deptList[deptIndex].availabilityData[i][
+            availabilityIndex
+          ] = updateCareInstitutionRequirement;
+        }
+        let cellIndex: number = selectedCareInstCells.findIndex(
+          (cell: any) =>
+            cell.item && updateCareInstitutionRequirement.divisionId === cell.item.id
+        );
+        let qualification = qualificationList.filter(({ value }: any) =>
+          updateCareInstitutionRequirement.qualificationId.includes(value)
+        );
+        if (selectedCareInstCells[cellIndex]) {
+          selectedCareInstCells[cellIndex] = {
+            ...selectedCareInstCells[cellIndex],
+            item: {
+              ...updateCareInstitutionRequirement,
+              qualificationId:
+                qualification && qualification.length ? qualification : [],
+            },
+          };
+        }
+      }
+    }
+  }
+    setselectedCellsCareinstitution(selectedCareInstCells);
+
       // canstitutionRefetch();
     },
   });
@@ -621,23 +682,24 @@ const Appointment: FunctionComponent = (props: any) => {
     { id: number[] }
   >(DELETE_CAREINSTITUTION_REQUIREMENT, {
     onCompleted({ deleteCareInstitutionRequirement }) {
-      let temp: any = [],
-        index: number = -1;
-      if (starCanstitution && starCanstitution.isStar) {
-        temp = [...careInstituionDeptData];
-      } else {
-        temp = [...careinstitutionList];
-      }
-
+      let temp: any = [...careinstitutionList];
+      let deptList: any = [];
+      if (starCanstitution && starCanstitution.isStar && careInstituionDeptData.length) {
+        deptList = [...careInstituionDeptData];
+      } 
+      
+      let  index: number = -1;
       deleteCareInstitutionRequirement.forEach((careInst: any) => {
-        if (starCanstitution && starCanstitution.isStar) {
-          index = temp.findIndex(
-            (ele: any) => parseInt(ele.userId) === parseInt(careInst.userId)
+        let deptIndex:number = -1;
+        if (starCanstitution && starCanstitution.isStar && deptList.length) {
+          deptIndex = deptList.findIndex(
+            (careInst: any) => parseInt(careInst.userId) === parseInt(careInst.userId)
           );
-        } else {
+        } 
+       
           index = temp.findIndex((ele: any) => ele.id === careInst.userId);
-        }
-
+        
+        if( index > -1){
         if (temp[index].availabilityData) {
           for (let i = 0; i < temp[index].availabilityData.length; i++) {
             let element: any[] = [...temp[index].availabilityData[i]];
@@ -652,6 +714,26 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         }
+      }
+      if(deptIndex > -1){
+        if (starCanstitution && starCanstitution.isStar && deptList.length && deptList[deptIndex].availabilityData) {
+          for (let i = 0; i < deptList[deptIndex].availabilityData.length; i++) {
+            let element: any[] = [...deptList[deptIndex].availabilityData[i]];
+            if (element.some((value: any) => value.id === careInst.id)) {
+    
+              let cellIndex: number = element.findIndex(
+                (ele: any) => ele.id === careInst.id
+              );
+              
+              if (cellIndex > -1) {
+                element.splice(cellIndex, 1);
+              }
+              deptList[deptIndex].availabilityData[i] = element;
+            }
+
+          }
+        }
+      }
       });
       // canstitutionRefetch();
       setselectedCellsCareinstitution([]);
@@ -699,10 +781,9 @@ const Appointment: FunctionComponent = (props: any) => {
         if (starCanstitution &&
           secondStarCanstitution && (starCanstitution.isStar || secondStarCanstitution.isStar) && deptList && deptList.length) {
              deptIndex = deptList.findIndex(
-              (ci: any) => appointment.cr && ci.userId.toString() === appointment.cr.userId
+              (ci: any) => appointment.cr && appointment.cr.division && appointment.cr.division.id === ci.id
             );
         }
-        console.log(careInstIndex,'careInstIndex-----');
         
         // To find the exact index of requirement in care Institution list
         for (
@@ -721,6 +802,7 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
+      
         // To find the exact index of requirement in dept list
         for (
           let j = 0;
@@ -819,6 +901,7 @@ const Appointment: FunctionComponent = (props: any) => {
               },
             ],
           };
+          
           if (requirementDeptIndex > -1 && requirementDeptDataIndex > -1) {
             deptList[deptIndex].availabilityData[requirementDeptDataIndex][
               requirementDeptIndex
@@ -899,7 +982,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       setSelectedCells(selectedCaregiverCells)
       setselectedCellsCareinstitution(selectedCareInstCells)
-      console.log(temp,selectedCareInstCells,careInstList,'temppppp');
+      console.log(temp,selectedCareInstCells,careInstList,deptList,'temppppp');
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation('LINKED_APPOINTMENTS'));
       }
@@ -913,6 +996,7 @@ const Appointment: FunctionComponent = (props: any) => {
     appointmentInput: IUnlinkAppointmentInput;
   }>(UN_LINK_REQUIREMENT, {
     onCompleted({ deleteAppointment }: any) {
+      
       const temp = [...caregiversList];
       const careInstList: any = [...careinstitutionList];
       let deptList: any = [];
@@ -946,7 +1030,7 @@ const Appointment: FunctionComponent = (props: any) => {
         if (starCanstitution &&
           secondStarCanstitution && (starCanstitution.isStar || secondStarCanstitution.isStar) && deptList && deptList.length) {
              deptIndex = deptList.findIndex(
-              (ci: any) => appointment.cr && ci.userId.toString() === appointment.cr.userId
+              (ci: any) => appointment.cr && appointment.cr.division && appointment.cr.division.id === ci.id
             );
         }
         // To find the exact index of requirement
@@ -998,7 +1082,7 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
-
+        
         if (
           requirementIndex > -1 &&
           requirementDataIndex > -1 &&
@@ -1006,11 +1090,7 @@ const Appointment: FunctionComponent = (props: any) => {
           availabilityIndex > -1
         )  {
           // To add the appoitments after connection
-      console.log("careInstList",careInstList);
       
-          console.log("jjjj",careInstList[careInstIndex].availabilityData[
-            requirementDataIndex
-          ][requirementIndex]);
           // To update data in caregiver list
           temp[caregiverIndex].availabilityData[availabilityDataIndex][
             availabilityIndex
@@ -1032,7 +1112,7 @@ const Appointment: FunctionComponent = (props: any) => {
             appointments: []
           };
           if (requirementDeptIndex > -1 && requirementDeptDataIndex > -1) {
-            console.log('in if');
+       
             
             deptList[deptIndex].availabilityData[requirementDeptDataIndex][
               requirementDeptIndex
@@ -1044,23 +1124,20 @@ const Appointment: FunctionComponent = (props: any) => {
               appointments: []
             };
           }
-          console.log('deptList******', deptList);
           
           if (deleteAll) {
             if (unlinkedBy === "caregiver" || unlinkedBy==="employee") {
-              console.log('if unlinked by employee');
+              
               
               temp[caregiverIndex].availabilityData[availabilityDataIndex].splice(availabilityIndex,1)
               setSelectedCells([]);
             } 
             if (unlinkedBy === "canstitution" || unlinkedBy==="employee") {
-              console.log('if unlinked by employee careInst');
               careInstList[careInstIndex].availabilityData[requirementDataIndex].splice(requirementIndex, 1)
               if (starCanstitution &&
                 secondStarCanstitution && (starCanstitution.isStar || secondStarCanstitution.isStar) && deptList && deptList.length) {
                   deptList[deptIndex].availabilityData[requirementDeptDataIndex].splice(requirementDeptIndex, 1)
               }
-              console.log(careInstList,'after unlink');
               
               setselectedCellsCareinstitution([]);
             }
@@ -1958,9 +2035,10 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       }else{
         console.log("call api here");
+        
         fetchAppointmentFilterById({
           variables: {
-            id: parseInt(appointId[0].avabilityId),
+            id: name === "careinstitution" ? parseInt(appointId[0].avabilityId): parseInt(appointId[0].requirementId),
             searchIn: name === "careinstitution" ? "avability": "requirement"
           }
         });
@@ -2835,9 +2913,15 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
     //  setcareinstitutionList()
-    console.log('handleFirstStarCanstitution', starCanstitution);
+    console.log('handleFirstStarCanstitution', starCanstitution, index);
     
     if (!starCanstitution.isStar) {
+      if (index < 0) {
+        setcareinstitutionSoloFilter({
+          label:list ? list.id : '',
+          value:list ? list.id : '',
+        })
+      }
       setstarCanstitution({
         isStar: true,
         setIndex: index,
@@ -2951,6 +3035,10 @@ const handleSubmitCaregiverForm = async (
         selectedCells[0].item.n === "block"
       : false;
 
+      let isWorkProofStatus : boolean =  workingHoursFromDate || 
+      workingHoursToDate ||
+      breakFromDate ||
+      breakToDate ? true : false
   try {
     // To ignore availabilities in case of block appointment
     if (
@@ -3054,7 +3142,7 @@ const handleSubmitCaregiverForm = async (
               f: f ? "available" : isBlockeddate ? "block" : "default",
               s: s ? "available" : isBlockeddate ? "block" : "default",
               n: n ? "available" : isBlockeddate ? "block" : "default",
-              status: status ? status : "default",
+              status: isWorkProofStatus? "timeSheetUpdated ": status ? status : "default",
               workingHoursFrom: workingHoursFromDate
                 ? `${workingHoursFromDate},${workingHoursFromTime}`
                 : null,

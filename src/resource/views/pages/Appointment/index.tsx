@@ -583,6 +583,7 @@ const Appointment: FunctionComponent = (props: any) => {
 
         let deptIndex:number = -1;
         if (starCanstitution && starCanstitution.isStar && deptList.length) {
+          
           deptIndex = deptList.findIndex(
             (careInst: any) => careInst.deptId === updateCareInstitutionRequirement.divisionId
           );
@@ -620,20 +621,22 @@ const Appointment: FunctionComponent = (props: any) => {
     }
 
       if(deptIndex > -1 ){
-    if (starCanstitution && starCanstitution.isStar && deptList.length && deptList[deptIndex].availabilityData) {
+    if (starCanstitution && starCanstitution.isStar && deptList.length && deptList[deptIndex].availabilityData && deptList[deptIndex].availabilityData.length) {
       for (let i = 0; i < deptList[deptIndex].availabilityData.length; i++) {
         let element: any[] = [...deptList[deptIndex].availabilityData[i]];
+        
         let availabilityIndex: number = element.findIndex(
           (e: any) => e.id === updateCareInstitutionRequirement.id
         );
+        
         if (availabilityIndex > -1) {
-          temp[index].availabilityData[i][
+          deptList[deptIndex].availabilityData[i][
             availabilityIndex
           ] = updateCareInstitutionRequirement;
         }
         let cellIndex: number = selectedCareInstCells.findIndex(
           (cell: any) =>
-            cell.item && updateCareInstitutionRequirement.id === cell.item.id
+            cell.item && updateCareInstitutionRequirement.divisionId === cell.item.id
         );
         let qualification = qualificationList.filter(({ value }: any) =>
           updateCareInstitutionRequirement.qualificationId.includes(value)
@@ -665,22 +668,23 @@ const Appointment: FunctionComponent = (props: any) => {
     { id: number[] }
   >(DELETE_CAREINSTITUTION_REQUIREMENT, {
     onCompleted({ deleteCareInstitutionRequirement }) {
-      let temp: any = [],
-        index: number = -1;
-      if (starCanstitution && starCanstitution.isStar) {
-        temp = [...careInstituionDeptData];
-      } else {
-        temp = [...careinstitutionList];
-      }
-
+      let temp: any = [...careinstitutionList];
+      let deptList: any = [];
+      if (starCanstitution && starCanstitution.isStar && careInstituionDeptData.length) {
+        deptList = [...careInstituionDeptData];
+      } 
+      
+      let  index: number = -1;
       deleteCareInstitutionRequirement.forEach((careInst: any) => {
-        if (starCanstitution && starCanstitution.isStar) {
-          index = temp.findIndex(
-            (ele: any) => parseInt(ele.userId) === parseInt(careInst.userId)
+        let deptIndex:number = -1;
+        if (starCanstitution && starCanstitution.isStar && deptList.length) {
+          deptIndex = deptList.findIndex(
+            (careInst: any) => parseInt(careInst.userId) === parseInt(careInst.userId)
           );
-        } else {
+        } 
+       
           index = temp.findIndex((ele: any) => ele.id === careInst.userId);
-        }
+        
         if( index > -1){
         if (temp[index].availabilityData) {
           for (let i = 0; i < temp[index].availabilityData.length; i++) {
@@ -694,6 +698,25 @@ const Appointment: FunctionComponent = (props: any) => {
               }
               temp[index].availabilityData[i] = element;
             }
+          }
+        }
+      }
+      if(deptIndex > -1){
+        if (starCanstitution && starCanstitution.isStar && deptList.length && deptList[deptIndex].availabilityData) {
+          for (let i = 0; i < deptList[deptIndex].availabilityData.length; i++) {
+            let element: any[] = [...deptList[deptIndex].availabilityData[i]];
+            if (element.some((value: any) => value.id === careInst.id)) {
+    
+              let cellIndex: number = element.findIndex(
+                (ele: any) => ele.id === careInst.id
+              );
+              
+              if (cellIndex > -1) {
+                element.splice(cellIndex, 1);
+              }
+              deptList[deptIndex].availabilityData[i] = element;
+            }
+
           }
         }
       }

@@ -189,10 +189,16 @@ const UN_LINK_REQUIREMENT = gql`
     deleteAppointment(appointmentInput: $appointmentInput) {
       id
       cr{
+        id
         userId
+        division{
+          id
+          name
+        }
       }
       ca{
         userId
+        id
       }
       deleteAll
       unlinkedBy

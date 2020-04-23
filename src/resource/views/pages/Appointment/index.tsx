@@ -1825,7 +1825,7 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
       if (result && result.length) {
         /*  */
         result.forEach((user: any, index: number) => {
-          user.name = user.canstitution ? user.canstitution.companyName : '';
+          user.name = user.canstitution ? user.canstitution.shortName : '';
           user.availabilityData = [];
           if (
             user.careinstitution_requirements &&
@@ -3944,6 +3944,7 @@ const handleSubmitCaregiverForm = async (
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
+console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
 
   let street: string = canstitution && canstitution.street;
   let departmentData: any = Item ? Item.department : undefined;
@@ -4341,8 +4342,6 @@ const handleSubmitCaregiverForm = async (
   
   // function to load or search data in careinstitution dropdowwn
   const handleLoadMoreCanstitution = (input: any) => {
-    console.log('input', input);
-
     fetchCareInstitutionList({
       variables: {
         searchBy: input ? input : '',

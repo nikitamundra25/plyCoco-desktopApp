@@ -139,8 +139,8 @@ const CarinstituionListView: FunctionComponent<
           firstName,
           lastName,
           name:
-            canstitution && canstitution.companyName
-              ? canstitution.companyName
+            canstitution && canstitution.shortName
+              ? canstitution.shortName
               : "",
           caregiver,
           canstitution,

@@ -105,6 +105,7 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                 ? caregiverFilter
                 : null
             }
+            isWorkProof = {true}
             />
                     </div>
                   </Col>

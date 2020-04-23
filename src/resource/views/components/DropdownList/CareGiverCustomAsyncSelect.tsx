@@ -50,7 +50,7 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
     fetchCareGivers({
       variables: {
         searchBy: "",
-        limit: 100,
+        limit: ASYNC_LIST_LIMIT,
         page: 1,
       },
     });
@@ -58,7 +58,6 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
 
   // set careInstitution list options
   const careGiversOptions: IReactSelectInterface[] | undefined = [];
-  const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
   const formattedOPtions = (queryData: any) => {
     if (
       queryData &&
@@ -114,7 +113,7 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
       query: GET_CAREGIVER_BY_NAME,
       variables: {
         searchBy: input ? input : "",
-        limit: 100,
+        limit: ASYNC_LIST_LIMIT,
         page: 1,
       },
     });

@@ -12,6 +12,7 @@ export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\
 export const PAGE_LIMIT: number = 10;
 export const TODO_PAGE_LIMIT: number = 14;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
+export const ASYNC_LIST_LIMIT: number = 30;
 export const defaultDateTimeFormatForDashboard: any = "DD.MM.YYYY HH:mm";
 export const appointmentDayFormat: string = "dd";
 export const appointmentDateFormat: string = "DD";

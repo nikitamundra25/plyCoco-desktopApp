@@ -14,20 +14,6 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i,800,800i&display=swap");
 
 @font-face {
-  font-family: TechniqueBRKNormal;
-  src: url("./resource/assets/fonts/techniqu-webfont.eot");
-  src: url("./resource/assets/fonts/techniqu-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("./resource/assets/fonts/techniqu-webfont.woff") format("woff"),
-    url("./resource/assets/fonts/techniqu-webfont.ttf") format("truetype"),
-    url("./resource/assets/fonts/techniqu-webfont.svg#TechniqueBRKNormal")
-      format("svg");
-
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
   font-family: "FrutigerNeueLTPro-Regular";
   src: url("./resource/assets/fonts/FrutigerNeueLTPro-Regular/FrutigerNeueLTPro-Regular.ttf")
     format("truetype");
@@ -329,8 +315,8 @@ body {
         box-shadow: none !important;
         &:hover,
         &:focus {
-          color: #676b79;
-          background: #f0f3f5;
+          color: $gray_color;
+          background: $card_header_bg;
         }
       }
     }
@@ -508,7 +494,7 @@ body {
   }
   .login-card {
     border-radius: 0px;
-    border: 1px solid #efefef;
+    border: 1px solid $border_header;
     .card-body {
       background: $white;
       .auth-title {
@@ -518,7 +504,7 @@ body {
         font-size: 28px;
       }
       .sub-title {
-        font-size: 15px;
+        font-size: $font_15;
         color: $gray_color;
         margin-bottom: 20px;
       }
@@ -552,7 +538,7 @@ body {
         color: $white;
         background: $theme_color;
         border-color: $theme_color;
-        font-size: 14px;
+        font-size: font_14;
         line-height: 20px;
         font-weight: 600;
         padding: 8px 24px;
@@ -1171,7 +1157,7 @@ html:not([dir="rtl"]) {
       align-items: center;
       height: 25px;
       font-weight: 600;
-      font-size: 12px;
+      font-size: font_12;
       line-height: normal;
     }
   }
@@ -1395,7 +1381,7 @@ html:not([dir="rtl"]) {
       bottom: -6px;
       &.night-allawance-error {
         line-height: 10px;
-        font-size: 10px;
+        font-size: font_10;
         bottom: -5px;
       }
     }
@@ -1456,7 +1442,7 @@ html:not([dir="rtl"]) {
       position: absolute;
       bottom: -15px;
       font-weight: 600;
-      font-size: 11px;
+      font-size: font_11;
       right: 15px;
     }
     .input-group-text {
@@ -1577,7 +1563,7 @@ html:not([dir="rtl"]) {
     color: $red;
     position: absolute;
     bottom: -18px;
-    font-size: 12px;
+    font-size: font_12;
     font-weight: 500;
     left: 0px;
   }
@@ -1896,7 +1882,7 @@ html:not([dir="rtl"]) {
     }
     .custom-inner-reactselect__option {
       padding: 2px 12px;
-      font-size: 12px;
+      font-size: font_12;
       font-weight: normal;
       &:first-letter {
         text-transform: capitalize;
@@ -1964,7 +1950,7 @@ html:not([dir="rtl"]) {
   }
 
   .custom-inner-reactselect__multi-value__label {
-    font-size: 12px;
+    font-size: font_12;
     padding: 2px 3px;
   }
   .custom-inner-reactselect__indicator {
@@ -2095,7 +2081,7 @@ html:not([dir="rtl"]) {
     .common-list {
       li {
         padding: 3px 5px;
-        font-size: 12px;
+        font-size: font_12;
         border-bottom: 1px solid $table_border;
         &:last-child {
           border-bottom: 0px;
@@ -2186,7 +2172,7 @@ html:not([dir="rtl"]) {
         }
       }
       .attribute-inner-select__multi-value__label {
-        font-size: 12px;
+        font-size: font_12;
         padding: 2px 3px;
       }
       .attribute-inner-select__menu {
@@ -2199,7 +2185,7 @@ html:not([dir="rtl"]) {
         }
         .attribute-inner-select__option {
           padding: 2px 12px;
-          font-size: 12px;
+          font-size: font_12;
           &:first-letter {
             text-transform: capitalize;
           }
@@ -2521,23 +2507,6 @@ html:not([dir="rtl"]) {
       }
     }
 
-    // .status-btn {
-    //   padding: 3px 10px;
-    //   font-size: $font_12;
-    //   border-radius: 4px;
-    //   display: inline-block;
-    //   cursor: pointer;
-    //   min-width: 65px;
-    //   &.active {
-    //     background: $active_green;
-    //     color: $white;
-    //   }
-    //   &.inactive {
-    //     background: $red;
-    //     color: $white;
-    //   }
-    // }
-
     .action-btn {
       display: flex;
       align-items: center;
@@ -2579,7 +2548,7 @@ html:not([dir="rtl"]) {
       right: 8px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 15px;
+      font-size: font_15;
       cursor: pointer;
     }
   }
@@ -3007,14 +2976,6 @@ html:not([dir="rtl"]) {
           }
         }
       }
-      // .btn-add {
-      //   position: absolute;
-      //   top: 5px;
-      //   right: 8px;
-      //   padding: 4px 30px;
-      //   font-weight: 600;
-      //   font-size: $font_13;
-      // }
     }
 
     .common-content {
@@ -3122,7 +3083,7 @@ html:not([dir="rtl"]) {
     }
     .email-date-block {
       cursor: pointer;
-      font-size: 12px;
+      font-size: font_12;
       font-weight: bold;
       background: $white;
       position: relative;
@@ -3166,7 +3127,7 @@ html:not([dir="rtl"]) {
   }
   .email-row-wrap {
     cursor: pointer;
-    font-size: 12px;
+    font-size: font_12;
     display: flex;
     .email-date-time-block {
       flex: 0 0 135px;
@@ -3204,7 +3165,7 @@ html:not([dir="rtl"]) {
       }
     }
     &.email-attributes-wrap {
-      font-size: 13px;
+      font-size: font_13;
       padding: 5px 0px 10px;
       font-weight: bold;
       .email-attributes-seprator {
@@ -3297,7 +3258,7 @@ html:not([dir="rtl"]) {
     padding: 0px 8px;
     background: $white;
     .activity-title {
-      font-size: 15px;
+      font-size: font_15;
       font-weight: 700;
     }
   }
@@ -3672,7 +3633,7 @@ html:not([dir="rtl"]) {
       top: 0px;
       padding: 0px 5px;
       height: 100%;
-      font-size: 13px;
+      font-size: font_13;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -3823,7 +3784,7 @@ html:not([dir="rtl"]) {
       color: $white;
       .modal-title {
         line-height: normal;
-        font-size: 16px;
+        font-size: font_16;
         font-weight: 600;
       }
       .modal-close {
@@ -3906,7 +3867,7 @@ html:not([dir="rtl"]) {
 //daypicker css{
 .customdatepicker-section {
   .DayPicker-Day {
-    font-size: 12px;
+    font-size: font_12;
     &.DayPicker-Day--today {
       background: $theme_color !important;
       color: $white !important;
@@ -3921,7 +3882,7 @@ html:not([dir="rtl"]) {
   .DayPicker {
     display: block;
     background: #f1f0f0;
-    font-size: 11px;
+    font-size: font_11;
     height: 100%;
   }
 
@@ -3970,10 +3931,10 @@ html:not([dir="rtl"]) {
     font-size: 35px;
   }
   h4 {
-    font-size: 18px;
+    font-size: font_18;
   }
   p {
-    font-size: 15px;
+    font-size: font_15;
     color: $no_search_text_color;
   }
 }
@@ -3984,7 +3945,7 @@ html:not([dir="rtl"]) {
     font-size: 35px;
   }
   h4 {
-    font-size: 18px;
+    font-size: font_18;
   }
   .search-text {
     max-width: 310px;
@@ -3992,7 +3953,7 @@ html:not([dir="rtl"]) {
     padding-left: 30px;
   }
   p {
-    font-size: 15px;
+    font-size: font_15;
     color: $no_search_text_color;
     margin-bottom: 0px;
   }
@@ -4004,7 +3965,7 @@ html:not([dir="rtl"]) {
     margin-bottom: 10px;
   }
   .no-text {
-    font-size: 15px;
+    font-size: font_15;
     color: $no_search_text_color;
   }
 }

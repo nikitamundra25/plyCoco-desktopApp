@@ -158,7 +158,6 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
       return callback([]);
     }
     handleLoadMoreCanstitution(inputValue, callback);
-    console.log(careInstituition,'after load more');
   };
 
   return (

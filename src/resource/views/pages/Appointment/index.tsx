@@ -247,24 +247,10 @@ const Appointment: FunctionComponent = (props: any) => {
       },
     });
   }, []);
-  // To fetch all careinstitution list
-  const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
-    any
-  >(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache',
-  });
+ 
 
-  useEffect(() => {
-    fetchCareInstitutionList({
-      variables: {
-        searchBy: null,
-        sortBy: 5,
-        limit: 30,
-        page: 1,
-        isActive: '',
-      },
-    });
-  }, []);
+
+ 
   // Mutation to add careGiver data
   const [
     addCaregiverAvailability,
@@ -2238,39 +2224,7 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
     );
   }
 
-  // set careInstitution list options
-  const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
-  if (careInstituition && careInstituition.getCareInstitutions) {
-    const { getCareInstitutions } = careInstituition;
-    const { careInstitutionData, canstitution } = getCareInstitutions;
-    careInstitutionOptions.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID'),
-      companyName: languageTranslation('COMPANY_NAME'),
-    });
-
-    careInstitutionData.map((data: any, index: any) => {
-      const { canstitution } = data;
-      let { attributes = [], companyName = "", shortName = "" } = canstitution
-        ? canstitution
-        : {};
-      attributes = attributes ? attributes : [];
-      careInstitutionOptions.push({
-        label: shortName,
-        value: data.id,
-        color: attributes.includes(CareInstInActiveAttrId)
-          ? deactivatedListColor
-          : attributes.includes(CareInstTIMyoCYAttrId)
-          ? leasingListColor
-          : attributes.includes(CareInstPlycocoAttrId)
-          ? selfEmployesListColor
-          : '',
-        companyName,
-      });
-      return true;
-    });
-  }
-
+ 
   // Options to show department data
   let careInstitutionDepartment: IReactSelectInterface[] = [];
   if (departmentList && departmentList.getDivision.length) {
@@ -4340,18 +4294,7 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
     }
   };
   
-  // function to load or search data in careinstitution dropdowwn
-  const handleLoadMoreCanstitution = (input: any) => {
-    fetchCareInstitutionList({
-      variables: {
-        searchBy: input ? input : '',
-        sortBy: 5,
-        limit: 100,
-        page: 1,
-        isActive: '',
-      },
-    });
-  };
+
   const isUnLinkable: boolean =
     item &&
     item.appointments &&
@@ -4489,8 +4432,6 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
             daysData={daysData}
             qualificationList={qualificationList}
             handleQualification={handleQualification}
-            careInstitutionList={careInstitutionOptions}
-            careGiversList={careGiversOptions}
             handleDayClick={handleDayClick}
             handleToday={handleToday}
             qualification={qualification}
@@ -4518,7 +4459,6 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
             setIsPositive={setIsPositive}
             isNegative={isNegative}
             setIsNegative={setIsNegative}
-            handleLoadMoreCanstitution={handleLoadMoreCanstitution}
           />
           <div className='common-content flex-grow-1'>
             <div>

@@ -1,10 +1,9 @@
 import React, { FunctionComponent, useEffect } from "react";
 import AsyncSelect from "react-select/async";
-// import { languageTranslation } from "../../../../helpers";
-import CareInstCustomOption from "../CustomOptions/CustomCareInstOptions";
 import { debounce } from "lodash";
-import { CareInstitutionQueries } from "../../../../graphql/queries";
 import { useLazyQuery } from "@apollo/react-hooks";
+import CareInstCustomOption from "../CustomOptions/CustomCareInstOptions";
+import { CareInstitutionQueries } from "../../../../graphql/queries";
 import { languageTranslation } from "../../../../helpers";
 import { IReactSelectInterface } from "../../../../interfaces";
 import { CareInstInActiveAttrId, deactivatedListColor, CareInstTIMyoCYAttrId, leasingListColor, CareInstPlycocoAttrId, selfEmployesListColor, client, ASYNC_LIST_LIMIT } from "../../../../config";
@@ -17,8 +16,6 @@ const [
   ,
   ,
 ] = CareInstitutionQueries;
-
-let callbackFunc:any = null
 
 const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
   const {
@@ -59,7 +56,7 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
         const { getCareInstitutions } = queryData;
         const { careInstitutionData, totalCount } = getCareInstitutions;
         console.log(careInstitutionData,'careInstitutionData');
-        
+        if (careInstitutionData && careInstitutionData.length) {
         careInstitutionOptions.push({
           label: languageTranslation('SHORT_NAME'),
           value: languageTranslation('ID'),
@@ -86,28 +83,21 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
           });
           return true;
         });
-        if (totalCount > ASYNC_LIST_LIMIT) {
-          careInstitutionOptions.push({
-            label: languageTranslation('SEARCH_TIP'),
-            value: "",
-            companyName: "",
-            isDisabled:true
-          });
-        }
+      }
+      if (totalCount > ASYNC_LIST_LIMIT) {
+        careInstitutionOptions.push({
+          label: languageTranslation('SEARCH_TIP'),
+          value: "",
+          companyName: "",
+          isDisabled:true
+        });
+      }
         return careInstitutionOptions
       }else{
         return []
       }
     }
     formattedOPtions(careInstituition);
-
-  //   useEffect(() => {
-  //     console.log(callbackFunc,'callbackFunc');
-  //     if (callbackFunc && careInstituition && careInstituition.getCareInstitutions) {
-  //       console.log(formattedOPtions(),'formattedOPtions(666)',careInstituition)
-  //       callbackFunc([])
-  //     }
-  // },[careInstituition]);
 
   const handleLoadMoreCanstitution = async(input: string,callback:any) => {
     console.log("input",input);
@@ -123,67 +113,52 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
     const { getCareInstitutions } = data;
     const { careInstitutionData, totalCount } = getCareInstitutions;
     console.log(careInstitutionData,'careInstitutionData');
-    careInstitutionOptions.push({
-      label: languageTranslation('SHORT_NAME'),
-      value: languageTranslation('ID'),
-      companyName: languageTranslation('COMPANY_NAME'),
-    });
-    let options:any[] = []
-    careInstitutionData.map((data: any) => {
-      const { canstitution } = data;
-      let { attributes = [], companyName = "", shortName = "" } = canstitution
-        ? canstitution
-        : {};
-      attributes = attributes ? attributes : [];
-      options.push({
-        label: shortName,
-        value: data.id,
-        color: attributes.includes(CareInstInActiveAttrId)
-          ? deactivatedListColor
-          : attributes.includes(CareInstTIMyoCYAttrId)
-          ? leasingListColor
-          : attributes.includes(CareInstPlycocoAttrId)
-          ? selfEmployesListColor
-          : "",
-        companyName,
-      });
-      return true;
-    });
-    if (totalCount > ASYNC_LIST_LIMIT) {
+    if (careInstitutionData && careInstitutionData.length) {
       careInstitutionOptions.push({
-        label: languageTranslation('SEARCH_TIP'),
-        value: "",
-        companyName: "",
-        isDisabled:true
+        label: languageTranslation('SHORT_NAME'),
+        value: languageTranslation('ID'),
+        companyName: languageTranslation('COMPANY_NAME'),
       });
+      let options:any[] = []
+      careInstitutionData.map((data: any) => {
+        const { canstitution } = data;
+        let { attributes = [], companyName = "", shortName = "" } = canstitution
+          ? canstitution
+          : {};
+        attributes = attributes ? attributes : [];
+        options.push({
+          label: shortName,
+          value: data.id,
+          color: attributes.includes(CareInstInActiveAttrId)
+            ? deactivatedListColor
+            : attributes.includes(CareInstTIMyoCYAttrId)
+            ? leasingListColor
+            : attributes.includes(CareInstPlycocoAttrId)
+            ? selfEmployesListColor
+            : "",
+          companyName,
+        });
+        return true;
+      });
+      if (totalCount > ASYNC_LIST_LIMIT) {
+        careInstitutionOptions.push({
+          label: languageTranslation('SEARCH_TIP'),
+          value: "",
+          companyName: "",
+          isDisabled:true
+        });
+      }
+      return callback(options)
     }
-    return callback(options)
     console.log(data,formattedOPtions(data),'resssss');
-    
-    // await fetchCareInstitutionList({
-    //   variables: {
-    //     searchBy: input ? input : "",
-    //     sortBy: 5,
-    //     limit: 100,
-    //     page: 1,
-    //     isActive: "",
-    //   },
-    // });
-    // setTimeout(() => {
-    //   console.log(formattedOPtions(),'formattedOPtions in load more');
-    //   callback(formattedOPtions())
-    // }, 5000);
   }
   
   let getOptions =  (inputValue: any, callback: any) => {
-    // callbackFunc = callback;
     if (!inputValue) {
       return callback([]);
     }
     handleLoadMoreCanstitution(inputValue, callback);
     console.log(careInstituition,'after load more');
-    
-    // return callback(careInstitutionOptions);
   };
 
   return (

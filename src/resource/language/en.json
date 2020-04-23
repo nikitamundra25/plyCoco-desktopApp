@@ -1187,5 +1187,6 @@
   "TIMYOC_SUM": "TiMyocy sum",
   "CAREGIVER_GROSS": "Caregiver gross/h",
   "NIGHT_PER_HOUR": "Night/hr",
-  "TOTAL_NIGHT_CHARGE": "Total Night Charge"
+  "TOTAL_NIGHT_CHARGE": "Total Night Charge",
+  "WORKING_TIMES":"Working times avai."
 }

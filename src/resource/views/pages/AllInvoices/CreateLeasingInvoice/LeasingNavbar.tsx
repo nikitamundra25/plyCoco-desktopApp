@@ -112,25 +112,25 @@ const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
         {languageTranslation("CREATE")}
       </span>
     </div>
-    <div className="header-nav-item">
+    {/* <div className="header-nav-item">
       <span className="header-nav-icon">
         <img src={CompleteTime} alt="" />
       </span>
       <span className="header-nav-text">
         {languageTranslation("TIMELY_COMPLETELY")}
       </span>
-    </div>
-    <div className="header-nav-item">
+    </div> */}
+    {/* <div className="header-nav-item">
       <span className="header-nav-icon">
         <img src={idea} alt="" />
       </span>
       <span className="header-nav-text">
         {languageTranslation("CREATE_ALL_CAREGIVER")}
       </span>
-    </div>
+    </div> */}
     <div className="header-nav-item">
       <span className="header-nav-icon pr-0">
-        <img src={massege} alt=""/>
+      {languageTranslation("WORKING_TIMES")}
       </span>
     </div>
     <div className="user-select mx-1 ">

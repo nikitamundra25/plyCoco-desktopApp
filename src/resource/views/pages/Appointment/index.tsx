@@ -3077,17 +3077,12 @@ const Appointment: FunctionComponent = (props: any) => {
       (dept: any) => dept.value === Item.divisionId
     );
   }
-  console.log('Item', Item && Item.qualificationForCharge);
-
   let qualificationfor: any;
   qualificationfor = qualificationList.filter((value: any) => {
-    console.log('value', value);
     return Item && Item.qualificationForCharge
       ? Item.qualificationForCharge.includes(value.value)
-      : null /* .findIndex(value) */;
+      : null;
   });
-  console.log('qualificationfor', qualificationfor && qualificationfor[0]);
-
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : '',
     name:

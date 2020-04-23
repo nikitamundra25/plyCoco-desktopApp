@@ -12,7 +12,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 import PaginationComponent from '../../../components/Pagination';
 import * as qs from 'query-string';
 import moment from 'moment';
-
+import {
+  nightCommission,
+  holidayCommission,
+  weekendCommission,
+  nightCommissionTim,
+} from '../../../../../config/constant';
 const LeasingList: FunctionComponent<IInvoiceList & any> = (
   props: IInvoiceList & any
 ) => {
@@ -47,6 +52,8 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
       ? item.ca.user.caregiver.attributes.includes(9)
       : null;
   });
+  console.log('qualiFilter', qualiFilter);
+
   return (
     <>
       <div className='table-minheight createinvoices-table'>
@@ -93,12 +100,6 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
               <th className='price-col'>
                 {languageTranslation('CAREGIVER_GROSS')}
               </th>
-              {/* <th className='price-col'>{languageTranslation('TOTAL')}</th>
-              <th className='price-col'>{languageTranslation('COMMISSION')}</th>
-              <th className='price-col'>{languageTranslation('TOTAL')}</th>
-              <th className={'text-center action-col'}>
-                {languageTranslation('TABEL_HEAD_CG_ACTION')}
-              </th> */}
             </tr>
           </thead>
           <tbody>
@@ -110,6 +111,11 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
               </tr>
             ) : qualiFilter && qualiFilter.length ? (
               qualiFilter.map((list: any, index: number) => {
+                let transportation: number =
+                  list.ca && list.ca.feePerKM ? list.ca.feePerKM : 0;
+                let expenses: number =
+                  list.ca && list.ca.otherExpenses ? list.ca.otherExpenses : 0;
+
                 let workBegain: any, workEnd: any;
                 if (list && list.ca && list.ca.workingHoursFrom) {
                   workBegain = list.ca.workingHoursFrom.split(',');
@@ -152,27 +158,66 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                       : time === 'n'
                       ? 'n'
                       : '';
-                  console.log('splitData', splitData);
-
-                  // let split = time.split()
                   timeStamp = '';
                 }
                 //Show Weekend day
                 let isWeekendDay: boolean = false;
                 const dayData = new Date(list.date).getDay();
                 isWeekendDay = dayData === 6 || dayData === 0 ? true : false;
+                // show holiday
                 let hasHoliday: any;
                 if (careGiverHolidays && careGiverHolidays.length) {
                   hasHoliday = careGiverHolidays.filter(
                     (data: any) => data.date === list.date
                   );
                 }
+                // show night
+                let isNight: boolean = false;
+                // const dayData = new Date(list.date).getDay();
+                isNight = dayData === 6 || dayData === 0 ? true : false;
 
                 //Find Total Ammount
                 let totalAmount: number = 0;
                 if (list && list.ca) {
                   totalAmount = list.ca.fee * 100;
                 }
+                {
+                  /* Caregiver Gross - Invoice (Timyocy to Caregiver)
+Brutto = BS + QA
+Leasing - ((Brutto + (Holiday = Brutto * 1) + (Sunday = Brutto * 0.5) + (Night = Brutto * 0.2)) * Hours ) + 2 * transprotation + expenses) * days) */
+                }
+                let days: number = 1,
+                  hours: number = 1,
+                  NP: number = 1,
+                  Brutto: number = 1;
+                // find caregiver gross
+                let holidayPrice: number = 0,
+                  weekendPrice: number = 0,
+                  nightPrice: number = 0;
+                if (hasHoliday && hasHoliday.length) {
+                  holidayPrice += Brutto * holidayCommission;
+                }
+                if (isWeekendDay) {
+                  weekendPrice += Brutto * weekendCommission;
+                }
+                if (isNight) {
+                  nightPrice += Brutto * nightCommission;
+                }
+
+                // find timyocy sum
+                let holidayPriceTim: number = 0,
+                  weekendPriceTim: number = 0,
+                  nightPriceTim: number = 0;
+                if (hasHoliday && hasHoliday.length) {
+                  holidayPriceTim += NP * holidayCommission;
+                }
+                if (isWeekendDay) {
+                  weekendPriceTim += NP * weekendCommission;
+                }
+                if (isNight) {
+                  nightPriceTim += NP * nightCommissionTim;
+                }
+
                 return (
                   <tr className='sno-col' key={index}>
                     <td className='checkbox-th-column text-center'>
@@ -212,7 +257,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                       {list.ca && list.ca.breakFrom ? list.ca.breakFrom : '-'}
                     </td>
                     <td className='price-col'>
-                      qualification
+                      qualification price
                       {/* {list.ca && list.ca.nightFee ? list.ca.nightFee : '-'}{' '} */}
                     </td>
                     <td className='price-col'>00.00 &euro;</td>
@@ -274,86 +319,18 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                       )}
                     </td>
                     <td className='price-col'>
-                      {/* {list.ca && list.ca.feePerKM
-                        ? `${list.ca.feePerKM} &euro`
-                        : '-'}{' '} */}
+                      {(NP +
+                        holidayPriceTim +
+                        weekendPriceTim +
+                        nightPriceTim) *
+                        hours +
+                        2 * (transportation + expenses) * days}
                     </td>
                     <td className='price-col'>
-                      {/* {list.ca && list.ca.otherExpenses
-                        ? `${list.ca.otherExpenses} &euro`
-                        : '-'}{' '} */}
+                      {(Brutto + holidayPrice + weekendPrice + nightPrice) *
+                        hours +
+                        2 * (transportation + expenses) * days}
                     </td>
-                    {/* <td className='price-col'>384.00 &euro;</td>
-                    <td className='price-col'>384.00 &euro;</td>
-                    <td className='price-col'>34584.00 &euro;</td>
-                    <td className='action-col'>
-                      <div className='action-btn'>
-                        <span
-                          className='btn-icon mr-2'
-                          id={`viewcaregiver`}
-                          onClick={() =>
-                            history.push(
-                              AppRoutes.CARE_GIVER_VIEW.replace(
-                                ':id',
-                                list.ca.userId
-                              )
-                            )
-                          }
-                        >
-                          <UncontrolledTooltip
-                            placement='top'
-                            target={`viewcaregiver`}
-                          >
-                            View Caregiver Profile
-                          </UncontrolledTooltip>
-                          <i className='fa fa-eye'></i>
-                        </span>
-                        <span
-                          className='btn-icon mr-2'
-                          id={`viewcareinstitution`}
-                          onClick={() =>
-                            history.push(
-                              AppRoutes.CARE_INSTITUION_VIEW.replace(
-                                ':id',
-                                list.cr.userId
-                              )
-                            )
-                          }
-                        >
-                          <UncontrolledTooltip
-                            placement='top'
-                            target={`viewcareinstitution`}
-                          >
-                            View Care Institution Profile
-                          </UncontrolledTooltip>
-                          <i className='fa fa-eye'></i>
-                        </span>
-                        <span
-                          onClick={() =>
-                            history.push({
-                              pathname: AppRoutes.APPOINTMENT,
-                              state: {
-                                caregiver: list.ca.userId,
-                                name: list.ca.name,
-                                canstitution: list.cr.userId,
-                                avabilityId: list.avabilityId,
-                              },
-                            })
-                          }
-                          className='btn-icon mr-2'
-                          id={`appointmentdetails`}
-                        >
-                          <UncontrolledTooltip
-                            placement='top'
-                            target={`appointmentdetails`}
-                          >
-                            Show Appointment Details
-                          </UncontrolledTooltip>
-                          <i className='fa fa-calendar'></i>
-                        </span>
-                      </div>
-                    </td>
-                   */}
                   </tr>
                 );
               })
@@ -374,9 +351,9 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
           </tbody>
         </Table>
       </div>
-      {totalCount ? (
+      {qualiFilter && qualiFilter.length > 10 ? (
         <PaginationComponent
-          totalRecords={totalCount}
+          totalRecords={10}
           currentPage={currentPage}
           onPageChanged={onPageChanged}
         />

@@ -612,27 +612,19 @@ const Appointment: FunctionComponent = (props: any) => {
         let availabilityIndex: number = element.findIndex(
           (e: any) => e.id === updateCareInstitutionRequirement.id
         );
+        // if (availabilityIndex > -1) {
+        //   temp[index].availabilityData[i][
+        //     availabilityIndex
+        //   ] = updateCareInstitutionRequirement;
+        // }
+
         if (availabilityIndex > -1) {
           temp[index].availabilityData[i][
             availabilityIndex
-          ] = updateCareInstitutionRequirement;
-        }
-        let cellIndex: number = selectedCareInstCells.findIndex(
-          (cell: any) =>
-            cell.item && updateCareInstitutionRequirement.id === cell.item.id
-        );
-        let qualification = qualificationList.filter(({ value }: any) =>
-          updateCareInstitutionRequirement.qualificationId.includes(value)
-        );
-        if (selectedCareInstCells[cellIndex]) {
-          selectedCareInstCells[cellIndex] = {
-            ...selectedCareInstCells[cellIndex],
-            item: {
-              ...updateCareInstitutionRequirement,
-              qualificationId:
-                qualification && qualification.length ? qualification : [],
-            },
-          };
+          ] = {...temp[index].availabilityData[i][
+            availabilityIndex
+          ], ...updateCareInstitutionRequirement}
+          break;
         }
       }
     }
@@ -646,31 +638,60 @@ const Appointment: FunctionComponent = (props: any) => {
           (e: any) => e.id === updateCareInstitutionRequirement.id
         );
         
+        // if (availabilityIndex > -1) {
+        //   deptList[deptIndex].availabilityData[i][
+        //     availabilityIndex
+        //   ] = updateCareInstitutionRequirement;
+        // }
+
         if (availabilityIndex > -1) {
           deptList[deptIndex].availabilityData[i][
             availabilityIndex
-          ] = updateCareInstitutionRequirement;
+          ] = {...deptList[deptIndex].availabilityData[i][
+            availabilityIndex
+          ], ...updateCareInstitutionRequirement}
+          break;
         }
-        let cellIndex: number = selectedCareInstCells.findIndex(
-          (cell: any) =>
-            cell.item && updateCareInstitutionRequirement.divisionId === cell.item.id
-        );
-        let qualification = qualificationList.filter(({ value }: any) =>
-          updateCareInstitutionRequirement.qualificationId.includes(value)
-        );
-        if (selectedCareInstCells[cellIndex]) {
-          selectedCareInstCells[cellIndex] = {
-            ...selectedCareInstCells[cellIndex],
-            item: {
-              ...updateCareInstitutionRequirement,
-              qualificationId:
-                qualification && qualification.length ? qualification : [],
-            },
-          };
-        }
+
+        // let cellIndex: number = selectedCareInstCells.findIndex(
+        //   (cell: any) =>
+        //     cell.item && updateCareInstitutionRequirement.divisionId === cell.item.id
+        // );
+        // let qualification = qualificationList.filter(({ value }: any) =>
+        //   updateCareInstitutionRequirement.qualificationId.includes(value)
+        // );
+        // if (selectedCareInstCells[cellIndex]) {
+        //   selectedCareInstCells[cellIndex] = {
+        //     ...selectedCareInstCells[cellIndex],
+        //     item: {
+        //       ...updateCareInstitutionRequirement,
+        //       qualificationId:
+        //         qualification && qualification.length ? qualification : [],
+        //     },
+        //   };
+        // }
       }
     }
   }
+  let cellIndex: number = selectedCareInstCells.findIndex(
+    (cell: any) =>
+       cell.item && updateCareInstitutionRequirement.id === cell.item.id
+   );
+   let qualification = qualificationList.filter(({ value }: any) =>
+     updateCareInstitutionRequirement.qualificationId.includes(value)
+   );
+  
+   if (selectedCareInstCells[cellIndex]) {
+     selectedCareInstCells[cellIndex] = {
+       ...selectedCareInstCells[cellIndex],
+       item: {
+         ...selectedCareInstCells[cellIndex].item,
+         ...updateCareInstitutionRequirement,
+         qualificationId:
+           qualification && qualification.length ? qualification : [],
+       },
+     };
+   } 
     setselectedCellsCareinstitution(selectedCareInstCells);
 
       // canstitutionRefetch();
@@ -2211,9 +2232,9 @@ const Appointment: FunctionComponent = (props: any) => {
             ? deactivatedListColor
             : attributes.includes(CaregiverTIMyoCYAttrId)
             ? leasingListColor
-            : attributes.includes("Plycoco")
+            : attributes.includes('Plycoco')
             ? selfEmployesListColor
-            : "",
+            : '',
         });
       }
     );
@@ -2245,7 +2266,7 @@ const Appointment: FunctionComponent = (props: any) => {
           ? leasingListColor
           : attributes.includes(CareInstPlycocoAttrId)
           ? selfEmployesListColor
-          : "",
+          : '',
         companyName,
       });
       return true;
@@ -2392,9 +2413,9 @@ const Appointment: FunctionComponent = (props: any) => {
           toastId = toast.success(
             name === 'careinstitution'
               ? languageTranslation(
-                  "DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS"
+                  'DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS'
                 )
-              : languageTranslation("DELETE_CAREGIVER_AVABILITY_SUCCESS")
+              : languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
           );
         }
       }
@@ -2489,9 +2510,9 @@ const Appointment: FunctionComponent = (props: any) => {
                   ? careInstitutionTimesOptions[0]
                   : values
                   ? values.shift
-                  : "",
-              startTime: startTime ? startTime : values ? values.startTime : "",
-              endTime: endTime ? endTime : values ? values.endTime : "",
+                  : '',
+              startTime: startTime ? startTime : values ? values.startTime : '',
+              endTime: endTime ? endTime : values ? values.endTime : '',
             },
           },
         ];
@@ -2513,6 +2534,11 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // Change time shift option
   useEffect(() => {
+    console.log(
+      'updateCanstitutionFormikValues',
+      updateCanstitutionFormikValues
+    );
+
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
     let values = updateCanstitutionFormikValues;
     let time = timeData && !timeData.data ? timeData.value.split('-') : '';
@@ -2567,28 +2593,32 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   }, [careInstituionShift]);
 
+
   // to update caregiver status as set on confirmed or reset confirmed
   const updateCaregiverStatus = async (name: string) => {
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async (element) => {
-        const { item } = element;
-        if (item && item.id) {
+        const { item , id} = element;
+        const Item = {...item}
+        if (Item && Item.id) {
           if (
             name === 'confirmed'
-              ? item.status === 'linked'
-              : item.status === 'confirmed'
+              ? Item.status === 'linked'
+              : Item.status === 'confirmed'
           ) {
-            let availabilityId: number = item.id ? parseInt(item.id) : 0;
-            delete item.id;
-            delete item.__typename;
-            delete item.appointments;
-            delete item.division;
-            delete item.qualificationId;
+            let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+            delete Item.id;
+            delete Item.__typename;
+            delete Item.appointments;
+            delete Item.division;
+            delete Item.qualificationId;
+            delete Item.lastName;
             await updateCaregiver({
               variables: {
                 id: availabilityId,
                 careGiverAvabilityInput: {
-                  ...item,
+                  ...Item,
+                  userId: id,
                   status: name === 'confirmed' ? 'confirmed' : 'linked',
                 },
               },
@@ -2620,13 +2650,13 @@ const Appointment: FunctionComponent = (props: any) => {
         const Item = { ...item };
         if (Item && Item.id) {
           if (
-            name === "confirmed"
-              ? Item.status === "linked"
-              : name === "notconfirm"
-              ? Item.status === "confirmed"
-              : name === "offered"
-              ? Item.status === "default"
-              : Item.status === "offered"
+            name === 'confirmed'
+              ? Item.status === 'linked'
+              : name === 'notconfirm'
+              ? Item.status === 'confirmed'
+              : name === 'offered'
+              ? Item.status === 'default'
+              : Item.status === 'offered'
           ) {
             let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
             delete Item.id;
@@ -2643,13 +2673,13 @@ const Appointment: FunctionComponent = (props: any) => {
                     return Item.value;
                   }),
                   status:
-                    name === "confirmed"
-                      ? "confirmed"
-                      : name === "notconfirm"
-                      ? "linked"
-                      : name === "offered"
-                      ? "offered"
-                      : "default",
+                    name === 'confirmed'
+                      ? 'confirmed'
+                      : name === 'notconfirm'
+                      ? 'linked'
+                      : name === 'offered'
+                      ? 'offered'
+                      : 'default',
                 },
               },
             });
@@ -2774,15 +2804,15 @@ const Appointment: FunctionComponent = (props: any) => {
         item: {
           ...item,
           status:
-            name === "link"
-              ? "linked"
-              : name === "confirmed"
-              ? "confirmed"
-              : name === "notconfirm"
-              ? "linked"
-              : name === "offered"
-              ? "offered"
-              : "default",
+            name === 'link'
+              ? 'linked'
+              : name === 'confirmed'
+              ? 'confirmed'
+              : name === 'notconfirm'
+              ? 'linked'
+              : name === 'offered'
+              ? 'offered'
+              : 'default',
         },
       },
     ];
@@ -2815,20 +2845,20 @@ const Appointment: FunctionComponent = (props: any) => {
         item: {
           ...Item,
           status:
-            name === "link"
-              ? "linked"
-              : name === "confirmed"
-              ? "confirmed"
-              : name === "notconfirmed"
-              ? "linked"
-              : name === "contractcancelled"
-              ? "contractcancelled"
-              : name === "contractInitiated"
-              ? "contractInitiated"
-              : "default",
-          f: Item && Item.f === "available" ? "available" : "",
-          n: Item && Item.n === "available" ? "available" : "",
-          s: Item && Item.s === "available" ? "available" : "",
+            name === 'link'
+              ? 'linked'
+              : name === 'confirmed'
+              ? 'confirmed'
+              : name === 'notconfirmed'
+              ? 'linked'
+              : name === 'contractcancelled'
+              ? 'contractcancelled'
+              : name === 'contractInitiated'
+              ? 'contractInitiated'
+              : 'default',
+          f: Item && Item.f === 'available' ? 'available' : '',
+          n: Item && Item.n === 'available' ? 'available' : '',
+          s: Item && Item.s === 'available' ? 'available' : '',
         },
       },
     ];
@@ -2924,9 +2954,10 @@ const Appointment: FunctionComponent = (props: any) => {
   const handleFirstStarCanstitution = async (list: any, index: number) => {
     // setselectedCareinstitution(list);
     //  setcareinstitutionList()
-    console.log('handleFirstStarCanstitution', starCanstitution, index);
+  
     
     if (!starCanstitution.isStar) {
+      
       if (index < 0) {
         setcareinstitutionSoloFilter({
           label:list ? list.id : '',
@@ -2939,6 +2970,7 @@ const Appointment: FunctionComponent = (props: any) => {
         id: list ? list.id : '',
       });
     } else {
+      
       if (
         careinstitutionSoloFilter && careinstitutionSoloFilter.value && careinstitutionList && careinstitutionList.length === 1) {
         await setcareinstitutionSoloFilter(undefined);
@@ -3153,7 +3185,7 @@ const handleSubmitCaregiverForm = async (
               f: f ? "available" : isBlockeddate ? "block" : "default",
               s: s ? "available" : isBlockeddate ? "block" : "default",
               n: n ? "available" : isBlockeddate ? "block" : "default",
-              status: isWorkProofStatus? "timeSheetUpdated ": status ? status : "default",
+              status: isWorkProofStatus? "timeSheetUpdated": status ? status : "default",
               workingHoursFrom: workingHoursFromDate
                 ? `${workingHoursFromDate},${workingHoursFromTime}`
                 : null,
@@ -3228,6 +3260,7 @@ const handleSubmitCaregiverForm = async (
       endTime,
       startTime,
       qualificationId,
+      qualificationForCharge,
       department,
       address,
       contactPerson,
@@ -3240,6 +3273,7 @@ const handleSubmitCaregiverForm = async (
       comments,
       status,
     } = values;
+    console.log('values in index', values);
 
     let quali: number[] = [];
     if (qualificationId) {
@@ -3310,6 +3344,7 @@ const handleSubmitCaregiverForm = async (
               endTime,
               startTime,
               qualificationId,
+              qualificationForCharge,
               address,
               contactPerson,
               department,
@@ -3344,6 +3379,11 @@ const handleSubmitCaregiverForm = async (
                 ? parseInt(department.value)
                 : null,
             qualificationId: quali,
+            qualificationForCharge:
+              qualificationForCharge && qualificationForCharge.value
+                ? parseInt(qualificationForCharge.value)
+                : null,
+
             address: department
               ? address
               : [street, city].filter(Boolean).join(', '),
@@ -3664,7 +3704,7 @@ const handleSubmitCaregiverForm = async (
             userRole === 'caregiver'
               ? languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY')
               : languageTranslation(
-                  "CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT"
+                  'CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT'
                 ),
         });
         if (value) {
@@ -3691,7 +3731,7 @@ const handleSubmitCaregiverForm = async (
               userRole === 'caregiver'
                 ? languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
                 : languageTranslation(
-                    "DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS"
+                    'DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS'
                   )
             );
           }
@@ -3920,6 +3960,16 @@ const handleSubmitCaregiverForm = async (
       (dept: any) => dept.value === Item.divisionId
     );
   }
+  console.log('Item', Item && Item.qualificationForCharge);
+
+  let qualificationfor: any;
+  qualificationfor = qualificationList.filter((value: any) => {
+    console.log('value', value);
+    return Item && Item.qualificationForCharge
+      ? Item.qualificationForCharge.includes(value.value)
+      : null /* .findIndex(value) */;
+  });
+  console.log('qualificationfor', qualificationfor && qualificationfor[0]);
 
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : '',
@@ -3932,6 +3982,8 @@ const handleSubmitCaregiverForm = async (
     endTime: Item ? Item.endTime : '',
     qualificationId:
       Item && Item.qualificationId ? Item.qualificationId : undefined,
+    qualificationForCharge:
+      qualificationfor && qualificationfor[0] ? qualificationfor[0] : undefined,
     address: Item ? Item.address : '',
     contactPerson: Item ? Item.contactPerson : '',
     departmentOfferRemarks: Item ? Item.departmentOfferRemarks : '',
@@ -3992,7 +4044,7 @@ const handleSubmitCaregiverForm = async (
         ? '0'
         : fee
         ? germanNumberFormat(fee)
-        : "",
+        : '',
     nightFee:
       item && (item.f === 'block' || item.s === 'block' || item.n === 'block')
         ? '0'
@@ -4000,7 +4052,7 @@ const handleSubmitCaregiverForm = async (
         ? germanNumberFormat(night)
         : nightFee
         ? germanNumberFormat(nightFee)
-        : "",
+        : '',
     nightAllowance:
       caregiver && nightAllowance
         ? {
@@ -4015,13 +4067,13 @@ const handleSubmitCaregiverForm = async (
         ? germanNumberFormat(holidayAllowance)
         : holiday
         ? germanNumberFormat(holiday)
-        : "",
+        : '',
     weekendAllowance:
       item && (item.f === 'block' || item.s === 'block' || item.n === 'block')
         ? '0'
         : weekendAllowance
         ? germanNumberFormat(weekendAllowance)
-        : "",
+        : '',
     workingProofRecieved: workingProofRecieved ? true : false,
     distanceInKM: distanceInKM ? distanceInKM : '',
     feePerKM: feePerKM ? feePerKM : '',
@@ -4294,18 +4346,18 @@ const handleSubmitCaregiverForm = async (
   
   // function to load or search data in careinstitution dropdowwn
   const handleLoadMoreCanstitution = (input: any) => {
-    console.log("input",input);
-    
+    console.log('input', input);
+
     fetchCareInstitutionList({
       variables: {
-        searchBy: input ? input : "",
+        searchBy: input ? input : '',
         sortBy: 5,
         limit: 100,
         page: 1,
-        isActive: "",
+        isActive: '',
       },
     });
-  }
+  };
   const isUnLinkable: boolean =
     item &&
     item.appointments &&
@@ -4729,7 +4781,7 @@ const handleSubmitCaregiverForm = async (
                           {linkLoading ? (
                             <i className='fa fa-spinner fa-spin mr-2' />
                           ) : (
-                            <i className="fa fa-link mr-2" />
+                            <i className='fa fa-link mr-2' />
                           )}
                           {isUnLinkable
                             ? 'Unlink'

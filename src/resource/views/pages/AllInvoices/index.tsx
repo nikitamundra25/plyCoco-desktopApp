@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { useState, FunctionComponent, useEffect } from "react";
 import {
   Button,
   Table,
@@ -48,10 +48,13 @@ import clear from "../../../assets/img/header-icons/tab-icons/clear.svg";
 import edit from "../../../assets/img/header-icons/tab-icons/edit.svg";
 import { RouteComponentProps } from "react-router";
 import showAppointment from "../../../assets/img/header-icons/show-appointment.svg";
-import { StatusOptions, SortOptions } from "../../../../config";
-
+import { StatusOptions, SortOptions, PAGE_LIMIT, defaultDateFormat } from "../../../../config";
 import "./index.scss";
-import filter from "../../../assets/img/filter.svg";
+import { InvoiceQueries } from "../../../../graphql/queries";
+import { useLazyQuery } from "@apollo/react-hooks";
+import moment from "moment";
+
+const [, GET_ALL_INVOICE_LIST] = InvoiceQueries;
 
 const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
@@ -65,6 +68,37 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
   const tabChangehandler = (currentTab: any) => {
     setTabChange(currentTab);
   };
+
+  // To fetch All invoice list
+  const [
+    fetchAllInvoiceList,
+    { data: invoiceList, loading: invoiceListLoading, refetch },
+  ] = useLazyQuery<any, any>(GET_ALL_INVOICE_LIST, {
+    fetchPolicy: "no-cache",
+    // notifyOnNetworkStatusChange: true
+  });
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  console.log("++++++++++++++++++++", invoiceList);
+
+  const getAllInvoiceListData = () => {
+    console.log("currentPage", currentPage);
+
+    fetchAllInvoiceList({
+      variables: {
+        status: "",
+        sortBy: null,
+        limit: PAGE_LIMIT,
+        page: 1,
+      },
+    });
+  };
+
+  useEffect(() => {
+    // call query
+    getAllInvoiceListData()
+  }, []); // It will run when the search value gets changed
+
   return (
     <>
       <Card>
@@ -297,148 +331,148 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                 </div>
               </div>
             ) : (
-              <div className="common-topheader d-flex  px-2 mb-1">
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1 text-center">
-                    Reminders
+                <div className="common-topheader d-flex  px-2 mb-1">
+                  <div className="header-nav-colmn-items">
+                    <div className="header-nav-heading mx-1 text-center">
+                      Reminders
                   </div>
-                  <div className="header-nav-item">
-                    <span className="header-nav-icon">
-                      <img src={sendReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Send reminder</span>
+                    <div className="header-nav-item">
+                      <span className="header-nav-icon">
+                        <img src={sendReminder} alt="" />
+                      </span>
+                      <span className="header-nav-text">Send reminder</span>
+                    </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={createReminder} alt="" />
+                      </span>
+                      <span className="header-nav-text">Create a reminder</span>
+                    </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={showReminder} alt="" />
+                      </span>
+                      <span className="header-nav-text">Show reminder</span>
+                    </div>
                   </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={createReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Create a reminder</span>
+                  <div className="header-nav-colmn-items">
+                    <div className="header-nav-heading mx-1 text-center">
+                      Warning
                   </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={showReminder} alt="" />
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={uploadReminder} alt="" />
+                      </span>
+                      <span className="header-nav-text">Upload reminder</span>
+                    </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={attachReminder} alt="" />
+                      </span>
+                      <span className="header-nav-text">attach reminder</span>
+                    </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={sendLawyer} alt="" />
+                      </span>
+                      <span className="header-nav-text">Send to lawyer</span>
+                    </div>
+                  </div>
+                  <div className="header-nav-colmn-items">
+                    <div className="header-nav-heading mx-1 text-center">
+                      Export
+                  </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={taxConsultant} alt="" />
+                      </span>
+                      <span className="header-nav-text">Tax consultant</span>
+                    </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={vicantPosition} alt="" />
+                      </span>
+                      <span className="header-nav-text">Vacant positions</span>
+                    </div>
+                  </div>
+                  <div className="header-nav-colmn-items">
+                    <div className="header-nav-heading mx-1 text-center">
+                      Invoices
+                  </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={SpecialistInvoice} alt="" />
+                      </span>
+                      <span className="header-nav-text">Create new invoice</span>
+                    </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={SpecialistInvoice} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Create cancellation invoice
                     </span>
-                    <span className="header-nav-text">Show reminder</span>
+                    </div>
+                  </div>
+                  <div className="header-nav-colmn-items">
+                    <div className="header-nav-heading mx-1 text-center">
+                      attachment
+                  </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={appendToPlycoco} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Append to plyco bill
+                    </span>
+                    </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={AttachSpeacilistInvoice} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Attach to specialist invoice
+                    </span>
+                    </div>
+                  </div>
+                  <div className="header-nav-colmn-items">
+                    <div className="header-nav-heading mx-1 text-center"></div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={Again} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Append order number Plycoco
+                    </span>
+                    </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={Again} alt="" />
+                      </span>
+                      <span className="header-nav-text">
+                        Append order number specialist
+                    </span>
+                    </div>
+                  </div>
+                  <div className="header-nav-colmn-items">
+                    <div className="header-nav-heading mx-1 text-center">
+                      Other tool
+                  </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={edit} alt="" />
+                      </span>
+                      <span className="header-nav-text">To edit</span>
+                    </div>
+                    <div className="header-nav-item ">
+                      <span className="header-nav-icon">
+                        <img src={clear} alt="" />
+                      </span>
+                      <span className="header-nav-text">Clear</span>
+                    </div>
                   </div>
                 </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1 text-center">
-                    Warning
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={uploadReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">Upload reminder</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={attachReminder} alt="" />
-                    </span>
-                    <span className="header-nav-text">attach reminder</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={sendLawyer} alt="" />
-                    </span>
-                    <span className="header-nav-text">Send to lawyer</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1 text-center">
-                    Export
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={taxConsultant} alt="" />
-                    </span>
-                    <span className="header-nav-text">Tax consultant</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={vicantPosition} alt="" />
-                    </span>
-                    <span className="header-nav-text">Vacant positions</span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1 text-center">
-                    Invoices
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={SpecialistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">Create new invoice</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={SpecialistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Create cancellation invoice
-                    </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1 text-center">
-                    attachment
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={appendToPlycoco} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Append to plyco bill
-                    </span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={AttachSpeacilistInvoice} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Attach to specialist invoice
-                    </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1 text-center"></div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={Again} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Append order number Plycoco
-                    </span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={Again} alt="" />
-                    </span>
-                    <span className="header-nav-text">
-                      Append order number specialist
-                    </span>
-                  </div>
-                </div>
-                <div className="header-nav-colmn-items">
-                  <div className="header-nav-heading mx-1 text-center">
-                    Other tool
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={edit} alt="" />
-                    </span>
-                    <span className="header-nav-text">To edit</span>
-                  </div>
-                  <div className="header-nav-item ">
-                    <span className="header-nav-icon">
-                      <img src={clear} alt="" />
-                    </span>
-                    <span className="header-nav-text">Clear</span>
-                  </div>
-                </div>
-              </div>
-            )}
+              )}
 
             <CardBody>
               <div className="filter-form form-section mb-2">
@@ -590,51 +624,59 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td className="invoiceid-col"> 230004</td>
-                        <td className="careinstitution-col">
-                          {" "}
-                          <Link to="#" className="view-more-link">
-                            John Doe
-                          </Link>
-                        </td>
-                        <td className="caregiver-col">
-                          {" "}
-                          <Link to="#" className="view-more-link">
-                            Testwerk
-                          </Link>
-                        </td>
-                        <td className="cancel-col"></td>
-                        <td className="cancel-col"></td>
-                        <td className="invoiceid-col">230005</td>
-                        <td className="date-col">16-09-2013</td>
-                        <td className="amount-col">234.02</td>
-                        <td className="date-col">17-09-2013</td>
-                        <td className="date-col"></td>
-                        <td className="date-col"></td>
-                        <td className="date-col">16-09-2013</td>
-                        <td className="date-col">16-09-2013</td>
-                        <td className="date-col">16-09-2013</td>
-                        <td className="checkbox-col">
-                          <span className="checkbox-custom ">
-                            <input type="checkbox" id="checkAll" className="" />
-                            <label className=""> </label>
-                          </span>
-                        </td>
-                        <td className="checkbox-col">
-                          <span className="checkbox-custom ">
-                            <input type="checkbox" id="checkAll" className="" />
-                            <label className=""> </label>
-                          </span>
-                        </td>
-                        <td className="amount-col">234.02</td>
-                        <td className="amount-col">234.02</td>
-                        <td className="amount-col">234.02</td>
+                      {
+                        invoiceList && invoiceList.getInvoices && invoiceList.getInvoices.result && invoiceList.getInvoices.result.length ? invoiceList.getInvoices.result.map((invoiceData: any, index: number) => {
+                          console.log(">>>>>>>>>>>>>>>>>>>>>>>>", invoiceData);
+                          return (
+                            <tr key={index}>
+                              <td className="invoiceid-col"> {invoiceData.id}</td>
+                              <td className="careinstitution-col">
+                                {" "}
+                                <Link to="#" className="view-more-link">
+                                  {invoiceData.careInstitutionName}
+                                </Link>
+                              </td>
+                              <td className="caregiver-col">
+                                {" "}
+                                <Link to="#" className="view-more-link">
+                                  {invoiceData.careGiverName}
+                                </Link>
+                              </td>
+                              <td className="cancel-col"></td>
+                              <td className="cancel-col"></td>
+                              <td className="invoiceid-col">{invoiceData.invoiceNumber}</td>
+                              <td className="date-col">{moment(invoiceData.invoiceDate).format(defaultDateFormat)}</td>
+                              <td className="amount-col">{parseFloat(invoiceData.amount).toFixed(2)}</td>
+                              <td className="date-col">17-09-2013</td>
+                              <td className="date-col"></td>
+                              <td className="date-col"></td>
+                              <td className="date-col">16-09-2013</td>
+                              <td className="date-col">16-09-2013</td>
+                              <td className="date-col">16-09-2013</td>
+                              <td className="checkbox-col">
+                                <span className="checkbox-custom ">
+                                  <input type="checkbox" id="checkAll" className="" />
+                                  <label className=""> </label>
+                                </span>
+                              </td>
+                              <td className="checkbox-col">
+                                <span className="checkbox-custom ">
+                                  <input type="checkbox" id="checkAll" className="" />
+                                  <label className=""> </label>
+                                </span>
+                              </td>
+                              <td className="amount-col">234.02</td>
+                              <td className="amount-col">234.02</td>
+                              <td className="amount-col">234.02</td>
 
-                        <td className="comment-col">
-                          <span className="word-wrap">am 16.00</span>
-                        </td>
-                      </tr>
+                              <td className="comment-col">
+                                <span className="word-wrap">am 16.00</span>
+                              </td>
+                            </tr>
+                          )
+
+                        }) : null
+                      }
                     </tbody>
                   </Table>
                 </div>

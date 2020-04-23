@@ -38,6 +38,7 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
           "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
         }
         components={{ Option: CareInstCustomOption }}
+        isClearable={true}
       />
     </>
   );

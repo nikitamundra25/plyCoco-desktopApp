@@ -661,6 +661,7 @@ const CarinstituionListView: FunctionComponent<
         )
       : []
     : careInstituionDeptData;
+    
   // To manage case of solo careInst and department selection if no department is there
   if (starCanstitution.isStar && listData && !listData.length) {
     listData = careInstitutionList.filter(
@@ -845,7 +846,9 @@ const CarinstituionListView: FunctionComponent<
                 disabled={
                   offerAppCond && offerAppCond.length !== 0 ? true : false
                 }
-                onClick={() => handleSelectedAppoitment()}
+                onClick={() => {
+                  handleRightMenuToggle()
+                  handleSelectedAppoitment()}}
               >
                 <img src={all_list} className="mr-2" alt="" />
                 <span>
@@ -1376,6 +1379,7 @@ const CarinstituionListView: FunctionComponent<
       {renderBulkCareGiverModal()}
 {renderDetailedList()}
 {renderUnlinkModal()} */}
+
       <BulkEmailCareGiverModal
         openModal={openCareGiverBulkEmail}
         qualification={

@@ -57,7 +57,6 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
     if (queryData && queryData.getCareInstitutions) {
       const { getCareInstitutions } = queryData;
       const { careInstitutionData, totalCount } = getCareInstitutions;
-      console.log(careInstitutionData, "careInstitutionData");
       if (careInstitutionData && careInstitutionData.length) {
         careInstitutionOptions.push({
           label: languageTranslation("SHORT_NAME"),
@@ -104,7 +103,6 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
   formattedOPtions(careInstituition);
 
   const handleLoadMoreCanstitution = async (input: string, callback: any) => {
-    console.log("input", input);
     const { data } = await client.query({
       query: GET_CARE_INSTITUTION_LIST,
       variables: {
@@ -117,14 +115,20 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
     });
     const { getCareInstitutions } = data;
     const { careInstitutionData, totalCount } = getCareInstitutions;
-    console.log(careInstitutionData, "careInstitutionData");
     if (careInstitutionData && careInstitutionData.length) {
-      careInstitutionOptions.push({
+    //   careInstitutionOptions.push({
+    //     label: languageTranslation("SHORT_NAME"),
+    //     value: languageTranslation("ID"),
+    //     companyName: languageTranslation("COMPANY_NAME"),
+    //   });
+      let options: any[] = [];
+      if(careInstitutionData && careInstitutionData.length){
+      options.push({
         label: languageTranslation("SHORT_NAME"),
         value: languageTranslation("ID"),
         companyName: languageTranslation("COMPANY_NAME"),
       });
-      let options: any[] = [];
+    }
       careInstitutionData.map((data: any) => {
         const { canstitution } = data;
         let { attributes = [], companyName = "", shortName = "" } = canstitution

@@ -123,13 +123,20 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
     const { getCaregiverByName } = data;
     const { result, totalCount } = getCaregiverByName;
 
-    careGiversOptions.push({
-      label: languageTranslation("NAME"),
-      value: languageTranslation("ID"),
-      color: "",
-    });
+    // careGiversOptions.push({
+    //   label: languageTranslation("NAME"),
+    //   value: languageTranslation("ID"),
+    //   color: "",
+    // });
 
     let options: any[] = [];
+    if(result && result.length){
+    options.push({
+        label: languageTranslation("NAME"),
+        value: languageTranslation("ID"),
+        color: ""
+      });
+    }
     result.forEach(({ id, firstName, lastName, isActive, caregiver }: any) => {
       let { attributes = [] } = caregiver ? caregiver : {};
       // To check null values

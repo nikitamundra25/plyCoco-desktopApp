@@ -1685,27 +1685,21 @@ const Appointment: FunctionComponent = (props: any) => {
       travelAllowance = '',
       workingProofRecieved = false,
     } = caregiverLastTimeValues ? caregiverLastTimeValues : {};
+    
+if(selectedCells && selectedCells.length && caregiverLastTimeData &&
+  caregiverLastTimeData.getCareGiverAvabilityLastTimeById){
+    const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
+    let careGiverAvabilityInput: any[] = [];
 
-    const {
-      firstName = '',
+    selectedCells.forEach(async (element: any) => {
+      const { firstName = '',
       lastName = '',
       email = '',
       id: selectedCaregiverId = '',
       dateString = '',
       caregiver = undefined,
       item = undefined,
-      qualificationIds = [],
-    } =
-      selectedCells && selectedCells.length === 1 && selectedCells[0]
-        ? selectedCells[0]
-        : {};
-
-    // selectedCells
-    if (
-      caregiverLastTimeData &&
-      caregiverLastTimeData.getCareGiverAvabilityLastTimeById
-    ) {
-      const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
+      qualificationIds = [], } = element ? element : {};
       const {
         fee = '',
         nightFee = '',
@@ -1714,38 +1708,42 @@ const Appointment: FunctionComponent = (props: any) => {
       } = getCareGiverAvabilityLastTimeById
         ? getCareGiverAvabilityLastTimeById
         : {};
-      let data: any[] = [
-        {
-          id: selectedCaregiverId,
-          firstName,
-          lastName,
-          email,
-          caregiver: {
-            ...caregiver,
-          },
-          qualificationIds,
-          dateString,
-          item: {
-            ...item,
-            fee,
-            nightFee,
-            weekendAllowance,
-            holidayAllowance,
-            workingProofRecieved,
-            distanceInKM,
-            feePerKM,
-            travelAllowance,
-            otherExpenses,
-            f: f ? 'available' : 'default',
-            s: s ? 'available' : 'default',
-            n: n ? 'available' : 'default',
-          },
-        },
-      ];
-      setSelectedCells(data);
-    }
+        let data: any = 
+          {
+            id: selectedCaregiverId,
+            firstName,
+            lastName,
+            email,
+            caregiver: {
+              ...caregiver,
+            },
+            qualificationIds,
+            dateString,
+            item: {
+              ...item,
+              fee,
+              nightFee,
+              weekendAllowance,
+              holidayAllowance,
+              workingProofRecieved,
+              distanceInKM,
+              feePerKM,
+              travelAllowance,
+              otherExpenses,
+              f: f ? 'available' : 'default',
+              s: s ? 'available' : 'default',
+              n: n ? 'available' : 'default',
+            },
+          }
+          careGiverAvabilityInput = [...careGiverAvabilityInput, data];
+        
+    })
+    setSelectedCells(careGiverAvabilityInput)
+  }
+  
   }, [caregiverLastTimeData]);
 
+  
   // To store users list into state
   useEffect(() => {
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
@@ -2623,7 +2621,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 },
               },
             });
-            updateLinkedStatus(name);
+            // updateLinkedStatus(name);
             if (!toast.isActive(toastId)) {
               if (name === 'confirmed') {
                 toastId = toast.success(
@@ -3960,16 +3958,13 @@ const handleSubmitCaregiverForm = async (
       (dept: any) => dept.value === Item.divisionId
     );
   }
-  console.log('Item', Item && Item.qualificationForCharge);
 
   let qualificationfor: any;
   qualificationfor = qualificationList.filter((value: any) => {
-    console.log('value', value);
     return Item && Item.qualificationForCharge
       ? Item.qualificationForCharge.includes(value.value)
       : null /* .findIndex(value) */;
   });
-  console.log('qualificationfor', qualificationfor && qualificationfor[0]);
 
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : '',

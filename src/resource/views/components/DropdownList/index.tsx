@@ -143,7 +143,6 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
     });
         // return careInstitutionOptions
     return callback(options)
-    console.log(data,formattedOPtions(data),'resssss');
     
     // await fetchCareInstitutionList({
     //   variables: {
@@ -166,7 +165,6 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
       return callback([]);
     }
     handleLoadMoreCanstitution(inputValue, callback);
-    console.log(careInstituition,'after load more');
     
     // return callback(careInstitutionOptions);
   };

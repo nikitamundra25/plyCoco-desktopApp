@@ -399,7 +399,8 @@ const CarinstituionListView: FunctionComponent<
     // listData.forEach((list: any, index: number) => {
     // if (list && list.availabilityData && list.availabilityData.length) {
     // list.availabilityData.map((item: any, row: number) =>
-
+  // console.log("list",list);
+  
     // temp.push(
     return (
       <div

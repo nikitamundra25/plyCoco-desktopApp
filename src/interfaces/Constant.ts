@@ -5,6 +5,7 @@ export interface IReactSelectInterface {
   value: string;
   color?: string;
   companyName?: string;
+  isDisabled?:boolean
 }
 
 export interface IHandleSelectInterface {

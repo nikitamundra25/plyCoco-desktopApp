@@ -187,10 +187,13 @@ console.log(selctedRequirement,'selctedRequirement');
   let isLeasingAppointment = false;
   // To check appointment with leasing careInst or not
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-    isLeasingAppointment =
+     isLeasingAppointment =
       selectedCellsCareinstitution &&
       selectedCellsCareinstitution[0] &&
-      selectedCellsCareinstitution[0].isLeasing;
+      selectedCellsCareinstitution[0].item &&
+      selectedCellsCareinstitution[0].item.isLeasing
+        ? true
+        : false;
   }
   return (
     <>

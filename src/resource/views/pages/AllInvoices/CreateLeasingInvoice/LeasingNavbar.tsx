@@ -13,6 +13,8 @@ import right_arrow from "../../../../assets/img/rightarrow.svg";
 import left_arrow from "../../../../assets/img/leftarrow.svg";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
+import CaregiverCustomAsyncList from "../../../components/DropdownList/CareGiverCustomAsyncSelect";
+import CareinstitutionCustomAsyncList from "../../../components/DropdownList/CareInstitutionCustomAsyncSelect";
 
 const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceNavBar & any) => {
   const {
@@ -41,7 +43,7 @@ const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
     </div>
 
     <div className="user-select mx-1 ">
-      <Select
+      {/* <Select
         classNamePrefix="custom-inner-reactselect"
         className={
             "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
@@ -58,10 +60,19 @@ const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
             ? caregiverFilter
             : null
         }
-      />
+      /> */}
+        <CaregiverCustomAsyncList
+          placeholderLabel={languageTranslation("SELECT_CAREGIVER")}
+          onChange={(value: any) => onhandleSelection(value, "caregiver")}
+          value={
+            caregiverFilter && caregiverFilter.value !== ""
+              ? caregiverFilter
+              : null
+          }
+        />
     </div>
     <div className="user-select mx-1 ">
-      <Select
+      {/* <Select
         classNamePrefix="custom-inner-reactselect"
         className={
           "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
@@ -78,7 +89,16 @@ const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
           onhandleSelection(value, "careinstitution")
         }
         isClearable={true}
-      />
+      /> */}
+      <CareinstitutionCustomAsyncList
+          placeholderLabel={languageTranslation("SELECT_CARE_INSTITUTION")}
+          onChange={(value: any) => onhandleSelection(value, "careinstitution")}
+          value={
+            careinstitutionFilter && careinstitutionFilter.value !== ""
+              ? careinstitutionFilter
+              : null
+          }
+        />
     </div>
     <div className="user-select mx-1 ">
       <Select
@@ -112,25 +132,25 @@ const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
         {languageTranslation("CREATE")}
       </span>
     </div>
-    <div className="header-nav-item">
+    {/* <div className="header-nav-item">
       <span className="header-nav-icon">
         <img src={CompleteTime} alt="" />
       </span>
       <span className="header-nav-text">
         {languageTranslation("TIMELY_COMPLETELY")}
       </span>
-    </div>
-    <div className="header-nav-item">
+    </div> */}
+    {/* <div className="header-nav-item">
       <span className="header-nav-icon">
         <img src={idea} alt="" />
       </span>
       <span className="header-nav-text">
         {languageTranslation("CREATE_ALL_CAREGIVER")}
       </span>
-    </div>
+    </div> */}
     <div className="header-nav-item">
       <span className="header-nav-icon pr-0">
-        <img src={massege} alt=""/>
+      {languageTranslation("WORKING_TIMES")}
       </span>
     </div>
     <div className="user-select mx-1 ">

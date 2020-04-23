@@ -269,11 +269,20 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           </div>
           <div className="user-select mx-1">
           
-         {/* <CareInstitutionDropdownList
+         <CareInstitutionDropdownList
           careInstitutionList={careInstitutionList}
           handleLoadMoreCanstitution={handleLoadMoreCanstitution}
           placeholderLabel = {languageTranslation("SELECT_CARE_INSTITUTION")}
-         /> */}
+          onChange={(value: any) =>
+            handleUserList(value, "careinstitution")
+          }
+          value={
+            careinstitutionSoloFilter &&
+              careinstitutionSoloFilter.value !== ""
+              ? careinstitutionSoloFilter
+              : null
+          }
+         />
 
           {/* <AsyncSelect 
           cacheOptions 
@@ -290,7 +299,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
 
 
 
-            <Select
+            {/* <Select
               classNamePrefix="custom-inner-reactselect"
               className={
                 "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
@@ -308,7 +317,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 handleUserList(value, "careinstitution")
               }
               isClearable={true}
-            />
+            /> */}
           </div>
           <div
             className={`header-nav-item pt-1 ${!isFilterSet ? "disable" : ""}`}

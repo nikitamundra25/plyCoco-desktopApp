@@ -1685,27 +1685,21 @@ const Appointment: FunctionComponent = (props: any) => {
       travelAllowance = '',
       workingProofRecieved = false,
     } = caregiverLastTimeValues ? caregiverLastTimeValues : {};
+    
+if(selectedCells && selectedCells.length && caregiverLastTimeData &&
+  caregiverLastTimeData.getCareGiverAvabilityLastTimeById){
+    const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
+    let careGiverAvabilityInput: any[] = [];
 
-    const {
-      firstName = '',
+    selectedCells.forEach(async (element: any) => {
+      const { firstName = '',
       lastName = '',
       email = '',
       id: selectedCaregiverId = '',
       dateString = '',
       caregiver = undefined,
       item = undefined,
-      qualificationIds = [],
-    } =
-      selectedCells && selectedCells.length === 1 && selectedCells[0]
-        ? selectedCells[0]
-        : {};
-
-    // selectedCells
-    if (
-      caregiverLastTimeData &&
-      caregiverLastTimeData.getCareGiverAvabilityLastTimeById
-    ) {
-      const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
+      qualificationIds = [], } = element ? element : {};
       const {
         fee = '',
         nightFee = '',
@@ -1714,38 +1708,42 @@ const Appointment: FunctionComponent = (props: any) => {
       } = getCareGiverAvabilityLastTimeById
         ? getCareGiverAvabilityLastTimeById
         : {};
-      let data: any[] = [
-        {
-          id: selectedCaregiverId,
-          firstName,
-          lastName,
-          email,
-          caregiver: {
-            ...caregiver,
-          },
-          qualificationIds,
-          dateString,
-          item: {
-            ...item,
-            fee,
-            nightFee,
-            weekendAllowance,
-            holidayAllowance,
-            workingProofRecieved,
-            distanceInKM,
-            feePerKM,
-            travelAllowance,
-            otherExpenses,
-            f: f ? 'available' : 'default',
-            s: s ? 'available' : 'default',
-            n: n ? 'available' : 'default',
-          },
-        },
-      ];
-      setSelectedCells(data);
-    }
+        let data: any = 
+          {
+            id: selectedCaregiverId,
+            firstName,
+            lastName,
+            email,
+            caregiver: {
+              ...caregiver,
+            },
+            qualificationIds,
+            dateString,
+            item: {
+              ...item,
+              fee,
+              nightFee,
+              weekendAllowance,
+              holidayAllowance,
+              workingProofRecieved,
+              distanceInKM,
+              feePerKM,
+              travelAllowance,
+              otherExpenses,
+              f: f ? 'available' : 'default',
+              s: s ? 'available' : 'default',
+              n: n ? 'available' : 'default',
+            },
+          }
+          careGiverAvabilityInput = [...careGiverAvabilityInput, data];
+        
+    })
+    setSelectedCells(careGiverAvabilityInput)
+  }
+  
   }, [caregiverLastTimeData]);
 
+  
   // To store users list into state
   useEffect(() => {
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
@@ -1827,7 +1825,7 @@ const Appointment: FunctionComponent = (props: any) => {
       if (result && result.length) {
         /*  */
         result.forEach((user: any, index: number) => {
-          user.name = user.canstitution ? user.canstitution.companyName : '';
+          user.name = user.canstitution ? user.canstitution.shortName : '';
           user.availabilityData = [];
           if (
             user.careinstitution_requirements &&
@@ -2623,7 +2621,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 },
               },
             });
-            updateLinkedStatus(name);
+            // updateLinkedStatus(name);
             if (!toast.isActive(toastId)) {
               if (name === 'confirmed') {
                 toastId = toast.success(
@@ -3946,6 +3944,7 @@ const handleSubmitCaregiverForm = async (
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
+console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
 
   let street: string = canstitution && canstitution.street;
   let departmentData: any = Item ? Item.department : undefined;
@@ -4341,8 +4340,6 @@ const handleSubmitCaregiverForm = async (
   
   // function to load or search data in careinstitution dropdowwn
   const handleLoadMoreCanstitution = (input: any) => {
-    console.log('input', input);
-
     fetchCareInstitutionList({
       variables: {
         searchBy: input ? input : '',

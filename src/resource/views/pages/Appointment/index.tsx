@@ -3913,14 +3913,12 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
       (dept: any) => dept.value === Item.divisionId
     );
   }
-
   let qualificationfor: any;
   qualificationfor = qualificationList.filter((value: any) => {
     return Item && Item.qualificationForCharge
       ? Item.qualificationForCharge.includes(value.value)
-      : null /* .findIndex(value) */;
+      : null;
   });
-
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : '',
     name:

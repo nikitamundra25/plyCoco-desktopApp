@@ -45,6 +45,7 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const [, CREATE_LEASING_INVOICE] = InvoiceMutations;
+
 const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
@@ -405,10 +406,12 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
           }
         });
         const invoiceInput: any = {
-          caregiverId: singleCareGiverData[singleCareGiverData.length - 1],
-          careInstitutionId:
-            singleCareGiverData[singleCareGiverData.length - 1],
-          appointmentIds: selectedAppointmentId,
+          caregiverId: 152 /* singleCareGiverData[singleCareGiverData.length - 1] */,
+          careInstitutionId: 60653,
+          /* singleCareGiverData[singleCareGiverData.length - 1] */
+          appointmentIds: selectedAppointmentId
+            ? selectedAppointmentId.map((item: any) => parseInt(item))
+            : null,
           status: 'unpaid',
           subTotal: '20',
           amount: '20',

@@ -1190,5 +1190,6 @@
   "CAREGIVER_GROSS": "Caregiver gross/h",
   "NIGHT_PER_HOUR": "Night/hr",
   "TOTAL_NIGHT_CHARGE": "Total Night Charge",
-  "SEARCH_TIP":"Try to search with specific keywords to find more results."
+  "SEARCH_TIP":"Try to search with specific keywords to find more results.",
+  "WORKING_TIMES":"Working times avai."
 }

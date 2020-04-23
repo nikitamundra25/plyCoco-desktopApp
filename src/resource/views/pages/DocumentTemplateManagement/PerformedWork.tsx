@@ -19,6 +19,7 @@ import CustomOption from "../../components/CustomOptions";
 import Loader from "../../containers/Loader/Loader";
 import moment from "moment";
 import { defaultDateFormat } from "../../../../config";
+import CaregiverCustomAsyncList from "../../components/DropdownList/CareGiverCustomAsyncSelect";
 
 const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
   props: IDocumentPerformedWorkInterface
@@ -32,6 +33,7 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
     onFilterById,
     handleSelect,
     checkboxMark,
+    caregiverFilter
   } = props;
 
   const handleKeyPress = (e: any) => {
@@ -83,7 +85,7 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                   </Col>
                   <Col sm="8">
                     <div>
-                      <Select
+                      {/* <Select
                         placeholder={languageTranslation("SELECT_CAREGIVER")}
                         options={careGiversOptions}
                         classNamePrefix="custom-inner-reactselect"
@@ -92,7 +94,18 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                         onChange={(value: any) =>
                           handleChange(value, "caregiver")
                         }
-                      />
+                      /> */}
+                       <CaregiverCustomAsyncList 
+            placeholderLabel = {languageTranslation("SELECT_CAREGIVER")}
+            onChange={(value: any) =>
+              handleChange(value, "caregiver")
+            }
+            value={
+              caregiverFilter && caregiverFilter.value !== ""
+                ? caregiverFilter
+                : null
+            }
+            />
                     </div>
                   </Col>
                 </Row>

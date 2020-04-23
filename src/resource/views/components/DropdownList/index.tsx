@@ -7,7 +7,7 @@ import { CareInstitutionQueries } from "../../../../graphql/queries";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { languageTranslation } from "../../../../helpers";
 import { IReactSelectInterface } from "../../../../interfaces";
-import { CareInstInActiveAttrId, deactivatedListColor, CareInstTIMyoCYAttrId, leasingListColor, CareInstPlycocoAttrId, selfEmployesListColor, client } from "../../../../config";
+import { CareInstInActiveAttrId, deactivatedListColor, CareInstTIMyoCYAttrId, leasingListColor, CareInstPlycocoAttrId, selfEmployesListColor, client, ASYNC_LIST_LIMIT } from "../../../../config";
 
 const [
   GET_CARE_INSTITUTION_LIST,
@@ -45,7 +45,7 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
       variables: {
         searchBy: null,
         sortBy: 5,
-        limit: 30,
+        limit: ASYNC_LIST_LIMIT,
         page: 1,
         isActive: '',
       },
@@ -57,11 +57,11 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
     const formattedOPtions = (queryData:any) => {
       if (queryData && queryData.getCareInstitutions) {
         const { getCareInstitutions } = queryData;
-        const { careInstitutionData, canstitution } = getCareInstitutions;
+        const { careInstitutionData, totalCount } = getCareInstitutions;
         console.log(careInstitutionData,'careInstitutionData');
         
         careInstitutionOptions.push({
-          label: languageTranslation('NAME'),
+          label: languageTranslation('SHORT_NAME'),
           value: languageTranslation('ID'),
           companyName: languageTranslation('COMPANY_NAME'),
         });
@@ -86,6 +86,14 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
           });
           return true;
         });
+        if (totalCount > ASYNC_LIST_LIMIT) {
+          careInstitutionOptions.push({
+            label: languageTranslation('SEARCH_TIP'),
+            value: "",
+            companyName: "",
+            isDisabled:true
+          });
+        }
         return careInstitutionOptions
       }else{
         return []
@@ -107,21 +115,21 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
       {
         searchBy: input ? input : "",
         sortBy: 5,
-        limit: 100,
+        limit: ASYNC_LIST_LIMIT,
         page: 1,
         isActive: "",
       }
     });
     const { getCareInstitutions } = data;
-    const { careInstitutionData } = getCareInstitutions;
+    const { careInstitutionData, totalCount } = getCareInstitutions;
     console.log(careInstitutionData,'careInstitutionData');
     careInstitutionOptions.push({
-      label: languageTranslation('NAME'),
+      label: languageTranslation('SHORT_NAME'),
       value: languageTranslation('ID'),
       companyName: languageTranslation('COMPANY_NAME'),
     });
     let options:any[] = []
-    careInstitutionData.map((data: any, index: any) => {
+    careInstitutionData.map((data: any) => {
       const { canstitution } = data;
       let { attributes = [], companyName = "", shortName = "" } = canstitution
         ? canstitution
@@ -141,7 +149,14 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
       });
       return true;
     });
-        // return careInstitutionOptions
+    if (totalCount > ASYNC_LIST_LIMIT) {
+      careInstitutionOptions.push({
+        label: languageTranslation('SEARCH_TIP'),
+        value: "",
+        companyName: "",
+        isDisabled:true
+      });
+    }
     return callback(options)
     console.log(data,formattedOPtions(data),'resssss');
     

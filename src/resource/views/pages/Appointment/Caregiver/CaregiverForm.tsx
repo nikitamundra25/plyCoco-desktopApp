@@ -600,7 +600,7 @@ const CaregiverFormView: FunctionComponent<
                             </div>
                           </FormGroup>
                           {timeSlotError && (
-                            <div className="required-checkbox-error">
+                            <div className="required-checkbox-error night-allawance-error">
                               {timeSlotError}
                             </div>
                           )}

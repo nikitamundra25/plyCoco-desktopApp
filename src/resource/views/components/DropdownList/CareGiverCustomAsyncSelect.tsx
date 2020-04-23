@@ -66,7 +66,7 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
       queryData.getCaregiverByName.result
     ) {
       const { getCaregiverByName } = queryData;
-      const { result,totalCount } = getCaregiverByName;
+      const { result, totalCount } = getCaregiverByName;
 
       careGiversOptions.push({
         label: languageTranslation("NAME"),
@@ -95,10 +95,10 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
       );
       if (totalCount > ASYNC_LIST_LIMIT) {
         careGiversOptions.push({
-          label: languageTranslation('SEARCH_TIP'),
+          label: languageTranslation("SEARCH_TIP"),
           value: "",
           color: "",
-          isDisabled:true
+          isDisabled: true,
         });
       }
       return careGiversOptions;
@@ -147,13 +147,13 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
       });
     });
     if (totalCount > ASYNC_LIST_LIMIT) {
-        careGiversOptions.push({
-            label: languageTranslation('SEARCH_TIP'),
-            value: "",
-            color: "",
-            isDisabled:true
-          });
-      }
+      careGiversOptions.push({
+        label: languageTranslation("SEARCH_TIP"),
+        value: "",
+        color: "",
+        isDisabled: true,
+      });
+    }
     // return careInstitutionOptions
     return callback(options);
   };
@@ -183,6 +183,7 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
           "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
         }
         components={{ Option: CustomOption }}
+        menuIsOpen
       />
     </>
   );

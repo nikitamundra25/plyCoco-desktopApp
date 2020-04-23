@@ -180,7 +180,7 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
         placeholder={placeholderLabel}
         classNamePrefix="custom-inner-reactselect"
         className={
-          "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
+              "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
         }
         components={{ Option: CustomOption }}
       />

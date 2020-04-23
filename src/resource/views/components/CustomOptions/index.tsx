@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { languageTranslation } from '../../../../helpers';
 
 const CustomOption: FunctionComponent = (props: any) => {
-  const { data, innerProps, isSelected } = props;
+  const { data, innerProps,isDisabled, isSelected } = props;
   let style = {
     backgroundColor: data.color,
   };
@@ -14,6 +14,7 @@ const CustomOption: FunctionComponent = (props: any) => {
       } ${isSelected ? (data.color ? 'text-black' : 'active') : ''}`}
       style={style}
     >
+        {!isDisabled ? <>
       <span
         className={`custom-name-option ${
           data.value === languageTranslation('ID') ? 'custom-head' : ''
@@ -28,6 +29,10 @@ const CustomOption: FunctionComponent = (props: any) => {
       >
         {data.value}
       </span>
+      </> : 
+        // To display search tip
+        <span className={'text-center'}>{data.label}</span>
+      }
     </div>
   );
 };

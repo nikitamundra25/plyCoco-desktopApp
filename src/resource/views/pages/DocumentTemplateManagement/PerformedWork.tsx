@@ -33,7 +33,7 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
     onFilterById,
     handleSelect,
     checkboxMark,
-    caregiverFilter
+    caregiverFilter,
   } = props;
 
   const handleKeyPress = (e: any) => {
@@ -95,18 +95,20 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                           handleChange(value, "caregiver")
                         }
                       /> */}
-                       <CaregiverCustomAsyncList 
-            placeholderLabel = {languageTranslation("SELECT_CAREGIVER")}
-            onChange={(value: any) =>
-              handleChange(value, "caregiver")
-            }
-            value={
-              caregiverFilter && caregiverFilter.value !== ""
-                ? caregiverFilter
-                : null
-            }
-            isWorkProof = {true}
-            />
+                      <CaregiverCustomAsyncList
+                        placeholderLabel={languageTranslation(
+                          "SELECT_CAREGIVER"
+                        )}
+                        onChange={(value: any) =>
+                          handleChange(value, "caregiver")
+                        }
+                        value={
+                          caregiverFilter && caregiverFilter.value !== ""
+                            ? caregiverFilter
+                            : null
+                        }
+                        isWorkProof={true}
+                      />
                     </div>
                   </Col>
                 </Row>

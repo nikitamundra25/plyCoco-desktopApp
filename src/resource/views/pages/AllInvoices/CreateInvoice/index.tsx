@@ -402,7 +402,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     let selectedCareInstId:string[] = selectedAppointment.map((appointment:any) => appointment.cr && appointment.cr.userId ? appointment.cr.userId : '').filter(Boolean)
     try {
       // To check appointment is bettween the same caregiver or careinstitution or not
-      let isInvoiceComaptible: boolean = selectedCareGiverId.length && selectedCareInstId.length && selectedCareGiverId.every((val:string, i:number, arr:string[]) => val === arr[0] ) && selectedCareInstId.every((val:string, i:number, arr:string[]) => val === arr[0] ) ? true : false;
+      let isInvoiceComaptible: boolean = selectedCareGiverId.length && selectedCareInstId.length && selectedCareGiverId.length === selectedCareInstId.length && selectedCareGiverId.every((val:string, i:number, arr:string[]) => val === arr[0] ) && selectedCareInstId.every((val:string, i:number, arr:string[]) => val === arr[0] ) ? true : false;
       if (!isInvoiceComaptible) {
        if (!toast.isActive(toastId)) {
         toastId = toast.warn("You can't create invoice with the selected appointment because of mismatch beetween caregiver & care-institutions")

@@ -26,7 +26,8 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
     handleDayClick,
     handleArrowDayChange,
     dateFilter,
-    handleCreateInvoice
+    handleCreateInvoice,
+    createInvoiceLoading
   } = props;
 
   return (
@@ -108,7 +109,8 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
       <span className="header-nav-icon">
         <img src={pen} alt="" />
       </span>
-      <span onClick={handleCreateInvoice} className="header-nav-text">
+      <span onClick={!createInvoiceLoading ?  handleCreateInvoice: undefined} className= {!createInvoiceLoading ? "header-nav-text" : "disabled-class header-nav-text"}>
+      {createInvoiceLoading ? <i className="fa fa-spinner fa-spin mr-2" /> : ""}
         {languageTranslation("CREATE")}
       </span>
     </div>

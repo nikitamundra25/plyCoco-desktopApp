@@ -18,4 +18,5 @@ export interface IInvoiceList{
     handleDayClick:(selectedDay: any) => void;
     handleArrowDayChange: (name:string) => void
     dateFilter: String
+    createInvoiceLoading: boolean
   }

@@ -120,11 +120,19 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                     nightEndTime = "05:00"
                   }
                 }
-                let nightST: any = "", nightET: any = "";
-                let startTime: any = "", endTime: any = ""
+                let nightST: any = moment("22:00", "H:mm").format("HH:mm"), nightET: any = moment("06:00", "H:mm").format("HH:mm");
+                let startTime: any = moment("20:00", "H:mm").format("HH:mm"), endTime: any = moment("03:00", "H:mm").format("HH:mm")
+
+                //Conditions to get time include night shift hours
+                let condiA1: any = moment.utc(moment(startTime, "HH").diff(moment(nightST, "HH"))).format("H")
+                let condiA2: any = moment.utc(moment(nightET, "HH").diff(moment(startTime, "HH"))).format("H")
+
+                console.log("####################", (12 > condiA1) && (condiA1 > 0), " ?????????????", condiA2);
+
+
                 if (list && list.ca && list.ca.nightFee) {
-                  if (((startTime - nightST) > 0) || (nightET - startTime)) {
-                    console.log("in 1st condition");
+                  if (((12 > condiA1) && (condiA1 > 0)) || ((12 > condiA2) && (condiA2 > 0))) {
+                    console.log("*********************in this condition");
                   } else if (((nightST - endTime) > 0)) {
 
                   }
@@ -140,16 +148,18 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                   let fees: any = (list.ca.fee * 100)
                   let transportation: any = (list.ca.distanceInKM ? list.ca.distanceInKM : 0 * list.ca.feePerKM ? list.ca.feePerKM : 0)
                   let hours: any = (list.ca.workingHoursFrom ? parseFloat(diffDate).toFixed(2) : 0)
-                  let weekend: any = 0
-                  let holiday: any = 0
-                  let night: any = 0
-                  if (isWeekendDay && hasHoliday && hasHoliday.length) {
-                  }
-
                   let expenses = (list.ca && list.ca.otherExpenses ? list.ca.otherExpenses : 0)
-                  totalAmount = ((((fees + weekend / holiday / night) * hours) + transportation + expenses))
+                  if (isWeekendDay && hasHoliday && hasHoliday.length) {
+                    if (weekendRate > holidayRate) {
+                      totalAmount = ((((fees + weekendRate) * hours) + transportation + expenses))
+                    } else if (holidayRate > weekendRate) {
+                      totalAmount = ((((fees + holidayRate) * hours) + transportation + expenses))
+                    }
+                  } else {
+                    totalAmount = (((fees * hours) + transportation + expenses))
+                  }
                 }
-                console.log("++++++++++++++++++++", list);
+                console.log("++++++++++++++++++++", totalAmount);
 
                 return (
                   <tr className="sno-col" key={index}>

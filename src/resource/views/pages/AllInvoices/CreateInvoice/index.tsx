@@ -97,7 +97,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   ] = useState<IReactSelectInterface[] | undefined>([]);
 
   //
-  const [CreateInvoice] = useMutation<
+  const [CreateInvoice,{loading: createInvoiceLoading}] = useMutation<
     {
       invoiceInput: any;
     }
@@ -514,6 +514,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             handleArrowDayChange={handleArrowDayChange}
             dateFilter={dateFilter}
             handleCreateInvoice={() => handleCreateInvoice()}
+            createInvoiceLoading={createInvoiceLoading}
           />
 
           <div className="common-content flex-grow-1">

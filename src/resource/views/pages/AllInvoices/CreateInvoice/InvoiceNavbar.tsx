@@ -128,9 +128,10 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (
         <span className="header-nav-icon">
           <img src={pen} alt="" />
         </span>
-        <span onClick={handleCreateInvoice} className="header-nav-text">
-          {languageTranslation("CREATE")}
-        </span>
+        <span onClick={!createInvoiceLoading ?  handleCreateInvoice: undefined} className= {!createInvoiceLoading ? "header-nav-text" : "disabled-class header-nav-text"}>
+      {createInvoiceLoading ? <i className="fa fa-spinner fa-spin mr-2" /> : ""}
+        {languageTranslation("CREATE")}
+      </span>
       </div>
       <div className="header-nav-item">
         <span className="header-nav-icon">

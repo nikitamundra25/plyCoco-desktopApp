@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
-import Select from "react-select";
-import { FormikProps, Field } from "formik";
-import moment from "moment";
-import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
-import classnames from "classnames";
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import Select from 'react-select';
+import { FormikProps, Field } from 'formik';
+import moment from 'moment';
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import classnames from 'classnames';
 import {
   FormGroup,
   Label,
@@ -18,23 +18,23 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap";
-import MaskedInput from "react-text-mask";
-import { languageTranslation } from "../../../../../helpers";
+} from 'reactstrap';
+import MaskedInput from 'react-text-mask';
+import { languageTranslation } from '../../../../../helpers';
 import {
   IAppointmentCareInstitutionForm,
   ICareinstitutionFormValue,
   IReactSelectInterface,
-} from "../../../../../interfaces";
+} from '../../../../../interfaces';
 import {
   ShiftTime,
   TimeMask,
   appointmentDayFormat,
   defaultDateFormat,
   dbAcceptableFormat,
-} from "../../../../../config";
-import "../index.scss";
-import Loader from "../../../containers/Loader/Loader";
+} from '../../../../../config';
+import '../index.scss';
+import Loader from '../../../containers/Loader/Loader';
 
 const CareinstitutionFormView: FunctionComponent<
   FormikProps<ICareinstitutionFormValue> & IAppointmentCareInstitutionForm & any
@@ -94,12 +94,13 @@ const CareinstitutionFormView: FunctionComponent<
     handleFirstStarCanstitution,
     starCanstitution,
     idSearchAppointmentLoading,
-    selectedCellsCareinstitution
+    selectedCellsCareinstitution,
   } = props;
+  console.log(selctedRequirement, 'selctedRequirement');
 
-  let d = moment().format("L");
-  let dtStart: any = new Date(d + " " + startTime);
-  let dtEnd: any = new Date(d + " " + endTime);
+  let d = moment().format('L');
+  let dtStart: any = new Date(d + ' ' + startTime);
+  let dtEnd: any = new Date(d + ' ' + endTime);
   let difference = dtEnd - dtStart;
 
   // Custom function to handle react select fields
@@ -107,10 +108,10 @@ const CareinstitutionFormView: FunctionComponent<
     console.log('props.values', props.values);
 
     setFieldValue(name, selectOption);
-    if (name === "department") {
+    if (name === 'department') {
       setcareInstituionDept(selectOption, props.values);
     }
-    if (name === "shift") {
+    if (name === 'shift') {
       setcareInstituionShift(selectOption, props.values);
     }
   };
@@ -122,28 +123,28 @@ const CareinstitutionFormView: FunctionComponent<
     isOffered: boolean = false;
   if (selctedRequirement || status) {
     if (
-      (selctedRequirement && selctedRequirement.status === "default") ||
-      status === "default"
+      (selctedRequirement && selctedRequirement.status === 'default') ||
+      status === 'default'
     ) {
       isRequirment = true;
     } else if (
-      (selctedRequirement && selctedRequirement.status === "linked") ||
-      status === "linked"
+      (selctedRequirement && selctedRequirement.status === 'linked') ||
+      status === 'linked'
     ) {
       isMatching = true;
     } else if (
-      (selctedRequirement && selctedRequirement.status === "contract") ||
-      status === "contract"
+      (selctedRequirement && selctedRequirement.status === 'contract') ||
+      status === 'contract'
     ) {
       isContract = true;
     } else if (
-      (selctedRequirement && selctedRequirement.status === "confirmed") ||
-      status === "confirmed"
+      (selctedRequirement && selctedRequirement.status === 'confirmed') ||
+      status === 'confirmed'
     ) {
       isConfirm = true;
     } else if (
-      (selctedRequirement && selctedRequirement.status === "offered") ||
-      status === "offered"
+      (selctedRequirement && selctedRequirement.status === 'offered') ||
+      status === 'offered'
     ) {
       isOffered = true;
     }
@@ -154,12 +155,25 @@ const CareinstitutionFormView: FunctionComponent<
       careInstitutionListArr && careInstitutionListArr.result
         ? careInstitutionListArr.result
         : {};
-    if (id) {
+    console.log(
+      'careInstitutionListArr',
+      careInstitutionListArr && careInstitutionListArr.result
+        ? careInstitutionListArr.result
+        : {}
+    );
+
+    if (
+      id &&
+      careInstitutionListArr &&
+      careInstitutionListArr.result &&
+      careInstitutionListArr &&
+      careInstitutionListArr.result.length
+    ) {
       data = careInstitutionListArr.result.filter((x: any) => x.id === id)[0];
       let index = careInstitutionListArr.result.findIndex(
         (el: any) => el.id === id
       );
-      handleFirstStarCanstitution(data, index);
+      handleFirstStarCanstitution({ id }, index);
     }
   };
 
@@ -180,39 +194,52 @@ const CareinstitutionFormView: FunctionComponent<
     let input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
     dateCondition = now <= input;
   }
+  console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
 
   let isLeasingAppointment = false;
+  let showQualification = false;
   // To check appointment with leasing careInst or not
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     isLeasingAppointment =
       selectedCellsCareinstitution &&
       selectedCellsCareinstitution[0] &&
-      selectedCellsCareinstitution[0].isLeasing;
+      selectedCellsCareinstitution[0].item &&
+      selectedCellsCareinstitution[0].item.isLeasing
+        ? true
+        : false;
+
+    // To check appointment with leasing careInst or not
+    showQualification =
+      selectedCellsCareinstitution &&
+      selectedCellsCareinstitution[0] &&
+      selectedCellsCareinstitution[0].isLeasing
+        ? true
+        : false;
   }
   return (
     <>
-      <div className="form-section ">
+      <div className='form-section '>
         {/* {idSearchAppointmentLoading ?  <Loader/> :  */}
         <div
           className={classnames({
-            "form-card custom-height custom-scrollbar": true,
-            "requirement-bg": isRequirment,
-            "matching-bg": isMatching,
-            "contract-bg": isConfirm,
-            "availability-bg": isOffered,
+            'form-card custom-height custom-scrollbar': true,
+            'requirement-bg': isRequirment,
+            'matching-bg': isMatching,
+            'contract-bg': isConfirm,
+            'availability-bg': isOffered,
           })}
         >
-          <h5 className="content-title">
-            {languageTranslation("MENU_INSTITUTION")}
+          <h5 className='content-title'>
+            {languageTranslation('MENU_INSTITUTION')}
           </h5>
           {idSearchAppointmentLoading ? (
-            <div className="appointment-form-loader">
+            <div className='appointment-form-loader'>
               <Loader />
             </div>
           ) : null}
           <Row>
             {appointmentId ? (
-              <Col lg={"12"}>
+              <Col lg={'12'}>
                 <FormGroup>
                   <Row>
                     <Col sm='4'>
@@ -233,59 +260,47 @@ const CareinstitutionFormView: FunctionComponent<
                           <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
                             TIMyoCY
                           </div>
-                        ) : <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
-                        Plycoco
-                      </div>}
+                        ) : (
+                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                            Plycoco
+                          </div>
+                        )}
                       </div>
-                      {/* <div className='required-input'>
-                        <Input
-                          value={appointmentId}
-                          disabled
-                          placeholder={languageTranslation("APPOINTMENT_ID")}
-                        />
-                      </div> */}
                     </Col>
-                    {/* {isLeasingAppointment ? (
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                         TIMyoCY
-                        </Label>
-                      </Col>
-                    ) : null} */}
                   </Row>
                 </FormGroup>
               </Col>
             ) : null}
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("NAME")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('NAME')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <InputGroup>
                         <Input
-                          type="text"
-                          name={"name"}
-                          placeholder={languageTranslation("NAME")}
+                          type='text'
+                          name={'name'}
+                          placeholder={languageTranslation('NAME')}
                           disabled
-                          value={name ? name : languageTranslation("NAME")}
+                          value={name ? name : languageTranslation('NAME')}
                         />
                         <InputGroupAddon
-                          addonType="append"
-                          className="cursor-pointer"
+                          addonType='append'
+                          className='cursor-pointer'
                           onClick={() =>
                             name
                               ? handleUserList(
                                   selectedCareinstitution
                                     ? selectedCareinstitution.id
-                                    : "",
-                                  "careinstitution"
+                                    : '',
+                                  'careinstitution'
                                 )
-                              : ""
+                              : ''
                           }
                         >
                           <InputGroupText>
@@ -295,10 +310,10 @@ const CareinstitutionFormView: FunctionComponent<
                                 starCanstitution.isStar &&
                                 parseInt(starCanstitution.id) ===
                                   parseInt(selectedCareinstitution.id)
-                                  ? "fa fa-star theme-text"
-                                  : "fa fa-star"
+                                  ? 'fa fa-star theme-text'
+                                  : 'fa fa-star'
                               }
-                              aria-hidden="true"
+                              aria-hidden='true'
                             ></i>
                           </InputGroupText>
                         </InputGroupAddon>
@@ -308,16 +323,16 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("DATE")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('DATE')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="text-value one-line-text">
+                  <Col sm='8'>
+                    <div className='text-value one-line-text'>
                       {activeDateCareinstitution
                         ? activeDateCareinstitution
                             .map(
@@ -326,12 +341,12 @@ const CareinstitutionFormView: FunctionComponent<
                                   ? moment(dateString).format(
                                       index !==
                                         activeDateCareinstitution.length - 1
-                                        ? "dd DD"
+                                        ? 'dd DD'
                                         : `${appointmentDayFormat} ${defaultDateFormat}`
                                     )
                                   : null
                             )
-                            .join(", ")
+                            .join(', ')
                         : null}
                     </div>
                   </Col>
@@ -366,52 +381,52 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col> */}
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("START_WORKING")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('START_WORKING')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="d-flex align-items-center justify-content-between flex-wrap">
-                      <div className="required-input clockshift-input">
-                        <InputGroup className="flex-nowrap">
-                          <Field name={"startTime"}>
+                  <Col sm='8'>
+                    <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                      <div className='required-input clockshift-input'>
+                        <InputGroup className='flex-nowrap'>
+                          <Field name={'startTime'}>
                             {({ field }: any) => (
                               <MaskedInput
                                 {...field}
                                 mask={TimeMask}
                                 className={
                                   errors.startTime && touched.startTime
-                                    ? "text-input error form-control"
-                                    : "text-input form-control"
+                                    ? 'text-input error form-control'
+                                    : 'text-input form-control'
                                 }
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={startTime ? startTime : ""}
+                                value={startTime ? startTime : ''}
                               />
                             )}
                           </Field>
                           {errors.startTime && touched.startTime && (
-                            <div className="required-tooltip">
+                            <div className='required-tooltip'>
                               {errors.startTime}
                             </div>
                           )}
-                          <InputGroupAddon addonType="append">
+                          <InputGroupAddon addonType='append'>
                             <InputGroupText>
-                              {languageTranslation("UHR")}
+                              {languageTranslation('UHR')}
                             </InputGroupText>
                           </InputGroupAddon>
                         </InputGroup>
                       </div>
-                      <UncontrolledDropdown className="custom-dropdown">
+                      <UncontrolledDropdown className='custom-dropdown'>
                         <DropdownToggle
-                          className={"add-new-btn"}
+                          className={'add-new-btn'}
                           value={shift ? shift : undefined}
                         >
-                          <i className="fa fa-clock-o" aria-hidden="true" />
+                          <i className='fa fa-clock-o' aria-hidden='true' />
                         </DropdownToggle>
                         <DropdownMenu>
                           {shiftOptions && shiftOptions.length
@@ -425,7 +440,7 @@ const CareinstitutionFormView: FunctionComponent<
                                       key={index}
                                       value={option.value}
                                       onClick={(e: any) =>
-                                        handleSelect(option, "shift")
+                                        handleSelect(option, 'shift')
                                       }
                                     >
                                       {option.label}
@@ -433,7 +448,7 @@ const CareinstitutionFormView: FunctionComponent<
                                   );
                                 }
                               )
-                            : ""}
+                            : ''}
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </div>
@@ -441,7 +456,7 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
@@ -459,30 +474,30 @@ const CareinstitutionFormView: FunctionComponent<
                               mask={TimeMask}
                               className={
                                 errors.endTime && touched.endTime
-                                  ? "fee-width form-control error"
-                                  : "fee-width form-control"
+                                  ? 'fee-width form-control error'
+                                  : 'fee-width form-control'
                               }
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              value={endTime ? endTime : ""}
+                              value={endTime ? endTime : ''}
                             />
                           )}
                         </Field>
                         {errors.endTime ? (
                           errors.endTime &&
                           touched.endTime && (
-                            <div className="required-tooltip">
+                            <div className='required-tooltip'>
                               {errors.endTime}
                             </div>
                           )
                         ) : touched.endTime && difference <= 0 ? (
-                          <div className="required-tooltip">
-                            {languageTranslation("VALID_TIME_RANGE")}
+                          <div className='required-tooltip'>
+                            {languageTranslation('VALID_TIME_RANGE')}
                           </div>
                         ) : null}
-                        <InputGroupAddon addonType="append">
+                        <InputGroupAddon addonType='append'>
                           <InputGroupText>
-                            {languageTranslation("UHR")}
+                            {languageTranslation('UHR')}
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -491,7 +506,7 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
@@ -504,44 +519,44 @@ const CareinstitutionFormView: FunctionComponent<
                       <Button
                         className={
                           qualificationId && qualificationId.length
-                            ? "add-new-btn arrow-btn"
-                            : "add-new-btn arrow-btn disabled-class"
+                            ? 'add-new-btn arrow-btn'
+                            : 'add-new-btn arrow-btn disabled-class'
                         }
-                        color=""
+                        color=''
                         onClick={() => {
                           if (qualificationId && qualificationId.length) {
                             handleQualification(qualificationId);
                           }
                         }}
                       >
-                        <i className="fa fa-arrow-up" aria-hidden="true" />
+                        <i className='fa fa-arrow-up' aria-hidden='true' />
                       </Button>
 
                       <div
                         className={`custom-select-checkbox select-right-bottom ${
                           errors.qualificationId && touched.qualificationId
-                            ? "error"
-                            : " "
+                            ? 'error'
+                            : ' '
                         }`}
                       >
                         <ReactMultiSelectCheckboxes
                           options={qualificationList}
                           placeholderButtonLabel={languageTranslation(
-                            "CAREGIVER_QUALIFICATION_PLACEHOLDER"
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                           )}
                           placeholder={languageTranslation(
-                            "CAREGIVER_QUALIFICATION_PLACEHOLDER"
+                            'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                           )}
                           // placeholder="Select Qualifications"
 
                           className={
                             errors.qualificationId && touched.qualificationId
-                              ? "custom-reactselect error"
-                              : "custom-reactselect"
+                              ? 'custom-reactselect error'
+                              : 'custom-reactselect'
                           }
-                          classNamePrefix="custom-inner-reactselect"
+                          classNamePrefix='custom-inner-reactselect'
                           onChange={(value: any) =>
-                            handleSelect(value, "qualificationId")
+                            handleSelect(value, 'qualificationId')
                           }
                           value={
                             qualificationId && qualificationId.length
@@ -550,7 +565,7 @@ const CareinstitutionFormView: FunctionComponent<
                           }
                         />
                         {errors.qualificationId && touched.qualificationId && (
-                          <div className="required-tooltip">
+                          <div className='required-tooltip'>
                             {qualificationError}
                           </div>
                         )}
@@ -560,7 +575,7 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            {isLeasingAppointment ? (
+            {showQualification ? (
               <Col lg={'12'}>
                 <FormGroup>
                   <Row>
@@ -615,22 +630,22 @@ const CareinstitutionFormView: FunctionComponent<
                         isDisabled={
                           careInstitutionDepartment.length <= 0 ? true : false
                         }
-                        classNamePrefix="custom-inner-reactselect"
+                        classNamePrefix='custom-inner-reactselect'
                         // className={'custom-reactselect'}
                         className={
                           errors.department && touched.department
-                            ? "custom-reactselect error"
-                            : "custom-reactselect"
+                            ? 'custom-reactselect error'
+                            : 'custom-reactselect'
                         }
                         onChange={(value: any) =>
-                          handleSelect(value, "department")
+                          handleSelect(value, 'department')
                         }
                         value={
                           department && department.value ? department : null
                         }
                       />
                       {errors.department && touched.department && (
-                        <div className="required-tooltip">
+                        <div className='required-tooltip'>
                           {DepartmentError}
                         </div>
                       )}
@@ -640,7 +655,7 @@ const CareinstitutionFormView: FunctionComponent<
               </FormGroup>
             </Col>
 
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
@@ -651,20 +666,20 @@ const CareinstitutionFormView: FunctionComponent<
                   <Col sm='8'>
                     <div className='required-input'>
                       <Input
-                        type="textarea"
-                        name={"address"}
+                        type='textarea'
+                        name={'address'}
                         disabled={true}
-                        placeholder={languageTranslation("ADDRESS")}
-                        value={department ? address : ""}
-                        className="textarea-custom form-control"
-                        rows="2"
+                        placeholder={languageTranslation('ADDRESS')}
+                        value={department ? address : ''}
+                        className='textarea-custom form-control'
+                        rows='2'
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
@@ -675,19 +690,19 @@ const CareinstitutionFormView: FunctionComponent<
                   <Col sm='8'>
                     <div className='required-input'>
                       <Input
-                        type="text"
+                        type='text'
                         disabled={true}
-                        name={"contactPerson"}
-                        placeholder={languageTranslation("CONTACT_PERSON")}
-                        className="width-common"
-                        value={contactPerson ? contactPerson : ""}
+                        name={'contactPerson'}
+                        placeholder={languageTranslation('CONTACT_PERSON')}
+                        className='width-common'
+                        value={contactPerson ? contactPerson : ''}
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
@@ -698,14 +713,14 @@ const CareinstitutionFormView: FunctionComponent<
                   <Col sm='8'>
                     <div className='required-input'>
                       <Input
-                        className="textarea-custom form-control"
-                        rows="3"
+                        className='textarea-custom form-control'
+                        rows='3'
                         disabled={true}
-                        type="textarea"
-                        name="departmentOfferRemarks"
-                        id="exampleText"
+                        type='textarea'
+                        name='departmentOfferRemarks'
+                        id='exampleText'
                         value={
-                          departmentOfferRemarks ? departmentOfferRemarks : ""
+                          departmentOfferRemarks ? departmentOfferRemarks : ''
                         }
                         maxLength={255}
                       />
@@ -714,7 +729,7 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
@@ -725,16 +740,16 @@ const CareinstitutionFormView: FunctionComponent<
                   <Col sm='8'>
                     <div className='required-input'>
                       <Input
-                        className="textarea-custom form-control"
-                        rows="3"
+                        className='textarea-custom form-control'
+                        rows='3'
                         disabled={true}
-                        type="textarea"
-                        name="departmentBookingRemarks"
-                        id="exampleText"
+                        type='textarea'
+                        name='departmentBookingRemarks'
+                        id='exampleText'
                         value={
                           departmentBookingRemarks
                             ? departmentBookingRemarks
-                            : ""
+                            : ''
                         }
                         maxLength={255}
                       />
@@ -743,26 +758,26 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
                       {languageTranslation(
-                        "REMARK_DEPARTMENT_VISIBLE_INTERNALLY"
+                        'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
                       )}
                     </Label>
                   </Col>
                   <Col sm='8'>
                     <div className='required-input'>
                       <Input
-                        className="textarea-custom form-control"
-                        rows="3"
+                        className='textarea-custom form-control'
+                        rows='3'
                         disabled={true}
-                        type="textarea"
-                        name="departmentRemarks"
-                        id="exampleText"
-                        value={departmentRemarks ? departmentRemarks : ""}
+                        type='textarea'
+                        name='departmentRemarks'
+                        id='exampleText'
+                        value={departmentRemarks ? departmentRemarks : ''}
                         maxLength={255}
                       />
                     </div>
@@ -770,7 +785,7 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
@@ -781,12 +796,12 @@ const CareinstitutionFormView: FunctionComponent<
                   <Col sm='8'>
                     <div className='required-input'>
                       <FormGroup check inline>
-                        <div className=" checkbox-custom mb-0">
+                        <div className=' checkbox-custom mb-0'>
                           <input
-                            type="checkbox"
-                            id="isWorkingProof"
-                            name={"isWorkingProof"}
-                            className=""
+                            type='checkbox'
+                            id='isWorkingProof'
+                            name={'isWorkingProof'}
+                            className=''
                             checked={isWorkingProof}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
@@ -794,10 +809,10 @@ const CareinstitutionFormView: FunctionComponent<
                               const {
                                 target: { checked },
                               } = e;
-                              setFieldValue("isWorkingProof", checked);
+                              setFieldValue('isWorkingProof', checked);
                             }}
                           />
-                          <Label for="isWorkingProof"></Label>
+                          <Label for='isWorkingProof'></Label>
                         </div>
                       </FormGroup>
                     </div>
@@ -805,7 +820,7 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
@@ -816,12 +831,12 @@ const CareinstitutionFormView: FunctionComponent<
                   <Col sm='8'>
                     <div className='required-input'>
                       <Input
-                        className="textarea-custom form-control"
-                        rows="3"
-                        type="textarea"
-                        name="offerRemarks"
-                        id="exampleText"
-                        value={offerRemarks ? offerRemarks : ""}
+                        className='textarea-custom form-control'
+                        rows='3'
+                        type='textarea'
+                        name='offerRemarks'
+                        id='exampleText'
+                        value={offerRemarks ? offerRemarks : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         maxLength={255}
@@ -831,7 +846,7 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
@@ -842,12 +857,12 @@ const CareinstitutionFormView: FunctionComponent<
                   <Col sm='8'>
                     <div className='required-input'>
                       <Input
-                        className="textarea-custom form-control"
-                        rows="3"
-                        type="textarea"
-                        name="bookingRemarks"
-                        id="exampleText"
-                        value={bookingRemarks ? bookingRemarks : ""}
+                        className='textarea-custom form-control'
+                        rows='3'
+                        type='textarea'
+                        name='bookingRemarks'
+                        id='exampleText'
+                        value={bookingRemarks ? bookingRemarks : ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         maxLength={255}
@@ -857,7 +872,7 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
@@ -868,12 +883,12 @@ const CareinstitutionFormView: FunctionComponent<
                   <Col sm='8'>
                     <div className='required-input'>
                       <Input
-                        className="textarea-custom form-control"
-                        rows="3"
-                        type="textarea"
-                        name="comments"
-                        id="exampleText"
-                        value={comments ? comments : ""}
+                        className='textarea-custom form-control'
+                        rows='3'
+                        type='textarea'
+                        name='comments'
+                        id='exampleText'
+                        value={comments ? comments : ''}
                         onChange={handleChange}
                         maxLength={255}
                         onBlur={handleBlur}
@@ -883,34 +898,34 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
-              <div className="d-flex align-items-center justify-content-between">
+            <Col lg={'12'}>
+              <div className='d-flex align-items-center justify-content-between'>
                 <Button
-                  className={"btn-save"}
-                  color="danger"
+                  className={'btn-save'}
+                  color='danger'
                   onClick={() =>
-                    onhandleDelete("careinstitution", appointmentId)
+                    onhandleDelete('careinstitution', appointmentId)
                   }
                   disabled={!appointmentId}
                 >
-                  {languageTranslation("DELETE")}
+                  {languageTranslation('DELETE')}
                 </Button>
                 <Button
-                  className="btn-save"
-                  color="primary"
+                  className='btn-save'
+                  color='primary'
                   onClick={handleSubmit}
                   disabled={
                     addCareinstLoading /*  ? true : appointmentId ? false : !dateCondition ? true : false */
                   }
                 >
                   {addCareinstLoading ? (
-                    <i className="fa fa-spinner fa-spin mr-2" />
+                    <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
-                    ""
+                    ''
                   )}
                   {appointmentId
-                    ? languageTranslation("UPDATE_BUTTON")
-                    : languageTranslation("SAVE_BUTTON")}
+                    ? languageTranslation('UPDATE_BUTTON')
+                    : languageTranslation('SAVE_BUTTON')}
                 </Button>
               </div>
             </Col>

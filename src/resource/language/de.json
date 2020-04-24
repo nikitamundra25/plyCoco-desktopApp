@@ -1175,6 +1175,6 @@
 "TURN_LEFT": "Links drehen",
 "TURN_RIGHT": "Rechts drehen",
 "TURN_180": "180° drehen",
-"MENU_LEASING_CREATE_INVOICE":"Leasingrechnung erstellen"
-
+"MENU_LEASING_CREATE_INVOICE":"Leasingrechnung erstellen",
+"SEARCH_TIP":"Try to search with specific keywords to find more results."
 }

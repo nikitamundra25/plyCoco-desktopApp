@@ -101,7 +101,16 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     {
       invoiceInput: any;
     }
-  >(CREATE_INVOICE);
+  >(CREATE_INVOICE, {
+    onCompleted(){
+      toast.dismiss();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('CREATE_INVOICE_SUCCESS')
+        );
+      }
+    }
+  });
 
 
   // Default value is start & end of month

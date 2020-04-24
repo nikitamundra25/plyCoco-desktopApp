@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
-import { languageTranslation } from '../../../../helpers';
+import React, { FunctionComponent } from "react";
+import { languageTranslation } from "../../../../helpers";
 
 const CustomOption: FunctionComponent = (props: any) => {
-  const { data, innerProps, isSelected } = props;
+  const { data, innerProps, isDisabled, isSelected } = props;
   let style = {
     backgroundColor: data.color,
   };
@@ -10,24 +10,31 @@ const CustomOption: FunctionComponent = (props: any) => {
     <div
       {...innerProps}
       className={`custom-select-options ${
-        data.value === languageTranslation('ID') ? 'custom-sticky-head' : ''
-      } ${isSelected ? (data.color ? 'text-black' : 'active') : ''}`}
+        data.value === languageTranslation("ID") ? "custom-sticky-head" : ""
+      } ${isSelected ? (data.color ? "text-black" : "active") : ""}`}
       style={style}
     >
-      <span
-        className={`custom-name-option ${
-          data.value === languageTranslation('ID') ? 'custom-head' : ''
-        }`}
-      >
-        {data.label}
-      </span>
-      <span
-        className={`custom-id-option text-center ${
-          data.value === languageTranslation('ID') ? 'custom-head' : ''
-        }`}
-      >
-        {data.value}
-      </span>
+      {!isDisabled ? (
+        <>
+          <span
+            className={`custom-name-option ${
+              data.value === languageTranslation("ID") ? "custom-head" : ""
+            }`}
+          >
+            {data.label}
+          </span>
+          <span
+            className={`custom-id-option text-center ${
+              data.value === languageTranslation("ID") ? "custom-head" : ""
+            }`}
+          >
+            {data.value}
+          </span>
+        </>
+      ) : (
+        // To display search tip
+        <div className={"text-center custom-search-text"}>{data.label}</div>
+      )}
     </div>
   );
 };

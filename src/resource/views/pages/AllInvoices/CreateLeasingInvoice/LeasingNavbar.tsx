@@ -13,6 +13,8 @@ import right_arrow from "../../../../assets/img/rightarrow.svg";
 import left_arrow from "../../../../assets/img/leftarrow.svg";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
+import CaregiverCustomAsyncList from "../../../components/DropdownList/CareGiverCustomAsyncSelect";
+import CareinstitutionCustomAsyncList from "../../../components/DropdownList/CareInstitutionCustomAsyncSelect";
 
 const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceNavBar & any) => {
   const {
@@ -41,7 +43,7 @@ const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
     </div>
 
     <div className="user-select mx-1 ">
-      <Select
+      {/* <Select
         classNamePrefix="custom-inner-reactselect"
         className={
             "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
@@ -58,10 +60,19 @@ const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
             ? caregiverFilter
             : null
         }
-      />
+      /> */}
+        <CaregiverCustomAsyncList
+          placeholderLabel={languageTranslation("SELECT_CAREGIVER")}
+          onChange={(value: any) => onhandleSelection(value, "caregiver")}
+          value={
+            caregiverFilter && caregiverFilter.value !== ""
+              ? caregiverFilter
+              : null
+          }
+        />
     </div>
     <div className="user-select mx-1 ">
-      <Select
+      {/* <Select
         classNamePrefix="custom-inner-reactselect"
         className={
           "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
@@ -78,7 +89,16 @@ const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
           onhandleSelection(value, "careinstitution")
         }
         isClearable={true}
-      />
+      /> */}
+      <CareinstitutionCustomAsyncList
+          placeholderLabel={languageTranslation("SELECT_CARE_INSTITUTION")}
+          onChange={(value: any) => onhandleSelection(value, "careinstitution")}
+          value={
+            careinstitutionFilter && careinstitutionFilter.value !== ""
+              ? careinstitutionFilter
+              : null
+          }
+        />
     </div>
     <div className="user-select mx-1 ">
       <Select

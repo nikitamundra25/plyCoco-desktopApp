@@ -78,10 +78,10 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                 let start_time = workBegain && workBegain.length ? workBegain[1] : null;
                 let enddate = workEnd && workEnd.length ? workEnd[0] : null;
                 let end_time = workEnd && workEnd.length ? workEnd[1] : null;
-                console.log(initialdate, 'initialdate', start_time, moment(`${initialdate} ${start_time}`, `${defaultDateFormat} HH:mm`).format());
+                console.log(initialdate, 'initialdate', start_time, moment(`${initialdate} ${start_time}`, `${dbAcceptableFormat} HH:mm`).format());
 
-                let datetimeA: any = initialdate ? moment(`${initialdate} ${start_time}`, `${defaultDateFormat} HH:mm`).format() : "";
-                let datetimeB: any = enddate ? moment(`${enddate} ${end_time}`, `${defaultDateFormat} HH:mm`).format() : null;
+                let datetimeA: any = initialdate ? moment(`${initialdate} ${start_time}`, `${dbAcceptableFormat} HH:mm`).format() : "";
+                let datetimeB: any = enddate ? moment(`${enddate} ${end_time}`, `${dbAcceptableFormat} HH:mm`).format() : null;
 
                 // let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
                 // let hours = duration ? duration.asHours() : null;
@@ -104,14 +104,62 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                 if (careGiverHolidays && careGiverHolidays.length) {
                   hasHoliday = careGiverHolidays.filter((data: any) => data.date === list.date)
                 }
+                let nightStartTime: any = "22:00", nightEndTime: any = "06:00"
+                if (list && list.ca && list.ca.nightAllowance) {
+                  if (list.ca.nightAllowance === "From 10 p.m.") {
+                    nightStartTime = "22:00"
+                    nightEndTime = "06:00"
+                  } else if (list.ca.nightAllowance === "From 8 p.m.") {
+                    nightStartTime = "20:00"
+                    nightEndTime = "04:00"
+                  } else if (list.ca.nightAllowance === "From 8:45 p.m.") {
+                    nightStartTime = "20:45"
+                    nightEndTime = "04:45"
+                  } else if (list.ca.nightAllowance === "From 9 p.m.") {
+                    nightStartTime = "21:00"
+                    nightEndTime = "05:00"
+                  }
+                }
+                let nightST: any = moment("22:00", "H:mm").format("HH:mm"), nightET: any = moment("06:00", "H:mm").format("HH:mm");
+                let startTime: any = moment("20:00", "H:mm").format("HH:mm"), endTime: any = moment("03:00", "H:mm").format("HH:mm")
 
+                //Conditions to get time include night shift hours
+                let condiA1: any = moment.utc(moment(startTime, "HH").diff(moment(nightST, "HH"))).format("H")
+                let condiA2: any = moment.utc(moment(nightET, "HH").diff(moment(startTime, "HH"))).format("H")
+
+                console.log("####################", (12 > condiA1) && (condiA1 > 0), " ?????????????", condiA2);
+
+
+                if (list && list.ca && list.ca.nightFee) {
+                  if (((12 > condiA1) && (condiA1 > 0)) || ((12 > condiA2) && (condiA2 > 0))) {
+                    console.log("*********************in this condition");
+                  } else if (((nightST - endTime) > 0)) {
+
+                  }
+                }
+                console.log(">>>>>>>>>>>>>>>>nightStartTime", nightStartTime);
+                console.log(">>>>>>>>>>>>>>>>nightEndTime", nightEndTime);
                 //Find Total Ammount
                 let totalAmount: number = 0
                 if (list && list.ca) {
-                  totalAmount = (list.ca.fee * 100) + (list.ca.distanceInKM ? list.ca.distanceInKM : 0 * list.ca.feePerKM ? list.ca.feePerKM : 0) + (list.ca && list.ca.otherExpenses ? list.ca.otherExpenses : 0) +
-                    (list.ca && list.ca.workingHoursFrom ? (4 * parseFloat(diffDate)).toFixed(2) : 0)
+                  let weekendRate: any = list.ca.weekendAllowance ? list.ca.weekendAllowance : 0
+                  let holidayRate: any = list.ca.holidayAllowance ? list.ca.holidayAllowance : 0
+                  let nightRate: any = list.ca.nightFee ? list.ca.nightFee : 0
+                  let fees: any = (list.ca.fee * 100)
+                  let transportation: any = (list.ca.distanceInKM ? list.ca.distanceInKM : 0 * list.ca.feePerKM ? list.ca.feePerKM : 0)
+                  let hours: any = (list.ca.workingHoursFrom ? parseFloat(diffDate).toFixed(2) : 0)
+                  let expenses = (list.ca && list.ca.otherExpenses ? list.ca.otherExpenses : 0)
+                  if (isWeekendDay && hasHoliday && hasHoliday.length) {
+                    if (weekendRate > holidayRate) {
+                      totalAmount = ((((fees + weekendRate) * hours) + transportation + expenses))
+                    } else if (holidayRate > weekendRate) {
+                      totalAmount = ((((fees + holidayRate) * hours) + transportation + expenses))
+                    }
+                  } else {
+                    totalAmount = (((fees * hours) + transportation + expenses))
+                  }
                 }
-                console.log("++++++++++++++++++++", list);
+                console.log("++++++++++++++++++++", totalAmount);
 
                 return (
                   <tr className="sno-col" key={index}>

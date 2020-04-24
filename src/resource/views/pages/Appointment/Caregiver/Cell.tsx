@@ -71,10 +71,12 @@ const Cell = ({
           'custom-appointment-col': true,
           'cursor-pointer': true,
           'selecting-cell-bg': !isSelected
-            ? 
-            selectedcareGiverApptId.length && selectedcareInstApptId.length && JSON.stringify(selectedcareGiverApptId) === JSON.stringify(selectedcareInstApptId) && selectedcareGiverApptId.includes(caregiverCell) ||
+          ? 
+          isSelecting 
+          || selectedcareGiverIndexes.includes(cellIndex) 
+          ||
+            (selectedcareGiverApptId.length && selectedcareInstApptId.length && JSON.stringify(selectedcareGiverApptId) === JSON.stringify(selectedcareInstApptId) && selectedcareGiverApptId.includes(caregiverCell))
             // (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
-            isSelecting || selectedcareGiverIndexes.includes(cellIndex)
             : true,
           // 'selecting-cell': isSelecting,
           weekend: daysArr,

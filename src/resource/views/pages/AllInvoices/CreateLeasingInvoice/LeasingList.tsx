@@ -53,6 +53,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
       : null;
   });
   console.log('qualiFilter', qualiFilter);
+  console.log('invoiceList', invoiceList);
 
   return (
     <>
@@ -351,13 +352,15 @@ Leasing - ((Brutto + (Holiday = Brutto * 1) + (Sunday = Brutto * 0.5) + (Night =
           </tbody>
         </Table>
       </div>
-      {qualiFilter && qualiFilter.length > 10 ? (
-        <PaginationComponent
-          totalRecords={10}
-          currentPage={currentPage}
-          onPageChanged={onPageChanged}
-        />
-      ) : null}
+      {
+        /* qualiFilter && qualiFilter.length > 10 */ totalCount ? (
+          <PaginationComponent
+            totalRecords={totalCount}
+            currentPage={currentPage}
+            onPageChanged={onPageChanged}
+          />
+        ) : null
+      }
     </>
   );
 };

@@ -576,7 +576,8 @@ const Appointment: FunctionComponent = (props: any) => {
     { data: updateCareinstitutionRes, loading: updateCareinstitutionLoading },
   ] = useMutation<
     {
-      updateCareInstitutionRequirement: IAddCargiverAppointmentRes;
+      updateCareInstitutionRequirement: any
+      // IAddCargiverAppointmentRes;
     },
     {
       id: number;
@@ -584,15 +585,93 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_INSTITUTION_REQUIREMENT, {
     onCompleted({ updateCareInstitutionRequirement }) {
+      console.log(updateCareInstitutionRequirement,'updateCareInstitutionRequirement');
+      
       let temp: any = [...careinstitutionList];
       let deptList: any = [];
+      const caregiverListData: any = [...caregiversList];
       if (starCanstitution && starCanstitution.isStar && careInstituionDeptData.length) {
         deptList = [...careInstituionDeptData];
       } 
       const selectedCareInstCells = selectedCellsCareinstitution
       ? [...selectedCellsCareinstitution]
       : [];
-      
+      const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
+      // to get the appointment data from the care institution cell
+      let appointmentData = selectedCareInstCells.filter((cell:any) => cell.item && cell.item.id === updateCareInstitutionRequirement.id)[0]
+      appointmentData = appointmentData && appointmentData.item.appointments && appointmentData.item.appointments.length && appointmentData.item.appointments[0] ? appointmentData.item.appointments[0] : {}
+      console.log(appointmentData,'appointmentData');
+      // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
+      if (updateCareInstitutionRequirement.status === 'confirmed' && updateCareInstitutionRequirement.isLeasing && appointmentData) {
+        let caregiverIndex: number = caregiverListData.findIndex(
+          (caregiver: any) =>
+        appointmentData && appointmentData.ca && appointmentData.ca.userId && caregiver.id === appointmentData.ca.userId
+        ); 
+        let availabilityDataIndex: number = -1;
+      let availabilityIndex: number = -1;
+      // To find the exact index of availability
+      for (let i = 0; caregiverIndex > -1 && i < caregiverListData[caregiverIndex].availabilityData.length; i++) {
+        let availabilityRows: any[] = [
+          ...caregiverListData[caregiverIndex].availabilityData[i],
+        ];
+        console.log(availabilityRows,'availabilityRows');
+        
+        availabilityIndex = availabilityRows.findIndex(
+          (e: any) => e.id === appointmentData.avabilityId
+        );
+        if (availabilityIndex > -1) {
+          availabilityDataIndex = i;
+          break;
+        }
+      }
+      console.log('in iffffffff',caregiverIndex,availabilityDataIndex,availabilityIndex );
+      if (availabilityDataIndex > -1 && availabilityIndex > -1) {
+        let itemData = caregiverListData[caregiverIndex].availabilityData[availabilityDataIndex][
+          availabilityIndex
+        ]
+        if (itemData && itemData.appointments && itemData.appointments.length) {
+        caregiverListData[caregiverIndex].availabilityData[availabilityDataIndex][
+          availabilityIndex
+        ] = {
+          ...itemData,
+          appointments: [
+            {
+              ...itemData.appointments[0],
+              cr: {
+                ...itemData.appointments[0].cr,
+                status: updateCareInstitutionRequirement.status
+              },
+            },
+          ],
+        };
+      }
+      }
+      console.log(caregiverListData[caregiverIndex].availabilityData[availabilityDataIndex][
+        availabilityIndex
+      ], 'caregiverListData[caregiverIndex].availabilityData[availabilityDataIndex][')
+      // To update the selected caregiver & careInst cell
+      let cellIndex: number = selectedCaregiverCells.findIndex(
+        (cell: any) => appointmentData && appointmentData.ca && appointmentData.ca.avabilityId === cell.item.id
+      );
+      if (selectedCaregiverCells[cellIndex] && selectedCaregiverCells[cellIndex].item && selectedCaregiverCells[cellIndex].item.appointments && selectedCaregiverCells[cellIndex].item.appoitments.length) {
+        selectedCaregiverCells[cellIndex] = {
+          ...selectedCaregiverCells[cellIndex],
+          item: {
+            ...selectedCaregiverCells[cellIndex].item,
+            appointments: [
+              {
+                ...selectedCaregiverCells[cellIndex].item.appointments[0],
+                cr: {
+                  ...selectedCaregiverCells[cellIndex].item.appointments[0].cr,
+                  status:updateCareInstitutionRequirement.status
+                },
+              },
+            ],
+          },
+        };
+      }
+      setSelectedCells(selectedCaregiverCells)
+    }
       let index: number = -1;
         index = temp.findIndex(
           (careInst: any) =>

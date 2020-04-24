@@ -23,8 +23,6 @@ export interface IAppointmentNav {
   handleDayClick: (selectedDay: Date) => void;
   daysData: IGetDaysArrayByMonthRes | null;
   qualificationList: IReactSelectInterface[] | undefined;
-  careInstitutionList: any;
-  careGiversList: any;
   qualification: IReactSelectInterface[] | undefined;
   filterByAppointments: IReactSelectInterface | undefined;
   careGiversListArr: any;
@@ -46,7 +44,6 @@ export interface IAppointmentNav {
   positive: number[];
   negative: number[];
   setIsNegative: React.Dispatch<React.SetStateAction<number[]>>;
-  handleLoadMoreCanstitution: (input:any) => void;
 }
 
 export interface IAppointmentCareGiverList {

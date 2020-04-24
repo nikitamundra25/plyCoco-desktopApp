@@ -13,18 +13,18 @@ import {
   selfEmployesListColor,
   CareInstTIMyoCYAttrId,
   CareInstPlycocoAttrId,
-  CareInstInActiveAttrId
+  CareInstInActiveAttrId,
 } from "../../../../config";
 import { careInstitutionRoutes } from "./Sidebar/SidebarRoutes/ConstitutionRoutes";
 import {
   ICareInstitutionFormValues,
   IHandleSubmitInterface,
   IReactSelectInterface,
-  IQualifications
+  IQualifications,
 } from "../../../../interfaces";
 import {
   CareInstitutionQueries,
-  GET_QUALIFICATION_ATTRIBUTE
+  GET_QUALIFICATION_ATTRIBUTE,
 } from "../../../../graphql/queries";
 import { CareInstitutionMutation } from "../../../../graphql/Mutations";
 import Loader from "../../containers/Loader/Loader";
@@ -34,7 +34,7 @@ import reminder from "../../../assets/img/reminder.svg";
 import password from "../../../assets/img/password.svg";
 import appointment from "../../../assets/img/appointment.svg";
 import clear from "../../../assets/img/clear.svg";
-import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
+import CareinstitutionCustomAsyncList from "../../components/DropdownList/CareInstitutionCustomAsyncSelect";
 
 const PersonalInformation = React.lazy(() => import("./PersonalInfo"));
 const Offers = React.lazy(() => import("./Offers"));
@@ -49,20 +49,9 @@ const CreateTodo = React.lazy(() =>
   import("../../components/CreateTodo/index")
 );
 
-const [
-  GET_CARE_INSTITUTION_LIST,
-] = CareInstitutionQueries;
+const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
 
-const [
-  ,
-  ,
-  ,
-  ,
-  ,
-  ,
-  ,
-  ADD_NEW_CARE_INTITUTION
-] = CareInstitutionMutation;
+const [, , , , , , , ADD_NEW_CARE_INTITUTION] = CareInstitutionMutation;
 
 const CareInstitutionSidebar = React.lazy(() =>
   import("./Sidebar/SidebarLayout/CareInstitutionLayout")
@@ -70,13 +59,11 @@ const CareInstitutionSidebar = React.lazy(() =>
 
 const CareInstitutionTabs = careInstitutionRoutes;
 
-const ViewCareInstitution: FunctionComponent<FormikProps<
-  ICareInstitutionFormValues
-> &
-  RouteComponentProps &
-  IHandleSubmitInterface> = (
-  props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
-) => {
+const ViewCareInstitution: FunctionComponent<
+  FormikProps<ICareInstitutionFormValues> &
+    RouteComponentProps &
+    IHandleSubmitInterface
+> = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
   let { id } = useParams();
   const Id: any | undefined = id;
   const [showToDo, setShowToDo] = useState<boolean>(false);
@@ -86,20 +73,20 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
 
   const [
     addUser,
-    { error: addUserError, data: CareIntitutionId, loading: Loading }
+    { error: addUserError, data: CareIntitutionId, loading: Loading },
   ] = useMutation<{ addUser: any }>(ADD_NEW_CARE_INTITUTION);
 
   const [
     fetchCareInstitutionList,
-    { data: careInstituition, loading, refetch }
+    { data: careInstituition, loading, refetch },
   ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: "no-cache"
+    fetchPolicy: "no-cache",
   });
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: "",
     value: "",
-    color: ""
+    color: "",
   });
 
   useEffect(() => {
@@ -130,8 +117,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: ""
-      }
+        isActive: "",
+      },
     });
   }, []);
 
@@ -142,7 +129,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     CareInstitutionList.push({
       label: languageTranslation("NAME"),
       value: languageTranslation("ID"),
-      companyName: languageTranslation("COMPANY_NAME")
+      companyName: languageTranslation("COMPANY_NAME"),
     });
     careInstitutionData.map((data: any) => {
       const { canstitution } = data;
@@ -154,15 +141,14 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       CareInstitutionList.push({
         label: `${data.lastName}${" "}${data.firstName}`,
         value: data.id,
-        color: attributes.includes(
-          CareInstInActiveAttrId,
-        ) ? deactivatedListColor
+        color: attributes.includes(CareInstInActiveAttrId)
+          ? deactivatedListColor
           : attributes.includes(CareInstTIMyoCYAttrId)
           ? leasingListColor
           : attributes.includes(CareInstPlycocoAttrId)
           ? selfEmployesListColor
           : "",
-        companyName
+        companyName,
       });
       return true;
     });
@@ -175,7 +161,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     data.getQualifications.forEach((quali: any) => {
       qualificationList.push({
         label: quali.name,
-        value: quali.id
+        value: quali.id,
       });
     });
   }
@@ -189,7 +175,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     setactiveTab(
       query.tab
         ? CareInstitutionTabs.findIndex(
-            d => d.name === decodeURIComponent(query.tab)
+            (d) => d.name === decodeURIComponent(query.tab)
           )
         : 0
     );
@@ -226,7 +212,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
       const data: IReactSelectInterface = {
         label: e.label,
         value: e.value,
-        color: e.color
+        color: e.color,
       };
       setselectUser((selectUser = data));
       if (e.value !== Id) {
@@ -254,13 +240,13 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
     addUser({
       variables: {
         careInstInput: {
-          firstName: ""
-        }
-      }
+          firstName: "",
+        },
+      },
     });
   };
-  console.log(selectUser,'selectUser+++');
-  
+  console.log(selectUser, "selectUser+++");
+
   return (
     <div>
       <div className="common-detail-page">
@@ -275,7 +261,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                 <div className="sticky-common-header">
                   <div className="common-topheader d-flex align-items-center ">
                     <div className="user-select">
-                      <Select
+                      {/* <Select
                         classNamePrefix="custom-inner-reactselect"
                         className={
                           "custom-reactselect custom-reactselect-careinst-menu-width"
@@ -288,6 +274,17 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                         components={{ Option: CareInstCustomOption }}
                         isOptionDisabled={(option: any) =>
                           option.value === languageTranslation("ID")
+                        }
+                      /> */}
+                      <CareinstitutionCustomAsyncList
+                        placeholderLabel={languageTranslation(
+                          "SELECT_CARE_INSTITUTION"
+                        )}
+                        onChange={(e: any) => handleSelect(e)}
+                        value={
+                          selectUser && selectUser.value !== ""
+                            ? selectUser
+                            : null
                         }
                       />
                     </div>
@@ -333,7 +330,7 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                       onClick={() =>
                         history.push({
                           pathname: AppRoutes.APPOINTMENT,
-                          state: { canstitution: Id , name: selectUser.label }
+                          state: { canstitution: Id, name: selectUser.label },
                         })
                       }
                     >
@@ -399,7 +396,8 @@ const ViewCareInstitution: FunctionComponent<FormikProps<
                         careInstituition.getCareInstitutions
                           .careInstitutionData &&
                         selectUser &&
-                        selectUser.value && careInstituition.getCareInstitutions.careInstitutionData.find(
+                        selectUser.value &&
+                        careInstituition.getCareInstitutions.careInstitutionData.find(
                           (careInstitutionData: any) =>
                             careInstitutionData.id === selectUser.value
                         )

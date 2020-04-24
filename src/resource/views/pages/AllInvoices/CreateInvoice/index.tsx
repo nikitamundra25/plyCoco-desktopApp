@@ -414,6 +414,8 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             console.log("????????????", appointmentData);
             if (appointmentData.ca && appointmentData.cr) {
               singleCareGiverData.push(appointmentData.ca.userId)
+              console.log(">>>>>>>>>>>>>");
+
               singleCareInstData.push(appointmentData.cr.userId)
               selectedAppointmentId.push(appointmentData.id)
 
@@ -477,8 +479,8 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             subTotal: `${subTotal}`,
             amount: `${totalAmount}`,
             tax: `${subTotal * 0.19}`,
-            careInstitutionName: "Gunjali9989",
-            careGiverName: "aayushi",
+            careInstitutionName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].cr ? selectedAppointment[0].cr.name : "",
+            careGiverName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].ca ? selectedAppointment[0].ca.name : "",
             invoiceType: "selfEmployeed"
           }
           await CreateInvoice({

@@ -8,8 +8,11 @@ const CellCareinstitution = ({
   item,
   daysArr,
   key,
+  cellIndex,
   showSelectedCaregiver,
-  selectedCells
+  selectedcareInstApptId,
+  selectedcareGiverApptId,
+  selectedcareInstIndexes
 }: any) => {
   let isRequirment: boolean = false,
     isMatching: boolean = false,
@@ -30,31 +33,31 @@ const CellCareinstitution = ({
       showAppointedCareGiver = true;
     }
   }
-  let canstitutionCell: any =
-  selectedCells &&
-  selectedCells.length &&
-  selectedCells[0] &&
-  selectedCells[0].item &&
-  selectedCells[0].item.appointments &&
-  selectedCells[0].item.appointments[0]
-    ? selectedCells[0].item.appointments[0].id
-    : '';
+  // let canstitutionCell: any =
+  // selectedCells &&
+  // selectedCells.length &&
+  // selectedCells[0] &&
+  // selectedCells[0].item &&
+  // selectedCells[0].item.appointments &&
+  // selectedCells[0].item.appointments[0]
+  //   ? selectedCells[0].item.appointments[0].id
+  //   : '';
 
 let careinstitutionCell: any =
   item && item.appointments && item.appointments[0]
     ? item.appointments[0].id
     : '';
 
-let showAppointment: boolean = false;
-if (canstitutionCell && careinstitutionCell) {
-  if (canstitutionCell === careinstitutionCell) {
-    showAppointment = true;
-  }else{
-    showAppointment = false;
-  }
-}else{
-  showAppointment = false;
-}
+// let showAppointment: boolean = false;
+// if (canstitutionCell && careinstitutionCell) {
+//   if (canstitutionCell === careinstitutionCell) {
+//     showAppointment = true;
+//   }else{
+//     showAppointment = false;
+//   }
+// }else{
+//   showAppointment = false;
+// }
 
   if (item) {
     if (item.status === 'default') {
@@ -81,11 +84,13 @@ if (canstitutionCell && careinstitutionCell) {
         'custom-appointment-col': true,
         'cursor-pointer': true,
         'selecting-cell-bg':
-          isSelected ||
-          (showAppointedCareGiver &&
-            caregiverId === showSelectedCaregiver.id) ||
-            (showAppointment && canstitutionCell === careinstitutionCell) ||
-          isSelecting,
+        !isSelected
+        ? 
+        selectedcareGiverApptId.length && selectedcareInstApptId.length && JSON.stringify(selectedcareGiverApptId) === JSON.stringify(selectedcareInstApptId) && selectedcareGiverApptId.includes(careinstitutionCell) ||
+        // (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
+        isSelecting || 
+        selectedcareInstIndexes.includes(cellIndex)
+        : true,
         // 'selecting-cell': isSelecting,
         'requirement-bg': isRequirment && !isSelected ? isRequirment : false,
         'matching-bg':

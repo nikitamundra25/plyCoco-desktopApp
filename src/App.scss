@@ -1957,6 +1957,14 @@ html:not([dir="rtl"]) {
         text-align: left;
         font-family: $font_Frutiger_Bold;
       }
+      .custom-search-text {
+        color: $no_search_text_color;
+        display: block;
+        padding: 6px 10px;
+        font-family: $font_Frutiger_Medium;
+        font-size: $font_12;
+        text-transform: none;
+      }
     }
   }
 

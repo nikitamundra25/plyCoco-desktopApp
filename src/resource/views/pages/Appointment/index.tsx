@@ -247,24 +247,7 @@ const Appointment: FunctionComponent = (props: any) => {
       },
     });
   }, []);
-  // To fetch all careinstitution list
-  const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
-    any
-  >(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: "no-cache",
-  });
 
-  useEffect(() => {
-    fetchCareInstitutionList({
-      variables: {
-        searchBy: null,
-        sortBy: 5,
-        limit: 30,
-        page: 1,
-        isActive: "",
-      },
-    });
-  }, []);
   // Mutation to add careGiver data
   const [
     addCaregiverAvailability,
@@ -1801,36 +1784,35 @@ const Appointment: FunctionComponent = (props: any) => {
       workingProofRecieved = false,
     } = caregiverLastTimeValues ? caregiverLastTimeValues : {};
 
-    const {
-      firstName = "",
-      lastName = "",
-      email = "",
-      id: selectedCaregiverId = "",
-      dateString = "",
-      caregiver = undefined,
-      item = undefined,
-      qualificationIds = [],
-    } =
-      selectedCells && selectedCells.length === 1 && selectedCells[0]
-        ? selectedCells[0]
-        : {};
-
-    // selectedCells
     if (
+      selectedCells &&
+      selectedCells.length &&
       caregiverLastTimeData &&
       caregiverLastTimeData.getCareGiverAvabilityLastTimeById
     ) {
       const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
-      const {
-        fee = "",
-        nightFee = "",
-        weekendAllowance = "",
-        holidayAllowance = "",
-      } = getCareGiverAvabilityLastTimeById
-        ? getCareGiverAvabilityLastTimeById
-        : {};
-      let data: any[] = [
-        {
+      let careGiverAvabilityInput: any[] = [];
+
+      selectedCells.forEach(async (element: any) => {
+        const {
+          firstName = "",
+          lastName = "",
+          email = "",
+          id: selectedCaregiverId = "",
+          dateString = "",
+          caregiver = undefined,
+          item = undefined,
+          qualificationIds = [],
+        } = element ? element : {};
+        const {
+          fee = "",
+          nightFee = "",
+          weekendAllowance = "",
+          holidayAllowance = "",
+        } = getCareGiverAvabilityLastTimeById
+          ? getCareGiverAvabilityLastTimeById
+          : {};
+        let data: any = {
           id: selectedCaregiverId,
           firstName,
           lastName,
@@ -1855,9 +1837,10 @@ const Appointment: FunctionComponent = (props: any) => {
             s: s ? "available" : "default",
             n: n ? "available" : "default",
           },
-        },
-      ];
-      setSelectedCells(data);
+        };
+        careGiverAvabilityInput = [...careGiverAvabilityInput, data];
+      });
+      setSelectedCells(careGiverAvabilityInput);
     }
   }, [caregiverLastTimeData]);
 
@@ -1942,7 +1925,7 @@ const Appointment: FunctionComponent = (props: any) => {
       if (result && result.length) {
         /*  */
         result.forEach((user: any, index: number) => {
-          user.name = user.canstitution ? user.canstitution.companyName : "";
+          user.name = user.canstitution ? user.canstitution.shortName : "";
           user.availabilityData = [];
           if (
             user.careinstitution_requirements &&
@@ -2385,39 +2368,6 @@ const Appointment: FunctionComponent = (props: any) => {
     );
   }
 
-  // set careInstitution list options
-  const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
-  if (careInstituition && careInstituition.getCareInstitutions) {
-    const { getCareInstitutions } = careInstituition;
-    const { careInstitutionData, canstitution } = getCareInstitutions;
-    careInstitutionOptions.push({
-      label: languageTranslation("NAME"),
-      value: languageTranslation("ID"),
-      companyName: languageTranslation("COMPANY_NAME"),
-    });
-
-    careInstitutionData.map((data: any, index: any) => {
-      const { canstitution } = data;
-      let { attributes = [], companyName = "", shortName = "" } = canstitution
-        ? canstitution
-        : {};
-      attributes = attributes ? attributes : [];
-      careInstitutionOptions.push({
-        label: shortName,
-        value: data.id,
-        color: attributes.includes(CareInstInActiveAttrId)
-          ? deactivatedListColor
-          : attributes.includes(CareInstTIMyoCYAttrId)
-          ? leasingListColor
-          : attributes.includes(CareInstPlycocoAttrId)
-          ? selfEmployesListColor
-          : "",
-        companyName,
-      });
-      return true;
-    });
-  }
-
   // Options to show department data
   let careInstitutionDepartment: IReactSelectInterface[] = [];
   if (departmentList && departmentList.getDivision.length) {
@@ -2767,7 +2717,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 },
               },
             });
-            updateLinkedStatus(name);
+            // updateLinkedStatus(name);
             if (!toast.isActive(toastId)) {
               if (name === "confirmed") {
                 toastId = toast.success(
@@ -4093,6 +4043,7 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
+  console.log("selectedCellsCareinstitution", selectedCellsCareinstitution);
 
   let street: string = canstitution && canstitution.street;
   let departmentData: any = Item ? Item.department : undefined;
@@ -4107,17 +4058,12 @@ const Appointment: FunctionComponent = (props: any) => {
       (dept: any) => dept.value === Item.divisionId
     );
   }
-  console.log("Item", Item && Item.qualificationForCharge);
-
   let qualificationfor: any;
   qualificationfor = qualificationList.filter((value: any) => {
-    console.log("value", value);
     return Item && Item.qualificationForCharge
       ? Item.qualificationForCharge.includes(value.value)
-      : null /* .findIndex(value) */;
+      : null;
   });
-  console.log("qualificationfor", qualificationfor && qualificationfor[0]);
-
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : "",
     name:
@@ -4491,20 +4437,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  // function to load or search data in careinstitution dropdowwn
-  const handleLoadMoreCanstitution = (input: any) => {
-    console.log("input", input);
-
-    fetchCareInstitutionList({
-      variables: {
-        searchBy: input ? input : "",
-        sortBy: 5,
-        limit: 100,
-        page: 1,
-        isActive: "",
-      },
-    });
-  };
   const isUnLinkable: boolean =
     item &&
     item.appointments &&
@@ -4642,8 +4574,6 @@ const Appointment: FunctionComponent = (props: any) => {
             daysData={daysData}
             qualificationList={qualificationList}
             handleQualification={handleQualification}
-            careInstitutionList={careInstitutionOptions}
-            careGiversList={careGiversOptions}
             handleDayClick={handleDayClick}
             handleToday={handleToday}
             qualification={qualification}
@@ -4671,12 +4601,11 @@ const Appointment: FunctionComponent = (props: any) => {
             setIsPositive={setIsPositive}
             isNegative={isNegative}
             setIsNegative={setIsNegative}
-            handleLoadMoreCanstitution={handleLoadMoreCanstitution}
           />
           <div className="common-content flex-grow-1">
             <div>
-              <Row className="appointment-row">
-                <Col lg={"6"} className="appointment-calander-col">
+              <Row>
+                <Col lg={"6"}>
                   {/* caregiver list view */}
                   <CaregiverListView
                     updateLinkedStatus={updateLinkedStatus}
@@ -4753,7 +4682,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     starMarkCareinstitution={starMarkCareinstitution}
                   />
                 </Col>
-                <Col lg={"6"} className="appointment-form-col">
+                <Col lg={"6"}>
                   <Row>
                     <Col
                       lg={"6"}

@@ -40,4 +40,5 @@ export interface IDocumentPerformedWorkInterface{
   onFilterById:(value:any) => void;
   handleSelect: (e:React.ChangeEvent<HTMLInputElement> , id:string) => void;
   checkboxMark: any
+  caregiverFilter: IReactSelectInterface | undefined
 }

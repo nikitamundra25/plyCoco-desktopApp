@@ -170,10 +170,8 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
       return callback([]);
     }
     handleLoadMoreCaregiver(inputValue, callback);
-
     // return callback(careInstitutionOptions);
   };
-console.log("careGiversOptions",careGiversOptions);
 
   return (
     <>

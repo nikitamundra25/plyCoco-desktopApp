@@ -4365,7 +4365,6 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
     }
   };
   
-
   const isUnLinkable: boolean =
     item &&
     item.appointments &&
@@ -4399,10 +4398,10 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
     selectedCellsCareinstitution.length &&
     selectedCells &&
     selectedCells.length &&
-    item.appointments[0] &&
-    item.appointments[0].id &&
-    Item.appointments[0] &&
-    Item.appointments[0].id 
+    item &&
+    item.id &&
+    Item &&
+    Item.id
   ) {
     selectedCells.filter((x: any) => {
       if (x.item && x.item.id ) {
@@ -4436,6 +4435,8 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
         }
       }
     });
+  }else{
+    isLinkable = false;
   }
 
   // Date condition for save both button
@@ -4784,7 +4785,7 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
                           className='btn-common mt-0 mb-2 mx-2'
                           color='secondary'
                           disabled={
-                            isUnLinkable ? false : isLinkable ? false : true
+                            isUnLinkable ? false :  isLinkable ? false : true
                           }
                           onClick={() =>
                             isUnLinkable ? handleUnlinkBoth() : handleLinkBoth()

@@ -416,6 +416,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             } else {
               console.log("*****************In else condition");
               subTotal += appointmentData.ca && appointmentData.ca.fee ? (appointmentData.ca.fee * 100) : 0
+              
             }
           } else {
             const message = errorFormatter("Selected appointment don't have care giver");

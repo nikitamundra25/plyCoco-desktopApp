@@ -338,6 +338,18 @@ const GET_APPOINTMENT_DETAILS_BY_ID = gql`
     }
   }
 `;
+const GET_CONTRACT_BY_APPOINTMENT_ID = gql`
+  query getContractByAppointmentID($appointmentId: ID) {
+    getContractByAppointmentID(appointmentId: $appointmentId) {
+      id
+      user_document {
+        id
+        fileName
+        document
+      }
+    }
+  }
+`;
 export const AppointmentsQueries = [
   GET_USERS_BY_QUALIFICATION_ID,
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
@@ -346,4 +358,5 @@ export const AppointmentsQueries = [
   GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION,
   GET_APPOINTMENT_DETAILS_BY_USERID,
   GET_APPOINTMENT_DETAILS_BY_ID,
+  GET_CONTRACT_BY_APPOINTMENT_ID,
 ];

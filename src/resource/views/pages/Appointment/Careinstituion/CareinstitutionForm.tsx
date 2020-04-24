@@ -209,7 +209,7 @@ const CareinstitutionFormView: FunctionComponent<
         : false;
 
     // To check appointment with leasing careInst or not
-    isLeasingAppointment =
+    showQualification =
       selectedCellsCareinstitution &&
       selectedCellsCareinstitution[0] &&
       selectedCellsCareinstitution[0].isLeasing
@@ -266,9 +266,7 @@ const CareinstitutionFormView: FunctionComponent<
                           </div>
                         )}
                       </div>
-                     
                     </Col>
-                    
                   </Row>
                 </FormGroup>
               </Col>
@@ -577,7 +575,7 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            {isLeasingAppointment ? (
+            {showQualification ? (
               <Col lg={'12'}>
                 <FormGroup>
                   <Row>

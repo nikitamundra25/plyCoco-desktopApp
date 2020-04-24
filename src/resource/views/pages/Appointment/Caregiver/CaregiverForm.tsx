@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
-import Select from "react-select";
-import { FormikProps, Field } from "formik";
-import moment from "moment";
-import classnames from "classnames";
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import Select from 'react-select';
+import { FormikProps, Field } from 'formik';
+import moment from 'moment';
+import classnames from 'classnames';
 import {
   FormGroup,
   Label,
@@ -13,18 +13,18 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-} from "reactstrap";
+} from 'reactstrap';
 import {
   IAppointmentCareGiverForm,
   ICaregiverFormValue,
   IReactSelectInterface,
-} from "../../../../../interfaces";
+} from '../../../../../interfaces';
 import {
   languageTranslation,
   dateDiffernceValidator,
   dateValidator,
   dateValidatorNorm,
-} from "../../../../../helpers";
+} from '../../../../../helpers';
 import {
   NightAllowancePerHour,
   defaultDateFormat,
@@ -34,15 +34,18 @@ import {
   DateTimeMask,
   DateMask,
   TimeMask,
-} from "../../../../../config";
-import "../index.scss";
-import { LeasingContractQueries } from "../../../../../graphql/queries";
-import { useLazyQuery } from "@apollo/react-hooks";
-import MaskedInput from "react-text-mask";
-import Loader from "../../../containers/Loader/Loader";
+} from '../../../../../config';
+import '../index.scss';
+import {
+  LeasingContractQueries,
+  AppointmentsQueries,
+} from '../../../../../graphql/queries';
+import { useLazyQuery } from '@apollo/react-hooks';
+import MaskedInput from 'react-text-mask';
+import Loader from '../../../containers/Loader/Loader';
 
 const [GET_LEASING_CONTRACT] = LeasingContractQueries;
-
+const [, , , , , , , GET_CONTRACT_BY_APPOINTMENT_ID] = AppointmentsQueries;
 const CaregiverFormView: FunctionComponent<
   FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 > = (
@@ -53,7 +56,10 @@ const CaregiverFormView: FunctionComponent<
   const [getLeasingContractPDF, { data: pdfData, loading }] = useLazyQuery<any>(
     GET_LEASING_CONTRACT
   );
-
+  // query to get contract pdf
+  const [getContractPDF, { data: contractData }] = useLazyQuery<any>(
+    GET_CONTRACT_BY_APPOINTMENT_ID
+  );
   //For saving both
   useEffect(() => {
     if (props.savingBoth) {
@@ -136,15 +142,15 @@ const CaregiverFormView: FunctionComponent<
       : null;
 
   // Find difference in workingHours time
-  let d = moment().format("L");
-  let dtStart: any = new Date(d + " " + workingHoursFromTime);
-  let dtEnd: any = new Date(d + " " + workingHoursToTime);
+  let d = moment().format('L');
+  let dtStart: any = new Date(d + ' ' + workingHoursFromTime);
+  let dtEnd: any = new Date(d + ' ' + workingHoursToTime);
   let workingHoursdifference = dtEnd - dtStart;
 
   // Find difference in break time
-  let dt = moment().format("L");
-  let dtStart1: any = new Date(dt + " " + breakFromTime);
-  let dtEnd1: any = new Date(dt + " " + breakToTime);
+  let dt = moment().format('L');
+  let dtStart1: any = new Date(dt + ' ' + breakFromTime);
+  let dtEnd1: any = new Date(dt + ' ' + breakToTime);
   let breakdifference = dtEnd1 - dtStart1;
   // console.log("workingHoursFromDate",sub);
 
@@ -154,7 +160,7 @@ const CaregiverFormView: FunctionComponent<
 
   const workingHourDateValidator = (name: string) => {
     let validate: boolean = false;
-    if (name === "workingHoursFromDate") {
+    if (name === 'workingHoursFromDate') {
       validate = dateDiffernceValidator(
         dateData,
         current,
@@ -162,16 +168,16 @@ const CaregiverFormView: FunctionComponent<
         name
       );
       if (!validate) {
-        setworkingHoursFromErrMsg("Enter Valid Date");
+        setworkingHoursFromErrMsg('Enter Valid Date');
       } else {
         let validDateData = dateValidatorNorm(workingHoursFromDate);
         if (!validDateData.isValid) {
           setworkingHoursFromErrMsg(validDateData.message);
         } else {
-          setworkingHoursFromErrMsg("");
+          setworkingHoursFromErrMsg('');
         }
       }
-    } else if (name === "workingHoursToDate") {
+    } else if (name === 'workingHoursToDate') {
       validate = dateDiffernceValidator(
         workingHoursFromDate,
         current,
@@ -179,49 +185,50 @@ const CaregiverFormView: FunctionComponent<
         name
       );
       if (!validate) {
-        setworkingHoursToErrMsg("Enter Valid Date");
+        setworkingHoursToErrMsg('Enter Valid Date');
       } else {
         let validDateData = dateValidatorNorm(workingHoursToDate);
         if (!validDateData.isValid) {
           setworkingHoursToErrMsg(validDateData.message);
         } else {
-          setworkingHoursToErrMsg("");
+          setworkingHoursToErrMsg('');
         }
       }
-    } else if (name === "breakFromDate") {
+    } else if (name === 'breakFromDate') {
       validate = dateDiffernceValidator(dateData, current, breakFromDate, name);
-      console.log("dateFromdateFrom", validate);
+      console.log('dateFromdateFrom', validate);
       if (!validate) {
-        setbreakHoursFromErrMsg("Enter Valid Break Start Date");
+        setbreakHoursFromErrMsg('Enter Valid Break Start Date');
       } else {
         let validDateData = dateValidatorNorm(breakFromDate);
         if (!validDateData.isValid) {
           setbreakHoursFromErrMsg(validDateData.message);
         } else {
-          setbreakHoursFromErrMsg("");
+          setbreakHoursFromErrMsg('');
         }
       }
-    } else if (name === "breakToDate") {
+    } else if (name === 'breakToDate') {
       validate = dateDiffernceValidator(
         breakFromDate,
         current,
         breakToDate,
         name
       );
-      console.log("dateFromdateFrom", validate);
+      console.log('dateFromdateFrom', validate);
       if (!validate) {
-        setbreakHoursToErrMsg("Enter Valid Break End Date");
+        setbreakHoursToErrMsg('Enter Valid Break End Date');
       } else {
         let validDateData = dateValidatorNorm(breakToDate);
         if (!validDateData.isValid) {
           setbreakHoursToErrMsg(validDateData.message);
         } else {
-          setbreakHoursToErrMsg("");
+          setbreakHoursToErrMsg('');
         }
       }
     }
   };
   let isLeasingAppointment = false;
+  let isAppointment = false;
   // To check appointment with leasing careInst or not
   if (selectedCells && selectedCells.length) {
     isLeasingAppointment = selectedCells.filter(
@@ -235,6 +242,13 @@ const CaregiverFormView: FunctionComponent<
     ).length
       ? true
       : false;
+    isAppointment = selectedCells.filter(
+      (cell: any) =>
+        cell && cell.item && cell.item.appointments && cell.item.appointments
+    ).length
+      ? true
+      : false;
+    console.log('isAppointment', isAppointment);
   }
   useEffect(() => {
     if (isLeasingAppointment) {
@@ -252,6 +266,24 @@ const CaregiverFormView: FunctionComponent<
           documentUploadType: 'leasingContract',
         },
       });
+    }
+    if (isAppointment) {
+      console.log('inside pdf form');
+
+      // To get signed contract in case of booked appointment
+      const { item = {} } = selectedCells[0] ? selectedCells[0] : {};
+      const { appointments = [] } = item ? item : {};
+      const { id: appointmentId = '' } =
+        appointments && appointments.length && appointments[0]
+          ? appointments[0]
+          : {};
+      getContractPDF({
+        variables: {
+          appointmentId: appointmentId,
+          // appointments && appointments[0] ? appointments[0].id : null,
+        },
+      });
+      console.log('contractData@@@@@@@@@@@@@@@@@', contractData);
     }
   }, [selectedCells]);
 
@@ -271,47 +303,50 @@ const CaregiverFormView: FunctionComponent<
   if (selctedAvailability || status) {
     if (
       (selctedAvailability &&
-        selctedAvailability.status === "default" &&
-        (selctedAvailability.f !== "block" ||
-          selctedAvailability.s !== "block" ||
-          selctedAvailability.n !== "block")) ||
-      (status === "default" &&
+        selctedAvailability.status === 'default' &&
+        (selctedAvailability.f !== 'block' ||
+          selctedAvailability.s !== 'block' ||
+          selctedAvailability.n !== 'block')) ||
+      (status === 'default' &&
         selctedAvailability &&
-        (selctedAvailability.f !== "block" ||
-          selctedAvailability.s !== "block" ||
-          selctedAvailability.n !== "block"))
+        (selctedAvailability.f !== 'block' ||
+          selctedAvailability.s !== 'block' ||
+          selctedAvailability.n !== 'block'))
     ) {
       isAvailability = true;
     } else if (
-      (selctedAvailability && selctedAvailability.status === "linked") ||
-      status === "linked"
+      (selctedAvailability && selctedAvailability.status === 'linked') ||
+      status === 'linked'
     ) {
       isMatching = true;
     } else if (
-      (selctedAvailability && selctedAvailability.status === "contract") ||
-      status === "contract"
+      (selctedAvailability && selctedAvailability.status === 'contract') ||
+      status === 'contract'
     ) {
       isContract = true;
     } else if (
-      (selctedAvailability && (selctedAvailability.status === "confirmed" ||  selctedAvailability.status === "timeSheetUpdated")) ||
-      (status === "confirmed" || status === "timeSheetUpdated")
+      (selctedAvailability &&
+        (selctedAvailability.status === 'confirmed' ||
+          selctedAvailability.status === 'timeSheetUpdated')) ||
+      status === 'confirmed' ||
+      status === 'timeSheetUpdated'
     ) {
       isConfirm = true;
     } else if (
       (selctedAvailability &&
-        selctedAvailability.status === "contractcancelled") ||
-      status === "contractcancelled"
+        selctedAvailability.status === 'contractcancelled') ||
+      status === 'contractcancelled'
     ) {
       isContractCancel = true;
     } else if (
-      (selctedAvailability && selctedAvailability.status === "accepted") ||
-      status === "accepted"
+      (selctedAvailability && selctedAvailability.status === 'accepted') ||
+      status === 'accepted'
     ) {
       isSingleButtonAccepted = true;
     } else if (
       (selctedAvailability &&
-        selctedAvailability.status === "contractInitiated") ||
-      status === "contractInitiated"
+        selctedAvailability.status === 'contractInitiated') ||
+      status === 'contractInitiated'
     ) {
       isContractInitiated = true;
     }
@@ -319,7 +354,7 @@ const CaregiverFormView: FunctionComponent<
 
   const handleTravelAllowance = () => {
     let total = distanceInKM * feePerKM;
-    setFieldValue("travelAllowance", total);
+    setFieldValue('travelAllowance', total);
   };
 
   const handleUserList = (id: string, name: string) => {
@@ -349,57 +384,68 @@ const CaregiverFormView: FunctionComponent<
 
   // Signed contract link
   const { getLeasingContractPDF: pdfDetails = [] } = pdfData ? pdfData : {};
-  const { document = "" } =
+  const { document = '' } =
     pdfDetails && pdfDetails.length ? pdfDetails[0] : {};
+
+  // signed self employmentt contract
+  const { getContractByAppointmentID = [] } = contractData ? contractData : {};
+  const { user_document = {} } =
+    getContractByAppointmentID && getContractByAppointmentID.length
+      ? getContractByAppointmentID[0]
+      : [];
+  const { document: selfEmploymentcontract = '' } = user_document
+    ? user_document
+    : {};
+  console.log('selfEmploymentcontract', selfEmploymentcontract);
 
   return (
     <>
-      <div className="form-section">
+      <div className='form-section'>
         {/* {idSearchAppointmentLoading ? (
           <Loader />
         ) : ( */}
         <div
           className={classnames({
-            "form-card custom-height custom-scrollbar": true,
-            "availability-dark-bg": isAvailability,
-            "matching-bg": isMatching,
-            "confirmation-bg": isConfirm,
-            "cancel-contract-bg": isContractCancel,
-            "accepted-bg": isSingleButtonAccepted,
-            "contact-initiate-bg": isContractInitiated,
+            'form-card custom-height custom-scrollbar': true,
+            'availability-dark-bg': isAvailability,
+            'matching-bg': isMatching,
+            'confirmation-bg': isConfirm,
+            'cancel-contract-bg': isContractCancel,
+            'accepted-bg': isSingleButtonAccepted,
+            'contact-initiate-bg': isContractInitiated,
           })}
         >
-          <h5 className="content-title">
-            {languageTranslation("MENU_CAREGIVER")}
+          <h5 className='content-title'>
+            {languageTranslation('MENU_CAREGIVER')}
           </h5>
           {idSearchAppointmentLoading ? (
-            <div className="appointment-form-loader">
+            <div className='appointment-form-loader'>
               <Loader />
             </div>
           ) : null}
           <Row>
             {appointmentId ? (
-              <Col lg={"12"}>
+              <Col lg={'12'}>
                 <FormGroup>
                   <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                        {languageTranslation("APPOINTMENT_ID")}
+                    <Col sm='4'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('APPOINTMENT_ID')}
                       </Label>
                     </Col>
-                    <Col sm="8">
-                    <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                      <div className="required-input appointment-id-width">
-                        <Input
-                          type="text"
-                          disabled={true}
-                          name={"appointmentId"}
-                          value={appointmentId ? appointmentId : null}
-                          placeholder={languageTranslation("APPOINTMENT_ID")}
-                          className="width-common"
-                        />
-                      </div>
-                      {isLeasingAppointment ? (
+                    <Col sm='8'>
+                      <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                        <div className='required-input appointment-id-width'>
+                          <Input
+                            type='text'
+                            disabled={true}
+                            name={'appointmentId'}
+                            value={appointmentId ? appointmentId : null}
+                            placeholder={languageTranslation('APPOINTMENT_ID')}
+                            className='width-common'
+                          />
+                        </div>
+                        {isLeasingAppointment ? (
                           <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
                             TIMyoCY
                           </div>
@@ -414,39 +460,48 @@ const CaregiverFormView: FunctionComponent<
                 </FormGroup>
               </Col>
             ) : null}
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("NAME")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('NAME')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <InputGroup>
                         <Input
-                          type="text"
+                          type='text'
                           disabled={true}
-                          placeholder={languageTranslation("NAME")}
-                          value={name ? name : ""}
+                          placeholder={languageTranslation('NAME')}
+                          value={name ? name : ''}
                         />
                         <InputGroupAddon
-                          addonType="append"
-                          className="cursor-pointer"
+                          addonType='append'
+                          className='cursor-pointer'
                           onClick={() =>
                             name
                               ? onhandleCaregiverStar(
-                                  selectedCareGiver ? selectedCareGiver.id : "",
-                                  false, careGiversListArr && careGiversListArr.result && careGiversListArr.result.length ?careGiversListArr.result.findIndex(
-                                    (cg: any) => selectedCareGiver && cg.id === selectedCareGiver.id
-                                  ) < 0 ? true : false : false
+                                  selectedCareGiver ? selectedCareGiver.id : '',
+                                  false,
+                                  careGiversListArr &&
+                                    careGiversListArr.result &&
+                                    careGiversListArr.result.length
+                                    ? careGiversListArr.result.findIndex(
+                                        (cg: any) =>
+                                          selectedCareGiver &&
+                                          cg.id === selectedCareGiver.id
+                                      ) < 0
+                                      ? true
+                                      : false
+                                    : false
                                 )
                               : // handleUserList(
                                 //   selectedCareGiver ? selectedCareGiver.id : '',
                                 //   'caregiver'
                                 // )
-                                ""
+                                ''
                           }
                           // onClick={() =>
                           //   name
@@ -461,10 +516,10 @@ const CaregiverFormView: FunctionComponent<
                             <i
                               className={
                                 name && starCaregiver && starCaregiver.isStar
-                                  ? "fa fa-star theme-text"
-                                  : "fa fa-star"
+                                  ? 'fa fa-star theme-text'
+                                  : 'fa fa-star'
                               }
-                              aria-hidden="true"
+                              aria-hidden='true'
                             ></i>
                           </InputGroupText>
                         </InputGroupAddon>
@@ -474,16 +529,16 @@ const CaregiverFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("DATE")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('DATE')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="text-value one-line-text">
+                  <Col sm='8'>
+                    <div className='text-value one-line-text'>
                       {activeDateCaregiver
                         ? activeDateCaregiver
                             .map(
@@ -491,12 +546,12 @@ const CaregiverFormView: FunctionComponent<
                                 dateString
                                   ? moment(dateString).format(
                                       index !== activeDateCaregiver.length - 1
-                                        ? "dd DD"
+                                        ? 'dd DD'
                                         : `${appointmentDayFormat} ${defaultDateFormat}`
                                     )
                                   : null
                             )
-                            .join(", ")
+                            .join(', ')
                         : null}
                     </div>
                   </Col>
@@ -505,29 +560,29 @@ const CaregiverFormView: FunctionComponent<
             </Col>
 
             {selctedAvailability &&
-            (selctedAvailability.f === "block" ||
-              selctedAvailability.s === "block" ||
-              selctedAvailability.n === "block") ? (
-              <div className="blocked-minheight"></div>
+            (selctedAvailability.f === 'block' ||
+              selctedAvailability.s === 'block' ||
+              selctedAvailability.n === 'block') ? (
+              <div className='blocked-minheight'></div>
             ) : (
               <>
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("SHIFT")}
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('SHIFT')}
                         </Label>
                       </Col>
-                      <Col sm="8">
+                      <Col sm='8'>
                         <div>
                           <FormGroup check inline>
-                            <div className=" checkbox-custom mb-2">
+                            <div className=' checkbox-custom mb-2'>
                               <input
-                                type="checkbox"
-                                id="early"
-                                className=""
-                                name={"f"}
+                                type='checkbox'
+                                id='early'
+                                className=''
+                                name={'f'}
                                 checked={f ? true : false}
                                 onChange={(
                                   e: React.ChangeEvent<HTMLInputElement>
@@ -535,21 +590,21 @@ const CaregiverFormView: FunctionComponent<
                                   const {
                                     target: { checked },
                                   } = e;
-                                  setFieldValue("f", checked);
+                                  setFieldValue('f', checked);
                                 }}
                               />
-                              <Label for="early">
-                                {languageTranslation("EARLY")}
+                              <Label for='early'>
+                                {languageTranslation('EARLY')}
                               </Label>
                             </div>
                           </FormGroup>
                           <FormGroup check inline>
-                            <div className=" checkbox-custom mb-2">
+                            <div className=' checkbox-custom mb-2'>
                               <input
-                                type="checkbox"
-                                id="late"
-                                className=""
-                                name={"s"}
+                                type='checkbox'
+                                id='late'
+                                className=''
+                                name={'s'}
                                 checked={s}
                                 onChange={(
                                   e: React.ChangeEvent<HTMLInputElement>
@@ -557,21 +612,21 @@ const CaregiverFormView: FunctionComponent<
                                   const {
                                     target: { checked },
                                   } = e;
-                                  setFieldValue("s", checked);
+                                  setFieldValue('s', checked);
                                 }}
                               />
-                              <Label for="late">
-                                {languageTranslation("LATE")}
+                              <Label for='late'>
+                                {languageTranslation('LATE')}
                               </Label>
                             </div>
                           </FormGroup>
                           <FormGroup check inline>
-                            <div className=" checkbox-custom mb-2">
+                            <div className=' checkbox-custom mb-2'>
                               <input
-                                type="checkbox"
-                                id="night"
-                                className=""
-                                name={"n"}
+                                type='checkbox'
+                                id='night'
+                                className=''
+                                name={'n'}
                                 checked={n}
                                 onChange={(
                                   e: React.ChangeEvent<HTMLInputElement>
@@ -579,16 +634,16 @@ const CaregiverFormView: FunctionComponent<
                                   const {
                                     target: { checked },
                                   } = e;
-                                  setFieldValue("n", checked);
+                                  setFieldValue('n', checked);
                                 }}
                               />
-                              <Label for="night">
-                                {languageTranslation("NIGHT")}
+                              <Label for='night'>
+                                {languageTranslation('NIGHT')}
                               </Label>
                             </div>
                           </FormGroup>
                           {timeSlotError && (
-                            <div className="required-checkbox-error">
+                            <div className='required-checkbox-error'>
                               {timeSlotError}
                             </div>
                           )}
@@ -597,55 +652,55 @@ const CaregiverFormView: FunctionComponent<
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("FEE")}
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('FEE')}
                         </Label>
                       </Col>
-                      <Col sm="8">
-                        <div className="d-flex align-items-center justify-content-between flex-wrap">
-                          <div className="required-input nightfee-input mb-1">
-                            <InputGroup className="flex-nowrap">
+                      <Col sm='8'>
+                        <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                          <div className='required-input nightfee-input mb-1'>
+                            <InputGroup className='flex-nowrap'>
                               <Input
-                                type="text"
-                                name={"fee"}
+                                type='text'
+                                name={'fee'}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={fee ? fee : ""}
+                                value={fee ? fee : ''}
                                 className={
                                   errors.fee && touched.fee
-                                    ? "fee-width error"
-                                    : "fee-width"
+                                    ? 'fee-width error'
+                                    : 'fee-width'
                                 }
                               />
-                              <InputGroupAddon addonType="append">
+                              <InputGroupAddon addonType='append'>
                                 <InputGroupText>
                                   <i
-                                    className="fa fa-euro"
-                                    aria-hidden="true"
+                                    className='fa fa-euro'
+                                    aria-hidden='true'
                                   ></i>
                                 </InputGroupText>
                               </InputGroupAddon>
                               {errors.fee && touched.fee && (
-                                <div className="required-tooltip bottom-tooltip">
+                                <div className='required-tooltip bottom-tooltip'>
                                   {errors.fee}
                                 </div>
                               )}
                             </InputGroup>
                           </div>
                           <span
-                            className="d-flex align-items-center edit-remark whitespace-nowrap mb-1"
+                            className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'
                             onClick={() =>
                               handleLastTimeData(
-                                selectedCareGiver ? selectedCareGiver.id : "",
+                                selectedCareGiver ? selectedCareGiver.id : '',
                                 props.values
                               )
                             }
                           >
-                            {languageTranslation("LAST_TIME")}
+                            {languageTranslation('LAST_TIME')}
                           </span>
                         </div>
                       </Col>
@@ -653,61 +708,61 @@ const CaregiverFormView: FunctionComponent<
                   </FormGroup>
                 </Col>
 
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("NIGHT_FEE")}
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('NIGHT_FEE')}
                         </Label>
                       </Col>
-                      <Col sm="8">
-                        <div className="d-flex align-items-center flex-wrap justify-content-between">
-                          <div className="required-input nightfee-input mb-1">
-                            <InputGroup className="flex-nowrap">
+                      <Col sm='8'>
+                        <div className='d-flex align-items-center flex-wrap justify-content-between'>
+                          <div className='required-input nightfee-input mb-1'>
+                            <InputGroup className='flex-nowrap'>
                               <Input
-                                type="text"
-                                name={"nightFee"}
-                                value={nightFee ? nightFee : ""}
+                                type='text'
+                                name={'nightFee'}
+                                value={nightFee ? nightFee : ''}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 className={
                                   errors.nightFee && touched.nightFee
-                                    ? "fee-width error"
-                                    : "fee-width"
+                                    ? 'fee-width error'
+                                    : 'fee-width'
                                 }
                               />
-                              <InputGroupAddon addonType="append">
+                              <InputGroupAddon addonType='append'>
                                 <InputGroupText>
                                   <i
-                                    className="fa fa-euro"
-                                    aria-hidden="true"
+                                    className='fa fa-euro'
+                                    aria-hidden='true'
                                   ></i>
                                 </InputGroupText>
                               </InputGroupAddon>
                               {errors.nightFee && touched.nightFee && (
-                                <div className="required-tooltip bottom-tooltip">
+                                <div className='required-tooltip bottom-tooltip'>
                                   {errors.nightFee}
                                 </div>
                               )}
                             </InputGroup>
                           </div>
-                          <div className="flex-grow-1 nightallowance-input mb-1">
+                          <div className='flex-grow-1 nightallowance-input mb-1'>
                             <Select
                               placeholder={languageTranslation(
-                                "NIGHT_ALLOWANCE"
+                                'NIGHT_ALLOWANCE'
                               )}
                               options={NightAllowancePerHour}
                               onChange={(value: any) =>
-                                handleSelect(value, "nightAllowance")
+                                handleSelect(value, 'nightAllowance')
                               }
                               value={
                                 nightAllowance
                                   ? nightAllowance
                                   : NightAllowancePerHour[0]
                               }
-                              classNamePrefix="custom-inner-reactselect"
-                              className={"custom-reactselect"}
+                              classNamePrefix='custom-inner-reactselect'
+                              className={'custom-reactselect'}
                             />
                           </div>
                         </div>
@@ -716,41 +771,41 @@ const CaregiverFormView: FunctionComponent<
                   </FormGroup>
                 </Col>
 
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("WEEKEND_FEE")}
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('WEEKEND_FEE')}
                         </Label>
                       </Col>
-                      <Col sm="8">
-                        <div className="required-input nightfee-input">
+                      <Col sm='8'>
+                        <div className='required-input nightfee-input'>
                           <InputGroup>
                             <Input
-                              type="text"
-                              name={"weekendAllowance"}
-                              value={weekendAllowance ? weekendAllowance : ""}
+                              type='text'
+                              name={'weekendAllowance'}
+                              value={weekendAllowance ? weekendAllowance : ''}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               className={
                                 errors.weekendAllowance &&
                                 touched.weekendAllowance
-                                  ? "fee-width error"
-                                  : "fee-width"
+                                  ? 'fee-width error'
+                                  : 'fee-width'
                               }
                             />
-                            <InputGroupAddon addonType="append">
+                            <InputGroupAddon addonType='append'>
                               <InputGroupText>
                                 <i
-                                  className="fa fa-euro"
-                                  aria-hidden="true"
+                                  className='fa fa-euro'
+                                  aria-hidden='true'
                                 ></i>
                               </InputGroupText>
                             </InputGroupAddon>
                             {errors.weekendAllowance &&
                               touched.weekendAllowance && (
-                                <div className="required-tooltip bottom-tooltip">
+                                <div className='required-tooltip bottom-tooltip'>
                                   {errors.weekendAllowance}
                                 </div>
                               )}
@@ -760,41 +815,41 @@ const CaregiverFormView: FunctionComponent<
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("HOLIDAY_FEE")}
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('HOLIDAY_FEE')}
                         </Label>
                       </Col>
-                      <Col sm="8">
-                        <div className="required-input nightfee-input">
+                      <Col sm='8'>
+                        <div className='required-input nightfee-input'>
                           <InputGroup>
                             <Input
-                              type="text"
-                              name={"holidayAllowance"}
-                              value={holidayAllowance ? holidayAllowance : ""}
+                              type='text'
+                              name={'holidayAllowance'}
+                              value={holidayAllowance ? holidayAllowance : ''}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               className={
                                 errors.holidayAllowance &&
                                 touched.holidayAllowance
-                                  ? "fee-width error"
-                                  : "fee-width"
+                                  ? 'fee-width error'
+                                  : 'fee-width'
                               }
                             />
-                            <InputGroupAddon addonType="append">
+                            <InputGroupAddon addonType='append'>
                               <InputGroupText>
                                 <i
-                                  className="fa fa-euro"
-                                  aria-hidden="true"
+                                  className='fa fa-euro'
+                                  aria-hidden='true'
                                 ></i>
                               </InputGroupText>
                             </InputGroupAddon>
                             {errors.holidayAllowance &&
                               touched.holidayAllowance && (
-                                <div className="required-tooltip bottom-tooltip">
+                                <div className='required-tooltip bottom-tooltip'>
                                   {errors.holidayAllowance}
                                 </div>
                               )}
@@ -804,135 +859,135 @@ const CaregiverFormView: FunctionComponent<
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={"12"}>
-                  <div className="d-flex align-items-center flex-wrap distance-section">
-                    <FormGroup className="fee-input">
-                      <Label className="form-label col-form-label">
-                        {languageTranslation("FEE_PER_KM")}
+                <Col lg={'12'}>
+                  <div className='d-flex align-items-center flex-wrap distance-section'>
+                    <FormGroup className='fee-input'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('FEE_PER_KM')}
                       </Label>
 
-                      <div className="required-input">
+                      <div className='required-input'>
                         <InputGroup>
                           <Input
-                            type="text"
-                            name={"distanceInKM"}
-                            value={distanceInKM ? distanceInKM : ""}
-                            placeholder={languageTranslation("FEE_PER_KM")}
+                            type='text'
+                            name={'distanceInKM'}
+                            value={distanceInKM ? distanceInKM : ''}
+                            placeholder={languageTranslation('FEE_PER_KM')}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className={
                               errors.distanceInKM && touched.distanceInKM
-                                ? "fee-width error"
-                                : "fee-width"
+                                ? 'fee-width error'
+                                : 'fee-width'
                             }
                             disabled={
                               selctedAvailability &&
-                              (selctedAvailability.f === "block" ||
-                                selctedAvailability.s === "block" ||
-                                selctedAvailability.n === "block")
+                              (selctedAvailability.f === 'block' ||
+                                selctedAvailability.s === 'block' ||
+                                selctedAvailability.n === 'block')
                             }
                           />
-                          <InputGroupAddon addonType="append">
+                          <InputGroupAddon addonType='append'>
                             <InputGroupText>km</InputGroupText>
                           </InputGroupAddon>
                           {errors.distanceInKM && touched.distanceInKM && (
-                            <div className="required-tooltip bottom-tooltip">
+                            <div className='required-tooltip bottom-tooltip'>
                               {errors.distanceInKM}
                             </div>
                           )}
                         </InputGroup>
                       </div>
                     </FormGroup>
-                    <FormGroup className="a-input">
-                      <Label className="form-label col-form-label">
-                        {languageTranslation("a")}
+                    <FormGroup className='a-input'>
+                      <Label className='form-label col-form-label'>
+                        {languageTranslation('a')}
                       </Label>
 
-                      <div className="required-input">
+                      <div className='required-input'>
                         <InputGroup>
                           <Input
-                            type="text"
-                            name={"feePerKM"}
-                            value={feePerKM ? feePerKM : ""}
-                            placeholder={languageTranslation("a")}
+                            type='text'
+                            name={'feePerKM'}
+                            value={feePerKM ? feePerKM : ''}
+                            placeholder={languageTranslation('a')}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className={
                               errors.feePerKM && touched.feePerKM
-                                ? "fee-width error"
-                                : "fee-width"
+                                ? 'fee-width error'
+                                : 'fee-width'
                             }
                             disabled={
                               selctedAvailability &&
-                              (selctedAvailability.f === "block" ||
-                                selctedAvailability.s === "block" ||
-                                selctedAvailability.n === "block")
+                              (selctedAvailability.f === 'block' ||
+                                selctedAvailability.s === 'block' ||
+                                selctedAvailability.n === 'block')
                             }
                           />
-                          <InputGroupAddon addonType="append">
+                          <InputGroupAddon addonType='append'>
                             <InputGroupText>
-                              <i className="fa fa-euro" aria-hidden="true"></i>
+                              <i className='fa fa-euro' aria-hidden='true'></i>
                             </InputGroupText>
                           </InputGroupAddon>
                           {errors.feePerKM && touched.feePerKM && (
-                            <div className="required-tooltip bottom-tooltip">
+                            <div className='required-tooltip bottom-tooltip'>
                               {errors.feePerKM}
                             </div>
                           )}
                         </InputGroup>
                       </div>
                     </FormGroup>
-                    <FormGroup className="totalbtn-input">
-                      <div className="label-height"></div>
+                    <FormGroup className='totalbtn-input'>
+                      <div className='label-height'></div>
 
                       <Button
-                        className="add-new-btn"
-                        color=""
+                        className='add-new-btn'
+                        color=''
                         onClick={handleTravelAllowance}
                       >
-                        <i className="fa fa-arrow-right" aria-hidden="true" />
+                        <i className='fa fa-arrow-right' aria-hidden='true' />
                       </Button>
                     </FormGroup>
-                    <FormGroup className="total-input flex-grow-1">
-                      <Label className="form-label col-form-label">Total</Label>
-                      <div className="required-input">
+                    <FormGroup className='total-input flex-grow-1'>
+                      <Label className='form-label col-form-label'>Total</Label>
+                      <div className='required-input'>
                         <Input
-                          type="text"
+                          type='text'
                           disabled={true}
-                          name={"travelAllowance"}
-                          className="width-common"
-                          value={travelAllowance ? travelAllowance : ""}
+                          name={'travelAllowance'}
+                          className='width-common'
+                          value={travelAllowance ? travelAllowance : ''}
                         />
                       </div>
                     </FormGroup>
                   </div>
                 </Col>
 
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm="4">
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("EXPENSES")}
+                      <Col sm='4'>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('EXPENSES')}
                         </Label>
                       </Col>
-                      <Col sm="8">
-                        <div className="required-input">
+                      <Col sm='8'>
+                        <div className='required-input'>
                           <Input
-                            type="text"
-                            name={"otherExpenses"}
-                            value={otherExpenses ? otherExpenses : ""}
+                            type='text'
+                            name={'otherExpenses'}
+                            value={otherExpenses ? otherExpenses : ''}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            placeholder={languageTranslation("EXPENSES")}
+                            placeholder={languageTranslation('EXPENSES')}
                             className={
                               errors.otherExpenses && touched.otherExpenses
-                                ? "width-common error"
-                                : "width-common"
+                                ? 'width-common error'
+                                : 'width-common'
                             }
                           />
                           {errors.otherExpenses && touched.otherExpenses && (
-                            <div className="required-tooltip bottom-tooltip">
+                            <div className='required-tooltip bottom-tooltip'>
                               {errors.otherExpenses}
                             </div>
                           )}
@@ -944,61 +999,62 @@ const CaregiverFormView: FunctionComponent<
               </>
             )}
             {selctedAvailability &&
-            (selctedAvailability.status === "confirmed" || selctedAvailability.status === 'timeSheetUpdated') &&
+            (selctedAvailability.status === 'confirmed' ||
+              selctedAvailability.status === 'timeSheetUpdated') &&
             new Date(activeDateCaregiver[0]) <= new Date() ? (
               <>
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm={"4"}>
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("WORKING_HOURS")}
+                      <Col sm={'4'}>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('WORKING_HOURS')}
                         </Label>
                       </Col>
-                      <Col sm={"8"}>
-                        <div className="required-input">
-                          <div className="custom-col inner-no-padding-col row">
-                            <Col sm={"6"}>
-                              <InputGroup className="flex-nowrap position-relative">
-                                <Field name={"workingHoursFromDate"}>
+                      <Col sm={'8'}>
+                        <div className='required-input'>
+                          <div className='custom-col inner-no-padding-col row'>
+                            <Col sm={'6'}>
+                              <InputGroup className='flex-nowrap position-relative'>
+                                <Field name={'workingHoursFromDate'}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
                                       mask={DateMask}
                                       className={
                                         workingHoursFromErrMsg &&
-                                        workingHoursFromErrMsg !== ""
-                                          ? "text-input error form-control"
-                                          : "text-input form-control"
+                                        workingHoursFromErrMsg !== ''
+                                          ? 'text-input error form-control'
+                                          : 'text-input form-control'
                                       }
                                       onChange={handleChange}
                                       onBlur={() =>
                                         workingHourDateValidator(
-                                          "workingHoursFromDate"
+                                          'workingHoursFromDate'
                                         )
                                       }
                                       placeholder={languageTranslation(
-                                        "HOLIDAY_DATE_PLACEHOLDER"
+                                        'HOLIDAY_DATE_PLACEHOLDER'
                                       )}
                                       value={
                                         workingHoursFromDate
                                           ? workingHoursFromDate
-                                          : ""
+                                          : ''
                                       }
                                     />
                                   )}
                                 </Field>
                                 {workingHoursFromErrMsg &&
-                                workingHoursFromErrMsg !== "" ? (
-                                  <div className="required-tooltip">
+                                workingHoursFromErrMsg !== '' ? (
+                                  <div className='required-tooltip'>
                                     {workingHoursFromErrMsg}
                                   </div>
                                 ) : null}
                               </InputGroup>
                             </Col>
-                            <Col sm={"6"}>
-                              <InputGroup className="flex-nowrap">
-                                <Field name={"workingHoursFromTime"}>
+                            <Col sm={'6'}>
+                              <InputGroup className='flex-nowrap'>
+                                <Field name={'workingHoursFromTime'}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
@@ -1006,25 +1062,25 @@ const CaregiverFormView: FunctionComponent<
                                       className={
                                         errors.workingHoursFromTime &&
                                         touched.workingHoursFromTime
-                                          ? "text-input error form-control"
-                                          : "text-input form-control"
+                                          ? 'text-input error form-control'
+                                          : 'text-input form-control'
                                       }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       placeholder={languageTranslation(
-                                        "TIME_FORMAT"
+                                        'TIME_FORMAT'
                                       )}
                                       value={
                                         workingHoursFromTime
                                           ? workingHoursFromTime
-                                          : ""
+                                          : ''
                                       }
                                     />
                                   )}
                                 </Field>
                                 {errors.workingHoursFromTime &&
                                   touched.workingHoursFromTime && (
-                                    <div className="required-tooltip">
+                                    <div className='required-tooltip'>
                                       {errors.workingHoursFromTime}
                                     </div>
                                   )}
@@ -1037,54 +1093,54 @@ const CaregiverFormView: FunctionComponent<
                   </FormGroup>
                 </Col>
 
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm={"4"}></Col>
-                      <Col sm={"8"}>
-                        <div className="required-input">
-                          <div className="custom-col inner-no-padding-col row">
-                            <Col sm={"6"}>
-                              <InputGroup className="flex-nowrap">
-                                <Field name={"workingHoursToDate"}>
+                      <Col sm={'4'}></Col>
+                      <Col sm={'8'}>
+                        <div className='required-input'>
+                          <div className='custom-col inner-no-padding-col row'>
+                            <Col sm={'6'}>
+                              <InputGroup className='flex-nowrap'>
+                                <Field name={'workingHoursToDate'}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
                                       mask={DateMask}
                                       className={
                                         workingHoursToErrMsg &&
-                                        workingHoursToErrMsg !== ""
-                                          ? "text-input error form-control"
-                                          : "text-input form-control"
+                                        workingHoursToErrMsg !== ''
+                                          ? 'text-input error form-control'
+                                          : 'text-input form-control'
                                       }
                                       onChange={handleChange}
                                       onBlur={() =>
                                         workingHourDateValidator(
-                                          "workingHoursToDate"
+                                          'workingHoursToDate'
                                         )
                                       }
                                       placeholder={languageTranslation(
-                                        "HOLIDAY_DATE_PLACEHOLDER"
+                                        'HOLIDAY_DATE_PLACEHOLDER'
                                       )}
                                       value={
                                         workingHoursToDate
                                           ? workingHoursToDate
-                                          : ""
+                                          : ''
                                       }
                                     />
                                   )}
                                 </Field>
                                 {workingHoursToErrMsg &&
-                                workingHoursToErrMsg !== "" ? (
-                                  <div className="required-tooltip">
+                                workingHoursToErrMsg !== '' ? (
+                                  <div className='required-tooltip'>
                                     {workingHoursToErrMsg}
                                   </div>
                                 ) : null}
                               </InputGroup>
                             </Col>
-                            <Col sm={"6"}>
-                              <InputGroup className="flex-nowrap">
-                                <Field name={"workingHoursToTime"}>
+                            <Col sm={'6'}>
+                              <InputGroup className='flex-nowrap'>
+                                <Field name={'workingHoursToTime'}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
@@ -1092,18 +1148,18 @@ const CaregiverFormView: FunctionComponent<
                                       className={
                                         errors.workingHoursToTime &&
                                         touched.workingHoursToTime
-                                          ? "text-input error form-control"
-                                          : "text-input form-control"
+                                          ? 'text-input error form-control'
+                                          : 'text-input form-control'
                                       }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       placeholder={languageTranslation(
-                                        "TIME_FORMAT"
+                                        'TIME_FORMAT'
                                       )}
                                       value={
                                         workingHoursToTime
                                           ? workingHoursToTime
-                                          : ""
+                                          : ''
                                       }
                                     />
                                   )}
@@ -1111,14 +1167,14 @@ const CaregiverFormView: FunctionComponent<
                                 {errors.workingHoursToTime ? (
                                   errors.workingHoursToTime &&
                                   touched.workingHoursToTime && (
-                                    <div className="required-tooltip">
+                                    <div className='required-tooltip'>
                                       {errors.workingHoursToTime}
                                     </div>
                                   )
                                 ) : touched.workingHoursToTime &&
                                   workingHoursdifference <= 0 ? (
-                                  <div className="required-tooltip">
-                                    {languageTranslation("VALID_TIME_RANGE")}
+                                  <div className='required-tooltip'>
+                                    {languageTranslation('VALID_TIME_RANGE')}
                                   </div>
                                 ) : null}
                               </InputGroup>
@@ -1130,56 +1186,56 @@ const CaregiverFormView: FunctionComponent<
                   </FormGroup>
                 </Col>
 
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm={"4"}>
-                        <Label className="form-label col-form-label">
-                          {languageTranslation("BREAK")}
+                      <Col sm={'4'}>
+                        <Label className='form-label col-form-label'>
+                          {languageTranslation('BREAK')}
                         </Label>
                       </Col>
 
-                      <Col sm={"8"}>
-                        <div className="required-input">
-                          <div className="custom-col inner-no-padding-col row">
-                            <Col sm={"6"}>
-                              <InputGroup className="flex-nowrap">
-                                <Field name={"breakFromDate"}>
+                      <Col sm={'8'}>
+                        <div className='required-input'>
+                          <div className='custom-col inner-no-padding-col row'>
+                            <Col sm={'6'}>
+                              <InputGroup className='flex-nowrap'>
+                                <Field name={'breakFromDate'}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
                                       mask={DateMask}
                                       className={
                                         breakHoursFromErrMsg &&
-                                        breakHoursFromErrMsg !== ""
-                                          ? "text-input error form-control"
-                                          : "text-input form-control"
+                                        breakHoursFromErrMsg !== ''
+                                          ? 'text-input error form-control'
+                                          : 'text-input form-control'
                                       }
                                       onChange={handleChange}
                                       onBlur={() =>
                                         workingHourDateValidator(
-                                          "breakFromDate"
+                                          'breakFromDate'
                                         )
                                       }
                                       placeholder={languageTranslation(
-                                        "HOLIDAY_DATE_PLACEHOLDER"
+                                        'HOLIDAY_DATE_PLACEHOLDER'
                                       )}
-                                      value={breakFromDate ? breakFromDate : ""}
+                                      value={breakFromDate ? breakFromDate : ''}
                                     />
                                   )}
                                 </Field>
                                 {breakHoursFromErrMsg &&
-                                breakHoursFromErrMsg !== "" ? (
-                                  <div className="required-tooltip">
+                                breakHoursFromErrMsg !== '' ? (
+                                  <div className='required-tooltip'>
                                     {breakHoursFromErrMsg}
                                   </div>
                                 ) : null}
                               </InputGroup>
                             </Col>
 
-                            <Col sm={"6"}>
-                              <InputGroup className="flex-nowrap">
-                                <Field name={"breakFromTime"}>
+                            <Col sm={'6'}>
+                              <InputGroup className='flex-nowrap'>
+                                <Field name={'breakFromTime'}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
@@ -1187,21 +1243,21 @@ const CaregiverFormView: FunctionComponent<
                                       className={
                                         errors.breakFromTime &&
                                         touched.breakFromTime
-                                          ? "text-input error form-control"
-                                          : "text-input form-control"
+                                          ? 'text-input error form-control'
+                                          : 'text-input form-control'
                                       }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       placeholder={languageTranslation(
-                                        "TIME_FORMAT"
+                                        'TIME_FORMAT'
                                       )}
-                                      value={breakFromTime ? breakFromTime : ""}
+                                      value={breakFromTime ? breakFromTime : ''}
                                     />
                                   )}
                                 </Field>
                                 {errors.breakFromTime &&
                                   touched.breakFromTime && (
-                                    <div className="required-tooltip">
+                                    <div className='required-tooltip'>
                                       {errors.breakFromTime}
                                     </div>
                                   )}
@@ -1214,48 +1270,48 @@ const CaregiverFormView: FunctionComponent<
                   </FormGroup>
                 </Col>
 
-                <Col lg={"12"}>
+                <Col lg={'12'}>
                   <FormGroup>
                     <Row>
-                      <Col sm={"4"}></Col>
-                      <Col sm={"8"}>
-                        <div className="required-input">
-                          <div className="custom-col inner-no-padding-col row">
-                            <Col sm={"6"}>
-                              <InputGroup className="flex-nowrap">
-                                <Field name={"breakToDate"}>
+                      <Col sm={'4'}></Col>
+                      <Col sm={'8'}>
+                        <div className='required-input'>
+                          <div className='custom-col inner-no-padding-col row'>
+                            <Col sm={'6'}>
+                              <InputGroup className='flex-nowrap'>
+                                <Field name={'breakToDate'}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
                                       mask={DateMask}
                                       className={
                                         breakHoursToErrMsg &&
-                                        breakHoursToErrMsg !== ""
-                                          ? "text-input error form-control"
-                                          : "text-input form-control"
+                                        breakHoursToErrMsg !== ''
+                                          ? 'text-input error form-control'
+                                          : 'text-input form-control'
                                       }
                                       onChange={handleChange}
                                       onBlur={() =>
-                                        workingHourDateValidator("breakToDate")
+                                        workingHourDateValidator('breakToDate')
                                       }
                                       placeholder={languageTranslation(
-                                        "HOLIDAY_DATE_PLACEHOLDER"
+                                        'HOLIDAY_DATE_PLACEHOLDER'
                                       )}
-                                      value={breakToDate ? breakToDate : ""}
+                                      value={breakToDate ? breakToDate : ''}
                                     />
                                   )}
                                 </Field>
                                 {breakHoursToErrMsg &&
-                                breakHoursToErrMsg !== "" ? (
-                                  <div className="required-tooltip">
+                                breakHoursToErrMsg !== '' ? (
+                                  <div className='required-tooltip'>
                                     {breakHoursToErrMsg}
                                   </div>
                                 ) : null}
                               </InputGroup>
                             </Col>
-                            <Col sm={"6"}>
-                              <InputGroup className="flex-nowrap">
-                                <Field name={"breakToTime"}>
+                            <Col sm={'6'}>
+                              <InputGroup className='flex-nowrap'>
+                                <Field name={'breakToTime'}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
@@ -1263,29 +1319,29 @@ const CaregiverFormView: FunctionComponent<
                                       className={
                                         errors.breakToTime &&
                                         touched.breakToTime
-                                          ? "text-input error form-control"
-                                          : "text-input form-control"
+                                          ? 'text-input error form-control'
+                                          : 'text-input form-control'
                                       }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       placeholder={languageTranslation(
-                                        "TIME_FORMAT"
+                                        'TIME_FORMAT'
                                       )}
-                                      value={breakToTime ? breakToTime : ""}
+                                      value={breakToTime ? breakToTime : ''}
                                     />
                                   )}
                                 </Field>
                                 {errors.breakToTime ? (
                                   errors.breakToTime &&
                                   touched.breakToTime && (
-                                    <div className="required-tooltip">
+                                    <div className='required-tooltip'>
                                       {errors.breakToTime}
                                     </div>
                                   )
                                 ) : touched.breakToTime &&
                                   breakdifference <= 0 ? (
-                                  <div className="required-tooltip">
-                                    {languageTranslation("VALID_TIME_RANGE")}
+                                  <div className='required-tooltip'>
+                                    {languageTranslation('VALID_TIME_RANGE')}
                                   </div>
                                 ) : null}
                               </InputGroup>
@@ -1298,26 +1354,26 @@ const CaregiverFormView: FunctionComponent<
                 </Col>
               </>
             ) : (
-              ""
+              ''
             )}
 
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("WORKING_PROOF_NECESSARY")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('WORKING_PROOF_NECESSARY')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input mb-1">
+                  <Col sm='8'>
+                    <div className='required-input mb-1'>
                       <FormGroup check inline>
-                        <div className=" checkbox-custom mb-0">
+                        <div className=' checkbox-custom mb-0'>
                           <input
-                            type="checkbox"
-                            id="workingProofRecieved"
-                            className=""
-                            name={"workingProofRecieved"}
+                            type='checkbox'
+                            id='workingProofRecieved'
+                            className=''
+                            name={'workingProofRecieved'}
                             checked={workingProofRecieved}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
@@ -1325,21 +1381,36 @@ const CaregiverFormView: FunctionComponent<
                               const {
                                 target: { checked },
                               } = e;
-                              setFieldValue("workingProofRecieved", checked);
+                              setFieldValue('workingProofRecieved', checked);
                             }}
                           />
-                          <Label for="workingProofRecieved"></Label>
+                          <Label for='workingProofRecieved'></Label>
                         </div>
                       </FormGroup>
                     </div>
+                    {console.log(
+                      '${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}',
+                      `${AppConfig.FILES_ENDPOINT}/${selfEmploymentcontract}`
+                    )}
                     {document ? (
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${document}`}
-                        target={"_blank"}
-                        className="view-more-link text-underline"
+                        target={'_blank'}
+                        className='view-more-link text-underline'
                       >
-                        <i className="fa fa-file-o mr-2" />
-                        {languageTranslation("CONTRACT")}
+                        <i className='fa fa-file-o mr-2' />
+                        {languageTranslation('CONTRACT')}
+                      </a>
+                    ) : getContractByAppointmentID &&
+                      getContractByAppointmentID.length &&
+                      selfEmploymentcontract ? (
+                      <a
+                        href={`${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}`}
+                        target={'_blank'}
+                        className='view-more-link text-underline'
+                      >
+                        <i className='fa fa-file-o mr-2' />
+                        {languageTranslation('CONTRACT')}
                       </a>
                     ) : null}
                   </Col>
@@ -1347,24 +1418,24 @@ const CaregiverFormView: FunctionComponent<
               </FormGroup>
             </Col>
 
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("REMARKS_VISIBLE_FOR_CAREGIVER")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('REMARKS_VISIBLE_FOR_CAREGIVER')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
-                        className="textarea-custom form-control"
-                        rows="3"
-                        type="textarea"
-                        name="remarksCareGiver"
-                        value={remarksCareGiver ? remarksCareGiver : ""}
+                        className='textarea-custom form-control'
+                        rows='3'
+                        type='textarea'
+                        name='remarksCareGiver'
+                        value={remarksCareGiver ? remarksCareGiver : ''}
                         onChange={handleChange}
-                        id="exampleText1"
+                        id='exampleText1'
                         maxLength={255}
                       />
                     </div>
@@ -1372,44 +1443,44 @@ const CaregiverFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
+            <Col lg={'12'}>
               <FormGroup>
                 <Row>
-                  <Col sm="4">
-                    <Label className="form-label col-form-label">
-                      {languageTranslation("REMARKS_VISIBLE_INTERNALLY")}
+                  <Col sm='4'>
+                    <Label className='form-label col-form-label'>
+                      {languageTranslation('REMARKS_VISIBLE_INTERNALLY')}
                     </Label>
                   </Col>
-                  <Col sm="8">
-                    <div className="required-input">
+                  <Col sm='8'>
+                    <div className='required-input'>
                       <Input
-                        className="textarea-custom form-control"
-                        rows="3"
-                        type="textarea"
-                        name="remarksInternal"
-                        value={remarksInternal ? remarksInternal : ""}
+                        className='textarea-custom form-control'
+                        rows='3'
+                        type='textarea'
+                        name='remarksInternal'
+                        value={remarksInternal ? remarksInternal : ''}
                         onChange={handleChange}
                         maxLength={255}
-                        id="exampleText2"
+                        id='exampleText2'
                       />
                     </div>
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={"12"}>
-              <div className="d-flex align-items-center justify-content-between">
+            <Col lg={'12'}>
+              <div className='d-flex align-items-center justify-content-between'>
                 <Button
-                  className="btn-save"
-                  color="danger"
-                  onClick={() => onhandleDelete("caregiver", appointmentId)}
+                  className='btn-save'
+                  color='danger'
+                  onClick={() => onhandleDelete('caregiver', appointmentId)}
                   disabled={!appointmentId}
                 >
-                  {languageTranslation("DELETE")}
+                  {languageTranslation('DELETE')}
                 </Button>
                 <Button
-                  className="btn-save"
-                  color="primary"
+                  className='btn-save'
+                  color='primary'
                   onClick={handleSubmit}
                   disabled={
                     addCaregiverLoading
@@ -1417,13 +1488,13 @@ const CaregiverFormView: FunctionComponent<
                   }
                 >
                   {addCaregiverLoading ? (
-                    <i className="fa fa-spinner fa-spin mr-2" />
+                    <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
-                    ""
+                    ''
                   )}
                   {appointmentId
-                    ? languageTranslation("UPDATE_BUTTON")
-                    : languageTranslation("SAVE_BUTTON")}
+                    ? languageTranslation('UPDATE_BUTTON')
+                    : languageTranslation('SAVE_BUTTON')}
                 </Button>
               </div>
             </Col>

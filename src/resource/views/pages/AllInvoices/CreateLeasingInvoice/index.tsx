@@ -388,21 +388,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             singleCareGiverData.push(appointmentData.ca.userId);
             singleCareInstData.push(appointmentData.cr.userId);
             selectedAppointmentId.push(appointmentData.id);
-            if (
-              singleCareGiverData[singleCareGiverData.length - 1] !==
-              appointmentData.ca.userId
-            ) {
-              console.log('MMMMMMMMMMMMMMM');
-            } else {
-              console.log('*****************In else condition');
-            }
-          } else {
-            const message = errorFormatter(
-              "Selected appointment don't have care giver"
-            );
-            if (!toast.isActive(toastId)) {
-              toastId = toast.warn(message);
-            }
           }
         });
         const invoiceInput: any = {

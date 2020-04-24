@@ -1983,19 +1983,22 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
             lastName = '',
             email = '',
             caregiver = {},
+            canstitution = {},
             qualificationId = [],
           } = element ? element : {};
           let filteredCells:any = row.filter(((availabilities:any) => availabilities.appointments && availabilities.appointments.length && appointmentsData.map((cell:any) => cell.id).includes(availabilities.appointments[0].id)))
-          filteredCells.map((filteredCell:any) => ({ id,
-            firstName,
-            lastName,
-            email,
-            caregiver,item:name === 'careinstitution' ? {...filteredCell, qualificationId:filteredCell.qualificationId ? qualificationList.filter(({ value }: any) =>
-            filteredCell.qualificationId.includes(value)) : qualificationList.filter(({ value }: any) =>
-            qualificationId.includes(value)
-          )
-          } : filteredCell}))
-          console.log(filteredCells,'filteredCells');
+          // filteredCells.map((filteredCell:any) => ({ id,
+          //   firstName,
+          //   lastName,
+          //   email,
+          //   caregiver,
+          //   canstitution,
+          //   item:name === 'careinstitution' ? {...filteredCell, qualificationId:filteredCell.qualificationId ? qualificationList.filter(({ value }: any) =>
+          //   filteredCell.qualificationId.includes(value)) : qualificationList.filter(({ value }: any) =>
+          //   qualificationId.includes(value)
+          // )
+          // } : filteredCell}))
+          // console.log(filteredCells,'filteredCells');
           
       // temp.push({ ...element, new: item, row });
       if (filteredCells) {
@@ -2004,7 +2007,12 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
           firstName,
           lastName,
           email,
-          caregiver,item:name === 'careinstitution' ? {...filteredCell, qualificationId:filteredCell.qualificationId ? qualificationList.filter(({ value }: any) =>
+          caregiver,
+          canstitution,
+          dateString: filteredCell && filteredCell.date 
+            ? moment(filteredCell.date).format(dbAcceptableFormat)
+            : '',
+          item:name === 'careinstitution' ? {...filteredCell, qualificationId:filteredCell.qualificationId ? qualificationList.filter(({ value }: any) =>
           filteredCell.qualificationId.includes(value)) : qualificationList.filter(({ value }: any) =>
           qualificationId.includes(value)
         )

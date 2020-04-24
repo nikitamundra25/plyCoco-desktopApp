@@ -1,6 +1,9 @@
 import { createSelectable } from 'react-selectable-fast';
 import React from 'react';
 import classnames from 'classnames';
+import { dateDiffernceValidator } from '../../../../../helpers';
+import moment from 'moment';
+import { dbAcceptableFormat } from '../../../../../config';
 const CellCareinstitution = ({
   selectableRef,
   isSelected,
@@ -19,6 +22,7 @@ const CellCareinstitution = ({
     isContract: boolean = false,
     isConfirm: boolean = false,
     isOffered: boolean = false,
+    isOfferedFutureDate: boolean = false,
     showAppointedCareGiver: boolean = false;
 
   let caregiverId: string = '';
@@ -59,6 +63,12 @@ let careinstitutionCell: any =
 //   showAppointment = false;
 // }
 
+let isFutureDate: boolean = false
+if(item && item.date){
+  let dateStr = moment(item.date).add(1, "days").format("YYYY/MM/DD")
+  isFutureDate= moment(dateStr, "YYYY/MM/DD").isAfter();
+}
+
   if (item) {
     if (item.status === 'default') {
       isRequirment = true;
@@ -68,8 +78,11 @@ let careinstitutionCell: any =
       isContract = true;
     } else if (item.status === 'confirmed') {
       isConfirm = true;
-    } else if (item.status === 'offered') {
+    } else if (item.status === 'offered' && isFutureDate === false) {
       isOffered = true;
+      // isOfferedFutureDate = false;
+    } else if(item.status === 'offered'&& isFutureDate === true  ){
+      isOfferedFutureDate = true;
     }
   }
 
@@ -80,7 +93,8 @@ let careinstitutionCell: any =
         'calender-col': true,
         'text-center': true,
         weekend: daysArr,
-        'availability-bg': isOffered && !isSelected ? isOffered : false,
+        'availability-bg': isOffered && !isSelected && !isOfferedFutureDate ? isOffered : false,
+        'availability-dark-bg': isOfferedFutureDate && !isSelected ? isOfferedFutureDate : false,
         'custom-appointment-col': true,
         'cursor-pointer': true,
         'selecting-cell-bg':

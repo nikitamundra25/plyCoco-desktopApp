@@ -24,6 +24,7 @@ import { errorFormatter } from '../../../../helpers';
 import './index.scss';
 import { useLocation, useHistory } from 'react-router';
 import * as qs from 'query-string';
+import { Helmet } from "react-helmet";
 
 const [
   GET_EMAIL_TEMPLATE_TYEPS,
@@ -661,6 +662,9 @@ export const EmailTemplateManagement: FunctionComponent = () => {
 
   return (
     <>
+     <Helmet>
+    <title>{languageTranslation("EMAIL_TEMPLATE_MGMT")} </title>
+  </Helmet>
       <div className='common-detail-page'>
         <div className='common-detail-section'>
           <EmailTemplateMenu

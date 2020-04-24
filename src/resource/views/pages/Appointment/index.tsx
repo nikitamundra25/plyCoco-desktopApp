@@ -59,6 +59,7 @@ import UnlinkAppointment from './unlinkModal';
 import BulkEmailCareGiverModal from './BulkEmailCareGiver';
 import BulkEmailCareInstitutionModal from './BulkEmailCareInstitution';
 import './index.scss';
+import {Helmet} from "react-helmet";
 
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 
@@ -2184,11 +2185,33 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
   // select solo user
   const handleUserList = (value: IReactSelectInterface, name: string) => {
     if (name === 'caregiver') {
+      if(value === null && caregiverSoloFilter && caregiverSoloFilter.value){
+        setstarCaregiver({
+          isStar: false,
+          id: "",
+          isSecondStar:false,
+        });
+       getCaregiverData(1)
+      }
       setcaregiverSoloFilter(value);
     } else {
       // To reset the page again to 1
       setcareInstitutionPage(1);
+      if(value === null && careinstitutionSoloFilter && careinstitutionSoloFilter.value){
+        setstarCanstitution({
+          isStar: false,
+          setIndex: -1,
+          id: '',
+        });
+        setsecondStarCanstitution({
+          isStar: false,
+          setIndex: -1,
+          id: '',
+        });
+        getCareInstituionData()
+      }
       setcareinstitutionSoloFilter(value);
+      console.log("value",value);
     }
   };
 
@@ -4375,10 +4398,14 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
     selectedCellsCareinstitution &&
     selectedCellsCareinstitution.length &&
     selectedCells &&
-    selectedCells.length
+    selectedCells.length &&
+    item.appointments[0] &&
+    item.appointments[0].id &&
+    Item.appointments[0] &&
+    Item.appointments[0].id 
   ) {
     selectedCells.filter((x: any) => {
-      if (x.item && x.item.id) {
+      if (x.item && x.item.id ) {
         if (
           x.item.f !== 'block' ||
           x.item.s !== 'block' ||
@@ -4472,6 +4499,9 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
   // }
   return (
     <>
+      <Helmet>
+               <title>{languageTranslation("APPOINTMENT")} </title>
+            </Helmet>
       <div className='common-detail-page'>
         <div className='common-detail-section'>
           <AppointmentNav

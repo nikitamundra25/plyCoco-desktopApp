@@ -115,12 +115,31 @@ console.log(selctedRequirement,'selctedRequirement');
       setcareInstituionShift(selectOption, props.values);
     }
   };
+  let dateCondition: any;
+  let dateData: any
+  if (
+    activeDateCareinstitution &&
+    activeDateCareinstitution.length &&
+    activeDateCareinstitution[0]
+  ) {
+    dateData = activeDateCareinstitution[0]
+    let now = moment().format(dbAcceptableFormat);
+    let input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
+    dateCondition = now <= input;
+  }
+
+  let isFutureDate: boolean = false
+if(dateData){
+  let dateStr = moment(dateData).add(1, "days").format("YYYY/MM/DD")
+  isFutureDate= moment(dateStr, "YYYY/MM/DD").isAfter();
+}
 
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false,
     isConfirm: boolean = false,
-    isOffered: boolean = false;
+    isOffered: boolean = false,
+    isOfferedFutureDate: boolean = false;
   if (selctedRequirement || status) {
     if (
       (selctedRequirement && selctedRequirement.status === "default") ||
@@ -143,10 +162,13 @@ console.log(selctedRequirement,'selctedRequirement');
     ) {
       isConfirm = true;
     } else if (
-      (selctedRequirement && selctedRequirement.status === "offered") ||
-      status === "offered"
+      (selctedRequirement && selctedRequirement.status === "offered"  && isFutureDate === false) ||
+      (status === "offered" &&  isFutureDate === false)
     ) {
       isOffered = true;
+    } else if((selctedRequirement && selctedRequirement.status === "offered"  && isFutureDate === true) ||
+    (status === "offered" &&  isFutureDate === true)){
+      isOfferedFutureDate = true;
     }
   }
 
@@ -173,16 +195,7 @@ console.log(selctedRequirement,'selctedRequirement');
       ? careInstitutionTimesOptions
       : ShiftTime;
 
-  let dateCondition: any;
-  if (
-    activeDateCareinstitution &&
-    activeDateCareinstitution.length &&
-    activeDateCareinstitution[0]
-  ) {
-    let now = moment().format(dbAcceptableFormat);
-    let input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
-    dateCondition = now <= input;
-  }
+ 
 
   let isLeasingAppointment = false;
   // To check appointment with leasing careInst or not
@@ -195,6 +208,8 @@ console.log(selctedRequirement,'selctedRequirement');
         ? true
         : false;
   }
+
+  
   return (
     <>
       <div className="form-section ">
@@ -206,6 +221,7 @@ console.log(selctedRequirement,'selctedRequirement');
             "matching-bg": isMatching,
             "contract-bg": isConfirm,
             "availability-bg": isOffered,
+            'availability-dark-bg': isOfferedFutureDate
           })}
         >
           <h5 className="content-title">

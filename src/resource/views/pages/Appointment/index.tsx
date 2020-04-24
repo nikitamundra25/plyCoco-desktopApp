@@ -3971,7 +3971,6 @@ const handleSubmitCaregiverForm = async (
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
-console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
 
   let street: string = canstitution && canstitution.street;
   let departmentData: any = Item ? Item.department : undefined;
@@ -4676,6 +4675,9 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
                               breakHoursFromErrMsg={breakHoursFromErrMsg}
                               starCaregiver={starCaregiver}
                               idSearchAppointmentLoading={idSearchAppointmentLoading}
+                              selectedCellsCareinstitution={
+                                selectedCellsCareinstitution
+                              }
                             />
                           );
                         }}
@@ -4756,6 +4758,7 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
                               }
                               starCanstitution={starCanstitution}
                               idSearchAppointmentLoading={idSearchAppointmentLoading}
+                              selectedCells={selectedCells}
                             />
                           );
                         }}

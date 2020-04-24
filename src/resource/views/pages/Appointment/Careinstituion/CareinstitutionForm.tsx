@@ -94,9 +94,11 @@ const CareinstitutionFormView: FunctionComponent<
     handleFirstStarCanstitution,
     starCanstitution,
     idSearchAppointmentLoading,
-    selectedCellsCareinstitution
+    selectedCellsCareinstitution,
+    selectedCells
   } = props;
-console.log(selctedRequirement,'selctedRequirement');
+console.log(selectedCells,'selectedCells');
+console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
 
   let d = moment().format("L");
   let dtStart: any = new Date(d + " " + startTime);
@@ -177,8 +179,7 @@ if(dateData){
       careInstitutionListArr && careInstitutionListArr.result
         ? careInstitutionListArr.result
         : {};
-        console.log("careInstitutionListArr",careInstitutionListArr && careInstitutionListArr.result ? careInstitutionListArr.result : {});
-        
+     
     if (id && careInstitutionListArr && careInstitutionListArr.result && careInstitutionListArr && careInstitutionListArr.result.length) {
       data = careInstitutionListArr.result.filter((x: any) => x.id === id)[0];
       let index = careInstitutionListArr.result.findIndex(
@@ -208,7 +209,12 @@ if(dateData){
         ? true
         : false;
   }
-
+let isCorrespondingAppointment: boolean = false
+    if(selectedCellsCareinstitution && selectedCellsCareinstitution.length && selectedCellsCareinstitution[0] && selectedCellsCareinstitution[0].item && selectedCellsCareinstitution[0].item.appointments && selectedCellsCareinstitution[0].item.appointments.length){
+      if(selectedCellsCareinstitution[0].item.appointments[0].requirementId === appointmentId){
+        isCorrespondingAppointment = true
+      }
+    }
   
   return (
     <>
@@ -227,7 +233,7 @@ if(dateData){
           <h5 className="content-title">
             {languageTranslation("MENU_INSTITUTION")}
           </h5>
-          {idSearchAppointmentLoading ? (
+          {idSearchAppointmentLoading  && !isCorrespondingAppointment? (
             <div className="appointment-form-loader">
               <Loader />
             </div>

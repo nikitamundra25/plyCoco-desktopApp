@@ -128,6 +128,7 @@ const CaregiverFormView: FunctionComponent<
     breakHoursFromErrMsg,
     starCaregiver,
     idSearchAppointmentLoading,
+    selectedCellsCareinstitution
   } = props;
 
   let dateData =
@@ -350,6 +351,13 @@ const CaregiverFormView: FunctionComponent<
   const { document = "" } =
     pdfDetails && pdfDetails.length ? pdfDetails[0] : {};
 
+    
+    let isCorrespondingAppointment: boolean = false
+    if(selectedCells && selectedCells.length && selectedCells[0] && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length){
+      if(selectedCells[0].item.appointments[0].avabilityId === appointmentId){
+        isCorrespondingAppointment = true
+      }
+    }
   return (
     <>
       <div className="form-section">
@@ -370,7 +378,7 @@ const CaregiverFormView: FunctionComponent<
           <h5 className="content-title">
             {languageTranslation("MENU_CAREGIVER")}
           </h5>
-          {idSearchAppointmentLoading ? (
+          {idSearchAppointmentLoading && !isCorrespondingAppointment? (
             <div className="appointment-form-loader">
               <Loader />
             </div>

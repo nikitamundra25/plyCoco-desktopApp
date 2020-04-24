@@ -4604,8 +4604,8 @@ const Appointment: FunctionComponent = (props: any) => {
           />
           <div className="common-content flex-grow-1">
             <div>
-              <Row>
-                <Col lg={"6"}>
+              <div className="appointment-page-row">
+                <div className="appointment-page-list-section">
                   {/* caregiver list view */}
                   <CaregiverListView
                     updateLinkedStatus={updateLinkedStatus}
@@ -4681,8 +4681,8 @@ const Appointment: FunctionComponent = (props: any) => {
                     locationState={locationState}
                     starMarkCareinstitution={starMarkCareinstitution}
                   />
-                </Col>
-                <Col lg={"6"}>
+                </div>
+                <div className="appointment-page-form-section">
                   <Row>
                     <Col
                       lg={"6"}
@@ -4870,8 +4870,8 @@ const Appointment: FunctionComponent = (props: any) => {
                       </div>
                     </Col>
                   </Row>
-                </Col>
-              </Row>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -3036,12 +3036,13 @@ html:not([dir="rtl"]) {
   max-height: calc(100vh - 210px);
   background: $white;
   margin-bottom: 12px;
+  overflow-y: auto;
   &.sent-box {
     max-height: 420px;
   }
-
   @media only screen and (max-width: 991px) {
     max-height: 300px;
+    height: auto;
   }
   .mail-header {
     background: $card_header_bg;
@@ -3446,8 +3447,10 @@ html:not([dir="rtl"]) {
       .attribute-div {
         flex: 1;
         max-width: calc(100% - 185px);
-
         // min-width: 275px;
+        @media only screen and (max-width: 767px) {
+          max-width: 100%;
+        }
       }
     }
     .row {
@@ -3599,6 +3602,9 @@ html:not([dir="rtl"]) {
   border: 0px;
   &.pr-120 {
     padding-right: 120px;
+    @media only screen and (max-width: 767px) {
+      padding-right: 0px;
+    }
   }
   .nav-item {
     position: relative;

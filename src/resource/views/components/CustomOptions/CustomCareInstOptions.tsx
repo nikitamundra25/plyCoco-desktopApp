@@ -2,7 +2,6 @@ import React, { FunctionComponent } from "react";
 import { languageTranslation } from "../../../../helpers";
 
 const CareInstCustomOption: FunctionComponent = (props: any) => {
-  console.log(props, "in custom options");
 
   const { data, innerProps, isDisabled, isSelected } = props;
   let style = {

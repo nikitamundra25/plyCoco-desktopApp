@@ -147,7 +147,7 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
             : "",
           companyName,
         });
-        return true;
+        // return true;
       });
       if (totalCount > ASYNC_LIST_LIMIT) {
         careInstitutionOptions.push({
@@ -168,6 +168,7 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
     }
     handleLoadMoreCanstitution(inputValue, callback);
   };
+console.log("careInstitutionOptions",careInstitutionOptions);
 
   return (
     <>

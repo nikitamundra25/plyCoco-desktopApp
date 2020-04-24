@@ -118,7 +118,6 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
         page: 1,
       },
     });
-    console.log("data", data);
 
     const { getCaregiverByName } = data;
     const { result, totalCount } = getCaregiverByName;
@@ -174,6 +173,7 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
 
     // return callback(careInstitutionOptions);
   };
+console.log("careGiversOptions",careGiversOptions);
 
   return (
     <>

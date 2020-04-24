@@ -162,7 +162,7 @@ const CaregiverFormView: FunctionComponent<
         name
       );
       if (!validate) {
-        setworkingHoursFromErrMsg("Enter Valid Date");
+        setworkingHoursFromErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(workingHoursFromDate);
         if (!validDateData.isValid) {
@@ -179,7 +179,7 @@ const CaregiverFormView: FunctionComponent<
         name
       );
       if (!validate) {
-        setworkingHoursToErrMsg("Enter Valid Date");
+        setworkingHoursToErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(workingHoursToDate);
         if (!validDateData.isValid) {
@@ -190,9 +190,8 @@ const CaregiverFormView: FunctionComponent<
       }
     } else if (name === "breakFromDate") {
       validate = dateDiffernceValidator(dateData, current, breakFromDate, name);
-      console.log("dateFromdateFrom", validate);
       if (!validate) {
-        setbreakHoursFromErrMsg("Enter Valid Break Start Date");
+        setbreakHoursFromErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(breakFromDate);
         if (!validDateData.isValid) {
@@ -208,9 +207,8 @@ const CaregiverFormView: FunctionComponent<
         breakToDate,
         name
       );
-      console.log("dateFromdateFrom", validate);
       if (!validate) {
-        setbreakHoursToErrMsg("Enter Valid Break End Date");
+        setbreakHoursToErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(breakToDate);
         if (!validDateData.isValid) {

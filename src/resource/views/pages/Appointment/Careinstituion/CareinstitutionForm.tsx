@@ -94,9 +94,11 @@ const CareinstitutionFormView: FunctionComponent<
     handleFirstStarCanstitution,
     starCanstitution,
     idSearchAppointmentLoading,
-    selectedCellsCareinstitution
+    selectedCellsCareinstitution,
+    selectedCells
   } = props;
-console.log(selctedRequirement,'selctedRequirement');
+console.log(selectedCells,'selectedCells');
+console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
 
   let d = moment().format("L");
   let dtStart: any = new Date(d + " " + startTime);
@@ -115,12 +117,31 @@ console.log(selctedRequirement,'selctedRequirement');
       setcareInstituionShift(selectOption, props.values);
     }
   };
+  let dateCondition: any;
+  let dateData: any
+  if (
+    activeDateCareinstitution &&
+    activeDateCareinstitution.length &&
+    activeDateCareinstitution[0]
+  ) {
+    dateData = activeDateCareinstitution[0]
+    let now = moment().format(dbAcceptableFormat);
+    let input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
+    dateCondition = now <= input;
+  }
+
+  let isFutureDate: boolean = false
+if(dateData){
+  let dateStr = moment(dateData).add(1, "days").format("YYYY/MM/DD")
+  isFutureDate= moment(dateStr, "YYYY/MM/DD").isAfter();
+}
 
   let isRequirment: boolean = false,
     isMatching: boolean = false,
     isContract: boolean = false,
     isConfirm: boolean = false,
-    isOffered: boolean = false;
+    isOffered: boolean = false,
+    isOfferedFutureDate: boolean = false;
   if (selctedRequirement || status) {
     if (
       (selctedRequirement && selctedRequirement.status === "default") ||
@@ -143,10 +164,13 @@ console.log(selctedRequirement,'selctedRequirement');
     ) {
       isConfirm = true;
     } else if (
-      (selctedRequirement && selctedRequirement.status === "offered") ||
-      status === "offered"
+      (selctedRequirement && selctedRequirement.status === "offered"  && isFutureDate === false) ||
+      (status === "offered" &&  isFutureDate === false)
     ) {
       isOffered = true;
+    } else if((selctedRequirement && selctedRequirement.status === "offered"  && isFutureDate === true) ||
+    (status === "offered" &&  isFutureDate === true)){
+      isOfferedFutureDate = true;
     }
   }
 
@@ -155,8 +179,7 @@ console.log(selctedRequirement,'selctedRequirement');
       careInstitutionListArr && careInstitutionListArr.result
         ? careInstitutionListArr.result
         : {};
-        console.log("careInstitutionListArr",careInstitutionListArr && careInstitutionListArr.result ? careInstitutionListArr.result : {});
-        
+     
     if (id && careInstitutionListArr && careInstitutionListArr.result && careInstitutionListArr && careInstitutionListArr.result.length) {
       data = careInstitutionListArr.result.filter((x: any) => x.id === id)[0];
       let index = careInstitutionListArr.result.findIndex(
@@ -173,16 +196,7 @@ console.log(selctedRequirement,'selctedRequirement');
       ? careInstitutionTimesOptions
       : ShiftTime;
 
-  let dateCondition: any;
-  if (
-    activeDateCareinstitution &&
-    activeDateCareinstitution.length &&
-    activeDateCareinstitution[0]
-  ) {
-    let now = moment().format(dbAcceptableFormat);
-    let input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
-    dateCondition = now <= input;
-  }
+ 
 
   let isLeasingAppointment = false;
   // To check appointment with leasing careInst or not
@@ -195,6 +209,13 @@ console.log(selctedRequirement,'selctedRequirement');
         ? true
         : false;
   }
+let isCorrespondingAppointment: boolean = false
+    if(selectedCellsCareinstitution && selectedCellsCareinstitution.length && selectedCellsCareinstitution[0] && selectedCellsCareinstitution[0].item && selectedCellsCareinstitution[0].item.appointments && selectedCellsCareinstitution[0].item.appointments.length){
+      if(selectedCellsCareinstitution[0].item.appointments[0].requirementId === appointmentId){
+        isCorrespondingAppointment = true
+      }
+    }
+  
   return (
     <>
       <div className="form-section ">
@@ -206,12 +227,13 @@ console.log(selctedRequirement,'selctedRequirement');
             "matching-bg": isMatching,
             "contract-bg": isConfirm,
             "availability-bg": isOffered,
+            'availability-dark-bg': isOfferedFutureDate
           })}
         >
           <h5 className="content-title">
             {languageTranslation("MENU_INSTITUTION")}
           </h5>
-          {idSearchAppointmentLoading ? (
+          {idSearchAppointmentLoading  && !isCorrespondingAppointment? (
             <div className="appointment-form-loader">
               <Loader />
             </div>

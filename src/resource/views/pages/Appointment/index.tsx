@@ -11,6 +11,7 @@ import {
   languageTranslation,
   timeDiffernce,
   errorFormatter,
+  logger,
 } from '../../../../helpers';
 import {
   NightAllowancePerHour,
@@ -58,6 +59,7 @@ import UnlinkAppointment from './unlinkModal';
 import BulkEmailCareGiverModal from './BulkEmailCareGiver';
 import BulkEmailCareInstitutionModal from './BulkEmailCareInstitution';
 import './index.scss';
+import {Helmet} from "react-helmet";
 
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 
@@ -1901,6 +1903,7 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
     selectedCells && selectedCells.length ? selectedCells[0] : {};
 
   const handleSelection = async (selectedCellsData: any, name: string) => {
+    logger(selectedCellsData,'selectedCellsData',selectedCellsData ? selectedCellsData.length : 0)
     setTimeSlotError('');
     const { item = {}, dept = {}, id = '', dateString = '' } =
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
@@ -1910,6 +1913,7 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
     const checkCondition: boolean =
       item && item.appointments && item.appointments.length;
 
+      let appointmentsData: number[] = selectedCellsData.map((cell:any) => cell.item && cell.item.appointments && cell.item.appointments.length ? cell.item.appointments[0] : {}).filter(Boolean)
     if (name === 'caregiver') {
       if (checkCondition) {
         let appointId: any = item.appointments.filter((appointment: any) => {
@@ -1919,37 +1923,26 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
           );
         });
         if (
-          careInstitutionList &&
-          careInstitutionList.getUserByQualifications &&
+          careinstitutionList && 
+          careinstitutionList.length &&
+          // careInstitutionList.getUserByQualifications &&
           selectedCellsData &&
-          selectedCellsData.length <= 1
+          selectedCellsData.length
         ) {
-          const { getUserByQualifications } = careInstitutionList;
-          const { result } = getUserByQualifications;
-          await appointmentDataSort('careinstitution', result, appointId);
+          console.log('in offfffffff');
+          await getCorrespondingconnectedcell('careinstitution', careinstitutionList, appointmentsData);
         }
       }
       setSelectedCells(selectedCellsData);
     } else {
       setselectedCellsCareinstitution(selectedCellsData);
       if (checkCondition) {
-        let appointId: any = selectedCellsData[0].item.appointments.filter(
-          (appointment: any) => {
-            return (
-              moment(selectedCellsData[0].dateString).format('DD.MM.YYYY') ===
-              moment(appointment.date).format('DD.MM.YYYY')
-            );
-          }
-        );
         if (
-          careGiversList &&
-          careGiversList.getUserByQualifications &&
+          caregiversList && caregiversList.length &&
           selectedCellsData &&
-          selectedCellsData.length <= 1
+          selectedCellsData.length
         ) {
-          const { getUserByQualifications } = careGiversList;
-          const { result } = getUserByQualifications;
-          await appointmentDataSort('caregiver', result, appointId);
+          await getCorrespondingconnectedcell('caregiver', caregiversList, appointmentsData);
         }
       }
       // To default select department in case of selected solo careinstitution
@@ -1965,97 +1958,155 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
     }
   };
 
-  // Function to select appointment data
-  const appointmentDataSort = (name: string, result: any, appointId: any) => {
-    let temp: any,
-      availData: any = [],
-      stemp: any;
-      console.log("result",result);
-      
-    if (result && result.length && appointId && appointId.length) {
-      result.map((list: any, index: number) => {
-        if (list.availabilityData && list.availabilityData.length) {
-          list.availabilityData.map((item: any, i: number) => {
-            console.log("item",item);
-            
-            if (name === "careinstitution") {
-              temp = item.filter(
-                (avabilityData: any) =>
-                  appointId[0].requirementId === avabilityData.id
-              );
-            } else {
-              temp = item.filter(
-                (avabilityData: any) =>
-                  appointId[0].avabilityId === avabilityData.id
-              );
-            }
-
-            if (temp && temp.length) {
-              const {
-                id = '',
-                firstName = '',
-                lastName = '',
-                email = '',
-                caregiver = {},
-                qualificationId = [],
-              } = list ? list : {};
-              if (name === 'careinstitution') {
-                let qualification1: IReactSelectInterface[] = [];
-                if (
-                  qualificationList &&
-                  qualificationList.length &&
-                  temp[0].qualificationId
-                ) {
-                  qualification1 = qualificationList.filter(({ value }: any) =>
-                    temp[0].qualificationId.includes(value)
-                  );
-                }
-                stemp = {
-                  ...temp[0],
-                  qualificationId: qualification1 ? qualification1 : [],
-                };
-              }
-
-              availData = [
-                {
-                  id,
-                  firstName,
-                  lastName,
-                  name,
-                  email,
-                  caregiver,
-                  canstitution,
-                  item: stemp ? stemp : temp[0],
-                  qualificationIds: qualificationId,
-                  dateString: temp[0]
-                    ? moment(temp[0].date).format(dbAcceptableFormat)
-                    : '',
-                },
-              ];
-            }
-          });
-        }
-      });
-     
-      if (availData && availData.length) {
-        if (name === 'careinstitution') {
-          setselectedCellsCareinstitution(availData);
-        } else {
-          setSelectedCells(availData);
-        }
-      }else{
-        console.log("call api here");
+  // Function to get corresponding connected cell
+  const getCorrespondingconnectedcell = (name: string, result: any, appointmentsData: any) => {
+      let connectedCells: any[] = [];
+      result.forEach((element: any) => {
+        element.availabilityData.forEach((row: any) => {
+          console.log(row,'row');   
+          const {
+            id = '',
+            firstName = '',
+            lastName = '',
+            email = '',
+            caregiver = {},
+            canstitution = {},
+            qualificationId = [],
+          } = element ? element : {};
+          let filteredCells:any = row.filter(((availabilities:any) => availabilities.appointments && availabilities.appointments.length && appointmentsData.map((cell:any) => cell.id).includes(availabilities.appointments[0].id)))
+          // filteredCells.map((filteredCell:any) => ({ id,
+          //   firstName,
+          //   lastName,
+          //   email,
+          //   caregiver,
+          //   canstitution,
+          //   item:name === 'careinstitution' ? {...filteredCell, qualificationId:filteredCell.qualificationId ? qualificationList.filter(({ value }: any) =>
+          //   filteredCell.qualificationId.includes(value)) : qualificationList.filter(({ value }: any) =>
+          //   qualificationId.includes(value)
+          // )
+          // } : filteredCell}))
+          // console.log(filteredCells,'filteredCells');
+          
+      // temp.push({ ...element, new: item, row });
+      if (filteredCells) {
         
+        connectedCells.push(...filteredCells.map((filteredCell:any) => ({ id,
+          firstName,
+          lastName,
+          email,
+          caregiver,
+          canstitution,
+          dateString: filteredCell && filteredCell.date 
+            ? moment(filteredCell.date).format(dbAcceptableFormat)
+            : '',
+          item:name === 'careinstitution' ? {...filteredCell, qualificationId:filteredCell.qualificationId ? qualificationList.filter(({ value }: any) =>
+          filteredCell.qualificationId.includes(value)) : qualificationList.filter(({ value }: any) =>
+          qualificationId.includes(value)
+        )
+        } : filteredCell}))) 
+      }
+    });
+  });
+      console.log(connectedCells,'listDatalistData');
+      if (connectedCells && connectedCells.length) {
+        if (name === 'careinstitution') {
+          setselectedCellsCareinstitution(connectedCells);
+        } else {
+          setSelectedCells(connectedCells);
+        }
+      } else {
         fetchAppointmentFilterById({
           variables: {
-            id: name === "careinstitution" ? parseInt(appointId[0].avabilityId): parseInt(appointId[0].requirementId),
+            id: name === "careinstitution" ? parseInt(appointmentsData[0].avabilityId): parseInt(appointmentsData[0].requirementId),
             searchIn: name === "careinstitution" ? "avability": "requirement"
           }
         });
       }
-    } else {
-      return true;
-    }
+      
+    // if (result && result.length && appointmentsData && appointmentsData.length) {
+    //   result.forEach((list: any) => {
+    //     if (list.availabilityData && list.availabilityData.length) {
+    //       list.availabilityData.map((item: any, i: number) => {
+    //         console.log("item",item);
+            
+    //         if (name === "careinstitution") {
+    //           temp = item.filter(
+    //             (avabilityData: any) =>
+    //               appointmentsData[0].requirementId === avabilityData.id
+    //           );
+    //         } else {
+    //           temp = item.filter(
+    //             (avabilityData: any) =>
+    //               appointmentsData[0].avabilityId === avabilityData.id
+    //           );
+    //         }
+
+    //         if (temp && temp.length) {
+    //           const {
+    //             id = '',
+    //             firstName = '',
+    //             lastName = '',
+    //             email = '',
+    //             caregiver = {},
+    //             qualificationId = [],
+    //           } = list ? list : {};
+    //           if (name === 'careinstitution') {
+    //             let qualification1: IReactSelectInterface[] = [];
+    //             if (
+    //               qualificationList &&
+    //               qualificationList.length &&
+    //               temp[0].qualificationId
+    //             ) {
+    //               qualification1 = qualificationList.filter(({ value }: any) =>
+    //                 temp[0].qualificationId.includes(value)
+    //               );
+    //             }
+    //             stemp = {
+    //               ...temp[0],
+    //               qualificationId: qualification1 ? qualification1 : [],
+    //             };
+    //           }
+
+    //           availData = [
+    //             {
+    //               id,
+    //               firstName,
+    //               lastName,
+    //               name,
+    //               email,
+    //               caregiver,
+    //               canstitution,
+    //               item: stemp ? stemp : temp[0],
+    //               qualificationIds: qualificationId,
+    //               dateString: temp[0]
+    //                 ? moment(temp[0].date).format(dbAcceptableFormat)
+    //                 : '',
+    //             },
+    //           ];
+    //         }
+    //       });
+    //     }
+    //   });
+     
+    //   if (availData && availData.length) {
+    //     // if (name === 'careinstitution') {
+    //     //   setselectedCellsCareinstitution(availData);
+    //     // } else {
+    //     //   setSelectedCells(availData);
+    //     // }
+    //   }else{
+    //     console.log("call api here");
+        
+    //     fetchAppointmentFilterById({
+    //       variables: {
+    //         id: name === "careinstitution" ? parseInt(appointmentsData[0].avabilityId): parseInt(appointmentsData[0].requirementId),
+    //         searchIn: name === "careinstitution" ? "avability": "requirement"
+    //       }
+    //     });
+    //   }
+    // } else {
+    //   return true;
+    // }
   };
 
   const onhandleCaregiverStar = async (id: string, isSecondStar: boolean, isNotExistInList:boolean = false) => {
@@ -2134,11 +2185,33 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
   // select solo user
   const handleUserList = (value: IReactSelectInterface, name: string) => {
     if (name === 'caregiver') {
+      if(value === null && caregiverSoloFilter && caregiverSoloFilter.value){
+        setstarCaregiver({
+          isStar: false,
+          id: "",
+          isSecondStar:false,
+        });
+       getCaregiverData(1)
+      }
       setcaregiverSoloFilter(value);
     } else {
       // To reset the page again to 1
       setcareInstitutionPage(1);
+      if(value === null && careinstitutionSoloFilter && careinstitutionSoloFilter.value){
+        setstarCanstitution({
+          isStar: false,
+          setIndex: -1,
+          id: '',
+        });
+        setsecondStarCanstitution({
+          isStar: false,
+          setIndex: -1,
+          id: '',
+        });
+        getCareInstituionData()
+      }
       setcareinstitutionSoloFilter(value);
+      console.log("value",value);
     }
   };
 
@@ -3898,7 +3971,6 @@ const handleSubmitCaregiverForm = async (
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
-console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
 
   let street: string = canstitution && canstitution.street;
   let departmentData: any = Item ? Item.department : undefined;
@@ -4292,7 +4364,6 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
     }
   };
   
-
   const isUnLinkable: boolean =
     item &&
     item.appointments &&
@@ -4325,10 +4396,14 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
     selectedCellsCareinstitution &&
     selectedCellsCareinstitution.length &&
     selectedCells &&
-    selectedCells.length
+    selectedCells.length &&
+    item &&
+    item.id &&
+    Item &&
+    Item.id
   ) {
     selectedCells.filter((x: any) => {
-      if (x.item && x.item.id) {
+      if (x.item && x.item.id ) {
         if (
           x.item.f !== 'block' ||
           x.item.s !== 'block' ||
@@ -4359,6 +4434,8 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
         }
       }
     });
+  }else{
+    isLinkable = false;
   }
 
   // Date condition for save both button
@@ -4422,6 +4499,9 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
   // }
   return (
     <>
+      <Helmet>
+               <title>{languageTranslation("APPOINTMENT")} </title>
+            </Helmet>
       <div className='common-detail-page'>
         <div className='common-detail-section'>
           <AppointmentNav
@@ -4595,6 +4675,9 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
                               breakHoursFromErrMsg={breakHoursFromErrMsg}
                               starCaregiver={starCaregiver}
                               idSearchAppointmentLoading={idSearchAppointmentLoading}
+                              selectedCellsCareinstitution={
+                                selectedCellsCareinstitution
+                              }
                             />
                           );
                         }}
@@ -4675,6 +4758,7 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
                               }
                               starCanstitution={starCanstitution}
                               idSearchAppointmentLoading={idSearchAppointmentLoading}
+                              selectedCells={selectedCells}
                             />
                           );
                         }}
@@ -4704,7 +4788,7 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
                           className='btn-common mt-0 mb-2 mx-2'
                           color='secondary'
                           disabled={
-                            isUnLinkable ? false : isLinkable ? false : true
+                            isUnLinkable ? false :  isLinkable ? false : true
                           }
                           onClick={() =>
                             isUnLinkable ? handleUnlinkBoth() : handleLinkBoth()

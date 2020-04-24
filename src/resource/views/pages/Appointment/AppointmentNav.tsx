@@ -285,22 +285,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               : null
           }
          />
-
-          {/* <AsyncSelect 
-          cacheOptions 
-          defaultOptions = {careInstitutionList}
-          loadOptions={promiseOptions} 
-          // options={careInstitutionList}
-          placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
-          classNamePrefix="custom-inner-reactselect"
-              className={
-                "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
-              }
-              components={{ Option: CareInstCustomOption }}
-              /> */}
-
-
-
             {/* <Select
               classNamePrefix="custom-inner-reactselect"
               className={

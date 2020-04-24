@@ -56,7 +56,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
   const [pdfAppointmentDetails, setPdfAppointmentDetails] = useState<string[]>([]);
   const [temporaryWorkerPdf, setTemporaryWorkerPdf] = useState<any>();
-  const history = useHistory();
 
   // To access data of loggedIn user
   let userData: any = '';

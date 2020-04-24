@@ -27,6 +27,7 @@ import InboxEmail from './InboxEmail';
 import SentEmail from './SentEmail';
 import OutboxEmail from './OutboxEmail';
 import MailQueue from './MailQueueEmail';
+import { Helmet } from "react-helmet";
 
 const EmailsTabs: any[] = [
   {
@@ -96,6 +97,10 @@ const ViewEmails: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
     );
   };
   return (
+    <>
+    <Helmet>
+    <title>{languageTranslation("EMAIL_LABEL")} </title>
+  </Helmet>
     <div>
       <div className='common-detail-page'>
         <div className='common-detail-section'>
@@ -156,6 +161,7 @@ const ViewEmails: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
         </div>
       </div>
     </div>
+    </>
   );
 };
 export default ViewEmails;

@@ -1191,5 +1191,8 @@
   "NIGHT_PER_HOUR": "Night/hr",
   "TOTAL_NIGHT_CHARGE": "Total Night Charge",
   "SEARCH_TIP":"Try to search with specific keywords to find more results.",
-  "WORKING_TIMES":"Working times avai."
+  "WORKING_TIMES":"Working times avai.",
+  "DATE_VALIDATION_MESSAGE":"Enter Valid Date",
+  "EMAIL_LABEL":"Email"
+
 }

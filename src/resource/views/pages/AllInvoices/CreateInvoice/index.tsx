@@ -1,20 +1,15 @@
 import React, { useState, FunctionComponent, useEffect } from "react";
 import {
-  Button,
-  Table,
   Form,
   FormGroup,
   Input,
   Label,
   Row,
   Col,
-  UncontrolledTooltip,
 } from "reactstrap";
 import { languageTranslation, errorFormatter } from "../../../../../helpers";
-
 import { RouteComponentProps, useLocation } from "react-router";
 import "../index.scss";
-import "react-day-picker/lib/style.css";
 import {
   CareInstInActiveAttrId,
   deactivatedListColor,
@@ -400,30 +395,41 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   const handleCreateInvoice = async () => {
     console.log("in handle Selected Invoice Created Data", selectedAppointment)
-    let singleCareGiverData: any[] = [], selectedAppointmentId: any[] = [], singleCareInstData: any[] = [], amount: number = 0, subTotal: number = 0
-
+    let singleCareGiverData: any[] = [], selectedAppointmentId: any[] = [], singleCareInstData: any[] = [], amount: number = 0, subTotal: number = 0;
+    // all selected caregivers id
+    let selectedCareGiverId:string[] = selectedAppointment.map((appointment:any) => appointment.ca && appointment.ca.userId ? appointment.ca.userId : '').filter(Boolean)
+    // all selected care institutions id    
+    let selectedCareInstId:string[] = selectedAppointment.map((appointment:any) => appointment.cr && appointment.cr.userId ? appointment.cr.userId : '').filter(Boolean)
     try {
+      // To check appointment is bettween the same caregiver or careinstitution or not
+      let isInvoiceComaptible: boolean = selectedCareGiverId.length && selectedCareInstId.length && selectedCareGiverId.every((val:string, i:number, arr:string[]) => val === arr[0] ) && selectedCareInstId.every((val:string, i:number, arr:string[]) => val === arr[0] ) ? true : false;
+      if (!isInvoiceComaptible) {
+       if (!toast.isActive(toastId)) {
+        toastId = toast.warn("You can't create invoice with the selected appointment because of mismatch beetween caregiver & care-institutions")
+      }
+      return
+      }
       if (selectedAppointment && selectedAppointment.length) {
-        selectedAppointment.forEach((appointmentData: any) => {
-          console.log("????????????", appointmentData);
-          if (appointmentData.ca && appointmentData.cr) {
-            singleCareGiverData.push(appointmentData.ca.userId)
-            singleCareInstData.push(appointmentData.cr.userId)
-            selectedAppointmentId.push(appointmentData.id)
-            console.log("+++++++++++++++singleCareGiverData", singleCareGiverData[singleCareGiverData.length - 1]);
-            if (singleCareGiverData[singleCareGiverData.length - 1] !== appointmentData.ca.userId) {
-              console.log("MMMMMMMMMMMMMMM");
-            } else {
-              console.log("*****************In else condition");
-              subTotal += appointmentData.ca && appointmentData.ca.fee ? (appointmentData.ca.fee * 100) : 0
-            }
-          } else {
-            const message = errorFormatter("Selected appointment don't have care giver");
-            if (!toast.isActive(toastId)) {
-              toastId = toast.warn(message)
-            }
-          }
-        });
+        // selectedAppointment.forEach((appointmentData: any) => {
+        //   console.log("????????????", appointmentData);
+        //   if (appointmentData.ca && appointmentData.cr) {
+        //     singleCareGiverData.push(appointmentData.ca.userId)
+        //     singleCareInstData.push(appointmentData.cr.userId)
+        //     selectedAppointmentId.push(appointmentData.id)
+        //     console.log("+++++++++++++++singleCareGiverData", singleCareGiverData[singleCareGiverData.length - 1]);
+        //     if (singleCareGiverData[singleCareGiverData.length - 1] !== appointmentData.ca.userId) {
+        //       console.log("MMMMMMMMMMMMMMM");
+        //     } else {
+        //       console.log("*****************In else condition");
+        //       subTotal += appointmentData.ca && appointmentData.ca.fee ? (appointmentData.ca.fee * 100) : 0
+        //     }
+        //   } else {
+        //     const message = errorFormatter("Selected appointment don't have care giver");
+        //     if (!toast.isActive(toastId)) {
+        //       toastId = toast.warn(message)
+        //     }
+        //   }
+        // });
         console.log("*****************subTotal", subTotal * 0.19);
         const totalAmount: any = (subTotal) + (subTotal * 0.19)
         settotalAmount(totalAmount)

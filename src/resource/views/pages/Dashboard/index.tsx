@@ -16,7 +16,7 @@ import AppointmentList from "./AppointmentList";
 import ConfirmBookingList from "./ConfirmBookingList";
 import IncorrectLoginList from "./IncorrectLoginList";
 import SuccessfulLoginList from "./SuccessfulLoginList";
-
+import {Helmet} from "react-helmet";
 const [
   GET_DASHBOARD_REGISTRATIONS_LIST,
   GET_DASHBOARD_DOCUMENTS_LIST,
@@ -131,6 +131,10 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
   };
 
   return (
+    <>
+    <Helmet>
+               <title>{languageTranslation("DASHBOARD")} </title>
+            </Helmet>
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
@@ -194,6 +198,7 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
         </div>
       </CardBody>
     </Card>
+ </>
   );
 };
 export default Dashboard;

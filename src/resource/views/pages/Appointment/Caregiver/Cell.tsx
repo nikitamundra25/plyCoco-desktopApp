@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createSelectable } from 'react-selectable-fast';
 import classnames from 'classnames';
 
@@ -7,53 +7,49 @@ const Cell = ({
   isSelected,
   isSelecting,
   item,
-  list,
-  day,
   key,
+  cellIndex,
   daysArr,
-  selectedCellsCareinstitution,
+  selectedcareInstApptId,
+  selectedcareGiverApptId,
+  selectedcareGiverIndexes
 }: any) => {
+  
   let isBlocked: boolean = false;
   if (item) {
     isBlocked = item.f === 'block' || item.s === 'block' || item.n === 'block';
   }
 
-  let canstitutionCell: any =
-    selectedCellsCareinstitution &&
-      selectedCellsCareinstitution.length &&
-      selectedCellsCareinstitution[0] &&
-      selectedCellsCareinstitution[0].item &&
-      selectedCellsCareinstitution[0].item.appointments &&
-      selectedCellsCareinstitution[0].item.appointments[0]
-      ? selectedCellsCareinstitution[0].item.appointments[0].id
-      : '';
+  // let canstitutionCell: any =
+  //   selectedCellsCareinstitution &&
+  //     selectedCellsCareinstitution.length &&
+  //     selectedCellsCareinstitution[0] &&
+  //     selectedCellsCareinstitution[0].item &&
+  //     selectedCellsCareinstitution[0].item.appointments &&
+  //     selectedCellsCareinstitution[0].item.appointments[0]
+  //     ? selectedCellsCareinstitution[0].item.appointments[0].id
+  //     : '';
 
   let caregiverCell: any =
     item && item.appointments && item.appointments[0]
       ? item.appointments[0].id
       : '';
 
-  let showAppointedCareGiver: boolean = false;
-  if (canstitutionCell && caregiverCell) {
-    if (canstitutionCell === caregiverCell) {
-      showAppointedCareGiver = true;
-    }
-  }
+  // let showAppointedCareGiver: boolean = false;
+  // if (canstitutionCell && caregiverCell) {
+  //   if (canstitutionCell === caregiverCell) {
+  //     showAppointedCareGiver = true;
+  //   }
+  // }
 
-  let isRequirment: boolean = false,
-    isMatching: boolean = false,
-    isContract: boolean = false,
+  let isMatching: boolean = false,
     isConfirm: boolean = false,
     isContractCancel: boolean = false,
     isContractInitiated: boolean = false,
     isSingleButtonAccepted: boolean = false
   if (item) {
-    if (item.status === 'default') {
-      isRequirment = true;
-    } else if (item.status === 'linked') {
+    if (item.status === 'linked') {
       isMatching = true;
-    } else if (item.status === 'contract') {
-      isContract = true;
     } else if (item.status === 'confirmed' || item.status === 'timeSheetUpdated') {
       isConfirm = true;
     } else if (item.status === 'contractcancelled') {
@@ -75,8 +71,12 @@ const Cell = ({
           'custom-appointment-col': true,
           'cursor-pointer': true,
           'selecting-cell-bg': !isSelected
-            ? (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
-            isSelecting
+          ? 
+          isSelecting 
+          || selectedcareGiverIndexes.includes(cellIndex) 
+          ||
+            (selectedcareGiverApptId.length && selectedcareInstApptId.length && JSON.stringify(selectedcareGiverApptId) === JSON.stringify(selectedcareInstApptId) && selectedcareGiverApptId.includes(caregiverCell))
+            // (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
             : true,
           // 'selecting-cell': isSelecting,
           weekend: daysArr,

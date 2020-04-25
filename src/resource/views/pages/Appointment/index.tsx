@@ -1,17 +1,18 @@
-import React, { FunctionComponent, useEffect, useState, Suspense } from "react";
-import { useLocation, useHistory } from "react-router";
-import { Col, Row, Button } from "reactstrap";
-import moment from "moment";
-import { toast } from "react-toastify";
-import { useQuery, useLazyQuery, useMutation } from "@apollo/react-hooks";
-import { Formik, FormikProps, FormikHelpers } from "formik";
+import React, { FunctionComponent, useEffect, useState, Suspense } from 'react';
+import { useLocation, useHistory } from 'react-router';
+import { Col, Row, Button } from 'reactstrap';
+import moment from 'moment';
+import { toast } from 'react-toastify';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
 import {
   getDaysArrayByMonth,
   germanNumberFormat,
   languageTranslation,
   timeDiffernce,
   errorFormatter,
-} from "../../../../helpers";
+  logger,
+} from '../../../../helpers';
 import {
   NightAllowancePerHour,
   CaregiverTIMyoCYAttrId,
@@ -48,18 +49,19 @@ import { AppointmentMutations } from "../../../../graphql/Mutations";
 import {
   CareGiverValidationSchema,
   CareInstitutionValidationSchema,
-} from "../../../validations/AppointmentsFormValidationSchema";
-import { dbAcceptableFormat } from "../../../../config";
-import { ConfirmBox } from "../../components/ConfirmBox";
-import AppointmentNav from "./AppointmentNav";
-import CaregiverListView from "./Caregiver/CaregiverListView";
-import CarinstituionListView from "./Careinstituion/CareinstituionListView";
-import CaregiverFormView from "./Caregiver/CaregiverForm";
-import CareinstitutionFormView from "./Careinstituion/CareinstitutionForm";
-import UnlinkAppointment from "./unlinkModal";
-import BulkEmailCareGiverModal from "./BulkEmailCareGiver";
-import BulkEmailCareInstitutionModal from "./BulkEmailCareInstitution";
-import "./index.scss";
+} from '../../../validations/AppointmentsFormValidationSchema';
+import { dbAcceptableFormat } from '../../../../config';
+import { ConfirmBox } from '../../components/ConfirmBox';
+import AppointmentNav from './AppointmentNav';
+import CaregiverListView from './Caregiver/CaregiverListView';
+import CarinstituionListView from './Careinstituion/CareinstituionListView';
+import CaregiverFormView from './Caregiver/CaregiverForm';
+import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
+import UnlinkAppointment from './unlinkModal';
+import BulkEmailCareGiverModal from './BulkEmailCareGiver';
+import BulkEmailCareInstitutionModal from './BulkEmailCareInstitution';
+import './index.scss';
+import {Helmet} from "react-helmet";
 
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 
@@ -212,7 +214,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // maintain solo caregiver
   const [starCaregiver, setstarCaregiver] = useState<IStarInterface>({
     isStar: false,
-    id: "",
+    id: '',
     isSecondStar: false,
   });
 
@@ -263,7 +265,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(ADD_CAREGIVER_AVABILITY, {
     onCompleted({ addCareGiverAvability }) {
-      console.log(addCareGiverAvability, "addCareGiverAvability");
+      console.log(addCareGiverAvability, 'addCareGiverAvability');
       if (caregiversList && caregiversList.length) {
         const temp = [...caregiversList];
         const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
@@ -278,16 +280,16 @@ const Appointment: FunctionComponent = (props: any) => {
               console.log(
                 i,
                 element,
-                "elemnttttt",
+                'elemnttttt',
                 element.filter((e: any) =>
-                  moment(availability.date).isSame(moment(e.date), "day")
+                  moment(availability.date).isSame(moment(e.date), 'day')
                 )
               );
               let cellIndex: number = selectedCaregiverCells.findIndex(
                 (cell: any) =>
                   moment(availability.date).isSame(
                     moment(cell.dateString),
-                    "day"
+                    'day'
                   )
               );
               if (selectedCaregiverCells[cellIndex]) {
@@ -299,7 +301,7 @@ const Appointment: FunctionComponent = (props: any) => {
               // To check this row have this date entry or not
               if (
                 element.filter((e: any) =>
-                  moment(e.date).isSame(moment(availability.date), "day")
+                  moment(e.date).isSame(moment(availability.date), 'day')
                 ).length === 0
               ) {
                 temp[index].availabilityData[i] = [...element, availability];
@@ -315,7 +317,7 @@ const Appointment: FunctionComponent = (props: any) => {
       toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation("CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG")
+          languageTranslation('CARE_GIVER_REQUIREMENT_ADD_SUCCESS_MSG')
         );
       }
     },
@@ -341,7 +343,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_CAREGIVER_AVABILITY, {
     onCompleted({ updateCareGiverAvability }) {
-      console.log(updateCareGiverAvability, "data oncomplete", selectedCells);
+      console.log(updateCareGiverAvability, 'data oncomplete', selectedCells);
       const temp = [...caregiversList];
       const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
       let index: number = temp.findIndex(
@@ -353,7 +355,7 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityIndex: number = element.findIndex(
             (e: any) => e.id === updateCareGiverAvability.id
           );
-          console.log(updateCareGiverAvability, "updateCareGiverAvability");
+          console.log(updateCareGiverAvability, 'updateCareGiverAvability');
           if (availabilityIndex > -1) {
             temp[index].availabilityData[i][availabilityIndex] = {
               ...temp[index].availabilityData[i][availabilityIndex],
@@ -362,7 +364,7 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
-        console.log(temp, "temppppp");
+        console.log(temp, 'temppppp');
         let cellIndex: number = selectedCaregiverCells.findIndex(
           (cell: any) =>
             cell.item && updateCareGiverAvability.id === cell.item.id
@@ -391,7 +393,7 @@ const Appointment: FunctionComponent = (props: any) => {
     { id: number[] }
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted({ deleteCareGiverAvability }: any) {
-      console.log(deleteCareGiverAvability, "deleteCaregiverAvailability+++++");
+      console.log(deleteCareGiverAvability, 'deleteCaregiverAvailability+++++');
       deleteCareGiverAvability.forEach((element: any) => {
         const temp = [...caregiversList];
         let index: number = temp.findIndex(
@@ -435,7 +437,7 @@ const Appointment: FunctionComponent = (props: any) => {
         ) {
           deptList = [...careInstituionDeptData];
         }
-        console.log(deptList, "deptList---");
+        console.log(deptList, 'deptList---');
 
         // else {
         //   temp = [...careinstitutionList];
@@ -444,7 +446,7 @@ const Appointment: FunctionComponent = (props: any) => {
           ? [...selectedCellsCareinstitution]
           : [];
         addCareInstitutionRequirement.forEach((requirement: any) => {
-          console.log(requirement, "requirement");
+          console.log(requirement, 'requirement');
 
           let index: number = temp.findIndex(
             (careInst: any) => careInst.id === requirement.userId
@@ -455,7 +457,7 @@ const Appointment: FunctionComponent = (props: any) => {
               (careInst: any) => careInst.deptId === requirement.divisionId
             );
           }
-          console.log(deptIndex, "deptIndex");
+          console.log(deptIndex, 'deptIndex');
 
           // else {
           //   index = temp.findIndex(
@@ -466,13 +468,13 @@ const Appointment: FunctionComponent = (props: any) => {
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
               let element: any[] = [...temp[index].availabilityData[i]];
-              console.log(element, "elemettt");
+              console.log(element, 'elemettt');
 
               let cellIndex: number = selectedCareInstCells.findIndex(
                 (cell: any) =>
                   moment(requirement.date).isSame(
                     moment(cell.dateString),
-                    "day"
+                    'day'
                   )
               );
 
@@ -495,13 +497,13 @@ const Appointment: FunctionComponent = (props: any) => {
               // To check this row have this date entry or not
               if (
                 element.filter((e: any) =>
-                  moment(e.date).isSame(moment(requirement.date), "day")
+                  moment(e.date).isSame(moment(requirement.date), 'day')
                 ).length === 0 ||
                 i === temp[index].availabilityData.length - 1
               ) {
                 if (
                   element.filter((e: any) =>
-                    moment(e.date).isSame(moment(requirement.date), "day")
+                    moment(e.date).isSame(moment(requirement.date), 'day')
                   ).length === 0
                 ) {
                   temp[index].availabilityData[i] = [...element, requirement];
@@ -513,7 +515,7 @@ const Appointment: FunctionComponent = (props: any) => {
               }
             }
           }
-          console.log(temp, "temp++++++++");
+          console.log(temp, 'temp++++++++');
 
           if (
             starCanstitution &&
@@ -531,7 +533,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 (cell: any) =>
                   moment(requirement.date).isSame(
                     moment(cell.dateString),
-                    "day"
+                    'day'
                   )
               );
 
@@ -554,7 +556,7 @@ const Appointment: FunctionComponent = (props: any) => {
               // To check this row have this date entry or not
               if (
                 element.filter((e: any) =>
-                  moment(e.date).isSame(moment(requirement.date), "day")
+                  moment(e.date).isSame(moment(requirement.date), 'day')
                 ).length === 0
               ) {
                 deptList[deptIndex].availabilityData[i] = [
@@ -566,7 +568,7 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         });
-        console.log(deptList, "deptList++++");
+        console.log(deptList, 'deptList++++');
 
         setselectedCellsCareinstitution(selectedCareInstCells);
       }
@@ -817,7 +819,7 @@ const Appointment: FunctionComponent = (props: any) => {
       const selectedCareInstCells = selectedCellsCareinstitution
         ? [...selectedCellsCareinstitution]
         : [];
-      console.log(careInstList, "careInstList");
+      console.log(careInstList, 'careInstList');
 
       addAppointment.forEach((appointment: any) => {
         let availabilityDataIndex: number = -1;
@@ -909,13 +911,13 @@ const Appointment: FunctionComponent = (props: any) => {
         ) {
           // To add the appoitments after connection
           const {
-            id = "",
-            name = "",
-            status = "",
+            id = '',
+            name = '',
+            status = '',
             qualificationId = [],
-            address = "",
-            startTime = "",
-            endTime = "",
+            address = '',
+            startTime = '',
+            endTime = '',
             isLeasing = false,
             division = {},
           } = careInstList[careInstIndex].availabilityData[
@@ -931,7 +933,7 @@ const Appointment: FunctionComponent = (props: any) => {
             ...temp[caregiverIndex].availabilityData[availabilityDataIndex][
               availabilityIndex
             ],
-            status: "linked",
+            status: 'linked',
             appointments: [
               {
                 ...appointment,
@@ -955,7 +957,7 @@ const Appointment: FunctionComponent = (props: any) => {
             ...careInstList[careInstIndex].availabilityData[
               requirementDataIndex
             ][requirementIndex],
-            status: "linked",
+            status: 'linked',
             appointments: [
               {
                 ...appointment,
@@ -964,7 +966,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   name: [
                     temp[caregiverIndex].lastName,
                     temp[caregiverIndex].firstName,
-                  ].join(" "),
+                  ].join(' '),
                 },
               },
             ],
@@ -977,7 +979,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ...deptList[deptIndex].availabilityData[requirementDeptDataIndex][
                 requirementDeptIndex
               ],
-              status: "linked",
+              status: 'linked',
               appointments: [
                 {
                   ...appointment,
@@ -986,7 +988,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     name: [
                       temp[caregiverIndex].lastName,
                       temp[caregiverIndex].firstName,
-                    ].join(" "),
+                    ].join(' '),
                   },
                 },
               ],
@@ -1001,7 +1003,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ...selectedCaregiverCells[cellIndex],
               item: {
                 ...selectedCaregiverCells[cellIndex].item,
-                status: "linked",
+                status: 'linked',
                 appointments: [
                   {
                     ...appointment,
@@ -1030,7 +1032,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ...selectedCareInstCells[cellInstIndex],
               item: {
                 ...selectedCareInstCells[cellInstIndex].item,
-                status: "linked",
+                status: 'linked',
                 appointments: [
                   {
                     ...appointment,
@@ -1039,7 +1041,7 @@ const Appointment: FunctionComponent = (props: any) => {
                       name: [
                         temp[caregiverIndex].lastName,
                         temp[caregiverIndex].firstName,
-                      ].join(" "),
+                      ].join(' '),
                     },
                   },
                 ],
@@ -1055,7 +1057,7 @@ const Appointment: FunctionComponent = (props: any) => {
         selectedCareInstCells,
         careInstList,
         deptList,
-        "temppppp"
+        'temppppp'
       );
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("LINKED_APPOINTMENTS"));
@@ -1196,7 +1198,7 @@ const Appointment: FunctionComponent = (props: any) => {
             ...temp[caregiverIndex].availabilityData[availabilityDataIndex][
               availabilityIndex
             ],
-            status: "default",
+            status: 'default',
             appointments: [],
           };
           // To update data in care institution list
@@ -1206,7 +1208,7 @@ const Appointment: FunctionComponent = (props: any) => {
             ...careInstList[careInstIndex].availabilityData[
               requirementDataIndex
             ][requirementIndex],
-            status: "default",
+            status: 'default',
             appointments: [],
           };
           if (requirementDeptIndex > -1 && requirementDeptDataIndex > -1) {
@@ -1216,19 +1218,19 @@ const Appointment: FunctionComponent = (props: any) => {
               ...deptList[deptIndex].availabilityData[requirementDeptDataIndex][
                 requirementDeptIndex
               ],
-              status: "default",
+              status: 'default',
               appointments: [],
             };
           }
 
           if (deleteAll) {
-            if (unlinkedBy === "caregiver" || unlinkedBy === "employee") {
+            if (unlinkedBy === 'caregiver' || unlinkedBy === 'employee') {
               temp[caregiverIndex].availabilityData[
                 availabilityDataIndex
               ].splice(availabilityIndex, 1);
               setSelectedCells([]);
             }
-            if (unlinkedBy === "canstitution" || unlinkedBy === "employee") {
+            if (unlinkedBy === 'canstitution' || unlinkedBy === 'employee') {
               careInstList[careInstIndex].availabilityData[
                 requirementDataIndex
               ].splice(requirementIndex, 1);
@@ -1251,7 +1253,7 @@ const Appointment: FunctionComponent = (props: any) => {
           if (
             !(
               deleteAll &&
-              (unlinkedBy === "caregiver" || unlinkedBy === "employee")
+              (unlinkedBy === 'caregiver' || unlinkedBy === 'employee')
             )
           ) {
             let cellIndex: number = selectedCaregiverCells.findIndex(
@@ -1267,7 +1269,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 ...selectedCaregiverCells[cellIndex],
                 item: {
                   ...selectedCaregiverCells[cellIndex].item,
-                  status: "default",
+                  status: 'default',
                   appointments: [],
                 },
               };
@@ -1277,7 +1279,7 @@ const Appointment: FunctionComponent = (props: any) => {
           if (
             !(
               deleteAll &&
-              (unlinkedBy === "canstitution" || unlinkedBy === "employee")
+              (unlinkedBy === 'canstitution' || unlinkedBy === 'employee')
             )
           ) {
             let cellInstIndex: number = selectedCareInstCells.findIndex(
@@ -1293,7 +1295,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 ...selectedCareInstCells[cellInstIndex],
                 item: {
                   ...selectedCareInstCells[cellInstIndex].item,
-                  status: "default",
+                  status: 'default',
                   appointments: [],
                 },
               };
@@ -1695,20 +1697,20 @@ const Appointment: FunctionComponent = (props: any) => {
 
       setselectedCellsCareinstitution(careinstitutionvalue);
       const {
-        userId: caregiverUserId = "",
-        f = "",
-        s = "",
-        n = "",
-        fee = "",
-        date: dateStr = "",
-        nightFee = "",
-        weekendAllowance = "",
-        holidayAllowance = "",
-        nightAllowance = "",
-        distanceInKM = "",
-        feePerKM = "",
-        travelAllowance = "",
-        otherExpenses = "",
+        userId: caregiverUserId = '',
+        f = '',
+        s = '',
+        n = '',
+        fee = '',
+        date: dateStr = '',
+        nightFee = '',
+        weekendAllowance = '',
+        holidayAllowance = '',
+        nightAllowance = '',
+        distanceInKM = '',
+        feePerKM = '',
+        travelAllowance = '',
+        otherExpenses = '',
         workingProofRecieved = false,
         remarksCareGiver = "",
         remarksInternal = "",
@@ -1798,20 +1800,20 @@ const Appointment: FunctionComponent = (props: any) => {
 
       selectedCells.forEach(async (element: any) => {
         const {
-          firstName = "",
-          lastName = "",
-          email = "",
-          id: selectedCaregiverId = "",
-          dateString = "",
+          firstName = '',
+          lastName = '',
+          email = '',
+          id: selectedCaregiverId = '',
+          dateString = '',
           caregiver = undefined,
           item = undefined,
           qualificationIds = [],
         } = element ? element : {};
         const {
-          fee = "",
-          nightFee = "",
-          weekendAllowance = "",
-          holidayAllowance = "",
+          fee = '',
+          nightFee = '',
+          weekendAllowance = '',
+          holidayAllowance = '',
         } = getCareGiverAvabilityLastTimeById
           ? getCareGiverAvabilityLastTimeById
           : {};
@@ -1836,9 +1838,9 @@ const Appointment: FunctionComponent = (props: any) => {
             feePerKM,
             travelAllowance,
             otherExpenses,
-            f: f ? "available" : "default",
-            s: s ? "available" : "default",
-            n: n ? "available" : "default",
+            f: f ? 'available' : 'default',
+            s: s ? 'available' : 'default',
+            n: n ? 'available' : 'default',
           },
         };
         careGiverAvabilityInput = [...careGiverAvabilityInput, data];
@@ -1950,7 +1952,7 @@ const Appointment: FunctionComponent = (props: any) => {
             temp.forEach((d: any, index: number) => {
               let records = user.careinstitution_requirements
                 .filter((available: any) =>
-                  moment(d.dateString).isSame(moment(available.date), "day")
+                  moment(d.dateString).isSame(moment(available.date), 'day')
                 )
                 // To sort requirements by id
                 .sort((a: any, b: any) => b.id - a.id);
@@ -2023,8 +2025,9 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCells && selectedCells.length ? selectedCells[0] : {};
 
   const handleSelection = async (selectedCellsData: any, name: string) => {
-    setTimeSlotError("");
-    const { item = {}, dept = {}, id = "", dateString = "" } =
+    logger(selectedCellsData,'selectedCellsData',selectedCellsData ? selectedCellsData.length : 0)
+    setTimeSlotError('');
+    const { item = {}, dept = {}, id = '', dateString = '' } =
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
         ? selectedCellsData[0]
         : {};
@@ -2032,7 +2035,8 @@ const Appointment: FunctionComponent = (props: any) => {
     const checkCondition: boolean =
       item && item.appointments && item.appointments.length;
 
-    if (name === "caregiver") {
+      let appointmentsData: number[] = selectedCellsData.map((cell:any) => cell.item && cell.item.appointments && cell.item.appointments.length ? cell.item.appointments[0] : {}).filter(Boolean)
+    if (name === 'caregiver') {
       if (checkCondition) {
         let appointId: any = item.appointments.filter((appointment: any) => {
           return (
@@ -2041,37 +2045,26 @@ const Appointment: FunctionComponent = (props: any) => {
           );
         });
         if (
-          careInstitutionList &&
-          careInstitutionList.getUserByQualifications &&
+          careinstitutionList && 
+          careinstitutionList.length &&
+          // careInstitutionList.getUserByQualifications &&
           selectedCellsData &&
-          selectedCellsData.length <= 1
+          selectedCellsData.length
         ) {
-          const { getUserByQualifications } = careInstitutionList;
-          const { result } = getUserByQualifications;
-          await appointmentDataSort("careinstitution", result, appointId);
+          console.log('in offfffffff');
+          await getCorrespondingconnectedcell('careinstitution', careinstitutionList, appointmentsData);
         }
       }
       setSelectedCells(selectedCellsData);
     } else {
       setselectedCellsCareinstitution(selectedCellsData);
       if (checkCondition) {
-        let appointId: any = selectedCellsData[0].item.appointments.filter(
-          (appointment: any) => {
-            return (
-              moment(selectedCellsData[0].dateString).format("DD.MM.YYYY") ===
-              moment(appointment.date).format("DD.MM.YYYY")
-            );
-          }
-        );
         if (
-          careGiversList &&
-          careGiversList.getUserByQualifications &&
+          caregiversList && caregiversList.length &&
           selectedCellsData &&
-          selectedCellsData.length <= 1
+          selectedCellsData.length
         ) {
-          const { getUserByQualifications } = careGiversList;
-          const { result } = getUserByQualifications;
-          await appointmentDataSort("caregiver", result, appointId);
+          await getCorrespondingconnectedcell('caregiver', caregiversList, appointmentsData);
         }
       }
       // To default select department in case of selected solo careinstitution
@@ -2090,100 +2083,155 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  // Function to select appointment data
-  const appointmentDataSort = (name: string, result: any, appointId: any) => {
-    let temp: any,
-      availData: any = [],
-      stemp: any;
-    console.log("result", result);
-
-    if (result && result.length && appointId && appointId.length) {
-      result.map((list: any, index: number) => {
-        if (list.availabilityData && list.availabilityData.length) {
-          list.availabilityData.map((item: any, i: number) => {
-            console.log("item", item);
-
-            if (name === "careinstitution") {
-              temp = item.filter(
-                (avabilityData: any) =>
-                  appointId[0].requirementId === avabilityData.id
-              );
-            } else {
-              temp = item.filter(
-                (avabilityData: any) =>
-                  appointId[0].avabilityId === avabilityData.id
-              );
-            }
-
-            if (temp && temp.length) {
-              const {
-                id = "",
-                firstName = "",
-                lastName = "",
-                email = "",
-                caregiver = {},
-                qualificationId = [],
-              } = list ? list : {};
-              if (name === "careinstitution") {
-                let qualification1: IReactSelectInterface[] = [];
-                if (
-                  qualificationList &&
-                  qualificationList.length &&
-                  temp[0].qualificationId
-                ) {
-                  qualification1 = qualificationList.filter(({ value }: any) =>
-                    temp[0].qualificationId.includes(value)
-                  );
-                }
-                stemp = {
-                  ...temp[0],
-                  qualificationId: qualification1 ? qualification1 : [],
-                };
-              }
-
-              availData = [
-                {
-                  id,
-                  firstName,
-                  lastName,
-                  name,
-                  email,
-                  caregiver,
-                  canstitution,
-                  item: stemp ? stemp : temp[0],
-                  qualificationIds: qualificationId,
-                  dateString: temp[0]
-                    ? moment(temp[0].date).format(dbAcceptableFormat)
-                    : "",
-                },
-              ];
-            }
-          });
-        }
-      });
-
-      if (availData && availData.length) {
-        if (name === "careinstitution") {
-          setselectedCellsCareinstitution(availData);
+  // Function to get corresponding connected cell
+  const getCorrespondingconnectedcell = (name: string, result: any, appointmentsData: any) => {
+      let connectedCells: any[] = [];
+      result.forEach((element: any) => {
+        element.availabilityData.forEach((row: any) => {
+          console.log(row,'row');   
+          const {
+            id = '',
+            firstName = '',
+            lastName = '',
+            email = '',
+            caregiver = {},
+            canstitution = {},
+            qualificationId = [],
+          } = element ? element : {};
+          let filteredCells:any = row.filter(((availabilities:any) => availabilities.appointments && availabilities.appointments.length && appointmentsData.map((cell:any) => cell.id).includes(availabilities.appointments[0].id)))
+          // filteredCells.map((filteredCell:any) => ({ id,
+          //   firstName,
+          //   lastName,
+          //   email,
+          //   caregiver,
+          //   canstitution,
+          //   item:name === 'careinstitution' ? {...filteredCell, qualificationId:filteredCell.qualificationId ? qualificationList.filter(({ value }: any) =>
+          //   filteredCell.qualificationId.includes(value)) : qualificationList.filter(({ value }: any) =>
+          //   qualificationId.includes(value)
+          // )
+          // } : filteredCell}))
+          // console.log(filteredCells,'filteredCells');
+          
+      // temp.push({ ...element, new: item, row });
+      if (filteredCells) {
+        
+        connectedCells.push(...filteredCells.map((filteredCell:any) => ({ id,
+          firstName,
+          lastName,
+          email,
+          caregiver,
+          canstitution,
+          dateString: filteredCell && filteredCell.date 
+            ? moment(filteredCell.date).format(dbAcceptableFormat)
+            : '',
+          item:name === 'careinstitution' ? {...filteredCell, qualificationId:filteredCell.qualificationId ? qualificationList.filter(({ value }: any) =>
+          filteredCell.qualificationId.includes(value)) : qualificationList.filter(({ value }: any) =>
+          qualificationId.includes(value)
+        )
+        } : filteredCell}))) 
+      }
+    });
+  });
+      console.log(connectedCells,'listDatalistData');
+      if (connectedCells && connectedCells.length) {
+        if (name === 'careinstitution') {
+          setselectedCellsCareinstitution(connectedCells);
         } else {
-          setSelectedCells(availData);
+          setSelectedCells(connectedCells);
         }
       } else {
-        console.log("call api here");
-
         fetchAppointmentFilterById({
           variables: {
-            id:
-              name === "careinstitution"
-                ? parseInt(appointId[0].avabilityId)
-                : parseInt(appointId[0].requirementId),
-            searchIn: name === "careinstitution" ? "avability" : "requirement",
-          },
+            id: name === "careinstitution" ? parseInt(appointmentsData[0].avabilityId): parseInt(appointmentsData[0].requirementId),
+            searchIn: name === "careinstitution" ? "avability": "requirement"
+          }
         });
       }
-    } else {
-      return true;
-    }
+      
+    // if (result && result.length && appointmentsData && appointmentsData.length) {
+    //   result.forEach((list: any) => {
+    //     if (list.availabilityData && list.availabilityData.length) {
+    //       list.availabilityData.map((item: any, i: number) => {
+    //         console.log("item",item);
+            
+    //         if (name === "careinstitution") {
+    //           temp = item.filter(
+    //             (avabilityData: any) =>
+    //               appointmentsData[0].requirementId === avabilityData.id
+    //           );
+    //         } else {
+    //           temp = item.filter(
+    //             (avabilityData: any) =>
+    //               appointmentsData[0].avabilityId === avabilityData.id
+    //           );
+    //         }
+
+    //         if (temp && temp.length) {
+    //           const {
+    //             id = '',
+    //             firstName = '',
+    //             lastName = '',
+    //             email = '',
+    //             caregiver = {},
+    //             qualificationId = [],
+    //           } = list ? list : {};
+    //           if (name === 'careinstitution') {
+    //             let qualification1: IReactSelectInterface[] = [];
+    //             if (
+    //               qualificationList &&
+    //               qualificationList.length &&
+    //               temp[0].qualificationId
+    //             ) {
+    //               qualification1 = qualificationList.filter(({ value }: any) =>
+    //                 temp[0].qualificationId.includes(value)
+    //               );
+    //             }
+    //             stemp = {
+    //               ...temp[0],
+    //               qualificationId: qualification1 ? qualification1 : [],
+    //             };
+    //           }
+
+    //           availData = [
+    //             {
+    //               id,
+    //               firstName,
+    //               lastName,
+    //               name,
+    //               email,
+    //               caregiver,
+    //               canstitution,
+    //               item: stemp ? stemp : temp[0],
+    //               qualificationIds: qualificationId,
+    //               dateString: temp[0]
+    //                 ? moment(temp[0].date).format(dbAcceptableFormat)
+    //                 : '',
+    //             },
+    //           ];
+    //         }
+    //       });
+    //     }
+    //   });
+     
+    //   if (availData && availData.length) {
+    //     // if (name === 'careinstitution') {
+    //     //   setselectedCellsCareinstitution(availData);
+    //     // } else {
+    //     //   setSelectedCells(availData);
+    //     // }
+    //   }else{
+    //     console.log("call api here");
+        
+    //     fetchAppointmentFilterById({
+    //       variables: {
+    //         id: name === "careinstitution" ? parseInt(appointmentsData[0].avabilityId): parseInt(appointmentsData[0].requirementId),
+    //         searchIn: name === "careinstitution" ? "avability": "requirement"
+    //       }
+    //     });
+    //   }
+    // } else {
+    //   return true;
+    // }
   };
 
   const onhandleCaregiverStar = async (
@@ -2193,9 +2241,9 @@ const Appointment: FunctionComponent = (props: any) => {
   ) => {
     console.log(
       starMarkCaregiver,
-      "starMarkCaregiver",
+      'starMarkCaregiver',
       id,
-      "idddddddddddd",
+      'idddddddddddd',
       isNotExistInList
     );
 
@@ -2218,7 +2266,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       // handleSecondStar(list, name);
     } else {
-      console.log(caregiversList, "careGiversList on star");
+      console.log(caregiversList, 'careGiversList on star');
 
       if (
         caregiverSoloFilter &&
@@ -2231,7 +2279,7 @@ const Appointment: FunctionComponent = (props: any) => {
       }
       setstarCaregiver({
         isStar: false,
-        id: "",
+        id: '',
         isSecondStar,
       });
     }
@@ -2276,18 +2324,40 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // select solo user
   const handleUserList = (value: IReactSelectInterface, name: string) => {
-    if (name === "caregiver") {
+    if (name === 'caregiver') {
+      if(value === null && caregiverSoloFilter && caregiverSoloFilter.value){
+        setstarCaregiver({
+          isStar: false,
+          id: "",
+          isSecondStar:false,
+        });
+       getCaregiverData(1)
+      }
       setcaregiverSoloFilter(value);
     } else {
       // To reset the page again to 1
       setcareInstitutionPage(1);
+      if(value === null && careinstitutionSoloFilter && careinstitutionSoloFilter.value){
+        setstarCanstitution({
+          isStar: false,
+          setIndex: -1,
+          id: '',
+        });
+        setsecondStarCanstitution({
+          isStar: false,
+          setIndex: -1,
+          id: '',
+        });
+        getCareInstituionData()
+      }
       setcareinstitutionSoloFilter(value);
+      console.log("value",value);
     }
   };
 
   //To set locationstate data into filter
   useEffect(() => {
-    if (locationState && locationState.caregiver && action === "PUSH") {
+    if (locationState && locationState.caregiver && action === 'PUSH') {
       setcaregiverSoloFilter({
         label: locationState.name,
         value: locationState.caregiver,
@@ -2295,7 +2365,7 @@ const Appointment: FunctionComponent = (props: any) => {
     } else if (
       locationState &&
       locationState.canstitution &&
-      action === "PUSH"
+      action === 'PUSH'
     ) {
       setcareinstitutionSoloFilter({
         label: locationState.name,
@@ -2591,8 +2661,8 @@ const Appointment: FunctionComponent = (props: any) => {
                   : values && values.qualificationId
                   ? values.qualificationId
                   : [],
-              address: departmentData ? departmentData.address : "",
-              contactPerson: departmentData ? departmentData.contactPerson : "",
+              address: departmentData ? departmentData.address : '',
+              contactPerson: departmentData ? departmentData.contactPerson : '',
               departmentOfferRemarks: departmentData
                 ? departmentData.commentsOffer
                 : "",
@@ -2614,7 +2684,7 @@ const Appointment: FunctionComponent = (props: any) => {
             },
           },
         ];
-        console.log(data, temp, "in dept use effect");
+        console.log(data, temp, 'in dept use effect');
 
         if (
           selectedCellsCareinstitution &&
@@ -3055,8 +3125,8 @@ const Appointment: FunctionComponent = (props: any) => {
     if (!starCanstitution.isStar) {
       if (index < 0) {
         setcareinstitutionSoloFilter({
-          label: list ? list.id : "",
-          value: list ? list.id : "",
+          label: list ? list.id : '',
+          value: list ? list.id : '',
         });
       }
       setstarCanstitution({
@@ -3171,9 +3241,9 @@ const Appointment: FunctionComponent = (props: any) => {
       selectedCells.length &&
       selectedCells[0] &&
       selectedCells[0].item
-        ? selectedCells[0].item.f === "block" ||
-          selectedCells[0].item.s === "block" ||
-          selectedCells[0].item.n === "block"
+        ? selectedCells[0].item.f === 'block' ||
+          selectedCells[0].item.s === 'block' ||
+          selectedCells[0].item.n === 'block'
         : false;
 
     let isWorkProofStatus: boolean =
@@ -3183,23 +3253,23 @@ const Appointment: FunctionComponent = (props: any) => {
     try {
       // To ignore availabilities in case of block appointment
       if (
-        workingHoursFromErrMsg === "" &&
-        workingHoursToErrMsg === "" &&
-        breakHoursFromErrMsg === "" &&
-        breakHoursToErrMsg === ""
+        workingHoursFromErrMsg === '' &&
+        workingHoursToErrMsg === '' &&
+        breakHoursFromErrMsg === '' &&
+        breakHoursToErrMsg === ''
       ) {
         if (f || s || n || isBlockeddate) {
-          setTimeSlotError("");
+          setTimeSlotError('');
           if (selectedCells && selectedCells.length) {
             const {
-              id: ID = "",
-              firstName = "",
-              lastName = "",
-              email = "",
+              id: ID = '',
+              firstName = '',
+              lastName = '',
+              email = '',
               caregiver: caregiverData = {},
-              dateString: dateData = "",
-              item: Item = "",
-              qualificationIds = "",
+              dateString: dateData = '',
+              item: Item = '',
+              qualificationIds = '',
             } =
               selectedCells && selectedCells.length && selectedCells[0]
                 ? selectedCells[0]
@@ -3219,22 +3289,22 @@ const Appointment: FunctionComponent = (props: any) => {
                   appointmentId,
                   name,
                   date: dateData,
-                  fee: fee ? parseFloat(fee.replace(/,/g, ".")) : null,
+                  fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
                   nightFee: nightFee
-                    ? parseFloat(nightFee.replace(/,/g, "."))
+                    ? parseFloat(nightFee.replace(/,/g, '.'))
                     : null,
                   weekendAllowance: weekendAllowance
-                    ? parseFloat(weekendAllowance.replace(/,/g, "."))
+                    ? parseFloat(weekendAllowance.replace(/,/g, '.'))
                     : null,
                   holidayAllowance: holidayAllowance
-                    ? parseFloat(holidayAllowance.replace(/,/g, "."))
+                    ? parseFloat(holidayAllowance.replace(/,/g, '.'))
                     : null,
                   distanceInKM,
                   feePerKM,
                   lastName,
-                  f: f ? "available" : isBlockeddate ? "block" : "default",
-                  n: n ? "available" : isBlockeddate ? "block" : "default",
-                  s: s ? "available" : isBlockeddate ? "block" : "default",
+                  f: f ? 'available' : isBlockeddate ? 'block' : 'default',
+                  n: n ? 'available' : isBlockeddate ? 'block' : 'default',
+                  s: s ? 'available' : isBlockeddate ? 'block' : 'default',
                   nightAllowance:
                     nightAllowance && nightAllowance.value
                       ? nightAllowance.value
@@ -3252,20 +3322,20 @@ const Appointment: FunctionComponent = (props: any) => {
             let careGiverAvabilityInput: any[] = [];
             // To add mulitple availabilty
             selectedCells.forEach(async (element: any) => {
-              const { id = "", dateString = "" } = element ? element : {};
+              const { id = '', dateString = '' } = element ? element : {};
               let temp: any = {
-                userId: id ? parseInt(id) : "",
+                userId: id ? parseInt(id) : '',
                 date: dateString,
                 name,
-                fee: fee ? parseFloat(fee.replace(/,/g, ".")) : null,
+                fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
                 weekendAllowance: weekendAllowance
-                  ? parseFloat(weekendAllowance.replace(/,/g, "."))
+                  ? parseFloat(weekendAllowance.replace(/,/g, '.'))
                   : null,
                 holidayAllowance: holidayAllowance
-                  ? parseFloat(holidayAllowance.replace(/,/g, "."))
+                  ? parseFloat(holidayAllowance.replace(/,/g, '.'))
                   : null,
                 nightFee: nightFee
-                  ? parseFloat(nightFee.replace(/,/g, "."))
+                  ? parseFloat(nightFee.replace(/,/g, '.'))
                   : null,
                 nightAllowance:
                   nightAllowance && nightAllowance.value
@@ -3280,24 +3350,34 @@ const Appointment: FunctionComponent = (props: any) => {
                 otherExpenses: otherExpenses ? parseFloat(otherExpenses) : null,
                 remarksCareGiver: remarksCareGiver ? remarksCareGiver : null,
                 remarksInternal: remarksInternal ? remarksInternal : null,
-                f: f ? "available" : isBlockeddate ? "block" : "default",
-                s: s ? "available" : isBlockeddate ? "block" : "default",
-                n: n ? "available" : isBlockeddate ? "block" : "default",
+                f: f ? 'available' : isBlockeddate ? 'block' : 'default',
+                s: s ? 'available' : isBlockeddate ? 'block' : 'default',
+                n: n ? 'available' : isBlockeddate ? 'block' : 'default',
                 status: isWorkProofStatus
-                  ? "timeSheetUpdated"
+                  ? 'timeSheetUpdated'
                   : status
                   ? status
-                  : "default",
+                  : 'default',
                 workingHoursFrom: workingHoursFromDate
-                  ? `${workingHoursFromDate},${workingHoursFromTime}`
+                  ? `${moment(workingHoursFromDate).format(
+                      dbAcceptableFormat
+                    )},${workingHoursFromTime}`
                   : null,
                 workingHoursTo: workingHoursToDate
-                  ? `${workingHoursToDate},${workingHoursToTime}`
+                  ? `${moment(workingHoursToDate).format(
+                      dbAcceptableFormat
+                    )},${workingHoursToTime}`
                   : null,
                 breakFrom: breakFromDate
-                  ? `${breakFromDate},${breakFromTime}`
+                  ? `${moment(breakFromDate).format(
+                      dbAcceptableFormat
+                    )},${breakFromTime}`
                   : null,
-                breakTo: breakToDate ? `${breakToDate},${breakToTime}` : null,
+                breakTo: breakToDate
+                  ? `${moment(breakToDate).format(
+                      dbAcceptableFormat
+                    )},${breakToTime}`
+                  : null,
               };
               careGiverAvabilityInput = [...careGiverAvabilityInput, temp];
               if (appointmentId) {
@@ -3310,7 +3390,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 if (!toast.isActive(toastId)) {
                   toastId = toast.success(
                     languageTranslation(
-                      "CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG"
+                      'CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG'
                     )
                   );
                 }
@@ -3335,13 +3415,13 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         } else {
-          setTimeSlotError(languageTranslation("WORKING_SHIFT_ERROR"));
+          setTimeSlotError(languageTranslation('WORKING_SHIFT_ERROR'));
           return;
         }
       }
     } catch (error) {
       const message = errorFormatter(error);
-      console.log(message, "message");
+      console.log(message, 'message');
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
@@ -3552,7 +3632,7 @@ const Appointment: FunctionComponent = (props: any) => {
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation(
-                "CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG"
+                'CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG'
               )
             );
           }
@@ -3650,24 +3730,24 @@ const Appointment: FunctionComponent = (props: any) => {
               id: availabilityId,
               careGiverAvabilityInput: {
                 ...item,
-                f: "block",
-                s: "block",
-                n: "block",
+                f: 'block',
+                s: 'block',
+                n: 'block',
               },
             },
           });
           toast.dismiss();
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
-              languageTranslation("CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG")
+              languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG')
             );
           }
         } else {
           careGiverAvabilityInput.push({
-            userId: id ? parseInt(id) : "",
+            userId: id ? parseInt(id) : '',
             date: dateString
               ? moment(dateString).format(dbAcceptableFormat)
-              : "",
+              : '',
             fee: null,
             weekendAllowance: null,
             holidayAllowance: null,
@@ -3680,10 +3760,10 @@ const Appointment: FunctionComponent = (props: any) => {
             otherExpenses: null,
             remarksCareGiver: null,
             remarksInternal: null,
-            f: "block",
-            s: "block",
-            n: "block",
-            status: "default",
+            f: 'block',
+            s: 'block',
+            n: 'block',
+            status: 'default',
           });
         }
       });
@@ -3808,7 +3888,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 ),
         });
         if (value) {
-          if (userRole === "caregiver") {
+          if (userRole === 'caregiver') {
             await deleteCaregiverAvailability({
               variables: {
                 id: reservedEntries.map((element: any) =>
@@ -4046,7 +4126,6 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
-  console.log("selectedCellsCareinstitution", selectedCellsCareinstitution);
 
   let street: string = canstitution && canstitution.street;
   let departmentData: any = Item ? Item.department : undefined;
@@ -4439,7 +4518,7 @@ const Appointment: FunctionComponent = (props: any) => {
       });
     }
   };
-
+  
   const isUnLinkable: boolean =
     item &&
     item.appointments &&
@@ -4472,10 +4551,14 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution &&
     selectedCellsCareinstitution.length &&
     selectedCells &&
-    selectedCells.length
+    selectedCells.length &&
+    item &&
+    item.id &&
+    Item &&
+    Item.id
   ) {
     selectedCells.filter((x: any) => {
-      if (x.item && x.item.id) {
+      if (x.item && x.item.id ) {
         if (
           x.item.f !== "block" ||
           x.item.s !== "block" ||
@@ -4506,6 +4589,8 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       }
     });
+  }else{
+    isLinkable = false;
   }
 
   // Date condition for save both button
@@ -4647,8 +4732,11 @@ const Appointment: FunctionComponent = (props: any) => {
 
   return (
     <>
-      <div className="common-detail-page">
-        <div className="common-detail-section">
+      <Helmet>
+               <title>{languageTranslation("APPOINTMENT")} </title>
+            </Helmet>
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
           <AppointmentNav
             handlePrevious={handlePrevious}
             handleNext={handleNext}
@@ -4825,8 +4913,9 @@ const Appointment: FunctionComponent = (props: any) => {
                               setbreakHoursFromErrMsg={setbreakHoursFromErrMsg}
                               breakHoursFromErrMsg={breakHoursFromErrMsg}
                               starCaregiver={starCaregiver}
-                              idSearchAppointmentLoading={
-                                idSearchAppointmentLoading
+                              idSearchAppointmentLoading={idSearchAppointmentLoading}
+                              selectedCellsCareinstitution={
+                                selectedCellsCareinstitution
                               }
                             />
                           );
@@ -4907,9 +4996,8 @@ const Appointment: FunctionComponent = (props: any) => {
                                 handleFirstStarCanstitution
                               }
                               starCanstitution={starCanstitution}
-                              idSearchAppointmentLoading={
-                                idSearchAppointmentLoading
-                              }
+                              idSearchAppointmentLoading={idSearchAppointmentLoading}
+                              selectedCells={selectedCells}
                             />
                           );
                         }}
@@ -4939,7 +5027,7 @@ const Appointment: FunctionComponent = (props: any) => {
                           className="btn-common mt-0 mb-2 mx-2"
                           color="secondary"
                           disabled={
-                            isUnLinkable ? false : isLinkable ? false : true
+                            isUnLinkable ? false :  isLinkable ? false : true
                           }
                           onClick={() =>
                             isUnLinkable ? handleUnlinkBoth() : handleLinkBoth()

@@ -115,7 +115,7 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
     });
     const { getCareInstitutions } = data;
     const { careInstitutionData, totalCount } = getCareInstitutions;
-    if (careInstitutionData && careInstitutionData.length) {
+    
     //   careInstitutionOptions.push({
     //     label: languageTranslation("SHORT_NAME"),
     //     value: languageTranslation("ID"),
@@ -147,7 +147,7 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
             : "",
           companyName,
         });
-        return true;
+        // return true;
       });
       if (totalCount > ASYNC_LIST_LIMIT) {
         careInstitutionOptions.push({
@@ -158,8 +158,6 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
         });
       }
       return callback(options);
-    }
-    console.log(data, formattedOPtions(data), "resssss");
   };
 
   let getOptions = (inputValue: any, callback: any) => {

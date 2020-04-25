@@ -36,13 +36,16 @@ import {
   TimeMask,
 } from "../../../../../config";
 import "../index.scss";
-import { LeasingContractQueries } from "../../../../../graphql/queries";
+import {
+  LeasingContractQueries,
+  AppointmentsQueries,
+} from "../../../../../graphql/queries";
 import { useLazyQuery } from "@apollo/react-hooks";
 import MaskedInput from "react-text-mask";
 import Loader from "../../../containers/Loader/Loader";
 
 const [GET_LEASING_CONTRACT] = LeasingContractQueries;
-
+const [, , , , , , , GET_CONTRACT_BY_APPOINTMENT_ID] = AppointmentsQueries;
 const CaregiverFormView: FunctionComponent<
   FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 > = (
@@ -53,7 +56,10 @@ const CaregiverFormView: FunctionComponent<
   const [getLeasingContractPDF, { data: pdfData, loading }] = useLazyQuery<any>(
     GET_LEASING_CONTRACT
   );
-
+  // query to get contract pdf
+  const [getContractPDF, { data: contractData }] = useLazyQuery<any>(
+    GET_CONTRACT_BY_APPOINTMENT_ID
+  );
   //For saving both
   useEffect(() => {
     if (props.savingBoth) {
@@ -128,6 +134,7 @@ const CaregiverFormView: FunctionComponent<
     breakHoursFromErrMsg,
     starCaregiver,
     idSearchAppointmentLoading,
+    selectedCellsCareinstitution,
   } = props;
 
   let dateData =
@@ -162,7 +169,9 @@ const CaregiverFormView: FunctionComponent<
         name
       );
       if (!validate) {
-        setworkingHoursFromErrMsg("Enter Valid Date");
+        setworkingHoursFromErrMsg(
+          languageTranslation("DATE_VALIDATION_MESSAGE")
+        );
       } else {
         let validDateData = dateValidatorNorm(workingHoursFromDate);
         if (!validDateData.isValid) {
@@ -179,7 +188,7 @@ const CaregiverFormView: FunctionComponent<
         name
       );
       if (!validate) {
-        setworkingHoursToErrMsg("Enter Valid Date");
+        setworkingHoursToErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(workingHoursToDate);
         if (!validDateData.isValid) {
@@ -190,9 +199,8 @@ const CaregiverFormView: FunctionComponent<
       }
     } else if (name === "breakFromDate") {
       validate = dateDiffernceValidator(dateData, current, breakFromDate, name);
-      console.log("dateFromdateFrom", validate);
       if (!validate) {
-        setbreakHoursFromErrMsg("Enter Valid Break Start Date");
+        setbreakHoursFromErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(breakFromDate);
         if (!validDateData.isValid) {
@@ -208,9 +216,8 @@ const CaregiverFormView: FunctionComponent<
         breakToDate,
         name
       );
-      console.log("dateFromdateFrom", validate);
       if (!validate) {
-        setbreakHoursToErrMsg("Enter Valid Break End Date");
+        setbreakHoursToErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(breakToDate);
         if (!validDateData.isValid) {
@@ -222,6 +229,7 @@ const CaregiverFormView: FunctionComponent<
     }
   };
   let isLeasingAppointment = false;
+  let isAppointment = false;
   // To check appointment with leasing careInst or not
   if (selectedCells && selectedCells.length) {
     isLeasingAppointment = selectedCells.filter(
@@ -235,6 +243,13 @@ const CaregiverFormView: FunctionComponent<
     ).length
       ? true
       : false;
+    isAppointment = selectedCells.filter(
+      (cell: any) =>
+        cell && cell.item && cell.item.appointments && cell.item.appointments
+    ).length
+      ? true
+      : false;
+    console.log("isAppointment", isAppointment);
   }
   useEffect(() => {
     if (isLeasingAppointment) {
@@ -252,6 +267,24 @@ const CaregiverFormView: FunctionComponent<
           documentUploadType: "leasingContract",
         },
       });
+    }
+    if (isAppointment) {
+      console.log("inside pdf form");
+
+      // To get signed contract in case of booked appointment
+      const { item = {} } = selectedCells[0] ? selectedCells[0] : {};
+      const { appointments = [] } = item ? item : {};
+      const { id: appointmentId = "" } =
+        appointments && appointments.length && appointments[0]
+          ? appointments[0]
+          : {};
+      getContractPDF({
+        variables: {
+          appointmentId: appointmentId,
+          // appointments && appointments[0] ? appointments[0].id : null,
+        },
+      });
+      console.log("contractData@@@@@@@@@@@@@@@@@", contractData);
     }
   }, [selectedCells]);
 
@@ -355,6 +388,30 @@ const CaregiverFormView: FunctionComponent<
   const { document = "" } =
     pdfDetails && pdfDetails.length ? pdfDetails[0] : {};
 
+  // signed self employmentt contract
+  const { getContractByAppointmentID = [] } = contractData ? contractData : {};
+  const { user_document = {} } =
+    getContractByAppointmentID && getContractByAppointmentID.length
+      ? getContractByAppointmentID[0]
+      : [];
+  const { document: selfEmploymentcontract = "" } = user_document
+    ? user_document
+    : {};
+  console.log("selfEmploymentcontract", selfEmploymentcontract);
+
+  let isCorrespondingAppointment: boolean = false;
+  if (
+    selectedCells &&
+    selectedCells.length &&
+    selectedCells[0] &&
+    selectedCells[0].item &&
+    selectedCells[0].item.appointments &&
+    selectedCells[0].item.appointments.length
+  ) {
+    if (selectedCells[0].item.appointments[0].avabilityId === appointmentId) {
+      isCorrespondingAppointment = true;
+    }
+  }
   return (
     <>
       <div className="form-section">
@@ -375,7 +432,7 @@ const CaregiverFormView: FunctionComponent<
           <h5 className="content-title">
             {languageTranslation("MENU_CAREGIVER")}
           </h5>
-          {idSearchAppointmentLoading ? (
+          {idSearchAppointmentLoading && !isCorrespondingAppointment ? (
             <div className="appointment-form-loader">
               <Loader />
             </div>
@@ -1345,9 +1402,24 @@ const CaregiverFormView: FunctionComponent<
                         </div>
                       </FormGroup>
                     </div>
+                    {console.log(
+                      "${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}",
+                      `${AppConfig.FILES_ENDPOINT}/${selfEmploymentcontract}`
+                    )}
                     {document ? (
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${document}`}
+                        target={"_blank"}
+                        className="view-more-link text-underline"
+                      >
+                        <i className="fa fa-file-o mr-2" />
+                        {languageTranslation("CONTRACT")}
+                      </a>
+                    ) : getContractByAppointmentID &&
+                      getContractByAppointmentID.length &&
+                      selfEmploymentcontract ? (
+                      <a
+                        href={`${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}`}
                         target={"_blank"}
                         className="view-more-link text-underline"
                       >

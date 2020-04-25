@@ -141,7 +141,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     if (selectedCellsData && selectedCellsData.length) {
       selectedRows = selectedCellsData.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
-        const { item, list: caregiverData, day } = cellProps;
+        const { item, list: caregiverData, cellIndex, day } = cellProps;
         const {
           id = "",
           firstName = "",
@@ -159,6 +159,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : "",
+          cellIndex,
         };
       });
       // setSelect({id:12})
@@ -488,14 +489,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     starCaregiver.isStar || starCaregiver.isSecondStar
       ? careGiversList.filter((cg: any) => cg.id === starCaregiver.id)
       : careGiversList;
-  // ? careInstitutionList
-  // : secondStarCanstitution.isStar
-  // ? careInstituionDeptData && careInstituionDeptData.length
-  //   ? careInstituionDeptData.filter(
-  //       (dept: any) => dept.id === secondStarCanstitution.id
-  //     )
-  //   : []
-  // : careInstituionDeptData;
   let temp: any[] = [];
   listData.forEach((element: any) => {
     element.availabilityData.forEach((item: any, row: number) => {
@@ -559,17 +552,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   //     />
   //     </Suspense>
   // }
-  // if (showList) {
-  //   const DetaillistCaregiverPopup= lazy(() => import('../DetailedList/DetailListCaregiver'));
-  //   return <Suspense fallback={null}>
-  //     <DetaillistCaregiverPopup
-  //       show={showList ? true : false}
-  //       handleClose={() => setShowList(false)}
-  //       selectedCells={selectedCells}
-  //       qualificationList={qualificationList}
-  //     />
-  //   </Suspense>
-  // }
+  const renderDetailedList = () => {
+    if (showList) {
+      const DetaillistCaregiverPopup = lazy(() =>
+        import("../DetailedList/DetailListCaregiver")
+      );
+      return (
+        <Suspense fallback={null}>
+          <DetaillistCaregiverPopup
+            show={showList ? true : false}
+            handleClose={() => setShowList(false)}
+            selectedCells={selectedCells}
+            qualificationList={qualificationList}
+          />
+        </Suspense>
+      );
+    }
+  };
   // if (showUnlinkModal) {
   //   const UnlinkAppointment= lazy(() => import('../unlinkModal'));
   //   return <Suspense fallback={null}>
@@ -580,6 +579,33 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   //     />
   //   </Suspense>
   // }
+
+  console.log(selectedCells, "selectedCells");
+
+  let selectedcareInstApptId: number[] = [];
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    selectedcareInstApptId = selectedCellsCareinstitution
+      .map((cell: any) =>
+        cell.item && cell.item.appointments && cell.item.appointments.length
+          ? cell.item.appointments[0].id
+          : 0
+      )
+      .filter(Boolean);
+  }
+  let selectedcareGiverApptId: number[] = [];
+  let selectedcareGiverIndexes: number[] = [];
+  if (selectedCells && selectedCells.length) {
+    selectedcareGiverApptId = selectedCells
+      .map((cell: any) =>
+        cell.item && cell.item.appointments && cell.item.appointments.length
+          ? cell.item.appointments[0].id
+          : 0
+      )
+      .filter(Boolean);
+    selectedcareGiverIndexes = selectedCells.map((cell: any) => cell.cellIndex);
+  }
+
+  console.log(selectedcareInstApptId, selectedcareGiverApptId, "appt ids");
 
   return (
     <div>
@@ -999,6 +1025,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                               const list = temp[index] || {};
                               let item = list.new;
                               let row = list.row;
+                              let cellIndex = `${list.id}-${index}-${row}-${key}`;
                               let uIndex: number = careGiversList.findIndex(
                                 (item: any) => item.id === list.id
                               );
@@ -1099,6 +1126,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     return (
                                       <Cell
                                         key={`${key}-${i}`}
+                                        cellIndex={`${cellIndex}-${i}`}
                                         daysArr={key.isWeekend}
                                         day={key}
                                         list={list}
@@ -1116,9 +1144,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                           })[0]
                                         }
                                         handleSelection={handleSelection}
-                                        selectedCells={selectedCells}
-                                        selectedCellsCareinstitution={
-                                          selectedCellsCareinstitution
+                                        selectedcareInstApptId={
+                                          selectedcareInstApptId
+                                        }
+                                        selectedcareGiverApptId={
+                                          selectedcareGiverApptId
+                                        }
+                                        selectedcareGiverIndexes={
+                                          selectedcareGiverIndexes
                                         }
                                       />
                                     );
@@ -1185,12 +1218,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
       />
-      <DetaillistCaregiverPopup
-        show={showList ? true : false}
-        handleClose={() => setShowList(false)}
-        selectedCells={selectedCells}
-        qualificationList={qualificationList}
-      />
+      {renderDetailedList()}
       <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}

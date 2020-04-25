@@ -1,20 +1,15 @@
 import React, { useState, FunctionComponent, useEffect } from "react";
 import {
-  Button,
-  Table,
   Form,
   FormGroup,
   Input,
   Label,
   Row,
   Col,
-  UncontrolledTooltip,
 } from "reactstrap";
 import { languageTranslation, errorFormatter } from "../../../../../helpers";
-
 import { RouteComponentProps, useLocation } from "react-router";
 import "../index.scss";
-import "react-day-picker/lib/style.css";
 import {
   CareInstInActiveAttrId,
   deactivatedListColor,
@@ -102,11 +97,20 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   ] = useState<IReactSelectInterface[] | undefined>([]);
 
   //
-  const [CreateInvoice] = useMutation<
+  const [CreateInvoice,{loading: createInvoiceLoading}] = useMutation<
     {
       invoiceInput: any;
     }
-  >(CREATE_INVOICE);
+  >(CREATE_INVOICE, {
+    onCompleted(){
+      toast.dismiss();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('CREATE_INVOICE_SUCCESS')
+        );
+      }
+    }
+  });
 
 
   // Default value is start & end of month
@@ -400,50 +404,100 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   const handleCreateInvoice = async () => {
     console.log("in handle Selected Invoice Created Data", selectedAppointment)
-    let singleCareGiverData: any[] = [], selectedAppointmentId: any[] = [], singleCareInstData: any[] = [], amount: number = 0, subTotal: number = 0
-
+    let singleCareGiverData: any[] = [], selectedAppointmentId: any[] = [], singleCareInstData: any[] = [], amount: number = 0, subTotal: number = 0;
+    // all selected caregivers id
+    let selectedCareGiverId: string[] = selectedAppointment.map((appointment: any) => appointment.ca && appointment.ca.userId ? appointment.ca.userId : '').filter(Boolean)
+    // all selected care institutions id    
+    let selectedCareInstId: string[] = selectedAppointment.map((appointment: any) => appointment.cr && appointment.cr.userId ? appointment.cr.userId : '').filter(Boolean)
     try {
-      if (selectedAppointment && selectedAppointment.length) {
-        selectedAppointment.forEach((appointmentData: any) => {
-          console.log("????????????", appointmentData);
-          if (appointmentData.ca && appointmentData.cr) {
-            singleCareGiverData.push(appointmentData.ca.userId)
-            singleCareInstData.push(appointmentData.cr.userId)
-            selectedAppointmentId.push(appointmentData.id)
-            console.log("+++++++++++++++singleCareGiverData", singleCareGiverData[singleCareGiverData.length - 1]);
-            if (singleCareGiverData[singleCareGiverData.length - 1] !== appointmentData.ca.userId) {
-              console.log("MMMMMMMMMMMMMMM");
-            } else {
-              console.log("*****************In else condition");
-              subTotal += appointmentData.ca && appointmentData.ca.fee ? (appointmentData.ca.fee * 100) : 0
-            }
-          } else {
-            const message = errorFormatter("Selected appointment don't have care giver");
-            if (!toast.isActive(toastId)) {
-              toastId = toast.warn(message)
-            }
-          }
-        });
-        console.log("*****************subTotal", subTotal * 0.19);
-        const totalAmount: any = (subTotal) + (subTotal * 0.19)
-        settotalAmount(totalAmount)
-        const invoiceInput: any = {
-          caregiverId: singleCareGiverData[singleCareGiverData.length - 1],
-          careInstitutionId: singleCareInstData[singleCareInstData.length - 1],
-          appointmentIds: selectedAppointmentId,
-          status: "unpaid",
-          subTotal: `${subTotal}`,
-          amount: `${totalAmount}`,
-          tax: `${subTotal * 0.19}`,
-          careInstitutionName: "Gunjali9989",
-          careGiverName: "aayushi",
-          invoiceType: "selfEmployeed"
+      // To check appointment is bettween the same caregiver or careinstitution or not
+      let isInvoiceComaptible: boolean = selectedCareGiverId.length && selectedCareInstId.length && selectedCareGiverId.length === selectedCareInstId.length && selectedCareGiverId.every((val: string, i: number, arr: string[]) => val === arr[0]) && selectedCareInstId.every((val: string, i: number, arr: string[]) => val === arr[0]) ? true : false;
+      if (!isInvoiceComaptible) {
+        if (!toast.isActive(toastId)) {
+          toastId = toast.warn("You can't create invoice with the selected appointment because of mismatch beetween caregiver & care-institutions")
         }
-        await CreateInvoice({
-          variables: {
-            invoiceInput: invoiceInput
-          },
-        });
+        return
+      } else {
+        if (selectedAppointment && selectedAppointment.length) {
+          selectedAppointment.forEach((appointmentData: any) => {
+            console.log("????????????", appointmentData);
+            if (appointmentData.ca && appointmentData.cr) {
+              singleCareGiverData.push(appointmentData.ca.userId)
+              console.log(">>>>>>>>>>>>>");
+
+              singleCareInstData.push(appointmentData.cr.userId)
+              selectedAppointmentId.push(appointmentData.id)
+
+              let workBegain: any, workEnd: any
+              if (appointmentData && appointmentData.ca && appointmentData.ca.workingHoursFrom) {
+                workBegain = appointmentData.ca.workingHoursFrom.split(",")
+                workEnd = appointmentData.ca.workingHoursTo.split(",")
+              }
+              //Combime date and time 
+              let initialdate = workBegain && workBegain.length ? workBegain[0] : null;
+              let start_time = workBegain && workBegain.length ? workBegain[1] : null;
+              let enddate = workEnd && workEnd.length ? workEnd[0] : null;
+              let end_time = workEnd && workEnd.length ? workEnd[1] : null;
+              console.log(initialdate, 'initialdate', start_time, moment(`${initialdate} ${start_time}`, `${dbAcceptableFormat} HH:mm`).format());
+
+              let datetimeA: any = initialdate ? moment(`${initialdate} ${start_time}`, `${dbAcceptableFormat} HH:mm`).format() : "";
+              let datetimeB: any = enddate ? moment(`${enddate} ${end_time}`, `${dbAcceptableFormat} HH:mm`).format() : null;
+
+              // let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
+              // let hours = duration ? duration.asHours() : null;
+              let diffDate: any = (new Date(datetimeB).getTime() - new Date(datetimeA).getTime()) / (3600 * 1000)
+
+              //Show Weekend day
+              const dayData = new Date(appointmentData.date).getDay()
+              let isWeekendDay: boolean = (dayData === 6) || (dayData === 0) ? true : false
+              let hasHoliday: any
+              if (careGiverHolidays && careGiverHolidays.length) {
+                hasHoliday = careGiverHolidays.filter((data: any) => data.date === appointmentData.date)
+              }
+              let weekendRate: any = appointmentData.ca.weekendAllowance ? appointmentData.ca.weekendAllowance : 0
+              let holidayRate: any = appointmentData.ca.holidayAllowance ? appointmentData.ca.holidayAllowance : 0
+              let nightRate: any = appointmentData.ca.nightFee ? appointmentData.ca.nightFee : 0
+              let fees: any = (appointmentData.ca.fee * 100)
+              let transportation: any = (appointmentData.ca.distanceInKM ? appointmentData.ca.distanceInKM : 0 * appointmentData.ca.feePerKM ? appointmentData.ca.feePerKM : 0)
+              let hours: any = (appointmentData.ca.workingHoursFrom ? parseFloat(diffDate).toFixed(2) : 0)
+              let expenses = (appointmentData.ca && appointmentData.ca.otherExpenses ? appointmentData.ca.otherExpenses : 0)
+              if (isWeekendDay && hasHoliday && hasHoliday.length) {
+                if (weekendRate > holidayRate) {
+                  subTotal = ((((fees + weekendRate) * hours) + transportation + expenses))
+                } else if (holidayRate > weekendRate) {
+                  subTotal = ((((fees + holidayRate) * hours) + transportation + expenses))
+                }
+              } else {
+                subTotal += (((fees * hours) + transportation + expenses))
+              }
+            } else {
+              const message = errorFormatter("Selected appointment don't have care giver");
+              if (!toast.isActive(toastId)) {
+                toastId = toast.warn(message)
+              }
+            }
+          });
+          console.log("*****************subTotal", subTotal * 0.19);
+          const totalAmount: any = (subTotal) + (subTotal * 0.19)
+          settotalAmount(totalAmount)
+          const invoiceInput: any = {
+            caregiverId: singleCareGiverData[singleCareGiverData.length - 1],
+            careInstitutionId: singleCareInstData[singleCareInstData.length - 1],
+            appointmentIds: selectedAppointmentId,
+            status: "unpaid",
+            subTotal: `${subTotal}`,
+            amount: `${totalAmount}`,
+            tax: `${subTotal * 0.19}`,
+            careInstitutionName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].cr ? selectedAppointment[0].cr.name : "",
+            careGiverName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].ca ? selectedAppointment[0].ca.name : "",
+            invoiceType: "selfEmployeed"
+          }
+          await CreateInvoice({
+            variables: {
+              invoiceInput: invoiceInput
+            },
+          });
+        }
       }
     } catch (error) {
       const message = errorFormatter(error);
@@ -469,6 +523,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             handleArrowDayChange={handleArrowDayChange}
             dateFilter={dateFilter}
             handleCreateInvoice={() => handleCreateInvoice()}
+            createInvoiceLoading={createInvoiceLoading}
           />
 
           <div className="common-content flex-grow-1">

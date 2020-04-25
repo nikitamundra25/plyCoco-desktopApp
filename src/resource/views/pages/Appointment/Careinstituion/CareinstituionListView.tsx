@@ -99,7 +99,7 @@ const CarinstituionListView: FunctionComponent<
     if (selectedCells && selectedCells.length) {
       selectedRows = selectedCells.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
-        const { item, list: careInstData, day } = cellProps;
+        const { item, list: careInstData, cellIndex, day } = cellProps;
         const {
           userId = "",
           id = "",
@@ -156,6 +156,7 @@ const CarinstituionListView: FunctionComponent<
             canstitution && canstitution.attributes
               ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
               : false,
+          cellIndex,
         };
       });
       handleSelection(selectedRows, "careinstitution");
@@ -368,7 +369,7 @@ const CarinstituionListView: FunctionComponent<
     getMoreCareInstituionList(careInstitutionList.length);
   };
 
-  const renderTableRows = (list: any, index: any, style: any) => {
+  const renderTableRows = (list: any, index: any, style: any, key: string) => {
     // select careInstitution if no department is available
     // if (starCanstitution.isStar && !list ) {
     // list = careInstitutionList.filter(
@@ -378,6 +379,7 @@ const CarinstituionListView: FunctionComponent<
     let item = list.new;
     let row = list.row;
     let uIndex: number = -1;
+    let cellIndex = `${list.id}-${index}-${row}-${key}`;
     // index of dept in case of solo careInst & dept
     if (
       starCanstitution &&
@@ -485,6 +487,7 @@ const CarinstituionListView: FunctionComponent<
           return (
             <CellCareinstitution
               key={`${key}-${i}`}
+              cellIndex={`${cellIndex}-${i}`}
               day={key}
               list={list}
               daysArr={key.isWeekend}
@@ -500,7 +503,9 @@ const CarinstituionListView: FunctionComponent<
                   : ""
               }
               handleSelectedAvailability
-              selectedCells={selectedCells}
+              selectedcareInstApptId={selectedcareInstApptId}
+              selectedcareGiverApptId={selectedcareGiverApptId}
+              selectedcareInstIndexes={selectedcareInstIndexes}
             />
           );
         })}
@@ -788,6 +793,39 @@ const CarinstituionListView: FunctionComponent<
       );
     }
   };
+
+  console.log(selectedCellsCareinstitution, "selectedCellsCareinstitution++**");
+  let selectedcareInstApptId: number[] = [];
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    selectedcareInstApptId = selectedCellsCareinstitution
+      .map((cell: any) =>
+        cell.item && cell.item.appointments && cell.item.appointments.length
+          ? cell.item.appointments[0].id
+          : 0
+      )
+      .filter(Boolean);
+  }
+  let selectedcareGiverApptId: number[] = [];
+  let selectedcareInstIndexes: number[] = [];
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    selectedcareGiverApptId = selectedCellsCareinstitution
+      .map((cell: any) =>
+        cell.item && cell.item.appointments && cell.item.appointments.length
+          ? cell.item.appointments[0].id
+          : 0
+      )
+      .filter(Boolean);
+    selectedcareInstIndexes = selectedCellsCareinstitution.map(
+      (cell: any) => cell.cellIndex
+    );
+  }
+  console.log(
+    selectedcareGiverApptId,
+    selectedcareInstApptId,
+    selectedcareInstIndexes,
+    "selectedcareInstIndexes",
+    selectedCellsCareinstitution
+  );
 
   return (
     <>
@@ -1378,7 +1416,7 @@ const CarinstituionListView: FunctionComponent<
                             rowRenderer={({ index, key, style }) => {
                               // Condition to manage careinstitution list & department list
                               let list = temp[index];
-                              return renderTableRows(list, index, style);
+                              return renderTableRows(list, index, style, key);
                             }}
                           />
                         )}
@@ -1439,13 +1477,7 @@ const CarinstituionListView: FunctionComponent<
         isFromUnlink={isFromUnlink}
         confirmAppointment={confirmAppointment}
       />
-      <DetaillistCareinstitutionPopup
-        show={showList ? true : false}
-        handleClose={() => setShowList(false)}
-        qualificationList={qualificationList}
-        selectedCellsCareinstitution={selectedCellsCareinstitution}
-        fetchCareinstitutionList={fetchCareinstitutionList}
-      />
+      {renderDetailedList()}
       <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}

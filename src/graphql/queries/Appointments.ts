@@ -238,6 +238,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         startTime
         userId
         status
+        isLeasing
       }
     }
   }

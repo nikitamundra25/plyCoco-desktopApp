@@ -200,8 +200,7 @@ if(dateData){
   let showQualification = false;
   // To check appointment with leasing careInst or not
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-    isLeasingAppointment =
-      selectedCellsCareinstitution &&
+    isLeasingAppointment = 
       selectedCellsCareinstitution[0] &&
       selectedCellsCareinstitution[0].item &&
       selectedCellsCareinstitution[0].item.isLeasing

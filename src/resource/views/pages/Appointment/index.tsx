@@ -436,8 +436,6 @@ const Appointment: FunctionComponent = (props: any) => {
         ) {
           deptList = [...careInstituionDeptData];
         }
-        console.log(deptList, "deptList---");
-
         // else {
         //   temp = [...careinstitutionList];
         // }
@@ -477,7 +475,19 @@ const Appointment: FunctionComponent = (props: any) => {
               let qualification = qualificationList.filter(({ value }: any) =>
                 requirement.qualificationId.includes(value)
               );
-
+             
+              let departmentData: any 
+              if (
+                careInstitutionDepartment &&
+                careInstitutionDepartment.length &&
+                requirement &&
+                requirement.divisionId
+              ) {
+                departmentData = careInstitutionDepartment.filter(
+                  (dept: any) => dept.value === requirement.divisionId
+                )[0];
+              }
+              
               if (selectedCareInstCells[cellIndex]) {
                 selectedCareInstCells[cellIndex] = {
                   ...selectedCareInstCells[cellIndex],
@@ -487,6 +497,7 @@ const Appointment: FunctionComponent = (props: any) => {
                       qualification && qualification.length
                         ? qualification
                         : [],
+                        division: departmentData && departmentData.value ? {id:departmentData.value,name: departmentData.label} : {}
                   },
                 };
               }

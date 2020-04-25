@@ -393,6 +393,10 @@ body {
         @media only screen and (max-width: 1200px) {
           margin: 3px 0px;
         }
+        @media (max-width: 1400px) {
+          width: 135px;
+          min-width: 135px;
+        }
       }
     }
   }
@@ -409,6 +413,28 @@ body {
   & > div > button + div {
     right: 0px;
     max-width: 260px;
+    @media (max-width: 1480px) and (min-width: 1200px) {
+      max-width: 210px;
+    }
+    @media (max-width: 1800px) and (min-width: 1680px) {
+      max-width: 200px;
+    }
+  }
+  .custom-inner-reactselect__control {
+    @media (max-width: 1480px) and (min-width: 1200px) {
+      min-width: calc(100% - 16px);
+      .custom-inner-reactselect__indicators {
+        position: absolute;
+        right: -8px;
+      }
+    }
+    @media (max-width: 1800px) and (min-width: 1680px) {
+      min-width: calc(100% - 16px);
+      .custom-inner-reactselect__indicators {
+        position: absolute;
+        right: -8px;
+      }
+    }
   }
 }
 
@@ -595,6 +621,10 @@ body {
       flex: 0 0 58%;
       max-width: 58%;
     }
+    @media (max-width: 1199px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
   }
   .appointment-page-form-section {
     flex: 0 0 50%;
@@ -604,6 +634,15 @@ body {
     @media (min-width: 1366px) {
       flex: 0 0 42%;
       max-width: 42%;
+    }
+    @media (max-width: 1199px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .btn-save {
+      @media (max-width: 1400px) and (min-width: 1200px) {
+        padding: 3px 20px;
+      }
     }
   }
 }

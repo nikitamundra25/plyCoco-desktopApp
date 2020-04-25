@@ -267,6 +267,7 @@ const CaregiverFormView: FunctionComponent<
           documentUploadType: "leasingContract",
         },
       });
+      return
     }
     if (isAppointment) {
       console.log("inside pdf form");
@@ -385,12 +386,12 @@ const CaregiverFormView: FunctionComponent<
 
   // Signed contract link
   const { getLeasingContractPDF: pdfDetails = [] } = pdfData ? pdfData : {};
-  const { document = "" } =
+  const { document = "", leasingContract = {} } =
     pdfDetails && pdfDetails.length ? pdfDetails[0] : {};
 
   // signed self employmentt contract
   const { getContractByAppointmentID = [] } = contractData ? contractData : {};
-  const { user_document = {} } =
+  const { user_document = {},appointmentId:contractApptmentIds=[] } =
     getContractByAppointmentID && getContractByAppointmentID.length
       ? getContractByAppointmentID[0]
       : [];
@@ -412,6 +413,9 @@ const CaregiverFormView: FunctionComponent<
       isCorrespondingAppointment = true;
     }
   }
+
+  console.log(selectedCells,'selectedCells in form');
+  
   return (
     <>
       <div className="form-section">
@@ -581,7 +585,7 @@ const CaregiverFormView: FunctionComponent<
             ) : (
               <>
                 <Col lg={"12"}>
-                  <FormGroup>
+                  <FormGroup className="mb-2">
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
@@ -635,7 +639,7 @@ const CaregiverFormView: FunctionComponent<
                             </div>
                           </FormGroup>
                           <FormGroup check inline>
-                            <div className=" checkbox-custom mb-2">
+                            <div className=" checkbox-custom mb-3">
                               <input
                                 type="checkbox"
                                 id="night"
@@ -1406,7 +1410,7 @@ const CaregiverFormView: FunctionComponent<
                       "${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}",
                       `${AppConfig.FILES_ENDPOINT}/${selfEmploymentcontract}`
                     )}
-                    {document ? (
+                    {document && leasingContract && leasingContract.length && leasingContract[0] && leasingContract[0].avabilityId === appointmentId ? (
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${document}`}
                         target={"_blank"}
@@ -1417,7 +1421,10 @@ const CaregiverFormView: FunctionComponent<
                       </a>
                     ) : getContractByAppointmentID &&
                       getContractByAppointmentID.length &&
-                      selfEmploymentcontract ? (
+                      selfEmploymentcontract 
+                      // && selectedCells && selectedCells.length && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length && selectedCells[0].item.appointments[0] && contractApptmentIds.includes(selectedCells[0].item.appointments[0].id
+                        // ) 
+                      ? (
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}`}
                         target={"_blank"}

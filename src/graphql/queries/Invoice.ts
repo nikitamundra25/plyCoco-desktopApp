@@ -98,6 +98,8 @@ const GET_ALL_INVOICE_LIST = gql`
       invoiceType
       subTotal
       careGiverName
+      careGiverPdf
+      plycocoPdf
       careInstitutionName
       caregiver{
         id

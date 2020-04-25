@@ -1543,7 +1543,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     }
   }
   useEffect(() => {
-    if (userId && pdfAppointmentDetails && pdfAppointmentDetails.length) {
+    if (userId && leasingContract && pdfAppointmentDetails && pdfAppointmentDetails.length) {
       let documentInput: any = {
         appointmentId: appointmentIds,
         userId: parseInt(userId),
@@ -1580,7 +1580,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   }, [pdfAppointmentDetails]);
 
   useEffect(() => {
-    if (userId && pdfTerminateAppointment) {
+    if (userId && terminateAggrement && pdfTerminateAppointment && pdfTerminateAppointment.name) {
       let documentInput: any = {
         appointmentId: appointmentIds,
         userId: parseInt(userId),

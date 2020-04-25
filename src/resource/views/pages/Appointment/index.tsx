@@ -658,9 +658,11 @@ const Appointment: FunctionComponent = (props: any) => {
       ], 'caregiverListData[caregiverIndex].availabilityData[availabilityDataIndex][')
       // To update the selected caregiver & careInst cell
       let cellIndex: number = selectedCaregiverCells.findIndex(
-        (cell: any) => appointmentData && appointmentData.ca && appointmentData.ca.avabilityId === cell.item.id
+        (cell: any) => appointmentData && appointmentData.ca && appointmentData.avabilityId === cell.item.id
       );
-      if (selectedCaregiverCells[cellIndex] && selectedCaregiverCells[cellIndex].item && selectedCaregiverCells[cellIndex].item.appointments && selectedCaregiverCells[cellIndex].item.appoitments.length) {
+      console.log(cellIndex,'cellIndex*******');
+      
+      if (selectedCaregiverCells[cellIndex] && selectedCaregiverCells[cellIndex].item && selectedCaregiverCells[cellIndex].item.appointments && selectedCaregiverCells[cellIndex].item.appointments.length) {
         selectedCaregiverCells[cellIndex] = {
           ...selectedCaregiverCells[cellIndex],
           item: {
@@ -2886,19 +2888,21 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const updateCareInstitutionStatus = async (name: string) => {
+    console.log(selectedCellsCareinstitution,name,'updateCareInstitutionStatus');
+    
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async (element) => {
         const { item } = element;
         const Item = { ...item };
         if (Item && Item.id) {
           if (
-            name === "confirmed"
-              ? Item.status === "linked"
-              : name === "notconfirm"
-              ? Item.status === "confirmed"
-              : name === "offered"
-              ? Item.status === "default"
-              : Item.status === "offered"
+            (name === "confirmed"
+              && Item.status === "linked") || 
+              (name === "notconfirm"
+              && Item.status === "confirmed") ||
+              (name === "offered"
+              && (Item.status === "default" ||
+              Item.status === "offered"))
           ) {
             let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
             delete Item.id;
@@ -2927,27 +2931,27 @@ const Appointment: FunctionComponent = (props: any) => {
             });
             // updateLinkedStatus(name);
             // check if the selected careinstitution is leasing or not
-            if (name === "confirmed") {
-              if (selectedCells && selectedCells.length) {
-                let temp = [...selectedCells];
+            // if (name === "confirmed") {
+            //   if (selectedCells && selectedCells.length) {
+            //     let temp = [...selectedCells];
 
-                if (
-                  temp[0] &&
-                  temp[0].item &&
-                  temp[0].item.appointments &&
-                  temp[0].item.appointments.length &&
-                  temp[0].item.appointments[0] &&
-                  temp[0].item.appointments[0].cr &&
-                  temp[0].item.appointments[0].cr.isLeasing &&
-                  temp[0].item.appointments[0].cr.id ===
-                    availabilityId.toString()
-                ) {
-                  temp[0].item.appointments[0].cr.status = "confirmed";
-                  setSelectedCells(temp);
-                }
-              }
-              // fetchingCareGiverData();
-            }
+            //     if (
+            //       temp[0] &&
+            //       temp[0].item &&
+            //       temp[0].item.appointments &&
+            //       temp[0].item.appointments.length &&
+            //       temp[0].item.appointments[0] &&
+            //       temp[0].item.appointments[0].cr &&
+            //       temp[0].item.appointments[0].cr.isLeasing &&
+            //       temp[0].item.appointments[0].cr.id ===
+            //         availabilityId.toString()
+            //     ) {
+            //       temp[0].item.appointments[0].cr.status = "confirmed";
+            //       setSelectedCells(temp);
+            //     }
+            //   }
+            //   // fetchingCareGiverData();
+            // }
             if (!toast.isActive(toastId)) {
               if (name === "confirmed") {
                 toastId = toast.success(

@@ -19,7 +19,7 @@ import { GlobalCalendarMutations } from '../../../../../graphql/Mutations';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { CardBody } from 'reactstrap';
-import { defaultDateFormat } from '../../../../../config';
+import { defaultDateFormat, dbAcceptableFormat } from '../../../../../config';
 let isEditValueSet = false;
 const AddHolidays: FunctionComponent<IAddHolidayProps> = ({ 
   isOpen,
@@ -86,7 +86,7 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
               minutes: 0,
               seconds: 0
             })
-            .format();
+            .format(dbAcceptableFormat);
           return {
             date,
             applicableStates: v.states,

@@ -17,6 +17,7 @@ import { EmployeeMutations } from "../../../../graphql/Mutations";
 import LoginLogs from "../../components/Logins";
 import { errorFormatter } from "../../../../helpers";
 import Loader from "../../containers/Loader/Loader";
+import { Helmet } from "react-helmet";
 
 const [GET_EMPLOYEE_BY_ID] = EmployeeQueries;
 const [, , UPDATE_EMPLOYEE_STATUS] = EmployeeMutations;
@@ -80,11 +81,16 @@ const ViewEmployee: FunctionComponent = () => {
     ":userName": employee && employee.userName
   };
 
+
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
+        <>
+         <Helmet>
+    <title>{languageTranslation("VIEW_EMPLOYEE")} </title>
+  </Helmet>
         <Card>
           <CardHeader>
             <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
@@ -460,6 +466,7 @@ const ViewEmployee: FunctionComponent = () => {
             )}
           </CardBody>
         </Card>
+        </>
       )}
     </>
   );

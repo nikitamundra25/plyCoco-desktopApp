@@ -26,9 +26,8 @@ import CustomOption from "../../components/CustomOptions";
 import "react-day-picker/lib/style.css";
 import "./index.scss";
 import moment from "moment";
-import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
-import AsyncSelect from 'react-select/async';
-import CareInstitutionDropdownList from "../../components/DropdownList";
+import CareinstitutionCustomAsyncList from "../../components/DropdownList/CareInstitutionCustomAsyncSelect";
+import CaregiverCustomAsyncList from "../../components/DropdownList/CareGiverCustomAsyncSelect";
 
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
@@ -40,8 +39,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     daysData,
     qualificationList,
     handleQualification,
-    careGiversList,
-    careInstitutionList,
     handleDayClick,
     handleToday,
     qualification,
@@ -58,7 +55,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     isNegative,
     setIsNegative,
     positive,
-    handleLoadMoreCanstitution,
     negative
   } = props;
   const { month = "", year = "" } = daysData ? daysData : {};
@@ -140,9 +136,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     return month ? `${month} ${year}` : ""
   }
 
- const handleLoadMoreCanstitutionData = (input:any) => {
-  handleLoadMoreCanstitution(input)
- }
   return (
     <>
       <div className="sticky-common-header">
@@ -230,7 +223,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className="user-select mx-1">
-            <Select
+            {/* <Select
               classNamePrefix="custom-inner-reactselect"
               className={
                 "custom-reactselect custom-reactselect-menu-width-appointment"
@@ -245,6 +238,17 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               components={{ Option: CustomOption }}
               onChange={(value: any) => handleUserList(value, "caregiver")}
               isClearable={true}
+            /> */}
+            <CaregiverCustomAsyncList 
+            placeholderLabel = {languageTranslation("SELECT_CAREGIVER")}
+            onChange={(value: any) =>
+              handleUserList(value, "caregiver")
+            }
+            value={
+              caregiverSoloFilter && caregiverSoloFilter.value !== ""
+                ? caregiverSoloFilter
+                : null
+            }
             />
           </div>
           <div className="header-nav-item">
@@ -269,9 +273,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           </div>
           <div className="user-select mx-1">
           
-         <CareInstitutionDropdownList
-          careInstitutionList={careInstitutionList}
-          handleLoadMoreCanstitution={handleLoadMoreCanstitution}
+         <CareinstitutionCustomAsyncList
           placeholderLabel = {languageTranslation("SELECT_CARE_INSTITUTION")}
           onChange={(value: any) =>
             handleUserList(value, "careinstitution")

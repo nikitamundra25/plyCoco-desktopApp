@@ -49,6 +49,7 @@ import {
   EmployeeMutations,
   AdminProfileMutations,
 } from '../../../../graphql/Mutations';
+import { Helmet } from "react-helmet";
 
 let toastId: any = null;
 
@@ -408,6 +409,10 @@ const Employee: FunctionComponent = () => {
   };
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
+    <>
+    <Helmet>
+    <title>{languageTranslation("EMPLOYEE_LABEL")} </title>
+  </Helmet>
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className='flex-grow-1 mr-sm-3' />
@@ -801,6 +806,7 @@ const Employee: FunctionComponent = () => {
         ) : null}
       </CardBody>
     </Card>
+    </>
   );
 };
 

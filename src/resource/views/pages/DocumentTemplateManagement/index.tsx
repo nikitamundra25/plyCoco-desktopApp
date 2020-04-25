@@ -20,6 +20,8 @@ import {
   selfEmployesListColor
 } from "../../../../config";
 import DisplayDifferentModal from './DisplayDifferentModal';
+import { Helmet } from "react-helmet";
+
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const [GET_DOCUMENT_TEMPLATE] = DocumentQueries;
 const [, , , DELETE_DOCUMENT] = DocumentMutations;
@@ -173,6 +175,9 @@ if (
 
   return (
     <>
+     <Helmet>
+        <title>{languageTranslation("MENU_DOCUMENT_WORKING_PROOF")} </title>
+      </Helmet>
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}

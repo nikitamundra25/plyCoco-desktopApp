@@ -720,6 +720,7 @@ const WorkingProofForm: FunctionComponent<
                       onFilterById={onFilterById}
                       handleSelect={handleSelectCheckbox}
                       checkboxMark={checkboxMark}
+                      caregiverFilter={caregiverFilter}
                     />
                   </Col>
                 </Row>

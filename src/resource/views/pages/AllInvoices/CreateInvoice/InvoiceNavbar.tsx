@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import Select from "react-select";
-import { languageTranslation } from '../../../../../helpers';
-import { IInvoiceList, IInvoiceNavBar } from '../../../../../interfaces';
+import { languageTranslation } from "../../../../../helpers";
+import { IInvoiceList, IInvoiceNavBar } from "../../../../../interfaces";
 import CustomOption from "../../../components/CustomOptions";
 import pen from "../../../../assets/img/header-icons/pen.svg";
 import CompleteTime from "../../../../assets/img/header-icons/tab-icons/complete-time.svg";
@@ -13,8 +13,12 @@ import right_arrow from "../../../../assets/img/rightarrow.svg";
 import left_arrow from "../../../../assets/img/leftarrow.svg";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
+import CaregiverCustomAsyncList from "../../../components/DropdownList/CareGiverCustomAsyncSelect";
+import CareinstitutionCustomAsyncList from "../../../components/DropdownList/CareInstitutionCustomAsyncSelect";
 
-const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceNavBar & any) => {
+const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (
+  props: IInvoiceNavBar & any
+) => {
   const {
     onhandleSelection,
     careGiversOptions,
@@ -26,22 +30,23 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
     handleDayClick,
     handleArrowDayChange,
     dateFilter,
-    handleCreateInvoice
+    handleCreateInvoice,
+    createInvoiceLoading
   } = props;
 
   return (
     <div className="common-topheader d-flex  px-2 pb-1 invoice-header">
-    <div className="header-nav-item">
-      <span className="header-nav-icon">
-        <i className="fa fa-refresh "></i>
-      </span>
-      <span className="header-nav-text">
-        {languageTranslation("RESET_LABEL")}
-      </span>
-    </div>
+      <div className="header-nav-item">
+        <span className="header-nav-icon">
+          <i className="fa fa-refresh "></i>
+        </span>
+        <span className="header-nav-text">
+          {languageTranslation("RESET_LABEL")}
+        </span>
+      </div>
 
-    <div className="user-select mx-1 ">
-      <Select
+      <div className="user-select mx-1 ">
+        {/* <Select
         classNamePrefix="custom-inner-reactselect"
         className={
             "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
@@ -58,10 +63,20 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
             ? caregiverFilter
             : null
         }
-      />
-    </div>
-    <div className="user-select mx-1 ">
-      <Select
+      /> */}
+
+        <CaregiverCustomAsyncList
+          placeholderLabel={languageTranslation("SELECT_CAREGIVER")}
+          onChange={(value: any) => onhandleSelection(value, "caregiver")}
+          value={
+            caregiverFilter && caregiverFilter.value !== ""
+              ? caregiverFilter
+              : null
+          }
+        />
+      </div>
+      <div className="user-select mx-1 ">
+        {/* <Select
         classNamePrefix="custom-inner-reactselect"
         className={
           "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
@@ -78,75 +93,79 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
           onhandleSelection(value, "careinstitution")
         }
         isClearable={true}
-      />
-    </div>
-    <div className="user-select mx-1 ">
-      <Select
-        classNamePrefix="custom-inner-reactselect"
-        className={"custom-reactselect "}
-        placeholder={
-            languageTranslation("SELECT_DEPARTMENT")
-        }
-        options={careInstitutionDepartmentOption}
-        noOptionsMessage={() => {
-          return careinstitutionFilter && careinstitutionFilter.value !== ""
-            ? languageTranslation("NO_OPTIONS")
-            : languageTranslation(
-                "SELECT_CAREINSTITUTION_FIRST"
-              );
-        }}
-        value={departmentFilter && departmentFilter.value !== ""
-        ? departmentFilter
-        : null }
-        onChange={(value: any) =>
-            onhandleSelection(value, "department")
+      /> */}
+        <CareinstitutionCustomAsyncList
+          placeholderLabel={languageTranslation("SELECT_CARE_INSTITUTION")}
+          onChange={(value: any) => onhandleSelection(value, "careinstitution")}
+          value={
+            careinstitutionFilter && careinstitutionFilter.value !== ""
+              ? careinstitutionFilter
+              : null
           }
-        isClearable={true}
-      />
-    </div>
-    <div className="header-nav-item">
-      <span className="header-nav-icon">
-        <img src={pen} alt="" />
-      </span>
-      <span onClick={handleCreateInvoice} className="header-nav-text">
+        />
+      </div>
+      <div className="user-select mx-1 ">
+        <Select
+          classNamePrefix="custom-inner-reactselect"
+          className={"custom-reactselect "}
+          placeholder={languageTranslation("SELECT_DEPARTMENT")}
+          options={careInstitutionDepartmentOption}
+          noOptionsMessage={() => {
+            return careinstitutionFilter && careinstitutionFilter.value !== ""
+              ? languageTranslation("NO_OPTIONS")
+              : languageTranslation("SELECT_CAREINSTITUTION_FIRST");
+          }}
+          value={
+            departmentFilter && departmentFilter.value !== ""
+              ? departmentFilter
+              : null
+          }
+          onChange={(value: any) => onhandleSelection(value, "department")}
+          isClearable={true}
+        />
+      </div>
+      <div className="header-nav-item">
+        <span className="header-nav-icon">
+          <img src={pen} alt="" />
+        </span>
+        <span onClick={!createInvoiceLoading ?  handleCreateInvoice: undefined} className= {!createInvoiceLoading ? "header-nav-text" : "disabled-class header-nav-text"}>
+      {createInvoiceLoading ? <i className="fa fa-spinner fa-spin mr-2" /> : ""}
         {languageTranslation("CREATE")}
       </span>
-    </div>
-    <div className="header-nav-item">
-      <span className="header-nav-icon">
-        <img src={CompleteTime} alt="" />
-      </span>
-      <span className="header-nav-text">
-        {languageTranslation("TIMELY_COMPLETELY")}
-      </span>
-    </div>
-    <div className="header-nav-item">
-      <span className="header-nav-icon">
-        <img src={idea} alt="" />
-      </span>
-      <span className="header-nav-text">
-        {languageTranslation("CREATE_ALL_CAREGIVER")}
-      </span>
-    </div>
-    <div className="header-nav-item">
-      <span className="header-nav-icon pr-0">
-        <img src={massege} alt=""/>
-      </span>
-    </div>
-    <div className="user-select mx-1 ">
-      <Select
-        classNamePrefix="custom-inner-reactselect"
-        className={"custom-reactselect "}
-        placeholder="Select Month Summary"
-        options={InvoiceSummaryFilter}
-        isClearable={true}
-        onChange={(value: any) =>
-          onhandleSelection(value, "monthSummary")
-        }
-      />
-    </div>
+      </div>
+      <div className="header-nav-item">
+        <span className="header-nav-icon">
+          <img src={CompleteTime} alt="" />
+        </span>
+        <span className="header-nav-text">
+          {languageTranslation("TIMELY_COMPLETELY")}
+        </span>
+      </div>
+      <div className="header-nav-item">
+        <span className="header-nav-icon">
+          <img src={idea} alt="" />
+        </span>
+        <span className="header-nav-text">
+          {languageTranslation("CREATE_ALL_CAREGIVER")}
+        </span>
+      </div>
+      <div className="header-nav-item">
+        <span className="header-nav-icon pr-0">
+          <img src={massege} alt="" />
+        </span>
+      </div>
+      <div className="user-select mx-1 ">
+        <Select
+          classNamePrefix="custom-inner-reactselect"
+          className={"custom-reactselect "}
+          placeholder="Select Month Summary"
+          options={InvoiceSummaryFilter}
+          isClearable={true}
+          onChange={(value: any) => onhandleSelection(value, "monthSummary")}
+        />
+      </div>
 
-    {/* <div className="user-select mx-1 ">
+      {/* <div className="user-select mx-1 ">
       <Select
         classNamePrefix="custom-inner-reactselect"
         className={"custom-reactselect "}
@@ -155,29 +174,35 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (props: IInvoiceN
         isClearable={true}
       />
     </div> */}
-    <div className="header-nav-item" onClick={()=>handleArrowDayChange("previous")}>
-      <span className="header-nav-icon pr-0">
-        <img src={left_arrow} alt="" />
-      </span>
+      <div
+        className="header-nav-item"
+        onClick={() => handleArrowDayChange("previous")}
+      >
+        <span className="header-nav-icon pr-0">
+          <img src={left_arrow} alt="" />
+        </span>
+      </div>
+      <div className="common-header-input pr-1">
+        <DayPickerInput
+          onDayChange={handleDayClick}
+          //  formatDate={formatDate}
+          value={dateFilter ? `${dateFilter}` : ""}
+          dayPickerProps={{
+            //  month: setNewDate,
+            canChangeMonth: false,
+          }}
+          inputProps={{ readOnly: true }}
+        />
+      </div>
+      <div
+        className="header-nav-item"
+        onClick={() => handleArrowDayChange("next")}
+      >
+        <span className="header-nav-icon pr-0">
+          <img src={right_arrow} alt="" />
+        </span>
+      </div>
     </div>
-    <div className="common-header-input pr-1">
-      <DayPickerInput 
-       onDayChange={handleDayClick}
-      //  formatDate={formatDate}
-       value={dateFilter ? `${dateFilter}` : ""}
-       dayPickerProps={{
-        //  month: setNewDate,
-         canChangeMonth: false,
-       }}
-       inputProps={{ readOnly: true }}
-      />
-    </div>
-    <div className="header-nav-item" onClick={()=>handleArrowDayChange("next")}>
-      <span className="header-nav-icon pr-0">
-        <img src={right_arrow} alt="" />
-      </span>
-    </div>
-  </div>
   );
 };
 

@@ -54,6 +54,7 @@ const GET_INVOICE_LIST = gql`
         }
         cr {
           userId
+          name
           division {
             id
             name

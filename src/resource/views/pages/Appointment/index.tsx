@@ -35,7 +35,9 @@ import {
   IUnlinkAppointmentInput,
   IlinkAppointmentInput,
   IunlinkResponse,
+  IDaysArray,
 } from "../../../../interfaces";
+
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   AppointmentsQueries,
@@ -1387,6 +1389,7 @@ const Appointment: FunctionComponent = (props: any) => {
     lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || "";
   }
 
+  const { daysArr = [] } = daysData ? daysData : {};
   // to get list of all caregivers
   const getCaregiverData = (
     page: number,
@@ -4564,6 +4567,84 @@ const Appointment: FunctionComponent = (props: any) => {
   //     />
   //     </Suspense>
   // }
+
+  const handleWidth = function () {
+    let appointment_list_section: HTMLElement | null = document.getElementById(
+      "appointment_list_section"
+    );
+    let appointment_form_section: HTMLElement | null = document.getElementById(
+      "appointment_form_section"
+    );
+    let window_width = window.innerWidth;
+
+    if (window_width > 1679) {
+      if (appointment_list_section) {
+        if (daysArr.length === 30) {
+          appointment_list_section.style.flex = "0 0 1142px";
+          appointment_list_section.style.maxWidth = "1142px";
+        } else if (daysArr.length === 31) {
+          appointment_list_section.style.flex = "0 0 1170px";
+          appointment_list_section.style.maxWidth = "1170px";
+        } else if (daysArr.length === 29) {
+          appointment_list_section.style.flex = "0 0 1114px";
+          appointment_list_section.style.maxWidth = "1114px";
+        } else if (daysArr.length === 28) {
+          appointment_list_section.style.flex = "0 0 1086px";
+          appointment_list_section.style.maxWidth = "1086px";
+        } else {
+          appointment_list_section.style.flex = "0 0 1142px";
+          appointment_list_section.style.maxWidth = "1142px";
+        }
+      }
+      if (appointment_form_section) {
+        if (daysArr.length === 30) {
+          appointment_form_section.style.flex = "0 0 calc(100% - 1142px)";
+          appointment_form_section.style.maxWidth = "calc(100% - 1142px";
+        } else if (daysArr.length === 31) {
+          appointment_form_section.style.flex = "0 0 calc(100% - 1170px)";
+          appointment_form_section.style.maxWidth = "calc(100% - 1170px)";
+        } else if (daysArr.length === 29) {
+          appointment_form_section.style.flex = "0 0 calc(100% - 1114px)";
+          appointment_form_section.style.maxWidth = "calc(100% - 1114px)";
+        } else if (daysArr.length === 28) {
+          appointment_form_section.style.flex = "0 0 calc(100% - 1086px)";
+          appointment_form_section.style.maxWidth = "calc(100% - 1086px)";
+        } else {
+          appointment_form_section.style.flex = "0 0 calc(100% - 1142px)";
+          appointment_form_section.style.maxWidth = "calc(100% - 1142px)";
+        }
+      }
+    } else {
+      if (appointment_form_section) {
+        appointment_form_section.removeAttribute("style");
+      }
+      if (appointment_list_section) {
+        appointment_list_section.removeAttribute("style");
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleWidth);
+    return () => {
+      window.removeEventListener("resize", handleWidth);
+    };
+  }, [daysArr]);
+
+  useEffect(() => {
+    if (daysArr.length) {
+      handleWidth();
+    }
+  }, [daysArr]);
+
+  // useEffect(() => {
+  //   handleWidth();
+  //   window.addEventListener("resize", handleWidth);
+  //   return () => {
+  //     window.removeEventListener("resize", handleWidth);
+  //   };
+  // }, [daysArr]);
+
   return (
     <>
       <div className="common-detail-page">
@@ -4605,7 +4686,10 @@ const Appointment: FunctionComponent = (props: any) => {
           <div className="common-content flex-grow-1">
             <div>
               <div className="appointment-page-row">
-                <div className="appointment-page-list-section">
+                <div
+                  className="appointment-page-list-section"
+                  id="appointment_list_section"
+                >
                   {/* caregiver list view */}
                   <CaregiverListView
                     updateLinkedStatus={updateLinkedStatus}
@@ -4682,7 +4766,10 @@ const Appointment: FunctionComponent = (props: any) => {
                     starMarkCareinstitution={starMarkCareinstitution}
                   />
                 </div>
-                <div className="appointment-page-form-section">
+                <div
+                  className="appointment-page-form-section"
+                  id="appointment_form_section"
+                >
                   <Row>
                     <Col
                       lg={"6"}

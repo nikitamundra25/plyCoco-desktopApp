@@ -470,18 +470,18 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     listheight = getheight.getBoundingClientRect().height;
   }
 
-  let widthForMonth: number = 1110;
+  let widthForMonth: number = 1112;
   if (daysArr && daysArr.length) {
     if (daysArr.length === 30) {
-      widthForMonth = 1110;
+      widthForMonth = 1112;
     } else if (daysArr.length === 31) {
       widthForMonth = 1140;
     } else if (daysArr.length === 29) {
-      widthForMonth = 1082;
+      widthForMonth = 1084;
     } else if (daysArr.length === 28) {
-      widthForMonth = 1054;
+      widthForMonth = 1056;
     } else {
-      widthForMonth = 1110;
+      widthForMonth = 1112;
     }
   }
   let listData =

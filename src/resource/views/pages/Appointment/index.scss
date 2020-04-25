@@ -180,7 +180,7 @@
   background: $availability_dark_color !important;
 }
 .block-bg {
-  background-color: $red !important;
+  background-color: $block_color !important;
 }
 .requirement-bg {
   background: $requirement_color !important;
@@ -491,14 +491,18 @@ body {
     background: $white;
     // min-height: calc(100vh - 508px);
     height: calc(50vh - 80px);
+    border-top: 1px solid $table_border;
     // max-height: calc(100vh - 466px);
+    @media (min-width: 1680px) {
+      overflow-y: hidden;
+    }
     .custom-appointment-calendar-head {
       // position: sticky;
       position: absolute;
       height: 41px;
       z-index: 1;
       top: 0;
-      background: $white;
+      // background: $white;
       width: 100%;
       font-weight: 600;
     }
@@ -506,7 +510,7 @@ body {
       display: flex;
       font-size: $font_12;
       color: $black;
-      border-left: 1px solid $table_border;
+      // border-left: 1px solid $table_border;
       // &:last-child {
       //   border-bottom: 1px solid $table_border;
       // }
@@ -522,6 +526,7 @@ body {
         &.name-col {
           flex: 0 0 140px;
           max-width: 140px;
+          border-left: 1px solid $table_border;
           .btn-more {
             position: absolute;
             right: 3px;
@@ -546,7 +551,7 @@ body {
 
 .ReactVirtualized__List {
   padding-top: 41px;
-  // height: calc(50vh - 80px) !important;
+  height: calc(50vh - 80px) !important;
 }
 .appointment-row {
   .appointment-calander-col {
@@ -590,15 +595,6 @@ body {
       flex: 0 0 58%;
       max-width: 58%;
     }
-
-    @media (min-width: 1680px) {
-      flex: 1 1 1168px;
-      max-width: 1168px;
-    }
-    // @media (min-width: 1680px) {
-    //   flex: 0 0 1168px;
-    //   max-width: 1168px;
-    // }
   }
   .appointment-page-form-section {
     flex: 0 0 50%;
@@ -609,13 +605,5 @@ body {
       flex: 0 0 42%;
       max-width: 42%;
     }
-    @media (min-width: 1680px) {
-      flex: 1 1 558px;
-      max-width: 558px;
-    }
-    // @media (min-width: 1680px) {
-    //   flex: 0 0 calc(100% - 1168px);
-    //   max-width: calc(100% - 1168px);
-    // }
   }
 }

@@ -112,7 +112,7 @@ const CarinstituionListView: FunctionComponent<
           deptId = "",
           divisions = [],
         } = careInstData ? careInstData : {};
-        
+
         let qualification1: IReactSelectInterface[] = [];
         if (
           qualificationList &&
@@ -123,17 +123,17 @@ const CarinstituionListView: FunctionComponent<
           qualification1 = qualificationList.filter(({ value }: any) =>
             item.qualificationId.includes(value)
           );
-        } else if (qualificationId && qualificationId.length) {   
+        } else if (qualificationId && qualificationId.length) {
           qualification1 = qualificationList.filter(({ value }: any) =>
             qualificationId.includes(value)
           );
         }
-        
+
         let temp = {
           ...item,
           qualificationId: qualification1 ? qualification1 : [],
         };
-        
+
         return {
           id: deptId ? userId : id,
           firstName,
@@ -146,15 +146,17 @@ const CarinstituionListView: FunctionComponent<
           canstitution,
           dept: { id: deptId, name },
           item:
-            temp && temp.qualificationId && temp.qualificationId.length ? temp : item,
+            temp && temp.qualificationId && temp.qualificationId.length
+              ? temp
+              : item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : "",
           divisions,
           isLeasing:
-          canstitution && canstitution.attributes
-            ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
-            : false,
-            cellIndex
+            canstitution && canstitution.attributes
+              ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
+              : false,
+          cellIndex,
         };
       });
       handleSelection(selectedRows, "careinstitution");
@@ -231,7 +233,7 @@ const CarinstituionListView: FunctionComponent<
               moment(element.dateString).format(dbAcceptableFormat)
             ) {
               checkError = true;
-              toast.dismiss()
+              toast.dismiss();
               if (!toast.isActive(toastId)) {
                 toastId = toast.error(
                   languageTranslation("DATE_RANGE_MISMATCH")
@@ -366,8 +368,8 @@ const CarinstituionListView: FunctionComponent<
   const loadMoreRows = ({ startIndex, stopIndex }: any) => {
     getMoreCareInstituionList(careInstitutionList.length);
   };
-  
-  const renderTableRows = (list: any, index: any, style: any, key:string) => {
+
+  const renderTableRows = (list: any, index: any, style: any, key: string) => {
     // select careInstitution if no department is available
     // if (starCanstitution.isStar && !list ) {
     // list = careInstitutionList.filter(
@@ -377,7 +379,7 @@ const CarinstituionListView: FunctionComponent<
     let item = list.new;
     let row = list.row;
     let uIndex: number = -1;
-    let cellIndex = `${list.id}-${index}-${row}-${key}`
+    let cellIndex = `${list.id}-${index}-${row}-${key}`;
     // index of dept in case of solo careInst & dept
     if (
       starCanstitution &&
@@ -395,14 +397,14 @@ const CarinstituionListView: FunctionComponent<
         (item: any) => item.id === list.id
       );
     }
-    
+
     // let temp: any[] = [];
     // if (listData && listData.length) {
     // listData.forEach((list: any, index: number) => {
     // if (list && list.availabilityData && list.availabilityData.length) {
     // list.availabilityData.map((item: any, row: number) =>
-  // console.log("list",list);
-  
+    // console.log("list",list);
+
     // temp.push(
     return (
       <div
@@ -436,7 +438,14 @@ const CarinstituionListView: FunctionComponent<
           id={`careinst-${list.id}`}
         >
           <Link
-            to={AppRoutes.CARE_INSTITUION_VIEW.replace(":id", starCanstitution.isStar ? secondStarCanstitution && secondStarCanstitution.isStar ? list.userId : starCanstitution.id : list.id)}
+            to={AppRoutes.CARE_INSTITUION_VIEW.replace(
+              ":id",
+              starCanstitution.isStar
+                ? secondStarCanstitution && secondStarCanstitution.isStar
+                  ? list.userId
+                  : starCanstitution.id
+                : list.id
+            )}
             target="_blank"
             className="text-body"
           >
@@ -644,18 +653,32 @@ const CarinstituionListView: FunctionComponent<
     listcheight = getcheight.getBoundingClientRect().height;
   }
 
-  let widthForMonth: number = 1538;
+  // let widthForMonth: number = 1538;
+  // if (daysArr && daysArr.length) {
+  //   if (daysArr.length === 30) {
+  //     widthForMonth = 1538;
+  //   } else if (daysArr.length === 31) {
+  //     widthForMonth = 1578;
+  //   } else if (daysArr.length === 29) {
+  //     widthForMonth = 1498;
+  //   } else if (daysArr.length === 28) {
+  //     widthForMonth = 1458;
+  //   } else {
+  //     widthForMonth = 1538;
+  //   }
+  // }
+  let widthForMonth: number = 1112;
   if (daysArr && daysArr.length) {
     if (daysArr.length === 30) {
-      widthForMonth = 1538;
+      widthForMonth = 1112;
     } else if (daysArr.length === 31) {
-      widthForMonth = 1578;
+      widthForMonth = 1140;
     } else if (daysArr.length === 29) {
-      widthForMonth = 1498;
+      widthForMonth = 1084;
     } else if (daysArr.length === 28) {
-      widthForMonth = 1458;
+      widthForMonth = 1056;
     } else {
-      widthForMonth = 1538;
+      widthForMonth = 1112;
     }
   }
   let listData = !starCanstitution.isStar
@@ -667,7 +690,7 @@ const CarinstituionListView: FunctionComponent<
         )
       : []
     : careInstituionDeptData;
-    
+
   // To manage case of solo careInst and department selection if no department is there
   if (starCanstitution.isStar && listData && !listData.length) {
     listData = careInstitutionList.filter(
@@ -771,21 +794,39 @@ const CarinstituionListView: FunctionComponent<
     }
   };
 
-  console.log(selectedCellsCareinstitution,'selectedCellsCareinstitution++**');
-  let selectedcareInstApptId:number[] = []
-  if (selectedCellsCareinstitution &&
-    selectedCellsCareinstitution.length) {
-      selectedcareInstApptId = selectedCellsCareinstitution.map((cell:any) => cell.item && cell.item.appointments && cell.item.appointments.length ? cell.item.appointments[0].id : 0).filter(Boolean)
+  console.log(selectedCellsCareinstitution, "selectedCellsCareinstitution++**");
+  let selectedcareInstApptId: number[] = [];
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    selectedcareInstApptId = selectedCellsCareinstitution
+      .map((cell: any) =>
+        cell.item && cell.item.appointments && cell.item.appointments.length
+          ? cell.item.appointments[0].id
+          : 0
+      )
+      .filter(Boolean);
   }
-  let selectedcareGiverApptId:number[] = []
-  let selectedcareInstIndexes:number[] = []
-  if (selectedCellsCareinstitution &&
-    selectedCellsCareinstitution.length) {
-      selectedcareGiverApptId = selectedCellsCareinstitution.map((cell:any) => cell.item && cell.item.appointments && cell.item.appointments.length ? cell.item.appointments[0].id : 0).filter(Boolean);
-      selectedcareInstIndexes = selectedCellsCareinstitution.map((cell:any) => cell.cellIndex)
+  let selectedcareGiverApptId: number[] = [];
+  let selectedcareInstIndexes: number[] = [];
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    selectedcareGiverApptId = selectedCellsCareinstitution
+      .map((cell: any) =>
+        cell.item && cell.item.appointments && cell.item.appointments.length
+          ? cell.item.appointments[0].id
+          : 0
+      )
+      .filter(Boolean);
+    selectedcareInstIndexes = selectedCellsCareinstitution.map(
+      (cell: any) => cell.cellIndex
+    );
   }
-  console.log(selectedcareGiverApptId, selectedcareInstApptId, selectedcareInstIndexes, 'selectedcareInstIndexes',selectedCellsCareinstitution);
-  
+  console.log(
+    selectedcareGiverApptId,
+    selectedcareInstApptId,
+    selectedcareInstIndexes,
+    "selectedcareInstIndexes",
+    selectedCellsCareinstitution
+  );
+
   return (
     <>
       <div
@@ -868,8 +909,9 @@ const CarinstituionListView: FunctionComponent<
                   offerAppCond && offerAppCond.length !== 0 ? true : false
                 }
                 onClick={() => {
-                  handleRightMenuToggle()
-                  handleSelectedAppoitment()}}
+                  handleRightMenuToggle();
+                  handleSelectedAppoitment();
+                }}
               >
                 <img src={all_list} className="mr-2" alt="" />
                 <span>
@@ -1369,12 +1411,12 @@ const CarinstituionListView: FunctionComponent<
                             height={listcheight}
                             onRowsRendered={onRowsRendered}
                             rowCount={temp.length}
-                            rowHeight={30}
+                            rowHeight={28}
                             width={widthForMonth}
                             rowRenderer={({ index, key, style }) => {
                               // Condition to manage careinstitution list & department list
                               let list = temp[index];
-                              return renderTableRows(list, index, style,key);
+                              return renderTableRows(list, index, style, key);
                             }}
                           />
                         )}

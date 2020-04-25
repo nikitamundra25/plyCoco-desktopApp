@@ -981,9 +981,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   allowClickWithoutSelected
                   className="custom-row-selector"
                   clickClassName="tick"
-                  resetOnStart={true}
-                  allowCtrlClick={false}
-                  onSelectionFinish={onSelectFinish}
+                  resetOnStart={false}
+                  allowCtrlClick={true}
+                  onSelectionFinish={(cells:any) => {
+                    console.log("onSlectionfinish",cells);
+                    onSelectFinish(cells)
+                  }}
                   ignoreList={[
                     ".name-col",
                     ".h-col",

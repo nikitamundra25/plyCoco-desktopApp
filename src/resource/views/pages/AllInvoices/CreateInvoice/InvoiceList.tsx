@@ -133,6 +133,7 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (props: IInvoiceList 
                 if (list && list.ca && list.ca.nightFee) {
                   if (((12 > condiA1) && (condiA1 > 0)) || ((12 > condiA2) && (condiA2 > 0))) {
                     console.log("*********************in this condition");
+                    
                   } else if (((nightST - endTime) > 0)) {
 
                   }

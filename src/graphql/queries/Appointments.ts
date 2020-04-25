@@ -218,6 +218,26 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         workingHoursTo
         breakFrom
         breakTo
+        appointments {
+          id
+          date
+          requirementId
+          avabilityId
+          cr {
+            id
+            name
+            status
+            qualificationId
+            address
+            startTime
+            endTime
+            isLeasing
+            division {
+              id
+              name
+            }
+          }
+        }
       }
       requirementData {
         id
@@ -235,9 +255,26 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         isWorkingProof
         offerRemarks
         qualificationId
+        qualificationForCharge
         startTime
         userId
         status
+        isLeasing
+          division {
+            id
+            name
+          }
+        appointments {
+          id
+          date
+          requirementId
+          avabilityId
+          ca {
+            userId
+            id
+            name
+          }
+        }
       }
     }
   }

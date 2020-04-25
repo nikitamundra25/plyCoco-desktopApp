@@ -91,7 +91,15 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     { loading: createInvoiceLoading },
   ] = useMutation<{
     invoiceInput: any;
-  }>(CREATE_LEASING_INVOICE);
+  }>(CREATE_LEASING_INVOICE,
+    { onCompleted(){
+      toast.dismiss();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('CREATE_INVOICE_SUCCESS')
+        );
+      }
+    }});
 
   // Default value is start & end of month
   let gte: string = moment().startOf('month').format(dbAcceptableFormat);

@@ -134,6 +134,7 @@ const CaregiverFormView: FunctionComponent<
     breakHoursFromErrMsg,
     starCaregiver,
     idSearchAppointmentLoading,
+    selectedCellsCareinstitution
   } = props;
 
   let dateData =
@@ -168,7 +169,7 @@ const CaregiverFormView: FunctionComponent<
         name
       );
       if (!validate) {
-        setworkingHoursFromErrMsg('Enter Valid Date');
+        setworkingHoursFromErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(workingHoursFromDate);
         if (!validDateData.isValid) {
@@ -185,7 +186,7 @@ const CaregiverFormView: FunctionComponent<
         name
       );
       if (!validate) {
-        setworkingHoursToErrMsg('Enter Valid Date');
+        setworkingHoursToErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(workingHoursToDate);
         if (!validDateData.isValid) {
@@ -196,9 +197,8 @@ const CaregiverFormView: FunctionComponent<
       }
     } else if (name === 'breakFromDate') {
       validate = dateDiffernceValidator(dateData, current, breakFromDate, name);
-      console.log('dateFromdateFrom', validate);
       if (!validate) {
-        setbreakHoursFromErrMsg('Enter Valid Break Start Date');
+        setbreakHoursFromErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(breakFromDate);
         if (!validDateData.isValid) {
@@ -214,9 +214,8 @@ const CaregiverFormView: FunctionComponent<
         breakToDate,
         name
       );
-      console.log('dateFromdateFrom', validate);
       if (!validate) {
-        setbreakHoursToErrMsg('Enter Valid Break End Date');
+        setbreakHoursToErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(breakToDate);
         if (!validDateData.isValid) {
@@ -398,6 +397,13 @@ const CaregiverFormView: FunctionComponent<
     : {};
   console.log('selfEmploymentcontract', selfEmploymentcontract);
 
+    
+    let isCorrespondingAppointment: boolean = false
+    if(selectedCells && selectedCells.length && selectedCells[0] && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length){
+      if(selectedCells[0].item.appointments[0].avabilityId === appointmentId){
+        isCorrespondingAppointment = true
+      }
+    }
   return (
     <>
       <div className='form-section'>
@@ -418,8 +424,8 @@ const CaregiverFormView: FunctionComponent<
           <h5 className='content-title'>
             {languageTranslation('MENU_CAREGIVER')}
           </h5>
-          {idSearchAppointmentLoading ? (
-            <div className='appointment-form-loader'>
+          {idSearchAppointmentLoading && !isCorrespondingAppointment? (
+            <div className="appointment-form-loader">
               <Loader />
             </div>
           ) : null}

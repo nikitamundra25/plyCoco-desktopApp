@@ -624,6 +624,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     const editorState = temp ? HtmlToDraftConverter(temp) : '';
     setBody(editorState);
   }, [tokenData]);
+
+  console.log("hhhhhhhhhhhhhhhh",selectedCellsCareinstitution);
+  console.log("slelelelele",selectedCells);
+  
   //Use Effect for email template data
   useEffect(() => {
     // let emailTemplate:any = emailContent.filter((item:any) => item.label === mailEvent)[0];
@@ -694,6 +698,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           let object = selectedCellsCareinstitution[i];
           // If careInstitution has leasing attribute
           isLeasing = object.isLeasing;
+          
           if (object.item) {
             let obj: any = {};
             if (

@@ -153,7 +153,7 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
       });
     });
     if (totalCount > ASYNC_LIST_LIMIT) {
-      careGiversOptions.push({
+      options.push({
         label: languageTranslation("SEARCH_TIP"),
         value: "",
         color: "",
@@ -181,7 +181,11 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
         value={props.value}
         defaultOptions={careGiversOptions}
         loadOptions={debounce(getOptions, 1000)}
-        onChange={props.onChange}
+        onChange={(e: any) => {
+          e.label !== languageTranslation("NAME") && e.value !== languageTranslation("ID") ?
+            props.onChange :
+            null
+        }}
         placeholder={placeholderLabel}
         classNamePrefix="custom-inner-reactselect"
         className={

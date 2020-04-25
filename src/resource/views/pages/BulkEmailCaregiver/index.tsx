@@ -624,6 +624,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     const editorState = temp ? HtmlToDraftConverter(temp) : '';
     setBody(editorState);
   }, [tokenData]);
+
+  console.log("hhhhhhhhhhhhhhhh",selectedCellsCareinstitution);
+  console.log("slelelelele",selectedCells);
+  
   //Use Effect for email template data
   useEffect(() => {
     // let emailTemplate:any = emailContent.filter((item:any) => item.label === mailEvent)[0];
@@ -694,6 +698,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           let object = selectedCellsCareinstitution[i];
           // If careInstitution has leasing attribute
           isLeasing = object.isLeasing;
+          
           if (object.item) {
             let obj: any = {};
             if (
@@ -1543,7 +1548,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     }
   }
   useEffect(() => {
-    if (userId && pdfAppointmentDetails && pdfAppointmentDetails.length) {
+    if (userId && leasingContract && pdfAppointmentDetails && pdfAppointmentDetails.length) {
       let documentInput: any = {
         appointmentId: appointmentIds,
         userId: parseInt(userId),
@@ -1580,7 +1585,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   }, [pdfAppointmentDetails]);
 
   useEffect(() => {
-    if (userId && pdfTerminateAppointment) {
+    if (userId && terminateAggrement && pdfTerminateAppointment && pdfTerminateAppointment.name) {
       let documentInput: any = {
         appointmentId: appointmentIds,
         userId: parseInt(userId),

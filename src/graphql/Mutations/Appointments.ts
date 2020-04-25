@@ -128,6 +128,7 @@ const UPDATE_INSTITUTION_REQUIREMENT = gql`
       isWorkingProof
       offerRemarks
       bookingRemarks
+      qualificationForCharge
       comments
       f
       s

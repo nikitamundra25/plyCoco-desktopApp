@@ -150,7 +150,7 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
         // return true;
       });
       if (totalCount > ASYNC_LIST_LIMIT) {
-        careInstitutionOptions.push({
+        options.push({
           label: languageTranslation("SEARCH_TIP"),
           value: "",
           companyName: "",
@@ -175,7 +175,11 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
         value={props.value}
         defaultOptions={careInstitutionOptions}
         loadOptions={debounce(getOptions, 1000)}
-        onChange={props.onChange}
+        onChange={(e: any) => {
+          e.label !== languageTranslation("SHORT_NAME") && e.value !== languageTranslation("COMPANY_NAME") && e.label !== languageTranslation("ID")?
+            props.onChange :
+            null
+        }}
         placeholder={placeholderLabel}
         classNamePrefix="custom-inner-reactselect"
         className={

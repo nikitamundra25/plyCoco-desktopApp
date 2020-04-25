@@ -45,13 +45,13 @@ import leasing_contact from "../../../../assets/img/dropdown/leasing.svg";
 import termination from "../../../../assets/img/dropdown/aggrement.svg";
 import refresh from "../../../../assets/img/refresh.svg";
 // import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
-import { ConfirmBox } from "../../../components/ConfirmBox";
-import "../index.scss";
-import "react-virtualized/styles.css"; // only needs to be imported once
-import BulkEmailCareGiverModal from "../BulkEmailCareGiver";
-import UnlinkAppointment from "../unlinkModal";
-import DetaillistCaregiverPopup from "../DetailedList/DetailListCaregiver";
-import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
+import { ConfirmBox } from '../../../components/ConfirmBox';
+import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
+import UnlinkAppointment from '../unlinkModal';
+import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
+import '../index.scss';
+import 'react-virtualized/styles.css'; // only needs to be imported once
+
 let toastId: any = null;
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -64,7 +64,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onAddingRow,
     selectedCells,
     handleSelection,
-    handleReset,
+    updateLeasingContractStatus,
     onReserve,
     onDeleteEntries,
     onCaregiverQualificationFilter,
@@ -116,13 +116,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
 
   // To close the email pop-up
   const handleClose = () => {
-    console.log("in handleClose");
     if (
       (leasingContract || terminateAggrement) &&
-      props.fetchingCareGiverData
+      updateLeasingContractStatus
     ) {
-      console.log("in if");
-      props.fetchingCareGiverData();
+      console.log('in if');
+      updateLeasingContractStatus(leasingContract ? 'contractInitiated' : 'contractcancelled');
     }
     setopenCareGiverBulkEmail(false);
     setconfirmApp(false);
@@ -982,9 +981,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   allowClickWithoutSelected
                   className="custom-row-selector"
                   clickClassName="tick"
-                  resetOnStart={true}
-                  allowCtrlClick={false}
-                  onSelectionFinish={onSelectFinish}
+                  resetOnStart={false}
+                  allowCtrlClick={true}
+                  onSelectionFinish={(cells:any) => {
+                    console.log("onSlectionfinish",cells);
+                    onSelectFinish(cells)
+                  }}
                   ignoreList={[
                     ".name-col",
                     ".h-col",
@@ -1183,7 +1185,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       </div>
       {openCareGiverBulkEmail ? (
         <BulkEmailCareGiverModal
-          updateLinkedStatus={props.fetchingCareGiverData}
+          // updateLinkedStatus={props.fetchingCareGiverData}
           openModal={openCareGiverBulkEmail}
           qualification={
             sortedQualificationList && sortedQualificationList

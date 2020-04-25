@@ -36,13 +36,16 @@ import {
   TimeMask,
 } from "../../../../../config";
 import "../index.scss";
-import { LeasingContractQueries } from "../../../../../graphql/queries";
+import {
+  LeasingContractQueries,
+  AppointmentsQueries,
+} from "../../../../../graphql/queries";
 import { useLazyQuery } from "@apollo/react-hooks";
 import MaskedInput from "react-text-mask";
 import Loader from "../../../containers/Loader/Loader";
 
 const [GET_LEASING_CONTRACT] = LeasingContractQueries;
-
+const [, , , , , , , GET_CONTRACT_BY_APPOINTMENT_ID] = AppointmentsQueries;
 const CaregiverFormView: FunctionComponent<
   FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 > = (
@@ -53,7 +56,10 @@ const CaregiverFormView: FunctionComponent<
   const [getLeasingContractPDF, { data: pdfData, loading }] = useLazyQuery<any>(
     GET_LEASING_CONTRACT
   );
-
+  // query to get contract pdf
+  const [getContractPDF, { data: contractData }] = useLazyQuery<any>(
+    GET_CONTRACT_BY_APPOINTMENT_ID
+  );
   //For saving both
   useEffect(() => {
     if (props.savingBoth) {
@@ -128,7 +134,7 @@ const CaregiverFormView: FunctionComponent<
     breakHoursFromErrMsg,
     starCaregiver,
     idSearchAppointmentLoading,
-    selectedCellsCareinstitution
+    selectedCellsCareinstitution,
   } = props;
 
   let dateData =
@@ -163,7 +169,9 @@ const CaregiverFormView: FunctionComponent<
         name
       );
       if (!validate) {
-        setworkingHoursFromErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
+        setworkingHoursFromErrMsg(
+          languageTranslation("DATE_VALIDATION_MESSAGE")
+        );
       } else {
         let validDateData = dateValidatorNorm(workingHoursFromDate);
         if (!validDateData.isValid) {
@@ -221,6 +229,7 @@ const CaregiverFormView: FunctionComponent<
     }
   };
   let isLeasingAppointment = false;
+  let isAppointment = false;
   // To check appointment with leasing careInst or not
   if (selectedCells && selectedCells.length) {
     isLeasingAppointment = selectedCells.filter(
@@ -234,12 +243,19 @@ const CaregiverFormView: FunctionComponent<
     ).length
       ? true
       : false;
+    isAppointment = selectedCells.filter(
+      (cell: any) =>
+        cell && cell.item && cell.item.appointments && cell.item.appointments
+    ).length
+      ? true
+      : false;
+    console.log("isAppointment", isAppointment);
   }
   useEffect(() => {
     if (isLeasingAppointment) {
-      const { id = '', item = {} } = selectedCells[0] ? selectedCells[0] : {};
+      const { id = "", item = {} } = selectedCells[0] ? selectedCells[0] : {};
       const { appointments = [] } = item ? item : {};
-      const { avabilityId = '', id: appointmentId = '' } =
+      const { avabilityId = "", id: appointmentId = "" } =
         appointments && appointments.length && appointments[0]
           ? appointments[0]
           : {};
@@ -248,9 +264,27 @@ const CaregiverFormView: FunctionComponent<
           userId: parseInt(id),
           availabilityId: [parseInt(avabilityId)],
           appointmentId: [parseInt(appointmentId)],
-          documentUploadType: 'leasingContract',
+          documentUploadType: "leasingContract",
         },
       });
+    }
+    if (isAppointment) {
+      console.log("inside pdf form");
+
+      // To get signed contract in case of booked appointment
+      const { item = {} } = selectedCells[0] ? selectedCells[0] : {};
+      const { appointments = [] } = item ? item : {};
+      const { id: appointmentId = "" } =
+        appointments && appointments.length && appointments[0]
+          ? appointments[0]
+          : {};
+      getContractPDF({
+        variables: {
+          appointmentId: appointmentId,
+          // appointments && appointments[0] ? appointments[0].id : null,
+        },
+      });
+      console.log("contractData@@@@@@@@@@@@@@@@@", contractData);
     }
   }, [selectedCells]);
 
@@ -292,8 +326,11 @@ const CaregiverFormView: FunctionComponent<
     ) {
       isContract = true;
     } else if (
-      (selctedAvailability && (selctedAvailability.status === "confirmed" ||  selctedAvailability.status === "timeSheetUpdated")) ||
-      (status === "confirmed" || status === "timeSheetUpdated")
+      (selctedAvailability &&
+        (selctedAvailability.status === "confirmed" ||
+          selctedAvailability.status === "timeSheetUpdated")) ||
+      status === "confirmed" ||
+      status === "timeSheetUpdated"
     ) {
       isConfirm = true;
     } else if (
@@ -351,13 +388,30 @@ const CaregiverFormView: FunctionComponent<
   const { document = "" } =
     pdfDetails && pdfDetails.length ? pdfDetails[0] : {};
 
-    
-    let isCorrespondingAppointment: boolean = false
-    if(selectedCells && selectedCells.length && selectedCells[0] && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length){
-      if(selectedCells[0].item.appointments[0].avabilityId === appointmentId){
-        isCorrespondingAppointment = true
-      }
+  // signed self employmentt contract
+  const { getContractByAppointmentID = [] } = contractData ? contractData : {};
+  const { user_document = {} } =
+    getContractByAppointmentID && getContractByAppointmentID.length
+      ? getContractByAppointmentID[0]
+      : [];
+  const { document: selfEmploymentcontract = "" } = user_document
+    ? user_document
+    : {};
+  console.log("selfEmploymentcontract", selfEmploymentcontract);
+
+  let isCorrespondingAppointment: boolean = false;
+  if (
+    selectedCells &&
+    selectedCells.length &&
+    selectedCells[0] &&
+    selectedCells[0].item &&
+    selectedCells[0].item.appointments &&
+    selectedCells[0].item.appointments.length
+  ) {
+    if (selectedCells[0].item.appointments[0].avabilityId === appointmentId) {
+      isCorrespondingAppointment = true;
     }
+  }
   return (
     <>
       <div className="form-section">
@@ -378,7 +432,7 @@ const CaregiverFormView: FunctionComponent<
           <h5 className="content-title">
             {languageTranslation("MENU_CAREGIVER")}
           </h5>
-          {idSearchAppointmentLoading && !isCorrespondingAppointment? (
+          {idSearchAppointmentLoading && !isCorrespondingAppointment ? (
             <div className="appointment-form-loader">
               <Loader />
             </div>
@@ -394,23 +448,23 @@ const CaregiverFormView: FunctionComponent<
                       </Label>
                     </Col>
                     <Col sm="8">
-                    <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                      <div className="required-input appointment-id-width">
-                        <Input
-                          type="text"
-                          disabled={true}
-                          name={"appointmentId"}
-                          value={appointmentId ? appointmentId : null}
-                          placeholder={languageTranslation("APPOINTMENT_ID")}
-                          className="width-common"
-                        />
-                      </div>
-                      {isLeasingAppointment ? (
-                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                      <div className="d-flex align-items-center justify-content-between flex-wrap">
+                        <div className="required-input appointment-id-width">
+                          <Input
+                            type="text"
+                            disabled={true}
+                            name={"appointmentId"}
+                            value={appointmentId ? appointmentId : null}
+                            placeholder={languageTranslation("APPOINTMENT_ID")}
+                            className="width-common"
+                          />
+                        </div>
+                        {isLeasingAppointment ? (
+                          <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
                             TIMyoCY
                           </div>
                         ) : (
-                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                          <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
                             Plycoco
                           </div>
                         )}
@@ -444,9 +498,18 @@ const CaregiverFormView: FunctionComponent<
                             name
                               ? onhandleCaregiverStar(
                                   selectedCareGiver ? selectedCareGiver.id : "",
-                                  false, careGiversListArr && careGiversListArr.result && careGiversListArr.result.length ?careGiversListArr.result.findIndex(
-                                    (cg: any) => selectedCareGiver && cg.id === selectedCareGiver.id
-                                  ) < 0 ? true : false : false
+                                  false,
+                                  careGiversListArr &&
+                                    careGiversListArr.result &&
+                                    careGiversListArr.result.length
+                                    ? careGiversListArr.result.findIndex(
+                                        (cg: any) =>
+                                          selectedCareGiver &&
+                                          cg.id === selectedCareGiver.id
+                                      ) < 0
+                                      ? true
+                                      : false
+                                    : false
                                 )
                               : // handleUserList(
                                 //   selectedCareGiver ? selectedCareGiver.id : '',
@@ -594,7 +657,7 @@ const CaregiverFormView: FunctionComponent<
                             </div>
                           </FormGroup>
                           {timeSlotError && (
-                            <div className="required-checkbox-error">
+                            <div className="required-checkbox-error night-allawance-error">
                               {timeSlotError}
                             </div>
                           )}
@@ -950,7 +1013,8 @@ const CaregiverFormView: FunctionComponent<
               </>
             )}
             {selctedAvailability &&
-            (selctedAvailability.status === "confirmed" || selctedAvailability.status === 'timeSheetUpdated') &&
+            (selctedAvailability.status === "confirmed" ||
+              selctedAvailability.status === "timeSheetUpdated") &&
             new Date(activeDateCaregiver[0]) <= new Date() ? (
               <>
                 <Col lg={"12"}>
@@ -1338,9 +1402,24 @@ const CaregiverFormView: FunctionComponent<
                         </div>
                       </FormGroup>
                     </div>
+                    {console.log(
+                      "${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}",
+                      `${AppConfig.FILES_ENDPOINT}/${selfEmploymentcontract}`
+                    )}
                     {document ? (
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${document}`}
+                        target={"_blank"}
+                        className="view-more-link text-underline"
+                      >
+                        <i className="fa fa-file-o mr-2" />
+                        {languageTranslation("CONTRACT")}
+                      </a>
+                    ) : getContractByAppointmentID &&
+                      getContractByAppointmentID.length &&
+                      selfEmploymentcontract ? (
+                      <a
+                        href={`${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}`}
                         target={"_blank"}
                         className="view-more-link text-underline"
                       >

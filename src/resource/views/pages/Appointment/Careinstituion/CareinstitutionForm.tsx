@@ -95,10 +95,10 @@ const CareinstitutionFormView: FunctionComponent<
     starCanstitution,
     idSearchAppointmentLoading,
     selectedCellsCareinstitution,
-    selectedCells
+    selectedCells,
   } = props;
-console.log(selectedCells,'selectedCells');
-console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
+  console.log(selectedCells, "selectedCells");
+  console.log("selectedCellsCareinstitution", selectedCellsCareinstitution);
 
   let d = moment().format("L");
   let dtStart: any = new Date(d + " " + startTime);
@@ -107,7 +107,7 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    console.log('props.values', props.values);
+    console.log("props.values", props.values);
 
     setFieldValue(name, selectOption);
     if (name === "department") {
@@ -118,23 +118,23 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
     }
   };
   let dateCondition: any;
-  let dateData: any
+  let dateData: any;
   if (
     activeDateCareinstitution &&
     activeDateCareinstitution.length &&
     activeDateCareinstitution[0]
   ) {
-    dateData = activeDateCareinstitution[0]
+    dateData = activeDateCareinstitution[0];
     let now = moment().format(dbAcceptableFormat);
     let input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
     dateCondition = now <= input;
   }
 
-  let isFutureDate: boolean = false
-if(dateData){
-  let dateStr = moment(dateData).add(1, "days").format("YYYY/MM/DD")
-  isFutureDate= moment(dateStr, "YYYY/MM/DD").isAfter();
-}
+  let isFutureDate: boolean = false;
+  if (dateData) {
+    let dateStr = moment(dateData).add(1, "days").format("YYYY/MM/DD");
+    isFutureDate = moment(dateStr, "YYYY/MM/DD").isAfter();
+  }
 
   let isRequirment: boolean = false,
     isMatching: boolean = false,
@@ -164,12 +164,18 @@ if(dateData){
     ) {
       isConfirm = true;
     } else if (
-      (selctedRequirement && selctedRequirement.status === "offered"  && isFutureDate === false) ||
-      (status === "offered" &&  isFutureDate === false)
+      (selctedRequirement &&
+        selctedRequirement.status === "offered" &&
+        isFutureDate === false) ||
+      (status === "offered" && isFutureDate === false)
     ) {
       isOffered = true;
-    } else if((selctedRequirement && selctedRequirement.status === "offered"  && isFutureDate === true) ||
-    (status === "offered" &&  isFutureDate === true)){
+    } else if (
+      (selctedRequirement &&
+        selctedRequirement.status === "offered" &&
+        isFutureDate === true) ||
+      (status === "offered" && isFutureDate === true)
+    ) {
       isOfferedFutureDate = true;
     }
   }
@@ -179,13 +185,19 @@ if(dateData){
       careInstitutionListArr && careInstitutionListArr.result
         ? careInstitutionListArr.result
         : {};
-     
-    if (id && careInstitutionListArr && careInstitutionListArr.result && careInstitutionListArr && careInstitutionListArr.result.length) {
+
+    if (
+      id &&
+      careInstitutionListArr &&
+      careInstitutionListArr.result &&
+      careInstitutionListArr &&
+      careInstitutionListArr.result.length
+    ) {
       data = careInstitutionListArr.result.filter((x: any) => x.id === id)[0];
       let index = careInstitutionListArr.result.findIndex(
         (el: any) => el.id === id
       );
-      handleFirstStarCanstitution({id}, index);
+      handleFirstStarCanstitution({ id }, index);
     }
   };
 
@@ -196,26 +208,42 @@ if(dateData){
       ? careInstitutionTimesOptions
       : ShiftTime;
 
- 
-
   let isLeasingAppointment = false;
+  let showQualification = false;
   // To check appointment with leasing careInst or not
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-     isLeasingAppointment =
-      selectedCellsCareinstitution &&
+    isLeasingAppointment = 
       selectedCellsCareinstitution[0] &&
       selectedCellsCareinstitution[0].item &&
       selectedCellsCareinstitution[0].item.isLeasing
         ? true
         : false;
+
+    // To check appointment with leasing careInst or not
+    showQualification =
+      selectedCellsCareinstitution &&
+      selectedCellsCareinstitution[0] &&
+      selectedCellsCareinstitution[0].isLeasing
+        ? true
+        : false;
   }
-let isCorrespondingAppointment: boolean = false
-    if(selectedCellsCareinstitution && selectedCellsCareinstitution.length && selectedCellsCareinstitution[0] && selectedCellsCareinstitution[0].item && selectedCellsCareinstitution[0].item.appointments && selectedCellsCareinstitution[0].item.appointments.length){
-      if(selectedCellsCareinstitution[0].item.appointments[0].requirementId === appointmentId){
-        isCorrespondingAppointment = true
-      }
+  let isCorrespondingAppointment: boolean = false;
+  if (
+    selectedCellsCareinstitution &&
+    selectedCellsCareinstitution.length &&
+    selectedCellsCareinstitution[0] &&
+    selectedCellsCareinstitution[0].item &&
+    selectedCellsCareinstitution[0].item.appointments &&
+    selectedCellsCareinstitution[0].item.appointments.length
+  ) {
+    if (
+      selectedCellsCareinstitution[0].item.appointments[0].requirementId ===
+      appointmentId
+    ) {
+      isCorrespondingAppointment = true;
     }
-  
+  }
+
   return (
     <>
       <div className="form-section ">
@@ -227,13 +255,13 @@ let isCorrespondingAppointment: boolean = false
             "matching-bg": isMatching,
             "contract-bg": isConfirm,
             "availability-bg": isOffered,
-            'availability-dark-bg': isOfferedFutureDate
+            "availability-dark-bg": isOfferedFutureDate,
           })}
         >
           <h5 className="content-title">
             {languageTranslation("MENU_INSTITUTION")}
           </h5>
-          {idSearchAppointmentLoading  && !isCorrespondingAppointment? (
+          {idSearchAppointmentLoading && !isCorrespondingAppointment ? (
             <div className="appointment-form-loader">
               <Loader />
             </div>
@@ -243,43 +271,31 @@ let isCorrespondingAppointment: boolean = false
               <Col lg={"12"}>
                 <FormGroup>
                   <Row>
-                    <Col sm='4'>
-                      <Label className='form-label col-form-label'>
-                        {languageTranslation('APPOINTMENT_ID')}
+                    <Col sm="4">
+                      <Label className="form-label col-form-label">
+                        {languageTranslation("APPOINTMENT_ID")}
                       </Label>
                     </Col>
-                    <Col sm='8'>
-                      <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                        <div className='required-input appointment-id-width'>
+                    <Col sm="8">
+                      <div className="d-flex align-items-center justify-content-between flex-wrap">
+                        <div className="required-input appointment-id-width">
                           <Input
                             value={appointmentId}
                             disabled
-                            placeholder={languageTranslation('APPOINTMENT_ID')}
+                            placeholder={languageTranslation("APPOINTMENT_ID")}
                           />
                         </div>
                         {isLeasingAppointment ? (
-                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                          <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
                             TIMyoCY
                           </div>
-                        ) : <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
-                        Plycoco
-                      </div>}
+                        ) : (
+                          <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
+                            Plycoco
+                          </div>
+                        )}
                       </div>
-                      {/* <div className='required-input'>
-                        <Input
-                          value={appointmentId}
-                          disabled
-                          placeholder={languageTranslation("APPOINTMENT_ID")}
-                        />
-                      </div> */}
                     </Col>
-                    {/* {isLeasingAppointment ? (
-                      <Col sm='4'>
-                        <Label className='form-label col-form-label'>
-                         TIMyoCY
-                        </Label>
-                      </Col>
-                    ) : null} */}
                   </Row>
                 </FormGroup>
               </Col>
@@ -472,15 +488,15 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('END_WORKING')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("END_WORKING")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input clockshift-input'>
-                      <InputGroup className='flex-nowrap'>
-                        <Field name={'endTime'}>
+                  <Col sm="8">
+                    <div className="required-input clockshift-input">
+                      <InputGroup className="flex-nowrap">
+                        <Field name={"endTime"}>
                           {({ field }: any) => (
                             <MaskedInput
                               {...field}
@@ -522,13 +538,13 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('QUALIFICATION')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("QUALIFICATION")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='postion-relative'>
+                  <Col sm="8">
+                    <div className="postion-relative">
                       <Button
                         className={
                           qualificationId && qualificationId.length
@@ -588,31 +604,31 @@ let isCorrespondingAppointment: boolean = false
                 </Row>
               </FormGroup>
             </Col>
-            {isLeasingAppointment ? (
-              <Col lg={'12'}>
+            {showQualification ? (
+              <Col lg={"12"}>
                 <FormGroup>
                   <Row>
-                    <Col sm='4'>
-                      <Label className='form-label col-form-label'>
-                        {languageTranslation('QUALIFICATION_FOR_CHARGE')}
+                    <Col sm="4">
+                      <Label className="form-label col-form-label">
+                        {languageTranslation("QUALIFICATION_FOR_CHARGE")}
                       </Label>
                     </Col>
-                    <Col sm='8'>
-                      <div className='postion-relative'>
+                    <Col sm="8">
+                      <div className="postion-relative">
                         <Select
                           options={qualificationList}
                           placeholder={languageTranslation(
-                            'QUALIFICATION_FOR_CHARGE'
+                            "QUALIFICATION_FOR_CHARGE"
                           )}
                           className={
                             errors.qualificationForCharge &&
                             touched.qualificationForCharge
-                              ? 'custom-reactselect error'
-                              : 'custom-reactselect'
+                              ? "custom-reactselect error"
+                              : "custom-reactselect"
                           }
-                          classNamePrefix='custom-inner-reactselect'
+                          classNamePrefix="custom-inner-reactselect"
                           onChange={(value: any) =>
-                            handleSelect(value, 'qualificationForCharge')
+                            handleSelect(value, "qualificationForCharge")
                           }
                           value={
                             qualificationForCharge
@@ -627,18 +643,18 @@ let isCorrespondingAppointment: boolean = false
               </Col>
             ) : null}
 
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('DEPARTMENT')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("DEPARTMENT")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
+                  <Col sm="8">
+                    <div className="required-input">
                       <Select
-                        placeholder={languageTranslation('SELECT_DEPARTMENT')}
+                        placeholder={languageTranslation("SELECT_DEPARTMENT")}
                         options={careInstitutionDepartment}
                         isDisabled={
                           careInstitutionDepartment.length <= 0 ? true : false
@@ -671,13 +687,13 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('ADDRESS')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("ADDRESS")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
+                  <Col sm="8">
+                    <div className="required-input">
                       <Input
                         type="textarea"
                         name={"address"}
@@ -695,13 +711,13 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('CONTACT_PERSON')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("CONTACT_PERSON")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
+                  <Col sm="8">
+                    <div className="required-input">
                       <Input
                         type="text"
                         disabled={true}
@@ -718,13 +734,13 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARKS_OFFER_DEPARTMENT')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REMARKS_OFFER_DEPARTMENT")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
+                  <Col sm="8">
+                    <div className="required-input">
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -745,13 +761,13 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARKS_BOOKING_DEPARTEMENT')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REMARKS_BOOKING_DEPARTEMENT")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
+                  <Col sm="8">
+                    <div className="required-input">
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -774,15 +790,15 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
                       {languageTranslation(
                         "REMARK_DEPARTMENT_VISIBLE_INTERNALLY"
                       )}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
+                  <Col sm="8">
+                    <div className="required-input">
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -801,13 +817,13 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('WORKING_PROOF_NECESSARY')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("WORKING_PROOF_NECESSARY")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
+                  <Col sm="8">
+                    <div className="required-input">
                       <FormGroup check inline>
                         <div className=" checkbox-custom mb-0">
                           <input
@@ -836,13 +852,13 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARK_OFFER')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REMARK_OFFER")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
+                  <Col sm="8">
+                    <div className="required-input">
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -862,13 +878,13 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARK_BOOKING')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("REMARK_BOOKING")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
+                  <Col sm="8">
+                    <div className="required-input">
                       <Input
                         className="textarea-custom form-control"
                         rows="3"
@@ -888,13 +904,13 @@ let isCorrespondingAppointment: boolean = false
             <Col lg={"12"}>
               <FormGroup>
                 <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('COMMENT_ONLY_VISIBLE_INTERNALLY')}
+                  <Col sm="4">
+                    <Label className="form-label col-form-label">
+                      {languageTranslation("COMMENT_ONLY_VISIBLE_INTERNALLY")}
                     </Label>
                   </Col>
-                  <Col sm='8'>
-                    <div className='required-input'>
+                  <Col sm="8">
+                    <div className="required-input">
                       <Input
                         className="textarea-custom form-control"
                         rows="3"

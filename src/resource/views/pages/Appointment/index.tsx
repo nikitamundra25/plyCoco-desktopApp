@@ -444,8 +444,6 @@ const Appointment: FunctionComponent = (props: any) => {
           ? [...selectedCellsCareinstitution]
           : [];
         addCareInstitutionRequirement.forEach((requirement: any) => {
-          console.log(requirement, 'requirement');
-
           let index: number = temp.findIndex(
             (careInst: any) => careInst.id === requirement.userId
           );
@@ -455,7 +453,6 @@ const Appointment: FunctionComponent = (props: any) => {
               (careInst: any) => careInst.deptId === requirement.divisionId
             );
           }
-          console.log(deptIndex, 'deptIndex');
 
           // else {
           //   index = temp.findIndex(
@@ -1594,6 +1591,8 @@ const Appointment: FunctionComponent = (props: any) => {
       let departmentData: any = [];
       const { getRequirementAndAvabilityById } = appointmentFilterById;
       const { requirementData, avabilityData } = getRequirementAndAvabilityById;
+      console.log("requirementData",requirementData);
+      
       const {
         id = '',
         name = '',
@@ -1612,6 +1611,8 @@ const Appointment: FunctionComponent = (props: any) => {
         qualificationId = [],
         startTime = '',
         userId = '',
+        isLeasing = '',
+        qualificationForCharge=''
       } = requirementData ? requirementData : {};
       let qualificationData: IReactSelectInterface[] = [];
       if (qualificationList && qualificationId) {
@@ -1658,6 +1659,7 @@ const Appointment: FunctionComponent = (props: any) => {
           },
           qualificationIds,
           dateString: date ? date : '',
+          isLeasing: isLeasing,
           item: {
             appointmentId: id ? id : '',
             id: id ? id : '',
@@ -1667,6 +1669,7 @@ const Appointment: FunctionComponent = (props: any) => {
             endTime,
             startTime,
             qualificationId: qualificationData ? qualificationData : undefined,
+            qualificationForCharge: qualificationForCharge ? qualificationForCharge : undefined,
             address,
             contactPerson,
             department: divisionId
@@ -1688,6 +1691,7 @@ const Appointment: FunctionComponent = (props: any) => {
               requirementData && requirementData.status
                 ? requirementData.status
                 : '',
+                isLeasing: isLeasing
           },
         },
       ];

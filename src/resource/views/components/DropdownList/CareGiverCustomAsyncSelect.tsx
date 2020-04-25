@@ -182,9 +182,9 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
         defaultOptions={careGiversOptions}
         loadOptions={debounce(getOptions, 1000)}
         onChange={(e: any) => {
-          e.label !== languageTranslation("NAME") && e.value !== languageTranslation("ID") ?
-            props.onChange :
-            null
+          if (e.label !== languageTranslation("NAME") && e.value !== languageTranslation("ID")) {
+            props.onChange(e) 
+          }
         }}
         placeholder={placeholderLabel}
         classNamePrefix="custom-inner-reactselect"

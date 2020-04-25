@@ -176,9 +176,9 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
         defaultOptions={careInstitutionOptions}
         loadOptions={debounce(getOptions, 1000)}
         onChange={(e: any) => {
-          e.label !== languageTranslation("SHORT_NAME") && e.value !== languageTranslation("COMPANY_NAME") && e.label !== languageTranslation("ID")?
-            props.onChange :
-            null
+          if (e.label !== languageTranslation("SHORT_NAME") && e.value !== languageTranslation("COMPANY_NAME") && e.label !== languageTranslation("ID")) {
+            props.onChange(e)
+          }
         }}
         placeholder={placeholderLabel}
         classNamePrefix="custom-inner-reactselect"

@@ -2860,6 +2860,53 @@ if(selectedCells && selectedCells.length && caregiverLastTimeData &&
     }
   };
 
+  // TO update the status of the cell & data because it's api is different
+  const updateLeasingContractStatus = (status:string) => {
+    console.log(status,'updateLeasingContractStatus');
+    
+    const temp = [...caregiversList];
+    const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
+    if (selectedCaregiverCells && selectedCaregiverCells.length) {
+      let index: number = temp.findIndex(
+        (caregiver: any) => caregiver.id === selectedCaregiverCells[0].id
+      );
+      if(index > -1){
+        selectedCaregiverCells.forEach((cell:any, cellIndex:number) => {
+          for (let i = 0; i < temp[index].availabilityData.length; i++) {
+            let element: any[] = [...temp[index].availabilityData[i]];
+            let availabilityIndex: number = element.findIndex(
+              (e: any) => cell && cell.item && e.id === cell.item.id
+            );
+            console.log(cell,availabilityIndex,'updateCareGiverAvability');
+            if (availabilityIndex > -1) {
+              temp[index].availabilityData[i][
+                availabilityIndex
+              ] = {...temp[index].availabilityData[i][
+                availabilityIndex
+              ], status
+            }
+              break;
+            }
+          }
+          console.log(temp,'temppppp');
+          // let cellIndex: number = selectedCaregiverCells.findIndex(
+          //   (cell: any) =>
+          //   cell.item && updateCareGiverAvability.id === cell.item.id
+          //   );
+            if (selectedCaregiverCells[cellIndex]) {
+            selectedCaregiverCells[cellIndex] = {
+              ...selectedCaregiverCells[cellIndex],
+              item: {...selectedCaregiverCells[cellIndex].item, status},
+            };
+          }
+        })
+        console.log(selectedCaregiverCells,'selectedCaregiverCells');
+        
+      setSelectedCells(selectedCaregiverCells);
+    }
+  }
+  }
+
   // when terminating contract
   const onTerminateAggrement = async () => {
     if (selectedCells && selectedCells.length) {
@@ -4690,6 +4737,7 @@ console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
                     onhandleCaregiverStar={onhandleCaregiverStar}
                     starMarkCaregiver={starMarkCaregiver}
                     starCaregiver={starCaregiver}
+                    updateLeasingContractStatus={updateLeasingContractStatus}
                   />
                   {/* care insitution list */}
                   <CarinstituionListView

@@ -183,14 +183,14 @@ console.log(selctedRequirement,'selctedRequirement');
     let input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
     dateCondition = now <= input;
   }
-
+  console.log(selectedCellsCareinstitution,'selectedCellsCareinstitution');
+  
   let isLeasingAppointment = false;
   // To check appointment with leasing careInst or not
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     isLeasingAppointment =
-      selectedCellsCareinstitution &&
-      selectedCellsCareinstitution[0] &&
-      selectedCellsCareinstitution[0].isLeasing;
+      selectedCellsCareinstitution[0] && selectedCellsCareinstitution[0].item &&
+      selectedCellsCareinstitution[0].item.isLeasing;
   }
   return (
     <>

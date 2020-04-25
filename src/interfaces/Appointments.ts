@@ -86,7 +86,8 @@ export interface IAppointmentCareGiverList {
   careinstitutionSoloFilter: IReactSelectInterface | undefined;
   onhandleCaregiverStar: (id: string, isSecondStar:boolean) => void;
   starMarkCaregiver: boolean;
-  starCaregiver: IStarInterface
+  starCaregiver: IStarInterface;
+  updateLeasingContractStatus:(status:string) => void
 }
 
 export interface IAppointmentCareInstitutionList {

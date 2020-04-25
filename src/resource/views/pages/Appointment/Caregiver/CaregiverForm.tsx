@@ -581,7 +581,7 @@ const CaregiverFormView: FunctionComponent<
             ) : (
               <>
                 <Col lg={"12"}>
-                  <FormGroup>
+                  <FormGroup className="mb-2">
                     <Row>
                       <Col sm="4">
                         <Label className="form-label col-form-label">
@@ -635,7 +635,7 @@ const CaregiverFormView: FunctionComponent<
                             </div>
                           </FormGroup>
                           <FormGroup check inline>
-                            <div className=" checkbox-custom mb-2">
+                            <div className=" checkbox-custom mb-3">
                               <input
                                 type="checkbox"
                                 id="night"

@@ -210,6 +210,8 @@ const CareinstitutionFormView: FunctionComponent<
 
   let isLeasingAppointment = false;
   let showQualification = false;
+  console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
+  
   // To check appointment with leasing careInst or not
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     isLeasingAppointment = 

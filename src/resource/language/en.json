@@ -1131,8 +1131,8 @@
   "SELECT_APPOINTMENT_LABEL": "Select appointment",
   "LAST_TIME": "Last Time",
   "SELECT_CAREINSTITUTION_FIRST": "Select careInstitution first",
-" EDIT_EMPLOYEE":"Edit Employee",
-" VIEW_EMPLOYEE":"View Employee",
+  " EDIT_EMPLOYEE": "Edit Employee",
+  " VIEW_EMPLOYEE": "View Employee",
   "NO_INVOICE_FOR_LIST": "No contract list for invoice creation",
   "ROUTE_LOGIN": "Login",
   "DASHBOARD": "Dashboard",
@@ -1190,6 +1190,9 @@
   "CAREGIVER_GROSS": "Caregiver gross/h",
   "NIGHT_PER_HOUR": "Night/hr",
   "TOTAL_NIGHT_CHARGE": "Total Night Charge",
-  "SEARCH_TIP":"Try to search with specific keywords to find more results.",
-  "WORKING_TIMES":"Working times avai."
+  "SEARCH_TIP": "Try to search with specific keywords to find more results.",
+  "WORKING_TIMES": "Working times avai.",
+  "TOTAL_SELECTION": "Total selection",
+  "SELECTED_APPOINTMENT_DONT_HAVE_CG": "Selected appointment don't have care giver",
+  "YOU_CANT_CREATE_INVOICE_WITH": "You can't create invoice with the selected appointment because of mismatch beetween caregiver & care-institutions"
 }

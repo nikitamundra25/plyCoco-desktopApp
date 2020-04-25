@@ -17,6 +17,7 @@ import {
   holidayCommission,
   weekendCommission,
   nightCommissionTim,
+  dbAcceptableFormat,
 } from '../../../../../config/constant';
 const LeasingList: FunctionComponent<IInvoiceList & any> = (
   props: IInvoiceList & any
@@ -42,19 +43,18 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
   };
 
   let count = (currentPage - 1) * PAGE_LIMIT + 1;
-  let qualiFilter: any;
-  qualiFilter = invoiceList.filter((item: any) => {
-    return item &&
-      item.ca &&
-      item.ca.user &&
-      item.ca.user.caregiver &&
-      item.ca.user.caregiver.attributes
-      ? item.ca.user.caregiver.attributes.includes(9)
-      : null;
-  });
-  console.log('qualiFilter', qualiFilter);
+  // let qualiFilter: any;
+  // qualiFilter = invoiceList.filter((item: any) => {
+  //   return item &&
+  //     item.ca &&
+  //     item.ca.user &&
+  //     item.ca.user.caregiver &&
+  //     item.ca.user.caregiver.attributes
+  //     ? item.ca.user.caregiver.attributes.includes(9)
+  //     : null;
+  // });
+  // console.log('qualiFilter', qualiFilter);
   console.log('invoiceList', invoiceList);
-
   return (
     <>
       <div className='table-minheight createinvoices-table'>
@@ -110,8 +110,8 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                   <Loader />
                 </td>
               </tr>
-            ) : qualiFilter && qualiFilter.length ? (
-              qualiFilter.map((list: any, index: number) => {
+            ) : invoiceList && invoiceList.length ? (
+              invoiceList.map((list: any, index: number) => {
                 let transportation: number =
                   list.ca && list.ca.feePerKM ? list.ca.feePerKM : 0;
                 let expenses: number =
@@ -132,22 +132,23 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                 let datetimeA: any = initialdate
                   ? moment(
                       `${initialdate} ${start_time}`,
-                      `${defaultDateFormat} HH:mm`
+                      `${dbAcceptableFormat} HH:mm`
                     ).format()
                   : '';
                 let datetimeB: any = enddate
                   ? moment(
                       `${enddate} ${end_time}`,
-                      `${defaultDateFormat} HH:mm`
+                      `${dbAcceptableFormat} HH:mm`
                     ).format()
                   : null;
                 let diffDate: any =
                   (new Date(datetimeB).getTime() -
                     new Date(datetimeA).getTime()) /
                   (3600 * 1000);
+                console.log('diffDate', diffDate);
+
                 let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : '';
                 let timeStamp: any = '';
-                console.log('time', time);
                 if (time === 'f' || time === 's' || time === 'n') {
                   timeStamp = '08';
                 } else {
@@ -159,6 +160,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                       : time === 'n'
                       ? 'n'
                       : '';
+                  // let split = time.split();
                   timeStamp = '';
                 }
                 //Show Weekend day
@@ -172,6 +174,8 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                     (data: any) => data.date === list.date
                   );
                 }
+                console.log('hasHoliday', hasHoliday);
+
                 // show night
                 let isNight: boolean = false;
                 // const dayData = new Date(list.date).getDay();
@@ -182,15 +186,54 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                 if (list && list.ca) {
                   totalAmount = list.ca.fee * 100;
                 }
-                {
-                  /* Caregiver Gross - Invoice (Timyocy to Caregiver)
-Brutto = BS + QA
-Leasing - ((Brutto + (Holiday = Brutto * 1) + (Sunday = Brutto * 0.5) + (Night = Brutto * 0.2)) * Hours ) + 2 * transprotation + expenses) * days) */
-                }
                 let days: number = 1,
-                  hours: number = 1,
-                  NP: number = 1,
-                  Brutto: number = 1;
+                  hours: any =
+                    list.ca && list.ca.workingHoursFrom
+                      ? parseFloat(diffDate).toFixed(2)
+                      : 0,
+                  NP: number = 0, // Money/hr + Margin
+                  Brutto: number = 0; // BS + QA
+                let leasingPriceList: number =
+                  list &&
+                  list.cr &&
+                  list.cr.canstitution &&
+                  list.ca.canstitution.leasingPriceListId
+                    ? list.ca.canstitution.leasingPriceListId
+                    : 23.5;
+                let MoneyPH: number =
+                  list &&
+                  list.cr &&
+                  list.cr.attribute_management &&
+                  list.cr.attribute_management.moneyPerHour
+                    ? parseInt(list.cr.attribute_management.moneyPerHour)
+                    : 0;
+                let BS: number =
+                  list &&
+                  list.cr &&
+                  list.cr.attribute_management &&
+                  list.cr.attribute_management.basicSalaryPerHour
+                    ? parseInt(list.cr.attribute_management.basicSalaryPerHour)
+                    : 0;
+                let QA: number =
+                  list &&
+                  list.cr &&
+                  list.cr.attribute_management &&
+                  list.cr.attribute_management.qualificationAllowance
+                    ? parseInt(
+                        list.cr.attribute_management.qualificationAllowance
+                      )
+                    : 0;
+                console.log('leasingPriceList', leasingPriceList);
+                console.log('MoneyPH', MoneyPH);
+
+                // calculating new price
+                NP = MoneyPH + leasingPriceList;
+                console.log('NP', NP);
+
+                // calculating brutto
+                Brutto = BS + QA;
+                console.log('Brutto', Brutto);
+
                 // find caregiver gross
                 let holidayPrice: number = 0,
                   weekendPrice: number = 0,
@@ -204,6 +247,15 @@ Leasing - ((Brutto + (Holiday = Brutto * 1) + (Sunday = Brutto * 0.5) + (Night =
                 if (isNight) {
                   nightPrice += Brutto * nightCommission;
                 }
+                console.log(
+                  'caregiver gross',
+                  'holidayPrice',
+                  holidayPrice,
+                  'weekendPrice',
+                  weekendPrice,
+                  'nightPrice',
+                  nightPrice
+                );
 
                 // find timyocy sum
                 let holidayPriceTim: number = 0,
@@ -218,6 +270,15 @@ Leasing - ((Brutto + (Holiday = Brutto * 1) + (Sunday = Brutto * 0.5) + (Night =
                 if (isNight) {
                   nightPriceTim += NP * nightCommissionTim;
                 }
+                console.log(
+                  'timyocy sum',
+                  'holidayPriceTim',
+                  holidayPriceTim,
+                  'weekendPriceTim',
+                  weekendPriceTim,
+                  'nightPriceTim',
+                  nightPriceTim
+                );
 
                 return (
                   <tr className='sno-col' key={index}>
@@ -229,13 +290,12 @@ Leasing - ((Brutto + (Holiday = Brutto * 1) + (Sunday = Brutto * 0.5) + (Night =
                           className=''
                           name={'status'}
                           onChange={(e: any) => handleCheckedChange(e, list)}
-                          // checked={"true"}
                         />
                         <label className=''>{count++}</label>
                       </span>
                     </td>
                     <td className='invoiceid-col'> {list.id}</td>
-                    <td className='h-col'>{timeStamp} </td>
+                    <td className='h-col'>{hours ? hours : '-'}</td>
                     <td className='text-col'>
                       {list && list.cr && list.cr.division
                         ? list.cr.division.name
@@ -257,10 +317,7 @@ Leasing - ((Brutto + (Holiday = Brutto * 1) + (Sunday = Brutto * 0.5) + (Night =
                     <td className='datetime-col'>
                       {list.ca && list.ca.breakFrom ? list.ca.breakFrom : '-'}
                     </td>
-                    <td className='price-col'>
-                      qualification price
-                      {/* {list.ca && list.ca.nightFee ? list.ca.nightFee : '-'}{' '} */}
-                    </td>
+                    <td className='price-col'>{QA ? QA : 0}</td>
                     <td className='price-col'>00.00 &euro;</td>
                     <td className='price-col'>
                       {list.ca && list.ca.nightFee ? (
@@ -320,17 +377,39 @@ Leasing - ((Brutto + (Holiday = Brutto * 1) + (Sunday = Brutto * 0.5) + (Night =
                       )}
                     </td>
                     <td className='price-col'>
-                      {(NP +
-                        holidayPriceTim +
-                        weekendPriceTim +
-                        nightPriceTim) *
-                        hours +
-                        2 * (transportation + expenses) * days}
+                      {workBegain && workEnd ? (
+                        <>
+                          {
+                            (NP +
+                              holidayPriceTim +
+                              weekendPriceTim +
+                              nightPriceTim) *
+                              hours +
+                              2 * (transportation + expenses) /* * days */
+                          }{' '}
+                          &euro;
+                        </>
+                      ) : (
+                        <>00.00 &euro;</>
+                      )}
                     </td>
                     <td className='price-col'>
-                      {(Brutto + holidayPrice + weekendPrice + nightPrice) *
-                        hours +
-                        2 * (transportation + expenses) * days}
+                      {workBegain && workEnd ? (
+                        <>
+                          {(
+                            (Brutto +
+                              holidayPrice +
+                              weekendPrice +
+                              nightPrice) *
+                              hours +
+                            2 * (transportation + expenses)
+                          ) /* * days */
+                            .toFixed(2)}{' '}
+                          &euro;
+                        </>
+                      ) : (
+                        <>00.00 &euro;</>
+                      )}
                     </td>
                   </tr>
                 );
@@ -352,15 +431,13 @@ Leasing - ((Brutto + (Holiday = Brutto * 1) + (Sunday = Brutto * 0.5) + (Night =
           </tbody>
         </Table>
       </div>
-      {
-        /* qualiFilter && qualiFilter.length > 10 */ totalCount ? (
-          <PaginationComponent
-            totalRecords={totalCount}
-            currentPage={currentPage}
-            onPageChanged={onPageChanged}
-          />
-        ) : null
-      }
+      {totalCount ? (
+        <PaginationComponent
+          totalRecords={totalCount}
+          currentPage={currentPage}
+          onPageChanged={onPageChanged}
+        />
+      ) : null}
     </>
   );
 };

@@ -10,6 +10,7 @@ const GET_INVOICE_LIST = gql`
     $endDate: String
     $page: Int
     $limit: Int
+    $attributeId: ID
   ) {
     getAllAppointment(
       searchBy: $searchBy
@@ -20,6 +21,7 @@ const GET_INVOICE_LIST = gql`
       endDate: $endDate
       page: $page
       limit: $limit
+      attributeId: $attributeId
     ) {
       totalCount
       result {
@@ -47,6 +49,7 @@ const GET_INVOICE_LIST = gql`
           feePerKM
           otherExpenses
           user {
+            id
             caregiver {
               attributes
             }
@@ -54,6 +57,7 @@ const GET_INVOICE_LIST = gql`
         }
         cr {
           userId
+          divisionId
           division {
             id
             name
@@ -61,6 +65,18 @@ const GET_INVOICE_LIST = gql`
           f
           s
           n
+          attribute_management {
+            id
+            moneyPerHour
+            basicSalaryPerHour
+            qualificationAllowance
+          }
+          user {
+            id
+            canstitution {
+              leasingPriceListId
+            }
+          }
         }
       }
     }
@@ -68,50 +84,36 @@ const GET_INVOICE_LIST = gql`
 `;
 
 const GET_ALL_INVOICE_LIST = gql`
-  query getInvoices(
-      $status: String
-      $sortBy: Int
-      $limit: Int
-    $page: Int
-  ) {getInvoices(
-    status:  $status
-    sortBy:  $sortBy
-    page: $page
-    limit: $limit
-  ) 
-  {
-    result{
-      id
-      invoiceNumber
-      caregiverId
-      careInstitutionId
-      appointmentIds
-      status
-      amount
-      tax
-      invoiceDate
-      dueDdate
-      doubtful
-      irrecoverable
-      paymentMethod
-      invoiceType
-      subTotal
-      careGiverName
-      careInstitutionName
-      caregiver{
+  query getInvoices($status: String, $sortBy: Int, $limit: Int, $page: Int) {
+    getInvoices(status: $status, sortBy: $sortBy, page: $page, limit: $limit) {
+      result {
         id
+        invoiceNumber
+        caregiverId
+        careInstitutionId
+        appointmentIds
+        status
+        amount
+        tax
+        invoiceDate
+        dueDdate
+        doubtful
+        irrecoverable
+        paymentMethod
+        invoiceType
+        subTotal
+        careGiverName
+        careInstitutionName
+        caregiver {
+          id
+        }
+        careinstitution {
+          id
+        }
       }
-      careinstitution{
-        id
-      }
+      totalCount
     }
-    totalCount
   }
-}
 `;
 
-
-export const InvoiceQueries = [
-  GET_INVOICE_LIST,
-  GET_ALL_INVOICE_LIST
-];
+export const InvoiceQueries = [GET_INVOICE_LIST, GET_ALL_INVOICE_LIST];

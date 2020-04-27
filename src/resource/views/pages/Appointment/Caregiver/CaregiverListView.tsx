@@ -45,13 +45,13 @@ import leasing_contact from "../../../../assets/img/dropdown/leasing.svg";
 import termination from "../../../../assets/img/dropdown/aggrement.svg";
 import refresh from "../../../../assets/img/refresh.svg";
 // import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
-import { ConfirmBox } from "../../../components/ConfirmBox";
-import "../index.scss";
-import "react-virtualized/styles.css"; // only needs to be imported once
-import BulkEmailCareGiverModal from "../BulkEmailCareGiver";
-import UnlinkAppointment from "../unlinkModal";
-import DetaillistCaregiverPopup from "../DetailedList/DetailListCaregiver";
-import BulkEmailCareInstitutionModal from "../BulkEmailCareInstitution";
+import { ConfirmBox } from '../../../components/ConfirmBox';
+import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
+import UnlinkAppointment from '../unlinkModal';
+import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
+import '../index.scss';
+import 'react-virtualized/styles.css'; // only needs to be imported once
+
 let toastId: any = null;
 
 const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
@@ -64,7 +64,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     onAddingRow,
     selectedCells,
     handleSelection,
-    handleReset,
+    updateLeasingContractStatus,
     onReserve,
     onDeleteEntries,
     onCaregiverQualificationFilter,
@@ -82,6 +82,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     updateCaregiverStatus,
     onhandleCaregiverStar,
     starMarkCaregiver,
+    starCaregiver,
   } = props;
 
   const [offerRequirements, setOfferRequirements] = useState<boolean>(false);
@@ -115,13 +116,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
 
   // To close the email pop-up
   const handleClose = () => {
-    console.log("in handleClose");
     if (
       (leasingContract || terminateAggrement) &&
-      props.fetchingCareGiverData
+      updateLeasingContractStatus
     ) {
-      console.log("in if");
-      props.fetchingCareGiverData();
+      console.log('in if');
+      updateLeasingContractStatus(leasingContract ? 'contractInitiated' : 'contractcancelled');
     }
     setopenCareGiverBulkEmail(false);
     setconfirmApp(false);
@@ -140,7 +140,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     if (selectedCellsData && selectedCellsData.length) {
       selectedRows = selectedCellsData.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
-        const { item, list: caregiverData, day } = cellProps;
+        const { item, list: caregiverData, cellIndex, day } = cellProps;
         const {
           id = "",
           firstName = "",
@@ -158,6 +158,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           item,
           qualificationIds: qualificationId,
           dateString: day ? day.dateString : "",
+          cellIndex,
         };
       });
       // setSelect({id:12})
@@ -469,26 +470,42 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     listheight = getheight.getBoundingClientRect().height;
   }
 
-  let widthForMonth: number = 1538;
+  let widthForMonth: number = 1112;
   if (daysArr && daysArr.length) {
     if (daysArr.length === 30) {
-      widthForMonth = 1538;
+      widthForMonth = 1112;
     } else if (daysArr.length === 31) {
-      widthForMonth = 1578;
+      widthForMonth = 1140;
     } else if (daysArr.length === 29) {
-      widthForMonth = 1498;
+      widthForMonth = 1084;
     } else if (daysArr.length === 28) {
-      widthForMonth = 1458;
+      widthForMonth = 1056;
     } else {
-      widthForMonth = 1538;
+      widthForMonth = 1112;
     }
   }
+  let listData =
+    starCaregiver.isStar || starCaregiver.isSecondStar
+      ? careGiversList.filter((cg: any) => cg.id === starCaregiver.id)
+      : careGiversList;
   let temp: any[] = [];
-  careGiversList.forEach((element: any, index: number) => {
+  listData.forEach((element: any) => {
     element.availabilityData.forEach((item: any, row: number) => {
       temp.push({ ...element, new: item, row });
     });
   });
+
+  //reserved condition
+  let reserveCondition: any;
+  if (selectedCells && selectedCells.length) {
+    reserveCondition = selectedCells.filter((x: any) => {
+      if (x.item) {
+        return x.item && x.item.status === "default";
+      } else {
+        return ["abc"];
+      }
+    });
+  }
   // if (openCareGiverBulkEmail) {
   //   const BulkEmailCareGiverModal = lazy(() => import('../BulkEmailCareGiver'));
   //   return <Suspense fallback={null}>
@@ -534,17 +551,23 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   //     />
   //     </Suspense>
   // }
-  // if (showList) {
-  //   const DetaillistCaregiverPopup= lazy(() => import('../DetailedList/DetailListCaregiver'));
-  //   return <Suspense fallback={null}>
-  //     <DetaillistCaregiverPopup
-  //       show={showList ? true : false}
-  //       handleClose={() => setShowList(false)}
-  //       selectedCells={selectedCells}
-  //       qualificationList={qualificationList}
-  //     />
-  //   </Suspense>
-  // }
+  const renderDetailedList = () => {
+    if (showList) {
+      const DetaillistCaregiverPopup = lazy(() =>
+        import("../DetailedList/DetailListCaregiver")
+      );
+      return (
+        <Suspense fallback={null}>
+          <DetaillistCaregiverPopup
+            show={showList ? true : false}
+            handleClose={() => setShowList(false)}
+            selectedCells={selectedCells}
+            qualificationList={qualificationList}
+          />
+        </Suspense>
+      );
+    }
+  };
   // if (showUnlinkModal) {
   //   const UnlinkAppointment= lazy(() => import('../unlinkModal'));
   //   return <Suspense fallback={null}>
@@ -555,6 +578,33 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
   //     />
   //   </Suspense>
   // }
+
+  console.log(selectedCells, "selectedCells");
+
+  let selectedcareInstApptId: number[] = [];
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    selectedcareInstApptId = selectedCellsCareinstitution
+      .map((cell: any) =>
+        cell.item && cell.item.appointments && cell.item.appointments.length
+          ? cell.item.appointments[0].id
+          : 0
+      )
+      .filter(Boolean);
+  }
+  let selectedcareGiverApptId: number[] = [];
+  let selectedcareGiverIndexes: number[] = [];
+  if (selectedCells && selectedCells.length) {
+    selectedcareGiverApptId = selectedCells
+      .map((cell: any) =>
+        cell.item && cell.item.appointments && cell.item.appointments.length
+          ? cell.item.appointments[0].id
+          : 0
+      )
+      .filter(Boolean);
+    selectedcareGiverIndexes = selectedCells.map((cell: any) => cell.cellIndex);
+  }
+
+  console.log(selectedcareInstApptId, selectedcareGiverApptId, "appt ids");
 
   return (
     <div>
@@ -589,7 +639,9 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={
+                reserveCondition && reserveCondition.length === 0 ? true : false
+              }
               onClick={() => {
                 setopenToggleMenu(false);
                 onReserve ? onReserve() : undefined;
@@ -709,12 +761,13 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
           </NavItem>
           <NavItem>
             <NavLink
-              disabled={
-                selectedCells
-                  ? selectedCells.length === 0 ||
-                    (disconnectAppCond && disconnectAppCond.length !== 0)
-                  : true
-              }
+              // disabled={
+              //   selectedCells
+              //     ? selectedCells.length === 0 ||
+              //     (disconnectAppCond && disconnectAppCond.length !== 0)
+              //     : true
+              // }
+              disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 handleUnLinkAppointments();
@@ -929,7 +982,11 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   className="custom-row-selector"
                   clickClassName="tick"
                   resetOnStart={true}
-                  onSelectionFinish={onSelectFinish}
+                  allowCtrlClick={false}
+                  onSelectionFinish={(cells:any) => {
+                    console.log("onSlectionfinish",cells);
+                    onSelectFinish(cells)
+                  }}
                   ignoreList={[
                     ".name-col",
                     ".h-col",
@@ -958,7 +1015,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                             height={listheight}
                             onRowsRendered={onRowsRendered}
                             rowCount={temp.length}
-                            rowHeight={30}
+                            rowHeight={28}
                             width={widthForMonth}
                             // rowGetter={({ index }:any) => careGiversList[index]}
                             rowRenderer={({
@@ -970,6 +1027,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                               const list = temp[index] || {};
                               let item = list.new;
                               let row = list.row;
+                              let cellIndex = `${list.id}-${index}-${row}-${key}`;
                               let uIndex: number = careGiversList.findIndex(
                                 (item: any) => item.id === list.id
                               );
@@ -1029,10 +1087,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div
                                     className="custom-appointment-col s-col text-center"
                                     onClick={() =>
-                                      onhandleCaregiverStar(list, "caregiver")
+                                      onhandleCaregiverStar(list.id, false)
                                     }
                                   >
-                                    {starMarkCaregiver ? (
+                                    {starCaregiver &&
+                                    starCaregiver.isStar &&
+                                    starCaregiver.id === list.id ? (
                                       <i className="fa fa-star theme-text" />
                                     ) : (
                                       <i className="fa fa-star-o" />
@@ -1041,10 +1101,16 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                   <div
                                     className="custom-appointment-col u-col text-center"
                                     onClick={() =>
-                                      onhandleCaregiverStar(list, "caregiver")
+                                      onhandleCaregiverStar(
+                                        list.id,
+                                        starCaregiver &&
+                                          !starCaregiver.isSecondStar
+                                      )
                                     }
                                   >
-                                    {starMarkCaregiver ? (
+                                    {starCaregiver &&
+                                    starCaregiver.isSecondStar &&
+                                    starCaregiver.id === list.id ? (
                                       <i className="fa fa-star theme-text" />
                                     ) : (
                                       <i className="fa fa-star-o" />
@@ -1062,6 +1128,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     return (
                                       <Cell
                                         key={`${key}-${i}`}
+                                        cellIndex={`${cellIndex}-${i}`}
                                         daysArr={key.isWeekend}
                                         day={key}
                                         list={list}
@@ -1079,9 +1146,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                           })[0]
                                         }
                                         handleSelection={handleSelection}
-                                        selectedCells={selectedCells}
-                                        selectedCellsCareinstitution={
-                                          selectedCellsCareinstitution
+                                        selectedcareInstApptId={
+                                          selectedcareInstApptId
+                                        }
+                                        selectedcareGiverApptId={
+                                          selectedcareGiverApptId
+                                        }
+                                        selectedcareGiverIndexes={
+                                          selectedcareGiverIndexes
                                         }
                                       />
                                     );
@@ -1113,7 +1185,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       </div>
       {openCareGiverBulkEmail ? (
         <BulkEmailCareGiverModal
-          updateLinkedStatus={props.fetchingCareGiverData}
+          // updateLinkedStatus={props.fetchingCareGiverData}
           openModal={openCareGiverBulkEmail}
           qualification={
             sortedQualificationList && sortedQualificationList
@@ -1148,12 +1220,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
       />
-      <DetaillistCaregiverPopup
-        show={showList ? true : false}
-        handleClose={() => setShowList(false)}
-        selectedCells={selectedCells}
-        qualificationList={qualificationList}
-      />
+      {renderDetailedList()}
       <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}

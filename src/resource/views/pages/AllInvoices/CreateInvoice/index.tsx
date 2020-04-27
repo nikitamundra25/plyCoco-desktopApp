@@ -1,32 +1,16 @@
 import React, { useState, FunctionComponent, useEffect } from "react";
 import {
-  Button,
-  Table,
   Form,
   FormGroup,
   Input,
   Label,
   Row,
   Col,
-  UncontrolledTooltip,
 } from "reactstrap";
-import Select from "react-select";
-import DayPickerInput from "react-day-picker/DayPickerInput";
-import { languageTranslation } from "../../../../../helpers";
-import refresh from "../../../assets/img/refresh.svg";
-
-import pen from "../../../../assets/img/header-icons/pen.svg";
-import CompleteTime from "../../../../assets/img/header-icons/tab-icons/complete-time.svg";
-import idea from "../../../../assets/img/header-icons/tab-icons/idea.svg";
-import massege from "../../../../assets/img/header-icons/tab-icons/massege.svg";
-
-import { RouteComponentProps } from "react-router";
+import { languageTranslation, errorFormatter } from "../../../../../helpers";
+import { RouteComponentProps, useLocation } from "react-router";
 import "../index.scss";
-import right_arrow from "../../../../assets/img/rightarrow.svg";
-import left_arrow from "../../../../assets/img/leftarrow.svg";
-import "react-day-picker/lib/style.css";
 import {
-  InvoiceSummaryFilter,
   CareInstInActiveAttrId,
   deactivatedListColor,
   CareInstTIMyoCYAttrId,
@@ -36,6 +20,7 @@ import {
   PAGE_LIMIT,
   CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
+  defaultDateFormat,
 } from "../../../../../config";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
 import { IReactSelectInterface } from "../../../../../interfaces";
@@ -43,12 +28,19 @@ import {
   CareInstitutionQueries,
   InvoiceQueries,
   CareGiverQueries,
+  GlobalHolidaysQueries,
 } from "../../../../../graphql/queries";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import moment from "moment";
 import InvoiceList from "./InvoiceList";
 import CustomOption from "../../../components/CustomOptions";
 import InvoiceNavbar from "./InvoiceNavbar";
+import * as qs from "query-string";
+import { toast } from "react-toastify";
+import { InvoiceMutations } from "../../../../../graphql/Mutations";
+
+let toastId: any = null;
+
 const [
   GET_CARE_INSTITUTION_LIST,
   ,
@@ -59,19 +51,33 @@ const [
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
-
+const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries
+//Create New Invoice PDF
+const [CREATE_INVOICE] = InvoiceMutations
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
+  const { search } = useLocation();
+  const query = qs.parse(search);
   // select Careinstitution
   const [careinstitutionFilter, setcareinstitutionFilter] = useState<
     IReactSelectInterface | undefined
   >(undefined);
 
+  // selected Appointment data
+  const [selectedAppointment, setselectedAppointment] = useState<any[]>([]);
+
   // select Careinstitution
   const [caregiverFilter, setcaregiverFilter] = useState<
     IReactSelectInterface | undefined
   >(undefined);
+
+  // select Careinstitution
+  const [monthFilter, setmonthFilter] = useState<
+    IReactSelectInterface | undefined
+  >(undefined);
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   //   Store selectedDepartment
   const [departmentFilter, setdepartmentFilter] = useState<
@@ -81,11 +87,31 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   //  State for handling date filter
   const [dateFilter, setDateFilter] = useState<string>("");
 
+  //  State for Total amount selected
+  const [totalAmount, settotalAmount] = useState<string>("");
+
   // State for department options
   const [
     careInstitutionDepartmentOption,
     setcareInstitutionDepartmentOption,
   ] = useState<IReactSelectInterface[] | undefined>([]);
+
+  //
+  const [CreateInvoice,{loading: createInvoiceLoading}] = useMutation<
+    {
+      invoiceInput: any;
+    }
+  >(CREATE_INVOICE, {
+    onCompleted(){
+      toast.dismiss();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('CREATE_INVOICE_SUCCESS')
+        );
+      }
+    }
+  });
+
 
   // Default value is start & end of month
   let gte: string = moment().startOf("month").format(dbAcceptableFormat);
@@ -105,6 +131,29 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     // notifyOnNetworkStatusChange: true
   });
 
+  useEffect(() => {
+    if (invoiceList &&
+      invoiceList.getAllAppointment &&
+      invoiceList.getAllAppointment.result.length) {
+      const { result } = invoiceList.getAllAppointment
+      const startDate: string = result[0].date
+      const endDate: string = result[result.length - 1].date
+      console.log(">>>>>>>>>>>>>>>>>", startDate, ">>>>>>>>>", endDate);
+      getAllHolidays(startDate, endDate)
+    }
+    console.log("In this use effect");
+
+  }, [invoiceList]);
+
+
+  // To Fetch golbal holidays and weekends
+  const [
+    getGlobalHolidays,
+    { data: careGiverHolidays }
+  ] = useLazyQuery<any, any>(GET_GLOBAL_CAREGIVER_HOLIDAYS, {
+    fetchPolicy: "no-cache",
+    // notifyOnNetworkStatusChange: true
+  });
   // To fetch all careinstitution list
   const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
     any
@@ -147,8 +196,19 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     });
   }, []);
 
+  //To get all holidays and weekends
+  const getAllHolidays = (startDate: string, endDate: string) => {
+    getGlobalHolidays({
+      variables: {
+        gte: startDate,
+        lte: endDate,
+      }
+    })
+  }
   // to get list of all invoices
   const getInvoiceListData = () => {
+    console.log("currentPage", currentPage);
+
     fetchInvoiceList({
       variables: {
         searchBy: null,
@@ -167,15 +227,39 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         startDate: gte ? gte : null,
         endDate: lte ? lte : null,
         limit: PAGE_LIMIT,
-        page: 1,
+        page: query.page ? parseInt(query.page as string) : 1,
       },
     });
   };
 
+  useEffect(() => {
+    if (query) {
+      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+    }
+    // call query
+    getInvoiceListData()
+  }, [search]); // It will run when the search value gets changed
+
   // Call function to fetch invoice list
   useEffect(() => {
+    if (monthFilter && monthFilter.value) {
+      const { value } = monthFilter
+      if (value === "weekly") {
+        gte = moment().startOf('week').format(dbAcceptableFormat);
+        lte = moment().endOf('week').format(dbAcceptableFormat);
+      } else if (value === "everySixMonths") {
+        gte = moment().startOf("month").format(dbAcceptableFormat);
+        lte = moment(gte).add(6, 'M').endOf('month').format(dbAcceptableFormat);
+      } else if (value === "perMonth") {
+        gte = moment().startOf("month").format(dbAcceptableFormat);
+        lte = moment().endOf("month").format(dbAcceptableFormat);
+      } else if (value === "all") {
+        gte = "";
+        lte = ""
+      }
+    }
     getInvoiceListData();
-  }, [careinstitutionFilter, departmentFilter, caregiverFilter]);
+  }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter]);
 
   // set careInstitution list options
   const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
@@ -200,10 +284,10 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         color: attributes.includes(CareInstInActiveAttrId)
           ? deactivatedListColor
           : attributes.includes(CareInstTIMyoCYAttrId)
-          ? leasingListColor
-          : attributes.includes(CareInstPlycocoAttrId)
-          ? selfEmployesListColor
-          : "",
+            ? leasingListColor
+            : attributes.includes(CareInstPlycocoAttrId)
+              ? selfEmployesListColor
+              : "",
         companyName,
       });
       return true;
@@ -233,10 +317,10 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
           color: !isActive
             ? deactivatedListColor
             : attributes.includes(CaregiverTIMyoCYAttrId)
-            ? leasingListColor
-            : attributes.includes("Plycoco")
-            ? selfEmployesListColor
-            : "",
+              ? leasingListColor
+              : attributes.includes("Plycoco")
+                ? selfEmployesListColor
+                : "",
         });
       }
     );
@@ -265,6 +349,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       setdepartmentFilter(value);
     } else if (name === "caregiver") {
       setcaregiverFilter(value);
+    } else if (name === "monthSummary") {
+      setmonthFilter(value)
+
     }
   };
 
@@ -303,6 +390,123 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     setDateFilter(date);
   };
 
+  const handleCheckedChange = (e: any, list: any) => {
+    const { checked } = e.target
+    if (checked === true) {
+      selectedAppointment.push(list)
+      setselectedAppointment(selectedAppointment)
+    } else {
+      const arrayIndex: number = selectedAppointment.findIndex((data: any) => data.id === list.id)
+      selectedAppointment.splice(arrayIndex, 1)
+      setselectedAppointment(selectedAppointment)
+    }
+  }
+
+  const handleCreateInvoice = async () => {
+    console.log("in handle Selected Invoice Created Data", selectedAppointment)
+    let singleCareGiverData: any[] = [], selectedAppointmentId: any[] = [], singleCareInstData: any[] = [], amount: number = 0, subTotal: number = 0;
+    // all selected caregivers id
+    let selectedCareGiverId: string[] = selectedAppointment.map((appointment: any) => appointment.ca && appointment.ca.userId ? appointment.ca.userId : '').filter(Boolean)
+    // all selected care institutions id    
+    let selectedCareInstId: string[] = selectedAppointment.map((appointment: any) => appointment.cr && appointment.cr.userId ? appointment.cr.userId : '').filter(Boolean)
+    try {
+      // To check appointment is bettween the same caregiver or careinstitution or not
+      let isInvoiceComaptible: boolean = selectedCareGiverId.length && selectedCareInstId.length && selectedCareGiverId.length === selectedCareInstId.length && selectedCareGiverId.every((val: string, i: number, arr: string[]) => val === arr[0]) && selectedCareInstId.every((val: string, i: number, arr: string[]) => val === arr[0]) ? true : false;
+      if (!isInvoiceComaptible) {
+        if (!toast.isActive(toastId)) {
+          toastId = toast.warn("You can't create invoice with the selected appointment because of mismatch beetween caregiver & care-institutions")
+        }
+        return
+      } else {
+        if (selectedAppointment && selectedAppointment.length) {
+          selectedAppointment.forEach((appointmentData: any) => {
+            console.log("????????????", appointmentData);
+            if (appointmentData.ca && appointmentData.cr) {
+              singleCareGiverData.push(appointmentData.ca.userId)
+              console.log(">>>>>>>>>>>>>");
+
+              singleCareInstData.push(appointmentData.cr.userId)
+              selectedAppointmentId.push(appointmentData.id)
+
+              let workBegain: any, workEnd: any
+              if (appointmentData && appointmentData.ca && appointmentData.ca.workingHoursFrom) {
+                workBegain = appointmentData.ca.workingHoursFrom.split(",")
+                workEnd = appointmentData.ca.workingHoursTo.split(",")
+              }
+              //Combime date and time 
+              let initialdate = workBegain && workBegain.length ? workBegain[0] : null;
+              let start_time = workBegain && workBegain.length ? workBegain[1] : null;
+              let enddate = workEnd && workEnd.length ? workEnd[0] : null;
+              let end_time = workEnd && workEnd.length ? workEnd[1] : null;
+              console.log(initialdate, 'initialdate', start_time, moment(`${initialdate} ${start_time}`, `${dbAcceptableFormat} HH:mm`).format());
+
+              let datetimeA: any = initialdate ? moment(`${initialdate} ${start_time}`, `${dbAcceptableFormat} HH:mm`).format() : "";
+              let datetimeB: any = enddate ? moment(`${enddate} ${end_time}`, `${dbAcceptableFormat} HH:mm`).format() : null;
+
+              // let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
+              // let hours = duration ? duration.asHours() : null;
+              let diffDate: any = (new Date(datetimeB).getTime() - new Date(datetimeA).getTime()) / (3600 * 1000)
+
+              //Show Weekend day
+              const dayData = new Date(appointmentData.date).getDay()
+              let isWeekendDay: boolean = (dayData === 6) || (dayData === 0) ? true : false
+              let hasHoliday: any
+              if (careGiverHolidays && careGiverHolidays.length) {
+                hasHoliday = careGiverHolidays.filter((data: any) => data.date === appointmentData.date)
+              }
+              let weekendRate: any = appointmentData.ca.weekendAllowance ? appointmentData.ca.weekendAllowance : 0
+              let holidayRate: any = appointmentData.ca.holidayAllowance ? appointmentData.ca.holidayAllowance : 0
+              let nightRate: any = appointmentData.ca.nightFee ? appointmentData.ca.nightFee : 0
+              let fees: any = (appointmentData.ca.fee * 100)
+              let transportation: any = (appointmentData.ca.distanceInKM ? appointmentData.ca.distanceInKM : 0 * appointmentData.ca.feePerKM ? appointmentData.ca.feePerKM : 0)
+              let hours: any = (appointmentData.ca.workingHoursFrom ? parseFloat(diffDate).toFixed(2) : 0)
+              let expenses = (appointmentData.ca && appointmentData.ca.otherExpenses ? appointmentData.ca.otherExpenses : 0)
+              if (isWeekendDay && hasHoliday && hasHoliday.length) {
+                if (weekendRate > holidayRate) {
+                  subTotal = ((((fees + weekendRate) * hours) + transportation + expenses))
+                } else if (holidayRate > weekendRate) {
+                  subTotal = ((((fees + holidayRate) * hours) + transportation + expenses))
+                }
+              } else {
+                subTotal += (((fees * hours) + transportation + expenses))
+              }
+            } else {
+              const message = errorFormatter("Selected appointment don't have care giver");
+              if (!toast.isActive(toastId)) {
+                toastId = toast.warn(message)
+              }
+            }
+          });
+          console.log("*****************subTotal", subTotal * 0.19);
+          const totalAmount: any = (subTotal) + (subTotal * 0.19)
+          settotalAmount(totalAmount)
+          const invoiceInput: any = {
+            caregiverId: singleCareGiverData[singleCareGiverData.length - 1],
+            careInstitutionId: singleCareInstData[singleCareInstData.length - 1],
+            appointmentIds: selectedAppointmentId,
+            status: "unpaid",
+            subTotal: `${subTotal}`,
+            amount: `${totalAmount}`,
+            tax: `${subTotal * 0.19}`,
+            careInstitutionName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].cr ? selectedAppointment[0].cr.name : "",
+            careGiverName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].ca ? selectedAppointment[0].ca.name : "",
+            invoiceType: "selfEmployeed"
+          }
+          await CreateInvoice({
+            variables: {
+              invoiceInput: invoiceInput
+            },
+          });
+        }
+      }
+    } catch (error) {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+  }
+
   return (
     <>
       <div className="common-detail-page">
@@ -318,19 +522,27 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             handleDayClick={handleDayClick}
             handleArrowDayChange={handleArrowDayChange}
             dateFilter={dateFilter}
+            handleCreateInvoice={() => handleCreateInvoice()}
+            createInvoiceLoading={createInvoiceLoading}
           />
 
           <div className="common-content flex-grow-1">
             <div className="common-content flex-grow-1  p-0 all-invoice">
               <InvoiceList
                 invoiceListLoading={invoiceListLoading}
+                currentPage={currentPage}
+                selectedAppointment={selectedAppointment}
+                careGiverHolidays={careGiverHolidays}
+                handleCheckedChange={(e: any, list: any) => handleCheckedChange(e, list)}
                 invoiceList={
                   invoiceList &&
-                  invoiceList.getAllAppointment &&
-                  invoiceList.getAllAppointment.length
-                    ? invoiceList.getAllAppointment
+                    invoiceList.getAllAppointment &&
+                    invoiceList.getAllAppointment.result.length
+                    ? invoiceList.getAllAppointment.result
                     : []
                 }
+                totalCount={invoiceList &&
+                  invoiceList.getAllAppointment ? invoiceList.getAllAppointment.totalCount : 0}
               />
               <Form className="form-section total-form-section bg-white">
                 <div className="d-flex flex-wrap total-form-block">
@@ -347,7 +559,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                             <Input
                               type="text"
                               name={"firstName"}
-                              placeholder={"Enter Total"}
+                              placeholder={"Total Amount"}
+                              disable={true}
+                              value={totalAmount}
                               className="text-input text-capitalize"
                             />
                           </div>
@@ -368,7 +582,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                             <Input
                               type="text"
                               name={"firstName"}
-                              placeholder={"Enter total selection"}
+                              placeholder={"Total selection"}
+                              disable={true}
+                              value={selectedAppointment.length}
                               className="text-input text-capitalize"
                             />
                           </div>

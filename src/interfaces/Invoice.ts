@@ -2,7 +2,9 @@ import { IReactSelectInterface } from "./Constant";
 
 export interface IInvoiceList{
   invoiceListLoading: boolean
-  invoiceList: any
+  invoiceList: any,
+  totalCount: number,
+  currentPage: number
   }
 
   export interface IInvoiceNavBar {
@@ -16,4 +18,5 @@ export interface IInvoiceList{
     handleDayClick:(selectedDay: any) => void;
     handleArrowDayChange: (name:string) => void
     dateFilter: String
+    createInvoiceLoading: boolean
   }

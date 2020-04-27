@@ -1,9 +1,16 @@
+import { IReactSelectInterface } from "./Constant";
+
 export interface IWorkingProofFormValues {
   document: File | null;
 }
 
 export interface IWorkingProofValidationSchema {
   document: File | null;
+}
+
+export interface IAppointmentInput {
+  appointmentId: number | null
+   workProofId : number | null
 }
 
 export interface IDocumentInterface {
@@ -21,4 +28,17 @@ export interface IDocumentInputInterface {
 export interface IDocumentPreviewInterface {
   documentUrls: string;
   imageUrls: string;
+  currentAngel: number
+}
+
+export interface IDocumentPerformedWorkInterface{
+  careGiversOptions: IReactSelectInterface[] | undefined
+  handleChange: (value:any, name:string) => void
+  appointmentList: any
+  caregiverDataLoading: boolean
+  qualificationList: any
+  onFilterById:(value:any) => void;
+  handleSelect: (e:React.ChangeEvent<HTMLInputElement> , id:string) => void;
+  checkboxMark: any
+  caregiverFilter: IReactSelectInterface | undefined
 }

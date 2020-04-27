@@ -92,20 +92,25 @@ export default {
           url: AppRoutes.CREATEINVOICES,
         },
         {
-          name: languageTranslation("MENU_CREATE_FREETEXT_INVOICE"),
-          icon: "icon-create-freetext-invoice",
-          url: AppRoutes.ALLINVOICES,
+          name: languageTranslation("MENU_LEASING_CREATE_INVOICE"),
+          icon: "icon-invoice",
+          url: AppRoutes.LEASINGCREATEINVOICE,
         },
-        {
-          name: languageTranslation("MENU_PAYSLIP_SOLONA"),
-          icon: "icon-payslip-invoice",
-          url: AppRoutes.PAYSLIPFORM,
-        },
-        {
-          name: languageTranslation("MENU_HEALTHINSURANCE_FORM"),
-          icon: "icon-direct-debit",
-          url: AppRoutes.HEALTHINSURANCEFORM,
-        },
+        // {
+        //   name: languageTranslation("MENU_CREATE_FREETEXT_INVOICE"),
+        //   icon: "icon-create-freetext-invoice",
+        //   url: AppRoutes.ALLINVOICES,
+        // },
+        // {
+        //   name: languageTranslation("MENU_PAYSLIP_SOLONA"),
+        //   icon: "icon-payslip-invoice",
+        //   url: AppRoutes.PAYSLIPFORM,
+        // },
+        // {
+        //   name: languageTranslation("MENU_HEALTHINSURANCE_FORM"),
+        //   icon: "icon-direct-debit",
+        //   url: AppRoutes.HEALTHINSURANCEFORM,
+        // },
       ],
     },
     {

@@ -624,6 +624,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     const editorState = temp ? HtmlToDraftConverter(temp) : '';
     setBody(editorState);
   }, [tokenData]);
+
+  console.log("hhhhhhhhhhhhhhhh",selectedCellsCareinstitution);
+  console.log("slelelelele",selectedCells);
+  
   //Use Effect for email template data
   useEffect(() => {
     // let emailTemplate:any = emailContent.filter((item:any) => item.label === mailEvent)[0];
@@ -694,6 +698,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           let object = selectedCellsCareinstitution[i];
           // If careInstitution has leasing attribute
           isLeasing = object.isLeasing;
+          
           if (object.item) {
             let obj: any = {};
             if (
@@ -1117,8 +1122,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               
               appointmentTimings = [...appointmentTimings, moment(date).format(index ==0 ? 'MMMM DD' : 'DD')]
               // let { address = '' } = division ? division : {};
-              if (!moment(date).isBefore(moment(), 'day')) {
-                let shiftLabel =
+              let shiftLabel =
                   startTime === '06:00'
                     ? 'FD'
                     : startTime === '14:00'
@@ -1148,7 +1152,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     : ''
                 }
             `);
-              }
             });
             setSubject(`Temporary employment contract for ${appointmentTimings.join(', ')}`);
           setPdfAppointmentDetails(row);
@@ -1545,7 +1548,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     }
   }
   useEffect(() => {
-    if (leasingContactPdfData && userId) {
+    if (userId && leasingContract && pdfAppointmentDetails && pdfAppointmentDetails.length) {
       let documentInput: any = {
         appointmentId: appointmentIds,
         userId: parseInt(userId),
@@ -1579,10 +1582,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       })
       // updateLinkedStatus('contractInitiated')
     }
-  }, [leasingContactPdfData]);
+  }, [pdfAppointmentDetails]);
 
   useEffect(() => {
-    if (terminationAgreementPdfData && userId) {
+    if (userId && terminateAggrement && pdfTerminateAppointment && pdfTerminateAppointment.name) {
       let documentInput: any = {
         appointmentId: appointmentIds,
         userId: parseInt(userId),
@@ -1615,7 +1618,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       // updateLinkedStatus('contractcancelled')
 
     }
-  }, [terminationAgreementPdfData]);
+  }, [pdfTerminateAppointment]);
 
   const handleSendEmail = async (e: React.FormEvent<any>) => {
     e.preventDefault();
@@ -1787,6 +1790,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       toast.error(message);
     }
   };
+  console.log(pdfAppointmentDetails,'pdfAppointmentDetails', leasingContract);
+  
   return (
     <>
       <div className='common-detail-page'>
@@ -1857,7 +1862,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
-                {!leasingContactPdfData &&
+                {/* {!leasingContactPdfData &&
                 leasingContract &&
                 pdfAppointmentDetails.length > 0 &&
                 signatureData ? (
@@ -1873,9 +1878,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       !loading ? setLeasingContactPdfData(blob) : null
                     }
                   </PDFDownloadLink>
-                ) : null}
+                ) : null} */}
                
-                {!terminationAgreementPdfData && 
+                {/* {!terminationAgreementPdfData && 
                 terminateAggrement &&
                 pdfTerminateAppointment &&
                 pdfTerminateAppointment.name &&
@@ -1892,7 +1897,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       !loading ? setTerminationAgreementPdfData(blob) : null
                     }
                   </PDFDownloadLink>
-                ) : null}
+                ) : null} */}
                 {(leasingContract || terminateAggrement) &&
                 (generating || !tokenAPICalled) ? (
                   <div style={{ minHeight: '200px' }}>

@@ -23,8 +23,6 @@ export interface IAppointmentNav {
   handleDayClick: (selectedDay: Date) => void;
   daysData: IGetDaysArrayByMonthRes | null;
   qualificationList: IReactSelectInterface[] | undefined;
-  careInstitutionList: any;
-  careGiversList: any;
   qualification: IReactSelectInterface[] | undefined;
   filterByAppointments: IReactSelectInterface | undefined;
   careGiversListArr: any;
@@ -43,10 +41,15 @@ export interface IAppointmentNav {
   isPositive: number[];
   setIsPositive: React.Dispatch<React.SetStateAction<number[]>>;
   isNegative: number[];
+  positive: number[];
+  negative: number[];
   setIsNegative: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export interface IAppointmentCareGiverList {
+  updateLinkedStatus: (name: string) => void;
+  fetchDataValues?: any;
+  updateCaregiverStatus: (name: string) => Promise<void>;
   daysData: IGetDaysArrayByMonthRes | null;
   careGiversList: any;
   loading: boolean;
@@ -55,7 +58,7 @@ export interface IAppointmentCareGiverList {
     name: string,
     index: number
   ) => void | undefined;
-  handleSecondStar: (list: object, index: number, name: string) => void;
+  // handleSecondStar: (list: object, name: string) => void;
   handleReset: (name: string) => void;
   totalCaregiver: number;
   getNext: (skip: number) => void;
@@ -73,13 +76,15 @@ export interface IAppointmentCareGiverList {
   handleSelection?: (selectedCells: any, name: string) => void;
   selectedCellsCareinstitution?: any;
   onLinkAppointment?: any;
-  setOnConfirmedCaregiver?: any;
-  setOnNotConfirmedCaregiver?: any;
   fetchingCareGiverData?: () => void;
   careInstitutionList?: any[];
   onTerminateAggrement: () => Promise<void>;
   locationState: any;
-  careinstitutionSoloFilter:IReactSelectInterface | undefined
+  careinstitutionSoloFilter: IReactSelectInterface | undefined;
+  onhandleCaregiverStar: (id: string, isSecondStar:boolean) => void;
+  starMarkCaregiver: boolean;
+  starCaregiver: IStarInterface;
+  updateLeasingContractStatus:(status:string) => void
 }
 
 export interface IAppointmentCareInstitutionList {
@@ -131,8 +136,9 @@ export interface IDate {
 
 export interface IStarInterface {
   isStar: boolean;
-  setIndex: number;
+  setIndex?: number;
   id: string;
+  isSecondStar?:boolean;
 }
 
 export interface ICaregiverFormValue {
@@ -160,6 +166,15 @@ export interface ICaregiverFormValue {
   s?: boolean;
   n?: boolean;
   status?: string;
+  workingHoursFromDate ?: string,
+  workingHoursFromTime?: string,
+  workingHoursToDate?: string,
+  workingHoursToTime?: string,
+  breakFromDate?: string,
+  breakFromTime?: string,
+  breakToDate?: string,
+  breakToTime?:string,
+  dateString?: string
 }
 
 export interface ICaregiverValidationFormValue {
@@ -171,6 +186,15 @@ export interface ICaregiverValidationFormValue {
   distanceInKM?: string;
   feePerKM?: string;
   otherExpenses?: string;
+  workingHoursFromDate?: string ,
+  workingHoursFromTime?: string ,
+  workingHoursToDate?: string ,
+  workingHoursToTime?: string ,
+  breakFromDate?: string ,
+  breakFromTime?: string ,
+  breakToDate?: string ,
+  breakToTime?: string ,
+  dateString?:string
 }
 
 export interface ICareinstituionValidationFormValue {
@@ -199,6 +223,8 @@ export interface IAddCargiverAppointmentRes {
   id: string;
   userId: string;
   status: string;
+  divisionId: any
+  qualificationId: any
 }
 
 export interface IReactSelectTimeInterface {
@@ -214,6 +240,7 @@ export interface ICareinstitutionFormValue {
   startTime: string;
   endTime: string;
   qualificationId: IReactSelectInterface[] | undefined;
+  qualificationForCharge?:IReactSelectInterface | undefined
   address: string;
   contactPerson: string;
   departmentOfferRemarks?: string;
@@ -237,6 +264,7 @@ export interface ICareinstitutionFormSubmitValue {
   endTime: string;
   divisionId: number | null;
   qualificationId: number[];
+  qualificationForCharge?:any; 
   address: string;
   contactPerson: string;
   departmentOfferRemarks: string | null;
@@ -250,6 +278,7 @@ export interface ICareinstitutionFormSubmitValue {
   s: string;
   n: string;
   status: string;
+  isLeasing?: boolean;
 }
 
 export interface IUnlinkInterface {

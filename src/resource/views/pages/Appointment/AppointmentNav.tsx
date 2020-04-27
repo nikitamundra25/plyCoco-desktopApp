@@ -4,13 +4,17 @@ import {
   Input,
   DropdownToggle,
   DropdownItem,
-  DropdownMenu
+  DropdownMenu,
+  UncontrolledTooltip
 } from "reactstrap";
 import Select from "react-select";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import { languageTranslation } from "../../../../helpers";
-import { Without_Appointments } from "../../../../config";
+import {
+  Without_Appointments,
+  appointmentMonthFormat
+} from "../../../../config";
 import { IAppointmentNav, IReactSelectInterface } from "../../../../interfaces";
 import AttributeFilter from "./AttributeFilter";
 import right_arrow from "../../../assets/img/rightarrow.svg";
@@ -22,7 +26,9 @@ import CustomOption from "../../components/CustomOptions";
 import "react-day-picker/lib/style.css";
 import "./index.scss";
 import moment from "moment";
-import CareInstCustomOption from "../../components/CustomOptions/CustomCareInstOptions";
+import CareinstitutionCustomAsyncList from "../../components/DropdownList/CareInstitutionCustomAsyncSelect";
+import CaregiverCustomAsyncList from "../../components/DropdownList/CareGiverCustomAsyncSelect";
+
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   props: IAppointmentNav
@@ -33,8 +39,6 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     daysData,
     qualificationList,
     handleQualification,
-    careGiversList,
-    careInstitutionList,
     handleDayClick,
     handleToday,
     qualification,
@@ -49,9 +53,11 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     isPositive,
     setIsPositive,
     isNegative,
-    setIsNegative
+    setIsNegative,
+    positive,
+    negative
   } = props;
-  const { month = '', year = '' } = daysData ? daysData : {};
+  const { month = "", year = "" } = daysData ? daysData : {};
 
   const [attributeSearch, setShowAttribute] = useState<boolean>(false);
   const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
@@ -59,10 +65,32 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   const [userId, setuserId] = useState<string>("");
   const [dropdownOpen, setOpen] = useState<boolean>(false);
 
+  // To check whether any filter is set or not
+  let isFilterSet: boolean =
+    (caregiverSoloFilter && caregiverSoloFilter.value ? true : false) ||
+      (careinstitutionSoloFilter && careinstitutionSoloFilter.value
+        ? true
+        : false) ||
+      (positive && positive.length ? true : false) ||
+      (negative && negative.length ? true : false) ||
+      (qualification && qualification.length ? true : false) ||
+      (filterByAppointments && filterByAppointments.value)
+      ? true
+      : false ||
+        month !==
+        moment()
+          .month(moment().month())
+          .format(appointmentMonthFormat) ||
+        userId
+        ? true
+        : false;
+
   const toggle = () => setOpen(!dropdownOpen);
+
   const handleSelect = (e: any, name: string) => {
     if (name === "dropdown") {
       setuser(e.target.value);
+      setuserId("")
     } else {
       setuserId(e.target.value);
     }
@@ -82,10 +110,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
       onFilterByUserId(userId, userRole);
     }
   };
-  const handleAllResetFilters = () => {
-    handleResetFilters();
-  };
 
+  const handleAllResetFilters = () => {
+    if (isFilterSet) {
+      handleResetFilters();
+    }
+  };
 
   let setMonthForDays: any = new Date(
     parseInt(year),
@@ -93,8 +123,19 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
       moment()
         .month(month)
         .format("M")
-    ))
-  let setNewDate: any = new Date(setMonthForDays.getFullYear(), setMonthForDays.getMonth() - 1, 1)
+    )
+  );
+
+  let setNewDate: any = new Date(
+    setMonthForDays.getFullYear(),
+    setMonthForDays.getMonth() - 1,
+    1
+  );
+
+  const formatDate = () => {
+    return month ? `${month} ${year}` : ""
+  }
+
   return (
     <>
       <div className="sticky-common-header">
@@ -103,7 +144,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             className="common-label px-1 cursor-pointer"
             onClick={handleToday}
           >
-            Today
+            {languageTranslation("Today")}
           </div>
           <div className="header-nav-item" onClick={handlePrevious}>
             <span className="header-nav-icon pr-0">
@@ -111,20 +152,18 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className="common-header-input pr-1">
-            {/* <Input
-              className='form-control'
-              placeholder={'February 2020'}
-              type='input'
-              value={`${month} ${year}`}
-              name='text'
-            /> */}
             <DayPickerInput
               onDayChange={handleDayClick}
+              formatDate={formatDate}
               value={month ? `${month} ${year}` : ""}
               dayPickerProps={{
                 month: setNewDate,
-                canChangeMonth: false
+                canChangeMonth: false,
+                // disabledDays: {
+                //   daysOfWeek: [0, 1, 2, 3, 4, 5, 6]
+                // }
               }}
+              inputProps={{ readOnly: true }}
             />
           </div>
           <div className="header-nav-item" onClick={handleNext}>
@@ -136,7 +175,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <Select
               classNamePrefix="custom-inner-reactselect"
               className={"custom-reactselect "}
-              placeholder="Select appointment"
+              placeholder={languageTranslation("SELECT_APPOINTMENT_LABEL")}
               options={Without_Appointments}
               value={filterByAppointments ? filterByAppointments : null}
               onChange={(value: any) => handleSelectAppointment(value)}
@@ -184,12 +223,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className="user-select mx-1">
-            <Select
+            {/* <Select
               classNamePrefix="custom-inner-reactselect"
               className={
                 "custom-reactselect custom-reactselect-menu-width-appointment"
               }
-              placeholder="Select Caregiver"
+              placeholder={languageTranslation("SELECT_CAREGIVER")}
               options={careGiversList}
               value={
                 caregiverSoloFilter && caregiverSoloFilter.value !== ""
@@ -199,6 +238,17 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               components={{ Option: CustomOption }}
               onChange={(value: any) => handleUserList(value, "caregiver")}
               isClearable={true}
+            /> */}
+            <CaregiverCustomAsyncList 
+            placeholderLabel = {languageTranslation("SELECT_CAREGIVER")}
+            onChange={(value: any) =>
+              handleUserList(value, "caregiver")
+            }
+            value={
+              caregiverSoloFilter && caregiverSoloFilter.value !== ""
+                ? caregiverSoloFilter
+                : null
+            }
             />
           </div>
           <div className="header-nav-item">
@@ -222,12 +272,25 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             </span>
           </div>
           <div className="user-select mx-1">
-            <Select
+          
+         <CareinstitutionCustomAsyncList
+          placeholderLabel = {languageTranslation("SELECT_CARE_INSTITUTION")}
+          onChange={(value: any) =>
+            handleUserList(value, "careinstitution")
+          }
+          value={
+            careinstitutionSoloFilter &&
+              careinstitutionSoloFilter.value !== ""
+              ? careinstitutionSoloFilter
+              : null
+          }
+         />
+            {/* <Select
               classNamePrefix="custom-inner-reactselect"
               className={
                 "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
               }
-              placeholder="Select Care Institution"
+              placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
               value={
                 careinstitutionSoloFilter &&
                   careinstitutionSoloFilter.value !== ""
@@ -240,10 +303,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 handleUserList(value, "careinstitution")
               }
               isClearable={true}
-             
-            />
+            /> */}
           </div>
-          <div className="header-nav-item pt-1" onClick={handleAllResetFilters}>
+          <div
+            className={`header-nav-item pt-1 ${!isFilterSet ? "disable" : ""}`}
+            onClick={handleAllResetFilters}
+          >
             <span className="header-nav-icon">
               <i className="fa fa-refresh "></i>
             </span>
@@ -270,19 +335,20 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
                 placeholder={
                   user
                     ? user === "avability"
-                      ? "Availability"
-                      : "Requirement"
-                    : languageTranslation("SELECT_USER")
+                      ? languageTranslation("CAREGIVER_AVABILITY")
+                      : languageTranslation("CAREINST_REQUIREMENT")
+                    : languageTranslation("CAREGIVER_AVABILITY")
                 }
                 type="text"
                 name="id"
                 value={userId}
                 onChange={(e: any) => handleSelect(e, "text")}
-                // onBlur={(e: any) => handleBlur()}
                 onKeyPress={(e: any) => handleKeyPress(e)}
               />
-
-              <DropdownToggle caret color="primary" />
+              <UncontrolledTooltip placement={"top"} target={"dropdown-1"}>
+                {languageTranslation("SELECT_USER")}
+              </UncontrolledTooltip>
+              <DropdownToggle caret color="primary" id={"dropdown-1"} />
               <DropdownMenu onClick={(e: any) => handleSelect(e, "dropdown")}>
                 <DropdownItem value="avability">
                   {languageTranslation("CAREGIVER_AVABILITY")}
@@ -305,6 +371,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
         setAttributeFilter={setAttributeFilter}
         attributeFilter={attributeFilter}
         applyFilter={applyFilter}
+        positive={positive}
+        negative={negative}
         isPositive={isPositive}
         setIsPositive={setIsPositive}
         isNegative={isNegative}

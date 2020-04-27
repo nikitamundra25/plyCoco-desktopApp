@@ -42,10 +42,12 @@ export interface IAppRoutes {
   GLOBAL_CALENDAR: string;
   BULK_EMAIL_CAREINSTITUTION: String;
   ALLINVOICES: string;
+  INVOICE: string;
   INVOICESOLONA: string;
   CREATEINVOICES: string;
-  DROWINVOICE: string;
+  // DROWINVOICE: string;
   PRINTINVOICES: string;
-   PAYSLIPFORM: string;
-   HEALTHINSURANCEFORM: string;
+  PAYSLIPFORM: string;
+  HEALTHINSURANCEFORM: string;
+  LEASINGCREATEINVOICE: string;
 }

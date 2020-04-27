@@ -220,9 +220,9 @@ const AttributeManageMent: FunctionComponent = () => {
                       <i className="icon-ban" />
                     </div>
                     <h4 className="mb-1">
-                      Currently there are no attribute added.{" "}
+            {languageTranslation("NO_ATTRIBUTE_ADDED")}{" "}
                     </h4>
-                    <p>Please click above button to add new.</p>
+                    <p>{languageTranslation("BUTTON_TO_ADD_NEW")} </p>
                   </div>
                 </td>
               </tr>

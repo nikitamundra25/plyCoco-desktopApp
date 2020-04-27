@@ -44,11 +44,13 @@ export const AppRoutes: IAppRoutes = {
   ATTRIBUTE_MANAGEMENT: "/further/attribute",
   EMAIL_TEMPLATE_MANAGEMENT: "/further/email-templates",
   BULK_EMAIL_CAREINSTITUTION: "/bulk-email-careinstitution",
-  ALLINVOICES: "/invoices",
-  INVOICESOLONA: "/invoice-solona",
-  DROWINVOICE: "/drow-invoice",
-  CREATEINVOICES: "/create-invoice",
-  PRINTINVOICES: "/print-invoice",
-  PAYSLIPFORM:"/pay-slip-form",
-  HEALTHINSURANCEFORM:"/health-insurance-form"
+  ALLINVOICES: "/invoice-menu",
+  INVOICE: "/invoice-menu/invoice",
+  INVOICESOLONA: "/invoice-menu/invoice-leasing",
+  // DROWINVOICE: "/drow-invoice",
+  CREATEINVOICES: "/invoice-menu/create-invoice",
+  LEASINGCREATEINVOICE:"/invoice-menu/create-leasing-invoice",
+  PRINTINVOICES: "/invoice-menu/print-invoice",
+  PAYSLIPFORM: "/invoice-menu/pay-slip-form",
+  HEALTHINSURANCEFORM: "/invoice-menu/health-insurance-form"
 };

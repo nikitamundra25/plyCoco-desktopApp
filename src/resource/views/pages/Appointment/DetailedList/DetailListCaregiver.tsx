@@ -6,7 +6,7 @@ import {
   Table,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
 } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
 import { defaultDateFormat } from '../../../../../config';
@@ -30,27 +30,17 @@ const DetailListCaregiver = (props: any) => {
       <img src={closehover} alt='close' className='hover-img' />
     </button>
   );
-  let temp: any = [];
-  let checkData: boolean = false;
-  checkData = selectedCells
-    ? selectedCells.map((elem: any, index: number) => {
-        return elem &&
-          elem.item &&
-          (elem.item.f === 'available' ||
-            elem.item.s === 'available' ||
-            elem.item.n === 'available')
-          ? true
-          : false;
-      })
-    : null;
-  if (checkData) {
-    temp.push(checkData);
-  }
   let name: any;
   let quali: any;
   let dept: any;
   let startTime: any;
   let endTime: any;
+  const [isExpand, setIsExpand] = useState<boolean>(false);
+  const [activeRow, setActiveRow] = useState<number>(-1);
+  const expandedText = (index: number) => {
+    setIsExpand(activeRow === index || activeRow === -1 ? !isExpand : isExpand);
+    setActiveRow(activeRow === index ? -1 : index);
+  };
   return (
     <div>
       <Modal
@@ -159,6 +149,12 @@ const DetailListCaregiver = (props: any) => {
                                     ? 'matching-bg'
                                     : elem.item.status === 'confirmed'
                                     ? 'contract-bg'
+                                    : elem.item.status === 'contractcancelled'
+                                    ? 'cancel-contract-bg'
+                                    : elem.item.status === 'contractInitiated'
+                                    ? 'contact-initiate-bg'
+                                    : elem.item.status === 'accepted'
+                                    ? 'accepted-bg'
                                     : 'availability-bg'
                                 }
                               >
@@ -184,7 +180,8 @@ const DetailListCaregiver = (props: any) => {
                                             qualification.value
                                           );
                                         })
-                                        .map((q: any,i:number) => (q.label)).join(', ')
+                                        .map((q: any, i: number) => q.label)
+                                        .join(', ')
                                     : null}
                                 </td>
                                 <td>
@@ -239,9 +236,31 @@ const DetailListCaregiver = (props: any) => {
                                   </span>
                                 </td>
                                 <td className='comment-col word-wrap'>
-                                  {elem.item.remarksCareGiver
-                                    ? elem.item.remarksCareGiver
-                                    : '-'}
+                                  {elem.item.remarksCareGiver ? (
+                                    elem.item.remarksCareGiver.length <= 100 ? (
+                                      elem.item.remarksCareGiver
+                                    ) : (
+                                      <p className='mb-0'>
+                                        {isExpand && activeRow === index
+                                          ? elem.item.remarksCareGiver
+                                          : elem.item.remarksCareGiver.substr(
+                                              0,
+                                              100
+                                            )}
+                                        ...
+                                        <span
+                                          className='view-more-link'
+                                          onClick={() => expandedText(index)}
+                                        >
+                                          {isExpand && activeRow === index
+                                            ? 'Read less'
+                                            : 'Read more'}
+                                        </span>
+                                      </p>
+                                    )
+                                  ) : (
+                                    '-'
+                                  )}
                                 </td>
                               </tr>
                             ) : null;
@@ -254,7 +273,7 @@ const DetailListCaregiver = (props: any) => {
                                   <i className='icon-ban' />
                                 </div>
                                 <h4 className='mb-1'>
-                                  Currently there are no data found.{' '}
+                        {languageTranslation("NO_DATA_FOUND")}{' '}
                                 </h4>
                               </div>
                             </td>
@@ -323,7 +342,7 @@ const DetailListCaregiver = (props: any) => {
                             {languageTranslation('KILOMETER')}
                           </th>
                           <th className='whitespace-nowrap text-center'>
-                            {languageTranslation('FEE_PER_KM')}
+                            {languageTranslation('FEE_PER_KM')} 3
                           </th>
 
                           <th className='whitespace-nowrap '>
@@ -372,6 +391,12 @@ const DetailListCaregiver = (props: any) => {
                                     ? 'matching-bg'
                                     : elem.item.status === 'confirmed'
                                     ? 'contract-bg'
+                                    : elem.item.status === 'contractcancelled'
+                                    ? 'cancel-contract-bg'
+                                    : elem.item.status === 'contractInitiated'
+                                    ? 'contact-initiate-bg'
+                                    : elem.item.status === 'accepted'
+                                    ? 'accepted-bg'
                                     : 'availability-bg'
                                 }
                               >

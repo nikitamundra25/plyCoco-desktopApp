@@ -54,22 +54,20 @@ const CareInstitutionTodoLayout = React.lazy(() =>
     "../resource/views/pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout"
   )
 );
-const AllInvoices = React.lazy(() =>
-  import("../resource/views/pages/AllInvoices")
-);
+const INVOICE = React.lazy(() => import("../resource/views/pages/AllInvoices"));
 const InvoiceSolona = React.lazy(() =>
-  import("../resource/views/pages/AllInvoices/InvoiceSolona")
+  import("../resource/views/pages/AllInvoices/CreateInvoiceSolona")
 );
-const DrowInvoice = React.lazy(() =>
-  import("../resource/views/pages/AllInvoices/DrowInvoice")
-);
+// const DrowInvoice = React.lazy(() =>
+//   import("../resource/views/pages/AllInvoices/DrowInvoice")
+// );
 
 const PaySlipForm = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/PaySlipForm")
 );
 
 const CreateInvoices = React.lazy(() =>
-  import("../resource/views/pages/AllInvoices/CreateInvoices")
+  import("../resource/views/pages/AllInvoices/CreateInvoice")
 );
 const PrintInvoices = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/PrintInvoices")
@@ -145,118 +143,127 @@ const BulkEmailCareinstitution = React.lazy(() =>
   import("../resource/views/pages/BulkEmailCareinstitution")
 );
 
+const openpdf = React.lazy(() =>
+  import("../resource/views/pages/BulkEmailCaregiver/PDF/LeasingContactPdf")
+);
+
 const pdf1 = React.lazy(() =>
-  import("../resource/views/pages/BulkEmailCaregiver/PDF/TerminationAgreementPdf")
+  import(
+    "../resource/views/pages/BulkEmailCaregiver/PDF/TerminationAgreementPdf"
+  )
 );
 const pdf2 = React.lazy(() =>
   import("../resource/views/pages/BulkEmailCaregiver/PDF/ConfirmAppointmentPdf")
 );
 
+const createLeasingInvoice =  React.lazy(() =>
+import("../resource/views/pages/AllInvoices/CreateLeasingInvoice")
+);
 const routes = [
   {
     path: AppRoutes.LOGIN,
-    name: "Login",
+    name: languageTranslation("ROUTE_LOGIN"),
     component: Login,
     exact: true
   },
   {
     path: AppRoutes.MAIN,
     exact: true,
-    name: "Dashboard"
+    name: languageTranslation("DASHBOARD"),
   },
   {
     path: AppRoutes.HOME,
-    name: "Dashboard",
+    name: languageTranslation("DASHBOARD"),
     component: Dashboard,
     exact: true
   },
   {
     path: AppRoutes.MY_PROFILE,
-    name: "Profile",
+    name: languageTranslation("PROFILE"),
     component: MyProfile,
     exact: true
   },
   {
     path: AppRoutes.EMPLOYEE,
-    name: "Employee",
+    name: languageTranslation("EMPLOYEE"),
     component: Employee,
     exact: true
   },
   {
     path: AppRoutes.ADD_EMPLOYEE,
-    name: "Add Employee",
+    name: languageTranslation("ADD_EMPLOYEE"),
     component: AddEmployee,
     exact: true
   },
   {
     path: AppRoutes.EDIT_EMPLOYEE,
-    name: "Edit Employee",
+    name: languageTranslation("EDIT_EMPLOYEE"),
     component: AddEmployee,
     exact: true
   },
   {
     path: AppRoutes.VIEW_EMPLOYEE,
-    name: "View Employee",
+    name:languageTranslation("VIEW_EMPLOYEE"),
     component: ViewEmployee,
     exact: true
   },
   {
     path: AppRoutes.DEPARTMENT,
-    name: "Department",
+    name: languageTranslation("DEPARTMENT"),
     component: Department,
     exact: true
   },
   {
     path: AppRoutes.ADD_DEPARTMENT,
-    name: "Add Department",
+    name: languageTranslation("ADD_DEPARTMENT"),
     component: AddDepartment,
     exact: true
   },
   {
     path: AppRoutes.REGION,
-    name: "Region",
+    name: languageTranslation("REGION"),
     component: Region,
     exact: true
   },
   {
     path: AppRoutes.CARE_GIVER,
-    name: "Caregiver",
+    name: languageTranslation("MENU_CAREGIVER"),
     component: CareGiver,
     exact: true
   },
   {
     path: AppRoutes.ADD_CARE_GIVER,
-    name: "Add Caregiver",
+    name: languageTranslation("ADD_CAREGIVER"),
     component: AddCareGiver,
     exact: true
   },
   {
     path: AppRoutes.CARE_GIVER_VIEW,
-    name: "Caregiver View",
+    name: languageTranslation("CAREGIVER_VIEW_ROUTE"),
     component: ViewCareGiver,
     exact: true
   },
   {
     path: AppRoutes.CARE_INSTITUTION,
-    name: "Care Institution",
+    name: languageTranslation("MENU_INSTITUTION"),
     component: Constitution,
     exact: true
   },
   {
     path: AppRoutes.ADD_CARE_INSTITUTION,
-    name: "Add Care Institution",
+    name: languageTranslation("ADD_CARE_INSTITUTION"),
     component: AddCareInstitution,
     exact: true
   },
   {
     path: AppRoutes.CARE_INSTITUION_VIEW,
-    name: "Care Institution View",
+    name: languageTranslation("CARE_INSTITUTION_VIEW"),
     component: ViewCareInstitution,
     exact: true
   },
   {
     path: AppRoutes.CAREGIVER_TODO,
-    name: "Caregiver Todo",
+    name: languageTranslation("CREATE_TODO_LABEL"),
     component: CareGiverTodo,
     exact: true,
     layout: CareGiverTodoLayout,
@@ -264,7 +271,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_TODO,
-    name: "Care Institution Todo",
+    name: languageTranslation("CREATE_TODO_CAREINSTITUTION"),
     component: CareInstitutionTodo,
     exact: true,
     layout: CareInstitutionTodoLayout,
@@ -288,7 +295,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_TODO_REQUIREMENT,
-    name: "Care Institution Todo Requirement",
+    name: languageTranslation("CREATE_TODO_CAREINSTITUTION_REQ"),
     component: CareInstitutionTodoRequirement,
     exact: true,
     layout: CareInstitutionTodoLayout,
@@ -313,72 +320,72 @@ const routes = [
 
   {
     path: AppRoutes.EMAIL_TEMPLATE_MANAGEMENT,
-    name: "Email Template Management",
+    name: languageTranslation("EMAIL_TEMPLATE_MGMT"),
     component: EmailTemplateManagement,
     exact: true
   },
   {
     path: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
-    name: "Document Template Working Proof",
+    name: languageTranslation("DOCUMENT_TEMPLATE_WORKPROOF"),
     component: DocumentTemplateWorkingProof,
     exact: true
   },
   {
     path: AppRoutes.BULK_EMAIL_CAREGIVER,
-    name: "Bulk Email Caregiver",
+    name: languageTranslation("BULK_EMAIL_CAREGIVER"),
     component: BulkEmailCaregiver,
     exact: true
   },
   {
     path: AppRoutes.ALL_EMAILS,
-    name: "Email Inbox",
+    name: languageTranslation("EMAIL_INBOX"),
     component: EmailInbox,
     exact: true
   },
   {
     path: AppRoutes.EMAIL_SENT,
-    name: "Email Sent",
+    name: languageTranslation("EMAIL_SENT"),
     component: EmailSent,
     exact: true
   },
   {
     path: AppRoutes.EMAIL_OUTBOX,
-    name: "Email outbox",
+    name: languageTranslation("EMAIL_OUTBOX"),
     component: EmailOutbox,
     exact: true
   },
   {
     path: AppRoutes.EMAIL_QUEUE,
-    name: "Email Queue",
+    name: languageTranslation("EMAIL_QUEUE"),
     component: EmailQueue,
     exact: true
   },
   {
     path: AppRoutes.ATTRIBUTE_MANAGEMENT,
-    name: "Attribute management",
+    name: languageTranslation("ATTRIBUTE_MANAGEMENT"),
     component: AttributeManageMent,
     exact: true
   },
   {
     path: AppRoutes.EMPLOYEE_ARCHIVE,
-    name: "Trash",
+    name: languageTranslation("TRASH"),
     component: ArchiveEmployee,
     exact: true
   },
   {
     path: AppRoutes.CAREGIVER_ARCHIVE,
-    name: "Trash",
+    name: languageTranslation("TRASH"),
     component: ArchiveCaregiver,
     exact: true
   },
   {
     path: AppRoutes.CAREINSTITUTION_ARCHIVE,
-    name: "Trash",
+    name: languageTranslation("TRASH"),
     component: ArchiveCareInstitution
   },
   {
     path: AppRoutes.APPOINTMENT,
-    name: "Appointment",
+    name: languageTranslation("APPOINTMENT"),
     component: Appointment,
     exact: true
   },
@@ -390,25 +397,25 @@ const routes = [
   },
   {
     path: AppRoutes.PAGENOTFOUND,
-    name: "Page 404",
+    name: languageTranslation("PAGE_404"),
     component: PageNotFound,
     exact: true
   },
   {
     path: AppRoutes.BULK_EMAIL_CAREINSTITUTION,
-    name: "Bulk Care Instituition",
+    name: languageTranslation("BULK_EMAIL_CAREINSTITUTION"),
     component: BulkEmailCareinstitution,
     exact: true
   },
   {
-    path: AppRoutes.ALLINVOICES,
-    name: "AllInvoices",
-    component: AllInvoices,
+    path: AppRoutes.INVOICE,
+    name: languageTranslation("INVOICE_LABEL"),
+    component: INVOICE,
     exact: true
   },
   {
     path: AppRoutes.INVOICESOLONA,
-    name: "InvoiceSolona",
+    name: languageTranslation("INVOICE_SOLONA"),
     component: InvoiceSolona,
     exact: true
   },
@@ -420,41 +427,52 @@ const routes = [
   // },
   {
     path: AppRoutes.CREATEINVOICES,
-    name: "CreateInvoices",
+    name: languageTranslation("CREATE_INVOICE"),
     component: CreateInvoices,
     exact: true
   },
   {
+    path: AppRoutes.LEASINGCREATEINVOICE,
+    name: languageTranslation("MENU_LEASING_CREATE_INVOICE"),
+    component: createLeasingInvoice,
+    exact: true
+  },
+  {
     path: AppRoutes.PRINTINVOICES,
-    name: "PrintInvoices",
+    name: languageTranslation("PRINT_INVOICE"),
     component: PrintInvoices,
     exact: true
   },
   {
     path: AppRoutes.PAYSLIPFORM,
-    name: "PaySlipForm",
+    name: languageTranslation("PAY_SLIP_FORM"),
     component: PaySlipForm,
     exact: true
   },
   {
     path: AppRoutes.HEALTHINSURANCEFORM,
-    name: "HealthInsuranceForm",
+    name: languageTranslation("HEALTH_INSURANCE_FORM"),
     component: HealthInsuranceForm,
     exact: true
   },
   {
-    path: '/pdf1',
-    name: "pdf1",
+    path: "/pdf1",
+    name: languageTranslation("PDF_1"),
     component: pdf1,
     exact: true
   },
   {
-    path: '/pdf2',
-    name: "pdf2",
+    path: "/pdf2",
+    name: languageTranslation("PDF_2"),
     component: pdf2,
     exact: true
-  }
-
+  },
+  {
+    path: "/openpdf",
+    name: languageTranslation("OPEN_PDF"),
+    component: openpdf,
+    exact: true
+  },
 ];
 
 export default routes;

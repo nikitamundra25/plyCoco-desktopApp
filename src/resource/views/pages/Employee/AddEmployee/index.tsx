@@ -29,6 +29,7 @@ import {
 import { EmployeeMutations } from '../../../../../graphql/Mutations';
 import { errorFormatter } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
+import { Helmet } from "react-helmet";
 
 const [GET_EMPLOYEE_BY_ID, GET_EMPLOYEES] = EmployeeQueries;
 const [ADD_EMPLOYEE, UPDATE_EMPLOYEE] = EmployeeMutations;
@@ -487,6 +488,9 @@ export const EmployeeForm: FunctionComponent<{
   };
   return (
     <>
+     <Helmet>
+    <title>{employeeData ? `${languageTranslation(`EDIT_EMPLOYEE`)}/ ${employeeData.firstName ? employeeData.lastName + " " +employeeData.firstName : ""}`  : languageTranslation("ADD_EMPLOYEE")} </title>
+  </Helmet>
       {dataLoading ? (
         <Loader />
       ) : (

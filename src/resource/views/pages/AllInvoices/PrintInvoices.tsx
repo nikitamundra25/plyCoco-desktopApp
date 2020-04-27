@@ -33,11 +33,11 @@ import filter from "../../../assets/img/filter.svg";
 const PrintInvoice: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
-  ];
+  // const options = [
+  //   { value: "chocolate", label: "Chocolate" },
+  //   { value: "strawberry", label: "Strawberry" },
+  //   { value: "vanilla", label: "Vanilla" }
+  // ];
 
   return (
     <>

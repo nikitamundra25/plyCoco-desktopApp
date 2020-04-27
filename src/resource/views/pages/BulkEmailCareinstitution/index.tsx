@@ -27,7 +27,7 @@ import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
 import './index.scss';
 import { useHistory } from 'react-router';
-import { client } from '../../../../config';
+import { client, CareInstTIMyoCYAttrId } from '../../../../config';
 import { EmailEditorComponent } from './EmailFormComponent';
 import { ConfirmBox } from '../../components/ConfirmBox';
 import { IBulkEmailVariables } from '../../../../interfaces';
@@ -35,6 +35,9 @@ import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
 import { BulkEmailCareInstituion } from '../../../../graphql/Mutations/BulkEmailCareInstitution';
 import moment from 'moment';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import ConfirmAppointmentPdf from './PDF/ConfirmAppointmentPdf';
+import { DocumentMutations } from '../../../../graphql/Mutations';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [BULK_EMAILS_CAREINSTITUTION] = BulkEmailCareInstituion;
@@ -42,7 +45,7 @@ const [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID
 ] = CareInstitutionQueries;
-
+const [ADD_DOCUMENT] = DocumentMutations;
 const [VIEW_PROFILE] = ProfileQueries;
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 
@@ -51,7 +54,8 @@ let toastId: any = null;
 const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   const { selectedCellsCareinstitution, confirmAppointment } = props;
   let [selectedCareGiver, setselectedCareGiver] = useState<any>([]);
-  const history = useHistory();
+  const [pdfAppointmentDetails, setPdfAppointmentDetails] = useState<string[]>([]);
+  const [temporaryWorkerPdf, setTemporaryWorkerPdf] = useState<any>();
 
   // To access data of loggedIn user
   let userData: any = '';
@@ -66,6 +70,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     ? viewAdminProfile
     : {};
 
+    // Mutation to leasing document
+    const [addUserDocuments,{data:documentRes}] = useMutation<
+    { addUserDocuments: any },
+    { documentInput: any }
+  >(ADD_DOCUMENT);
   // To fetch caregivers by qualification id
   const [
     fetchCaregiverListFromQualification,
@@ -120,13 +129,13 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         toastId = toast.success(languageTranslation('EMAIL_SENT_SUCCESS'));
       }
       props.handleClose();
-      setSubject('');
-      setBody(undefined);
-      setAttachments([]);
-      setIsSubmit(false);
-      setTemplate({ label: '', value: '' });
-      setselectedCareGiver([]);
-      setBulkCareGivers(false);
+      // setSubject('');
+      // setBody(undefined);
+      // setAttachments([]);
+      // setIsSubmit(false);
+      // setTemplate({ label: '', value: '' });
+      // setselectedCareGiver([]);
+      // setBulkCareGivers(false);
     },
     onError: (error: ApolloError) => {
       const message = errorFormatter(error);
@@ -162,31 +171,31 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           userId.push(parseInt(value.id));
         }
       }
-      let temp: any = [];
-      if (props.qualification && props.qualification.length) {
-        props.qualification.map((key: any, index: number) => {
-          if (key.value) {
-            temp.push(parseInt(key.value));
-          } else {
-            temp.push(parseInt(key));
-          }
-        });
-      }
+      // let temp: any = [];
+      // if (props.qualification && props.qualification.length) {
+      //   props.qualification.map((key: any, index: number) => {
+      //     if (key.value) {
+      //       temp.push(parseInt(key.value));
+      //     } else {
+      //       temp.push(parseInt(key));
+      //     }
+      //   });
+      // }
 
       // get careInstitutions list
-      fetchCaregiverListFromQualification({
-        variables: {
-          qualificationId: temp ? temp : [],
-          positiveAttributeId: [],
-          negativeAttributeId: [],
-          userRole: 'canstitution',
-          limit: 30,
-          page,
-          gte: props.gte,
-          lte: props.lte,
-          userId: userId
-        }
-      });
+      // fetchCaregiverListFromQualification({
+      //   variables: {
+      //     qualificationId: temp ? temp : [],
+      //     positiveAttributeId: [],
+      //     negativeAttributeId: [],
+      //     userRole: 'canstitution',
+      //     limit: 30,
+      //     page,
+      //     gte: props.gte,
+      //     lte: props.lte,
+      //     userId: userId
+      //   }
+      // });
     }
   }, [props.qualification]);
 
@@ -257,289 +266,309 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
     return comparison;
   };
-
+  let userId = '',
+  appointmentIds:number[] = [],
+  requirementIds:number[] = [],
+  avabilityIds:number[] = [];
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length > 0) {
+    let appointedCells = selectedCellsCareinstitution.filter((cell:any) => cell.item && cell.item.appointments && cell.item.appointments.length && cell.item.appointments[0].id);
+    console.log(appointedCells,'appointedCells');  
+    userId = selectedCellsCareinstitution[0].id;
+    if (appointedCells && appointedCells.length) {
+      appointmentIds = appointedCells.map((cell:any) => parseInt(cell.item.appointments[0].id));
+      avabilityIds = appointedCells.map((cell:any) => parseInt(cell.item.appointments[0].avabilityId));
+      requirementIds = appointedCells.map((cell:any) => parseInt(cell.item.appointments[0].requirementId));
+    }
+  }
+  useEffect(() => {
+    if (temporaryWorkerPdf) {
+    let documentInput: any = {
+      appointmentId: appointmentIds,
+      userId: parseInt(userId),
+      isDocumentTemplate: false,
+      documentUploadType: 'confirmAppointment',
+      document: temporaryWorkerPdf
+    };
+    addUserDocuments({
+      variables: {
+        documentInput
+      }
+    });}
+  },[temporaryWorkerPdf])
+  useEffect(() => {
+    if (
+      selectedCellsCareinstitution &&
+      selectedCellsCareinstitution.length
+    )
+    setPdfAppointmentDetails(selectedCellsCareinstitution)
+  },[selectedCellsCareinstitution])
+  useEffect(()=>{
+    if (documentRes) {
+      const {addUserDocuments={}} = documentRes ? documentRes :{}
+      const {fileSize=0,document='',id=''} = addUserDocuments ? addUserDocuments : {}
+      setAttachments([{fileName: 'TIM Arbeitnehmerüberlassungsbogen - Supply temporary workers(Care Institution)',url:null,file:null,
+        id,
+        path:document,
+        size:fileSize}])
+    }
+  },[documentRes])
   //Use Effect for set default email template data
   useEffect(() => {
     if (data && props.label === 'appointment') {
-      const {
-        getEmailtemplate: { email_templates }
-      } = data;
-      if (email_templates && email_templates.length) {
-        email_templates.map((emailData: IEmailTemplateData & any) => {
-          if (props.label === 'appointment') {
-            if (props.statusTo === 'offered') {
-              if (emailData.menuEntry === 'offer appointments by day') {
-                const { subject } = emailData;
-                setSubject(subject);
-                let apointedCareGiver: any[] = [];
-                if (
-                  selectedCellsCareinstitution &&
-                  selectedCellsCareinstitution.length
-                ) {
-                  selectedCellsCareinstitution.forEach((element: any) => {
-                    const {
-                      item = {},
-                      firstName = '',
-                      lastName = ''
-                    } = element;
-                    const { appointments = [], division = {} } = item;
-                    if (appointments && appointments.length) {
-                      const { ca = {}, date = '' } =
-                        appointments && appointments.length
-                          ? appointments[0]
-                          : {};
-                      if (ca) {
-                        let divisionData: string = division
-                          ? division.name
-                          : `${firstName}${' '}${lastName}`;
-                        apointedCareGiver.push({
-                          caregivername: ca && ca.name ? ca.name : 'caregiver',
-                          date: date,
-                          division: divisionData
-                        });
-                      }
-                    }
-                  });
-                }
-                let divRow: string = '';
-                if (props.sortBy === 'day') {
-                  apointedCareGiver = apointedCareGiver.sort(function (
-                    a: any,
-                    b: any
-                  ) {
-                    return a.date - b.date;
-                  });
-                } else {
-                  apointedCareGiver = apointedCareGiver.sort(sortByDivision);
-                }
-                apointedCareGiver.map((data: any) => {
-                  divRow += `<span><b>${moment(data.date).format(
-                    'DD/MM'
-                  )}${' '}${' '}${data.division}:${' '}${' '}${
-                    data.caregivername
-                    }</b></span></br>`;
-                });
-                const bodyData: any = `<span>We are able to fill your request as follows:-</br></br>${divRow}</br>Please note that each independent caregiver has their own fee. We ask for a short-term confirmation.</span>`;
-                const editorState = bodyData
-                  ? HtmlToDraftConverter(bodyData)
-                  : '';
-                setBody(editorState);
-
-                setTemplate({
-                  label: emailData.menuEntry,
-                  value: emailData
-                });
-              }
-            }
-            if (props.statusTo === 'confirmed') {
-              if (emailData.menuEntry === 'Appointment Confirmation') {
-                const { subject } = emailData;
-                setSubject(subject);
-                let apointedCareGiver: any[] = [];
-                let isLeasing: boolean = false;
-                if (
-                  selectedCellsCareinstitution &&
-                  selectedCellsCareinstitution.length
-                ) {
-                  selectedCellsCareinstitution.forEach((element: any) => {
-                    const {
-                      item = {},
-                      firstName = '',
-                      lastName = ''
-                    } = element;
-                    isLeasing = element.isLeasing;
-                    const { appointments = [], division = {} } = item;
-                    if (appointments && appointments.length) {
-                      const { ca = {}, date = '' } =
-                        appointments && appointments.length
-                          ? appointments[0]
-                          : {};
-                      if (ca) {
-                        let divisionData: string = division
-                          ? division.name
-                          : `${firstName}${' '}${lastName}`;
-                        apointedCareGiver.push({
-                          caregivername: ca && ca.name ? ca.name : 'caregiver',
-                          date: date,
-                          division: divisionData
-                        });
-                      }
-                    }
-                  });
-                }
-                let divRow: string = '';
-                if (props.sortBy === 'day') {
-                  apointedCareGiver = apointedCareGiver.sort(function (
-                    a: any,
-                    b: any
-                  ) {
-                    return a.date - b.date;
-                  });
-                } else {
-                  apointedCareGiver = apointedCareGiver.sort(sortByDivision);
-                }
-                apointedCareGiver.map((data: any) => {
-                  divRow += `<span><b>${moment(data.date).format(
-                    'DD/MM'
-                  )}${' '}${' '}${data.division}:${' '}${' '}${
-                    data.caregivername
-                    }</b></span></br>`;
-                });
-                const bodyData: any = `<span>Appointment confirmation:-</br></br>${divRow}</br>Please note that each self-employed caregiver and assistant has their own fee. The caregiver is informed to contact you by phone before the assignment..</span><br />${
-                  isLeasing
-                    ? `<p>${languageTranslation(
-                      'CONTRACT_LINE'
-                    )}</p><p>${languageTranslation('CONTRACT_MAIL_INFO')}</p>`
-                    : ''
-                  }`;
-                const editorState = bodyData
-                  ? HtmlToDraftConverter(bodyData)
-                  : '';
-                setBody(editorState);
-                setTemplate({
-                  label: emailData.menuEntry,
-                  value: emailData
-                });
-              }
-            }
-            if (props.unlinkedBy) {
-              if (props.unlinkedBy === 'canstitution') {
-                let apointedCareGiver: any[] = [];
-                if (
-                  selectedCellsCareinstitution &&
-                  selectedCellsCareinstitution.length
-                ) {
-                  selectedCellsCareinstitution.forEach((element: any) => {
-                    const {
-                      item = {},
-                      firstName = '',
-                      lastName = ''
-                    } = element;
-                    const { appointments = [], division = {} } = item;
-                    if (appointments && appointments.length) {
-                      const { ca = {}, date = '' } =
-                        appointments && appointments.length
-                          ? appointments[0]
-                          : {};
-                      if (ca) {
-                        let divisionData: string = division
-                          ? division.name
-                          : `${firstName}${' '}${lastName}`;
-                        apointedCareGiver.push({
-                          caregivername: ca && ca.name ? ca.name : 'caregiver',
-                          date: date,
-                          division: divisionData
-                        });
-                      }
-                    }
-                  });
-                }
-                let divRow: string = '';
-                apointedCareGiver.map((data: any) => {
-                  divRow += `<span><b>${moment(data.date).format(
-                    'DD/MM'
-                  )}${' '}${' '}${data.division}:${' '}${' '}${
-                    data.caregivername
-                    }</b></span></br>`;
-                });
-                const bodyData: any = `<span>We have informed the specialists of your cancellation for the following dates:-</br></br>${divRow}</span>`;
-                const editorState = bodyData
-                  ? HtmlToDraftConverter(bodyData)
-                  : '';
-
-                let subject: string = `Cancellation confirmation for ${moment(
-                  apointedCareGiver[0].date
-                ).format('DD.MM')},${' '}${apointedCareGiver[0].division}`;
-                setBody(editorState);
-                setSubject(subject);
-                setTemplate({
-                  label: emailData.menuEntry,
-                  value: emailData
-                });
-              } else {
-                let apointedCareGiver: any[] = [];
-                if (
-                  selectedCellsCareinstitution &&
-                  selectedCellsCareinstitution.length
-                ) {
-                  selectedCellsCareinstitution.forEach((element: any) => {
-                    const {
-                      item = {},
-                      firstName = '',
-                      lastName = ''
-                    } = element;
-                    const { appointments = [], division = {} } = item;
-                    if (appointments && appointments.length) {
-                      const { ca = {}, date = '' } =
-                        appointments && appointments.length
-                          ? appointments[0]
-                          : {};
-                      if (ca) {
-                        let divisionData: string = division
-                          ? division.name
-                          : `${firstName}${' '}${lastName}`;
-                        apointedCareGiver.push({
-                          caregivername: ca && ca.name ? ca.name : 'caregiver',
-                          date: date,
-                          division: divisionData
-                        });
-                      }
-                    }
-                  });
-                }
-                let divRow: string = '';
-                apointedCareGiver.map((data: any) => {
-                  divRow += `<span><b>${moment(data.date).format(
-                    'DD/MM'
-                  )}${' '}${' '}${data.division}:${' '}${' '}${
-                    data.caregivername
-                    }</b></span></br>`;
-                });
-                const bodyData: any = `<span>The specialist has unfortunately canceled the following dates:-</br></br>${divRow}</span></br>We will immediately look for a replacement and contact you as soon as possible.`;
-                const editorState = bodyData
-                  ? HtmlToDraftConverter(bodyData)
-                  : '';
-
-                let subject: string = `Appointment cancellation for ${moment(
-                  apointedCareGiver[0].date
-                ).format('MMM Do')},${' '}1:1 ${apointedCareGiver[0].division}`;
-                setBody(editorState);
-                setSubject(subject);
-                setTemplate({
-                  label: '',
-                  value: ''
-                });
-              }
-            }
+      if (props.label === 'appointment') {
+        if (props.statusTo === 'offered') {
+          setSubject(languageTranslation("SUBJECT_OFFER_APPOINTMENT_BY_DAY"));
+            let apointedCareGiver: any[] = [];
             if (
-              emailData.menuEntry === 'Acknowledge for offer sent' &&
-              props.statusTo === '' &&
-              !props.unlinkedBy
+              selectedCellsCareinstitution &&
+              selectedCellsCareinstitution.length
             ) {
-              const { subject, body, attachments } = emailData;
-              const editorState = body ? HtmlToDraftConverter(body) : '';
-              setSubject(subject);
-              setBody(editorState);
-              setAttachments(
-                attachments
-                  ? attachments.map(
-                    ({ name, id, path, size }: INewEmailAttachments) => ({
-                      fileName: name,
-                      id,
-                      path,
-                      size
-                    })
-                  )
-                  : []
-              );
-
-              setTemplate({
-                label: emailData.menuEntry,
-                value: emailData
+              selectedCellsCareinstitution.forEach((element: any) => {
+                const {
+                  item = {},
+                  firstName = '',
+                  lastName = '',
+                  name=''
+                } = element;
+                const { appointments = [], division = {} } = item;
+                if (appointments && appointments.length) {
+                  const { ca = {}, date = '' } =
+                    appointments && appointments.length
+                      ? appointments[0]
+                      : {};
+                  if (ca) {
+                    let divisionData: string = division
+                      ? division.name
+                      : name;
+                    apointedCareGiver.push({
+                      caregivername: ca && ca.name ? ca.name : 'caregiver',
+                      date: date,
+                      division: divisionData
+                    });
+                  }
+                }
               });
             }
+            let divRow: string = '';
+            if (props.sortBy === 'day') {
+              apointedCareGiver = apointedCareGiver.sort(function (
+                a: any,
+                b: any
+              ) {
+                return a.date - b.date;
+              });
+            } else {
+              apointedCareGiver = apointedCareGiver.sort(sortByDivision);
+            }
+            apointedCareGiver.map((data: any) => {
+              divRow += `<span><b>${moment(data.date).format(
+                'DD/MM'
+              )}${' '}${' '}${data.division}:${' '}${' '}${
+                data.caregivername
+                }</b></span></br>`;
+            });
+            const bodyData: any = `<span>${languageTranslation("OFFERED_BODY_WE_ARE_ABLE_TO_FILL")}</br></br>${divRow}</br>${languageTranslation("OFFERED_BODY_INDEPENDENT_CAREGIVER_HAS_OWN_FEE")}</span>`;
+            const editorState = bodyData
+              ? HtmlToDraftConverter(bodyData)
+              : '';
+            setBody(editorState);
+
+            // setTemplate({
+            //   label: emailData.menuEntry,
+            //   value: emailData
+            // });
+          
+        }
+        if (props.statusTo === 'confirmed') {
+          // console.log("in iff",emailData);
+          // const { subject } = emailData;
+            let apointedCareGiver: any[] = [];
+            let appointmentTimings:string[] = []
+            let isLeasing: boolean = false;
+            if (
+              selectedCellsCareinstitution &&
+              selectedCellsCareinstitution.length
+            ) {
+              selectedCellsCareinstitution.forEach((element: any, index:number) => {
+                const {
+                  item = {},
+                  name=''
+                } = element;
+                isLeasing = element.isLeasing;
+                const { appointments = [], division = {} } = item;
+                if (appointments && appointments.length) {
+                  const { ca = {}, date = '' } =
+                    appointments && appointments.length
+                      ? appointments[0]
+                      : {};
+                      appointmentTimings = [...appointmentTimings, moment(date).format(index ==0 ? 'MMMM DD' : 'DD')]
+                  if (ca) {
+                    let divisionData: string = division
+                      ? division.name
+                      : name;
+                    apointedCareGiver.push({
+                      caregivername: ca && ca.name ? ca.name : 'caregiver',
+                      date: date,
+                      division: divisionData
+                    });
+                  }
+                }
+              });
+            }
+            let divRow: string = '';
+            if (props.sortBy === 'day') {
+              apointedCareGiver = apointedCareGiver.sort(function (
+                a: any,
+                b: any
+              ) {
+                return a.date - b.date;
+              });
+            } else {
+              apointedCareGiver = apointedCareGiver.sort(sortByDivision);
+            }
+            apointedCareGiver.map((data: any) => {
+              divRow += `<span><b>${moment(data.date).format(
+                'DD/MM'
+              )}${' '}${' '}${data.division}:${' '}${' '}${
+                data.caregivername
+                }</b></span></br>`;
+            });
+            const bodyData: any = `<span>${languageTranslation("APPOINTMENT_CONFIRMATION")}</br></br>${divRow}</br>${languageTranslation("OFFERED_BODY_SELFEMPLOYEED_CAREGIVER_HAS_OWN_FEE")}</span><br />${
+              isLeasing
+                ? `<p>${languageTranslation(
+                  'CONTRACT_LINE'
+                )}</p><p>${languageTranslation('CONTRACT_MAIL_INFO')}</p>`
+                : ''
+              }`;
+            const editorState = bodyData
+              ? HtmlToDraftConverter(bodyData)
+              : '';
+            setSubject(`${languageTranslation("SUBJECT_APPOINTMENT_CONFIRMATION")} ${appointmentTimings.join(', ')}`);  setBody(editorState);
+            // setTemplate({
+            //   label: emailData.menuEntry,
+            //   value: emailData
+            // });
+        }
+        else if (props.unlinkedBy) {
+          if (props.unlinkedBy === 'canstitution') {
+            let apointedCareGiver: any[] = [];
+            if (
+              selectedCellsCareinstitution &&
+              selectedCellsCareinstitution.length
+            ) {
+              selectedCellsCareinstitution.forEach((element: any) => {
+                const {
+                  item = {},
+                  firstName = '',
+                  lastName = ''
+                } = element;
+                const { appointments = [], division = {} } = item;
+                if (appointments && appointments.length) {
+                  const { ca = {}, date = '' } =
+                    appointments && appointments.length
+                      ? appointments[0]
+                      : {};
+                  if (ca) {
+                    let divisionData: string = division
+                      ? division.name
+                      : `${firstName}${' '}${lastName}`;
+                    apointedCareGiver.push({
+                      caregivername: ca && ca.name ? ca.name : 'caregiver',
+                      date: date,
+                      division: divisionData
+                    });
+                  }
+                }
+              });
+            }
+            let divRow: string = '';
+            apointedCareGiver.map((data: any) => {
+              divRow += `<span><b>${moment(data.date).format(
+                'DD/MM'
+              )}${' '}${' '}${data.division}:${' '}${' '}${
+                data.caregivername
+                }</b></span></br>`;
+            });
+            
+            const bodyData: any = `<span>${languageTranslation("UNLINK_EMAIL_CAREINSTITUTION_BODY")}</br></br>${divRow}</span>`;
+            const editorState = bodyData
+              ? HtmlToDraftConverter(bodyData)
+              : '';
+
+            let subject: string = `${languageTranslation("UNLINK_SUBJECT")} ${apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0] && apointedCareGiver[0].date ? moment(
+              apointedCareGiver[0].date
+            ).format('DD.MM'): ""},${' '}${ apointedCareGiver && apointedCareGiver.length && apointedCareGiver[0] && apointedCareGiver[0].division ? apointedCareGiver[0].division : ""}`;
+            setBody(editorState);
+            setSubject(subject);
+            // setTemplate({
+            //   label: emailData.menuEntry,
+            //   value: emailData
+            // });
+          } else {
+            let apointedCareGiver: any[] = [];
+            if (
+              selectedCellsCareinstitution &&
+              selectedCellsCareinstitution.length
+            ) {
+              selectedCellsCareinstitution.forEach((element: any) => {
+                const {
+                  item = {},
+                  firstName = '',
+                  lastName = ''
+                } = element;
+                const { appointments = [], division = {} } = item;
+                if (appointments && appointments.length) {
+                  const { ca = {}, date = '' } =
+                    appointments && appointments.length
+                      ? appointments[0]
+                      : {};
+                  if (ca) {
+                    let divisionData: string = division
+                      ? division.name
+                      : `${firstName}${' '}${lastName}`;
+                    apointedCareGiver.push({
+                      caregivername: ca && ca.name ? ca.name : 'caregiver',
+                      date: date,
+                      division: divisionData
+                    });
+                  }
+                }
+              });
+            }
+            let divRow: string = '';
+            apointedCareGiver.map((data: any) => {
+              divRow += `<span><b>${moment(data.date).format(
+                'DD/MM'
+              )}${' '}${' '}${data.division}:${' '}${' '}${
+                data.caregivername
+                }</b></span></br>`;
+            });
+            const bodyData: any = `<span>${languageTranslation("UNLINK_EMAIL_CAREGIVER_BODY_DATES")}</br></br>${divRow}</span></br>${languageTranslation("UNLINK_EMAIL_CAREGIVER_BODY_CONTACT")}`;
+            const editorState = bodyData
+              ? HtmlToDraftConverter(bodyData)
+              : '';
+
+            let subject: string = `${languageTranslation("UNLINK_CAREGIVER_SUBJECT")} ${apointedCareGiver && apointedCareGiver.length ? `${moment(
+              apointedCareGiver[0].date
+            ).format('MMM Do')}, ${apointedCareGiver[0].division}`: ''}`;
+            setBody(editorState);
+            setSubject(subject);
+            setTemplate({
+              label: '',
+              value: ''
+            });
           }
-        });
+        }
+        else if (
+          // emailData.menuEntry === 'Acknowledge for offer sent' &&
+          props.statusTo === '' &&
+          !props.unlinkedBy
+        ) {
+          // const { subject, body, attachments } = emailData;
+          setSubject(languageTranslation("ACKNOWLEDGE_FOR_OFFER_SENT_SUBJECT"));
+          setBody(HtmlToDraftConverter(`<span>${languageTranslation("REQUEST_ALL_SUITABLE_NURSE_BODY")}<br /><br /><span>${languageTranslation("INFORM_YOU_IMMEDIATELY_BODY")}</span>`));
+          
+        }
       }
     }
   }, [data]);
@@ -596,6 +625,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   };
 
+  
+
   const handleSendEmail = (e: React.FormEvent<any>) => {
     e.preventDefault();
     let content = body
@@ -606,6 +637,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
 
     try {
       let careGiverIdList: any = [];
+      const { getCareInstitution = {} } = careInstData ? careInstData : {};
+      const {
+        id = "",
+        contact = []
+      } = getCareInstitution ? getCareInstitution : {};
 
       if (selectedCareGiver && selectedCareGiver.length) {
         // Remove duplicate values from an array of objects
@@ -628,7 +664,16 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         }
 
         uniqueUser.map((careGiverId: number) => {
-          careGiverIdList.push({ receiverUserId: careGiverId });
+          if(contact && contact.length){
+            let tempC:any =  contact.filter((e:any) => parseInt(e.id) === careGiverId);
+             if(tempC && tempC.length){
+            careGiverIdList.push({ contactId: careGiverId });
+             }else{
+            careGiverIdList.push({ receiverUserId: careGiverId });
+             }
+          }else{
+            careGiverIdList.push({ receiverUserId: careGiverId });
+          }
         });
 
         if (subject && body && result && result.length >= 2) {
@@ -653,12 +698,14 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             canstitution: careGiverIdList,
             senderUserId: id ? parseInt(id) : null
           };
-          bulkEmails({ variables: { bulkEmailsInput } });
+           bulkEmails({ variables: { bulkEmailsInput } });
         }
       } else {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(
-            languageTranslation('EMAIL_SELECT_CARE_GIVERS')
+            languageTranslation('EMAIL_SELECT_CARE_GIVERS', {
+              userRole: languageTranslation('CAREINST_USERROLE')
+            })
           );
         }
       }
@@ -745,6 +792,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   }
 
+  const isLeasingRequirement = selectedCellsCareinstitution.findIndex((cell:any) => cell.item && cell.item.isLeasing) > -1 ? true :false
+  
   return (
     <>
       <div className='common-detail-page'>
@@ -789,6 +838,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   color='primary'
                   onClick={handleSendEmail}
                   className='btn-email-save ml-auto mr-2 btn btn-primary'
+                  disabled={bulkEmailLoading}
                 >
                   {bulkEmailLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
@@ -807,6 +857,20 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           <div className='common-content flex-grow-1'>
             <div className='bulk-email-section'>
               <Row>
+              {isLeasingRequirement && !temporaryWorkerPdf && confirmAppointment && pdfAppointmentDetails && pdfAppointmentDetails.length > 0 ? (
+                  <PDFDownloadLink
+                    document={
+                      <ConfirmAppointmentPdf
+                        selectedCellsCareinstitution={pdfAppointmentDetails}
+                      />
+                    }
+                  >
+                    {({ blob, url, loading, error }: any) =>
+                      !loading ?
+                      setTemporaryWorkerPdf(blob) : null
+                    }
+                  </PDFDownloadLink>
+                ) : null}
                 <CareInstitutionListComponent
                   careInstData={careInstData}
                   handleSelectAll={handleSelectAll}

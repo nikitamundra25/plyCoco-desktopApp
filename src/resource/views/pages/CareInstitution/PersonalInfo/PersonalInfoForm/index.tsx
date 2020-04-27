@@ -12,7 +12,7 @@ import {
   ICountries,
   IStates,
   IState,
-  IRegion
+  IRegion,
 } from "../../../../../../interfaces";
 import { CountryQueries } from "../../../../../../graphql/queries";
 import CommissionFormData from "./CommissionFormData";
@@ -24,10 +24,9 @@ import CustomOption from "../../../../components/CustomOptions";
 
 const [, GET_REGIONS] = RegionQueries;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
-const PersonalInformationForm: FunctionComponent<FormikProps<
-  ICareInstitutionFormValues
-> &
-  any> = (props: FormikProps<ICareInstitutionFormValues> & any) => {
+const PersonalInformationForm: FunctionComponent<
+  FormikProps<ICareInstitutionFormValues> & any
+> = (props: FormikProps<ICareInstitutionFormValues> & any) => {
   const { userSelectedCountry, countriesOpt } = props;
   const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
@@ -41,7 +40,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id
+        value: id,
       })
     );
   }
@@ -84,7 +83,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
       id,
       regionId,
       createdAt,
-      remarksViewable
+      remarksViewable,
     },
     touched,
     errors,
@@ -95,7 +94,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     setFieldValue,
     submitCount,
     CareInstitutionList,
-    setFieldError
+    setFieldError,
   } = props;
 
   const scrollParentToChild: any = () => {
@@ -124,14 +123,14 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3
-      }
+        sortBy: 3,
+      },
     });
   }, []);
   useEffect(() => {
     if (userSelectedCountry && userSelectedCountry.value) {
       getStatesByCountry({
-        variables: { countryid: userSelectedCountry.value }
+        variables: { countryid: userSelectedCountry.value },
       });
     }
   }, [userSelectedCountry]);
@@ -142,7 +141,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
     if (name === "country") {
       setFieldValue("state", undefined);
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : "" } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "" }, // default code is for germany
       });
       logger(statesData, "sdsdsdsd");
     }
@@ -150,7 +149,7 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
 
   return (
     <Row className=" ">
-      <div id={"caregiver-add-btn"}>
+      <div className="d-none d-md-block" id={"caregiver-add-btn"}>
         <Button
           color={"primary"}
           disabled={isSubmitting}
@@ -955,6 +954,20 @@ const PersonalInformationForm: FunctionComponent<FormikProps<
             remarksDetail={props.remarksDetail}
             saveRemark={props.saveRemark}
           />
+        </div>
+      </Col>
+      <Col lg={"12"}>
+        <div className="d-block d-md-none text-right">
+          <Button
+            color={"primary"}
+            disabled={isSubmitting}
+            className={"submit-common-btn mb-3"}
+            onClick={handleSubmit}
+          >
+            {isSubmitting ? <i className="fa fa-spinner fa-spin loader" /> : ""}
+            &nbsp;
+            {languageTranslation("SAVE_BUTTON")}
+          </Button>
         </div>
       </Col>
     </Row>

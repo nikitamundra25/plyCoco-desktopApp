@@ -1,4 +1,4 @@
-@import '../../../assets/scss/variables';
+@import "../../../assets/scss/variables";
 
 .common-header-input {
   .form-control {
@@ -73,7 +73,8 @@
           width: 14px;
           position: absolute;
           left: 10px;
-          top: 4px;
+          top: 50%;
+          transform: translateY(-50%);
         }
         &:hover {
           background: $card_header_bg;
@@ -115,147 +116,60 @@
     background: $common_tab_bg;
   }
 }
-.calender-section {
-  position: relative;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
-  font-family: $font_open_sans;
-  background: $white;
-  border: 1px solid $table_border;
-  height: calc(50vh - 73px);
-  @media only screen and (max-width: 991px) {
-    height: auto;
-    max-height: 400px;
-  }
-  user-select: none;
-  &.caregiver-appointment-list{
-    .table-loader {
-      position: static;
-      height: calc(50vh - 124px);
-    }
-  }
-  &.careinstitution-appointment-list{
-    .table-loader {
-      position: static;
-      height: calc(50vh - 132px);
-    }
-  }
-  
-  
-  &.custom-scrollbar {
-    &::-webkit-scrollbar {
-      width: 7px;
-      height: 12px;
-    }
-  }
-  .appointment-table {
-    border: 0px;
-    // position: relative;
-    // z-index: 0;
-    th,
-    td {
-      padding: 4px;
-      vertical-align: middle;
-      font-size: $font_12;
-      .all-star-wrap {
-        display: flex;
-        height: 27px;
-        .username-col {
-          flex: 1 1 150px;
-          max-width: 150px;
-          min-width: 150px;
-          border-right: 1px solid $table_border;
-          padding: 4px;
-          &.name-text {
-            font-family: $font_Frutiger_Regular;
-            font-weight: normal;
-          }
-        }
-        .h-col,
-        .s-col,
-        .v-col,
-        .u-col {
-          flex: 1 1 30px;
-          max-width: 30px;
-          min-width: 30px;
-          border-right: 1px solid $table_border;
-          padding: 4px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      }
-      .btn-more {
-        position: absolute;
-        right: 3px;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      &.custom-appointment-col {
-        width: 30px;
-        min-width: 30px;
-        max-width: 30px;
+//   position: relative;
+//   width: 100%;
+//   overflow-y: auto;
+//   overflow-x: auto;
+//   font-family: $font_open_sans;
+//   background: $white;
+//   border: 1px solid $table_border;
+//   height: calc(50vh - 73px);
+//   @media only screen and (max-width: 991px) {
+//     height: auto;
+//     max-height: 400px;
+//   }
+//   user-select: none;
+//   &.caregiver-appointment-list {
+//     .table-loader {
+//       position: static;
+//       height: calc(50vh - 124px);
+//     }
+//   }
+//   &.careinstitution-appointment-list {
+//     .table-loader {
+//       position: static;
+//       height: calc(50vh - 132px);
+//     }
+//   }
 
-        &.name-col {
-          width: 270px;
-          min-width: 270px;
-          padding: 0px;
-          border-right: 0px;
-        }
-        &.v-col {
-          border-left: 0px;
-        }
-        &.h-col {
-          width: 30px;
-          min-width: 30px;
-          max-width: 30px;
-        }
-        &.calender-col {
-          width: 40px;
-          min-width: 40px;
-          max-width: 40px;
-          .custom-appointment-calendar-date {
-            text-transform: capitalize;
-          }
-          &:hover {
-            background: $cell_hover;
-          }
-        }
-      }
-      &.weekend {
-        background-color: $cell_weekend;
-      }
-      &.today {
-        background-color: $cell_today;
-      }
-    }
-    th {
-      &:first-child {
-        left: 0px;
-        position: sticky;
-        background: $white;
-        border-left: 0px;
-      }
-    }
-    th + td,
-    th + th {
-      border-left: 0px;
-    }
-    thead {
-      th {
-        &:first-child {
-          z-index: 2;
-          vertical-align: top;
-          background: $th_bg;
-        }
-      }
-    }
-  }
-  .view-more-link {
-    font-size: $font_12;
-  }
-}
+//       }
+//     }
+//     th {
+//       &:first-child {
+//         left: 0px;
+//         position: sticky;
+//         background: $white;
+//         border-left: 0px;
+//       }
+//     }
+//     th + td,
+//     th + th {
+//       border-left: 0px;
+//     }
+//     thead {
+//       th {
+//         &:first-child {
+//           z-index: 2;
+//           vertical-align: top;
+//           background: $th_bg;
+//         }
+//       }
+//     }
+//   }
+//   .view-more-link {
+//     font-size: $font_12;
+//   }
+// }
 
 // custom-color for matching
 
@@ -266,7 +180,7 @@
   background: $availability_dark_color !important;
 }
 .block-bg {
-  background-color: $red !important;
+  background-color: $block_color !important;
 }
 .requirement-bg {
   background: $requirement_color !important;
@@ -278,7 +192,10 @@
   background: $contract_color !important;
 }
 .cancel-contract-bg {
-  background: #9e7b6f !important;
+  background: $contract_cancel_color !important;
+}
+.contact-initiate-bg {
+  background: $contract_initiate_color !important;
 }
 .confirmation-bg {
   background: $confirmation_color !important;
@@ -288,6 +205,9 @@
 }
 .selecting-cell-bg {
   background: $selected_color !important;
+}
+.accepted-bg {
+  background: $accepted_color !important;
 }
 .custom-height {
   height: calc(100vh - 165px);
@@ -341,12 +261,10 @@
     .clockshift-input {
       width: 105px;
     }
-    .nightallowance-input {
-      // min-width: 125px;
-    }
     .form-control {
       &.fee-width {
         flex: 0 0 60px;
+        max-width: 60px;
       }
     }
     .text-value {
@@ -382,8 +300,15 @@
 }
 
 .attribute-modal {
+  padding: 15px;
   &.modal-xl {
     max-width: 1280px;
+  }
+  &.modal-dialog-centered {
+    @media (min-width: 576px) {
+      min-height: 100vh;
+      margin: 0px auto;
+    }
   }
   .modal-content {
     .modal-body {
@@ -421,6 +346,24 @@
       }
     }
   }
+  .unlink-btn-wrap {
+    padding: 6px;
+    @media only screen and (max-width: 580px) {
+      padding: 0px;
+    }
+    .unlink-btn-block {
+      justify-content: space-between;
+      flex-wrap: wrap;
+      @media only screen and (max-width: 580px) {
+        justify-content: center;
+      }
+    }
+    button {
+      @media only screen and (max-width: 580px) {
+        margin: 7px;
+      }
+    }
+  }
 }
 body {
   .calender-section {
@@ -445,9 +388,14 @@ body {
         }
       }
       .user-select {
-        width: 170px;
+        width: 150px;
+        min-width: 150px;
         @media only screen and (max-width: 1200px) {
           margin: 3px 0px;
+        }
+        @media (max-width: 1400px) {
+          width: 135px;
+          min-width: 135px;
         }
       }
     }
@@ -464,11 +412,30 @@ body {
 .select-right-bottom {
   & > div > button + div {
     right: 0px;
+    max-width: 260px;
+    @media (max-width: 1480px) and (min-width: 1200px) {
+      max-width: 210px;
+    }
+    @media (max-width: 1800px) and (min-width: 1680px) {
+      max-width: 200px;
+    }
   }
-}
-.unlink-label {
-  font-size: $font_13;
-  font-family: $font_Frutiger_Bold;
+  .custom-inner-reactselect__control {
+    @media (max-width: 1480px) and (min-width: 1200px) {
+      min-width: calc(100% - 16px);
+      .custom-inner-reactselect__indicators {
+        position: absolute;
+        right: -8px;
+      }
+    }
+    @media (max-width: 1800px) and (min-width: 1680px) {
+      min-width: calc(100% - 16px);
+      .custom-inner-reactselect__indicators {
+        position: absolute;
+        right: -8px;
+      }
+    }
+  }
 }
 
 .detail-table {
@@ -519,4 +486,163 @@ body {
 
 .blocked-minheight {
   min-height: 190px;
+}
+
+// calendar table css
+.calender-section {
+  position: relative;
+  width: 100%;
+  // overflow-y: auto;
+  // overflow-x: auto;
+  // font-family: "Open Sans", sans-serif;
+  // background: #fff;
+  // min-height: calc(50vh - 75px);
+  &.loader-height {
+    height: calc(50vh - 80px);
+  }
+  .custom-appointment-calendar-body {
+    width: 100%;
+  }
+  .custom-appointment-col.calender-col.text-center {
+    background: $white;
+  }
+
+  .custom-appointment-calendar {
+    // height: calc(50vh - 80px);
+    position: relative;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+    font-family: $font_open_sans;
+    background: $white;
+    // min-height: calc(100vh - 508px);
+    height: calc(50vh - 80px);
+    border-top: 1px solid $table_border;
+    // max-height: calc(100vh - 466px);
+    @media (min-width: 1680px) {
+      overflow-y: hidden;
+    }
+    .custom-appointment-calendar-head {
+      // position: sticky;
+      position: absolute;
+      height: 41px;
+      z-index: 1;
+      top: 0;
+      // background: $white;
+      width: 100%;
+      font-weight: 600;
+    }
+    .custom-appointment-row {
+      display: flex;
+      font-size: $font_12;
+      color: $black;
+      // border-left: 1px solid $table_border;
+      // &:last-child {
+      //   border-bottom: 1px solid $table_border;
+      // }
+      .custom-appointment-col {
+        flex: 0 0 28px;
+        max-width: 28px;
+        padding: 4px;
+        border-right: 1px solid $table_border;
+        border-bottom: 1px solid $table_border;
+        vertical-align: middle;
+        background: $white;
+        cursor: pointer;
+        &.name-col {
+          flex: 0 0 140px;
+          max-width: 140px;
+          border-left: 1px solid $table_border;
+          .btn-more {
+            position: absolute;
+            right: 3px;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+        &.calender-col {
+          flex: 0 0 28px;
+          max-width: 28px;
+          .custom-appointment-calendar-date {
+            text-transform: capitalize;
+          }
+        }
+        &:hover {
+          background: $cell_hover;
+        }
+      }
+    }
+  }
+}
+
+.ReactVirtualized__List {
+  padding-top: 41px;
+  height: calc(50vh - 80px) !important;
+}
+.appointment-row {
+  .appointment-calander-col {
+    @media (min-width: 2500px) {
+      flex: 0 0 1568px;
+      max-width: 1568px;
+    }
+  }
+  .appointment-form-col {
+    @media (min-width: 2500px) {
+      flex: 0 0 calc(100% - 1568px);
+      max-width: calc(100% - 1568px);
+    }
+  }
+}
+.appointment-id-width {
+  width: 80px;
+}
+.uber-solona {
+  background: $solona_color;
+  padding: 3px 4px;
+  color: $black;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: $font_12;
+}
+
+.appointment-page-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  // align-items: center;
+  // justify-content: start;
+  .appointment-page-list-section {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding-right: 15px;
+    padding-left: 15px;
+    @media (min-width: 1366px) {
+      flex: 0 0 58%;
+      max-width: 58%;
+    }
+    @media (max-width: 1199px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+  .appointment-page-form-section {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding-right: 15px;
+    padding-left: 15px;
+    @media (min-width: 1366px) {
+      flex: 0 0 42%;
+      max-width: 42%;
+    }
+    @media (max-width: 1199px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .btn-save {
+      @media (max-width: 1560px) and (min-width: 1200px) {
+        padding: 3px 20px;
+      }
+    }
+  }
 }

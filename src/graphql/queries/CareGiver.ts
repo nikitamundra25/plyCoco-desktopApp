@@ -322,6 +322,31 @@ const GET_NEGATIVE_USERS_LIST = gql`
     }
   }
 `;
+
+const GET_CAREGIVER_BY_NAME =  gql`
+query getCaregiverByName(
+  $searchBy: String
+  $limit: Int
+  $page: Int
+) {
+  getCaregiverByName(
+    searchBy: $searchBy
+    limit: $limit
+    page: $page
+  ) {
+    result {
+      id
+      firstName
+      lastName
+      isActive
+      caregiver {
+        attributes
+      }
+    }
+    totalCount
+  }
+}
+`;
 // query {
 //   getNegativeList(id: 1419){
 //     blackList{
@@ -339,5 +364,6 @@ export const CareGiverQueries = [
   GET_BELONGS_TO,
   GET_CAREGIVER_ATTRIBUTES,
   GET_CAREGIVERS_FOR_BULK_EMAIL,
-  GET_NEGATIVE_USERS_LIST
+  GET_NEGATIVE_USERS_LIST,
+  GET_CAREGIVER_BY_NAME
 ];

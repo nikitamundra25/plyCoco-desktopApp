@@ -5,7 +5,7 @@ import Loader from "../../containers/Loader/Loader";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import {
   defaultDateTimeFormatForDashboard,
-  AppRoutes
+  AppRoutes,
 } from "../../../../config";
 import moment from "moment";
 import new_doc from "../../../assets/img/new_doc.svg";
@@ -16,7 +16,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="d-block">
         <CardTitle>
           <span className="align-middle mr-2">
             <img src={new_doc} alt="" width="20px" />
@@ -65,7 +65,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
                         </td>
                         <td className="name-column">
                           <div
-                            className="text-capitalize view-more-link word-wrap  one-line-text"
+                            className="text-capitalize view-more-link  one-line-text"
                             onClick={() =>
                               history.push(
                                 item.user.userRole === "caregiver"
@@ -98,7 +98,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
                         <i className="icon-ban" />
                       </div>
                       <h4 className="mb-1">
-                        Currently there are no documents added.
+                        {languageTranslation("NO_DATA_IN_DOCUMENTS")}
                       </h4>
                     </div>
                   </td>

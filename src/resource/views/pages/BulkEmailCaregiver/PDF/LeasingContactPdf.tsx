@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Document, Page, Text, Image, View, StyleSheet } from '@react-pdf/renderer';
 import { ILeasingContactPdfProps } from '../../../../../interfaces';
+import { AppConfig } from '../../../../../config';
+import { languageTranslation } from '../../../../../helpers';
 
 const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
   props: ILeasingContactPdfProps
@@ -46,10 +48,14 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
       marginLeft: '10px',
       marginRight: '10px',
     },
-    image: {
+    imagediv: {
       width: '50%',
       height: '50px',
       padding: 10,
+    },
+    image: {
+      width: '120px',
+      
     },
     imgtext: {
       borderTopWidth: 1,
@@ -87,21 +93,23 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
   });
 
   const { signatureData, pdfAppointmentDetails } = props;
-
+  console.log(signatureData && signatureData.careGiverSignature ? `${AppConfig.APP_ENDPOINT}${signatureData.careGiverSignature}` : '','signature');
+  // Append base url to the signature
+  let careGiverSignature:string = signatureData && signatureData.careGiverSignature ? `${AppConfig.APP_ENDPOINT}${signatureData.careGiverSignature}` : ''
   // Create Document Component
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <Text style={styles.name}>TIMYOCY</Text>
-          <Text style={styles.subtitle}>Temporary working agreement  </Text>
-          <Text style={styles.subtext}>Between </Text>
-          <Text style={styles.subtext}>Diamond Personal GmbH, Welfenallee 3-7, 13465 Berlin under the label TIMyoCY </Text>
-          <Text style={styles.subtext}> - hereinafter: distributor – </Text>
-          <Text style={styles.subtext}>and </Text>
+          <Text style={styles.subtitle}>{languageTranslation("TEMPORARY_WORKING_AGREEMENT")} </Text>
+          <Text style={styles.subtext}>{languageTranslation("BETWEEN")} </Text>
+          <Text style={styles.subtext}>{languageTranslation("DIAMOND_PERSONAL_LABEL")} TIMyoCY </Text>
+          <Text style={styles.subtext}> - {languageTranslation("HERE_DISTRIBUTOR")} – </Text>
+          <Text style={styles.subtext}>{languageTranslation("AND")} </Text>
           <Text style={styles.subtext}>…. </Text>
-          <Text style={styles.subtext}>- hereinafter: temporary agency workers – </Text>
-          <Text style={styles.subtext}>The employer was given a temporary permit to provide temporary workers on June 19, 2017 by the Federal Employment Agency, Employment Agency in Düsseldorf. With reference to the framework agreement of the parties agree the following use: </Text>
+          <Text style={styles.subtext}>-{languageTranslation("TEMPORARY_AGENCY_WORKERS")} – </Text>
+          <Text style={styles.subtext}>{languageTranslation("EMPLOYEE_TEMPORARY_PERMIT")} </Text>
 
           {/* <Text key={index} style={styles.subtext}>24.-26.01.2020 FD, Place of work: Am Strengfeld, 14542 Werder, Seniorenwohnpark "Blütentraum", Haus 3, job: nursing assistant </Text> */}
 
@@ -116,40 +124,40 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
           <Text style={styles.subtext}>I would like to be employed indefinitely on identical terms: yes (     ) / no (    ) (please check). </Text>
         </View>
         <View style={styles.signaturecontainer}>
-          <View style={styles.image}>
-            <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" />
+          <View style={styles.imagediv}>
+            <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" style={styles.image}/>
             <Text style={styles.imgtext}>
-              Distributor
+              {languageTranslation("DISTRIBUTOR")}
           </Text>
           </View>
-          <View style={styles.image}>
-            {/* <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" /> */}
-            <Image src={signatureData ? signatureData.careGiverSignature : ''} />
+          <View style={styles.imagediv}>
+            {/* <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png"   style={styles.image}/> */}
+            {careGiverSignature ? <Image src={careGiverSignature}  style={styles.image} /> : null}
             <Text style={styles.imgtext}>
-              Temporary Worker
+              {languageTranslation("TEMPORARY_WORKERS")}
           </Text>
           </View>
         </View>
         <View style={styles.textwrapper}>
-          <Text style={styles.remarktext}> With his further signature, the employee confirms that he identifies permanent part-time employment Conditions were offered, but he prefers this limited form of employment to a job in permanent employment. </Text>
-          <Text style={styles.remarktext}>He is aware that in this case there is no guarantee wage claim beyond the agreed working hours and, as a rule, also </Text>
-          <Text style={styles.remarktext}>there is no entitlement to the granting of vacation or continued payment of sickness. </Text>
+          <Text style={styles.remarktext}> {languageTranslation("EMPLOYEE_CONFIRM_WITH_SIGNATURE")} </Text>
+          <Text style={styles.remarktext}>{languageTranslation("NO_GUARANTEE_WAGE_CLAIM")} </Text>
+          <Text style={styles.remarktext}>{languageTranslation("NO_ENTITLEMENT_OF_GRANTING_VACATION")} </Text>
         </View>
         <View style={styles.signaturecontainer}>
-          <View style={styles.image}>
+          <View style={styles.imagediv}>
             {/* <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Richard_Feynman_signature.svg/1280px-Richard_Feynman_signature.svg.png" /> */}
-            <Image src={signatureData ? signatureData.careGiverSignature : ''} />
+            {careGiverSignature ? <Image src={careGiverSignature}   style={styles.image}/> : null}
             <Text style={styles.imgtext}>
-              Temporary Worker
+            {languageTranslation("TEMPORARY_WORKERS")}
           </Text>
           </View>
         </View>
         <View style={styles.footerwrapper}>
-          <Text style={styles.footertext}>TIMyoCY is a service of Diamond Personal GmbH · Welfenallee 3-7 · 13465 Berlin </Text>
-          <Text style={styles.footertext}>Tel: +49.30.644 99 444 Fax: +49.30. 644 99 445 </Text>
-          <Text style={styles.footertext}>Supervisory authority:  Agentur für Arbeit Kiel, 24131 Kiel, Tel: 0431 709 1010 </Text>
-          <Text style={styles.footertext}>Entry in commercial register: Register court: District court Berlin-Charlottenburg</Text>
-          <Text style={styles.footertext}>Register number: HRB 191079 B Managing Director: Maren Krusch </Text>
+          <Text style={styles.footertext}>TIMyoCY {languageTranslation("TIMyoCY_SERVICE")} </Text>
+          <Text style={styles.footertext}>{languageTranslation("TEL")}: +49.30.644 99 444 {languageTranslation("FAX")}: +49.30. 644 99 445 </Text>
+          <Text style={styles.footertext}>{languageTranslation("SUPERVISORY_AUTHORITY")}, {languageTranslation("TEL")}: 0431 709 1010 </Text>
+          <Text style={styles.footertext}>{languageTranslation("ENTRY_IN_COMMERCIAL_REGISTER")}</Text>
+          <Text style={styles.footertext}>{languageTranslation("REGISTER_NUMBER_PDF")} </Text>
         </View>
       </Page>
     </Document>

@@ -1,7 +1,7 @@
 @import "../../../assets/scss/variables";
 .header-nav-colmn-items {
   &:not(:last-child) {
-    border-right: 1px solid #ddd;
+    border-right: 1px solid $common_tab_border;
     padding-right: 0.8rem;
     margin-right: 0.8rem;
   }
@@ -12,14 +12,14 @@
   }
 
   .header-nav-heading {
-    font-size: 12px;
+    font-size: $font_12;
     font-weight: 400;
-    color: #000;
+    color: $black;
     text-align: left;
     display: block;
     padding: 0px;
-    font-family: "FrutigerNeueLTPro-Bold", sans-serif;
-    height: 18px;
+    font-family: $font_Frutiger_Bold;
+    min-height: 18px;
     display: block;
   }
   .header-nav-item,
@@ -27,9 +27,27 @@
     margin-bottom: 0.25rem !important;
   }
 }
+.invoice-header {
+  .user-select {
+    width: 150px;
+    min-width: 150px;
+    @media only screen and (max-width: 1400px) and (min-width: 992px) {
+      width: 130px;
+    }
+  }
+  .common-header-input {
+    @media only screen and (max-width: 1400px) and (min-width: 992px) {
+      width: 95px;
+    }
+    .DayPickerInput-Overlay {
+      right: 0;
+      left: auto;
+    }
+  }
+}
 .total-form-section {
   padding: 8px 0px;
-  border: 1px solid #ddd;
+  border: 1px solid $common_tab_border;
   .total-form-block {
     max-width: 700px;
   }
@@ -38,122 +56,126 @@
   .invoices-table {
     min-height: calc(100vh - 352px);
   }
+  .createinvoices-table {
+    min-height: calc(100vh - 235px);
+  }
   table {
-    th {
-      &.all-invoice-number {
-        min-width: 60px;
+    th,
+    td {
+      &.invoiceid-col {
+        width: 70px;
+        min-width: 70px;
       }
-      &.all-invoice-facility {
-        min-width: 130px;
+      &.careinstitution-col {
+        width: 200px;
+        min-width: 200px;
       }
-      &.all-invoice-cancellation-for {
-        min-width: 130px;
+      &.caregiver-col {
+        width: 200px;
+        min-width: 200px;
       }
-      &.all-invoice-canceled-by {
-        min-width: 84px;
+      &.cancel-col {
+        width: 110px;
+        min-width: 110px;
       }
-      &.all-invoice-rchng {
-        min-width: 84px;
+      &.date-col {
+        width: 80px;
+        min-width: 80px;
       }
-      &.all-invoice-date {
-        min-width: 84px;
+      &.checkbox-col {
+        width: 50px;
+        min-width: 50px;
       }
-      &.all-invoice-amount {
-        min-width: 84px;
-      }
-      &.all-invoice-posted {
-        min-width: 84px;
-      }
-      &.all-invoice-sent-mail {
-        min-width: 90px;
-      }
-      &.all-invoice-paid {
-        min-width: 84px;
-      }
-      &.all-invoice-remind {
-        min-width: 84px;
-      }
-      &.all-invoice-remind {
-        min-width: 84px;
-      }
-      &.all-invoice-lawyer {
-        min-width: 84px;
-      }
-      &.all-invoice-doubtful {
-        min-width: 84px;
-      }
-      &.all-invoice-uncollectible {
-        min-width: 84px;
-      }
-
-      &.all-invoice-still-open {
-        min-width: 84px;
-      }
-      &.all-invoice-still-open {
-        min-width: 84px;
-      }
-      &.all-invoice-comment {
+      &.amount-col {
+        width: 100px;
         min-width: 100px;
       }
+      &.comment-col {
+        width: 150px;
+        min-width: 150px;
+      }
     }
   }
 }
 
-.createinvoices-table{
-  th,td{
-    &.sno-col{
-      width:50px;
+.createinvoices-table {
+  th,
+  td {
+    &.sno-col {
+      width: 70px;
+      min-width: 70px;
+    }
+    &.invoiceid-col {
+      width: 70px;
+      min-width: 70px;
+    }
+    &.h-col {
+      width: 50px;
+      min-width: 50px;
+    }
+    &.text-col {
+      width: 180px;
+      min-width: 180px;
+    }
+    &.datetime-col {
+      width: 150px;
+      min-width: 150px;
+    }
+    &.price-col {
+      width: 100px;
+      min-width: 90px;
     }
   }
 }
 
-.payslipform-table{
-  td,th{
-    &.caregiver-col{
-      width:200px;
+.payslipform-table {
+  td,
+  th {
+    &.caregiver-col {
+      width: 200px;
     }
-    &.file-col{
-      width:150px;
+    &.file-col {
+      width: 150px;
     }
-    &.date-col{
-      width:70px;
+    &.date-col {
+      width: 70px;
     }
-    &.month-col{
-      width:100px;
+    &.month-col {
+      width: 100px;
     }
-    &.amount-col{
-      width:90px;
+    &.amount-col {
+      width: 90px;
     }
-    &.paymentamount-col{
-      width:120px;
+    &.paymentamount-col {
+      width: 120px;
     }
-    &.gross-col{
-      width:80px;
+    &.gross-col {
+      width: 80px;
     }
-    &.type-col{
-      width:180px;
+    &.type-col {
+      width: 180px;
     }
-    &.paid-col{
-      width:70px;
+    &.paid-col {
+      width: 90px;
     }
-    &.visible-col{
-      width:50px;
+    &.visible-col {
+      width: 50px;
     }
-    &.comment-col{
-      width:200px;
-      min-width:150px;
+    &.comment-col {
+      width: 200px;
+      min-width: 150px;
     }
-    
   }
 }
 
-.healthinsuraceform-table{
-  th,td{
-    &.sepa-col{
-      width:50px;
+.healthinsuraceform-table {
+  th,
+  td {
+    &.sepa-col {
+      width: 50px;
     }
-    &.action-col{
-      width:70px;
+    &.action-col {
+      width: 70px;
     }
   }
 }

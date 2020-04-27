@@ -282,13 +282,13 @@ const ArchiveEmployee: FunctionComponent = () => {
                 <th className='sno-th-column text-center'>
                   {languageTranslation('S_NO')}
                 </th>
-                <th>{languageTranslation('EMPLOYEE_NAME')}</th>
-                <th>{languageTranslation('USERNAME')}</th>
-                <th>{languageTranslation('EMAIL')}</th>
+                <th className="name-th-column">{languageTranslation('EMPLOYEE_NAME')}</th>
+                <th className="name-th-column">{languageTranslation('USERNAME')}</th>
+                <th className="name-th-column">{languageTranslation('EMAIL')}</th>
                 <th className='date-th-column'>
                   {languageTranslation('DELETED_DATE')}
                 </th>
-                <th className='text-center'>
+                <th className='text-center action-th-column'>
                   {languageTranslation('TABLE_HEAD_ACTION')}
                 </th>
               </tr>
@@ -315,14 +315,14 @@ const ArchiveEmployee: FunctionComponent = () => {
                           <span>{count++}</span>
                         </td>
                         <td>
-                          <div className='info-column'>
+                          <div className='info-column name-th-column' >
                             {elements.join(' ')}
                           </div>
                         </td>
-                        <td className='word-wrap'>
+                        <td className='word-wrap name-th-column'>
                           {trashUser.userName.split('-')[0]}
                         </td>
-                        <td className='word-wrap'>
+                        <td className='word-wrap name-th-column'>
                           {trashUser.email.split('-')[0]}
                         </td>
                         <td className='date-th-column '>
@@ -332,7 +332,7 @@ const ArchiveEmployee: FunctionComponent = () => {
                               )
                             : ''}
                         </td>
-                        <td>
+                        <td className="action-th-column">
                           <div className={`action-btn`}>
                             <span
                               className='btn-icon mr-2'
@@ -381,7 +381,7 @@ const ArchiveEmployee: FunctionComponent = () => {
                           <i className='icon-ban' />
                         </div>
                         <h4 className='mb-1'>
-                          Currently there is no data in trash.
+                          {languageTranslation("NO_DATA_IN_TRASH")}
                         </h4>
                       </div>
                     )}

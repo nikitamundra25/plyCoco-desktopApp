@@ -4,6 +4,7 @@ import '../index.scss';
 import BulkEmailCaregiver from '../../BulkEmailCaregiver';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
+import { languageTranslation } from '../../../../../helpers';
 
 const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
   const {
@@ -13,7 +14,9 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
     offerRequirements,
     leasingContract,
     qualificationList,
-    terminateAggrement
+    offerCareGiver,
+    terminateAggrement,
+    updateLinkedStatus
   } = props;
   const externalCloseBtn = (
     <button
@@ -35,20 +38,22 @@ const BulkEmailCareGiverModal: FunctionComponent<any> = (props: any) => {
         centered
         size='xl'
       >
-        <ModalHeader close={externalCloseBtn}>Bulk Email Caregiver</ModalHeader>
+        <ModalHeader close={externalCloseBtn}>{languageTranslation("BULK_EMAIL_CAREGIVER")}</ModalHeader>
         <ModalBody>
           <BulkEmailCaregiver
+          updateLinkedStatus={updateLinkedStatus}
             label={'appointment'}
             qualification={props.qualification}
             gte={props.gte}
             lte={props.lte}
             sortBy={props.sortBy}
             showButton={props.showButton}
-            handleClose={() => handleClose()}
+            handleClose={handleClose}
             selectedCells={selectedCells}
             confirmApp={props.confirmApp}
             selectedCellsCareinstitution={props.selectedCellsCareinstitution}
             unlinkedBy={props.unlinkedBy}
+            offerCareGiver={offerCareGiver}
             offerRequirements={offerRequirements}
             leasingContract={leasingContract}
             qualificationList={qualificationList}

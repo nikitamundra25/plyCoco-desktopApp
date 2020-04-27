@@ -9,14 +9,14 @@ import {
   Religion,
   Preoccupation,
   IBANRegex,
-  DateMask
+  DateMask,
 } from "../../../../../config";
 import { FormikProps, Field } from "formik";
 import MaskedInput from "react-text-mask";
 import { ILeasingValues } from "../../../../../interfaces";
 import {
   FormikTextField,
-  FormikSelectField
+  FormikSelectField,
 } from "../../../components/forms/FormikFields";
 import { languageTranslation } from "../../../../../helpers";
 import "../caregiver.scss";
@@ -44,19 +44,19 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
       firstDay,
       lastDay,
       monthlyWorkingHrs,
-      weeklyWorkingHrs
+      weeklyWorkingHrs,
     },
     isSubmitting,
     handleSubmit,
     handleBlur,
     handleChange,
     errors,
-    touched
+    touched,
   } = props;
   return (
     <div>
       <Form className="form-section">
-        <div id={"caregiver-add-btn"}>
+        <div className="d-none d-md-block" id={"caregiver-add-btn"}>
           <Button
             id={"caregiver-add-btn"}
             onClick={handleSubmit}
@@ -102,7 +102,9 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Place of Birth{" "}
+                          {languageTranslation(
+                            "CAREGIVER_PLACE_OF_BIRTH_LABEL"
+                          )}{" "}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -111,7 +113,9 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           <Field
                             component={FormikTextField}
                             name={"placeOfBirth"}
-                            placeholder="Place of Birth"
+                            placeholder={languageTranslation(
+                              "CAREGIVER_PLACE_OF_BIRTH_LABEL"
+                            )}
                             maxLength={50}
                           />
                         </div>
@@ -579,6 +583,44 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                   </FormGroup>
                 </Col>
               </Row>
+            </div>
+          </Col>
+          <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+            <div className="d-block d-md-none text-right">
+              <Button
+                onClick={handleSubmit}
+                color={"primary"}
+                className={"submit-common-btn mb-3"}
+                disabled={
+                  isSubmitting ||
+                  (!placeOfBirth &&
+                    !birthName &&
+                    !nationality &&
+                    !maritalStatus &&
+                    !children &&
+                    !factorChildAllowance &&
+                    !healthInsuranceType &&
+                    !healthInsuranceProvider &&
+                    !socialSecurityNumber &&
+                    !religion &&
+                    !controlId &&
+                    !taxBracket &&
+                    !preoccupation &&
+                    !payrollIBAN &&
+                    !status &&
+                    !firstDay &&
+                    !lastDay &&
+                    !monthlyWorkingHrs &&
+                    !weeklyWorkingHrs)
+                }
+              >
+                {isSubmitting ? (
+                  <i className="fa fa-spinner fa-spin mr-2" />
+                ) : (
+                  ""
+                )}
+                {languageTranslation("SAVE_BUTTON")}
+              </Button>
             </div>
           </Col>
         </Row>

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Nav, NavItem, NavLink } from 'reactstrap';
-import { toast } from 'react-toastify';
-import { FormikProps, Formik, FormikHelpers } from 'formik';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import React, { useState, useEffect } from "react";
+import { Nav, NavItem, NavLink } from "reactstrap";
+import { toast } from "react-toastify";
+import { FormikProps, Formik, FormikHelpers } from "formik";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/react-hooks";
 import {
   languageTranslation,
   logger,
   errorFormatter,
-} from '../../../../../../helpers';
+} from "../../../../../../helpers";
 import {
   ICareInstitutionContact,
   IReactSelectInterface,
@@ -17,18 +17,18 @@ import {
   IState,
   ICareInstitutionFormValues,
   IAttributeOptions,
-} from '../../../../../../interfaces';
+} from "../../../../../../interfaces";
 import {
   CountryQueries,
   CareInstitutionQueries,
-} from '../../../../../../graphql/queries';
-import { CareInstitutionMutation } from '../../../../../../graphql/Mutations';
-import { CareInstituionContactValidationSchema } from '../../../../../validations';
-import CotactFormComponent from './CotactFormComponent';
-import { ConfirmBox } from '../../../../components/ConfirmBox';
-import Loader from '../../../../containers/Loader/Loader';
-import close from '../../../../../assets/img/close.svg';
-import { Gender } from '../../../../../../config';
+} from "../../../../../../graphql/queries";
+import { CareInstitutionMutation } from "../../../../../../graphql/Mutations";
+import { CareInstituionContactValidationSchema } from "../../../../../validations";
+import CotactFormComponent from "./CotactFormComponent";
+import { ConfirmBox } from "../../../../components/ConfirmBox";
+import Loader from "../../../../containers/Loader/Loader";
+import close from "../../../../../assets/img/close.svg";
+import { Gender } from "../../../../../../config";
 
 let toastId: any;
 
@@ -106,7 +106,7 @@ const CareInstitutionContacts: any = (props: any) => {
   }, []);
 
   const [contacttypeOpt, setcontacttypeOpt] = useState<IReactSelectInterface[]>(
-    [],
+    []
   );
 
   useEffect(() => {
@@ -133,16 +133,16 @@ const CareInstitutionContacts: any = (props: any) => {
   const addContacts = (cache: any, data: any) => {
     let newContacts = contacts;
     const ResctData: any = {
-      email: '',
-      gender: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      phoneNumber: '',
-      mobileNumber: '',
-      faxNumber: '',
-      comments: '',
-      groupAttributes: '',
+      email: "",
+      gender: "",
+      firstName: "",
+      lastName: "",
+      userName: "",
+      phoneNumber: "",
+      mobileNumber: "",
+      faxNumber: "",
+      comments: "",
+      groupAttributes: "",
     };
 
     newContacts[newContacts.length - 1] = {
@@ -152,7 +152,7 @@ const CareInstitutionContacts: any = (props: any) => {
         data.data.addContact.attributes &&
         data.data.addContact.attributes.length
           ? careInstitutionAttrOpt.filter((attrOpt: IAttributeOptions) =>
-              data.data.addContact.attributes.includes(parseInt(attrOpt.value)),
+              data.data.addContact.attributes.includes(parseInt(attrOpt.value))
             )
           : [],
     };
@@ -220,7 +220,7 @@ const CareInstitutionContacts: any = (props: any) => {
 
   const { data, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY,
+    GET_STATES_BY_COUNTRY
   );
 
   //use effect for delete contact
@@ -236,41 +236,41 @@ const CareInstitutionContacts: any = (props: any) => {
   const statesOpt: IReactSelectInterface[] | undefined = [];
   if (data && data.countries) {
     data.countries.forEach(({ id, name }: ICountry) =>
-      countriesOpt.push({ label: name, value: id }),
+      countriesOpt.push({ label: name, value: id })
     );
   }
   if (statesData && statesData.states) {
     statesData.states.forEach(({ id, name }: IState) =>
-      statesOpt.push({ label: name, value: id }),
+      statesOpt.push({ label: name, value: id })
     );
   }
 
   const handleContactSubmit = async (
     values: ICareInstitutionContact,
-    { setSubmitting }: FormikHelpers<ICareInstitutionContact>,
+    { setSubmitting }: FormikHelpers<ICareInstitutionContact>
   ) => {
     let AttributeData: any = [];
     if (values.attributeId && values.attributeId.length) {
       values.attributeId.map((attribute: IReactSelectInterface) =>
-        AttributeData.push(parseInt(attribute.value)),
+        AttributeData.push(parseInt(attribute.value))
       );
     }
     try {
       //to set submit state to false after successful signup
       const contactInput: any = {
         userId: parseInt(careInstId),
-        gender: values && values.gender ? values.gender.value : '',
+        gender: values && values.gender ? values.gender.value : "",
         title: values.title,
-        salutation: values && values.salutation ? values.salutation.value : '',
+        salutation: values && values.salutation ? values.salutation.value : "",
         firstName: values.firstName,
         surName: values.lastName,
         contactTypeId:
-          values && values.contactType ? values.contactType.value : '',
+          values && values.contactType ? values.contactType.value : "",
         street: values.street,
         city: values.city,
         zip: values.zipCode,
-        countryId: values && values.country ? values.country.value : '',
-        stateId: values && values.state ? values.state.value : '',
+        countryId: values && values.country ? values.country.value : "",
+        stateId: values && values.state ? values.state.value : "",
         phoneNumber: values.phoneNumber,
         phoneNumber2: values.phoneNumber,
         fax: values.faxNumber,
@@ -288,7 +288,7 @@ const CareInstitutionContacts: any = (props: any) => {
         });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation('CONTACT_UPDATE_CARE_INSTITUTION'),
+            languageTranslation("CONTACT_UPDATE_CARE_INSTITUTION")
           );
         }
         setSubmitting(false);
@@ -298,7 +298,7 @@ const CareInstitutionContacts: any = (props: any) => {
             contactInput: contactInput,
           },
         });
-        toast.success(languageTranslation('NEW_CONTACT_ADD_CARE_INSTITUTION'));
+        toast.success(languageTranslation("NEW_CONTACT_ADD_CARE_INSTITUTION"));
       }
     } catch (error) {
       const message = errorFormatter(error.message);
@@ -307,7 +307,7 @@ const CareInstitutionContacts: any = (props: any) => {
     }
   };
 
-  let selecContactType: IReactSelectInterface = { label: '', value: '' };
+  let selecContactType: IReactSelectInterface = { label: "", value: "" };
 
   if (contacts && contacts[activeContact]) {
     if (contacttypeOpt && contacttypeOpt.length) {
@@ -326,32 +326,32 @@ const CareInstitutionContacts: any = (props: any) => {
   }
 
   const {
-    email = '',
-    firstName = '',
-    surName = '',
-    userName = '',
-    phoneNumber = '',
-    phoneNumber2 = '',
-    mobileNumber = '',
-    fax = '',
-    comments = '',
-    groupAttributes = '',
-    id = '',
-    remark = '',
-    street = '',
-    city = '',
-    zip = '',
-    title = '',
-    contactType = { label: '', value: '' },
+    email = "",
+    firstName = "",
+    surName = "",
+    userName = "",
+    phoneNumber = "",
+    phoneNumber2 = "",
+    mobileNumber = "",
+    fax = "",
+    comments = "",
+    groupAttributes = "",
+    id = "",
+    remark = "",
+    street = "",
+    city = "",
+    zip = "",
+    title = "",
+    contactType = { label: "", value: "" },
     gender = undefined,
     attributes = [],
-    salutation = '',
+    salutation = "",
     stateId = undefined,
     countryId = undefined,
   } = contacts && contacts[activeContact] ? contacts[activeContact] : {};
 
   let countryData: Number;
-  countryData = countryId ? countryId : '';
+  countryData = countryId ? countryId : "";
   let userSelectedCountry: IReactSelectInterface | undefined = undefined;
   if (data && data.countries) {
     const userCountry = data.countries.filter((x: any) => x.id === countryData);
@@ -394,17 +394,17 @@ const CareInstitutionContacts: any = (props: any) => {
       setActiveContact(0);
       getStatesByCountry({
         variables: {
-          countryid: userSelectedCountry ? userSelectedCountry.value : '',
+          countryid: userSelectedCountry ? userSelectedCountry.value : "",
         },
       });
     }
   }, [contacts]);
 
   const contactFormValues: ICareInstitutionContact = {
-    email: email ? email.trim() : '',
-    firstName: firstName ? firstName.trim() : '',
-    lastName: surName ? surName.trim() : '',
-    userName: userName ? userName.trim() : '',
+    email: email ? email.trim() : "",
+    firstName: firstName ? firstName.trim() : "",
+    lastName: surName ? surName.trim() : "",
+    userName: userName ? userName.trim() : "",
     phoneNumber,
     phoneNumber2,
     mobileNumber,
@@ -417,10 +417,8 @@ const CareInstitutionContacts: any = (props: any) => {
     title,
     contactType: selecContactType,
     gender: gender
-    ? Gender.filter(
-        ({ value }: IReactSelectInterface) => value === gender,
-      )[0]
-    : undefined,
+      ? Gender.filter(({ value }: IReactSelectInterface) => value === gender)[0]
+      : undefined,
     salutation: salutation
       ? {
           label: salutation,
@@ -433,12 +431,11 @@ const CareInstitutionContacts: any = (props: any) => {
     remark,
     attributeId: attributes,
   };
-console.log("gender",gender);
 
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CONTACT_DELETE_MSG'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_CONTACT_DELETE_MSG"),
     });
     if (!value) {
       return;
@@ -451,7 +448,7 @@ console.log("gender",gender);
       setActiveContact(contacts.length - 1);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('CONTACT_DELETE_SUCCESS_MSG'),
+          languageTranslation("CONTACT_DELETE_SUCCESS_MSG")
         );
       }
     }
@@ -471,26 +468,26 @@ console.log("gender",gender);
       {contacttypeOpt && contacttypeOpt.length <= 0 ? (
         <Loader />
       ) : (
-        <div className={'form-section position-relative flex-grow-1'}>
-          <div className='d-flex align-items-center justify-content-between  '>
-            <Nav tabs className='contact-tabs pr-120'>
+        <div className={"form-section position-relative flex-grow-1"}>
+          <div className="d-flex align-items-center justify-content-between  ">
+            <Nav tabs className="contact-tabs pr-120 ">
               {contacts && contacts.length
                 ? contacts.map((contact: any, index: number) => {
                     const contactTypeData:
                       | IReactSelectInterface
                       | undefined = contacttypeOpt.filter(
                       (element: IReactSelectInterface) =>
-                        element.value === contact.contactTypeId,
+                        element.value === contact.contactTypeId
                     )[0];
 
                     return (
-                      <NavItem className='text-capitalize mb-2' key={index}>
+                      <NavItem className="text-capitalize mb-2" key={index}>
                         <NavLink
                           className={`${
                             contact && contact.contactTypeId
-                              ? 'contact-right'
-                              : 'new-contact'
-                          }  ${index === activeContact ? 'active' : ''}`}
+                              ? "contact-right"
+                              : "new-contact"
+                          }  ${index === activeContact ? "active" : ""}`}
                           onClick={() => setActiveContact(index)}
                         >
                           {contact && contact.contactTypeId ? (
@@ -499,21 +496,23 @@ console.log("gender",gender);
                             ) : null
                           ) : (
                             <>
-                              <span className='align-middle'>
-                                <i className='fa fa-plus mr-1'></i>
+                              <span className="align-middle">
+                                <i className="fa fa-plus mr-1"></i>
                               </span>
-                              <span className='align-middle'>New contact</span>
+                              <span className="align-middle">
+                                {languageTranslation("NEW_CONTACT")}{" "}
+                              </span>
                             </>
-                          )}{' '}
+                          )}{" "}
                         </NavLink>
                         {contact && contact.contactTypeId ? (
                           <span
-                            className='tab-close cursor-pointer'
+                            className="tab-close cursor-pointer"
                             onClick={() => {
                               onDelete(contact.id);
                             }}
                           >
-                            <img src={close} alt='' />
+                            <img src={close} alt="" />
                           </span>
                         ) : null}
                       </NavItem>

@@ -44,6 +44,9 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           holiday
           night
           attributes
+          street
+          city
+          dateOfBirth
         }
         caregiver_avabilities {
           id
@@ -57,6 +60,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           travelAllowance
           holidayAllowance
           nightFee
+          workingHoursFrom
+          workingHoursTo
+          breakFrom
+          breakTo
           nightAllowance
           workingProofRecieved
           distanceInKM
@@ -74,8 +81,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
               name
               status
               qualificationId
+              address
               startTime
               endTime
+              isLeasing
               division {
                 id
                 name
@@ -103,9 +112,11 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           isWorkingProof
           name
           offerRemarks
+          qualificationForCharge
           qualificationId
           startTime
           userId
+          isLeasing
           division {
             id
             name
@@ -203,6 +214,30 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         remarksCareGiver
         remarksInternal
         status
+        workingHoursFrom
+        workingHoursTo
+        breakFrom
+        breakTo
+        appointments {
+          id
+          date
+          requirementId
+          avabilityId
+          cr {
+            id
+            name
+            status
+            qualificationId
+            address
+            startTime
+            endTime
+            isLeasing
+            division {
+              id
+              name
+            }
+          }
+        }
       }
       requirementData {
         id
@@ -220,9 +255,26 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         isWorkingProof
         offerRemarks
         qualificationId
+        qualificationForCharge
         startTime
         userId
         status
+        isLeasing
+          division {
+            id
+            name
+          }
+        appointments {
+          id
+          date
+          requirementId
+          avabilityId
+          ca {
+            userId
+            id
+            name
+          }
+        }
       }
     }
   }
@@ -264,6 +316,7 @@ const GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION = gql`
     getQualificationMatching(qualificationId: $qualificationId) {
       id
       name
+      address
       date
       startTime
       endTime
@@ -271,9 +324,67 @@ const GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION = gql`
       division {
         id
         name
+        address
+        qualifications
       }
       status
       qualificationId
+    }
+  }
+`;
+
+const GET_APPOINTMENT_DETAILS_BY_USERID = gql`
+  query getAppointmentDetailsByUserId($userId: ID) {
+    getAppointmentDetailsByUserId(userId: $userId) {
+      id
+      date
+      ca {
+        id
+      }
+      cr {
+        id
+        name
+        division {
+          name
+          qualifications
+        }
+      }
+    }
+  }
+`;
+
+const GET_APPOINTMENT_DETAILS_BY_ID = gql`
+  query getAppointmentDetailsById($id: ID) {
+    getAppointmentDetailsById(id: $id) {
+      id
+      avabilityId
+      requirementId
+      status
+      date
+      ca {
+        id
+      }
+      cr {
+        id
+        name
+        division {
+          name
+          qualifications
+        }
+      }
+    }
+  }
+`;
+const GET_CONTRACT_BY_APPOINTMENT_ID = gql`
+  query getContractByAppointmentID($appointmentId: ID) {
+    getContractByAppointmentID(appointmentId: $appointmentId) {
+      id
+      user_document {
+        id
+        fileName
+        document
+      }
+      appointmentId
     }
   }
 `;
@@ -282,5 +393,8 @@ export const AppointmentsQueries = [
   GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
   GET_CAREGIVER_AVABILITY_DETAILS_BY_ID,
-  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION
+  GET_REQUIRMENT_FOR_CAREGIVER_QUALIFICATION,
+  GET_APPOINTMENT_DETAILS_BY_USERID,
+  GET_APPOINTMENT_DETAILS_BY_ID,
+  GET_CONTRACT_BY_APPOINTMENT_ID,
 ];

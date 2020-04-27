@@ -5,7 +5,7 @@ import Loader from "../../containers/Loader/Loader";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import {
   defaultDateTimeFormatForDashboard,
-  AppRoutes
+  AppRoutes,
 } from "../../../../config";
 import moment from "moment";
 import correct from "../../../assets/img/correct.svg";
@@ -17,7 +17,7 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="d-block">
         <CardTitle>
           {" "}
           <span className="align-middle mr-2">
@@ -69,7 +69,7 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
                         </td>
                         <td className="name-column">
                           <div
-                            className="text-capitalize view-more-link word-wrap one-line-text "
+                            className="text-capitalize view-more-link  one-line-text "
                             onClick={() =>
                               history.push(
                                 item.user.userRole === "caregiver"
@@ -87,7 +87,7 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
                             {item.user.lastName} {item.user.firstName}
                           </div>
                         </td>
-                        <td className="username-column word-wrap one-line-text  ">
+                        <td className="username-column one-line-text  ">
                           {item.user.userName}
                         </td>
                         <td className="ipaddress-column">

@@ -17,6 +17,7 @@ import { EmployeeMutations } from "../../../../graphql/Mutations";
 import LoginLogs from "../../components/Logins";
 import { errorFormatter } from "../../../../helpers";
 import Loader from "../../containers/Loader/Loader";
+import { Helmet } from "react-helmet";
 
 const [GET_EMPLOYEE_BY_ID] = EmployeeQueries;
 const [, , UPDATE_EMPLOYEE_STATUS] = EmployeeMutations;
@@ -80,11 +81,16 @@ const ViewEmployee: FunctionComponent = () => {
     ":userName": employee && employee.userName
   };
 
+
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
+        <>
+         <Helmet>
+    <title>{languageTranslation("VIEW_EMPLOYEE")} </title>
+  </Helmet>
         <Card>
           <CardHeader>
             <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
@@ -132,7 +138,11 @@ const ViewEmployee: FunctionComponent = () => {
                 {data ? (
                   <Row className="custom-col">
                     <Col lg={"12"} className="mb-2">
-                      <div className="user-item emloyee-detail-card personal-info-card">
+                      <div className="user-item emloyee-detail-card d-block">
+                      <div className="employee-title">
+                          {languageTranslation("EMPLOYEE_PERSONAL_DETAILS")}
+                        </div>
+                        <div className="personal-info-card">
                         <div className="profile-wrap">
                           <div className="profile-img-tile">
                             <div className="emloyee-profile-img">
@@ -336,6 +346,7 @@ const ViewEmployee: FunctionComponent = () => {
                             </span>
                           </div>
                         </div>
+                        </div>
                       </div>
                     </Col>
 
@@ -455,6 +466,7 @@ const ViewEmployee: FunctionComponent = () => {
             )}
           </CardBody>
         </Card>
+        </>
       )}
     </>
   );

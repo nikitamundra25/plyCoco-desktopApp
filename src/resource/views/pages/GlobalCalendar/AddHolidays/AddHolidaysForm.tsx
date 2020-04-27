@@ -256,7 +256,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
         {isEditMode ? null : (
           <Button color={"primary"} onClick={() => addNewHoliday(values)}>
             <i className={"fa fa-plus"} />
-            &nbsp;&nbsp;New
+            &nbsp;&nbsp;{languageTranslation("NEW")}
           </Button>
         )}
       </div>

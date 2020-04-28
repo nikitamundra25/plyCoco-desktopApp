@@ -384,6 +384,7 @@ const GET_CONTRACT_BY_APPOINTMENT_ID = gql`
         fileName
         document
       }
+      appointmentId
     }
   }
 `;

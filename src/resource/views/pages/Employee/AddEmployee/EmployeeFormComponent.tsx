@@ -2,7 +2,7 @@ import React, {
   useState,
   ChangeEvent,
   FunctionComponent,
-  useEffect
+  useEffect,
 } from "react";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { AppBreadcrumb } from "@coreui/react";
@@ -16,7 +16,7 @@ import {
   Input,
   Col,
   CustomInput,
-  Row
+  Row,
 } from "reactstrap";
 import Select from "react-select";
 import MaskedInput from "react-text-mask";
@@ -25,13 +25,13 @@ import {
   IBANRegex,
   DateMask,
   AppConfig,
-  PAGE_LIMIT
+  PAGE_LIMIT,
 } from "../../../../../config";
 import routes from "../../../../../routes/routes";
 import {
   IEmployeeFormValues,
   IReactSelectInterface,
-  IRegion
+  IRegion,
 } from "../../../../../interfaces";
 import { logger, languageTranslation } from "../../../../../helpers";
 import { RegionQueries } from "../../../../../graphql/queries/Region";
@@ -40,14 +40,14 @@ import { DocumentFormComponent } from "./DocumentFormComponent";
 
 const [, GET_REGIONS] = RegionQueries;
 
-const EmployeeFormComponent: FunctionComponent<FormikProps<
-  IEmployeeFormValues
-> & {
-  imageUrl: string;
-  countriesOpt: IReactSelectInterface[];
-  statesOpt: IReactSelectInterface[];
-  getStatesByCountry: any;
-}> = (
+const EmployeeFormComponent: FunctionComponent<
+  FormikProps<IEmployeeFormValues> & {
+    imageUrl: string;
+    countriesOpt: IReactSelectInterface[];
+    statesOpt: IReactSelectInterface[];
+    getStatesByCountry: any;
+  }
+> = (
   props: FormikProps<IEmployeeFormValues> & {
     imageUrl: string;
     countriesOpt: IReactSelectInterface[];
@@ -79,7 +79,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       zip,
       joiningDate,
       accessLevel,
-      image
+      image,
     },
     touched,
     errors,
@@ -93,7 +93,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     countriesOpt,
     statesOpt,
     getStatesByCountry,
-    setFieldError
+    setFieldError,
   } = props;
   const [imagePreviewUrl, setUrl] = useState<string | ArrayBuffer | null>("");
   const [fetchRegionList, { data: RegionData }] = useLazyQuery<any>(
@@ -104,7 +104,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     RegionData.getRegions.regionData.forEach(({ id, regionName }: IRegion) =>
       regionOptions.push({
         label: regionName,
-        value: id
+        value: id,
       })
     );
   }
@@ -118,7 +118,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     e.preventDefault();
     setFieldTouched("image", true);
     const {
-      target: { files }
+      target: { files },
     } = e;
 
     let reader = new FileReader();
@@ -139,8 +139,8 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     fetchRegionList({
       variables: {
         limit: 25,
-        sortBy: 3
-      }
+        sortBy: 3,
+      },
     });
   }, []);
   // Custom function to handle react select fields
@@ -150,7 +150,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
     if (name === "country") {
       setFieldValue("state", undefined);
       getStatesByCountry({
-        variables: { countryid: selectOption ? selectOption.value : "0" } // default code is for germany
+        variables: { countryid: selectOption ? selectOption.value : "0" }, // default code is for germany
       });
     }
   };
@@ -160,7 +160,7 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
       <Card>
         <CardHeader>
           <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
-          <div>
+          <div className="d-none d-md-block">
             <Button
               color={"primary"}
               disabled={isSubmitting}
@@ -716,7 +716,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         type="radio"
                                         id="permission-2"
                                         name="accessLevel"
-                                        label={languageTranslation("EMPLOYEE_BASIC")}
+                                        label={languageTranslation(
+                                          "EMPLOYEE_BASIC"
+                                        )}
                                         checked={
                                           accessLevel === "basic" ? true : false
                                         }
@@ -729,7 +731,9 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                                         type="radio"
                                         id="permission-3"
                                         name="accessLevel"
-                                        label={languageTranslation("EMPLOYEE_INVOICE")}
+                                        label={languageTranslation(
+                                          "EMPLOYEE_INVOICE"
+                                        )}
                                         checked={
                                           accessLevel === "invoice"
                                             ? true
@@ -1010,6 +1014,23 @@ const EmployeeFormComponent: FunctionComponent<FormikProps<
                           id={employeeId ? employeeId : id ? id : ""}
                         />
                       ) : null}
+                    </div>
+                  </Col>
+                  <Col lg={"12"} md={"12"} sm={"12"}>
+                    <div className="d-block d-md-none text-right">
+                      <Button
+                        color={"primary"}
+                        disabled={isSubmitting}
+                        className={"submit-common-btn"}
+                        onClick={handleSubmit}
+                      >
+                        {isSubmitting ? (
+                          <i className="fa fa-spinner fa-spin mr-2" />
+                        ) : (
+                          ""
+                        )}
+                        {languageTranslation("SAVE_BUTTON")}
+                      </Button>
                     </div>
                   </Col>
                 </Row>

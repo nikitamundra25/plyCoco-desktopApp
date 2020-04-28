@@ -271,7 +271,7 @@ const CotactFormComponent: any = (
         onClick={handleSubmit}
         disabled={isSubmitting}
         color={"primary"}
-        className={"btn-contact-save save-button"}
+        className={"btn-contact-save save-button d-none d-md-block"}
       >
         {isSubmitting ? <i className="fa fa-spinner fa-spin mr-2" /> : ""}
         {id
@@ -997,6 +997,21 @@ const CotactFormComponent: any = (
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="d-block d-md-none text-right">
+        <Button
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+          color={"primary"}
+          className={"submit-common-btn mb-3"}
+        >
+          {isSubmitting ? <i className="fa fa-spinner fa-spin mr-2" /> : ""}
+          {id
+            ? languageTranslation("UPDATE_BUTTON")
+            : languageTranslation("SAVE_BUTTON")}
+          {}
+        </Button>
       </div>
     </>
   );

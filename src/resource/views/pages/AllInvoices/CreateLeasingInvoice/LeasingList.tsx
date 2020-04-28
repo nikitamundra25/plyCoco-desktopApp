@@ -1,17 +1,17 @@
-import React, { FunctionComponent, useState } from 'react';
-import { UncontrolledTooltip, Table } from 'reactstrap';
-import { languageTranslation } from '../../../../../helpers';
-import { IInvoiceList } from '../../../../../interfaces';
-import Loader from '../../../containers/Loader/Loader';
+import React, { FunctionComponent, useState } from "react";
+import { UncontrolledTooltip, Table } from "reactstrap";
+import { languageTranslation } from "../../../../../helpers";
+import { IInvoiceList } from "../../../../../interfaces";
+import Loader from "../../../containers/Loader/Loader";
 import {
   AppRoutes,
   PAGE_LIMIT,
   defaultDateFormat,
-} from '../../../../../config';
-import { useHistory, useLocation } from 'react-router-dom';
-import PaginationComponent from '../../../components/Pagination';
-import * as qs from 'query-string';
-import moment from 'moment';
+} from "../../../../../config";
+import { useHistory, useLocation } from "react-router-dom";
+import PaginationComponent from "../../../components/Pagination";
+import * as qs from "query-string";
+import moment from "moment";
 import {
   nightCommission,
   holidayCommission,
@@ -37,7 +37,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?'
+      "?"
     );
     history.push(path);
   };
@@ -57,56 +57,61 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
   console.log('invoiceList', invoiceList);
   return (
     <>
-      <div className='table-minheight createinvoices-table'>
+      <div className="table-minheight createinvoices-table">
         <Table bordered hover responsive>
-          <thead className='thead-bg'>
+          <thead className="thead-bg">
             <tr>
-              <th className='sno-col'>{languageTranslation('S_NO')}</th>
-              <th className='invoiceid-col'> {languageTranslation('ID')}</th>
-              <th className='h-col'>h</th>
-              <th className='text-col'> {languageTranslation('TEXT')}</th>
-              <th className='datetime-col'>{languageTranslation('BEGIN')}</th>
-              <th className='datetime-col'>{languageTranslation('THE_END')}</th>
-              <th className='datetime-col'>
-                {languageTranslation('BREAK')} {languageTranslation('BEGIN')}
+              <th className="sno-col text-center">
+                {languageTranslation("S_NO")}
               </th>
-              <th className='datetime-col'>
-                {languageTranslation('BREAK')} {languageTranslation('END')}
+              <th className="invoiceid-col"> {languageTranslation("ID")}</th>
+              <th className="h-col">h</th>
+              <th className="text-col"> {languageTranslation("TEXT")}</th>
+              <th className="datetime-col">{languageTranslation("BEGIN")}</th>
+              <th className="datetime-col">{languageTranslation("THE_END")}</th>
+              <th className="datetime-col">
+                {languageTranslation("BREAK")} {languageTranslation("BEGIN")}
               </th>
-              <th className='price-col'>
-                {' '}
-                {languageTranslation('QUALIFICATION_PER_HOUR')}
+              <th className="datetime-col">
+                {languageTranslation("BREAK")} {languageTranslation("END")}
               </th>
-              <th className='price-col'>
-                {languageTranslation('MARGIN_PER_HOUR')}
+              <th className="price-col">
+                {" "}
+                {languageTranslation("QUALIFICATION_PER_HOUR")}
               </th>
-              <th className='price-col'>{languageTranslation('NIGHT_IN_H')}</th>
-              <th className='price-col'>
-                {languageTranslation('NIGNT_IN')}&euro;
+              <th className="price-col">
+                {languageTranslation("MARGIN_PER_HOUR")}
               </th>
-              <th className='price-col'>
-                {languageTranslation('SUNDAY_IN_H')}
+              <th className="price-col">{languageTranslation("NIGHT_IN_H")}</th>
+              <th className="price-col">
+                {languageTranslation("NIGNT_IN")}
+                <i className="fa fa-euro pl-1" aria-hidden="true"></i>
               </th>
-              <th className='price-col'>
-                {languageTranslation('SUNDAY_IN')}&euro;
+              <th className="price-col">
+                {languageTranslation("SUNDAY_IN_H")}
               </th>
-              <th className='price-col'>
-                {languageTranslation('HOLIDAY_IN_H')}
+              <th className="price-col">
+                {languageTranslation("SUNDAY_IN")}
+                <i className="fa fa-euro pl-1" aria-hidden="true"></i>
               </th>
-              <th className='price-col'>
-                {' '}
-                {languageTranslation('HOLIDAY_IN')}&euro;
+              <th className="price-col">
+                {languageTranslation("HOLIDAY_IN_H")}
               </th>
-              <th className='price-col'>{languageTranslation('TIMYOC_SUM')}</th>
-              <th className='price-col'>
-                {languageTranslation('CAREGIVER_GROSS')}
+              <th className="price-col">
+                {" "}
+                {languageTranslation("HOLIDAY_IN")}
+                <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+              </th>
+              <th className="price-col">{languageTranslation("TIMYOC_SUM")}</th>
+              <th className="price-col">
+                {languageTranslation("CAREGIVER_GROSS")}
               </th>
             </tr>
           </thead>
           <tbody>
             {invoiceListLoading ? (
               <tr>
-                <td className={'table-loader'} colSpan={13}>
+                <td className={"table-loader"} colSpan={22}>
                   <Loader />
                 </td>
               </tr>
@@ -119,8 +124,8 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
 
                 let workBegain: any, workEnd: any;
                 if (list && list.ca && list.ca.workingHoursFrom) {
-                  workBegain = list.ca.workingHoursFrom.split(',');
-                  workEnd = list.ca.workingHoursTo.split(',');
+                  workBegain = list.ca.workingHoursFrom.split(",");
+                  workEnd = list.ca.workingHoursTo.split(",");
                 }
                 //Combime date and time
                 let initialdate =
@@ -134,7 +139,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                       `${initialdate} ${start_time}`,
                       `${dbAcceptableFormat} HH:mm`
                     ).format()
-                  : '';
+                  : "";
                 let datetimeB: any = enddate
                   ? moment(
                       `${enddate} ${end_time}`,
@@ -281,17 +286,17 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                 );
 
                 return (
-                  <tr className='sno-col' key={index}>
-                    <td className='checkbox-th-column text-center'>
-                      <span className=' checkbox-custom pl-4'>
+                  <tr key={index}>
+                    <td className="sno-col text-center">
+                      <span className=" checkbox-custom pl-4">
                         <input
-                          type='checkbox'
-                          id='check'
-                          className=''
-                          name={'status'}
+                          type="checkbox"
+                          id="check"
+                          className=""
+                          name={"status"}
                           onChange={(e: any) => handleCheckedChange(e, list)}
                         />
-                        <label className=''>{count++}</label>
+                        <label className="">{count++}</label>
                       </span>
                     </td>
                     <td className='invoiceid-col'> {list.id}</td>
@@ -299,68 +304,83 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                     <td className='text-col'>
                       {list && list.cr && list.cr.division
                         ? list.cr.division.name
-                        : '-'}
+                        : "-"}
                     </td>
-                    <td className='datetime-col'>
+                    <td className="datetime-col">
                       {list.ca && list.ca.workingHoursFrom
                         ? list.ca.workingHoursFrom
-                        : '-'}{' '}
+                        : "-"}{" "}
                     </td>
-                    <td className='datetime-col'>
+                    <td className="datetime-col">
                       {list.ca && list.ca.workingHoursTo
                         ? list.ca.workingHoursTo
-                        : '-'}
+                        : "-"}
                     </td>
-                    <td className='datetime-col'>
-                      {list.ca && list.ca.breakTo ? list.ca.breakTo : '-'}
+                    <td className="datetime-col">
+                      {list.ca && list.ca.breakTo ? list.ca.breakTo : "-"}
                     </td>
-                    <td className='datetime-col'>
-                      {list.ca && list.ca.breakFrom ? list.ca.breakFrom : '-'}
+                    <td className="datetime-col">
+                      {list.ca && list.ca.breakFrom ? list.ca.breakFrom : "-"}
                     </td>
                     <td className='price-col'>{QA ? QA : 0}</td>
                     <td className='price-col'>00.00 &euro;</td>
                     <td className='price-col'>
                       {list.ca && list.ca.nightFee ? (
-                        <>{list.ca.nightFee}.00 &euro;</>
+                        <>
+                          {list.ca.nightFee}.00
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       ) : (
-                        '-'
+                        "-"
                       )}
                     </td>
-                    <td className='price-col'>
+                    <td className="price-col">
                       {list.ca && list.ca.nightFee ? (
-                        <>{list.ca.nightFee}.00 &euro;</>
+                        <>
+                          {list.ca.nightFee}.00
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       ) : (
-                        '-'
+                        "-"
                       )}
                     </td>
-                    <td className='price-col'>
+                    <td className="price-col">
                       {list.ca && list.ca.weekendAllowance ? (
-                        <>{list.ca.weekendAllowance}.00 &euro;</>
+                        <>
+                          {list.ca.weekendAllowance}.00
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       ) : (
-                        '-'
+                        "-"
                       )}
                     </td>
-                    <td className='price-col'>
+                    <td className="price-col">
                       {list.ca && list.ca.weekendAllowance && isWeekendDay ? (
                         <>
                           {(
                             parseFloat(list.ca.weekendAllowance) *
                             parseFloat(diffDate)
-                          ).toFixed(2)}{' '}
-                          &euro;
+                          ).toFixed(2)}{" "}
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
                         </>
                       ) : (
-                        <>00.00 &euro;</>
+                        <>
+                          00.00
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       )}
                     </td>
-                    <td className='price-col'>
+                    <td className="price-col">
                       {list.ca && list.ca.holidayAllowance ? (
-                        <>{list.ca.holidayAllowance}.00 &euro;</>
+                        <>
+                          {list.ca.holidayAllowance}.00
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       ) : (
-                        '-'
+                        "-"
                       )}
                     </td>
-                    <td className='price-col'>
+                    <td className="price-col">
                       {list.ca &&
                       list.ca.holidayAllowance &&
                       hasHoliday &&
@@ -369,11 +389,14 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                           {(
                             parseFloat(list.ca.holidayAllowance) *
                             parseFloat(diffDate)
-                          ).toFixed(2)}{' '}
-                          &euro;
+                          ).toFixed(2)}{" "}
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
                         </>
                       ) : (
-                        <>00.00 &euro;</>
+                        <>
+                          00.00
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       )}
                     </td>
                     <td className='price-col'>
@@ -415,14 +438,14 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                 );
               })
             ) : (
-              <tr className={'text-center no-hover-row'}>
-                <td colSpan={12} className={'pt-5 pb-5'}>
-                  <div className='no-data-section'>
-                    <div className='no-data-icon'>
-                      <i className='icon-ban' />
+              <tr className={"text-center no-hover-row"}>
+                <td colSpan={12} className={"pt-5 pb-5"}>
+                  <div className="no-data-section">
+                    <div className="no-data-icon">
+                      <i className="icon-ban" />
                     </div>
-                    <h4 className='mb-1'>
-                      {languageTranslation('NO_INVOICE_FOR_LIST')}{' '}
+                    <h4 className="mb-1">
+                      {languageTranslation("NO_INVOICE_FOR_LIST")}{" "}
                     </h4>
                   </div>
                 </td>

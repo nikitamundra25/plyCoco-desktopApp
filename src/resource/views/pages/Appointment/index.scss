@@ -347,6 +347,7 @@
     }
   }
   .unlink-btn-wrap {
+    padding: 6px;
     @media only screen and (max-width: 580px) {
       padding: 0px;
     }
@@ -392,6 +393,10 @@ body {
         @media only screen and (max-width: 1200px) {
           margin: 3px 0px;
         }
+        @media (max-width: 1400px) {
+          width: 135px;
+          min-width: 135px;
+        }
       }
     }
   }
@@ -408,6 +413,28 @@ body {
   & > div > button + div {
     right: 0px;
     max-width: 260px;
+    @media (max-width: 1480px) and (min-width: 1200px) {
+      max-width: 210px;
+    }
+    @media (max-width: 1800px) and (min-width: 1680px) {
+      max-width: 200px;
+    }
+  }
+  .custom-inner-reactselect__control {
+    @media (max-width: 1480px) and (min-width: 1200px) {
+      min-width: calc(100% - 16px);
+      .custom-inner-reactselect__indicators {
+        position: absolute;
+        right: -8px;
+      }
+    }
+    @media (max-width: 1800px) and (min-width: 1680px) {
+      min-width: calc(100% - 16px);
+      .custom-inner-reactselect__indicators {
+        position: absolute;
+        right: -8px;
+      }
+    }
   }
 }
 
@@ -488,14 +515,20 @@ body {
     overflow-x: auto;
     font-family: $font_open_sans;
     background: $white;
-    min-height: calc(50vh - 80px);
+    // min-height: calc(100vh - 508px);
+    height: calc(50vh - 80px);
+    border-top: 1px solid $table_border;
+    // max-height: calc(100vh - 466px);
+    @media (min-width: 1680px) {
+      overflow-y: hidden;
+    }
     .custom-appointment-calendar-head {
       // position: sticky;
       position: absolute;
-      height: 46px;
+      height: 41px;
       z-index: 1;
       top: 0;
-      background: $white;
+      // background: $white;
       width: 100%;
       font-weight: 600;
     }
@@ -503,13 +536,13 @@ body {
       display: flex;
       font-size: $font_12;
       color: $black;
-      border-left: 1px solid $table_border;
+      // border-left: 1px solid $table_border;
       // &:last-child {
       //   border-bottom: 1px solid $table_border;
       // }
       .custom-appointment-col {
-        flex: 0 0 30px;
-        max-width: 30px;
+        flex: 0 0 28px;
+        max-width: 28px;
         padding: 4px;
         border-right: 1px solid $table_border;
         border-bottom: 1px solid $table_border;
@@ -517,8 +550,9 @@ body {
         background: $white;
         cursor: pointer;
         &.name-col {
-          flex: 0 0 200px;
-          max-width: 200px;
+          flex: 0 0 140px;
+          max-width: 140px;
+          border-left: 1px solid $table_border;
           .btn-more {
             position: absolute;
             right: 3px;
@@ -527,8 +561,8 @@ body {
           }
         }
         &.calender-col {
-          flex: 0 0 40px;
-          max-width: 40px;
+          flex: 0 0 28px;
+          max-width: 28px;
           .custom-appointment-calendar-date {
             text-transform: capitalize;
           }
@@ -542,8 +576,22 @@ body {
 }
 
 .ReactVirtualized__List {
-  padding-top: 46px;
+  padding-top: 41px;
   height: calc(50vh - 80px) !important;
+}
+.appointment-row {
+  .appointment-calander-col {
+    @media (min-width: 2500px) {
+      flex: 0 0 1568px;
+      max-width: 1568px;
+    }
+  }
+  .appointment-form-col {
+    @media (min-width: 2500px) {
+      flex: 0 0 calc(100% - 1568px);
+      max-width: calc(100% - 1568px);
+    }
+  }
 }
 .appointment-id-width {
   width: 80px;
@@ -555,4 +603,46 @@ body {
   border-radius: 2px;
   font-weight: 600;
   font-size: $font_12;
+}
+
+.appointment-page-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  // align-items: center;
+  // justify-content: start;
+  .appointment-page-list-section {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding-right: 15px;
+    padding-left: 15px;
+    @media (min-width: 1366px) {
+      flex: 0 0 58%;
+      max-width: 58%;
+    }
+    @media (max-width: 1199px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+  .appointment-page-form-section {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding-right: 15px;
+    padding-left: 15px;
+    @media (min-width: 1366px) {
+      flex: 0 0 42%;
+      max-width: 42%;
+    }
+    @media (max-width: 1199px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .btn-save {
+      @media (max-width: 1560px) and (min-width: 1200px) {
+        padding: 3px 20px;
+      }
+    }
+  }
 }

@@ -1190,9 +1190,12 @@
   "CAREGIVER_GROSS": "Caregiver gross/h",
   "NIGHT_PER_HOUR": "Night/hr",
   "TOTAL_NIGHT_CHARGE": "Total Night Charge",
-  "SEARCH_TIP":"Try to search with specific keywords to find more results.",
-  "WORKING_TIMES":"Working times avai.",
-  "DATE_VALIDATION_MESSAGE":"Enter Valid Date",
-  "EMAIL_LABEL":"Email",
-  "CREATE_INVOICE_SUCCESS":"Invoice Created Successfully"
+  "SEARCH_TIP": "Try to search with specific keywords to find more results.",
+  "WORKING_TIMES": "Working times avai.",
+  "TOTAL_SELECTION": "Total selection",
+  "SELECTED_APPOINTMENT_DONT_HAVE_CG": "Selected appointment don't have care giver",
+  "YOU_CANT_CREATE_INVOICE_WITH": "You can't create invoice with the selected appointment because of mismatch beetween caregiver & care-institutions",
+  "DATE_VALIDATION_MESSAGE": "Enter Valid Date",
+  "EMAIL_LABEL": "Email",
+  "CREATE_INVOICE_SUCCESS": "Invoice Created Successfully"
 }

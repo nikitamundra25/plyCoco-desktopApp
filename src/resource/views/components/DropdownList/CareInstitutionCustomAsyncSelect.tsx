@@ -176,7 +176,7 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
         defaultOptions={careInstitutionOptions}
         loadOptions={debounce(getOptions, 1000)}
         onChange={(e: any) => {
-          if (e.label !== languageTranslation("SHORT_NAME") && e.value !== languageTranslation("COMPANY_NAME") && e.label !== languageTranslation("ID")) {
+          if ((e && e.label !== languageTranslation("SHORT_NAME") && e.value !== languageTranslation("COMPANY_NAME") && e.label !== languageTranslation("ID")) || e === null) {
             props.onChange(e)
           }
         }}

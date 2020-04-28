@@ -86,9 +86,20 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   ] = useState<IReactSelectInterface[] | undefined>([]);
 
   //
-  const [CreateLeasingInvoice] = useMutation<{
+  const [
+    CreateLeasingInvoice,
+    { loading: createInvoiceLoading },
+  ] = useMutation<{
     invoiceInput: any;
-  }>(CREATE_LEASING_INVOICE);
+  }>(CREATE_LEASING_INVOICE,
+    { onCompleted(){
+      toast.dismiss();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('CREATE_INVOICE_SUCCESS')
+        );
+      }
+    }});
 
   // Default value is start & end of month
   let gte: string = moment().startOf('month').format(dbAcceptableFormat);
@@ -183,6 +194,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     fetchInvoiceList({
       variables: {
         searchBy: null,
+        /*  30570, */
         caregiverId:
           caregiverFilter && caregiverFilter.value
             ? parseInt(caregiverFilter.value)
@@ -199,6 +211,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         endDate: lte ? lte : null,
         limit: PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
+        attributeId: 9,
       },
     });
   };
@@ -296,7 +309,14 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       }
     );
   }
-
+  // to reset all the filters
+  const handleReset = () => {
+    setcaregiverFilter({ label: '', value: '' });
+    setcareinstitutionFilter({ label: '', value: '' });
+    setdepartmentFilter({ label: '', value: '' });
+    setmonthFilter({ value: '', label: '' });
+    setDateFilter('');
+  };
   // Options to show department data
   useEffect(() => {
     let careInstitutionDepartment: IReactSelectInterface[] = [];
@@ -347,7 +367,8 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     let date = moment(selectedDay).format(dbAcceptableFormat);
     setDateFilter(date);
   };
-
+  //  State for Total amount selected
+  const [totalAmount, settotalAmount] = useState<string>('');
   const handleArrowDayChange = (name: string) => {
     let date: any = '';
     if (name === 'previous') {
@@ -376,40 +397,161 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   };
   // when clicking on create invoice
   const handleCreateInvoice = async () => {
-    console.log('in handle Selected Invoice Created Data', selectedAppointment);
     let singleCareGiverData: any[] = [],
       selectedAppointmentId: any[] = [],
-      singleCareInstData: any[] = [];
-
+      singleCareInstData: any[] = [],
+      amount: number = 0,
+      subTotal: number = 0;
+    // all selected caregivers id
+    let selectedCareGiverId: string[] = selectedAppointment
+      .map((appointment: any) =>
+        appointment.ca && appointment.ca.userId ? appointment.ca.userId : ''
+      )
+      .filter(Boolean);
+    // all selected care institutions id
+    let selectedCareInstId: string[] = selectedAppointment
+      .map((appointment: any) =>
+        appointment.cr && appointment.cr.userId ? appointment.cr.userId : ''
+      )
+      .filter(Boolean);
     try {
-      if (selectedAppointment && selectedAppointment.length) {
-        selectedAppointment.forEach((appointmentData: any) => {
-          if (appointmentData.ca && appointmentData.cr) {
-            singleCareGiverData.push(appointmentData.ca.userId);
-            singleCareInstData.push(appointmentData.cr.userId);
-            selectedAppointmentId.push(appointmentData.id);
-          }
-        });
-        const invoiceInput: any = {
-          caregiverId: 152 /* singleCareGiverData[singleCareGiverData.length - 1] */,
-          careInstitutionId: 60653,
-          /* singleCareGiverData[singleCareGiverData.length - 1] */
-          appointmentIds: selectedAppointmentId
-            ? selectedAppointmentId.map((item: any) => parseInt(item))
-            : null,
-          status: 'unpaid',
-          subTotal: '20',
-          amount: '20',
-          tax: '20',
-          careInstitutionName: 'Gunjali9989',
-          careGiverName: 'aayushi',
-          invoiceType: 'leasing',
-        };
-        await CreateLeasingInvoice({
-          variables: {
-            invoiceInput: invoiceInput,
-          },
-        });
+      // To check appointment is bettween the same caregiver or careinstitution or not
+      let isInvoiceComaptible: boolean =
+        selectedCareGiverId.length &&
+        selectedCareInstId.length &&
+        selectedCareGiverId.length === selectedCareInstId.length &&
+        selectedCareGiverId.every(
+          (val: string, i: number, arr: string[]) => val === arr[0]
+        ) &&
+        selectedCareInstId.every(
+          (val: string, i: number, arr: string[]) => val === arr[0]
+        )
+          ? true
+          : false;
+      if (!isInvoiceComaptible) {
+        if (!toast.isActive(toastId)) {
+          toastId = toast.warn(
+            languageTranslation('YOU_CANT_CREATE_INVOICE_WITH')
+          );
+        }
+        return;
+      } else {
+        if (selectedAppointment && selectedAppointment.length) {
+          selectedAppointment.forEach((appointmentData: any) => {
+            if (appointmentData.ca && appointmentData.cr) {
+              singleCareGiverData.push(appointmentData.ca.userId);
+              singleCareInstData.push(appointmentData.cr.userId);
+              selectedAppointmentId.push(appointmentData.id);
+
+              let workBegain: any, workEnd: any;
+              if (
+                appointmentData &&
+                appointmentData.ca &&
+                appointmentData.ca.workingHoursFrom
+              ) {
+                workBegain = appointmentData.ca.workingHoursFrom.split(',');
+                workEnd = appointmentData.ca.workingHoursTo.split(',');
+              }
+              //Combime date and time
+              let initialdate =
+                workBegain && workBegain.length ? workBegain[0] : null;
+              let start_time =
+                workBegain && workBegain.length ? workBegain[1] : null;
+              let enddate = workEnd && workEnd.length ? workEnd[0] : null;
+              let end_time = workEnd && workEnd.length ? workEnd[1] : null;
+              let datetimeA: any = initialdate
+                ? moment(
+                    `${initialdate} ${start_time}`,
+                    `${dbAcceptableFormat} HH:mm`
+                  ).format()
+                : '';
+              let datetimeB: any = enddate
+                ? moment(
+                    `${enddate} ${end_time}`,
+                    `${dbAcceptableFormat} HH:mm`
+                  ).format()
+                : null;
+
+              // let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
+              // let hours = duration ? duration.asHours() : null;
+              let diffDate: any =
+                (new Date(datetimeB).getTime() -
+                  new Date(datetimeA).getTime()) /
+                (3600 * 1000);
+
+              //Show Weekend day
+              const dayData = new Date(appointmentData.date).getDay();
+              let isWeekendDay: boolean =
+                dayData === 6 || dayData === 0 ? true : false;
+              let hasHoliday: any;
+              if (careGiverHolidays && careGiverHolidays.length) {
+                hasHoliday = careGiverHolidays.filter(
+                  (data: any) => data.date === appointmentData.date
+                );
+              }
+              let weekendRate: any = appointmentData.ca.weekendAllowance
+                ? appointmentData.ca.weekendAllowance
+                : 0;
+              let holidayRate: any = appointmentData.ca.holidayAllowance
+                ? appointmentData.ca.holidayAllowance
+                : 0;
+              let nightRate: any = appointmentData.ca.nightFee
+                ? appointmentData.ca.nightFee
+                : 0;
+              let fees: any = appointmentData.ca.fee * 100;
+              let transportation: any = appointmentData.ca.distanceInKM
+                ? appointmentData.ca.distanceInKM
+                : 0 * appointmentData.ca.feePerKM
+                ? appointmentData.ca.feePerKM
+                : 0;
+              let hours: any = appointmentData.ca.workingHoursFrom
+                ? parseFloat(diffDate).toFixed(2)
+                : 0;
+              let expenses =
+                appointmentData.ca && appointmentData.ca.otherExpenses
+                  ? appointmentData.ca.otherExpenses
+                  : 0;
+              if (isWeekendDay && hasHoliday && hasHoliday.length) {
+                if (weekendRate > holidayRate) {
+                  subTotal =
+                    (fees + weekendRate) * hours + transportation + expenses;
+                } else if (holidayRate > weekendRate) {
+                  subTotal =
+                    (fees + holidayRate) * hours + transportation + expenses;
+                }
+              } else {
+                subTotal += fees * hours + transportation + expenses;
+              }
+            } else {
+              const message = errorFormatter(
+                languageTranslation('SELECTED_APPOINTMENT_DONT_HAVE_CG')
+              );
+              if (!toast.isActive(toastId)) {
+                toastId = toast.warn(message);
+              }
+            }
+          });
+          const totalAmount: any = subTotal + subTotal * 0.19;
+          settotalAmount(totalAmount);
+          const invoiceInput: any = {
+            caregiverId: singleCareGiverData[singleCareGiverData.length - 1],
+            careInstitutionId:
+              singleCareInstData[singleCareInstData.length - 1],
+            appointmentIds: selectedAppointmentId,
+            status: 'unpaid',
+            subTotal: `${subTotal}`,
+            amount: `${totalAmount}`,
+            tax: `${subTotal * 0.19}`,
+            careInstitutionName: 'Gunjali9989',
+            careGiverName: 'aayushi',
+            invoiceType: 'selfEmployeed',
+          };
+          await CreateLeasingInvoice({
+            variables: {
+              invoiceInput: invoiceInput,
+            },
+          });
+        }
       }
     } catch (error) {
       const message = errorFormatter(error);
@@ -435,6 +577,8 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             handleArrowDayChange={handleArrowDayChange}
             dateFilter={dateFilter}
             handleCreateInvoice={() => handleCreateInvoice()}
+            handleReset={handleReset}
+            createInvoiceLoading={createInvoiceLoading}
           />
           <div className='common-content flex-grow-1'>
             <div className='common-content flex-grow-1  p-0 all-invoice'>
@@ -466,16 +610,18 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
                       <Row className='align-items-center'>
                         <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                           <Label className='form-label col-form-label'>
-                            Total
+                            {languageTranslation('TOTAL')}
                           </Label>
                         </Col>
                         <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
                           <div className='required-input'>
                             <Input
                               type='text'
-                              name={'firstName'}
+                              name={'total'}
                               placeholder={'Enter Total'}
                               className='text-input text-capitalize'
+                              disable={true}
+                              value={totalAmount}
                             />
                           </div>
                         </Col>
@@ -487,7 +633,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
                       <Row className='align-items-center'>
                         <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                           <Label className='form-label col-form-label'>
-                            Total selection
+                            {languageTranslation('TOTAL_SELECTION')}
                           </Label>
                         </Col>
                         <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>

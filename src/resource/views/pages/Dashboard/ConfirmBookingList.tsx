@@ -48,7 +48,7 @@ const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
             <tbody>
               <tr>
                 <td className="date-column">28.02.2020</td>
-                <td className="name-column">John Doe</td>
+                <td className="name-column">Johnwefewfe Doe</td>
                 <td className="date-column">02.03.2020</td>
               </tr>
               <tr>

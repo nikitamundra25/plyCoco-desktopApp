@@ -7,7 +7,6 @@ import routes from "../../../../routes/routes";
 import "./index.scss";
 import { languageTranslation } from "../../../../helpers";
 import { useLazyQuery } from "@apollo/react-hooks";
-
 import { DashboardQueries } from "../../../../graphql/queries";
 import { DayOptions } from "../../../../config";
 import RegistrationList from "./RegistrationList";
@@ -22,12 +21,11 @@ const [
   GET_DASHBOARD_DOCUMENTS_LIST,
   GET_DASHBOARD_LOGIN_HISTORY_LIST,
 
-GET_DASHBOARD_APPOINTMENT_LIST
+  GET_DASHBOARD_APPOINTMENT_LIST,
 ] = DashboardQueries;
 
 const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
   const [daysValue, setDaysValue] = useState<any>({ value: 1, label: "1 Day" });
-  const confirmBookingListLoading = false;
 
   // To get registrations list
   const [
@@ -71,13 +69,24 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
     }
   ] = useLazyQuery<any>(GET_DASHBOARD_LOGIN_HISTORY_LIST);
 
-    // To get successful login list
+   // To get appointment list
     const [
       getDashboardAppointment,
       {
         data: appointmentList,
-        refetch: refetchappointmentList,
+        refetch: refetchAppointmentList,
         loading: appointmentListLoading
+      }
+    ] = useLazyQuery<any>(GET_DASHBOARD_APPOINTMENT_LIST);
+    console.log('appointmentList',appointmentList)
+
+     // To get confirm booking list
+     const [
+      getDashboardBooking,
+      {
+        data: bookingList,
+        refetch: refetchBookingList,
+        loading: confirmBookingListLoading
       }
     ] = useLazyQuery<any>(GET_DASHBOARD_APPOINTMENT_LIST);
     console.log('appointmentList',appointmentList)
@@ -116,7 +125,15 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
         status:"appointment"
       }
     });
-  }, [registrationList, documentList, incorrectLoginList, successfulLoginList, appointmentList]);
+
+    getDashboardBooking({
+      variables: {
+        days: daysValue ? daysValue.value : 1,
+        status:"confirmed"
+      }
+    });
+
+  }, [registrationList, documentList, incorrectLoginList, successfulLoginList, appointmentList, bookingList]);
 
   const onDaysChange = async (value: any) => {
     await getDashboardRegistrations({
@@ -148,6 +165,14 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
     await getDashboardAppointment({
       variables: {
         days: value,
+        status:"appointment"
+      }
+    });
+
+    await getDashboardBooking({
+      variables: {
+        days: value,
+        status:"confirmed"
       }
     });
 
@@ -155,7 +180,8 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
     refetchDocumentList();
     refetchIncorrectLoginList();
     refetchSuccessfulLoginList();
-    refetchappointmentList();
+    refetchAppointmentList();
+    refetchBookingList();
   };
 
   return (
@@ -209,6 +235,7 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
               <ConfirmBookingList
                 {...props}
                 confirmBookingListLoading={confirmBookingListLoading}
+
               />
             </Col>
             <Col lg="4" className="pl-lg-0">

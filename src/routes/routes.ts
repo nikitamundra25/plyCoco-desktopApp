@@ -54,7 +54,7 @@ const CareInstitutionTodoLayout = React.lazy(() =>
     "../resource/views/pages/CareGiverTodo/Sidebar/SidebarLayout/CareGiverTodoLayout"
   )
 );
-const INVOICE = React.lazy(() => import("../resource/views/pages/AllInvoices"));
+const INVOICE = React.lazy(() => import("../resource/views/pages/AllInvoices/SelfEmpInvoiceList"));
 const InvoiceSolona = React.lazy(() =>
   import("../resource/views/pages/AllInvoices/CreateInvoiceSolona")
 );

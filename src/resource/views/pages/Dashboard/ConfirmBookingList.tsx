@@ -38,7 +38,10 @@ const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
                   {languageTranslation("DATE")}
                 </th>
                 <th className="thead-sticky name-column">
-                  {languageTranslation("NAME")}
+                  {languageTranslation("MENU_CAREGIVER")}
+                </th>
+                <th className="thead-sticky name-column">
+                  {languageTranslation("MENU_INSTITUTION")}
                 </th>
                 <th className="thead-sticky date-column">
                   {" "}

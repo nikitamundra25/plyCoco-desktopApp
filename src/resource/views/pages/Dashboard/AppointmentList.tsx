@@ -66,6 +66,7 @@ const AppointmentList: FunctionComponent<RouteComponentProps> = ( props: any) =>
                           )}
                         </td>
                         <td className="name-column">
+                         { item.ca &&   item.ca.user ? 
                           <div
                             className="text-capitalize view-more-link  one-line-text"
                             onClick={() =>
@@ -78,10 +79,11 @@ const AppointmentList: FunctionComponent<RouteComponentProps> = ( props: any) =>
                             }
                           >
                             {item.ca.user.userName}
-                          </div>
+                          </div> : null}
                         </td>
                         
                         <td className="name-column">
+                        { item.cr && item.cr.user ? 
                           <div
                             className="text-capitalize view-more-link  one-line-text"
                             onClick={() =>
@@ -94,7 +96,7 @@ const AppointmentList: FunctionComponent<RouteComponentProps> = ( props: any) =>
                             }
                           >
                             {item.cr.user.userName}
-                          </div>
+                          </div> : null }
                         </td>
 
                         <td className="doctype-column">
@@ -114,7 +116,7 @@ const AppointmentList: FunctionComponent<RouteComponentProps> = ( props: any) =>
                         <i className="icon-ban" />
                       </div>
                       <h4 className="mb-1">
-                        {languageTranslation("NO_DATA_IN_DOCUMENTS")}
+                        {languageTranslation("NO_DATA_IN_APPOINTMENTS")}
                       </h4>
                     </div>
                   </td>

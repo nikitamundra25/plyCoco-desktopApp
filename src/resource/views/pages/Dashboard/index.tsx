@@ -89,7 +89,7 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
         loading: confirmBookingListLoading
       }
     ] = useLazyQuery<any>(GET_DASHBOARD_APPOINTMENT_LIST);
-    console.log('appointmentList',appointmentList)
+    console.log('bookingListbookingList',bookingList)
 
   useEffect(() => {
     // call queries
@@ -235,7 +235,7 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
               <ConfirmBookingList
                 {...props}
                 confirmBookingListLoading={confirmBookingListLoading}
-
+                bookingList={bookingList}
               />
             </Col>
             <Col lg="4" className="pl-lg-0">

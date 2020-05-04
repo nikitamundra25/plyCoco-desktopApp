@@ -48,10 +48,10 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
     fetchAllInvoiceList({
       variables: {
         status: '',
+        invoiceType: 'leasing',
         sortBy: null,
         limit: PAGE_LIMIT,
         page: 1,
-        invoiceType: 'leasing',
       },
     });
   };

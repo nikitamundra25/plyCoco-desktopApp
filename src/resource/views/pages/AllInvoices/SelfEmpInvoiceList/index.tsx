@@ -12,9 +12,7 @@ import {
   Nav,
 } from "reactstrap";
 import Select from "react-select";
-
 import { languageTranslation } from "../../../../../helpers";
-
 import { RouteComponentProps } from "react-router";
 import { StatusOptions, SortOptions, PAGE_LIMIT } from "../../../../../config";
 import "../index.scss";
@@ -38,7 +36,9 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
   // To fetch All invoice list
   const [
     fetchAllInvoiceList,
-    { data: invoiceList, loading: invoiceListLoading, refetch },
+    { data: invoiceList, 
+      loading: invoiceListLoading,
+       refetch },
   ] = useLazyQuery<any, any>(GET_ALL_INVOICE_LIST, {
     fetchPolicy: "no-cache",
     // notifyOnNetworkStatusChange: true
@@ -53,6 +53,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
     fetchAllInvoiceList({
       variables: {
         status: "",
+        invoiceType: 'selfEmployee',
         sortBy: null,
         limit: PAGE_LIMIT,
         page: 1,

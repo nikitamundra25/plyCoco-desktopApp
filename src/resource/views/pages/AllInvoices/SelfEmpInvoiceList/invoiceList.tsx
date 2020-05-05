@@ -107,7 +107,7 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
                         <label className="">{count++}</label>
                       </span>
                     </td>
-                    <td className="invoiceid-col"> {invoiceData.id}</td>
+                    <td className="invoiceid-col"> {index}</td>
                     <td className="careinstitution-col">
                       {" "}
                       <Link to="#" className="view-more-link">
@@ -125,12 +125,12 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
                     <td className="invoiceid-col">{invoiceData.invoiceNumber}</td>
                     <td className="date-col">{moment(invoiceData.invoiceDate).format(defaultDateFormat)}</td>
                     <td className="amount-col">{parseFloat(invoiceData.amount).toFixed(2)}</td>
-                    <td className="date-col">17-09-2013</td>
                     <td className="date-col"></td>
                     <td className="date-col"></td>
-                    <td className="date-col">16-09-2013</td>
-                    <td className="date-col">16-09-2013</td>
-                    <td className="date-col">16-09-2013</td>
+                    <td className="date-col"></td>
+                    <td className="date-col"></td>
+                    <td className="date-col"></td>
+                    <td className="date-col"></td>
                     <td className="checkbox-col">
                       <span className="checkbox-custom ">
                         <input type="checkbox" id="checkAll" className="" />
@@ -143,12 +143,12 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
                         <label className=""> </label>
                       </span>
                     </td>
-                    <td className="amount-col">234.02</td>
-                    <td className="amount-col">234.02</td>
-                    <td className="amount-col">234.02</td>
+                    <td className="amount-col"></td>
+                    <td className="amount-col"></td>
+                    <td className="amount-col"></td>
 
                     <td className="comment-col">
-                      <span className="word-wrap">am 16.00</span>
+                      <span className="word-wrap"></span>
                     </td>
                   </tr>
                 )

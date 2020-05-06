@@ -1,10 +1,68 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import { Table, UncontrolledTooltip } from "reactstrap";
-import { Link } from "react-router-dom";
-import { languageTranslation } from "../../../../../helpers";
+import { Link, useParams } from "react-router-dom";
+import * as qs from "query-string";
+import { toast } from "react-toastify";
+import moment from "moment";
+import { useLocation, useHistory } from "react-router";
+import { AppBreadcrumb } from "@coreui/react";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { FormikHelpers, Formik, FormikProps } from "formik";
+import {
+  AppRoutes,
+  PAGE_LIMIT,
+  sortFilter,
+  defaultDateTimeFormat,
+} from "../../../../../config";
+import routes from "../../../../../routes/routes";
+import Search from "../../../components/SearchFilter";
+import ButtonTooltip from "../../../components/Tooltip/ButtonTooltip";
+import { languageTranslation, errorFormatter } from "../../../../../helpers";
+import { ISearchValues, IReactSelectInterface } from "../../../../../interfaces";
+import { ConfirmBox } from "../../../components/ConfirmBox";
+import PaginationComponent from "../../../components/Pagination";
+import Loader from "../../../containers/Loader/Loader";
+import { NoSearchFound } from "../../../components/SearchFilter/NoSearchFound";
+import { CareGiverQueries } from "../../../../../graphql/queries";
 import "../caregiver.scss";
 
+const [, , , , , , , , , GET_INVOICE_BY_USERID] = CareGiverQueries;
+let toastId: any = "";
+
 const Invoices: FunctionComponent = () => {
+
+  let history = useHistory();
+  const { search, pathname } = useLocation();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  // const [readMore, setreadMore] = useState<boolean>(false);
+  // const [readMoreIndex, setreadMoreIndex] = useState<number>(-1);
+
+  let { id } = useParams();
+  const Id: any | undefined = id;
+  console.log('ididid',id)
+
+  // To get invoice list from db
+  const [
+    getInvoiceByUserId, 
+    { data, 
+      called,
+      loading,
+      refetch }] = useLazyQuery<any,any
+  >(GET_INVOICE_BY_USERID, { fetchPolicy: "no-cache",
+  });
+
+  console.log('datadata',data)
+  console.log('loadingloading',loading)
+
+  useEffect(() => {
+    // call query
+    getInvoiceByUserId({
+      variables: {
+        userId: id
+      },
+    });
+  }, []); // It will run when the search value gets changed
+
   return (
     <>
       <div className="invoice-section">
@@ -55,28 +113,58 @@ const Invoices: FunctionComponent = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
+              {!called || loading ? (
+                    <tr>
+                      <td className={"table-loader"} colSpan={8}>
+                        <Loader />
+                      </td>
+                    </tr>
+                  ) : data &&
+                    data.getInvoiceByUserId &&
+                    data.getInvoiceByUserId &&
+                    data.getInvoiceByUserId.length ? (
+                    data.getInvoiceByUserId.map(
+                      (invoiceData: any, index: number) => {
+                        const replaceObj: any = {
+                          ":id": invoiceData.id,
+                          ":userName": invoiceData.userName,
+                        };
+                        return (
+                <tr key={index}>
+                  <td className="sno-col"> {index} </td>
+                  <td className="invoiceid-col">{invoiceData.invoiceNumber}</td>
+                  <td className="cancellation-col"> - </td>
+                  <td className="cancel-col"> - </td>
                   <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
+
+                   { invoiceData.careinstitution ? 
+                          <div
+                            className="text-capitalize view-more-link  one-line-text"
+                            onClick={() =>
+                              history.push(
+                                  AppRoutes.CARE_INSTITUION_VIEW.replace(
+                                      /:id/gi,
+                                      invoiceData.careinstitution.id
+                                    )
+                              )
+                            }
+                          >
+                            {invoiceData.careinstitution.userName}
+                          </div> : null }
+
                   </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
+                  <td className="date-col">{invoiceData.createdAt}</td>
+                  <td className="amount-col">{invoiceData.amount}</td>
+                  <td className="vat-col">{invoiceData.tax}</td>
+                  <td className="due-date-col">{invoiceData.dueDate}</td>
                   <td className="factoring-col">
                     <span className="checkbox-custom ">
                       <input type="checkbox" id="checkAll" className="" />
                       <label className=""> </label>
                     </span>
                   </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
+                  <td className="sent-col"> - </td>
+                  <td className="remarks-col word-wrap"> {invoiceData.remarks}</td>
                   <td className="action-col">
                     <div className="action-btn">
                       <span className="btn-icon mr-2" id={`open`}>
@@ -112,1033 +200,28 @@ const Invoices: FunctionComponent = () => {
                     </div>
                   </td>
                 </tr>
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
+                );
+              }
+            )
+          ) : (
+            <tr className={"text-center no-hover-row"}>
+              <td colSpan={8} className={"pt-5 pb-5"}>
+                  <div className="no-data-section">
+                    <div className="no-data-icon">
+                      <i className="icon-ban" />
                     </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>{" "}
-                <tr>
-                  <td className="sno-col">1</td>
-                  <td className="invoiceid-col">230001</td>
-                  <td className="cancellation-col"></td>
-                  <td className="cancel-col">230002</td>
-                  <td className="careinstitution-col">
-                    <Link to="#" className="view-more-link one-line-text">
-                      careinstitution
-                    </Link>
-                  </td>
-                  <td className="date-col">29.04.2019</td>
-                  <td className="amount-col">2,190.50</td>
-                  <td className="vat-col">0%</td>
-                  <td className="due-date-col">30.04.2019</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col">30.04.2019</td>
-                  <td className="remarks-col word-wrap">Remarks</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
-                        </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
-                        </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
+                    <h4 className="mb-1">
+                      {languageTranslation("NO_CAREGIVER_ADDED")}{" "}
+                    </h4>
+                    <p>
+                      {languageTranslation("CLICK_ABOVE_TO_ADD_NEW")}{" "}
+                    </p>
+                  </div>
+              </td>
+            </tr>
+          )}
+        </tbody>
+
             </Table>
           </div>
         </div>

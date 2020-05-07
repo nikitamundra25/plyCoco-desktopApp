@@ -97,7 +97,7 @@ const GET_ALL_INVOICE_LIST = gql`
         amount
         tax
         invoiceDate
-        dueDdate
+        dueDate
         doubtful
         irrecoverable
         paymentMethod

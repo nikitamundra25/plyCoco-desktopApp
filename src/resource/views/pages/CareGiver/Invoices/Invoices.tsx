@@ -24,8 +24,10 @@ import PaginationComponent from "../../../components/Pagination";
 import Loader from "../../../containers/Loader/Loader";
 import { NoSearchFound } from "../../../components/SearchFilter/NoSearchFound";
 import { CareGiverQueries } from "../../../../../graphql/queries";
+import { CareGiverMutations } from "../../../../../graphql/Mutations";
 import "../caregiver.scss";
 
+const [, , , , , , , , , , CANCEL_INVOICE] = CareGiverMutations
 const [, , , , , , , , , GET_INVOICE_BY_USERID] = CareGiverQueries;
 let toastId: any = "";
 
@@ -54,6 +56,9 @@ const Invoices: FunctionComponent = () => {
   console.log('datadata',data)
   console.log('loadingloading',loading)
 
+   // Mutation to delete caregiver
+  //  const [cancelInvoice] = useMutation<any,any>(CANCEL_INVOICE);
+
   useEffect(() => {
     // call query
     getInvoiceByUserId({
@@ -62,6 +67,28 @@ const Invoices: FunctionComponent = () => {
       },
     });
   }, []); // It will run when the search value gets changed
+
+  // const onCancelInvoice = async (id: string) => {
+  //   const { value } = await ConfirmBox({
+  //     title: languageTranslation("CONFIRM_LABEL"),
+  //     text: languageTranslation("CONFIRM_CAREGIVER_DELETE_MSG"),
+  //   });
+  //   if (!value) {
+  //     return;
+  //   } else {
+  //     await cancelInvoice({
+  //       variables: {
+  //         invoiceId:parseInt(id),
+  //         status: "cancellation",
+  // 	      invoiceType:"selfEmployee"
+  //       },
+  //     });
+  //     refetch();
+  //     if (!toast.isActive(toastId)) {
+  //       toastId = toast.success(languageTranslation("CAREGIVER_MOVE_TO_TRASH"));
+  //     }
+  //   }
+  // };
 
   return (
     <>
@@ -179,12 +206,14 @@ const Invoices: FunctionComponent = () => {
                         </UncontrolledTooltip>
                         <i className="fa fa-pencil"></i>
                       </span>
+
                       <span className="btn-icon mr-2" id={`cancel`}>
                         <UncontrolledTooltip placement="top" target={`cancel`}>
                           Cancel Invoice
                         </UncontrolledTooltip>
                         <i className="fa fa-times"></i>
                       </span>
+
                       <span className="btn-icon mr-2" id={`replace`}>
                         <UncontrolledTooltip placement="top" target={`replace`}>
                           Replace Invoice

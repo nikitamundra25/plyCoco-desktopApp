@@ -21,7 +21,7 @@ import { useLazyQuery } from "@apollo/react-hooks";
 import GeneralTab from "./InvoiceNavBar/general";
 import DunningAndExport from "./InvoiceNavBar/dunningAndExport";
 import InvoiceListView from "./invoiceList";
-
+import SendInvoiceModal from "./SendInvoiceModal"
 const [, GET_ALL_INVOICE_LIST] = InvoiceQueries;
 
 const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
@@ -29,6 +29,9 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
 ) => {
 
   const [tabChange, setTabChange] = useState(1);
+  // state for handling send invoice modal
+  const [openSendInvoice, setopenSendInvoice] = useState(false);
+
   const tabChangehandler = (currentTab: any) => {
     setTabChange(currentTab);
   };
@@ -36,9 +39,9 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
   // To fetch All invoice list
   const [
     fetchAllInvoiceList,
-    { data: invoiceList, 
+    { data: invoiceList,
       loading: invoiceListLoading,
-       refetch },
+      refetch },
   ] = useLazyQuery<any, any>(GET_ALL_INVOICE_LIST, {
     fetchPolicy: "no-cache",
     // notifyOnNetworkStatusChange: true
@@ -55,7 +58,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
         status: "",
         invoiceType: 'selfEmployee',
         sortBy: null,
-        limit: PAGE_LIMIT,
+        limit: 100,
         page: 1,
       },
     });
@@ -90,6 +93,12 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
 
     }
   }
+  const handleSendInvoiceModal = () => {
+    console.log("This this function", openSendInvoice);
+
+    setopenSendInvoice(!openSendInvoice)
+  }
+
   return (
     <>
       <Card>
@@ -120,6 +129,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
             {tabChange == 1 ? (
               <GeneralTab
                 handleShowInvoice={handleShowInvoice}
+                handleSendInvoiceModal={handleSendInvoiceModal}
               />
             ) : (
                 <DunningAndExport />
@@ -258,6 +268,11 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
           </div>
         </div>
       </Card>
+      <SendInvoiceModal
+        show={openSendInvoice}
+        selectedInvoice={selectedInvoice}
+        handleClose={handleSendInvoiceModal}
+      />
     </>
   );
 };

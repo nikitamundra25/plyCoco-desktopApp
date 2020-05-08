@@ -25,7 +25,7 @@ import "../../index.scss";
 const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
-  const { handleShowInvoice } = mainProps
+  const { handleShowInvoice, handleSendInvoiceModal } = mainProps
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
@@ -149,11 +149,11 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
 
             <span className="header-nav-text">Send again</span>
           </div>
-          <div className="header-nav-item">
+          <div onClick={()=> handleSendInvoiceModal()} className="header-nav-item">
             <span className="header-nav-icon">
               <img src={sent} alt="" />
             </span>
-            <span className="header-nav-text">Sent today</span>
+            <span className="header-nav-text">Send</span>
           </div>
           <div className="header-nav-item">
             <span className="header-nav-icon">
@@ -192,7 +192,7 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
         <div className="header-nav-colmn-items profile-section">
           <div className="header-nav-heading mx-1 text-center">
             User Profile
-                  </div>
+          </div>
 
           <div className="header-nav-item">
             <span className="header-nav-icon">

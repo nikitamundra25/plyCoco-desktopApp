@@ -20,7 +20,6 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
-              <th className="sno-col">{languageTranslation("S_NO")}</th>
               <th className="invoiceid-col">
                 {" "}
                 {languageTranslation("NUMBER")}{" "}
@@ -94,7 +93,7 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
               invoiceList && invoiceList.getInvoices && invoiceList.getInvoices.result && invoiceList.getInvoices.result.length ? invoiceList.getInvoices.result.map((invoiceData: any, index: number) => {
                 return (
                   <tr key={index}>
-                    <td className="checkbox-th-column text-center">
+                    <td className="invoiceid-col">
                       <span className=" checkbox-custom pl-4">
                         <input
                           type="checkbox"
@@ -107,7 +106,6 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
                         <label className="">{count++}</label>
                       </span>
                     </td>
-                    <td className="invoiceid-col"> {index}</td>
                     <td className="careinstitution-col">
                       {" "}
                       <Link to="#" className="view-more-link">
@@ -157,7 +155,6 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
           </tbody>
         </Table>
       </div>
-
     </>
   );
 };

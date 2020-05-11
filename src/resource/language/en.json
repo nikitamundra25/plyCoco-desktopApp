@@ -1202,5 +1202,8 @@
   "NO_DATA_IN_APPOINTMENTS": "Currently there are no appointment added.",
   "NO_DATA_IN_BOOKING": "Currently there are no booking added.",
   "SEND_INVOICE_SUCCESS":"Invoice Send Successfully.",
-  "SEND_INVOICE":"Send Invoice"
+  "SEND_INVOICE":"Send Invoice",
+  "CONFIRM_INVOICE_CANCEL_MSG":"This invoice will be cancelled.",
+  "INVOICE_IS_CANCELLED":"Invoice is Cancelled",
+  "INVOICES_STATUS":"Invoice Status"
 }

@@ -360,6 +360,8 @@ query getInvoiceByUserId( $userId: ID!) {
       createdAt
       tax
       amount
+      invoiceType
+      status
       careinstitution{
         id
         firstName

@@ -27,7 +27,7 @@ import { CareGiverQueries } from "../../../../../graphql/queries";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
 import "../caregiver.scss";
 
-const [, , , , , , , , , , CANCEL_INVOICE] = CareGiverMutations
+const [, , , , , , , , , CANCEL_INVOICE] = CareGiverMutations
 const [, , , , , , , , , GET_INVOICE_BY_USERID] = CareGiverQueries;
 let toastId: any = "";
 
@@ -39,9 +39,6 @@ const Invoices: FunctionComponent = () => {
   // const [readMore, setreadMore] = useState<boolean>(false);
   // const [readMoreIndex, setreadMoreIndex] = useState<number>(-1);
 
-  // Mutation to delete caregiver
-  const [cancelInvoice] = useMutation<any, any>(CANCEL_INVOICE);
-  
   let { id } = useParams();
   const Id: any | undefined = id;
   console.log('ididid', id)
@@ -60,6 +57,10 @@ const Invoices: FunctionComponent = () => {
   console.log('datadata', data)
   console.log('loadingloading', loading)
 
+  // Mutation to Cancel Invoice caregiver
+  console.log('CANCEL_INVOICE', CANCEL_INVOICE)
+  const [cancelInvoice] = useMutation<any, any>(CANCEL_INVOICE);
+
   useEffect(() => {
     // call query
     getInvoiceByUserId({
@@ -69,27 +70,31 @@ const Invoices: FunctionComponent = () => {
     });
   }, []); // It will run when the search value gets changed
 
-  // const onCancelInvoice = async (id: string) => {
-  //   const { value } = await ConfirmBox({
-  //     title: languageTranslation("CONFIRM_LABEL"),
-  //     text: languageTranslation("CONFIRM_CAREGIVER_DELETE_MSG"),
-  //   });
-  //   if (!value) {
-  //     return;
-  //   } else {
-  //     await cancelInvoice({
-  //       variables: {
-  //         invoiceId:parseInt(id),
-  //         status: "cancellation",
-  // 	      invoiceType:"selfEmployee"
-  //       },
-  //     });
-  //     refetch();
-  //     if (!toast.isActive(toastId)) {
-  //       toastId = toast.success(languageTranslation("CAREGIVER_MOVE_TO_TRASH"));
-  //     }
-  //   }
-  // };
+  const onCancelInvoice = async (id: string, invoiceType: string) => {
+    console.log('onCancelInvoice', id, invoiceType)
+    const { value } = await ConfirmBox({
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_INVOICE_CANCEL_MSG"),
+    });
+    if (!value) {
+      return;
+    } else {
+      await cancelInvoice({
+        variables: {
+          invoiceInput: {
+            invoiceId: parseInt(id),
+            status: "cancellation",
+            invoiceType: invoiceType
+          }
+        },
+      });
+      console.log('wefwefe')
+      refetch();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(languageTranslation("INVOICE_IS_CANCELLED"));
+      }
+    }
+  };
 
   return (
     <>
@@ -103,6 +108,9 @@ const Invoices: FunctionComponent = () => {
                   <th className="sno-col">{languageTranslation("S_NO")} </th>
                   <th className="invoiceid-col">
                     {languageTranslation("INVOICES_NUMBER")}{" "}
+                  </th>
+                  <th className="invoiceid-col">
+                    {languageTranslation("INVOICES_STATUS")}{" "}
                   </th>
                   <th className="cancellation-col">
                     {" "}
@@ -161,8 +169,9 @@ const Invoices: FunctionComponent = () => {
                             <tr key={index}>
                               <td className="sno-col"> {index} </td>
                               <td className="invoiceid-col">{invoiceData.invoiceNumber}</td>
-                              <td className="cancellation-col"> - </td>
-                              <td className="cancel-col"> - </td>
+                              <td className="invoiceid-col">{invoiceData.status}</td>
+                              <td className="cancellation-col"> {invoiceData.cancelledFor ? invoiceData.cancelledFor : "-"} </td>
+                              <td className="cancel-col"> {invoiceData.cancelledBy ? invoiceData.cancelledBy : "-"}   </td>
                               <td className="careinstitution-col">
 
                                 {invoiceData.careinstitution ?
@@ -208,8 +217,12 @@ const Invoices: FunctionComponent = () => {
                                     <i className="fa fa-pencil"></i>
                                   </span>
 
-                                  <span className="btn-icon mr-2" id={`cancel`}>
-                                    <UncontrolledTooltip placement="top" target={`cancel`}>
+                                  <span
+                                    id={`cancel${index}`}
+                                    className="btn-icon mr-2"
+                                    onClick={() => onCancelInvoice(invoiceData.id, invoiceData.invoiceType)}
+                                  >
+                                    <UncontrolledTooltip placement="top" target={`cancel${index}`}>
                                       Cancel Invoice
                         </UncontrolledTooltip>
                                     <i className="fa fa-times"></i>

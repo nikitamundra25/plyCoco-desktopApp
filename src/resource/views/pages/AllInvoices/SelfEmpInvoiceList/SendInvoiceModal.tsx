@@ -16,10 +16,12 @@ const SendInvoiceModal: FunctionComponent<FormikProps<any> &
     const {
       show,
       externalCloseBtn,
-      isSubmitting,
+      iSubbmitting,
       handleSubmit,
       handleClose,
-      selectedInvoice
+      selectedInvoice,
+      handleSelectInvoice,
+      handleSendInvoiceSubmmit
     } = props;
     return (
       <div>
@@ -68,7 +70,7 @@ const SendInvoiceModal: FunctionComponent<FormikProps<any> &
                                   id="check"
                                   className=""
                                   name={"status"}
-                                //onChange={(e: any) => handleCheckedChange(e, invoiceData)}
+                                  onChange={(e: any) => handleSelectInvoice(e, invoiceData, "careInst")}
                                 // checked={"true"}
                                 />
                                 <label />
@@ -85,7 +87,7 @@ const SendInvoiceModal: FunctionComponent<FormikProps<any> &
                                   id="check"
                                   className=""
                                   name={"status"}
-                                //onChange={(e: any) => handleCheckedChange(e, invoiceData)}
+                                  onChange={(e: any) => handleSelectInvoice(e, invoiceData, "careGiver")}
                                 // checked={"true"}
                                 />
                                 <label />
@@ -101,12 +103,12 @@ const SendInvoiceModal: FunctionComponent<FormikProps<any> &
           </ModalBody>
           <ModalFooter>
             <Button
-              disabled={isSubmitting}
+              disabled={iSubbmitting}
               color="primary"
-              onClick={handleSubmit}
+              onClick={handleSendInvoiceSubmmit}
             >
-              {isSubmitting ? <i className="fa fa-spinner fa-spin mr-2" /> : ""}
-              Send Invoice
+              {iSubbmitting ? <i className="fa fa-spinner fa-spin mr-2" /> : ""}
+              {languageTranslation("SEND_INVOICE")}
             </Button>
             <Button color="secondary" onClick={handleClose}>
               {languageTranslation("CANCEL")}

@@ -109,9 +109,11 @@ const GET_ALL_INVOICE_LIST = gql`
         careGiverPdf
         caregiver {
           id
+          email
         }
         careinstitution {
           id
+          email
         }
       }
       totalCount

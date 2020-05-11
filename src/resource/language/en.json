@@ -1200,5 +1200,7 @@
   "CREATE_INVOICE_SUCCESS": "Invoice Created Successfully",
 
   "NO_DATA_IN_APPOINTMENTS": "Currently there are no appointment added.",
-  "NO_DATA_IN_BOOKING": "Currently there are no booking added."
+  "NO_DATA_IN_BOOKING": "Currently there are no booking added.",
+  "SEND_INVOICE_SUCCESS":"Invoice Send Successfully.",
+  "SEND_INVOICE":"Send Invoice"
 }

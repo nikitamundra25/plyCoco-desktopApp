@@ -105,9 +105,9 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
             <span className="header-nav-icon">
               <img src={SpecialistInvoice} alt="" />
             </span>
-            <span className="header-nav-text">
+            <span onClick={() => handleShowInvoice("Caregiver")} className="header-nav-text">
               Show Caregiver Invoice
-                    </span>
+            </span>
           </div>
         </div>
         <div className="header-nav-colmn-items">
@@ -121,7 +121,7 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
 
             <span className="header-nav-text">
               Save Plycoco Invoice
-                    </span>
+            </span>
           </div>
           <div className="header-nav-item">
             <span className="header-nav-icon">
@@ -129,7 +129,7 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
             </span>
             <span className="header-nav-text">
               Save Caregiver Invoice
-                    </span>
+            </span>
           </div>
           <div className="header-nav-item">
             <span className="header-nav-icon">

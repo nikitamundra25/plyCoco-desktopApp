@@ -192,21 +192,14 @@ const DELETE_BLACKLIST_USER = gql`
   }
 `;
 
-
 const CANCEL_INVOICE = gql`
-  mutation cancelInvoice($invoiceInput: InvoiceInput) {
+  mutation CancelInvoice($invoiceInput: InvoiceInput) {
     cancelInvoice(invoiceInput: $invoiceInput) {
       invoiceNumber
     }
   }
 `;
 
-// mutation{
-//   deleteBlackListUser(id: 1419, negativeIds: [1437, 1422]){
-//     negativeIds
-//   }
-//  }
-// deleteBlackListUser(id: ID, negativeIds:[ID]): User
 export const CareGiverMutations = [
   ADD_CAREGIVER,
   UPDATE_CAREGIVER,

@@ -14,6 +14,14 @@ const CREATE_LEASING_INVOICE = gql`
     }
   }
 `;
+
+const SEND_INVOICE_DATA = gql`
+mutation SendInvoice($sendInvoiceInput: SendInvoiceInput){
+  sendInvoice(sendInvoiceInput: $sendInvoiceInput){
+    id
+  }
+}`
+
 // mutation{
 //   createLeasingInvoice(
 //     invoiceInput:{
@@ -34,4 +42,4 @@ const CREATE_LEASING_INVOICE = gql`
 //   }
 //   }
 
-export const InvoiceMutations = [CREATE_INVOICE, CREATE_LEASING_INVOICE];
+export const InvoiceMutations = [CREATE_INVOICE, CREATE_LEASING_INVOICE, SEND_INVOICE_DATA];

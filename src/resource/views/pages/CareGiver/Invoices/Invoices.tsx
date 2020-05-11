@@ -39,25 +39,26 @@ const Invoices: FunctionComponent = () => {
   // const [readMore, setreadMore] = useState<boolean>(false);
   // const [readMoreIndex, setreadMoreIndex] = useState<number>(-1);
 
+  // Mutation to delete caregiver
+  const [cancelInvoice] = useMutation<any, any>(CANCEL_INVOICE);
+  
   let { id } = useParams();
   const Id: any | undefined = id;
-  console.log('ididid',id)
+  console.log('ididid', id)
 
   // To get invoice list from db
   const [
-    getInvoiceByUserId, 
-    { data, 
+    getInvoiceByUserId,
+    { data,
       called,
       loading,
-      refetch }] = useLazyQuery<any,any
-  >(GET_INVOICE_BY_USERID, { fetchPolicy: "no-cache",
-  });
+      refetch }] = useLazyQuery<any, any
+      >(GET_INVOICE_BY_USERID, {
+        fetchPolicy: "no-cache",
+      });
 
-  console.log('datadata',data)
-  console.log('loadingloading',loading)
-
-   // Mutation to delete caregiver
-  //  const [cancelInvoice] = useMutation<any,any>(CANCEL_INVOICE);
+  console.log('datadata', data)
+  console.log('loadingloading', loading)
 
   useEffect(() => {
     // call query
@@ -140,116 +141,116 @@ const Invoices: FunctionComponent = () => {
                 </tr>
               </thead>
               <tbody>
-              {!called || loading ? (
-                    <tr>
-                      <td className={"table-loader"} colSpan={8}>
-                        <Loader />
-                      </td>
-                    </tr>
-                  ) : data &&
-                    data.getInvoiceByUserId &&
-                    data.getInvoiceByUserId &&
-                    data.getInvoiceByUserId.length ? (
-                    data.getInvoiceByUserId.map(
-                      (invoiceData: any, index: number) => {
-                        const replaceObj: any = {
-                          ":id": invoiceData.id,
-                          ":userName": invoiceData.userName,
-                        };
-                        return (
-                <tr key={index}>
-                  <td className="sno-col"> {index} </td>
-                  <td className="invoiceid-col">{invoiceData.invoiceNumber}</td>
-                  <td className="cancellation-col"> - </td>
-                  <td className="cancel-col"> - </td>
-                  <td className="careinstitution-col">
+                {!called || loading ? (
+                  <tr>
+                    <td className={"table-loader"} colSpan={8}>
+                      <Loader />
+                    </td>
+                  </tr>
+                ) : data &&
+                  data.getInvoiceByUserId &&
+                  data.getInvoiceByUserId &&
+                  data.getInvoiceByUserId.length ? (
+                      data.getInvoiceByUserId.map(
+                        (invoiceData: any, index: number) => {
+                          const replaceObj: any = {
+                            ":id": invoiceData.id,
+                            ":userName": invoiceData.userName,
+                          };
+                          return (
+                            <tr key={index}>
+                              <td className="sno-col"> {index} </td>
+                              <td className="invoiceid-col">{invoiceData.invoiceNumber}</td>
+                              <td className="cancellation-col"> - </td>
+                              <td className="cancel-col"> - </td>
+                              <td className="careinstitution-col">
 
-                   { invoiceData.careinstitution ? 
-                          <div
-                            className="text-capitalize view-more-link  one-line-text"
-                            onClick={() =>
-                              history.push(
-                                  AppRoutes.CARE_INSTITUION_VIEW.replace(
-                                      /:id/gi,
-                                      invoiceData.careinstitution.id
-                                    )
-                              )
-                            }
-                          >
-                            {invoiceData.careinstitution.userName}
-                          </div> : null }
+                                {invoiceData.careinstitution ?
+                                  <div
+                                    className="text-capitalize view-more-link  one-line-text"
+                                    onClick={() =>
+                                      history.push(
+                                        AppRoutes.CARE_INSTITUION_VIEW.replace(
+                                          /:id/gi,
+                                          invoiceData.careinstitution.id
+                                        )
+                                      )
+                                    }
+                                  >
+                                    {invoiceData.careinstitution.userName}
+                                  </div> : null}
 
-                  </td>
-                  <td className="date-col">{invoiceData.createdAt}</td>
-                  <td className="amount-col">{invoiceData.amount}</td>
-                  <td className="vat-col">{invoiceData.tax}</td>
-                  <td className="due-date-col">{invoiceData.dueDate}</td>
-                  <td className="factoring-col">
-                    <span className="checkbox-custom ">
-                      <input type="checkbox" id="checkAll" className="" />
-                      <label className=""> </label>
-                    </span>
-                  </td>
-                  <td className="sent-col"> - </td>
-                  <td className="remarks-col word-wrap"> {invoiceData.remarks}</td>
-                  <td className="action-col">
-                    <div className="action-btn">
-                      <span className="btn-icon mr-2" id={`open`}>
-                        <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
+                              </td>
+                              <td className="date-col">{invoiceData.createdAt}</td>
+                              <td className="amount-col">{invoiceData.amount}</td>
+                              <td className="vat-col">{invoiceData.tax}</td>
+                              <td className="due-date-col">{invoiceData.dueDate}</td>
+                              <td className="factoring-col">
+                                <span className="checkbox-custom ">
+                                  <input type="checkbox" id="checkAll" className="" />
+                                  <label className=""> </label>
+                                </span>
+                              </td>
+                              <td className="sent-col"> - </td>
+                              <td className="remarks-col word-wrap"> {invoiceData.remarks}</td>
+                              <td className="action-col">
+                                <div className="action-btn">
+                                  <span className="btn-icon mr-2" id={`open`}>
+                                    <UncontrolledTooltip placement="top" target={`open`}>
+                                      Open Invoice
                         </UncontrolledTooltip>
-                        <i className="fa fa-eye"></i>
-                      </span>
-                      <span className="btn-icon mr-2" id={`new`}>
-                        <UncontrolledTooltip placement="top" target={`new`}>
-                          Create New Invoice
+                                    <i className="fa fa-eye"></i>
+                                  </span>
+                                  <span className="btn-icon mr-2" id={`new`}>
+                                    <UncontrolledTooltip placement="top" target={`new`}>
+                                      Create New Invoice
                         </UncontrolledTooltip>
-                        <i className="fa fa-pencil"></i>
-                      </span>
+                                    <i className="fa fa-pencil"></i>
+                                  </span>
 
-                      <span className="btn-icon mr-2" id={`cancel`}>
-                        <UncontrolledTooltip placement="top" target={`cancel`}>
-                          Cancel Invoice
+                                  <span className="btn-icon mr-2" id={`cancel`}>
+                                    <UncontrolledTooltip placement="top" target={`cancel`}>
+                                      Cancel Invoice
                         </UncontrolledTooltip>
-                        <i className="fa fa-times"></i>
-                      </span>
+                                    <i className="fa fa-times"></i>
+                                  </span>
 
-                      <span className="btn-icon mr-2" id={`replace`}>
-                        <UncontrolledTooltip placement="top" target={`replace`}>
-                          Replace Invoice
+                                  <span className="btn-icon mr-2" id={`replace`}>
+                                    <UncontrolledTooltip placement="top" target={`replace`}>
+                                      Replace Invoice
                         </UncontrolledTooltip>
-                        <i className="fa fa-refresh"></i>
-                      </span>
-                      <span className="btn-icon " id={`resend`}>
-                        <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
+                                    <i className="fa fa-refresh"></i>
+                                  </span>
+                                  <span className="btn-icon " id={`resend`}>
+                                    <UncontrolledTooltip placement="top" target={`resend`}>
+                                      Send the invoice to the care institution again
                         </UncontrolledTooltip>
-                        <i className="fa fa-reply"></i>
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-                );
-              }
-            )
-          ) : (
-            <tr className={"text-center no-hover-row"}>
-              <td colSpan={8} className={"pt-5 pb-5"}>
-                  <div className="no-data-section">
-                    <div className="no-data-icon">
-                      <i className="icon-ban" />
-                    </div>
-                    <h4 className="mb-1">
-                      {languageTranslation("NO_CAREGIVER_ADDED")}{" "}
-                    </h4>
-                    <p>
-                      {languageTranslation("CLICK_ABOVE_TO_ADD_NEW")}{" "}
-                    </p>
-                  </div>
-              </td>
-            </tr>
-          )}
-        </tbody>
+                                    <i className="fa fa-reply"></i>
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        }
+                      )
+                    ) : (
+                      <tr className={"text-center no-hover-row"}>
+                        <td colSpan={8} className={"pt-5 pb-5"}>
+                          <div className="no-data-section">
+                            <div className="no-data-icon">
+                              <i className="icon-ban" />
+                            </div>
+                            <h4 className="mb-1">
+                              {languageTranslation("NO_CAREGIVER_ADDED")}{" "}
+                            </h4>
+                            <p>
+                              {languageTranslation("CLICK_ABOVE_TO_ADD_NEW")}{" "}
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+              </tbody>
 
             </Table>
           </div>

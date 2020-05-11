@@ -12,33 +12,60 @@ import {
   Nav,
 } from "reactstrap";
 import Select from "react-select";
-
-import { languageTranslation } from "../../../../../helpers";
-
+import { languageTranslation, errorFormatter } from "../../../../../helpers";
 import { RouteComponentProps } from "react-router";
-import { StatusOptions, SortOptions, PAGE_LIMIT } from "../../../../../config";
+import { StatusOptions, SortOptions, PAGE_LIMIT, AppConfig } from "../../../../../config";
 import "../index.scss";
 import { InvoiceQueries } from "../../../../../graphql/queries";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import GeneralTab from "./InvoiceNavBar/general";
 import DunningAndExport from "./InvoiceNavBar/dunningAndExport";
 import InvoiceListView from "./invoiceList";
+import SendInvoiceModal from "./SendInvoiceModal"
+import { InvoiceMutations } from "../../../../../graphql/Mutations";
+import { toast } from "react-toastify";
 
 const [, GET_ALL_INVOICE_LIST] = InvoiceQueries;
+const [, , SEND_INVOICE_DATA] = InvoiceMutations;
+let toastId: any = null;
+
 
 const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
 
   const [tabChange, setTabChange] = useState(1);
+  // state for handling send invoice modal
+  const [openSendInvoice, setopenSendInvoice] = useState(false);
+
   const tabChangehandler = (currentTab: any) => {
     setTabChange(currentTab);
   };
 
+  //Send Invoice data
+  const [SendInvoice, { loading: sendInvoiceLoading }] = useMutation<
+    {
+      sendInvoiceInput: any;
+    }
+  >(SEND_INVOICE_DATA, {
+    onCompleted() {
+      setopenSendInvoice(false)
+      setsendselectedInvoice({ careinstitution: [], careGiver: [] })
+      toast.dismiss();
+      if (!toast.isActive(toastId)) {
+        toastId = toast.success(
+          languageTranslation('SEND_INVOICE_SUCCESS')
+        );
+      }
+    }
+  });
+
   // To fetch All invoice list
   const [
     fetchAllInvoiceList,
-    { data: invoiceList, loading: invoiceListLoading, refetch },
+    { data: invoiceList,
+      loading: invoiceListLoading,
+      refetch },
   ] = useLazyQuery<any, any>(GET_ALL_INVOICE_LIST, {
     fetchPolicy: "no-cache",
     // notifyOnNetworkStatusChange: true
@@ -46,6 +73,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedInvoice, setselectedInvoice] = useState<Object[]>([]);
+  const [sendselectedInvoice, setsendselectedInvoice] = useState<any>({ careinstitution: [], careGiver: [] });
 
   const getAllInvoiceListData = () => {
     console.log("currentPage", currentPage);
@@ -53,8 +81,9 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
     fetchAllInvoiceList({
       variables: {
         status: "",
+        invoiceType: 'selfEmployee',
         sortBy: null,
-        limit: PAGE_LIMIT,
+        limit: 100,
         page: 1,
       },
     });
@@ -82,13 +111,78 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
       if (selectedInvoice && selectedInvoice.length) {
         selectedInvoice.forEach((invoiceData: any) => {
           console.log(">>>>>>>>>>>>", invoiceData);
-          window.open(`http://78.47.143.190:8000/${invoiceData.plycocoPdf}`, '_blank')
+          window.open(`${AppConfig.FILES_ENDPOINT}${invoiceData.plycocoPdf}`, '_blank')
         })
       }
     } else {
-
+      if (selectedInvoice && selectedInvoice.length) {
+        selectedInvoice.forEach((invoiceData: any) => {
+          console.log(">>>>>>>>>>>>", invoiceData);
+          window.open(`${AppConfig.FILES_ENDPOINT}${invoiceData.careGiverPdf}`, '_blank')
+        })
+      }
     }
   }
+  const handleSendInvoiceModal = () => {
+    console.log("This this function", openSendInvoice);
+    if (openSendInvoice) {
+      setsendselectedInvoice({ careinstitution: [], careGiver: [] })
+    }
+    setopenSendInvoice(!openSendInvoice)
+  }
+  const handleSelectInvoice = (e: any, invoiceData: any, selectedType: string) => {
+    const { checked } = e.target
+    if (checked === true) {
+      const careInstData: object[] = []
+      const careGiverData: object[] = []
+      if (selectedType === 'careInst') {
+        sendselectedInvoice.careinstitution.push({
+          email: invoiceData.careinstitution.email,
+          invoicePdf: invoiceData.plycocoPdf,
+          name: invoiceData.careInstitutionName,
+          id: invoiceData.careinstitution.id
+        })
+      } else {
+        sendselectedInvoice.careGiver.push({
+          email: invoiceData.caregiver.email,
+          invoicePdf: invoiceData.careGiverPdf,
+          name: invoiceData.careGiverName,
+          id: invoiceData.caregiver.id
+        })
+      }
+      setsendselectedInvoice(sendselectedInvoice)
+    } else {
+      let arrayIndex: number
+      if (selectedType === 'careInst') {
+        arrayIndex = sendselectedInvoice.careinstitution.findIndex((data: any) => data.email === invoiceData.email)
+        sendselectedInvoice.careinstitution.splice(arrayIndex, 1)
+        setsendselectedInvoice(sendselectedInvoice)
+      } else {
+        arrayIndex = sendselectedInvoice.careGiver.findIndex((data: any) => data.email === invoiceData.email)
+        sendselectedInvoice.careinstitution.splice(arrayIndex, 1)
+        setsendselectedInvoice(sendselectedInvoice)
+      }
+    }
+  }
+
+  // Handle Subbmit Invoice Data
+  const handleSendInvoiceSubmmit = async () => {
+    try {
+      if (sendselectedInvoice && ((sendselectedInvoice.careGiver && sendselectedInvoice.careGiver.length) || (sendselectedInvoice.careinstitution && sendselectedInvoice.careinstitution.length))) {
+        await SendInvoice({
+          variables: {
+            sendInvoiceInput: sendselectedInvoice
+          },
+        });
+      }
+    } catch (error) {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+  }
+
   return (
     <>
       <Card>
@@ -119,6 +213,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
             {tabChange == 1 ? (
               <GeneralTab
                 handleShowInvoice={handleShowInvoice}
+                handleSendInvoiceModal={handleSendInvoiceModal}
               />
             ) : (
                 <DunningAndExport />
@@ -257,6 +352,14 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
           </div>
         </div>
       </Card>
+      <SendInvoiceModal
+        show={openSendInvoice}
+        selectedInvoice={selectedInvoice}
+        handleClose={handleSendInvoiceModal}
+        handleSelectInvoice={handleSelectInvoice}
+        handleSendInvoiceSubmmit={handleSendInvoiceSubmmit}
+        iSubbmitting={sendInvoiceLoading}
+      />
     </>
   );
 };

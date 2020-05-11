@@ -85,8 +85,8 @@ const GET_INVOICE_LIST = gql`
 `;
 
 const GET_ALL_INVOICE_LIST = gql`
-  query getInvoices($status: String, $sortBy: Int, $limit: Int, $page: Int) {
-    getInvoices(status: $status, sortBy: $sortBy, page: $page, limit: $limit) {
+  query getInvoices($status: String,$invoiceType:String, $sortBy: Int, $limit: Int, $page: Int) {
+    getInvoices(status: $status,invoiceType: $invoiceType, sortBy: $sortBy, page: $page, limit: $limit) {
       result {
         id
         invoiceNumber
@@ -97,7 +97,7 @@ const GET_ALL_INVOICE_LIST = gql`
         amount
         tax
         invoiceDate
-        dueDdate
+        dueDate
         doubtful
         irrecoverable
         paymentMethod
@@ -105,11 +105,15 @@ const GET_ALL_INVOICE_LIST = gql`
         subTotal
         careGiverName
         careInstitutionName
+        plycocoPdf
+        careGiverPdf
         caregiver {
           id
+          email
         }
         careinstitution {
           id
+          email
         }
       }
       totalCount

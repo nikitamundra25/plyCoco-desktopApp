@@ -1197,5 +1197,13 @@
   "YOU_CANT_CREATE_INVOICE_WITH": "You can't create invoice with the selected appointment because of mismatch beetween caregiver & care-institutions",
   "DATE_VALIDATION_MESSAGE": "Enter Valid Date",
   "EMAIL_LABEL": "Email",
-  "CREATE_INVOICE_SUCCESS": "Invoice Created Successfully"
+  "CREATE_INVOICE_SUCCESS": "Invoice Created Successfully",
+
+  "NO_DATA_IN_APPOINTMENTS": "Currently there are no appointment added.",
+  "NO_DATA_IN_BOOKING": "Currently there are no booking added.",
+  "SEND_INVOICE_SUCCESS":"Invoice Send Successfully.",
+  "SEND_INVOICE":"Send Invoice",
+  "CONFIRM_INVOICE_CANCEL_MSG":"This invoice will be cancelled.",
+  "INVOICE_IS_CANCELLED":"Invoice is Cancelled",
+  "INVOICES_STATUS":"Invoice Status"
 }

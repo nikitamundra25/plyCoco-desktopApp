@@ -20,7 +20,6 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
         <Table bordered hover responsive>
           <thead className="thead-bg">
             <tr>
-              <th className="sno-col">{languageTranslation("S_NO")}</th>
               <th className="invoiceid-col">
                 {" "}
                 {languageTranslation("NUMBER")}{" "}
@@ -94,7 +93,7 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
               invoiceList && invoiceList.getInvoices && invoiceList.getInvoices.result && invoiceList.getInvoices.result.length ? invoiceList.getInvoices.result.map((invoiceData: any, index: number) => {
                 return (
                   <tr key={index}>
-                    <td className="checkbox-th-column text-center">
+                    <td className="invoiceid-col">
                       <span className=" checkbox-custom pl-4">
                         <input
                           type="checkbox"
@@ -107,7 +106,6 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
                         <label className="">{count++}</label>
                       </span>
                     </td>
-                    <td className="invoiceid-col"> {invoiceData.id}</td>
                     <td className="careinstitution-col">
                       {" "}
                       <Link to="#" className="view-more-link">
@@ -125,12 +123,12 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
                     <td className="invoiceid-col">{invoiceData.invoiceNumber}</td>
                     <td className="date-col">{moment(invoiceData.invoiceDate).format(defaultDateFormat)}</td>
                     <td className="amount-col">{parseFloat(invoiceData.amount).toFixed(2)}</td>
-                    <td className="date-col">17-09-2013</td>
                     <td className="date-col"></td>
                     <td className="date-col"></td>
-                    <td className="date-col">16-09-2013</td>
-                    <td className="date-col">16-09-2013</td>
-                    <td className="date-col">16-09-2013</td>
+                    <td className="date-col"></td>
+                    <td className="date-col"></td>
+                    <td className="date-col"></td>
+                    <td className="date-col"></td>
                     <td className="checkbox-col">
                       <span className="checkbox-custom ">
                         <input type="checkbox" id="checkAll" className="" />
@@ -143,12 +141,12 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
                         <label className=""> </label>
                       </span>
                     </td>
-                    <td className="amount-col">234.02</td>
-                    <td className="amount-col">234.02</td>
-                    <td className="amount-col">234.02</td>
+                    <td className="amount-col"></td>
+                    <td className="amount-col"></td>
+                    <td className="amount-col"></td>
 
                     <td className="comment-col">
-                      <span className="word-wrap">am 16.00</span>
+                      <span className="word-wrap"></span>
                     </td>
                   </tr>
                 )
@@ -157,7 +155,6 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
           </tbody>
         </Table>
       </div>
-
     </>
   );
 };

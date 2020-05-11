@@ -345,8 +345,31 @@ query getCaregiverByName(
     }
     totalCount
   }
-}
-`;
+}`;
+
+const GET_INVOICE_BY_USERID =  gql`
+query getInvoiceByUserId( $userId: ID!) {
+  getInvoiceByUserId(
+    userId: $userId
+  ) {
+      id
+      invoiceNumber
+      dueDate
+      cancelledBy
+      cancelledFor
+      createdAt
+      tax
+      amount
+      invoiceType
+      status
+      careinstitution{
+        id
+        firstName
+        lastName
+        userName  
+      }
+    }
+}`;
 // query {
 //   getNegativeList(id: 1419){
 //     blackList{
@@ -365,5 +388,7 @@ export const CareGiverQueries = [
   GET_CAREGIVER_ATTRIBUTES,
   GET_CAREGIVERS_FOR_BULK_EMAIL,
   GET_NEGATIVE_USERS_LIST,
-  GET_CAREGIVER_BY_NAME
+  GET_CAREGIVER_BY_NAME,
+
+  GET_INVOICE_BY_USERID
 ];

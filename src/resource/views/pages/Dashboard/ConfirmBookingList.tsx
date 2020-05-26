@@ -2,13 +2,19 @@ import React, { FunctionComponent } from "react";
 import { Card, CardHeader, CardBody, CardTitle, Table } from "reactstrap";
 import { languageTranslation } from "../../../../helpers";
 import Loader from "../../containers/Loader/Loader";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
+import {
+  defaultDateTimeFormatForDashboard,
+  AppRoutes,
+} from "../../../../config";
+import moment from "moment";
 import confirm_booking from "../../../assets/img/confirm_booking.svg";
 
 const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
   props: any
 ) => {
-  const { confirmBookingListLoading } = props;
+  let history = useHistory();
+  const { confirmBookingListLoading, bookingList } = props;
 
   return (
     <Card>
@@ -22,11 +28,6 @@ const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
           </span>
         </CardTitle>
       </CardHeader>
-      {confirmBookingListLoading ? (
-        <div>
-          <Loader />
-        </div>
-      ) : null}
       <CardBody className="custom-scrollbar">
         <div>
           <Table hover className="mb-0">
@@ -37,7 +38,10 @@ const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
                   {languageTranslation("DATE")}
                 </th>
                 <th className="thead-sticky name-column">
-                  {languageTranslation("NAME")}
+                  {languageTranslation("MENU_CAREGIVER")}
+                </th>
+                <th className="thead-sticky name-column">
+                  {languageTranslation("MENU_INSTITUTION")}
                 </th>
                 <th className="thead-sticky date-column">
                   {" "}
@@ -46,16 +50,80 @@ const ConfirmBookingList: FunctionComponent<RouteComponentProps> = (
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="date-column">28.02.2020</td>
-                <td className="name-column">John Doe</td>
-                <td className="date-column">02.03.2020</td>
-              </tr>
-              <tr>
-                <td className="date-column">28.02.2020</td>
-                <td className="name-column">Anna Strong</td>
-                <td className="date-column">02.03.2020</td>
-              </tr>
+              {confirmBookingListLoading ? (
+                <tr>
+                  <td className={"table-loader"} colSpan={7}>
+                    <Loader />
+                  </td>
+                </tr>
+              ) : bookingList && bookingList.getDashboardAppointments.length > 0 ? (
+                bookingList.getDashboardAppointments.map(
+                  (item: any, index: number) => {
+                    return (
+                      <tr key={index}>
+                        <td className="date-column">
+                          {" "}
+                          {moment(item.createdAt).format(
+                            defaultDateTimeFormatForDashboard
+                          )}
+                        </td>
+                        <td className="name-column">
+                        {item.ca && item.ca.user ?
+                          <div
+                            className="text-capitalize view-more-link  one-line-text"
+                            onClick={() =>
+                              history.push(
+                                 AppRoutes.CARE_GIVER_VIEW.replace(
+                                      /:id/gi,
+                                      item.ca.user.id
+                                    )   
+                              )
+                            }
+                          >
+                            {item.ca.user ? item.ca.user.userName : null}
+                          </div> : null }
+                        </td>
+                        
+                        <td className="name-column">
+                        {item.cr && item.cr.user ?
+                          <div
+                            className="text-capitalize view-more-link  one-line-text"
+                            onClick={() =>
+                              history.push(
+                                  AppRoutes.CARE_INSTITUION_VIEW.replace(
+                                      /:id/gi,
+                                      item.cr.user.id
+                                    )
+                              )
+                            }
+                          >
+                            {item.cr.user ? item.cr.user.userName : null}
+                          </div> : null}
+                        </td>
+
+                        <td className="doctype-column">
+                        {moment(item.date).format(
+                            defaultDateTimeFormatForDashboard
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  }
+                )
+              ) : (
+                <tr className={"text-center no-hover-row"}>
+                  <td colSpan={5} className={"pt-5 pb-5"}>
+                    <div className="no-data-section">
+                      <div className="no-data-icon">
+                        <i className="icon-ban" />
+                      </div>
+                      <h4 className="mb-1">
+                        {languageTranslation("NO_DATA_IN_BOOKING")}
+                      </h4>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </Table>
         </div>

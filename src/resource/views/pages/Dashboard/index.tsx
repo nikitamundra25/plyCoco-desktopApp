@@ -7,7 +7,6 @@ import routes from "../../../../routes/routes";
 import "./index.scss";
 import { languageTranslation } from "../../../../helpers";
 import { useLazyQuery } from "@apollo/react-hooks";
-
 import { DashboardQueries } from "../../../../graphql/queries";
 import { DayOptions } from "../../../../config";
 import RegistrationList from "./RegistrationList";
@@ -20,14 +19,12 @@ import {Helmet} from "react-helmet";
 const [
   GET_DASHBOARD_REGISTRATIONS_LIST,
   GET_DASHBOARD_DOCUMENTS_LIST,
-  GET_DASHBOARD_LOGIN_HISTORY_LIST
+  GET_DASHBOARD_LOGIN_HISTORY_LIST,
+  GET_DASHBOARD_APPOINTMENT_LIST,
 ] = DashboardQueries;
 
 const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
   const [daysValue, setDaysValue] = useState<any>({ value: 1, label: "1 Day" });
-
-  const appointmentListLoading = false;
-  const confirmBookingListLoading = false;
 
   // To get registrations list
   const [
@@ -38,6 +35,8 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
       loading: registrationListLoading
     }
   ] = useLazyQuery<any>(GET_DASHBOARD_REGISTRATIONS_LIST);
+  console.log('getDashboardRegistrations',registrationList);
+  
 
   // To get documents list
   const [
@@ -69,6 +68,28 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
     }
   ] = useLazyQuery<any>(GET_DASHBOARD_LOGIN_HISTORY_LIST);
 
+   // To get appointment list
+    const [
+      getDashboardAppointment,
+      {
+        data: appointmentList,
+        refetch: refetchAppointmentList,
+        loading: appointmentListLoading
+      }
+    ] = useLazyQuery<any>(GET_DASHBOARD_APPOINTMENT_LIST);
+    console.log('appointmentList',appointmentList)
+
+     // To get confirm booking list
+     const [
+      getDashboardBooking,
+      {
+        data: bookingList,
+        refetch: refetchBookingList,
+        loading: confirmBookingListLoading
+      }
+    ] = useLazyQuery<any>(GET_DASHBOARD_APPOINTMENT_LIST);
+    console.log('bookingListbookingList',bookingList)
+
   useEffect(() => {
     // call queries
     getDashboardRegistrations({
@@ -76,6 +97,7 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
         days: daysValue ? daysValue.value : 1
       }
     });
+
     getDashboardNewDocuments({
       variables: {
         days: daysValue ? daysValue.value : 1
@@ -95,7 +117,22 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
         loginAttempt: "success"
       }
     });
-  }, [registrationList, documentList, incorrectLoginList, successfulLoginList]);
+
+    getDashboardAppointment({
+      variables: {
+        days: daysValue ? daysValue.value : 1,
+        status:"appointment"
+      }
+    });
+
+    getDashboardBooking({
+      variables: {
+        days: daysValue ? daysValue.value : 1,
+        status:"confirmed"
+      }
+    });
+
+  }, [registrationList, documentList, incorrectLoginList, successfulLoginList, appointmentList, bookingList]);
 
   const onDaysChange = async (value: any) => {
     await getDashboardRegistrations({
@@ -124,17 +161,33 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
       }
     });
 
+    await getDashboardAppointment({
+      variables: {
+        days: value,
+        status:"appointment"
+      }
+    });
+
+    await getDashboardBooking({
+      variables: {
+        days: value,
+        status:"confirmed"
+      }
+    });
+
     refetchRegistrationList();
     refetchDocumentList();
     refetchIncorrectLoginList();
     refetchSuccessfulLoginList();
+    refetchAppointmentList();
+    refetchBookingList();
   };
 
   return (
     <>
     <Helmet>
-               <title>{languageTranslation("DASHBOARD")} </title>
-            </Helmet>
+        <title>{languageTranslation("DASHBOARD")} </title>
+    </Helmet>
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
@@ -176,10 +229,12 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
               <AppointmentList
                 {...props}
                 appointmentListLoading={appointmentListLoading}
+                appointmentList={appointmentList}
               />
               <ConfirmBookingList
                 {...props}
                 confirmBookingListLoading={confirmBookingListLoading}
+                bookingList={bookingList}
               />
             </Col>
             <Col lg="4" className="pl-lg-0">

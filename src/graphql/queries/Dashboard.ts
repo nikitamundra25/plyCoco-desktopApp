@@ -47,8 +47,37 @@ const GET_DASHBOARD_LOGIN_HISTORY_LIST = gql`
   }
 `;
 
+const GET_DASHBOARD_APPOINTMENT_LIST = gql`
+  query($days: Int, $status: String) {
+    getDashboardAppointments(days: $days, status: $status) {      
+      id,
+      date,
+      ca{
+        id
+        user{
+          id
+          firstName
+          lastName
+          userName
+        }
+      }
+      cr{
+        id
+          user{
+          id
+          firstName
+          lastName
+          userName
+        }
+      }	
+    }
+  }
+`;
+
 export const DashboardQueries = [
   GET_DASHBOARD_REGISTRATIONS_LIST,
   GET_DASHBOARD_DOCUMENTS_LIST,
-  GET_DASHBOARD_LOGIN_HISTORY_LIST
+  GET_DASHBOARD_LOGIN_HISTORY_LIST,
+
+  GET_DASHBOARD_APPOINTMENT_LIST
 ];

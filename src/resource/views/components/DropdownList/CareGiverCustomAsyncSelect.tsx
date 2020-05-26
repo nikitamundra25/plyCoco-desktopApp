@@ -182,7 +182,7 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
         defaultOptions={careGiversOptions}
         loadOptions={debounce(getOptions, 1000)}
         onChange={(e: any) => {
-          if (e.label !== languageTranslation("NAME") && e.value !== languageTranslation("ID")) {
+          if ((e && e.label !== languageTranslation("NAME") && e.value !== languageTranslation("ID")) ||  e === null) {
             props.onChange(e) 
           }
         }}

@@ -148,18 +148,18 @@ const SolonaList: FunctionComponent<RouteComponentProps> & any = (
               </tr>
             </thead>
             {invoiceList && invoiceList.length
-              ? invoiceList.map((item: any) => {
+              ? invoiceList.map((item: any, index:any) => {
                   return (
                     <tbody>
                       <tr>
-                        <td className='invoiceid-col'> 230004</td>
+                        <td className='invoiceid-col'> {index} </td>
                         <td className='careinstitution-col'>
                           {' '}
                           <Link to='#' className='view-more-link'>
                             {item && item.careInstitutionName
                               ? item.careInstitutionName
                               : '-'}
-                          </Link>
+                          </Link> 
                         </td>
                         <td className='caregiver-col'>
                           {' '}
@@ -187,12 +187,12 @@ const SolonaList: FunctionComponent<RouteComponentProps> & any = (
                             ? parseFloat(item.amount).toFixed(2)
                             : '-'}
                         </td>
-                        <td className='date-col'>17-09-2013</td>
                         <td className='date-col'></td>
                         <td className='date-col'></td>
-                        <td className='date-col'>16-09-2013</td>
-                        <td className='date-col'>16-09-2013</td>
-                        <td className='date-col'>16-09-2013</td>
+                        <td className='date-col'></td>
+                        <td className='date-col'></td>
+                        <td className='date-col'></td>
+                        <td className='date-col'></td>
                         <td className='checkbox-col'>
                           <span className='checkbox-custom '>
                             <input
@@ -217,12 +217,12 @@ const SolonaList: FunctionComponent<RouteComponentProps> & any = (
                             <label className=''> </label>
                           </span>
                         </td>
-                        <td className='amount-col'>234.02</td>
-                        <td className='amount-col'>234.02</td>
-                        <td className='amount-col'>234.02</td>
+                        <td className='amount-col'></td>
+                        <td className='amount-col'></td>
+                        <td className='amount-col'></td>
 
                         <td className='comment-col'>
-                          <span className='word-wrap'>am 16.00</span>
+                          <span className='word-wrap'></span>
                         </td>
                       </tr>
                     </tbody>

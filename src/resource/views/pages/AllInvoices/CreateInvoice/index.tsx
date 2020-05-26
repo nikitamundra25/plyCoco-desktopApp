@@ -490,7 +490,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             tax: `${subTotal * 0.19}`,
             careInstitutionName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].cr ? selectedAppointment[0].cr.name : "",
             careGiverName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].ca ? selectedAppointment[0].ca.name : "",
-            invoiceType: "selfEmployeed"
+            invoiceType: "selfEmployee"
           }
           await CreateInvoice({
             variables: {

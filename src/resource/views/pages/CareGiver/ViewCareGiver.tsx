@@ -7,7 +7,7 @@ import {
 } from "react-router";
 import Select from "react-select";
 import qs from "query-string";
-import { useLazyQuery,useMutation } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery,useMutation } from "@apollo/react-hooks";
 import {
   AppRoutes,
   deactivatedListColor,
@@ -49,13 +49,10 @@ const CreateTodo = React.lazy(() =>
 const LeasingPersonalData = React.lazy(() => import("./LeasingData"));
 const GroupedBelow = React.lazy(() => import("./GroupedBelow"));
 
-const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
+const [, GET_CAREGIVER_BY_ID , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const [, , GENERATE_NEW_PASSWORD] = AdminProfileMutations;
 const CareGiverRoutesTabs = careGiverRoutes;
 let toastId: any = "";
-
-  // generate new password for the user
-  const [GenerateNewPassword] = useMutation<any, any>(GENERATE_NEW_PASSWORD);
 
 const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
@@ -73,6 +70,10 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   //   fetchPolicy: 'no-cache'
   // });
 
+  
+  // generate new password for the user
+  const [GenerateNewPassword] = useMutation<any, any>(GENERATE_NEW_PASSWORD);
+
   // fetch caregivers list new query GET_CAREGIVER_BY_NAME
   const [
     fetchCareGiversList,
@@ -80,6 +81,14 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   ] = useLazyQuery<any>(GET_CAREGIVER_BY_NAME, {
     fetchPolicy: "no-cache",
   });
+
+  const { data } = useQuery<any>(GET_CAREGIVER_BY_ID, {
+    variables: {
+      id: Id ? parseInt(Id) : '',
+    },
+  });
+  console.log('datadata',data);
+  
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: "",
@@ -116,12 +125,12 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 
     // gernerate new password for caregiver
     const generateNewPassword = async (caregiverData: any): Promise<void> => {
-      console.log('selectUserselectUser',selectUser)
+      console.log('selectUserselectUser',Id)
       const { value } = await ConfirmBox({
         title: languageTranslation("CONFIRM_LABEL"),
         text: languageTranslation("CONFIRM_REGENERATE_PASSWORD_MESSAGE", {
           userRole: languageTranslation("CAREGIVER_USERROLE"),
-          email: caregiverData.email,
+          email: data.getCaregiver.email,
         }),
       });
       if (!value) {
@@ -133,7 +142,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       try {
         await GenerateNewPassword({
           variables: {
-            userId: caregiverData.id,
+            userId: Id,
           },
         });
   

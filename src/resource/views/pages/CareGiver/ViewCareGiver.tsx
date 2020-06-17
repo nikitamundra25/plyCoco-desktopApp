@@ -7,7 +7,7 @@ import {
 } from "react-router";
 import Select from "react-select";
 import qs from "query-string";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery,useMutation } from "@apollo/react-hooks";
 import {
   AppRoutes,
   deactivatedListColor,
@@ -19,14 +19,19 @@ import { careGiverRoutes } from "./Sidebar/SidebarRoutes/CareGiverRoutes";
 import { IReactSelectInterface } from "../../../../interfaces";
 import Loader from "../../containers/Loader/Loader";
 import { CareGiverQueries } from "../../../../graphql/queries";
+import {
+  AdminProfileMutations,
+} from "../../../../graphql/Mutations";
 import CustomOption from "../../components/CustomOptions";
-import { languageTranslation } from "../../../../helpers";
+import { languageTranslation, errorFormatter } from "../../../../helpers";
 import add from "../../../assets/img/add.svg";
 import reminder from "../../../assets/img/reminder.svg";
 import password from "../../../assets/img/password.svg";
 import appointment from "../../../assets/img/appointment.svg";
 import clear from "../../../assets/img/clear.svg";
 import CaregiverCustomAsyncList from "../../components/DropdownList/CareGiverCustomAsyncSelect";
+import { ConfirmBox } from "../../components/ConfirmBox";
+import { toast } from "react-toastify";
 
 const CareGiverSidebar = React.lazy(() =>
   import("./Sidebar/SidebarLayout/CareGiverLayout")
@@ -45,7 +50,12 @@ const LeasingPersonalData = React.lazy(() => import("./LeasingData"));
 const GroupedBelow = React.lazy(() => import("./GroupedBelow"));
 
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
+const [, , GENERATE_NEW_PASSWORD] = AdminProfileMutations;
 const CareGiverRoutesTabs = careGiverRoutes;
+let toastId: any = "";
+
+  // generate new password for the user
+  const [GenerateNewPassword] = useMutation<any, any>(GENERATE_NEW_PASSWORD);
 
 const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
@@ -103,6 +113,41 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+    // gernerate new password for caregiver
+    const generateNewPassword = async (caregiverData: any): Promise<void> => {
+      console.log('selectUserselectUser',selectUser)
+      const { value } = await ConfirmBox({
+        title: languageTranslation("CONFIRM_LABEL"),
+        text: languageTranslation("CONFIRM_REGENERATE_PASSWORD_MESSAGE", {
+          userRole: languageTranslation("CAREGIVER_USERROLE"),
+          email: caregiverData.email,
+        }),
+      });
+      if (!value) {
+        return;
+      }
+      if (toast.isActive(toastId)) {
+        toast.dismiss(toastId);
+      }
+      try {
+        await GenerateNewPassword({
+          variables: {
+            userId: caregiverData.id,
+          },
+        });
+  
+        toastId = toast.success(
+          languageTranslation("NEW_PASSWORD_SENT_SUCCESS", {
+            email: caregiverData.email,
+          })
+        );
+      } catch (error) {
+        const message = errorFormatter(error.message);
+        toastId = toast.error(message);
+      }
+    };
+    //
 
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
@@ -279,7 +324,12 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                         {languageTranslation("CG_MENU_CREATE_TODO")}
                       </span>
                     </div>
-                    <div className="header-nav-item">
+                    <div className="header-nav-item"
+                           id={`regenerate-password-${Id}`} 
+                           onClick={() =>
+                             generateNewPassword('123')
+                           }
+                      >
                       <span className="header-nav-icon">
                         <img src={password} alt="" />
                       </span>

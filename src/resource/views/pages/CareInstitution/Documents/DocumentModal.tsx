@@ -195,7 +195,7 @@ const DocumentUploadModal = (props: any) => {
                           name="type"
                           value={documentType}
                           options={documentTypeList ? documentTypeList : ""}
-                          // placeholder={'Select type'}
+                          placeholder={languageTranslation('DOCUMENT_TYPE')}
                           onChange={(type: any) => {
                             setDocumentType(type);
                           }}

@@ -230,7 +230,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           limit: 30,
           page,
           gte: props.gte,
-          lte: props.lte
+          lte: props.lte,
+          lable:"Offer-caregiver"
         }
       });
     } else {
@@ -357,6 +358,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     let list: any = [...careGiverData];
     if (props.offerCareGiver) {
       if (careGiversList) {
+        console.log("*******************careGiversList", careGiversList);
+        
         const { getUserByQualifications } = careGiversList;
         const { result } = getUserByQualifications;
         if (result && result.length) {

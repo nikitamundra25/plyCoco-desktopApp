@@ -620,14 +620,14 @@
   "CONFIRM_EMAIL_ATTACHMENT_DELETE_MSG":"Dieser Anhang wird gelöscht.",
   "CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG":"Dieser Anhang wird entfernt.",
   "CAREGIVER_LEASING_OFFER_EMAIL_HEADING":"Wir haben das folgende Leasing-Angebot für Sie:",
-  "CAREGIVER_OFFER_EMAIL_HEADING":"Wir haben das folgende Angebot für Sie:",
+  "CAREGIVER_OFFER_EMAIL_HEADING":"Folgendes Angebot für Sie:",
   "CAREGIVER_EMAIL_LEASING_CONTRACT":"Bitte einen Zeitarbeitsvertrag mit TIMyoCY unterzeichnen für:",
   "OFFER_REQUIREMENTS_TO_CG":"Es können noch folgende Dienstleistungen übernommen werden",
   "OFFER_REQUIREMENTS_SUB":"Es können noch folgende Dienstleistungen übernommen werden",
   "QUALIFICATION_HEAD":"Qualifikation gesucht",
   "LEASING_OFFER":"Leasing-Angebot",
   "CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED":"Qualifizierung erwünscht:",
-  "FEE_TEXT":"Frei verhandelbar",
+  "FEE_TEXT":"Gebühren frei ausgehandelt",
   "LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER":"Leasing-Angebote im Namen der TIMyoCY,Gebühr gemäß Rahmenvertrag.",
   "CONTRACT_LINE":"Im Namen von TIMyoCY gemäß Rahmenvertrag (Rahmenvertrag ist beigefügt)",
   "CONTRACT_MAIL_INFO":"Die Betreuungseinrichtung sendet den unterzeichneten Vertrag per E-Mail/Fax oder Post zurück. Der Plycoco-Mitarbeiter kann den Termin dann auf „bestätigt“ setzen.",
@@ -1178,6 +1178,7 @@
 "MENU_LEASING_CREATE_INVOICE":"Leasingrechnung erstellen",
 "SEARCH_TIP":"Try to search with specific keywords to find more results.",
 "WORKING_TIMES":"Working times avai.",
-"DATE_VALIDATION_MESSAGE":"Enter Valid Date"
+"DATE_VALIDATION_MESSAGE":"Enter Valid Date",
+"CREATED_BY":"Erstellt von"
 
 }

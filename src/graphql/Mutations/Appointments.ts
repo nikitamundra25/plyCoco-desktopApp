@@ -28,6 +28,7 @@ const ADD_CAREGIVER_AVABILITY = gql`
       workingHoursFrom
       workingHoursTo
       breakFrom
+      createdBy
       breakTo
     }
   }
@@ -62,6 +63,7 @@ const ADD_INSTITUTION_REQUIREMENT = gql`
    n
    status
    isLeasing
+   createdBy
     }
   }
 `;
@@ -158,7 +160,7 @@ const DELETE_CAREINSTITUTION_REQUIREMENT = gql`
 `;
 
 const LINK_REQUIREMENT = gql`
-  mutation AddAppointment($appointmentInput: [AppointmentInput]) {
+  mutation  ($appointmentInput: [AppointmentInput]) {
     addAppointment(appointmentInput: $appointmentInput) {
       id
       avabilityId
@@ -179,6 +181,7 @@ const LINK_REQUIREMENT = gql`
           name
         }
       }
+      createdBy
       appointmentStatus
       workProofId
     }

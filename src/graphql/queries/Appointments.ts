@@ -73,11 +73,13 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           otherExpenses
           remarksCareGiver
           remarksInternal
+          createdBy
           appointments {
             id
             date
             requirementId
             avabilityId
+            createdBy
             cr {
               id
               name
@@ -119,6 +121,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           startTime
           userId
           isLeasing
+          createdBy
           division {
             id
             name
@@ -128,6 +131,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
             date
             requirementId
             avabilityId
+            createdBy
             ca {
               userId
               id

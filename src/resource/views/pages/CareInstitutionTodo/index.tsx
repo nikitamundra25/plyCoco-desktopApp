@@ -421,8 +421,11 @@ const CareInstitutionTodo: FunctionComponent = () => {
                               className='view-more-link word-wrap'
                               onClick={() => handleUserRedirect(list.userId)}
                             >
-                              {list.user
-                                ? `${list.user.lastName} ${list.user.firstName}`
+                              {list.user 
+                                ? list.user.canstitution && list.user.canstitution.shortName?
+                                list.user.canstitution.shortName
+                                :
+                                `${list.user.lastName} ${list.user.firstName}`
                                 : '-'}
                             </span>
                           </td>

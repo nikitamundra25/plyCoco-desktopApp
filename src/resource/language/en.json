@@ -620,14 +620,14 @@
   "CONFIRM_EMAIL_ATTACHMENT_DELETE_MSG": "This attachment will be deleted.",
   "CONFIRM_EMAIL_ATTACHMENT_REMOVE_MSG": "This attachment will be removed.",
   "CAREGIVER_LEASING_OFFER_EMAIL_HEADING": "We have the following leasing offer for you:",
-  "CAREGIVER_OFFER_EMAIL_HEADING": "We have the following offer for you:",
+  "CAREGIVER_OFFER_EMAIL_HEADING": "Following offer for you:",
   "CAREGIVER_EMAIL_LEASING_CONTRACT": "Please sign a temporary employment contract with TIMyoCY for:",
   "OFFER_REQUIREMENTS_TO_CG": "You could still take over the following services",
   "OFFER_REQUIREMENTS_SUB": "You could still take over the following services",
   "QUALIFICATION_HEAD": "Qualification sought",
   "LEASING_OFFER": "Leasing offer",
   "CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED": "Qualification wanted:",
-  "FEE_TEXT": "Freely negotiable",
+  "FEE_TEXT": "Fees freely negotiated",
   "LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER": "Leasing offers on behalf of TIMyoCY, fee according to framework agreement.",
   "CONTRACT_LINE": "In the name of TIMyoCY according to the framework contract” (framework contract is appended)",
   "CONTRACT_MAIL_INFO": "Care institution will send back the signed contract via email/fax or mail. Plycoco employee can then set the appointment then to confirmed.",
@@ -1205,5 +1205,6 @@
   "SEND_INVOICE":"Send Invoice",
   "CONFIRM_INVOICE_CANCEL_MSG":"This invoice will be cancelled.",
   "INVOICE_IS_CANCELLED":"Invoice is Cancelled",
-  "INVOICES_STATUS":"Invoice Status"
+  "INVOICES_STATUS":"Invoice Status",
+  "CREATED_BY":"Created by"
 }

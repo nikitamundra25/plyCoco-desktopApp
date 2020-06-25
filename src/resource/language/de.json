@@ -1176,9 +1176,12 @@
 "TURN_RIGHT": "Rechts drehen",
 "TURN_180": "180° drehen",
 "MENU_LEASING_CREATE_INVOICE":"Leasingrechnung erstellen",
-"SEARCH_TIP":"Try to search with specific keywords to find more results.",
+"SEARCH_TIP":"Versuchen Sie, mit bestimmten Schlüsselwörtern zu suchen, um weitere Ergebnisse zu finden.",
 "WORKING_TIMES":"Working times avai.",
-"DATE_VALIDATION_MESSAGE":"Enter Valid Date",
-"CREATED_BY":"Erstellt von"
-
+"DATE_VALIDATION_MESSAGE":"Geben Sie das gültige Datum ein",
+"CREATED_BY":"Erstellt von",
+"APPOINTMENT_CANT_BE_DELETED":"Termin kann nicht gelöscht werden!!",
+"UNLINK_AND_DELETE":"Sie müssen zuerst die Verknüpfung aufheben und können sie dann löschen",
+"NO_CAREGIVER_AVAILABLE_FOR_OFFER": "Für das ausgewählte Angebot ist keine Pflegekraft verfügbar",
+"PLEASE_CHECK_OFFER_ATTRIBUTE":"Bitte suchen Sie nach einer Pflegekraft, die das Angebotsattribut enthält"
 }

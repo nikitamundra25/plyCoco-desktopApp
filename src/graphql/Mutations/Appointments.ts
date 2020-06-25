@@ -101,6 +101,7 @@ const UPDATE_CAREGIVER_AVABILITY = gql`
       workingHoursTo
       breakFrom
       breakTo
+      createdBy
     }
   }
 `;
@@ -137,6 +138,7 @@ const UPDATE_INSTITUTION_REQUIREMENT = gql`
       n
       status
       isLeasing
+      createdBy
     }
   }
 `;

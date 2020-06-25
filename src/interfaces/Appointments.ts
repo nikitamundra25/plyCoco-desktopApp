@@ -281,6 +281,7 @@ export interface ICareinstitutionFormSubmitValue {
   n: string;
   status: string;
   isLeasing?: boolean;
+  createdBy?: string
 }
 
 export interface IUnlinkInterface {

@@ -1,12 +1,13 @@
-import React, { FunctionComponent } from 'react';
-import { Col, Table } from 'reactstrap';
-import { ICareGiverListComponentProps } from '../../../../interfaces';
-import Loader from '../../containers/Loader/Loader';
-import { languageTranslation } from '../../../../helpers';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import React, { FunctionComponent } from "react";
+import { Col, Table } from "reactstrap";
+import { ICareGiverListComponentProps } from "../../../../interfaces";
+import Loader from "../../containers/Loader/Loader";
+import { languageTranslation } from "../../../../helpers";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentProps &
-  any> = (props: ICareGiverListComponentProps & any) => {
+export const CareGiverListComponent: FunctionComponent<
+  ICareGiverListComponentProps & any
+> = (props: ICareGiverListComponentProps & any) => {
   const {
     careGivers,
     handleSelectAll,
@@ -18,7 +19,8 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
     handleInfiniteScroll,
     page,
     bulkcareGivers,
-    terminateAggrement
+    terminateAggrement,
+    label,
   } = props;
 
   const handleChecked = (id: string) => {
@@ -28,22 +30,22 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
       );
       const e = {
         target: {
-          checked: !found
-        }
+          checked: !found,
+        },
       };
       handleCheckElement(e, id);
     } else {
       const e = {
         target: {
-          checked: true
-        }
+          checked: true,
+        },
       };
       handleCheckElement(e, id);
     }
   };
   return (
-    <Col lg={'5'} className='pr-lg-0'>
-      <div id='scrollableDiv' className='caregiver-list custom-scroll'>
+    <Col lg={"5"} className="pr-lg-0">
+      <div id="scrollableDiv" className="caregiver-list custom-scroll">
         <InfiniteScroll
           dataLength={
             careGiverData && careGiverData.length ? careGiverData.length : 0
@@ -51,14 +53,14 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
           next={() => {
             handleInfiniteScroll();
           }}
-          scrollableTarget='scrollableDiv'
+          scrollableTarget="scrollableDiv"
           hasMore={
             props.confirmApp ||
             props.unlinkedBy ||
             props.offerRequirements ||
             terminateAggrement
               ? false
-              : props.label !== 'appointment'
+              : props.label !== "appointment"
               ? careGivers &&
                 careGivers.getCaregivers &&
                 careGivers.getCaregivers.totalCount
@@ -76,21 +78,21 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
               : false
           }
           loader={
-            <div className='infinite-loader'>
+            <div className="infinite-loader">
               <Loader />
             </div>
           }
         >
-          <Table bordered hover responsive className='mb-0'>
-            <thead className='thead-bg'>
+          <Table bordered hover responsive className="mb-0">
+            <thead className="thead-bg">
               <tr>
-                <th className='checkbox-th-column'>
-                  <span className=' checkbox-custom '>
+                <th className="checkbox-th-column">
+                  <span className=" checkbox-custom ">
                     <input
-                      type='checkbox'
-                      id='checkAll'
-                      name='checkbox'
-                      className=''
+                      type="checkbox"
+                      id="checkAll"
+                      name="checkbox"
+                      className=""
                       checked={
                         bulkcareGivers ? true : false
                         // careGivers &&
@@ -104,17 +106,17 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                         handleSelectAll(e);
                       }}
                     />
-                    <label className=''></label>
+                    <label className=""></label>
                   </span>
                 </th>
-                <th>{languageTranslation('NAME')}</th>
-                <th>{languageTranslation('EMAIL')}</th>
+                <th>{languageTranslation("NAME")}</th>
+                <th>{languageTranslation("EMAIL")}</th>
               </tr>
             </thead>
             <tbody>
               {page === 1 && (!called || loading) ? (
                 <tr>
-                  <td className={'table-loader'} colSpan={8}>
+                  <td className={"table-loader"} colSpan={8}>
                     <Loader />
                   </td>
                 </tr>
@@ -126,15 +128,15 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                       onClick={(e: any) => {
                         handleChecked(careGivers.id);
                       }}
-                      className='cursor-pointer'
+                      className="cursor-pointer"
                     >
                       <td>
-                        <span className=' checkbox-custom  '>
+                        <span className=" checkbox-custom  ">
                           <input
-                            type='checkbox'
-                            id='check'
-                            name='checkbox'
-                            className=''
+                            type="checkbox"
+                            id="check"
+                            name="checkbox"
+                            className=""
                             checked={
                               selectedCareGiver &&
                               selectedCareGiver.length &&
@@ -150,7 +152,7 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                               handleCheckElement(e, careGivers.id);
                             }}
                           />
-                          <label className=''></label>
+                          <label className=""></label>
                         </span>
                       </td>
                       <td>{`${careGivers.lastName} ${careGivers.firstName}`}</td>
@@ -158,6 +160,24 @@ export const CareGiverListComponent: FunctionComponent<ICareGiverListComponentPr
                     </tr>
                   );
                 })
+              ) : label === "appointment" ? (
+                <tr className={"text-center no-hover-row"}>
+                  <td colSpan={8} className={"pt-5 pb-5"}>
+                    <div className="no-data-section">
+                      <div className="no-data-icon">
+                        <i className="icon-ban" />
+                      </div>
+                      <h4 className="mb-1">
+                        {languageTranslation(
+                          "NO_CAREGIVER_AVAILABLE_FOR_OFFER"
+                        )}{" "}
+                      </h4>
+                      <p>
+                        {languageTranslation("PLEASE_CHECK_OFFER_ATTRIBUTE")}{" "}
+                      </p>
+                    </div>
+                  </td>
+                </tr>
               ) : null}
             </tbody>
           </Table>

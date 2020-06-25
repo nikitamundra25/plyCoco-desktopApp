@@ -3994,13 +3994,12 @@ console.log("addAppointment",addAppointment);
             (element.item.status === "linked")
         );
 
-        console.log("linkedEntries",linkedEntries);
         if(linkedEntries && linkedEntries.length){
           const { value } = await ConfirmBox({
-            title: "Appointment can't be deleted",
-            text: "You have to unlink them first and then you may delete them",
+            title: languageTranslation("APPOINTMENT_CANT_BE_DELETED"),
+            text: languageTranslation("UNLINK_AND_DELETE"),
             showCancelButton: false,
-            confirmButtonText:"Okay!!"
+            confirmButtonText:"Okay"
           });
           if (!value) {
             return;

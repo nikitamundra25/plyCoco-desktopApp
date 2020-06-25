@@ -879,7 +879,8 @@ const CarinstituionListView: FunctionComponent<
                           (availability.item && !availability.item.status) ||
                           (availability.item &&
                             (availability.item.status === "default" ||
-                              availability.item.status === "offered" ))
+                              availability.item.status === "offered" ||
+                              availability.item.status === "linked"))
                       ).length
                       ? false
                       : true

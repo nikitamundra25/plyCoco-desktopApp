@@ -343,7 +343,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         variables: {
           searchBy: '',
           sortBy: 3,
-          limit: 30,
+          limit: 100,
           page,
           isActive: ''
         }
@@ -377,6 +377,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       }
     }
+
+    
     // if (selectedCells && (props.confirmApp || offerRequirements)) {
     //   if (selectedCells && selectedCells.length) {
     //     selectedCells.map((key: any) => {

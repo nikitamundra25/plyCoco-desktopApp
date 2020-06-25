@@ -933,7 +933,7 @@ const CareinstitutionFormView: FunctionComponent<
 
 
             {createdBy ? (
-              <Col lg={"12"} className="mb-2 text-right text-secondary">
+              <Col lg={"12"} className="mb-2 text-right text-muted">
                   {`${languageTranslation("CREATED_BY")} ${createdBy ? createdBy : ""}`}
                 {/* <FormGroup>
                   <Row>

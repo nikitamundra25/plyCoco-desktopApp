@@ -2974,7 +2974,8 @@ console.log("addAppointment",addAppointment);
               && Item.status === "confirmed") ||
               (name === "offered"
               && (Item.status === "default" ||
-              Item.status === "offered"))
+              Item.status === "offered" )) ||
+              (name === "notoffered" && Item.status === "offered")
           ) {
             let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
             delete Item.id;
@@ -3430,6 +3431,7 @@ console.log("addAppointment",addAppointment);
       breakFromTime,
       breakToDate,
       breakToTime,
+      createdBy
     } = values;
 
     let isBlockeddate =
@@ -3511,6 +3513,7 @@ console.log("addAppointment",addAppointment);
                   travelAllowance,
                   workingProofRecieved,
                   status,
+                  createdBy
                 },
               },
             ];
@@ -3574,6 +3577,7 @@ console.log("addAppointment",addAppointment);
                       dbAcceptableFormat
                     )},${breakToTime}`
                   : null,
+                  createdBy
               };
               careGiverAvabilityInput = [...careGiverAvabilityInput, temp];
               if (appointmentId) {
@@ -3648,6 +3652,7 @@ console.log("addAppointment",addAppointment);
       departmentRemarks,
       comments,
       status,
+      createdBy
     } = values;
     console.log("values in index", values);
 
@@ -3731,7 +3736,7 @@ console.log("addAppointment",addAppointment);
               offerRemarks,
               bookingRemarks,
               comments,
-              status,
+              status
             },
           },
         ];
@@ -3777,7 +3782,8 @@ console.log("addAppointment",addAppointment);
             s: svar,
             n: nvar,
             status: status ? status : "default",
-            isLeasing: attributes.includes(CareInstTIMyoCYAttrId),
+            isLeasing: attributes && attributes.length ? attributes.includes(CareInstTIMyoCYAttrId): false,
+            createdBy
           };
           careInstitutionRequirementInput = [
             ...careInstitutionRequirementInput,

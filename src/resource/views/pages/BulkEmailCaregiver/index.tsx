@@ -343,7 +343,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         variables: {
           searchBy: '',
           sortBy: 3,
-          limit: 100,
+          limit: 60,
           page,
           isActive: ''
         }

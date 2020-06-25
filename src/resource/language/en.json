@@ -1206,5 +1206,7 @@
   "CONFIRM_INVOICE_CANCEL_MSG":"This invoice will be cancelled.",
   "INVOICE_IS_CANCELLED":"Invoice is Cancelled",
   "INVOICES_STATUS":"Invoice Status",
-  "CREATED_BY":"Created by"
+  "CREATED_BY":"Created by",
+  "NO_CAREGIVER_AVAILABLE_FOR_OFFER": "No caregiver available for selected offer",
+  "PLEASE_CHECK_OFFER_ATTRIBUTE":"Please check for caregiver containing offer attribute"
 }

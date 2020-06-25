@@ -1114,18 +1114,18 @@ const CarinstituionListView: FunctionComponent<
             </NavItem>
             <NavItem>
               <NavLink
-                // disabled={
-                //   disconnectAppCond !== undefined
-                //     ? disconnectAppCond && disconnectAppCond.length !== 0
-                //       ? "disabled-class"
-                //       : ""
-                //     : "disabled-class"
-                // }
                 disabled={
-                  selectedCellsCareinstitution
-                    ? selectedCellsCareinstitution.length === 0
-                    : true
+                  disconnectAppCond !== undefined
+                    ? disconnectAppCond && disconnectAppCond.length !== 0
+                      ? "disabled-class"
+                      : ""
+                    : "disabled-class"
                 }
+                // disabled={
+                //   selectedCellsCareinstitution
+                //     ? selectedCellsCareinstitution.length === 0
+                //     : true
+                // }
                 onClick={() => {
                   handleRightMenuToggle();
                   handleUnLinkAppointments("unlink");

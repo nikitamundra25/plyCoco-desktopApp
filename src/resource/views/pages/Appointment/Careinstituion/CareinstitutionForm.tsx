@@ -933,8 +933,9 @@ const CareinstitutionFormView: FunctionComponent<
 
 
             {createdBy ? (
-              <Col lg={"12"}>
-                <FormGroup>
+              <Col lg={"12"} className="mb-2 text-right text-secondary">
+                  {`${languageTranslation("CREATED_BY")} ${createdBy ? createdBy : ""}`}
+                {/* <FormGroup>
                   <Row>
                     <Col sm="4">
                       <Label className="form-label col-form-label">
@@ -943,18 +944,19 @@ const CareinstitutionFormView: FunctionComponent<
                     </Col>
                     <Col sm="8">
                     <div className="required-input">
-                      <Input
+                    {`${languageTranslation("CREATED_BY")} ${createdBy ? createdBy : ""}`}
+                      {/* <Input
                         type="text"
                         disabled={true}
                         name={"createdBy"}
                         placeholder={languageTranslation("CREATED_BY")}
                         className="width-common"
                         value={createdBy ? createdBy : ""}
-                      />
-                    </div>
+                      /> */}
+                    {/* </div>
                     </Col>
                   </Row>
-                </FormGroup>
+                </FormGroup> */} 
               </Col>
             ) : null}
 

@@ -663,7 +663,8 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                       (availability: any) =>
                         (availability && !availability.item) ||
                         (availability.item &&
-                          availability.item.status === "default")
+                          availability.item.status === "default"
+                           /* || availability.item.status === "linked" */ )
                     ).length
                     ? false
                     : true

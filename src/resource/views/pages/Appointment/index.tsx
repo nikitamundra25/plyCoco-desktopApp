@@ -3982,8 +3982,27 @@ console.log("addAppointment",addAppointment);
         : selectedCellsCareinstitution
         ? [...selectedCellsCareinstitution]
         : [];
+        let linkedEntries = temp.filter(
+          (element: any) =>
+            element.item &&
+            (element.item.status === "linked")
+        );
 
+        console.log("linkedEntries",linkedEntries);
+        if(linkedEntries && linkedEntries.length){
+          const { value } = await ConfirmBox({
+            title: "Appointment can't be deleted",
+            text: "You have to unlink them first and then you may delete them",
+            showCancelButton: false,
+            confirmButtonText:"Okay!!"
+          });
+          if (!value) {
+            return;
+          }
+        }else{
     if (temp && temp.length) {
+   
+
       let freeEntries = temp.filter(
         (element: any) =>
           !element.item || (element.item && !element.item.status)
@@ -4115,7 +4134,11 @@ console.log("addAppointment",addAppointment);
           return;
         }
       }
+
+
+
     }
+  }
   };
 
   // Link both forms

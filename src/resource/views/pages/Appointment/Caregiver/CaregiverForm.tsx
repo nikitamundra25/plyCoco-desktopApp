@@ -1493,8 +1493,11 @@ const CaregiverFormView: FunctionComponent<
 
 
             {createdBy ? (
-              <Col lg={"12"}>
-                <FormGroup>
+              <Col lg={"12"} className="mb-2 text-right text-secondary">
+                <i>
+                {`${languageTranslation("CREATED_BY")} ${createdBy ? createdBy : ""}`}
+                </i>
+                {/* <FormGroup>
                   <Row>
                     <Col sm="4">
                       <Label className="form-label col-form-label">
@@ -1514,7 +1517,7 @@ const CaregiverFormView: FunctionComponent<
                     </div>
                     </Col>
                   </Row>
-                </FormGroup>
+                </FormGroup> */}
               </Col>
             ) : null}
 

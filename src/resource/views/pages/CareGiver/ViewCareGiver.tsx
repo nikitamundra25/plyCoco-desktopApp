@@ -221,10 +221,11 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   // Set selected caregiver
   useEffect(() => {
     const currenCareGiver = careGiverOpt.filter(
-      (careGiver: any) => careGiver.value === id
+      (careGiver: any) => parseInt(careGiver.value) === parseInt(Id)
     )[0];
     setselectUser(currenCareGiver);
   }, [careGiversList, pathname]);
+
   const [newContactAdded, setnewContactAdded] = useState(false);
 
   const onTabChange = (activeTab: number) => {

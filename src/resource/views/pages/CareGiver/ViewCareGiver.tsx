@@ -223,7 +223,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     const currenCareGiver = careGiverOpt.filter(
       (careGiver: any) => parseInt(careGiver.value) === parseInt(Id)
     )[0];
+    if(currenCareGiver && currenCareGiver.value !== ""){ 
     setselectUser(currenCareGiver);
+    }
   }, [careGiversList, pathname]);
 
   const [newContactAdded, setnewContactAdded] = useState(false);

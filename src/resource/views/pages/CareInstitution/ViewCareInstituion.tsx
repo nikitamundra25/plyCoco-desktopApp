@@ -184,9 +184,11 @@ const ViewCareInstitution: FunctionComponent<
   // Set selected care institution
   useEffect(() => {
     const currenCareInstitution: any = CareInstitutionList.filter(
-      (careInstitution: any) => careInstitution.value === id
+      (careInstitution: any) => parseInt(careInstitution.value) === parseInt(Id)
     )[0];
-    setselectUser(currenCareInstitution);
+    if(currenCareInstitution && currenCareInstitution.value !== ""){    
+      setselectUser(currenCareInstitution);
+    }
   }, [careInstituition, pathname]);
 
   const onTabChange = (activeTab: number) => {
@@ -198,6 +200,7 @@ const ViewCareInstitution: FunctionComponent<
     );
   };
   let [isUserChange, setisUserChange] = useState(false);
+console.log("selectUserselectUser",selectUser);
 
   const handleSelect = (e: any) => {
     // if (careInstituition && careInstituition.getCareInstitutions) {
@@ -214,6 +217,8 @@ const ViewCareInstitution: FunctionComponent<
         value: e.value,
         color: e.color,
       };
+      console.log("data+++++++",data);
+      
       setselectUser((selectUser = data));
       if (e.value !== Id) {
         props.history.push(

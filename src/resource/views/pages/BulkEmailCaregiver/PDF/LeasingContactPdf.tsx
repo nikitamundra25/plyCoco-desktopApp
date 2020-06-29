@@ -97,6 +97,9 @@ const LeasingContactPdf: FunctionComponent<ILeasingContactPdfProps> = (
   // Append base url to the signature
   let careGiverSignature:string = signatureData && signatureData.careGiverSignature ? `${AppConfig.APP_ENDPOINT}${signatureData.careGiverSignature}` : ''
   // Create Document Component
+
+  console.log("careGiverSignature",careGiverSignature);
+  
   return (
     <Document>
       <Page size="A4" style={styles.page}>

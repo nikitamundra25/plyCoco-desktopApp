@@ -230,7 +230,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           limit: 30,
           page,
           gte: props.gte,
-          lte: props.lte
+          lte: props.lte,
+          lable:"Offer-caregiver"
         }
       });
     } else {
@@ -342,7 +343,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         variables: {
           searchBy: '',
           sortBy: 3,
-          limit: 30,
+          limit: 60,
           page,
           isActive: ''
         }
@@ -357,6 +358,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     let list: any = [...careGiverData];
     if (props.offerCareGiver) {
       if (careGiversList) {
+        console.log("*******************careGiversList", careGiversList);
+        
         const { getUserByQualifications } = careGiversList;
         const { result } = getUserByQualifications;
         if (result && result.length) {
@@ -374,6 +377,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       }
     }
+
+    
     // if (selectedCells && (props.confirmApp || offerRequirements)) {
     //   if (selectedCells && selectedCells.length) {
     //     selectedCells.map((key: any) => {
@@ -464,7 +469,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       variables: {
         searchBy: '',
         sortBy: 3,
-        limit: 30,
+        limit: 60,
         page: 1,
         isActive: ''
       }

@@ -2166,6 +2166,8 @@ console.log("addAppointment",addAppointment);
           );
         }
       }
+      console.log("selectedCellsDataselectedCellsData",selectedCellsData);
+      
       setSelectedCells(selectedCellsData);
     } else {
       setselectedCellsCareinstitution(selectedCellsData);
@@ -2972,7 +2974,8 @@ console.log("addAppointment",addAppointment);
               && Item.status === "confirmed") ||
               (name === "offered"
               && (Item.status === "default" ||
-              Item.status === "offered"))
+              Item.status === "offered" )) ||
+              (name === "notoffered" && Item.status === "offered")
           ) {
             let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
             delete Item.id;
@@ -3428,6 +3431,7 @@ console.log("addAppointment",addAppointment);
       breakFromTime,
       breakToDate,
       breakToTime,
+      createdBy
     } = values;
 
     let isBlockeddate =
@@ -3509,6 +3513,7 @@ console.log("addAppointment",addAppointment);
                   travelAllowance,
                   workingProofRecieved,
                   status,
+                  createdBy
                 },
               },
             ];
@@ -3572,6 +3577,7 @@ console.log("addAppointment",addAppointment);
                       dbAcceptableFormat
                     )},${breakToTime}`
                   : null,
+                  createdBy
               };
               careGiverAvabilityInput = [...careGiverAvabilityInput, temp];
               if (appointmentId) {
@@ -3646,6 +3652,7 @@ console.log("addAppointment",addAppointment);
       departmentRemarks,
       comments,
       status,
+      createdBy
     } = values;
     console.log("values in index", values);
 
@@ -3729,7 +3736,7 @@ console.log("addAppointment",addAppointment);
               offerRemarks,
               bookingRemarks,
               comments,
-              status,
+              status
             },
           },
         ];
@@ -3775,7 +3782,8 @@ console.log("addAppointment",addAppointment);
             s: svar,
             n: nvar,
             status: status ? status : "default",
-            isLeasing: attributes.includes(CareInstTIMyoCYAttrId),
+            isLeasing: attributes && attributes.length ? attributes.includes(CareInstTIMyoCYAttrId): false,
+            createdBy
           };
           careInstitutionRequirementInput = [
             ...careInstitutionRequirementInput,
@@ -3980,8 +3988,26 @@ console.log("addAppointment",addAppointment);
         : selectedCellsCareinstitution
         ? [...selectedCellsCareinstitution]
         : [];
+        let linkedEntries = temp.filter(
+          (element: any) =>
+            element.item &&
+            (element.item.status === "linked")
+        );
 
+        if(linkedEntries && linkedEntries.length){
+          const { value } = await ConfirmBox({
+            title: languageTranslation("APPOINTMENT_CANT_BE_DELETED"),
+            text: languageTranslation("UNLINK_AND_DELETE"),
+            showCancelButton: false,
+            confirmButtonText:"Okay"
+          });
+          if (!value) {
+            return;
+          }
+        }else{
     if (temp && temp.length) {
+   
+
       let freeEntries = temp.filter(
         (element: any) =>
           !element.item || (element.item && !element.item.status)
@@ -4113,7 +4139,11 @@ console.log("addAppointment",addAppointment);
           return;
         }
       }
+
+
+
     }
+  }
   };
 
   // Link both forms
@@ -4324,6 +4354,7 @@ console.log("addAppointment",addAppointment);
 
   let street: string = canstitution && canstitution.street;
   let departmentData: any = Item ? Item.department : undefined;
+
   if (
     careInstitutionDepartment &&
     careInstitutionDepartment.length &&
@@ -4349,7 +4380,8 @@ console.log("addAppointment",addAppointment);
   } else {
     qualificationfor = [Item.qualificationForCharge];
   }
-
+  
+  // const createdByName =Item && Item.appointments && Item.appointments.length && Item.appointments[0] ? Item.appointments[0].createdBy : ""
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: Item ? Item.id : "",
     name:
@@ -4377,6 +4409,7 @@ console.log("addAppointment",addAppointment);
     comments: Item ? Item.comments : "",
     status: Item ? Item.status : "",
     careInstitutionDepartment,
+    createdBy: Item && Item.createdBy ? Item.createdBy : ""
   };
 
   const {
@@ -4404,6 +4437,8 @@ console.log("addAppointment",addAppointment);
     workingHoursTo = "",
     breakFrom = "",
     breakTo = "",
+    createdBy = "",
+    appointments = []
   } = item ? item : caregiver ? caregiver : {};
 
   const workingHoursFromDateData = workingHoursFrom
@@ -4414,6 +4449,7 @@ console.log("addAppointment",addAppointment);
     : null;
   const breakFromDateData = breakFrom ? breakFrom.split(",") : null;
   const breakToDateData = breakTo ? breakTo.split(",") : null;
+  // const createdBy = appointments && appointments.length && appointments[0] ? appointments[0].createdBy : ""
 
   const valuesForCaregiver: ICaregiverFormValue = {
     appointmentId: id !== null ? id : null,
@@ -4489,6 +4525,7 @@ console.log("addAppointment",addAppointment);
     n: n === "available" ? true : false,
     status: status ? status : "",
     dateString,
+    createdBy
   };
 
   const [savingBoth, setsavingBoth] = useState(false);

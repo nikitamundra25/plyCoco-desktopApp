@@ -174,7 +174,8 @@ export interface ICaregiverFormValue {
   breakFromTime?: string,
   breakToDate?: string,
   breakToTime?:string,
-  dateString?: string
+  dateString?: string,
+  createdBy?: string
 }
 
 export interface ICaregiverValidationFormValue {
@@ -254,6 +255,7 @@ export interface ICareinstitutionFormValue {
   comments: string;
   status?: string;
   careInstitutionDepartment?: IReactSelectInterface[] | undefined;
+  createdBy?: string
 }
 
 export interface ICareinstitutionFormSubmitValue {
@@ -279,6 +281,7 @@ export interface ICareinstitutionFormSubmitValue {
   n: string;
   status: string;
   isLeasing?: boolean;
+  createdBy?: string
 }
 
 export interface IUnlinkInterface {

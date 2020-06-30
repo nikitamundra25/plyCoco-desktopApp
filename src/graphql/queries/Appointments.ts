@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 const GET_USERS_BY_QUALIFICATION_ID = gql`
   query getUserByQualifications(
     $qualificationId: [ID]
@@ -13,6 +13,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     $showAppointments: String
     $caregiverId: ID
     $careInstitutionId: ID
+    $lable: String
   ) {
     getUserByQualifications(
       qualificationId: $qualificationId
@@ -27,6 +28,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
       showAppointments: $showAppointments
       caregiverId: $caregiverId
       careInstitutionId: $careInstitutionId
+      lable: $lable
     ) {
       totalCount
       result {
@@ -71,11 +73,13 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           otherExpenses
           remarksCareGiver
           remarksInternal
+          createdBy
           appointments {
             id
             date
             requirementId
             avabilityId
+            createdBy
             cr {
               id
               name
@@ -117,6 +121,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           startTime
           userId
           isLeasing
+          createdBy
           division {
             id
             name
@@ -126,6 +131,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
             date
             requirementId
             avabilityId
+            createdBy
             ca {
               userId
               id
@@ -173,6 +179,10 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           attributes
         }
         qualificationId
+        attributes {
+          id
+          name
+        }
       }
     }
   }
@@ -260,10 +270,10 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         userId
         status
         isLeasing
-          division {
-            id
-            name
-          }
+        division {
+          id
+          name
+        }
         appointments {
           id
           date

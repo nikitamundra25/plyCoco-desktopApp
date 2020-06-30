@@ -297,6 +297,14 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
           values.leasingPriceListId && values.leasingPriceListId.value
             ? values.leasingPriceListId.value
             : null,
+            leasingInvoiceTax:
+            values.leasingInvoiceTax && values.leasingInvoiceTax.value
+              ? values.leasingInvoiceTax.value
+              : null,
+              plycocoInvoiceTax:
+              values.plycocoInvoiceTax && values.plycocoInvoiceTax.value
+                ? values.plycocoInvoiceTax.value
+                : null,
       };
       await updateCareInstitution({
         variables: {
@@ -389,6 +397,8 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       careGiverCommission = '',
       doctorCommission = '',
       leasingPriceListId = '',
+      leasingInvoiceTax = '',
+      plycocoInvoiceTax = '',
       remarksViewable = '',
       defaultQualification = '',
       invoiceType = '',
@@ -536,6 +546,10 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       doctorCommission:
         doctorCommission !== null ? germanNumberFormat(doctorCommission) : '',
       leasingPriceListId: convertintoLabelValue(leasingPriceListId),
+      leasingInvoiceTax:
+        leasingInvoiceTax !== null ? Number(leasingInvoiceTax) : '',
+        plycocoInvoiceTax:
+        plycocoInvoiceTax !== null ? Number(plycocoInvoiceTax) : '',
     };
     // values.qualificationId = qualificationsData;
 

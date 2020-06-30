@@ -214,6 +214,17 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
           values.leasingPriceListId && values.leasingPriceListId.value
             ? values.leasingPriceListId.value
             : null,
+
+            plycocoInvoiceTax:
+            values.plycocoInvoiceTax && values.plycocoInvoiceTax.value
+              ? Number(values.plycocoInvoiceTax.value)
+              : null,
+
+              leasingInvoiceTax:
+              values.leasingInvoiceTax && values.leasingInvoiceTax.value
+                ? Number(values.leasingInvoiceTax.value)
+                : null,
+
         remarksViewable: values.remarksViewable
       };
 

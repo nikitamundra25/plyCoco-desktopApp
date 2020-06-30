@@ -40,6 +40,9 @@ export interface ICareInstitutionFormValues {
   careGiverCommission?: string;
   doctorCommission?: string;
   leasingPriceListId?: IReactSelectInterface | undefined;
+  leasingInvoiceTax?: any;
+  plycocoInvoiceTax?: any;
+
   invoiceType?: IReactSelectInterface;
   interval?: IReactSelectInterface;
   emailInvoice?: string;

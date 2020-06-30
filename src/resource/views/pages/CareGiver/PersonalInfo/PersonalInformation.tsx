@@ -216,6 +216,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       night,
       holiday,
       leasingPricingList,
+      caregiverInvoiceTax,
       invoiceInterval,
     } = values;
 
@@ -285,6 +286,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           leasingPricingList && leasingPricingList.value
             ? leasingPricingList.label
             : null,
+            caregiverInvoiceTax:
+            caregiverInvoiceTax && caregiverInvoiceTax.value
+              ? Number(caregiverInvoiceTax.value)
+              : null,
       };
       // Edit employee details
       if (id) {
@@ -350,6 +355,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const {
     nightAllowance = undefined,
     leasingPricingList = undefined,
+    caregiverInvoiceTax = undefined,
     invoiceInterval = undefined,
     title = null,
     dateOfBirth = null,
@@ -530,6 +536,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           value: leasingPricingList,
         }
       : undefined,
+      caregiverInvoiceTax: caregiverInvoiceTax ?    {
+        label: caregiverInvoiceTax,
+        value: caregiverInvoiceTax,
+      }  : undefined,
     salutation: salutation
       ? {
           label: salutation,

@@ -53,6 +53,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       invoiceInterval,
       leasingPricingList
       night
+      caregiverInvoiceTax
     }
     regions{
       id
@@ -185,6 +186,7 @@ const GET_CAREGIVER_BY_ID = gql`
         vehicleAvailable
         night
         leasingPricingList
+        caregiverInvoiceTax
       }
       qualifications {
         id

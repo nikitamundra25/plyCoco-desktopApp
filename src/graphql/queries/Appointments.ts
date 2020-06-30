@@ -164,6 +164,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           linkedTo
           doctorCommission
           leasingPriceListId
+          plycocoInvoiceTax
+          leasingInvoiceTax
           isArchive
           careGiverCommission
           anonymousName

@@ -71,6 +71,7 @@ const UPDATE_CAREGIVER = gql`
         invoiceInterval
         leasingPricingList
         night
+        caregiverInvoiceTax
       }
       regions {
         id

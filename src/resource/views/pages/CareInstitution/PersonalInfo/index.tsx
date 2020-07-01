@@ -33,7 +33,8 @@ import { errorFormatter } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
 import '../careinstitution.scss';
 import { RemarkMutations } from '../../../../../graphql/Mutations';
-import { Gender } from '../../../../../config';
+import { Gender, CaregiverInvoiceTax, LeasingInvoiceTax, PlycocoInvoiceTax } from '../../../../../config';
+import { any } from 'prop-types';
 
 let toastId: any;
 
@@ -299,11 +300,11 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
             : null,
             leasingInvoiceTax:
             values.leasingInvoiceTax && values.leasingInvoiceTax.value
-              ? values.leasingInvoiceTax.value
+              ? parseInt(values.leasingInvoiceTax.value)
               : null,
               plycocoInvoiceTax:
               values.plycocoInvoiceTax && values.plycocoInvoiceTax.value
-                ? values.plycocoInvoiceTax.value
+                ? parseInt(values.plycocoInvoiceTax.value)
                 : null,
       };
       await updateCareInstitution({
@@ -546,11 +547,12 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       doctorCommission:
         doctorCommission !== null ? germanNumberFormat(doctorCommission) : '',
       leasingPriceListId: convertintoLabelValue(leasingPriceListId),
-      leasingInvoiceTax:
-        leasingInvoiceTax !== null ? Number(leasingInvoiceTax) : '',
-        plycocoInvoiceTax:
-        plycocoInvoiceTax !== null ? Number(plycocoInvoiceTax) : '',
+      leasingInvoiceTax: LeasingInvoiceTax.filter((item: any) =>  item.value === leasingInvoiceTax ? leasingInvoiceTax.toString()[0] : '0'), 
+      plycocoInvoiceTax: PlycocoInvoiceTax.filter((item: any) => leasingInvoiceTax ? item.value === plycocoInvoiceTax.toString()[0] : item.value === '0' )
     };
+    console.log('plycocoInvoiceTaxplycocoInvoiceTax',values);
+    
+    
     // values.qualificationId = qualificationsData;
 
     Data = {

@@ -37,7 +37,7 @@ import {
 } from "../../../../../interfaces/qualification";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
 import { errorFormatter } from "../../../../../helpers";
-import { Gender } from "../../../../../config";
+import { Gender, PlycocoInvoiceTax } from "../../../../../config";
 let toastId: any;
 
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
@@ -536,10 +536,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           value: leasingPricingList,
         }
       : undefined,
-      caregiverInvoiceTax: caregiverInvoiceTax ?    {
-        label: caregiverInvoiceTax,
-        value: caregiverInvoiceTax,
-      }  : undefined,
+      caregiverInvoiceTax: PlycocoInvoiceTax.filter((item: any) => item.value === caregiverInvoiceTax.toString())[0],
     salutation: salutation
       ? {
           label: salutation,

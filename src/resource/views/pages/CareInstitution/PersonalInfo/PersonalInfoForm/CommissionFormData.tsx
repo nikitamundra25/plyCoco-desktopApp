@@ -24,6 +24,8 @@ const CommissionFormData: FunctionComponent<FormikProps<
     handleSelect
   } = props;
 
+  
+
   return (
     <div className="form-card minheight-auto mb-2">
       <Row>

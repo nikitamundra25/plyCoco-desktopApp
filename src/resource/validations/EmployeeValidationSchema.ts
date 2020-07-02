@@ -78,11 +78,6 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
   ),
   telephoneNumber: Yup.mixed()
     .test(
-      'check-num',
-      languageTranslation('TEL_NUMERROR'),
-      value => !value || (value && !isNaN(value))
-    )
-    .test(
       'num-length',
       languageTranslation('TEL_MINLENGTH'),
       value =>

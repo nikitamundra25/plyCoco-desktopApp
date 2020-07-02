@@ -35,22 +35,12 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation('COMPANY_REQUIRED')),
   mobileNumber: Yup.mixed()
     .test(
-      'check-num',
-      languageTranslation('MOB_NUMERROR'),
-      value => !value || (value && !isNaN(value))
-    )
-    .test(
       'num-length',
       languageTranslation('MOB_MAXLENGTH'),
       value =>
         !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
   phoneNumber: Yup.mixed()
-    .test(
-      'check-num',
-      languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value))
-    )
     .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
@@ -67,15 +57,10 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     languageTranslation('INVALID_NUMBER'),
     value => !value || NumberWithCommaRegex.test(value)
   ),
-  fax: Yup.mixed().test(
-    'check-num',
-    languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value))
-  ),
   plycocoInvoiceTax: Yup.mixed()
   .test(
     "check-num",
-    languageTranslation("CAREGIVER_INVOICE_NUM_ERROR"),
+    languageTranslation("LEASING_INVOICE_NUM_ERROR"),
     value => !value || (value && !isNaN(value))
   )
   .test(
@@ -130,22 +115,12 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation('LASTNAME_REQUIRED')),
   mobileNumber: Yup.mixed()
     .test(
-      'check-num',
-      languageTranslation('MOB_NUMERROR'),
-      value => !value || (value && !isNaN(value))
-    )
-    .test(
       'num-length',
       languageTranslation('MOB_MAXLENGTH'),
       value =>
         !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
   phoneNumber: Yup.mixed()
-    .test(
-      'check-num',
-      languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value))
-    )
     .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
@@ -154,21 +129,12 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
     ),
   phoneNumber2: Yup.mixed()
     .test(
-      'check-num',
-      languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value))
-    )
-    .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
       value =>
         !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
-  faxNumber: Yup.mixed().test(
-    'check-num',
-    languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value))
-  ),
+  faxNumber: Yup.mixed(),
   contactType: Yup.object().shape({
     value: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
     label: Yup.string().required(languageTranslation('CONTACT_REQUIRED'))
@@ -194,21 +160,12 @@ export const AddDepartmentValidationSchema: Yup.ObjectSchema<Yup.Shape<
   contactPerson: Yup.string(),
   phoneNumber: Yup.mixed()
     .test(
-      'check-num',
-      languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value))
-    )
-    .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
       value =>
         !value || (value && value.length >= mobMin && value.length <= mobMax)
     ),
-  faxNumber: Yup.mixed().test(
-    'check-num',
-    languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value))
-  ),
+  faxNumber: Yup.mixed(),
   email: Yup.string()
     .trim()
     .email(languageTranslation('VALID_EMAIL'))

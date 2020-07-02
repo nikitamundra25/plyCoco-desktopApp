@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { mobMin, mobMax, webRegExp, NumberWithCommaRegex } from '../../config';
+import { mobMin, mobMax, webRegExp, NumberWithCommaRegex, taxBracket } from '../../config';
 import { languageTranslation, timeValidator } from '../../helpers';
 import {
   ICareInstitutionValidationSchema,
@@ -72,6 +72,31 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     languageTranslation('INVALID_NUMBER'),
     value => !value || (value && !isNaN(value))
   ),
+  plycocoInvoiceTax: Yup.mixed()
+  .test(
+    "check-num",
+    languageTranslation("CAREGIVER_INVOICE_NUM_ERROR"),
+    value => !value || (value && !isNaN(value))
+  )
+  .test(
+    "check-limit",
+    languageTranslation("CAREGIVER_INVOICE_TAX_ERROR"),
+    value => !value || value <= taxBracket
+  ),
+  leasingInvoiceTax: Yup.mixed()
+  .test(
+    "check-num",
+    languageTranslation("LEASING_INVOICE_NUM_ERROR"),
+    value => !value || (value && !isNaN(value))
+  )
+  .test(
+    "check-limit",
+    languageTranslation("LEASING_INVOICE_TAX_ERROR"),
+    value => !value || value <= taxBracket
+  ),
+
+
+
   website: Yup.string()
     .matches(webRegExp, {
       message: languageTranslation('ENTER_VALID_WEB_URL'),

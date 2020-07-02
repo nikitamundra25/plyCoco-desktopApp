@@ -11,6 +11,7 @@ import {
   telMin,
   telMax,
   fee,
+  taxBracket,
   taxNumberLimit,
   NumberWithCommaRegex
 } from '../../config';
@@ -91,6 +92,19 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     languageTranslation('INVALID_NUMBER'),
     value => !value || NumberWithCommaRegex.test(value)
   ),
+  caregiverInvoiceTax: Yup.mixed()
+  .test(
+    "check-num",
+    languageTranslation("CAREGIVER_INVOICE_NUM_ERROR"),
+    value => !value || (value && !isNaN(value))
+  )
+  .test(
+    "check-limit",
+    languageTranslation("CAREGIVER_INVOICE_TAX_ERROR"),
+    value => !value || value <= taxBracket
+  ),
+
+
   // .number()
   //   .nullable()
   //   .typeError('Fee must be number')

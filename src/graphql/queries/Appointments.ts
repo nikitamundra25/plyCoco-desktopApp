@@ -166,6 +166,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           leasingPriceListId
           plycocoInvoiceTax
           leasingInvoiceTax
+          defaultTaxValue
           isArchive
           careGiverCommission
           anonymousName

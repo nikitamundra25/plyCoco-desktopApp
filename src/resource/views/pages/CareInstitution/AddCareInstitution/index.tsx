@@ -218,12 +218,12 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
             plycocoInvoiceTax:
             values.plycocoInvoiceTax && values.plycocoInvoiceTax.value
               ? parseInt(values.plycocoInvoiceTax.value)
-              : null,
+              : parseInt(values.defaultTaxValue.value),
 
               leasingInvoiceTax:
               values.leasingInvoiceTax && values.leasingInvoiceTax.value
                 ? parseInt(values.leasingInvoiceTax.value)
-                : null,
+                : parseInt(values.defaultTaxValue.value),
 
         remarksViewable: values.remarksViewable
       };

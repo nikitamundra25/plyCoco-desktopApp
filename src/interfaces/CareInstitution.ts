@@ -42,6 +42,7 @@ export interface ICareInstitutionFormValues {
   leasingPriceListId?: IReactSelectInterface | undefined;
   leasingInvoiceTax?: any;
   plycocoInvoiceTax?: any;
+  defaultTaxValue?: any;
 
   invoiceType?: IReactSelectInterface;
   interval?: IReactSelectInterface;
@@ -68,6 +69,8 @@ export interface ICareInstitutionValidationSchema {
   remarksViewable?: string | null;
   country?: IReactSelectInterface;
   state?: IReactSelectInterface;
+  plycocoInvoiceTax?: IReactSelectInterface;
+  leasingInvoiceTax?: IReactSelectInterface;
 }
 
 export interface ICareInstitutionContactValidationSchema {

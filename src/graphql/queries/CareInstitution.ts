@@ -69,7 +69,7 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         leasingPriceListId
         plycocoInvoiceTax
         leasingInvoiceTax
-
+        defaultTaxValue
         isArchive
         careGiverCommission
         anonymousName

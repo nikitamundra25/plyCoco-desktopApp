@@ -54,6 +54,7 @@ export const CAREGIVER_PERSONAL_INFO_FIELDS = `
       leasingPricingList
       night
       caregiverInvoiceTax
+      defaultTaxValue
     }
     regions{
       id
@@ -187,6 +188,7 @@ const GET_CAREGIVER_BY_ID = gql`
         night
         leasingPricingList
         caregiverInvoiceTax
+        defaultTaxValue
       }
       qualifications {
         id

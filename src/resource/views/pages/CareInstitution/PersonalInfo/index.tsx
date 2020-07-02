@@ -299,13 +299,13 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
             ? values.leasingPriceListId.value
             : null,
             leasingInvoiceTax:
-            values.leasingInvoiceTax && values.leasingInvoiceTax.value
-              ? parseInt(values.leasingInvoiceTax.value)
-              : null,
+            values.leasingInvoiceTax != null
+              ? parseInt(values.leasingInvoiceTax)
+              : parseInt(values.defaultTaxValue),
               plycocoInvoiceTax:
-              values.plycocoInvoiceTax && values.plycocoInvoiceTax.value
-                ? parseInt(values.plycocoInvoiceTax.value)
-                : null,
+              values.plycocoInvoiceTax != null
+                ? parseInt(values.plycocoInvoiceTax)
+                : parseInt(values.defaultTaxValue)
       };
       await updateCareInstitution({
         variables: {
@@ -399,6 +399,7 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       doctorCommission = '',
       leasingPriceListId = '',
       leasingInvoiceTax = '',
+      defaultTaxValue = '',
       plycocoInvoiceTax = '',
       remarksViewable = '',
       defaultQualification = '',
@@ -547,8 +548,8 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       doctorCommission:
         doctorCommission !== null ? germanNumberFormat(doctorCommission) : '',
       leasingPriceListId: convertintoLabelValue(leasingPriceListId),
-      leasingInvoiceTax: LeasingInvoiceTax.filter((item: any) =>  item.value === leasingInvoiceTax ? leasingInvoiceTax.toString()[0] : '0'), 
-      plycocoInvoiceTax: PlycocoInvoiceTax.filter((item: any) => leasingInvoiceTax ? item.value === plycocoInvoiceTax.toString()[0] : item.value === '0' )
+      leasingInvoiceTax: leasingInvoiceTax != null ? leasingInvoiceTax : defaultTaxValue, 
+      plycocoInvoiceTax: plycocoInvoiceTax != null ? plycocoInvoiceTax : defaultTaxValue, 
     };
     console.log('plycocoInvoiceTaxplycocoInvoiceTax',values);
     

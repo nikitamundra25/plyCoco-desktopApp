@@ -7,7 +7,7 @@ import {
   ICareInstitutionFormValues,
   IHandleSelectInterface
 } from "../../../../../../interfaces";
-import { CareInstLeasingPriceList,PlycocoInvoiceTax, LeasingInvoiceTax } from "../../../../../../config";
+import { CareInstLeasingPriceList } from "../../../../../../config";
 
 const CommissionFormData: FunctionComponent<FormikProps<
   ICareInstitutionFormValues
@@ -16,7 +16,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
   props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface
 ) => {
   const {
-    values: { careGiverCommission, doctorCommission, leasingPriceListId, leasingInvoiceTax, plycocoInvoiceTax },
+    values: { careGiverCommission, doctorCommission, leasingPriceListId, leasingInvoiceTax, plycocoInvoiceTax, defaultTaxValue },
     touched,
     errors,
     handleChange,
@@ -101,8 +101,9 @@ const CommissionFormData: FunctionComponent<FormikProps<
             </Row>
           </FormGroup>
         </Col>
+
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
-          <FormGroup className="mb-0">
+          <FormGroup>
             <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
@@ -132,7 +133,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
         </Col>
 
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
-          <FormGroup className="mb-0">
+          <FormGroup>
             <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
@@ -141,20 +142,25 @@ const CommissionFormData: FunctionComponent<FormikProps<
               </Col>
               <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                 <div>
-                  <Select
+                  <Input
+                    name={"plycocoInvoiceTax"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={plycocoInvoiceTax ? plycocoInvoiceTax : defaultTaxValue}
                     placeholder={languageTranslation("PLYCOCO_INVOICE_TAX")}
-                    value={
-                      plycocoInvoiceTax && plycocoInvoiceTax.value
-                        ? plycocoInvoiceTax
-                        : undefined
+                    className={
+                      errors.plycocoInvoiceTax &&
+                      touched.plycocoInvoiceTax
+                        ? "width-common error"
+                        : "width-common"
                     }
-                    onChange={(value: any) =>
-                      handleSelect(value, "plycocoInvoiceTax")
-                    }
-                    options={PlycocoInvoiceTax}
-                    classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
                   />
+                  {errors.plycocoInvoiceTax &&
+                    touched.plycocoInvoiceTax && (
+                      <div className="required-tooltip bottom-tooltip">
+                        {errors.plycocoInvoiceTax}
+                      </div>
+                    )}
                 </div>
               </Col>
             </Row>
@@ -162,7 +168,7 @@ const CommissionFormData: FunctionComponent<FormikProps<
         </Col>
 
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
-          <FormGroup className="mb-0">
+          <FormGroup>
             <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
@@ -171,20 +177,25 @@ const CommissionFormData: FunctionComponent<FormikProps<
               </Col>
               <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
                 <div>
-                  <Select
+                  <Input
+                    name={"leasingInvoiceTax"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={leasingInvoiceTax}
                     placeholder={languageTranslation("LEASING_INVOICE_TAX")}
-                    value={
-                      leasingInvoiceTax && leasingInvoiceTax.value
-                        ? leasingInvoiceTax
-                        : undefined
+                    className={
+                      errors.leasingInvoiceTax &&
+                      touched.leasingInvoiceTax
+                        ? "width-common error"
+                        : "width-common"
                     }
-                    onChange={(value: any) =>
-                      handleSelect(value, "leasingInvoiceTax")
-                    }
-                    options={LeasingInvoiceTax}
-                    classNamePrefix="custom-inner-reactselect"
-                    className={"custom-reactselect"}
                   />
+                  {errors.leasingInvoiceTax &&
+                    touched.leasingInvoiceTax && (
+                      <div className="required-tooltip bottom-tooltip">
+                        {errors.leasingInvoiceTax}
+                      </div>
+                    )}
                 </div>
               </Col>
             </Row>

@@ -217,6 +217,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       holiday,
       leasingPricingList,
       caregiverInvoiceTax,
+      defaultTaxValue,
       invoiceInterval,
     } = values;
 
@@ -287,9 +288,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
             ? leasingPricingList.label
             : null,
             caregiverInvoiceTax:
-            caregiverInvoiceTax && caregiverInvoiceTax.value
-              ? Number(caregiverInvoiceTax.value)
-              : null,
+            caregiverInvoiceTax 
+              ? Number(caregiverInvoiceTax)
+              : Number(defaultTaxValue),
       };
       // Edit employee details
       if (id) {
@@ -356,6 +357,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     nightAllowance = undefined,
     leasingPricingList = undefined,
     caregiverInvoiceTax = undefined,
+    defaultTaxValue = undefined,
     invoiceInterval = undefined,
     title = null,
     dateOfBirth = null,
@@ -536,7 +538,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           value: leasingPricingList,
         }
       : undefined,
-      caregiverInvoiceTax: PlycocoInvoiceTax.filter((item: any) => item.value === caregiverInvoiceTax.toString())[0],
+      caregiverInvoiceTax:  caregiverInvoiceTax ? caregiverInvoiceTax : defaultTaxValue,
     salutation: salutation
       ? {
           label: salutation,

@@ -101,6 +101,7 @@ export interface CareGiverValues {
   invoiceInterval?: IReactSelectInterface;
   leasingPricingList?: IReactSelectInterface;
   caregiverInvoiceTax?: IReactSelectInterface;
+  defaultTaxValue?: IReactSelectInterface;
 }
 
 export interface ICareGiverValidationInterface {
@@ -122,6 +123,7 @@ export interface ICareGiverValidationInterface {
   fax?: string;
   country?: IReactSelectInterface;
   state?: IReactSelectInterface;
+  caregiverInvoiceTax?: IReactSelectInterface;
 }
 
 export interface IEmailMenus<
@@ -235,6 +237,7 @@ export interface ICareGiverValues {
   invoiceInterval?: IReactSelectInterface;
   leasingPricingList?: IReactSelectInterface;
   caregiverInvoiceTax?: IReactSelectInterface;
+  defaultTaxValue?: IReactSelectInterface;
   fee?: string;
   nightAllowance?: IReactSelectInterface;
   weekendAllowance?: string;

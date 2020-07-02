@@ -19,7 +19,7 @@ const BillingSettingsFormComponent: any = (
   props: FormikProps<CareGiverValues>
 ) => {
   const {
-    values: { nightAllowance, invoiceInterval, leasingPricingList, caregiverInvoiceTax },
+    values: { nightAllowance, invoiceInterval, leasingPricingList, caregiverInvoiceTax, defaultTaxValue },
     setFieldValue,
     errors
   } = props;
@@ -175,7 +175,7 @@ const BillingSettingsFormComponent: any = (
           </FormGroup>
         </Col>
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
-          <FormGroup className='mb-0'>
+          <FormGroup >
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
                 <Label className='form-label col-form-label'>
@@ -200,32 +200,28 @@ const BillingSettingsFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
+      
 
-        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
-          <FormGroup className='mb-0'>
-            <Row className='align-items-center'>
-              <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+          <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+              <FormGroup className='mb-0'>
+          <Row className="align-items-center">
+          <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className='form-label col-form-label'>
                   {languageTranslation('CAREGIVER_INVOICE_TAX')}
                 </Label>
               </Col>
-              <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                <div>
-                  <Select
-                    placeholder={languageTranslation('CAREGIVER_INVOICE_TAX')}
-                    options={CaregiverInvoiceTax}
-                    onChange={(value: any) =>
-                      handleSelect(value, 'caregiverInvoiceTax')
-                    }
-                    value={caregiverInvoiceTax}
-                    classNamePrefix='custom-inner-reactselect'
-                    className={'custom-reactselect'}
-                  />
-                </div>
-              </Col>
+                  <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                    <div className='required-input'>
+                      <Field
+                        component={FormikTextField}
+                        name={'caregiverInvoiceTax'}
+                        className='width-common'
+                      />
+                    </div>
+            </Col>
             </Row>
-          </FormGroup>
-        </Col>
+            </FormGroup>
+            </Col>
 
       </Row>
     </div>

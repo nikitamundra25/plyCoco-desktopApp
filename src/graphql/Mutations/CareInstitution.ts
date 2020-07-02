@@ -65,6 +65,7 @@ const UPDATE_CARE_INSTITUTION = gql`
         leasingPriceListId
         plycocoInvoiceTax
         leasingInvoiceTax
+        defaultTaxValue
         isArchive
         careGiverCommission
         anonymousName

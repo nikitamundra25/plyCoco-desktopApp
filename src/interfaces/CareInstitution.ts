@@ -40,6 +40,10 @@ export interface ICareInstitutionFormValues {
   careGiverCommission?: string;
   doctorCommission?: string;
   leasingPriceListId?: IReactSelectInterface | undefined;
+  leasingInvoiceTax?: any;
+  plycocoInvoiceTax?: any;
+  defaultTaxValue?: any;
+
   invoiceType?: IReactSelectInterface;
   interval?: IReactSelectInterface;
   emailInvoice?: string;
@@ -65,6 +69,8 @@ export interface ICareInstitutionValidationSchema {
   remarksViewable?: string | null;
   country?: IReactSelectInterface;
   state?: IReactSelectInterface;
+  plycocoInvoiceTax?: IReactSelectInterface;
+  leasingInvoiceTax?: IReactSelectInterface;
 }
 
 export interface ICareInstitutionContactValidationSchema {

@@ -67,6 +67,9 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         linkedTo
         doctorCommission
         leasingPriceListId
+        plycocoInvoiceTax
+        leasingInvoiceTax
+        defaultTaxValue
         isArchive
         careGiverCommission
         anonymousName

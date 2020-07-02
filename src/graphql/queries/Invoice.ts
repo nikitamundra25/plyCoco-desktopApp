@@ -76,6 +76,9 @@ const GET_INVOICE_LIST = gql`
             id
             canstitution {
               leasingPriceListId
+              plycocoInvoiceTax
+              leasingInvoiceTax
+              defaultTaxValue
             }
           }
         }

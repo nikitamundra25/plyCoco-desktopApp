@@ -16,13 +16,15 @@ const CommissionFormData: FunctionComponent<FormikProps<
   props: FormikProps<ICareInstitutionFormValues> & IHandleSelectInterface
 ) => {
   const {
-    values: { careGiverCommission, doctorCommission, leasingPriceListId },
+    values: { careGiverCommission, doctorCommission, leasingPriceListId, leasingInvoiceTax, plycocoInvoiceTax, defaultTaxValue },
     touched,
     errors,
     handleChange,
     handleBlur,
     handleSelect
   } = props;
+
+  
 
   return (
     <div className="form-card minheight-auto mb-2">
@@ -99,8 +101,9 @@ const CommissionFormData: FunctionComponent<FormikProps<
             </Row>
           </FormGroup>
         </Col>
+
         <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
-          <FormGroup className="mb-0">
+          <FormGroup>
             <Row className="align-items-center">
               <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                 <Label className="form-label col-form-label">
@@ -128,6 +131,77 @@ const CommissionFormData: FunctionComponent<FormikProps<
             </Row>
           </FormGroup>
         </Col>
+
+        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+          <FormGroup>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("PLYCOCO_INVOICE_TAX")}
+                </Label>
+              </Col>
+              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                <div>
+                  <Input
+                    name={"plycocoInvoiceTax"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={plycocoInvoiceTax ? plycocoInvoiceTax : defaultTaxValue}
+                    placeholder={languageTranslation("PLYCOCO_INVOICE_TAX")}
+                    className={
+                      errors.plycocoInvoiceTax &&
+                      touched.plycocoInvoiceTax
+                        ? "width-common error"
+                        : "width-common"
+                    }
+                  />
+                  {errors.plycocoInvoiceTax &&
+                    touched.plycocoInvoiceTax && (
+                      <div className="required-tooltip bottom-tooltip">
+                        {errors.plycocoInvoiceTax}
+                      </div>
+                    )}
+                </div>
+              </Col>
+            </Row>
+          </FormGroup>
+        </Col>
+
+        <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
+          <FormGroup>
+            <Row className="align-items-center">
+              <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
+                <Label className="form-label col-form-label">
+                  {languageTranslation("LEASING_INVOICE_TAX")}
+                </Label>
+              </Col>
+              <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
+                <div>
+                  <Input
+                    name={"leasingInvoiceTax"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={leasingInvoiceTax}
+                    placeholder={languageTranslation("LEASING_INVOICE_TAX")}
+                    className={
+                      errors.leasingInvoiceTax &&
+                      touched.leasingInvoiceTax
+                        ? "width-common error"
+                        : "width-common"
+                    }
+                  />
+                  {errors.leasingInvoiceTax &&
+                    touched.leasingInvoiceTax && (
+                      <div className="required-tooltip bottom-tooltip">
+                        {errors.leasingInvoiceTax}
+                      </div>
+                    )}
+                </div>
+              </Col>
+            </Row>
+          </FormGroup>
+        </Col>
+
       </Row>
     </div>
   );

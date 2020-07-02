@@ -187,6 +187,27 @@ export const InvoiceInterval: IReactSelectInterface[] = [
   },
 ];
 
+
+export const CaregiverInvoiceTax: IReactSelectInterface[] = [
+  { value: '0', label: `0% ${languageTranslation('TAX')}` },
+  { value: '16', label: `16% ${languageTranslation('TAX')}` },
+  { value: '19',label: `19% ${languageTranslation('TAX')}`},
+];
+
+export const PlycocoInvoiceTax: IReactSelectInterface[] = [
+  { value: '0', label: `0% ${languageTranslation('TAX')}` },
+  { value: '16', label: `16% ${languageTranslation('TAX')}` },
+  { value: '19',label: `19% ${languageTranslation('TAX')}`},
+];
+
+export const LeasingInvoiceTax: IReactSelectInterface[] = [
+  { value: '0', label: `0% ${languageTranslation('TAX')}` },
+  { value: '16', label: `16% ${languageTranslation('TAX')}` },
+  { value: '19',label: `19% ${languageTranslation('TAX')}`},
+];
+
+
+
 export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
   {
     label: 'Acquire block 1 - 5',

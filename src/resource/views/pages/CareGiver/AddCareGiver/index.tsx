@@ -161,6 +161,9 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       night,
       holiday,
       postalCode,
+
+      caregiverInvoiceTax,
+      defaultTaxValue
     } = values;
     try {
       let careGiverInput: any = {
@@ -228,6 +231,12 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
           leasingPricingList && leasingPricingList.value
             ? leasingPricingList.value
             : null,
+
+            caregiverInvoiceTax:
+            caregiverInvoiceTax && caregiverInvoiceTax.value
+              ? caregiverInvoiceTax.value
+              : Number(defaultTaxValue),
+
         remarks: remarksDetail,
         // remarks && remarks.length ? remarks : [],
         // workZones:

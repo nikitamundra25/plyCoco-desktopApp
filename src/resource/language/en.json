@@ -1210,5 +1210,17 @@
   "NO_CAREGIVER_AVAILABLE_FOR_OFFER": "No caregiver available for selected offer",
   "PLEASE_CHECK_OFFER_ATTRIBUTE":"Please check for caregiver containing offer attribute",
   "APPOINTMENT_CANT_BE_DELETED":"Appointment can't be deleted!!",
-  "UNLINK_AND_DELETE":"You have to unlink them first and then you may delete them"
+  "UNLINK_AND_DELETE":"You have to unlink them first and then you may delete them",
+
+
+  "TAX":"Tax",
+  "CAREGIVER_INVOICE_TAX":"Invoice Tax (in %)",
+   "PLYCOCO_INVOICE_TAX":"Plycoco Invoice Tax (in %)",
+   "LEASING_INVOICE_TAX":"Leasing Invoice Tax (in %)",
+   "PLYCOCO_INVOICE_TAX_ERROR": "Plycoco Invoice Tax must be less than or equal to 100",
+   "LEASING_INVOICE_TAX_ERROR": "Leasing Invoice Tax must be less than or equal to 100",
+   "CAREGIVER_INVOICE_TAX_ERROR": "Caregiver Invoice Tax must be less than or equal to 100",
+   "CAREGIVER_INVOICE_NUM_ERROR": "Caregiver Invoice Tax bracket must be a number",
+   "LEASING_INVOICE_NUM_ERROR": "Leasing Invoice Tax bracket must be a number",
+   "PLYCOCO_INVOICE_NUM_ERROR": "Plycoco Invoice Tax bracket must be a number"
 }

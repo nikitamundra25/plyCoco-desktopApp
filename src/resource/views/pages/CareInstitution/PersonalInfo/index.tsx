@@ -33,7 +33,8 @@ import { errorFormatter } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
 import '../careinstitution.scss';
 import { RemarkMutations } from '../../../../../graphql/Mutations';
-import { Gender } from '../../../../../config';
+import { Gender, CaregiverInvoiceTax, LeasingInvoiceTax, PlycocoInvoiceTax } from '../../../../../config';
+import { any } from 'prop-types';
 
 let toastId: any;
 
@@ -297,6 +298,14 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
           values.leasingPriceListId && values.leasingPriceListId.value
             ? values.leasingPriceListId.value
             : null,
+            leasingInvoiceTax:
+            values.leasingInvoiceTax != null
+              ? parseInt(values.leasingInvoiceTax)
+              : parseInt(values.defaultTaxValue),
+              plycocoInvoiceTax:
+              values.plycocoInvoiceTax != null
+                ? parseInt(values.plycocoInvoiceTax)
+                : parseInt(values.defaultTaxValue)
       };
       await updateCareInstitution({
         variables: {
@@ -389,6 +398,9 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       careGiverCommission = '',
       doctorCommission = '',
       leasingPriceListId = '',
+      leasingInvoiceTax = '',
+      defaultTaxValue = '',
+      plycocoInvoiceTax = '',
       remarksViewable = '',
       defaultQualification = '',
       invoiceType = '',
@@ -536,7 +548,12 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       doctorCommission:
         doctorCommission !== null ? germanNumberFormat(doctorCommission) : '',
       leasingPriceListId: convertintoLabelValue(leasingPriceListId),
+      leasingInvoiceTax: leasingInvoiceTax != null ? leasingInvoiceTax : defaultTaxValue, 
+      plycocoInvoiceTax: plycocoInvoiceTax != null ? plycocoInvoiceTax : defaultTaxValue, 
     };
+    console.log('plycocoInvoiceTaxplycocoInvoiceTax',values);
+    
+    
     // values.qualificationId = qualificationsData;
 
     Data = {

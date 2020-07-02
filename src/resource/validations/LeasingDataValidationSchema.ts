@@ -43,11 +43,6 @@ export const LeasingDataValidationSchema: Yup.ObjectSchema<Yup.Shape<
   controlId: Yup.string(),
   taxBracket: Yup.mixed()
     .test(
-      "check-num",
-      languageTranslation("TAX_BRACKET_NUM_ERROR"),
-      value => !value || (value && !isNaN(value))
-    )
-    .test(
       "check-limit",
       languageTranslation("TAX_BRACKET_LESS_ERROR"),
       value => !value || value <= taxBracket

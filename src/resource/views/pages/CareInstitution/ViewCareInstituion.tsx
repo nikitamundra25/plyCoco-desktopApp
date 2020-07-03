@@ -418,7 +418,7 @@ console.log("selectUserselectUser",selectUser);
                       selectedUserName={
                         selectUser && selectUser.label ? selectUser.label : ""
                       }
-                      userLastName = {careInstituitionData && careInstituitionData.getCareInstitution ? careInstituitionData.getCareInstitution.salutation : "Sehr geehrte Damen und Herren"}
+                      userLastName = {careInstituitionData && careInstituitionData.getCareInstitution.salutation ? careInstituitionData.getCareInstitution.salutation : "Sehr geehrte Damen und Herren"}
                       userRole={
                         careInstituition &&
                         careInstituition.getCareInstitutions &&

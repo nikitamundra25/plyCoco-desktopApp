@@ -4,7 +4,6 @@ import { Label, Col, Row, CustomInput, FormGroup, Input } from 'reactstrap';
 import { FormikProps, Field } from 'formik';
 import MaskedInput from 'react-text-mask';
 import {
-  Salutation,
   LegalForm,
   Gender,
   DateMask,
@@ -276,7 +275,8 @@ const PersonalInfoFormComponent: any = (
             </Row>
           </FormGroup>
         </Col>
-        <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
+        
+         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>
               <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
@@ -285,21 +285,20 @@ const PersonalInfoFormComponent: any = (
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
-                <div>
-                  <Select
+                <div className='required-input'>
+                  <Field
+                    component={FormikTextField}
+                    name={'salutation'}
                     placeholder={languageTranslation('SALUTATION')}
-                    options={Salutation}
-                    value={salutation && salutation.value ? salutation : null}
-                    onChange={(value: any) => handleSelect(value, 'salutation')}
-                    classNamePrefix='custom-inner-reactselect'
-                    className={'custom-reactselect'}
+                    className='width-common'
+                    maxLength={250}
                   />
                 </div>
-                {/* <Button  className="alfabate-btn btn">S</Button> */}
+                {/* <Button  className="alfabate-btn btn">N</Button> */}
               </Col>
             </Row>
           </FormGroup>
-        </Col>
+        </Col>  
         <Col xs={'12'} sm={'12'} md={'12'} lg={'12'}>
           <FormGroup>
             <Row className='align-items-center'>

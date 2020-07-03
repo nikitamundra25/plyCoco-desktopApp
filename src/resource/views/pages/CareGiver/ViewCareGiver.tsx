@@ -401,6 +401,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       selectedUserName={
                         selectUser && selectUser.label ? selectUser.label : ""
                       }
+                      userLastName=""
                       userRole={
                         careGiversList &&
                         careGiversList.getCaregiverByName &&

@@ -220,13 +220,14 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       defaultTaxValue,
       invoiceInterval,
     } = values;
+    console.log('handle salutation', salutation)
 
     try {
       let careGiverInput: any = {
         userName: userName ? userName.trim() : "",
         gender: gender && gender.value ? gender.value : "",
         title,
-        salutation: salutation && salutation.value ? salutation.value : "",
+        salutation: salutation ? salutation : "",
         firstName: firstName ? firstName.trim() : "",
         lastName: lastName ? lastName.trim() : "",
         dateOfBirth,
@@ -539,12 +540,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         }
       : undefined,
       caregiverInvoiceTax:  caregiverInvoiceTax ? caregiverInvoiceTax : defaultTaxValue,
-    salutation: salutation
-      ? {
-          label: salutation,
-          value: salutation,
-        }
-      : undefined,
+    salutation: salutation ,
     gender: gender
       ? Gender.filter(({ value }: IReactSelectInterface) => value === gender)[0]
       : undefined,

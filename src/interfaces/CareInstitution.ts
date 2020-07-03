@@ -2,7 +2,7 @@ import { IReactSelectInterface } from "./Constant";
 import { IAttributeOptions } from "./CareGiver";
 
 export interface ICareInstitutionFormValues {
-  salutation?: IReactSelectInterface;
+  salutation?: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -98,7 +98,7 @@ export interface ICareInstitutionContact {
   contactType?: IReactSelectInterface;
   remark?: string;
   comments: string;
-  salutation?: IReactSelectInterface;
+  salutation?: string;
   country?: IReactSelectInterface;
   countryId?: string;
   street?: string;

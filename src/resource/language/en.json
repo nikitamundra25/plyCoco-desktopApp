@@ -1205,5 +1205,6 @@
   "SEND_INVOICE":"Send Invoice",
   "CONFIRM_INVOICE_CANCEL_MSG":"This invoice will be cancelled.",
   "INVOICE_IS_CANCELLED":"Invoice is Cancelled",
-  "INVOICES_STATUS":"Invoice Status"
+  "INVOICES_STATUS":"Invoice Status",
+  "PAY_GROUP_TXT":"pay group"
 }

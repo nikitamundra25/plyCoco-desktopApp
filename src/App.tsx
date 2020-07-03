@@ -15,7 +15,6 @@ import "./properties/String";
 import "./properties/Array";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
-
 const DefaultLayout = React.lazy(() =>
   import("./resource/views/containers/DefaultLayout/DefaultLayout")
 );
@@ -29,6 +28,7 @@ class App extends Component<any, any> {
   // componentDidMount() {
   //   localStorage.setItem('language', 'en');
   // }
+
   render() {
     return (
       <>
@@ -42,12 +42,12 @@ class App extends Component<any, any> {
                   <Route
                     exact
                     path={AppRoutes.LOGIN}
-                    render={props => <Login />}
+                    render={(props) => <Login />}
                   />
 
                   <Route
                     path={AppRoutes.MAIN}
-                    render={props => <DefaultLayout {...props} />}
+                    render={(props) => <DefaultLayout {...props} />}
                   />
                 </Switch>
                 {/* <AppRoutesComponent /> */}

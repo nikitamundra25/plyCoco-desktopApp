@@ -15,10 +15,13 @@ const [, , , GET_EMAILS] = CareGiverQueries;
 const Email: FunctionComponent<{
   selectedUserName: string;
   userRole: string;
+  userLastName: string
 }> = ({
   selectedUserName,
   userRole,
+  userLastName
 }: {
+  userLastName: string,
   selectedUserName: string;
   userRole: string;
 }) => {
@@ -169,6 +172,7 @@ const Email: FunctionComponent<{
             emailData={emailData}
             selectedUserName={selectedUserName}
             userRole={userRole ? userRole : ''}
+            userLastName= {userLastName}
           />
         );
 

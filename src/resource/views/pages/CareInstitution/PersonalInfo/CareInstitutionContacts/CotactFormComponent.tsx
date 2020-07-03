@@ -12,7 +12,7 @@ import Select from "react-select";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { FormikProps } from "formik";
 import { languageTranslation, logger } from "../../../../../../helpers";
-import { Gender, Salutation } from "../../../../../../config";
+import { Gender } from "../../../../../../config";
 import {
   ICareInstitutionContact,
   IReactSelectInterface,
@@ -372,24 +372,31 @@ const CotactFormComponent: any = (
                         </Label>
                       </Col>
                       <Col xs={"12"} sm={"7"} md={"7"} lg={"7"}>
-                        <div>
-                          <Select
+                        <div className="required-input">
+                          <Input
+                            type="text"
+                            name={"salutation"}
                             placeholder={languageTranslation("SALUTATION")}
-                            value={
-                              salutation && salutation.value ? salutation : null
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={salutation}
+                            className={
+                              errors.salutation && touched.salutation
+                                ? "text-input error text-capitalize"
+                                : "text-input text-capitalize"
                             }
-                            onChange={(value: any) =>
-                              handleSelect(value, "salutation", "")
-                            }
-                            options={Salutation}
-                            classNamePrefix="custom-inner-reactselect"
-                            className={"custom-reactselect"}
                           />
+                          {errors.salutation && touched.salutation && (
+                            <div className="required-tooltip">
+                              {errors.salutation}
+                            </div>
+                          )}
                         </div>
                       </Col>
                     </Row>
                   </FormGroup>
                 </Col>
+
                 <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row className="align-items-center">

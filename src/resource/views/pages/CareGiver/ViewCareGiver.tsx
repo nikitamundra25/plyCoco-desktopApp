@@ -87,7 +87,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       id: Id ? parseInt(Id) : '',
     },
   });
-  console.log('datadata',data);
+  console.log('datadata', data ? data.getCaregiver.salutation : null);
   
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
@@ -401,6 +401,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       selectedUserName={
                         selectUser && selectUser.label ? selectUser.label : ""
                       }
+                      userLastName={ data && data.getCaregiver && data.getCaregiver.salutation? data.getCaregiver.salutation : "Sehr geehrte Damen und Herren"}
                       userRole={
                         careGiversList &&
                         careGiversList.getCaregiverByName &&

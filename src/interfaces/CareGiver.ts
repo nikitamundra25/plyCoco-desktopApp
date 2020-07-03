@@ -338,6 +338,7 @@ export interface INewEmailProps {
   emailData: any;
   selectedUserName: string;
   userRole: string;
+  userLastName: string;
 }
 
 export interface IEmailData {

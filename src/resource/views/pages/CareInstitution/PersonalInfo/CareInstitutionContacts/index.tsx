@@ -261,7 +261,7 @@ const CareInstitutionContacts: any = (props: any) => {
         userId: parseInt(careInstId),
         gender: values && values.gender ? values.gender.value : "",
         title: values.title,
-        salutation: values && values.salutation ? values.salutation.value : "",
+        salutation: values && values.salutation ? values.salutation : "",
         firstName: values.firstName,
         surName: values.lastName,
         contactTypeId:
@@ -279,6 +279,8 @@ const CareInstitutionContacts: any = (props: any) => {
         remark: values.remark,
         attributes: AttributeData,
       };
+
+      console.log('contactInput',contactInput)
       if (id) {
         await updateContact({
           variables: {
@@ -419,12 +421,7 @@ const CareInstitutionContacts: any = (props: any) => {
     gender: gender
       ? Gender.filter(({ value }: IReactSelectInterface) => value === gender)[0]
       : undefined,
-    salutation: salutation
-      ? {
-          label: salutation,
-          value: salutation,
-        }
-      : undefined,
+    salutation: salutation ? salutation : '',
     id,
     country: userSelectedCountry,
     state: userSelectedState,

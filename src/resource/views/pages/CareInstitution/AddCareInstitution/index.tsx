@@ -164,7 +164,7 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
 let temp =  values.shortName ? values.shortName.trim() : values.companyName ? values.companyName.trim() : ""
       const dataSubmit: any = {
         gender: values && values.gender ? values.gender.value : '',
-        salutation: values && values.salutation ? values.salutation.value : '',
+        salutation: values && values.salutation ? values.salutation : '',
         firstName: values.firstName ? values.firstName.trim() : '',
         lastName: values.lastName ? values.lastName.trim() : '',
         shortName: temp,

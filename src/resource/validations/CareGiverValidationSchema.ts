@@ -11,10 +11,12 @@ import {
   telMin,
   telMax,
   fee,
+  taxBracket,
   taxNumberLimit,
   NumberWithCommaRegex
 } from '../../config';
 import moment from 'moment';
+
 export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   object,
   ICareGiverValidationInterface
@@ -50,11 +52,6 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   }),
   phoneNumber: Yup.mixed()
     .test(
-      'check-num',
-      languageTranslation('PHONE_NUMERROR'),
-      value => !value || (value && !isNaN(value))
-    )
-    .test(
       'num-length',
       languageTranslation('PHONE_MAXLENGTH'),
       value =>
@@ -62,22 +59,12 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     ),
   mobileNumber: Yup.mixed()
     .test(
-      'check-num',
-      languageTranslation('MOB_NUMERROR'),
-      value => !value || (value && !isNaN(value))
-    )
-    .test(
       'num-length',
       languageTranslation('MOB_MAXLENGTH'),
       value =>
         !value || (value && value.length >= telMin && value.length <= telMax)
     ),
   taxNumber: Yup.mixed()
-    .test(
-      'check-num',
-      languageTranslation('TAX_NUMERROR'),
-      value => !value || (value && !isNaN(value))
-    )
     .test(
       'num-length',
       languageTranslation('TAX_MAXLENGTH'),
@@ -91,6 +78,19 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     languageTranslation('INVALID_NUMBER'),
     value => !value || NumberWithCommaRegex.test(value)
   ),
+  caregiverInvoiceTax: Yup.mixed()
+  .test(
+    "check-num",
+    languageTranslation("CAREGIVER_INVOICE_NUM_ERROR"),
+    value => !value || (value && !isNaN(value))
+  )
+  .test(
+    "check-limit",
+    languageTranslation("CAREGIVER_INVOICE_TAX_ERROR"),
+    value => !value || value <= taxBracket
+  ),
+
+
   // .number()
   //   .nullable()
   //   .typeError('Fee must be number')
@@ -116,11 +116,6 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .typeError(languageTranslation("AGE_MUST_NUMBER"))
     .min(13, languageTranslation("AGE_VALIDATION"))
     .max(100, languageTranslation("AGE_MAXLENGTH")),
-  fax: Yup.mixed().test(
-    'check-num',
-    languageTranslation('INVALID_NUMBER'),
-    value => !value || (value && !isNaN(value))
-  ),
   country: Yup.mixed().required(languageTranslation('COUNTRY_REQUIRED')),
   state: Yup.mixed().required(languageTranslation('STATE_REQUIRED'))
 });

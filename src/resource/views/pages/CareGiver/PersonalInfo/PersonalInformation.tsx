@@ -37,7 +37,7 @@ import {
 } from "../../../../../interfaces/qualification";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
 import { errorFormatter } from "../../../../../helpers";
-import { Gender } from "../../../../../config";
+import { Gender, PlycocoInvoiceTax } from "../../../../../config";
 let toastId: any;
 
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
@@ -216,6 +216,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       night,
       holiday,
       leasingPricingList,
+      caregiverInvoiceTax,
+      defaultTaxValue,
       invoiceInterval,
     } = values;
 
@@ -285,6 +287,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           leasingPricingList && leasingPricingList.value
             ? leasingPricingList.label
             : null,
+            caregiverInvoiceTax:
+            caregiverInvoiceTax 
+              ? Number(caregiverInvoiceTax)
+              : Number(defaultTaxValue),
       };
       // Edit employee details
       if (id) {
@@ -350,6 +356,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const {
     nightAllowance = undefined,
     leasingPricingList = undefined,
+    caregiverInvoiceTax = undefined,
+    defaultTaxValue = undefined,
     invoiceInterval = undefined,
     title = null,
     dateOfBirth = null,
@@ -530,6 +538,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           value: leasingPricingList,
         }
       : undefined,
+      caregiverInvoiceTax:  caregiverInvoiceTax ? caregiverInvoiceTax : defaultTaxValue,
     salutation: salutation
       ? {
           label: salutation,

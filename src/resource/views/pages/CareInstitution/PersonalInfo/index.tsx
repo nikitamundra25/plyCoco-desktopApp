@@ -245,7 +245,7 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
     try {
       const careInstitutionInput: any = {
         gender: values && values.gender ? values.gender.value : '',
-        salutation: values && values.salutation ? values.salutation.value : '',
+        salutation: values && values.salutation ? values.salutation : '',
         firstName: values.firstName ? values.firstName.trim() : '',
         lastName: values.lastName ? values.lastName.trim() : '',
         shortName: temp,
@@ -498,7 +498,7 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
         : undefined,
       userName,
       phoneNumber: phoneNumber || '',
-      salutation: convertintoLabelValue(salutation),
+      salutation: salutation || '',
       title,
       shortName,
       companyName,
@@ -569,7 +569,7 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       email: '',
       firstName: '',
       lastName: '',
-      salutation: { label: '', value: '' },
+      salutation: '',
       userName: '',
       fax: '',
       shortName: '',

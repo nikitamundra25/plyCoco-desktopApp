@@ -49,7 +49,7 @@ const CreateTodo = React.lazy(() =>
   import("../../components/CreateTodo/index")
 );
 
-const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
+const [GET_CARE_INSTITUTION_LIST, GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries;
 
 const [, , , , , , , ADD_NEW_CARE_INTITUTION] = CareInstitutionMutation;
 
@@ -66,6 +66,9 @@ const ViewCareInstitution: FunctionComponent<
 > = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
   let { id } = useParams();
   const Id: any | undefined = id;
+  console.log('canstitution - id', id);
+
+  let userId = Number(id)
   const [showToDo, setShowToDo] = useState<boolean>(false);
   let history = useHistory();
 
@@ -82,6 +85,17 @@ const ViewCareInstitution: FunctionComponent<
   ] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
     fetchPolicy: "no-cache",
   });
+
+  const [
+    fetchCareInstitutionByID,
+    { data: careInstituitionData},
+  ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID, {
+    fetchPolicy: "no-cache",
+  });
+  console.log('careInstituitionData',careInstituitionData)
+  console.log('careInstituitionData',careInstituitionData && careInstituitionData.getCareInstitution ? careInstituitionData.getCareInstitution.lastName : null)
+
+
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: "",
@@ -118,6 +132,15 @@ const ViewCareInstitution: FunctionComponent<
         limit: 200,
         page: 1,
         isActive: "",
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log('useEffect - fetchCareInstitutionByID');
+    fetchCareInstitutionByID({
+      variables: {
+        careInstitutionId: userId,
       },
     });
   }, []);
@@ -395,6 +418,7 @@ console.log("selectUserselectUser",selectUser);
                       selectedUserName={
                         selectUser && selectUser.label ? selectUser.label : ""
                       }
+                      userLastName = {careInstituitionData && careInstituitionData.getCareInstitution.salutation ? careInstituitionData.getCareInstitution.salutation : "Sehr geehrte Damen und Herren"}
                       userRole={
                         careInstituition &&
                         careInstituition.getCareInstitutions &&

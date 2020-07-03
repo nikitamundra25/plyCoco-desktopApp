@@ -33,20 +33,8 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
   companyName: Yup.string()
     .trim()
     .required(languageTranslation('COMPANY_REQUIRED')),
-  mobileNumber: Yup.mixed()
-    .test(
-      'num-length',
-      languageTranslation('MOB_MAXLENGTH'),
-      value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax)
-    ),
-  phoneNumber: Yup.mixed()
-    .test(
-      'num-length',
-      languageTranslation('PHONE_MAXLENGTH'),
-      value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax)
-    ),
+  mobileNumber: Yup.mixed(),
+  phoneNumber: Yup.mixed(),
   careGiverCommission: Yup.mixed().test(
     'check-num',
     languageTranslation('INVALID_NUMBER'),
@@ -113,27 +101,9 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .max(20, languageTranslation('LASTNAME_MAXLENGTH'))
     .min(3, languageTranslation('NAME_MINLENGTH'))
     .required(languageTranslation('LASTNAME_REQUIRED')),
-  mobileNumber: Yup.mixed()
-    .test(
-      'num-length',
-      languageTranslation('MOB_MAXLENGTH'),
-      value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax)
-    ),
-  phoneNumber: Yup.mixed()
-    .test(
-      'num-length',
-      languageTranslation('PHONE_MAXLENGTH'),
-      value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax)
-    ),
-  phoneNumber2: Yup.mixed()
-    .test(
-      'num-length',
-      languageTranslation('PHONE_MAXLENGTH'),
-      value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax)
-    ),
+  mobileNumber: Yup.mixed(),
+  phoneNumber: Yup.mixed(),
+  phoneNumber2: Yup.mixed(),
   faxNumber: Yup.mixed(),
   contactType: Yup.object().shape({
     value: Yup.string().required(languageTranslation('CONTACT_REQUIRED')),
@@ -158,13 +128,7 @@ export const AddDepartmentValidationSchema: Yup.ObjectSchema<Yup.Shape<
   anonymousName2: Yup.string(),
   address: Yup.string(),
   contactPerson: Yup.string(),
-  phoneNumber: Yup.mixed()
-    .test(
-      'num-length',
-      languageTranslation('PHONE_MAXLENGTH'),
-      value =>
-        !value || (value && value.length >= mobMin && value.length <= mobMax)
-    ),
+  phoneNumber: Yup.mixed(),
   faxNumber: Yup.mixed(),
   email: Yup.string()
     .trim()

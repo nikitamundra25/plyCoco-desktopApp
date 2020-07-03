@@ -296,21 +296,26 @@ const AddCareInstitution: FunctionComponent<
                     </Label>
                   </Col>
                   <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                    <div>
-                      <Select
+                    <div className="required-input">
+                      <Input
+                        type="text"
+                        name={"salutation"}
+                        onChange={handleChange}
+                        maxLength={250}
+                        onBlur={handleBlur}
+                        value={salutation}
                         placeholder={languageTranslation("SALUTATION")}
-                        value={
-                          salutation && salutation.value
-                            ? salutation
-                            : undefined
+                        className={
+                          errors.salutation && touched.salutation
+                            ? "text-input error text-capitalize"
+                            : "text-input text-capitalize"
                         }
-                        onChange={(value: any) =>
-                          handleSelect(value, "salutation")
-                        }
-                        options={Salutation}
-                        classNamePrefix="custom-inner-reactselect"
-                        className={"custom-reactselect"}
                       />
+                      {errors.salutation && touched.salutation && (
+                        <div className="required-tooltip">
+                          {errors.salutation}
+                        </div>
+                      )}
                     </div>
                   </Col>
                 </Row>

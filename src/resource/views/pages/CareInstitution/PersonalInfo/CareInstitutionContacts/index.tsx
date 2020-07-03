@@ -279,6 +279,8 @@ const CareInstitutionContacts: any = (props: any) => {
         remark: values.remark,
         attributes: AttributeData,
       };
+
+      console.log('contactInput',contactInput)
       if (id) {
         await updateContact({
           variables: {

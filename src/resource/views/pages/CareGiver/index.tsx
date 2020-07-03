@@ -412,7 +412,7 @@ const CareGiver: FunctionComponent = () => {
                                       )
                                     }
                                     className="info-title text-capitalize"
-                                  >{`${careGiverData.salutation} ${careGiverData.lastName} ${careGiverData.firstName}`}</span>
+                                  >{`${careGiverData.lastName} ${careGiverData.firstName}`}</span>
                                   <p className="description-text">
                                     <i className="fa fa-user mr-2"></i>
                                     <span className="align-middle">

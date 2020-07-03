@@ -76,13 +76,7 @@ export const EmployeeValidationSchema: Yup.ObjectSchema<Yup.Shape<
       !value.replace(IBANReplaceRegex, '') ||
       (value && value.replace(IBANReplaceRegex, '').length === IBANlength)
   ),
-  telephoneNumber: Yup.mixed()
-    .test(
-      'num-length',
-      languageTranslation('TEL_MINLENGTH'),
-      value =>
-        !value || (value && value.length >= telMin && value.length <= telMax)
-    ),
+  telephoneNumber: Yup.mixed(),
   city: Yup.string(),
   country: Yup.mixed()
     .required(languageTranslation('COUNTRY_REQUIRED'))

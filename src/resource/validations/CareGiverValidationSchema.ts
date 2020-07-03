@@ -50,20 +50,8 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
       return !val || isValid || createError({ path, message });
     }
   }),
-  phoneNumber: Yup.mixed()
-    .test(
-      'num-length',
-      languageTranslation('PHONE_MAXLENGTH'),
-      value =>
-        !value || (value && value.length >= telMin && value.length <= telMax)
-    ),
-  mobileNumber: Yup.mixed()
-    .test(
-      'num-length',
-      languageTranslation('MOB_MAXLENGTH'),
-      value =>
-        !value || (value && value.length >= telMin && value.length <= telMax)
-    ),
+  phoneNumber: Yup.mixed(),
+  mobileNumber: Yup.mixed(),
   taxNumber: Yup.mixed()
     .test(
       'num-length',

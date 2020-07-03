@@ -102,6 +102,7 @@ const CaregiverFormView: FunctionComponent<
       s,
       n,
       status,
+      createdBy
     },
     touched,
     errors,
@@ -414,7 +415,7 @@ const CaregiverFormView: FunctionComponent<
     }
   }
 
-  console.log(selectedCells,'selectedCells in form');
+  console.log(createdBy,'createdBy in form');
   
   return (
     <>
@@ -1489,6 +1490,37 @@ const CaregiverFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
+
+
+            {createdBy ? (
+              <Col lg={"12"} className="mb-2 text-right text-muted">
+                <i>
+                {`${languageTranslation("CREATED_BY")} ${createdBy ? createdBy : ""}`}
+                </i>
+                {/* <FormGroup>
+                  <Row>
+                    <Col sm="4">
+                      <Label className="form-label col-form-label">
+                        {languageTranslation("CREATED_BY")}
+                      </Label>
+                    </Col>
+                    <Col sm="8">
+                    <div className="required-input">
+                      <Input
+                        type="text"
+                        disabled={true}
+                        name={"createdBy"}
+                        placeholder={languageTranslation("CREATED_BY")}
+                        className="width-common"
+                        value={createdBy ? createdBy : ""}
+                      />
+                    </div>
+                    </Col>
+                  </Row>
+                </FormGroup> */}
+              </Col>
+            ) : null}
+
             <Col lg={"12"}>
               <div className="d-flex align-items-center justify-content-between">
                 <Button

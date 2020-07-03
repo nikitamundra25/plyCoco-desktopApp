@@ -306,7 +306,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     if (documentRes) {
       const {addUserDocuments={}} = documentRes ? documentRes :{}
       const {fileSize=0,document='',id=''} = addUserDocuments ? addUserDocuments : {}
-      setAttachments([{fileName: 'TIM Arbeitnehmerüberlassungsbogen - Supply temporary workers(Care Institution)',url:null,file:null,
+      setAttachments([{fileName: 'TIM Arbeiterüberlassungsbogen - Versorgung von (Pflegeeinrichtung)',url:null,file:null,
         id,
         path:document,
         size:fileSize}])

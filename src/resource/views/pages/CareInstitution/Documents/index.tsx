@@ -6,7 +6,7 @@ import { DocumentMutations } from '../../../../../graphql/Mutations';
 import moment from 'moment';
 import {
   IDocumentUrls,
-  IReactSelectInterface
+  IReactSelectInterface,
 } from '../../../../../interfaces';
 import DocumentUploadModal from './DocumentModal';
 import DocumentsList from './DocumentsList';
@@ -27,14 +27,14 @@ const [
   DISAPPROVE_DOCUMENT,
   ,
   DELETE_DOCUMENT_TYPE_CAREINST,
-  UPDATE_CAREINST_DOC
+  UPDATE_CAREINST_DOC,
 ] = DocumentMutations;
 const [, GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries;
 const [
   ,
   GET_DOCUMENTS,
   GET_DOCUMENT_TYPES,
-  GET_REQUIRED_DOCUMENT_TYPES
+  GET_REQUIRED_DOCUMENT_TYPES,
 ] = DocumentQueries;
 
 let toastId: any = '';
@@ -75,8 +75,8 @@ const Documents = () => {
     {
       data: careInstData,
       loading: caregiverDataLoading,
-      refetch: careInstDetailsRetch
-    }
+      refetch: careInstDetailsRetch,
+    },
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID);
 
   // To fetch the explicitly required document of careinstitution by id
@@ -85,8 +85,8 @@ const Documents = () => {
     {
       data: explicitDocument,
       loading: addedDocumentListLoading,
-      refetch: addedDocumentListRefetch
-    }
+      refetch: addedDocumentListRefetch,
+    },
   ] = useLazyQuery<any>(GET_REQUIRED_DOCUMENT_TYPES);
   //add document
   const [addDocument, { loading: addDocumentLoading }] = useMutation<any>(
@@ -107,15 +107,15 @@ const Documents = () => {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
-      }
+      },
     }
   );
 
   // To fecth document type list
   const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES, {
     variables: {
-      userRole: languageTranslation('DOCUMENT_TYPE_CAREINST')
-    }
+      userRole: 'careinstitution',
+    },
   });
   // To set document type into label value pair
   const documentTypeList: IReactSelectInterface[] | undefined = [];
@@ -123,7 +123,7 @@ const Documents = () => {
     documentTypeListData.getDocumentType.forEach((type: any) => {
       documentTypeList.push({
         label: type.type,
-        value: type.id
+        value: type.id,
       });
     });
   }
@@ -131,13 +131,13 @@ const Documents = () => {
   //disapprove document
   const [
     disapprovedDocument,
-    { data: disApprovedData, loading: disapproveLoading }
+    { data: disApprovedData, loading: disapproveLoading },
   ] = useMutation<any>(DISAPPROVE_DOCUMENT);
 
   //approve document
   const [
     approvedDocument,
-    { data: ApprovedData, loading: approveLoading }
+    { data: ApprovedData, loading: approveLoading },
   ] = useMutation<any>(APPROVE_DOCUMENT);
 
   //update document status
@@ -169,15 +169,15 @@ const Documents = () => {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
-      }
+      },
     }
   );
   //to fetch added document lest
   useEffect(() => {
     fetchAddedDocumentList({
       variables: {
-        userId: id ? id : ''
-      }
+        userId: id ? id : '',
+      },
     });
   }, []);
 
@@ -192,7 +192,7 @@ const Documents = () => {
     setaddedDocumentType(
       document_types.map((document: any) => ({
         label: document.type,
-        value: document.id
+        value: document.id,
       }))
     );
   }, [explicitDocument]);
@@ -236,13 +236,13 @@ const Documents = () => {
     if (id) {
       fetchDocumentList({
         variables: {
-          userId: id ? id : ''
-        }
+          userId: id ? id : '',
+        },
       });
       fetchCareInstDetails({
         variables: {
-          careInstitutionId: id ? id : ''
-        }
+          careInstitutionId: id ? id : '',
+        },
       });
     }
   }, [id]);
@@ -256,7 +256,7 @@ const Documents = () => {
       document = '',
       fileName = '',
       createdAt = '',
-      isDefault = null
+      isDefault = null,
     } = data ? data : {};
     //To set data in case of edit uploaded document
     setIsMissingDocEditable(isMissingDocEditable);
@@ -275,7 +275,7 @@ const Documents = () => {
       setDocumentUrl({
         url: document,
         name: fileName,
-        date: createdAt
+        date: createdAt,
       });
       setFilename(fileName);
     }
@@ -308,7 +308,7 @@ const Documents = () => {
               temp = {
                 url: reader.result,
                 name: file.name,
-                date: moment().format('DD.MM.YYYY')
+                date: moment().format('DD.MM.YYYY'),
               };
               setDocumentUrl(temp);
             }
@@ -336,7 +336,7 @@ const Documents = () => {
         status !== languageTranslation('APPROVE_STATUS')
           ? 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_APPROVE_MSG'
           : 'CONFIRM_CAREGIVER_DOCUMENT_STATUS_NOTREQUESTED_MSG'
-      )
+      ),
     });
     if (!value) {
       setDocumentId(null);
@@ -347,8 +347,8 @@ const Documents = () => {
         await updateDocumentStatus({
           variables: {
             id: id ? parseInt(id) : null,
-            status: checked === true ? 'approve' : 'decline'
-          }
+            status: checked === true ? 'approve' : 'decline',
+          },
         });
         setDocumentId(null);
         refetch();
@@ -377,7 +377,7 @@ const Documents = () => {
     let documentInput = {
       fileName: fileName ? fileName : '',
       documentTypeId: documentType ? documentType.value : '',
-      remarks: remarkValue ? remarkValue : ''
+      remarks: remarkValue ? remarkValue : '',
     };
     if (documentIdUpdate) {
       if ((isMissingDocEditable && fileObject) || fileName) {
@@ -389,10 +389,10 @@ const Documents = () => {
               ? {
                   ...documentInput,
                   document: fileObject ? fileObject : null,
-                  status: statusValue ? 'approve' : 'notrequested'
+                  status: statusValue ? 'approve' : 'notrequested',
                 }
-              : documentInput
-          }
+              : documentInput,
+          },
         });
       }
     } else {
@@ -404,9 +404,9 @@ const Documents = () => {
               document: fileObject ? fileObject : null,
               remarks: remarkValue,
               status: statusValue ? 'approve' : 'notrequested',
-              documentTypeId: documentType ? documentType.value : ''
-            }
-          }
+              documentTypeId: documentType ? documentType.value : '',
+            },
+          },
         });
       }
     }
@@ -416,7 +416,7 @@ const Documents = () => {
   const onDeleteDocumentTypes = async (documentId: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation("DOCUMENT_TYPE_DELETED")
+      text: languageTranslation('DOCUMENT_TYPE_DELETED'),
     });
     if (!value) {
       return;
@@ -425,13 +425,15 @@ const Documents = () => {
         await deleteDocumentTypes({
           variables: {
             id: id ? id : null,
-            requiredDocuments: [documentId]
-          }
+            requiredDocuments: [documentId],
+          },
         });
         addedDocumentListRefetch();
         toast.dismiss();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success(languageTranslation("DOCUMENT_DELETED_SUCCESSFULLY"));
+          toastId = toast.success(
+            languageTranslation('DOCUMENT_DELETED_SUCCESSFULLY')
+          );
         }
       } catch (error) {
         const message = error.message
@@ -448,7 +450,7 @@ const Documents = () => {
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation("DOCUMENT_TYPE_DELETED")
+      text: languageTranslation('DOCUMENT_TYPE_DELETED'),
     });
     if (!value) {
       return;
@@ -456,12 +458,14 @@ const Documents = () => {
       try {
         await deleteDocument({
           variables: {
-            id: id ? parseInt(id) : null
-          }
+            id: id ? parseInt(id) : null,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success(languageTranslation("DOCUMENT_DELETED_SUCCESSFULLY"));
+          toastId = toast.success(
+            languageTranslation('DOCUMENT_DELETED_SUCCESSFULLY')
+          );
         }
       } catch (error) {
         const message = error.message
@@ -479,7 +483,7 @@ const Documents = () => {
   const onApprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CI_PROFILE_APPROVE')
+      text: languageTranslation('CI_PROFILE_APPROVE'),
     });
     if (!value) {
       return;
@@ -488,8 +492,8 @@ const Documents = () => {
         await approvedDocument({
           variables: {
             userId: id ? id : '',
-            isApproved: true
-          }
+            isApproved: true,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {
@@ -513,7 +517,7 @@ const Documents = () => {
   const onDisapprove = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CI_PROFILE_DISAPPROVE')
+      text: languageTranslation('CI_PROFILE_DISAPPROVE'),
     });
     if (!value) {
       return;
@@ -522,8 +526,8 @@ const Documents = () => {
         await disapprovedDocument({
           variables: {
             userId: id ? id : '',
-            isApproved: false
-          }
+            isApproved: false,
+          },
         });
         refetch();
         if (!toast.isActive(toastId)) {

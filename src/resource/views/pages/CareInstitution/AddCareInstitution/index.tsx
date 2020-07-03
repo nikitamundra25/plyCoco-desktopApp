@@ -214,8 +214,20 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
           values.leasingPriceListId && values.leasingPriceListId.value
             ? values.leasingPriceListId.value
             : null,
+
+            plycocoInvoiceTax:
+            values.plycocoInvoiceTax && values.plycocoInvoiceTax.value
+              ? parseInt(values.plycocoInvoiceTax.value)
+              : parseInt(values.defaultTaxValue.value),
+
+              leasingInvoiceTax:
+              values.leasingInvoiceTax && values.leasingInvoiceTax.value
+                ? parseInt(values.leasingInvoiceTax.value)
+                : parseInt(values.defaultTaxValue.value),
+
         remarksViewable: values.remarksViewable
       };
+      console.log('dataSubmit',dataSubmit)
 
       await updateCareInstitution({
         variables: {

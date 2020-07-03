@@ -36,6 +36,9 @@ const GET_TO_DOS = gql`
         user {
           firstName
           lastName
+          canstitution{
+            shortName
+          }
         }
         contact {
           firstName

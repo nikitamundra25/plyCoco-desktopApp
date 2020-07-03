@@ -100,7 +100,7 @@ const Documents = () => {
   // To fecth document type list
   const { data: documentTypeListData } = useQuery<any>(GET_DOCUMENT_TYPES, {
     variables: {
-      userRole: languageTranslation('CAREGIVER_USERROLE')
+      userRole: "caregiver"
     }
   });
 

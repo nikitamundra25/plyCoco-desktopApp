@@ -1222,5 +1222,7 @@
    "CAREGIVER_INVOICE_TAX_ERROR": "Caregiver Invoice Tax must be less than or equal to 100",
    "CAREGIVER_INVOICE_NUM_ERROR": "Caregiver Invoice Tax bracket must be a number",
    "LEASING_INVOICE_NUM_ERROR": "Leasing Invoice Tax bracket must be a number",
-   "PLYCOCO_INVOICE_NUM_ERROR": "Plycoco Invoice Tax bracket must be a number"
+   "PLYCOCO_INVOICE_NUM_ERROR": "Plycoco Invoice Tax bracket must be a number",
+
+   "PAY_GROUP_TXT":"pay group"
 }

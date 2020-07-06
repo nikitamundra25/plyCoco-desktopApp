@@ -1194,5 +1194,6 @@
 "UNLINK_AND_DELETE":"You have to unlink them first and then you may delete them",
 "NO_CAREGIVER_AVAILABLE_FOR_OFFER": "No caregiver available for selected offer",
 "PLEASE_CHECK_OFFER_ATTRIBUTE":"Please check for caregiver containing offer attribute",
-"TAX":"Tax"
+"TAX":"Tax",
+"INVOICE_COMMENT_HEADING":"Add remarks to invoice"
 }

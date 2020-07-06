@@ -19,6 +19,7 @@ export interface IPycModalProps {
     | HTMLElement;
   handleClose?: () => void;
   footerButtons?: IPycButtonProps[];
+  size?: string;
 }
 // props for Close button component
 export interface IPycCloseBtnProps {

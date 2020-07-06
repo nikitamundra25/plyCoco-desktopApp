@@ -91,7 +91,9 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   const [getDepartmentById, { data: departmentById }] = useLazyQuery<any>(
     GET_DIVISION_DETAILS_BY_ID,
     {
+      fetchPolicy: 'no-cache',
       onCompleted({ getDivisionsDetails }) {
+        console.log('onCompleted')
         const temp: any = [];
         const tempQualification: any = [];
         if (
@@ -170,6 +172,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         locked: filterValue,
       },
     });
+    
     setDepartmentDetails({
       id: '',
       userId: parseInt(Id),
@@ -189,6 +192,12 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     });
     setUserId(Id);
   }, [Id]);
+
+  useEffect(() => {
+
+  })
+
+  
 
   if (userId && userId !== Id) {
     setUserId(Id);

@@ -93,6 +93,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     {
       onCompleted({ getDivisionsDetails }) {
         const temp: any = [];
+        const tempQualification: any = [];
         if (
           getDivisionsDetails &&
           getDivisionsDetails.division_attributes &&
@@ -106,10 +107,24 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
             });
           });
         }
+        if (
+          getDivisionsDetails &&
+          getDivisionsDetails.division_qualifications &&
+          getDivisionsDetails.division_qualifications.length
+        ) {
+          getDivisionsDetails.division_qualifications.map((qualification: any) => {
+            return tempQualification.push({
+              label: qualification.name,
+              value: qualification.id,
+            });
+          });
+        }
+        console.log('tempQualification',tempQualification)
+
         setIsActive(getDivisionsDetails.id);
         setDepartmentDetails(getDivisionsDetails);
         setTimesData(getDivisionsDetails.times);
-        setQualifications(getDivisionsDetails.qualifications);
+        setQualifications(tempQualification);
         setAttributes(temp);
       },
     }
@@ -179,6 +194,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setUserId(Id);
   }
   const onDepartmentClick = (item: any) => {
+    console.log('onDepartmentClick')
     setIsActive(item.id);
     setResetTimeForm(true);
     getDepartmentById({
@@ -187,6 +203,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       },
     });
   };
+
   const handleSubmit = async (
     values: IAddDepartmentFormValues,
     { setSubmitting, resetForm }: FormikHelpers<IAddDepartmentFormValues>
@@ -208,7 +225,11 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         commentsVisibleInternally: values.commentsVisibleInternally,
         locked: values.locked,
         times: timesData,
-        qualifications: qualifications,
+        qualifications:  qualifications && qualifications.length
+        ? qualifications.map(({ value }: IReactSelectInterface) =>
+            parseInt(value)
+          )
+        : [],
         attributes:
           attributes && attributes.length
             ? attributes.map(({ value }: IReactSelectInterface) =>

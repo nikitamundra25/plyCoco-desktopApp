@@ -13,6 +13,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
   IQuallificationAttribute
 > &
   any> = (props: FormikProps<IQuallificationAttribute> & any) => {
+    
   const selectQualification = async (value: any) => {
     setQualifications(value);
   };
@@ -29,6 +30,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
     attributes,
     setAttributes,
   } = props;
+  console.log('qualifications',qualifications)
 
   const colourStyles = {
     option: (styles: any, { data }: any) => {

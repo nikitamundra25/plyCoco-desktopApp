@@ -221,6 +221,10 @@ const GET_DIVISION_DETAILS_BY_ID = gql`
         name
         color
       }
+      division_qualifications {
+        id
+        name
+      },
       qualifications
       createdBy
       updatedBy

@@ -356,11 +356,15 @@ query getInvoiceByUserId( $userId: ID!) {
   getInvoiceByUserId(
     userId: $userId
   ) {
+    result{
       id
       invoiceNumber
       dueDate
+      invoiceDate
+      plycocoPdf
       cancelledBy
       cancelledFor
+      comment
       createdAt
       tax
       amount
@@ -373,6 +377,8 @@ query getInvoiceByUserId( $userId: ID!) {
         userName  
       }
     }
+    totalCount
+  }
 }`;
 // query {
 //   getNegativeList(id: 1419){

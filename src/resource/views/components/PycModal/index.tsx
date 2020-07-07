@@ -16,6 +16,7 @@ const PycCloseBtn: FunctionComponent<IPycCloseBtnProps> = ({
 
 const PycModal: FunctionComponent<IPycModalProps> = ({
   isOpen: show,
+  size,
   headerText,
   body,
   footerButtons,
@@ -23,7 +24,7 @@ const PycModal: FunctionComponent<IPycModalProps> = ({
   children
 }): JSX.Element => {
   return (
-    <Modal isOpen={show} className="common-modal" size="lg" centered>
+    <Modal isOpen={show} className="common-modal" size={size || "lg"} centered>
       <ModalHeader close={<PycCloseBtn handleClose={handleClose} />}>
         {headerText || "Modal Header"}
       </ModalHeader>

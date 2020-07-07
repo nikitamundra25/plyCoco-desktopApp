@@ -22,6 +22,14 @@ mutation SendInvoice($sendInvoiceInput: SendInvoiceInput){
   }
 }`
 
+const UPDATE_INVOICE_COMMENT = gql`
+mutation UpdateRemarkToInvoice($invoiceInput: InvoiceRemarkInput){
+  updateRemarkToInvoice(invoiceInput: $invoiceInput){
+    id
+    comment
+  }
+}`
+
 // mutation{
 //   createLeasingInvoice(
 //     invoiceInput:{
@@ -42,4 +50,4 @@ mutation SendInvoice($sendInvoiceInput: SendInvoiceInput){
 //   }
 //   }
 
-export const InvoiceMutations = [CREATE_INVOICE, CREATE_LEASING_INVOICE, SEND_INVOICE_DATA];
+export const InvoiceMutations = [CREATE_INVOICE, CREATE_LEASING_INVOICE, SEND_INVOICE_DATA, UPDATE_INVOICE_COMMENT];

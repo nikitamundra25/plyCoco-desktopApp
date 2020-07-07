@@ -1,41 +1,51 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { Table, UncontrolledTooltip } from "reactstrap";
-import { Link, useParams } from "react-router-dom";
+import { Table, UncontrolledTooltip,
+  FormGroup,
+  Label,
+  Input,
+  Col,
+  Row } from "reactstrap";
+import { useParams } from "react-router-dom";
 import * as qs from "query-string";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { useLocation, useHistory } from "react-router";
-import { AppBreadcrumb } from "@coreui/react";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import { FormikHelpers, Formik, FormikProps } from "formik";
 import {
   AppRoutes,
   PAGE_LIMIT,
-  sortFilter,
-  defaultDateTimeFormat,
+  defaultDateFormat,
+  AppConfig,
 } from "../../../../../config";
-import routes from "../../../../../routes/routes";
-import Search from "../../../components/SearchFilter";
-import ButtonTooltip from "../../../components/Tooltip/ButtonTooltip";
-import { languageTranslation, errorFormatter } from "../../../../../helpers";
-import { ISearchValues, IReactSelectInterface } from "../../../../../interfaces";
+import { languageTranslation, logger } from "../../../../../helpers";
+import { IPycButtonProps } from "../../../../../interfaces";
+import Loader from "../../../containers/Loader/Loader";
+import { CareGiverQueries } from "../../../../../graphql/queries";
+import { CareGiverMutations, InvoiceMutations } from "../../../../../graphql/Mutations";
 import { ConfirmBox } from "../../../components/ConfirmBox";
 import PaginationComponent from "../../../components/Pagination";
-import Loader from "../../../containers/Loader/Loader";
-import { NoSearchFound } from "../../../components/SearchFilter/NoSearchFound";
-import { CareGiverQueries } from "../../../../../graphql/queries";
-import { CareGiverMutations } from "../../../../../graphql/Mutations";
+import PycModal from "../../../components/PycModal";
 import "../caregiver.scss";
 
 const [, , , , , , , , , CANCEL_INVOICE] = CareGiverMutations
 const [, , , , , , , , , GET_INVOICE_BY_USERID] = CareGiverQueries;
+const [, , , UPDATE_INVOICE_COMMENT] = InvoiceMutations;
 let toastId: any = "";
 
 const Invoices: FunctionComponent = () => {
-
   let history = useHistory();
   const { search, pathname } = useLocation();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isExpand, setIsExpand] = useState<boolean>(false);
+  const [activeRow, setActiveRow] = useState<number>(-1);
+  const [isOpen, setOpen] = useState<boolean>(false);
+  const [inputs, setInputs] = useState<{
+    id:number|null,
+    comment:string
+  }>({
+    id:null,
+    comment:''
+  })
   // const [readMore, setreadMore] = useState<boolean>(false);
   // const [readMoreIndex, setreadMoreIndex] = useState<number>(-1);
 
@@ -50,9 +60,19 @@ const Invoices: FunctionComponent = () => {
       called,
       loading,
       refetch }] = useLazyQuery<any, any
-      >(GET_INVOICE_BY_USERID, {
-        fetchPolicy: "no-cache",
-      });
+      >(GET_INVOICE_BY_USERID
+      //   , {
+      //   fetchPolicy: "no-cache",
+      // }
+      );
+
+  // Mutation to add/update comments on invoice
+  const [updateRemarkToInvoice, {loading:isUpdating}] = useMutation<any, any>(UPDATE_INVOICE_COMMENT,{
+    onCompleted: () => {
+      setOpen(false);
+      toast.success("Remark added successfully")
+    }
+  })
 
   console.log('datadata', data)
   console.log('loadingloading', loading)
@@ -70,6 +90,15 @@ const Invoices: FunctionComponent = () => {
     });
   }, []); // It will run when the search value gets changed
 
+  const onPageChanged = (currentPage: number) => {
+    logger('onPageChanged', currentPage);
+    const query = qs.parse(search);
+    const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
+      '?',
+    );
+    history.push(path);
+  };
+  
   const onCancelInvoice = async (id: string, invoiceType: string) => {
     console.log('onCancelInvoice', id, invoiceType)
     const { value } = await ConfirmBox({
@@ -95,7 +124,44 @@ const Invoices: FunctionComponent = () => {
       }
     }
   };
-
+  const updateRemark = () => {
+    updateRemarkToInvoice({
+      variables: { 
+        invoiceInput: inputs
+      }
+    });
+  }
+  const handleInpuChange = (event:React.ChangeEvent<HTMLTextAreaElement>) => {
+    const {target:{ value }} = event
+    setInputs((inputs:any) => ({
+      ...inputs,
+      comment:value
+    }))
+  }
+  const openCommentBox = (id:number, comment:string) => {
+    console.log('openCommentBox', id);
+    setOpen(true);
+    setInputs({
+      id,
+      comment:comment
+    })
+  }
+  const handleClose = () => {
+    setOpen(false);
+  }
+  const expandedText = (index: number) => {
+    setIsExpand(activeRow === index || activeRow === -1 ? !isExpand : isExpand);
+    setActiveRow(activeRow === index ? -1 : index);
+  };
+  const footerButtons: IPycButtonProps[] = [{
+      text: languageTranslation('SUBMIT'),
+      color: 'primary',
+      onClick: updateRemark,
+      loading: isUpdating,
+      type: 'submit'
+    }
+  ];
+  let count = (currentPage - 1) * PAGE_LIMIT + 1;
   return (
     <>
       <div className="invoice-section">
@@ -157,23 +223,22 @@ const Invoices: FunctionComponent = () => {
                   </tr>
                 ) : data &&
                   data.getInvoiceByUserId &&
-                  data.getInvoiceByUserId &&
-                  data.getInvoiceByUserId.length ? (
-                      data.getInvoiceByUserId.map(
+                  data.getInvoiceByUserId.result &&
+                  data.getInvoiceByUserId.result.length ? (
+                      data.getInvoiceByUserId.result.map(
                         (invoiceData: any, index: number) => {
                           const replaceObj: any = {
                             ":id": invoiceData.id,
                             ":userName": invoiceData.userName,
                           };
                           return (
-                            <tr key={index}>
+                            <tr key={count++}>
                               <td className="sno-col"> {index} </td>
                               <td className="invoiceid-col">{invoiceData.invoiceNumber}</td>
                               <td className="invoiceid-col">{invoiceData.status}</td>
                               <td className="cancellation-col"> {invoiceData.cancelledFor ? invoiceData.cancelledFor : "-"} </td>
                               <td className="cancel-col"> {invoiceData.cancelledBy ? invoiceData.cancelledBy : "-"}   </td>
                               <td className="careinstitution-col">
-
                                 {invoiceData.careinstitution ?
                                   <div
                                     className="text-capitalize view-more-link  one-line-text"
@@ -190,10 +255,10 @@ const Invoices: FunctionComponent = () => {
                                   </div> : null}
 
                               </td>
-                              <td className="date-col">{invoiceData.createdAt}</td>
+                              <td className="date-col">{invoiceData.invoiceDate ? moment(invoiceData.invoiceDate).format(defaultDateFormat) : '-'}</td>
                               <td className="amount-col">{invoiceData.amount}</td>
                               <td className="vat-col">{invoiceData.tax}</td>
-                              <td className="due-date-col">{invoiceData.dueDate}</td>
+                              <td className="due-date-col">{invoiceData.dueDate ? moment(invoiceData.dueDate).format(defaultDateFormat) : '-'}</td>
                               <td className="factoring-col">
                                 <span className="checkbox-custom ">
                                   <input type="checkbox" id="checkAll" className="" />
@@ -201,10 +266,38 @@ const Invoices: FunctionComponent = () => {
                                 </span>
                               </td>
                               <td className="sent-col"> - </td>
-                              <td className="remarks-col word-wrap"> {invoiceData.remarks}</td>
-                              <td className="action-col">
+                              <td className='remark-col'>
+                    {invoiceData.comment ? (
+                      invoiceData.comment.length <= 100 ? (
+                        invoiceData.comment
+                      ) : (
+                        <p className='mb-0'>
+                          {isExpand && activeRow === index
+                            ? invoiceData.comment
+                            : invoiceData.comment.substr(0, 100)}
+                          ...
+                          <span
+                            className='view-more-link'
+                            onClick={() => expandedText(index)}
+                          >
+                            {isExpand && activeRow === index
+                              ? 'Read less'
+                              : 'Read more'}
+                          </span>
+                        </p>
+                      )
+                    ) : (
+                      '-'
+                    )}
+                  </td>
+                             <td className="action-col">
                                 <div className="action-btn">
-                                  <span className="btn-icon mr-2" id={`open`}>
+                                  <span className="btn-icon mr-2" id={`open`} onClick={() =>
+                          window.open(
+                            `${AppConfig.FILES_ENDPOINT}/${invoiceData.plycocoPdf}`,
+                            '_blank'
+                          )
+                        }>
                                     <UncontrolledTooltip placement="top" target={`open`}>
                                       Open Invoice
                         </UncontrolledTooltip>
@@ -216,7 +309,12 @@ const Invoices: FunctionComponent = () => {
                         </UncontrolledTooltip>
                                     <i className="fa fa-pencil"></i>
                                   </span>
-
+                                  <span className="btn-icon mr-2" id={`comment${index}`} onClick={() => openCommentBox(parseInt(invoiceData.id), invoiceData.comment)}>
+                                    <UncontrolledTooltip placement="top" target={`comment${index}`}>
+                                      Add Comment to Invoice
+                                    </UncontrolledTooltip>
+                                    <i className="fa fa-comments-o" aria-hidden="true"></i>
+                                  </span>
                                   <span
                                     id={`cancel${index}`}
                                     className="btn-icon mr-2"
@@ -264,10 +362,45 @@ const Invoices: FunctionComponent = () => {
                       </tr>
                     )}
               </tbody>
-
             </Table>
+            <PycModal
+            isOpen={isOpen}
+            size={'sm'}
+            handleClose={handleClose}
+            headerText={
+              languageTranslation('INVOICE_COMMENT_HEADING')
+            }
+            footerButtons={footerButtons}
+          >
+          <div className='form-section forms-main-section'>
+                <Row>
+                  <Col lg={'12'}>
+                    <FormGroup>
+                      <Label className='form-label col-form-label mb-1'>
+                        {languageTranslation('REMARKS')}
+                      </Label>
+                      <Input
+                        type='textarea'
+                        name={'comment'}
+                        className='textarea-custom'
+                        rows={4}
+                        value={inputs && inputs.comment ? inputs.comment : ''}
+                        onChange={handleInpuChange}
+                      />
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </div>
+          </PycModal>
           </div>
         </div>
+        {data && data.getInvoiceByUserId && data.getInvoiceByUserId.totalCount ? (
+          <PaginationComponent
+            totalRecords={data.getInvoiceByUserId.totalCount}
+            currentPage={currentPage}
+            onPageChanged={onPageChanged}
+          />
+        ) : null}
       </div>
     </>
   );

@@ -1225,5 +1225,6 @@
    "PLYCOCO_INVOICE_NUM_ERROR": "Plycoco Invoice Tax bracket must be a number",
 
    "PAY_GROUP_TXT":"pay group",
-   "INVOICE_COMMENT_HEADING":"Add remarks to invoice"
+   "INVOICE_COMMENT_HEADING":"Add remarks to invoice",
+   "NO_INVOICE_FOUND": "No invoice found"
 }

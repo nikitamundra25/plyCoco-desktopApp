@@ -380,6 +380,12 @@ query getInvoiceByUserId( $userId: ID!) {
         lastName
         userName  
       }
+      caregiver{
+        id
+        firstName
+        lastName
+        userName  
+      }
     }
     totalCount
   }

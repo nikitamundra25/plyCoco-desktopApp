@@ -182,8 +182,7 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
         }}
         placeholder={placeholderLabel}
         classNamePrefix="custom-inner-reactselect"
-        className={
-          "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
+        className={ "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
         }
         components={{ Option: CareInstCustomOption }}
       />

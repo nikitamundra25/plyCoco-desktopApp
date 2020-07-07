@@ -46,8 +46,6 @@ const Invoices: FunctionComponent = () => {
     id:null,
     comment:''
   })
-  // const [readMore, setreadMore] = useState<boolean>(false);
-  // const [readMoreIndex, setreadMoreIndex] = useState<number>(-1);
 
   let { id } = useParams();
   const Id: any | undefined = id;
@@ -251,7 +249,7 @@ const Invoices: FunctionComponent = () => {
                                       )
                                     }
                                   >
-                                    {invoiceData.careinstitution.userName}
+                                    {[invoiceData.careinstitution.firstName, invoiceData.careinstitution.lastName].join(' ')}
                                   </div> : null}
 
                               </td>
@@ -313,7 +311,7 @@ const Invoices: FunctionComponent = () => {
                                     <UncontrolledTooltip placement="top" target={`comment${index}`}>
                                       Add Comment to Invoice
                                     </UncontrolledTooltip>
-                                    <i className="fa fa-comments-o" aria-hidden="true"></i>
+                                    <i className="fa fa-comment" aria-hidden="true"></i>
                                   </span>
                                   <span
                                     id={`cancel${index}`}
@@ -346,17 +344,14 @@ const Invoices: FunctionComponent = () => {
                       )
                     ) : (
                       <tr className={"text-center no-hover-row"}>
-                        <td colSpan={8} className={"pt-5 pb-5"}>
+                        <td colSpan={14} className={"pt-5 pb-5"}>
                           <div className="no-data-section">
                             <div className="no-data-icon">
                               <i className="icon-ban" />
                             </div>
                             <h4 className="mb-1">
-                              {languageTranslation("NO_CAREGIVER_ADDED")}{" "}
+                              {languageTranslation("NO_INVOICE_FOUND")}{" "}
                             </h4>
-                            <p>
-                              {languageTranslation("CLICK_ABOVE_TO_ADD_NEW")}{" "}
-                            </p>
                           </div>
                         </td>
                       </tr>

@@ -322,6 +322,10 @@ const GET_NEGATIVE_USERS_LIST = gql`
         id
         firstName
         lastName
+        canstitution{
+          companyName
+          shortName
+        }
       }
     }
   }
@@ -371,6 +375,12 @@ query getInvoiceByUserId( $userId: ID!) {
       invoiceType
       status
       careinstitution{
+        id
+        firstName
+        lastName
+        userName  
+      }
+      caregiver{
         id
         firstName
         lastName

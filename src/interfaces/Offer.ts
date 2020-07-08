@@ -13,4 +13,5 @@ export interface INegativeListInterface {
 export interface IWorkedListInterface { 
   workedAtList: any
   workedAtListLoading: boolean
+  addToNegativeList:(id:string)=>void;
 }

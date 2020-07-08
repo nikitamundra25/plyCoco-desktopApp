@@ -1196,5 +1196,7 @@
 "PLEASE_CHECK_OFFER_ATTRIBUTE":"Please check for caregiver containing offer attribute",
 "TAX":"Tax",
 "INVOICE_COMMENT_HEADING":"Add remarks to invoice",
-"NO_INVOICE_FOUND": "No invoice found"
+"NO_INVOICE_FOUND": "No invoice found",
+"CREATED_AT":"Created At",
+   "UPDATED_AT":"Updated At"
 }

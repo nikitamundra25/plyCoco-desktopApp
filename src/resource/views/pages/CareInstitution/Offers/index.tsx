@@ -174,6 +174,30 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
     }
   });
 
+
+  const addToNegativeList = (id: any) => {
+    console.log("id",id);
+    console.log("hereeeee",[
+      ...negativeUsersList.map((list: any) => parseInt(list.id)),
+      parseInt(id)
+    ]);
+    
+    
+    if (id) {
+      // addNegativeUser({
+      //   variables: {
+      //     id: userId ? parseInt(userId) : "",
+      //     negativeIds: id
+      //       ? [
+      //         ...negativeUsersList.map((list: any) => parseInt(list.id)),
+      //         parseInt(id)
+      //       ]
+      //       : null
+      //   }
+      // });
+    }
+  };
+
   //on selecting care insitution from drop down
   const handleSelect = (careInstId: any) => {
     if (careInstId && careInstId.value) {
@@ -273,6 +297,7 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
           <WorkedList 
            workedAtList = {workedAtList && workedAtList.getAllAppointment && workedAtList.getAllAppointment.result && workedAtList.getAllAppointment.result.length ? workedAtList.getAllAppointment.result : []}
           workedAtListLoading={workedAtListLoading}
+          addToNegativeList={addToNegativeList}
           />
         </Col>
       </Row>

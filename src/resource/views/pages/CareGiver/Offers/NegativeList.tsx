@@ -7,13 +7,11 @@ import {
   DropdownItem,
   UncontrolledTooltip,
 } from "reactstrap";
-import Select from "react-select";
+import { useHistory } from "react-router-dom";
 import { languageTranslation } from "../../../../../helpers";
-import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
 import CareinstitutionCustomAsyncList from "../../../components/DropdownList/CareInstitutionCustomAsyncSelect";
 import { INegativeListInterface } from "../../../../../interfaces";
 import { AppRoutes } from "../../../../../config";
-import { useHistory } from "react-router-dom";
 
 const NegativeList: FunctionComponent<INegativeListInterface> = (
   props: INegativeListInterface
@@ -106,7 +104,8 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
                           )
                         }
                       >
-                        {item && item.lastName + " " + item.firstName}
+                        {item && item.canstitution && item.canstitution.shortName ? item.canstitution.shortName : '-'}
+                        {/* {item && item.lastName + " " + item.firstName} */}
                       </div>
                       <div className="list-item-icon">
                         <span

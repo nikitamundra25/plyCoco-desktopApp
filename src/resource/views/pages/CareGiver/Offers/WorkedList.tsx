@@ -43,12 +43,9 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (
       </div>
       <div className="common-list-body custom-scrollbar worked-list">
         <ul className="common-list list-unstyled mb-0">
-          <li className={"cursor-pointer list-item text-capitalize "}>
+          {/* <li className={"cursor-pointer list-item text-capitalize "}>
             <div className="list-item-text">Dialysis</div>
             <div className="list-item-icon d-flex">
-              {/* <div className="list-item-img mr-2">
-                <img src={positive} alt="" />
-              </div> */}
               <div className="list-item-img">
                 <img src={negative} alt="" />{" "}
               </div>
@@ -57,9 +54,6 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (
           <li className={"cursor-pointer list-item text-capitalize"}>
             <div className="list-item-text">Nurse/carer</div>
             <div className="list-item-icon d-flex">
-              {/* <div className="list-item-img mr-2">
-                <img src={positive} alt="" />
-              </div> */}
               <div className="list-item-img">
                 <img src={negative} alt="" />{" "}
               </div>
@@ -68,14 +62,11 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (
           <li className={"cursor-pointer list-item text-capitalize"}>
             <div className="list-item-text">Home Management</div>
             <div className="list-item-icon d-flex">
-              {/* <div className="list-item-img mr-2">
-                <img src={positive} alt="" />
-              </div> */}
               <div className="list-item-img">
                 <img src={negative} alt="" />{" "}
               </div>
             </div>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

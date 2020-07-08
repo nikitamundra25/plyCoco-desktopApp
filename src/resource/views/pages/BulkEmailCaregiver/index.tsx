@@ -207,7 +207,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [uploadedSignature]);
-
   const setDefaultSignature = (body: any) => {  
     const contentBlock = htmlToDraft(
       `<div>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
@@ -316,7 +315,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         handleClose();
       }else{
       setSubject('');
-      setBody(undefined);
+      let body = "<br /><br /><br /><br /><br /><br />";
+      const updatedContent: any = setDefaultSignature(body);
+      setBody(updatedContent);
       setAttachments([]);
       setIsSubmit(false);
       setTemplate({ label: '', value: '' });
@@ -346,7 +347,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       // In case of modal popup
       if (props.handleClose) props.handleClose();
       setSubject('');
-      setBody(undefined);
+      let body = "<br /><br /><br /><br /><br /><br />";
+      const updatedContent: any = setDefaultSignature(body);
+      setBody(updatedContent);
       setAttachments([]);
       setIsSubmit(false);
       setTemplate({ label: '', value: '' });
@@ -500,7 +503,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     });
     setSubject('');
-    setBody(undefined);
+    let body = "<br /><br /><br /><br /><br /><br />";
+    const updatedContent: any = setDefaultSignature(body);
+    setBody(updatedContent);
     setAttachments([]);
     setIsSubmit(false);
     setPage(page);

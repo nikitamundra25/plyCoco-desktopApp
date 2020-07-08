@@ -4297,3 +4297,9 @@ html:not([dir="rtl"]) {
     }
   }
 }
+.no-data-li{
+  display:flex;
+align-items:center;
+justify-content:center;
+height:100%;
+}

@@ -11,5 +11,6 @@ export interface INegativeListInterface {
 }
 
 export interface IWorkedListInterface { 
-  workedAtList?: any
+  workedAtList: any
+  workedAtListLoading: boolean
 }

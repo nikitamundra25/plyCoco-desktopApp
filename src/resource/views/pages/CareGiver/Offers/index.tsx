@@ -113,7 +113,6 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
       fetchPolicy: "no-cache",
       // notifyOnNetworkStatusChange: true
     });
-console.log("workedAtListworkedAtList",workedAtList);
 
   // to get list of care institution
   useEffect(() => {
@@ -357,6 +356,7 @@ console.log("workedAtListworkedAtList",workedAtList);
         <Col md={6}>
           <WorkedList 
           workedAtList = {workedAtList && workedAtList.getAllAppointment && workedAtList.getAllAppointment.result && workedAtList.getAllAppointment.result.length ? workedAtList.getAllAppointment.result : []}
+          workedAtListLoading ={workedAtListLoading}
           />
         </Col>
       </Row>

@@ -13,6 +13,7 @@ import { IWorkedListInterface } from "../../../../../interfaces";
 const WorkedList: FunctionComponent<IWorkedListInterface> = (
   props: IWorkedListInterface
 ) => {
+  const {workedAtList} = props;
   return (
     <div className="common-list-wrap">
       <div className="common-list-header d-flex align-items-center justify-content-between">
@@ -43,39 +44,19 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (
       </div>
       <div className="common-list-body custom-scrollbar worked-list">
         <ul className="common-list list-unstyled mb-0">
-          <li className={"cursor-pointer list-item text-capitalize "}>
-            <div className="list-item-text">Dialysis</div>
+          {workedAtList && workedAtList.length ?  
+           workedAtList.map((list:any,index:number)=>{
+         return <li className={"cursor-pointer list-item text-capitalize "}>
+            <div className="list-item-text">{list.cr && list.cr.user  && list.cr.user.canstitution  && list.cr.user.canstitution.shortName? list.cr.user.canstitution.shortName : ""} </div>
             <div className="list-item-icon d-flex">
-              {/* <div className="list-item-img mr-2">
-                <img src={positive} alt="" />
-              </div> */}
-              <div className="list-item-img">
+            <div className="list-item-img">
                 <img src={negative} alt="" />{" "}
               </div>
-            </div>
-          </li>
-          <li className={"cursor-pointer list-item text-capitalize"}>
-            <div className="list-item-text">Nurse/carer</div>
-            <div className="list-item-icon d-flex">
-              {/* <div className="list-item-img mr-2">
-                <img src={positive} alt="" />
-              </div> */}
-              <div className="list-item-img">
-                <img src={negative} alt="" />{" "}
               </div>
-            </div>
           </li>
-          <li className={"cursor-pointer list-item text-capitalize"}>
-            <div className="list-item-text">Home Management</div>
-            <div className="list-item-icon d-flex">
-              {/* <div className="list-item-img mr-2">
-                <img src={positive} alt="" />
-              </div> */}
-              <div className="list-item-img">
-                <img src={negative} alt="" />{" "}
-              </div>
-            </div>
-          </li>
+          
+           })
+       :null}
         </ul>
       </div>
     </div>

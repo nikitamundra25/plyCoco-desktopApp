@@ -7,7 +7,7 @@ import { languageTranslation, errorFormatter } from "../../../../../helpers";
 import '../careinstitution.scss';
 // import SearchPopup from "./SearchPopup";
 import {
-  CareGiverQueries
+  CareGiverQueries, InvoiceQueries
 } from "../../../../../graphql/queries";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
@@ -41,11 +41,22 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
     DELETE_BLACKLIST_USER
   ] = CareGiverMutations;
   const [GET_CAREGIVERS, , , , , , , GET_NEGATIVE_USERS_LIST] = CareGiverQueries;
+const [GET_INVOICE_LIST] = InvoiceQueries;
+
   let { id } = useParams();
   let userId: any | undefined = id;
   const [caregiverOptions, setCaregiverOptions] = useState<any>([]);
   // get care institution lists
   const [fetchCaregiverList, { data: caregiver, refetch }] = useLazyQuery<any>(GET_CAREGIVERS);
+
+   // To fetch workedAt list
+   const [
+    fetchInvoiceList,
+    { data: workedAtList, loading: workedAtListLoading },
+  ] = useLazyQuery<any, any>(GET_INVOICE_LIST, {
+    fetchPolicy: "no-cache",
+    // notifyOnNetworkStatusChange: true
+  });
 
   // to get list of care institution
   useEffect(() => {
@@ -57,6 +68,18 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
         page: 1,
         isActive: ""
       }
+    });
+    fetchInvoiceList({
+      variables: {
+        searchBy: null,
+        caregiverId:null,
+        careInstitutionId: userId,
+        divisionId: null,
+        startDate:  null,
+        endDate: null,
+        limit: 100000,
+        page: 1,
+      },
     });
   }, [userId]);
 
@@ -247,7 +270,10 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
           />
         </Col>
         <Col md={6}>
-          <WorkedList />
+          <WorkedList 
+           workedAtList = {workedAtList && workedAtList.getAllAppointment && workedAtList.getAllAppointment.result && workedAtList.getAllAppointment.result.length ? workedAtList.getAllAppointment.result : []}
+          workedAtListLoading={workedAtListLoading}
+          />
         </Col>
       </Row>
     </div>

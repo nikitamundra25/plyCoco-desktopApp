@@ -5,9 +5,9 @@ import Select from "react-select";
 import { useParams, useLocation } from "react-router";
 import draftToHtml from "draftjs-to-html";
 import { convertToRaw, ContentState, EditorState } from "draft-js";
+import htmlToDraft from "html-to-draftjs";
 import { toast } from "react-toastify";
 import { ApolloError } from "apollo-client";
-import htmlToDraft from "html-to-draftjs";
 import { languageTranslation, logger, stripHtml } from "../../../../../helpers";
 import {
   EmailTemplateQueries,

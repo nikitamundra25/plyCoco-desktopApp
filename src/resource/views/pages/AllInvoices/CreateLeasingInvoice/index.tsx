@@ -211,7 +211,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         endDate: lte ? lte : null,
         limit: PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
-        attributeId: 9,
+        attributeId: CaregiverTIMyoCYAttrId,
       },
     });
   };

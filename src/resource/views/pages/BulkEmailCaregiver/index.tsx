@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Row, Button, Col } from 'reactstrap';
-import { convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
+import { Row, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { ApolloError } from 'apollo-client';
 import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
+import draftToHtml from "draftjs-to-html";
+import { convertToRaw, ContentState, EditorState } from "draft-js";
+import htmlToDraft from "html-to-draftjs";
 import {
   languageTranslation,
   HtmlToDraftConverter,
@@ -35,8 +36,6 @@ import { ConfirmBox } from '../../components/ConfirmBox';
 import { CareGiverListComponent } from './CareGiverListComponent';
 import { IBulkEmailVariables } from '../../../../interfaces';
 import { errorFormatter } from '../../../../helpers';
-import filter from '../../../assets/img/filter.svg';
-import refresh from '../../../assets/img/refresh.svg';
 import {
   client,
   dbAcceptableFormat,
@@ -46,8 +45,12 @@ import moment from 'moment';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import LeasingContactPdf from './PDF/LeasingContactPdf';
 import TerminationAgreementPdf from './PDF/TerminationAgreementPdf';
-import './index.scss';
 import Loader from '../../containers/Loader/Loader';
+import filter from '../../../assets/img/filter.svg';
+import refresh from '../../../assets/img/refresh.svg';
+import logo from "../../../assets/img/plycoco-orange.png";
+import './index.scss';
+
 // import { emailContent } from '../../../../common';
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
@@ -204,6 +207,28 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [uploadedSignature]);
+
+  const setDefaultSignature = (body: any) => {  
+    const contentBlock = htmlToDraft(
+      `<div>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
+        "BEST_WISHES"
+      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-644 99 444" style="color: #000; text-decoration: none;">+49-30-644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-644 99 445" style="color: #000; text-decoration: none;">+49-30-644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="https://www.plycoco.de/" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Vertreten durch: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746</span><br><span style="font-size: 12px;color: #b5b4b4;">Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz DE290375287</span></div></div>`
+    );
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      return editorState;
+    }
+  };
+
+  // To set default salutation & signature while composing the newemail
+  useEffect(() => {
+    let body = "<br /><br /><br /><br /><br /><br />";
+    const updatedContent: any = setDefaultSignature(body);
+    setBody(updatedContent);
+  }, []);
 
   // To fetch users according to qualification selected in case of offer caregiver to care institution
   useEffect(() => {
@@ -624,10 +649,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     const { token = '' } = generateLeasingContractLinkToken
       ? generateLeasingContractLinkToken
       : {};
-    let temp = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '';
-    temp = temp.replace(new RegExp(`{token}`, 'g'), token);
-    const editorState = temp ? HtmlToDraftConverter(temp) : '';
-    setBody(editorState);
+    if (token) {
+      let temp = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '';
+      temp = temp.replace(new RegExp(`{token}`, 'g'), token);
+      const editorState = temp ? HtmlToDraftConverter(temp) : '';
+      const updatedContent: any = setDefaultSignature(editorState);
+      setBody(updatedContent);
+    }
   }, [tokenData]);
 
   console.log("hhhhhhhhhhhhhhhh",selectedCellsCareinstitution);

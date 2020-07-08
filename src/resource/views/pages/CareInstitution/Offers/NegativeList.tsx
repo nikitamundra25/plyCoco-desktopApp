@@ -128,6 +128,7 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
               setSelectedOption(null);
             }}
             value={selectedOption} 
+            label="offers"
             />
 
           {/* <Select

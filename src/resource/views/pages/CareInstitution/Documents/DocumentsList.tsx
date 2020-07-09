@@ -160,6 +160,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                   documentTypeList.filter(
                     (docType: any) =>
                     docType.value === "6"
+                    // docType.label === languageTranslation("VARIOUS_DOCUMENTS")
                   )[0]
                 );
               }}

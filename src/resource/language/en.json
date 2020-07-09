@@ -1262,7 +1262,7 @@
    "CHARGE_NOW":"Charge Now",
 
 
-   
+
    "SELECT_QUALIFICATION":"Please Select Qualification from the dropdown",
    "SELECT_ATTRIBUTE":"Please Select Attribute from the dropdown",
    "READ_LESS":"Read less",
@@ -1294,5 +1294,7 @@
    "FILTER_LABEL":"Filter",
    "INBOX_LABEL_LOWERCASE":"inbox",
    "SENT_INBOX":"Sent inbox",
-   "OUTBOX_LABEL":"Outbox"
+   "OUTBOX_LABEL":"Outbox",
+   "YES":"Yes",
+   "OKAY_LABEL":"Okay!"
 }

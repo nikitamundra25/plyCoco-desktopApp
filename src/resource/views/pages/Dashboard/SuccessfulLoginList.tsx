@@ -107,7 +107,7 @@ const SuccessfulLoginList: FunctionComponent<RouteComponentProps> = (
                         <i className="icon-ban" />
                       </div>
                       <h4 className="mb-1">
-                        Currently there are no logs available.
+                        {languageTranslation("CURRENTLY_NO_LOGS_ADDED")}
                       </h4>
                     </div>
                   </td>

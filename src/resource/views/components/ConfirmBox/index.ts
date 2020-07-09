@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import { languageTranslation } from "../../../../helpers";
 
 export const ConfirmBox = async (obj: object | any) => {
   if (!obj) {
@@ -15,8 +16,8 @@ export const ConfirmBox = async (obj: object | any) => {
   } = obj;
   
   return await Swal.fire({
-    title: title || "Are you sure?",
-    html: text || "You want to be able to revert this!",
+    title: title || languageTranslation("CONFIRM_LABEL"),
+    html: text || languageTranslation("YOU_WANT_TO_REVERT"),
     type: type || "warning",
     showCancelButton: showCancelButton === false? false : true ,
     confirmButtonColor: confirmButtonColor || "#3085d6",

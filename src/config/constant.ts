@@ -1181,10 +1181,11 @@ export const Nationality: IReactSelectInterface[] = [
 ];
 
 export const EmailMenusTab: Array<{ name: string; icon: string }> = [
-  { name: 'Inbox', icon: 'fa fa-inbox' },
-  { name: 'Sent', icon: 'fa fa-send' },
-  { name: 'New Email', icon: 'fa fa-edit' },
+  { name: languageTranslation("INBOX_LABEL"), icon: 'fa fa-inbox '},
+  { name: languageTranslation("SENT_LABEL"), icon: 'fa fa-send'  },
+  { name: languageTranslation("NEW_EMAIL_LABEL"), icon: 'fa fa-edit' },
 ];
+
 export const DocumentTypes: IReactSelectInterface[] = [
   {
     value: 'Registration professional association',

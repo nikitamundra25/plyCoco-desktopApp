@@ -31,16 +31,16 @@ import { Helmet } from "react-helmet";
 
 const EmailsTabs: any[] = [
   {
-    name: 'inbox'
+    name: languageTranslation("INBOX_LABEL_LOWERCASE")
   },
   {
-    name: 'Sent inbox'
+    name: languageTranslation("SENT_INBOX")
   },
   {
-    name: 'Outbox'
+    name: languageTranslation("OUTBOX_LABEL")
   },
   {
-    name: 'Mail Queue'
+    name: languageTranslation("MAIL_QUEUE")
   }
 ];
 

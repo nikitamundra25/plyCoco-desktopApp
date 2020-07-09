@@ -107,7 +107,7 @@ const RegistrationList: FunctionComponent<RouteComponentProps> = (
                         <i className="icon-ban" />
                       </div>
                       <h4 className="mb-1">
-                        Currently there are no user added.
+                        {languageTranslation("CURRENTLY_NO_USER_ADDED")}
                       </h4>
                     </div>
                   </td>

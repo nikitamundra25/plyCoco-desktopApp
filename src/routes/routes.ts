@@ -279,7 +279,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_TODO_HIDE_DONE,
-    name: "Care Institution Todo Hide Done",
+    name: languageTranslation("CAREINST_HIDE_DONE_LABEL"),
     component: CareInstitutionTodoHideDone,
     exact: true,
     layout: CareInstitutionTodoLayout,
@@ -287,7 +287,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_INSTITUTION_TODO_HIDE_FUTURE,
-    name: "Care Institution Todo Hide Future",
+    name: languageTranslation("CAREINST_HIDE_FUTURE_TODO"),
     component: CareInstitutionTodoHideFuture,
     exact: true,
     layout: CareInstitutionTodoLayout,
@@ -303,7 +303,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_GIVER_HIDE_DONE,
-    name: "Care Giver Todo Hide Done",
+    name: languageTranslation("CAREGIVER_HIDE_DONE_LABEL"),
     component: CareGiverTodoHideDone,
     exact: true,
     layout: CareGiverTodoLayout,
@@ -311,7 +311,7 @@ const routes = [
   },
   {
     path: AppRoutes.CARE_GIVER_HIDE_FUTURE,
-    name: "Care Giver Todo Hide Future",
+    name: languageTranslation("CAREGIVER_HIDE_FUTURE_TODO"),
     component: CareGiverTodoHideFuture,
     exact: true,
     layout: CareGiverTodoLayout,

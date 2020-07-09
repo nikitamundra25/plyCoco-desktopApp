@@ -17,7 +17,7 @@ const CareinstitutionTabs = (props: any) => {
                       if (props.onTabChange) props.onTabChange(index);
                     }}
                   >
-                    <span className='nav-text text-capitalize'>{tab.name}</span>
+                    <span className='nav-text text-capitalize'>{tab.viewName}</span>
                   </NavLink>
                 </NavItem>
               );

@@ -68,11 +68,11 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
           </div>
 
           <div className="d-flex  justify-content-between filelist-name">
-            <span className="text-label">Name:</span>
+            <span className="text-label">{languageTranslation("NAME")}:</span>
             <span className="text-value"> {documentSelectionId.fileName} </span>
           </div>
           <div className="d-flex  justify-content-between filelist-name">
-            <span className="text-label">Type:</span>
+            <span className="text-label">{languageTranslation("TYPE")} :</span>
             <span className="text-value">{`${fileType}, ${formatFileSize(
               documentSelectionId.fileSize
             )}`}</span>

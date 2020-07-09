@@ -211,7 +211,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         endDate: lte ? lte : null,
         limit: PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
-        attributeId: CaregiverTIMyoCYAttrId,
+        attributeId: null,
       },
     });
   };
@@ -542,9 +542,9 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             subTotal: `${subTotal}`,
             amount: `${totalAmount}`,
             tax: `${subTotal * 0.19}`,
-            careInstitutionName: 'Gunjali9989',
-            careGiverName: 'aayushi',
-            invoiceType: 'selfEmployeed',
+            careInstitutionName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].cr ? selectedAppointment[0].cr.name : "",
+            careGiverName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].ca ? selectedAppointment[0].ca.name : "",
+            invoiceType: 'leasing',
           };
           await CreateLeasingInvoice({
             variables: {
@@ -618,7 +618,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
                             <Input
                               type='text'
                               name={'total'}
-                              placeholder={'Enter Total'}
+                              placeholder={languageTranslation("ENTER_TOTAL")}
                               className='text-input text-capitalize'
                               disable={true}
                               value={totalAmount}

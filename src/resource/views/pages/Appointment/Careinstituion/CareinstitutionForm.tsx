@@ -32,6 +32,7 @@ import {
   appointmentDayFormat,
   defaultDateFormat,
   dbAcceptableFormat,
+  defaultDateTimeFormatForDashboard,
 } from "../../../../../config";
 import "../index.scss";
 import Loader from "../../../containers/Loader/Loader";
@@ -68,7 +69,9 @@ const CareinstitutionFormView: FunctionComponent<
       bookingRemarks,
       comments,
       status,
-      createdBy
+      createdBy,
+      createdAt,
+      updatedAt
     },
     touched,
     errors,
@@ -211,11 +214,11 @@ const CareinstitutionFormView: FunctionComponent<
 
   let isLeasingAppointment = false;
   let showQualification = false;
-  console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
-  
+  console.log("selectedCellsCareinstitution", selectedCellsCareinstitution);
+
   // To check appointment with leasing careInst or not
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-    isLeasingAppointment = 
+    isLeasingAppointment =
       selectedCellsCareinstitution[0] &&
       selectedCellsCareinstitution[0].item &&
       selectedCellsCareinstitution[0].item.isLeasing
@@ -931,32 +934,30 @@ const CareinstitutionFormView: FunctionComponent<
               </FormGroup>
             </Col>
 
-
             {createdBy ? (
               <Col lg={"12"} className="mb-2 text-right text-muted">
-                  <i>{`${languageTranslation("CREATED_BY")} ${createdBy ? createdBy : ""}`}</i>
-                {/* <FormGroup>
-                  <Row>
-                    <Col sm="4">
-                      <Label className="form-label col-form-label">
-                        {languageTranslation("CREATED_BY")}
-                      </Label>
-                    </Col>
-                    <Col sm="8">
-                    <div className="required-input">
-                    {`${languageTranslation("CREATED_BY")} ${createdBy ? createdBy : ""}`}
-                      {/* <Input
-                        type="text"
-                        disabled={true}
-                        name={"createdBy"}
-                        placeholder={languageTranslation("CREATED_BY")}
-                        className="width-common"
-                        value={createdBy ? createdBy : ""}
-                      /> */}
-                    {/* </div>
-                    </Col>
-                  </Row>
-                </FormGroup> */} 
+                <i>{`${languageTranslation("CREATED_BY")} ${
+                  createdBy ? createdBy : ""
+                }`}</i>
+              </Col>
+            ) : null}
+
+            {createdAt ? (
+              <Col lg={"12"} className="mb-2 text-right text-muted">
+                <i>
+                  {`${languageTranslation("CREATED_AT")} ${
+                    createdAt ? moment(createdAt).format(defaultDateTimeFormatForDashboard) : ""
+                  }`}
+                </i>
+              </Col>
+            ) : null}
+            {updatedAt ? (
+              <Col lg={"12"} className="mb-2 text-right text-muted">
+                <i>
+                  {`${languageTranslation("UPDATED_AT")} ${
+                    updatedAt ? moment(updatedAt).format(defaultDateTimeFormatForDashboard) : ""
+                  }`}
+                </i>
               </Col>
             ) : null}
 

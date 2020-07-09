@@ -68,15 +68,13 @@ const Invoices: FunctionComponent = () => {
   const [updateRemarkToInvoice, {loading:isUpdating}] = useMutation<any, any>(UPDATE_INVOICE_COMMENT,{
     onCompleted: () => {
       setOpen(false);
-      toast.success("Remark added successfully")
+      toast.success(languageTranslation("REMARK_ADDED_SUCCESSFULLY"))
     }
   })
 
-  console.log('datadata', data)
-  console.log('loadingloading', loading)
+
 
   // Mutation to Cancel Invoice caregiver
-  console.log('CANCEL_INVOICE', CANCEL_INVOICE)
   const [cancelInvoice] = useMutation<any, any>(CANCEL_INVOICE);
 
   useEffect(() => {
@@ -89,7 +87,6 @@ const Invoices: FunctionComponent = () => {
   }, []); // It will run when the search value gets changed
 
   const onPageChanged = (currentPage: number) => {
-    logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       '?',
@@ -98,7 +95,6 @@ const Invoices: FunctionComponent = () => {
   };
   
   const onCancelInvoice = async (id: string, invoiceType: string) => {
-    console.log('onCancelInvoice', id, invoiceType)
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
       text: languageTranslation("CONFIRM_INVOICE_CANCEL_MSG"),
@@ -115,7 +111,6 @@ const Invoices: FunctionComponent = () => {
           }
         },
       });
-      console.log('wefwefe')
       refetch();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("INVOICE_IS_CANCELLED"));
@@ -136,8 +131,7 @@ const Invoices: FunctionComponent = () => {
       comment:value
     }))
   }
-  const openCommentBox = (id:number, comment:string) => {
-    console.log('openCommentBox', id);
+  const openCommentBox = (id:number, comment:string) => { 
     setOpen(true);
     setInputs({
       id,
@@ -297,19 +291,19 @@ const Invoices: FunctionComponent = () => {
                           )
                         }>
                                     <UncontrolledTooltip placement="top" target={`open`}>
-                                      Open Invoice
+                                      {languageTranslation("OPEN_INVOICE")}
                         </UncontrolledTooltip>
                                     <i className="fa fa-eye"></i>
                                   </span>
                                   <span className="btn-icon mr-2" id={`new`}>
                                     <UncontrolledTooltip placement="top" target={`new`}>
-                                      Create New Invoice
+                                      {languageTranslation("CREATE_NEW_INVOICE")}
                         </UncontrolledTooltip>
                                     <i className="fa fa-pencil"></i>
                                   </span>
                                   <span className="btn-icon mr-2" id={`comment${index}`} onClick={() => openCommentBox(parseInt(invoiceData.id), invoiceData.comment)}>
                                     <UncontrolledTooltip placement="top" target={`comment${index}`}>
-                                      Add Comment to Invoice
+                                      {languageTranslation("ADD_COMMENT_TO_INVOICE")}
                                     </UncontrolledTooltip>
                                     <i className="fa fa-comment" aria-hidden="true"></i>
                                   </span>
@@ -319,20 +313,20 @@ const Invoices: FunctionComponent = () => {
                                     onClick={() => onCancelInvoice(invoiceData.id, invoiceData.invoiceType)}
                                   >
                                     <UncontrolledTooltip placement="top" target={`cancel${index}`}>
-                                      Cancel Invoice
+                                      {languageTranslation("CANCEL_INVOICE")}
                         </UncontrolledTooltip>
                                     <i className="fa fa-times"></i>
                                   </span>
 
                                   <span className="btn-icon mr-2" id={`replace`}>
                                     <UncontrolledTooltip placement="top" target={`replace`}>
-                                      Replace Invoice
+                                      {languageTranslation("REPLACE_INVOICE")}
                         </UncontrolledTooltip>
                                     <i className="fa fa-refresh"></i>
                                   </span>
                                   <span className="btn-icon " id={`resend`}>
                                     <UncontrolledTooltip placement="top" target={`resend`}>
-                                      Send the invoice to the care institution again
+                                     {languageTranslation("SEND_INVOICE_TO_CAREINST")}
                         </UncontrolledTooltip>
                                     <i className="fa fa-reply"></i>
                                   </span>

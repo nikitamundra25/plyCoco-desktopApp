@@ -74,6 +74,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           remarksCareGiver
           remarksInternal
           createdBy
+          createdAt
+    updatedAt
           appointments {
             id
             date
@@ -122,6 +124,8 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           userId
           isLeasing
           createdBy
+          createdAt
+    updatedAt
           division {
             id
             name
@@ -231,6 +235,9 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         workingHoursTo
         breakFrom
         breakTo
+        createdBy
+        createdAt
+    updatedAt
         appointments {
           id
           date
@@ -272,6 +279,9 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         startTime
         userId
         status
+        createdBy
+        createdAt
+        updatedAt
         isLeasing
         division {
           id
@@ -320,6 +330,9 @@ const GET_CAREGIVER_AVABILITY_DETAILS_BY_ID = gql`
       remarksCareGiver
       remarksInternal
       status
+      createdBy
+      createdAt
+    updatedAt
     }
   }
 `;

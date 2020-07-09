@@ -14,7 +14,14 @@ import Loader from "../../../containers/Loader/Loader";
 const WorkedList: FunctionComponent<IWorkedListInterface> = (
   props: IWorkedListInterface
 ) => {
-  const {workedAtList,workedAtListLoading} = props;
+  const {workedAtList,workedAtListLoading,addToNegativeList} = props;
+  const unique = workedAtList.reduce((unique:any, o:any) => {
+    if (!unique.some((obj:any) => obj.ca.name)) {
+      unique.push(o);
+    }
+    return unique;
+  }, []);
+  
   return (
     <div className="common-list-wrap">
       <div className="common-list-header d-flex align-items-center justify-content-between">
@@ -51,7 +58,7 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (
            workedAtList.map((list:any,index:number)=>{
          return <li className={"cursor-pointer list-item text-capitalize "}>
             <div className="list-item-text">{list.ca && list.ca.name ? list.ca.name : ""} </div>
-            <div className="list-item-icon d-flex">
+            <div className="list-item-icon d-flex" onClick={()=>addToNegativeList(list.ca._id)} >
             <div className="list-item-img">
                 <img src={negative} alt="" />{" "}
               </div>

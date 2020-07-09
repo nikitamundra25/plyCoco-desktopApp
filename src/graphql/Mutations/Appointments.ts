@@ -30,6 +30,8 @@ const ADD_CAREGIVER_AVABILITY = gql`
       breakFrom
       createdBy
       breakTo
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -64,6 +66,8 @@ const ADD_INSTITUTION_REQUIREMENT = gql`
    status
    isLeasing
    createdBy
+   createdAt
+   updatedAt
     }
   }
 `;
@@ -102,6 +106,8 @@ const UPDATE_CAREGIVER_AVABILITY = gql`
       breakFrom
       breakTo
       createdBy
+      createdAt
+    updatedAt
     }
   }
 `;
@@ -139,6 +145,8 @@ const UPDATE_INSTITUTION_REQUIREMENT = gql`
       status
       isLeasing
       createdBy
+      createdAt
+    updatedAt
     }
   }
 `;

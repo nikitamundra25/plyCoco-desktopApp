@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Collapse } from 'reactstrap';
+import { languageTranslation } from '../../../../../helpers';
 
 const BillingFaq: FunctionComponent = () => {
   const [collapse, setCollpase] = useState<number>(0);
@@ -11,7 +12,7 @@ const BillingFaq: FunctionComponent = () => {
   };
   return (
     <div className='faq-section'>
-      <h4 className='content-title'>Billing FAQ</h4>
+      <h4 className='content-title'>{languageTranslation("BILLING_FAQ")} </h4>
       <div>
         {cards.map((item: any, index: any) => {
           return (
@@ -21,19 +22,14 @@ const BillingFaq: FunctionComponent = () => {
                 onClick={toggle}
                 data-event={index}
               >
-                Why was my invoice not created automatically?
+                {languageTranslation("WHY_INVOICE_NOT_CREATED_AUTO")}
                 <span className='faq-icon '>
                   <i className='fa fa-chevron-down'></i>
                 </span>
               </div>
               <Collapse isOpen={collapse === index}>
                 <div className='faq-body'>
-                  An invoice correction is still pending. You entered incorrect
-                  working hours or the invoice had to be canceled for other
-                  reasons. Before you have not corrected the times and created
-                  the invoice again using the link in the email, the invoice
-                  creation is suspended. Otherwise, an incorrect invoice would
-                  be created again.
+                 {languageTranslation("INVOICE_CORRECTION_IS_PENDING")}
                 </div>
               </Collapse>
             </div>

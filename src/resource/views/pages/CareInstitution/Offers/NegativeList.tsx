@@ -10,6 +10,7 @@ import {
 import Select from "react-select";
 import { languageTranslation } from "../../../../../helpers";
 import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
+import CaregiverCustomAsyncList from "../../../components/DropdownList/CareGiverCustomAsyncSelect";
 
 import { INegativeListInterface } from "../../../../../interfaces";
 import { AppRoutes } from "../../../../../config";
@@ -120,7 +121,17 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
       </div>
       <div className="common-list-footer form-section ">
         <FormGroup className="mb-0">
-          <Select
+        <CaregiverCustomAsyncList 
+            placeholderLabel = {languageTranslation("SELECT_CAREGIVER")}
+            onChange={(value:any) => {
+              handleSelect(value);
+              setSelectedOption(null);
+            }}
+            value={selectedOption} 
+            label="offers"
+            />
+
+          {/* <Select
             placeholder={languageTranslation("SELECT_CAREGIVER")}
             options={
               caregiverOptions && caregiverOptions.length > 1
@@ -144,7 +155,7 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
             isOptionDisabled={(option) =>
               option.value === languageTranslation("ID")
             }
-          />
+          /> */}
         </FormGroup>
       </div>
     </div>

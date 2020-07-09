@@ -10,4 +10,8 @@ export interface INegativeListInterface {
   handleSelect: (event: any) => void;
 }
 
-export interface IWorkedListInterface { }
+export interface IWorkedListInterface { 
+  workedAtList: any
+  workedAtListLoading: boolean
+  addToNegativeList:(id:string)=>void;
+}

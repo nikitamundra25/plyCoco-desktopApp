@@ -187,9 +187,10 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
           }
         }}
         placeholder={placeholderLabel}
+        menuPlacement={props.label ==="offers" ? "top" : "auto"}
         classNamePrefix="custom-inner-reactselect"
         className={
-            isWorkProof ? "custom-reactselect" :"custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
+            isWorkProof || props.label ==="offers"? "custom-reactselect" :"custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
         }
         components={{ Option: CustomOption }}
       />

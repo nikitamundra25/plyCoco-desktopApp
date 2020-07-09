@@ -39,7 +39,7 @@ const CareGiverSidebar = React.lazy(() =>
 const PersonalInfo = React.lazy(() => import("./PersonalInfo"));
 const Offer = React.lazy(() => import("./Offers"));
 const LoginLogs = React.lazy(() => import("../../components/Logins"));
-const Invoices = React.lazy(() => import("./Invoices/Invoices"));
+const Invoices = React.lazy(() => import("./Invoices"));
 const ToDo = React.lazy(() => import("../../components/ToDosInnerList"));
 const Documents = React.lazy(() => import("./Documents"));
 const Email = React.lazy(() => import("./Emails"));
@@ -87,7 +87,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       id: Id ? parseInt(Id) : '',
     },
   });
-  console.log('datadata', data ? data.getCaregiver.salutation : null);
   
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
@@ -202,7 +201,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       }
     );
   }
-  console.log("careGiverOpt", careGiverOpt);
 
   // It's used to set active tab
   useEffect(() => {

@@ -180,10 +180,10 @@ const CareInstitutionDropdownList: FunctionComponent<any> = (props: any) => {
             props.onChange(e)
           }
         }}
+        menuPlacement={props.label ==="offers" ? "top" : "auto"}
         placeholder={placeholderLabel}
         classNamePrefix="custom-inner-reactselect"
-        className={
-          "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
+        className={ props.label ==="offers" ? "custom-reactselect " :"custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
         }
         components={{ Option: CareInstCustomOption }}
       />

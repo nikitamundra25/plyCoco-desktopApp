@@ -392,7 +392,6 @@ const Appointment: FunctionComponent = (props: any) => {
     { id: number[] }
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted({ deleteCareGiverAvability }: any) {
-      console.log(deleteCareGiverAvability, "deleteCaregiverAvailability+++++");
       deleteCareGiverAvability.forEach((element: any) => {
         const temp = [...caregiversList];
         let index: number = temp.findIndex(
@@ -599,7 +598,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_INSTITUTION_REQUIREMENT, {
     onCompleted({ updateCareInstitutionRequirement }) {
-      console.log(updateCareInstitutionRequirement,'updateCareInstitutionRequirement');
       
       let temp: any = [...careinstitutionList];
       let deptList: any = [];
@@ -903,8 +901,6 @@ const Appointment: FunctionComponent = (props: any) => {
       const selectedCareInstCells = selectedCellsCareinstitution
         ? [...selectedCellsCareinstitution]
         : [];
-      console.log(careInstList, "careInstList");
-console.log("addAppointment",addAppointment);
 
       addAppointment.forEach((appointment: any) => {
         let availabilityDataIndex: number = -1;
@@ -1138,13 +1134,6 @@ console.log("addAppointment",addAppointment);
       });
       setSelectedCells(selectedCaregiverCells);
       setselectedCellsCareinstitution(selectedCareInstCells);
-      console.log(
-        temp,
-        selectedCareInstCells,
-        careInstList,
-        deptList,
-        "temppppp"
-      );
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("LINKED_APPOINTMENTS"));
       }
@@ -1703,6 +1692,9 @@ console.log("addAppointment",addAppointment);
         userId = "",
         isLeasing = "",
         qualificationForCharge = "",
+        createdBy="",
+        createdAt="",
+        updatedAt=""
       } = requirementData ? requirementData : {};
       let qualificationData: IReactSelectInterface[] = [];
       if (qualificationList && qualificationId) {
@@ -1785,6 +1777,9 @@ console.log("addAppointment",addAppointment);
                 ? requirementData.status
                 : "",
             isLeasing: isLeasing,
+            createdBy,
+            createdAt,
+            updatedAt
           },
         },
       ];
@@ -1814,6 +1809,9 @@ console.log("addAppointment",addAppointment);
         workingHoursTo = "",
         breakFrom = "",
         breakTo = "",
+        createdBy: createBy="",
+        createdAt: createAt="",
+        updatedAt : updateAt=""
       } = avabilityData ? avabilityData : {};
       const {
         id: ID = "",
@@ -1861,6 +1859,9 @@ console.log("addAppointment",addAppointment);
             workingHoursTo,
             breakFrom,
             breakTo,
+            createdBy:createBy,
+            createdAt:createAt,
+            updatedAt:updateAt
           },
         },
       ];
@@ -2929,6 +2930,7 @@ console.log("addAppointment",addAppointment);
             delete Item.division;
             delete Item.qualificationId;
             delete Item.lastName;
+            delete Item.updatedAt
             await updateCaregiver({
               variables: {
                 id: availabilityId,
@@ -2982,6 +2984,7 @@ console.log("addAppointment",addAppointment);
             delete Item.__typename;
             delete Item.appointments;
             delete Item.division;
+            delete Item.updatedAt
 
             await updateCareinstitutionRequirment({
               variables: {
@@ -3108,6 +3111,7 @@ console.log("addAppointment",addAppointment);
           delete item.__typename;
           delete item.appointments;
           delete item.division;
+          delete item.updatedAt
           await updateCaregiver({
             variables: {
               id: availabilityId,
@@ -3431,7 +3435,8 @@ console.log("addAppointment",addAppointment);
       breakFromTime,
       breakToDate,
       breakToTime,
-      createdBy
+      createdBy,
+      createdAt
     } = values;
 
     let isBlockeddate =
@@ -3513,7 +3518,8 @@ console.log("addAppointment",addAppointment);
                   travelAllowance,
                   workingProofRecieved,
                   status,
-                  createdBy
+                  createdBy,
+                  createdAt
                 },
               },
             ];
@@ -3577,7 +3583,8 @@ console.log("addAppointment",addAppointment);
                       dbAcceptableFormat
                     )},${breakToTime}`
                   : null,
-                  createdBy
+                  createdBy,
+                  createdAt: createdAt ? createdAt :""
               };
               careGiverAvabilityInput = [...careGiverAvabilityInput, temp];
               if (appointmentId) {
@@ -3652,7 +3659,8 @@ console.log("addAppointment",addAppointment);
       departmentRemarks,
       comments,
       status,
-      createdBy
+      createdBy,
+      createdAt
     } = values;
     console.log("values in index", values);
 
@@ -3783,7 +3791,8 @@ console.log("addAppointment",addAppointment);
             n: nvar,
             status: status ? status : "default",
             isLeasing: attributes && attributes.length ? attributes.includes(CareInstTIMyoCYAttrId): false,
-            createdBy
+            createdBy,
+            createdAt: createdAt?createdAt :""
           };
           careInstitutionRequirementInput = [
             ...careInstitutionRequirementInput,
@@ -3927,6 +3936,7 @@ console.log("addAppointment",addAppointment);
           delete item.id;
           delete item.__typename;
           delete item.appointments;
+          delete item.updatedAt;
           await updateCaregiver({
             variables: {
               id: availabilityId,
@@ -4409,7 +4419,9 @@ console.log("addAppointment",addAppointment);
     comments: Item ? Item.comments : "",
     status: Item ? Item.status : "",
     careInstitutionDepartment,
-    createdBy: Item && Item.createdBy ? Item.createdBy : ""
+    createdBy: Item && Item.createdBy ? Item.createdBy : "",
+    createdAt: Item && Item.createdAt ? Item.createdAt : "",
+    updatedAt: Item && Item.updatedAt ? Item.updatedAt : "",
   };
 
   const {
@@ -4438,6 +4450,8 @@ console.log("addAppointment",addAppointment);
     breakFrom = "",
     breakTo = "",
     createdBy = "",
+    createdAt = "",
+    updatedAt = "",
     appointments = []
   } = item ? item : caregiver ? caregiver : {};
 
@@ -4525,7 +4539,9 @@ console.log("addAppointment",addAppointment);
     n: n === "available" ? true : false,
     status: status ? status : "",
     dateString,
-    createdBy
+    createdBy,
+    createdAt,
+    updatedAt,
   };
 
   const [savingBoth, setsavingBoth] = useState(false);

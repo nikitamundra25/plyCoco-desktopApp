@@ -79,6 +79,7 @@ const GET_INVOICE_LIST = gql`
               plycocoInvoiceTax
               leasingInvoiceTax
               defaultTaxValue
+              shortName
             }
           }
         }

@@ -322,6 +322,10 @@ const GET_NEGATIVE_USERS_LIST = gql`
         id
         firstName
         lastName
+        canstitution{
+          companyName
+          shortName
+        }
       }
     }
   }
@@ -356,11 +360,15 @@ query getInvoiceByUserId( $userId: ID!) {
   getInvoiceByUserId(
     userId: $userId
   ) {
+    result{
       id
       invoiceNumber
       dueDate
+      invoiceDate
+      plycocoPdf
       cancelledBy
       cancelledFor
+      comment
       createdAt
       tax
       amount
@@ -372,7 +380,15 @@ query getInvoiceByUserId( $userId: ID!) {
         lastName
         userName  
       }
+      caregiver{
+        id
+        firstName
+        lastName
+        userName  
+      }
     }
+    totalCount
+  }
 }`;
 // query {
 //   getNegativeList(id: 1419){

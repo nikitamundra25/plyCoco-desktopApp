@@ -8,7 +8,8 @@ import "../caregiver.scss";
 import SearchPopup from "./SearchPopup";
 import {
   CareInstitutionQueries,
-  CareGiverQueries
+  CareGiverQueries,
+  InvoiceQueries
 } from "../../../../../graphql/queries";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
@@ -33,6 +34,8 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   const [negativeUsersList, setNegativeUsersList] = useState<any>([]);
   const [searchValue, setSearch] = useState<any>('');
   const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
+const [GET_INVOICE_LIST] = InvoiceQueries;
+
   const [
     ,
     ,
@@ -101,6 +104,16 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
     }
   });
 
+
+    // To fetch workedAt list
+    const [
+      fetchInvoiceList,
+      { data: workedAtList, loading: workedAtListLoading },
+    ] = useLazyQuery<any, any>(GET_INVOICE_LIST, {
+      fetchPolicy: "no-cache",
+      // notifyOnNetworkStatusChange: true
+    });
+
   // to get list of care institution
   useEffect(() => {
     fetchCareInstitutionList({
@@ -111,6 +124,18 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
         page: 1,
         isActive: ""
       }
+    });
+    fetchInvoiceList({
+      variables: {
+        searchBy: null,
+        caregiverId:userId,
+        careInstitutionId: null,
+        divisionId: null,
+        startDate:  null,
+        endDate: null,
+        limit: 100000,
+        page: 1,
+      },
     });
   }, [userId]);
 
@@ -197,6 +222,8 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
         lastname: list.lastName
       }))
     );
+
+ 
   }, [negativeUser, userId]);
 
   //delete negative user mutation
@@ -211,6 +238,22 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
       }
     }
   });
+
+  const addToNegativeList = (id: any) => {
+    if (id) {
+      addNegativeUser({
+        variables: {
+          id: userId ? parseInt(userId) : "",
+          negativeIds: id
+            ? [
+              ...negativeUsersList.map((list: any) => parseInt(list.id)),
+              parseInt(id)
+            ]
+            : null
+        }
+      });
+    }
+  };
 
   //on selecting care insitution from drop down
   const handleSelect = (careInstId: any) => {
@@ -327,7 +370,11 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
           />
         </Col>
         <Col md={6}>
-          <WorkedList />
+          <WorkedList 
+          workedAtList = {workedAtList && workedAtList.getAllAppointment && workedAtList.getAllAppointment.result && workedAtList.getAllAppointment.result.length ? workedAtList.getAllAppointment.result : []}
+          workedAtListLoading ={workedAtListLoading}
+          addToNegativeList={addToNegativeList}
+          />
         </Col>
       </Row>
       <SearchPopup

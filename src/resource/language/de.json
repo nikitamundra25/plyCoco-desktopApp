@@ -1179,7 +1179,6 @@
 "SEARCH_TIP":"Try to search with specific keywords to find more results.",
 "WORKING_TIMES":"Working times avai.",
 "DATE_VALIDATION_MESSAGE":"Enter Valid Date",
-
 "NO_DATA_IN_APPOINTMENTS": "Derzeit ist kein Termin hinzugefügt.",
 "NO_DATA_IN_BOOKING": "Derzeit sind keine Buchungen hinzugefügt.",
 "SEND_INVOICE_SUCCESS":"Rechnung erfolgreich senden.",
@@ -1188,7 +1187,6 @@
 "INVOICE_IS_CANCELLED":"Rechnung ist storniert",
 "INVOICES_STATUS":"Rechnungsstatus",
 "PAY_GROUP_TXT":"Lohngruppe",
-
 "CREATED_BY":"Erstellt von",
 "APPOINTMENT_CANT_BE_DELETED":"Appointment can't be deleted!!",
 "UNLINK_AND_DELETE":"You have to unlink them first and then you may delete them",
@@ -1218,7 +1216,6 @@
    "DIRECT_BOOKING":"Direct Booking",
    "WHY_INVOICE_NOT_CREATED_AUTO":"Why was my invoice not created automatically?",
    "INVOICE_CORRECTION_IS_PENDING":" An invoice correction is still pending. You entered incorrect working hours or the invoice had to be canceled for other reasons. Before you have not corrected the times and created the invoice again using the link in the email, the invoice creation is suspended. Otherwise, an incorrect invoice would be created again.",
-   
    "BILLING_FAQ":"Billing FAQ",
    "DELETE_DOCUMENT":"This document will be deleted",
    "DELETE_DOCUMENT_SUCCESSFULLY":"Document deleted successfully",
@@ -1229,5 +1226,15 @@
    "CANCEL_INVOICE":" Cancel Invoice",
    "REPLACE_INVOICE":"Replace Invoice",
    "SEND_INVOICE_TO_CAREINST":" Send the invoice to the care institution again",
-   "CHARGE_NOW":"Charge Now"
+   "CHARGE_NOW":"Charge Now",
+   "CAREGIVER_INVOICE_TAX":"Invoice Tax (in %)",
+    "PLYCOCO_INVOICE_TAX":"Plycoco Invoice Tax (in %)",
+    "LEASING_INVOICE_TAX":"Leasing Invoice Tax (in %)",
+    "PLYCOCO_INVOICE_TAX_ERROR": "Plycoco Invoice Tax must be less than or equal to 100",
+    "LEASING_INVOICE_TAX_ERROR": "Leasing Invoice Tax must be less than or equal to 100",
+    "CAREGIVER_INVOICE_TAX_ERROR": "Caregiver Invoice Tax must be less than or equal to 100",
+    "CAREGIVER_INVOICE_NUM_ERROR": "Caregiver Invoice Tax bracket must be a number",
+    "LEASING_INVOICE_NUM_ERROR": "Leasing Invoice Tax bracket must be a number",
+    "PLYCOCO_INVOICE_NUM_ERROR": "Plycoco Invoice Tax bracket must be a number",
+    "MENU_BULK_EMAIL_CI":"Bulk Email Care Institutions"
 }

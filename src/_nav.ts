@@ -65,6 +65,14 @@ export default {
       url: AppRoutes.BULK_EMAIL_CAREGIVER,
       authKey: ["all", "superadmin", "basic", "invoice"],
     },
+
+    {
+      name: languageTranslation("MENU_BULK_EMAIL_CI"),
+      icon: "icon-bulk-email",
+      url: AppRoutes.BULK_EMAIL_CANSTITUTION,
+      authKey: ["all", "superadmin", "basic", "invoice"],
+    },
+
     {
       name: languageTranslation("MENU_INVOICES"),
       icon: "icon-invoice",

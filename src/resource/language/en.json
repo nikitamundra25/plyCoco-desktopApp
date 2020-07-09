@@ -1198,7 +1198,6 @@
   "DATE_VALIDATION_MESSAGE": "Enter Valid Date",
   "EMAIL_LABEL": "Email",
   "CREATE_INVOICE_SUCCESS": "Invoice Created Successfully",
-
   "NO_DATA_IN_APPOINTMENTS": "Currently there are no appointment added.",
   "NO_DATA_IN_BOOKING": "Currently there are no booking added.",
   "SEND_INVOICE_SUCCESS":"Invoice Send Successfully.",
@@ -1211,8 +1210,6 @@
   "PLEASE_CHECK_OFFER_ATTRIBUTE":"Please check for caregiver containing offer attribute",
   "APPOINTMENT_CANT_BE_DELETED":"Appointment can't be deleted!!",
   "UNLINK_AND_DELETE":"You have to unlink them first and then you may delete them",
-
-
   "TAX":"Tax",
   "CAREGIVER_INVOICE_TAX":"Invoice Tax (in %)",
    "PLYCOCO_INVOICE_TAX":"Plycoco Invoice Tax (in %)",
@@ -1223,12 +1220,12 @@
    "CAREGIVER_INVOICE_NUM_ERROR": "Caregiver Invoice Tax bracket must be a number",
    "LEASING_INVOICE_NUM_ERROR": "Leasing Invoice Tax bracket must be a number",
    "PLYCOCO_INVOICE_NUM_ERROR": "Plycoco Invoice Tax bracket must be a number",
-
    "PAY_GROUP_TXT":"pay group",
    "INVOICE_COMMENT_HEADING":"Add remarks to invoice",
    "NO_INVOICE_FOUND": "No invoice found",
    "CREATED_AT":"Created At",
    "UPDATED_AT":"Updated At",
+   "MENU_BULK_EMAIL_CI":"Bulk Email Care Institutions",
    "FEEL_FREE_TO_CONTACT_INSTITUTION":"Please send your fee contract to the institution immediately.",
    "YOU_CAN_USE_CORRESPONDING_WEB":"You can also use the corresponding function on the website.",
    "CALL_INSTITUTION_BEFORE_TWO_DAYS":"Please call the institution about 2 days before the start of the service to make sure you are coming.",
@@ -1244,14 +1241,10 @@
    "USE_FOLLOWING_LINK":"Please use the following link:",
    "PLACE_OF_WORK":"Place of work:",
    "JOB":"job:",
-
-
    "I_WOULD_LIKE_TO_BE_EMPLOYEED":"I would like to be employed indefinitely on identical terms: yes ( ) / no ( ) (please check).",
    "DIRECT_BOOKING":"Direct Booking",
    "WHY_INVOICE_NOT_CREATED_AUTO":"Why was my invoice not created automatically?",
    "INVOICE_CORRECTION_IS_PENDING":" An invoice correction is still pending. You entered incorrect working hours or the invoice had to be canceled for other reasons. Before you have not corrected the times and created the invoice again using the link in the email, the invoice creation is suspended. Otherwise, an incorrect invoice would be created again.",
-
-
    "BILLING_FAQ":"Billing FAQ",
    "DELETE_DOCUMENT":"This document will be deleted",
    "DELETE_DOCUMENT_SUCCESSFULLY":"Document deleted successfully",

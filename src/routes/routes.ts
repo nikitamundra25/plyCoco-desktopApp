@@ -110,6 +110,10 @@ const BulkEmailCaregiver = React.lazy(() =>
   import("../resource/views/pages/BulkEmailCaregiver")
 );
 
+const BulkEmailCanstitution = React.lazy(() =>
+  import("../resource/views/pages/BulkEmailCareinstitution")
+);
+
 const EmailInbox = React.lazy(() => import("../resource/views/pages/Email"));
 
 const EmailSent = React.lazy(() =>
@@ -334,6 +338,12 @@ const routes = [
     path: AppRoutes.BULK_EMAIL_CAREGIVER,
     name: languageTranslation("BULK_EMAIL_CAREGIVER"),
     component: BulkEmailCaregiver,
+    exact: true
+  },
+  {
+    path: AppRoutes.BULK_EMAIL_CANSTITUTION,
+    name: languageTranslation("MENU_BULK_EMAIL_CI"),
+    component: BulkEmailCanstitution,
     exact: true
   },
   {

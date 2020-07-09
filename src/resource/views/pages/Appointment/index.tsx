@@ -1008,7 +1008,10 @@ const Appointment: FunctionComponent = (props: any) => {
                 requirementDataIndex
               ][requirementIndex]
             : {};
-            
+          console.log(careInstList[careInstIndex].availabilityData[
+            requirementDataIndex
+          ][requirementIndex],'careInstList[careInstIndex].availabilityData[');
+           
           temp[caregiverIndex].availabilityData[availabilityDataIndex][
             availabilityIndex
           ] = {
@@ -1028,7 +1031,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   startTime,
                   endTime,
                   isLeasing,
-                  division
+                  division: appointment && appointment.cr && appointment.cr.division ? appointment.cr.division : {}
                 },
               },
             ],
@@ -1039,6 +1042,7 @@ const Appointment: FunctionComponent = (props: any) => {
             ...careInstList[careInstIndex].availabilityData[
               requirementDataIndex
             ][requirementIndex],
+            division: appointment && appointment.cr && appointment.cr.division ? appointment.cr.division : {},
             status: "linked",
             appointments: [
               {
@@ -1061,6 +1065,7 @@ const Appointment: FunctionComponent = (props: any) => {
               ...deptList[deptIndex].availabilityData[requirementDeptDataIndex][
                 requirementDeptIndex
               ],
+              division: appointment && appointment.cr && appointment.cr.division ? appointment.cr.division : {},
               status: "linked",
               appointments: [
                 {
@@ -1110,10 +1115,12 @@ const Appointment: FunctionComponent = (props: any) => {
               cell.item && appointment.requirementId === cell.item.id
           );
           if (selectedCareInstCells[cellInstIndex]) {
+            console.log("in selectedCareInstCells if");
             selectedCareInstCells[cellInstIndex] = {
               ...selectedCareInstCells[cellInstIndex],
               item: {
                 ...selectedCareInstCells[cellInstIndex].item,
+                division: appointment && appointment.cr && appointment.cr.division ? appointment.cr.division : {},
                 status: "linked",
                 appointments: [
                   {
@@ -1777,6 +1784,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 ? requirementData.status
                 : "",
             isLeasing: isLeasing,
+            appointments: requirementData ? requirementData.appointments : [],
             createdBy,
             createdAt,
             updatedAt
@@ -1809,6 +1817,7 @@ const Appointment: FunctionComponent = (props: any) => {
         workingHoursTo = "",
         breakFrom = "",
         breakTo = "",
+        appointments = [],
         createdBy: createBy="",
         createdAt: createAt="",
         updatedAt : updateAt=""
@@ -1859,6 +1868,7 @@ const Appointment: FunctionComponent = (props: any) => {
             workingHoursTo,
             breakFrom,
             breakTo,
+            appointments,
             createdBy:createBy,
             createdAt:createAt,
             updatedAt:updateAt
@@ -2208,6 +2218,8 @@ const Appointment: FunctionComponent = (props: any) => {
     result: any,
     appointmentsData: any
   ) => {
+    console.log(appointmentsData,'appointmentsData', result);
+    
     let connectedCells: any[] = [];
     result.forEach((element: any) => {
       element.availabilityData.forEach((row: any) => {
@@ -2229,6 +2241,8 @@ const Appointment: FunctionComponent = (props: any) => {
               .map((cell: any) => cell.id)
               .includes(availabilities.appointments[0].id)
         );
+        console.log(filteredCells,'filteredCells');
+        
         // filteredCells.map((filteredCell:any) => ({ id,
         //   firstName,
         //   lastName,

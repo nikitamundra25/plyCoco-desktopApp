@@ -96,6 +96,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   ] = useLazyQuery<any, any>(GET_CARE_INSTITUTION_LIST, {
     fetchPolicy: 'no-cache'
   });
+  console.log('careInstitutionListData',careInstitutionListData)
 
   const [
     fetchCareInstDetails,
@@ -158,6 +159,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       });
     }
   }, []);
+
   // To fetch users according to user selected
   useEffect(() => {
     if (props.label === 'appointment') {
@@ -202,6 +204,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     // Fetch list of care instituion
     if (props.label !== 'appointment') {
+      console.log('under ')
       getCareInstitutions({
         variables: {
           searchBy: '',
@@ -790,7 +793,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   }
 
-  const isLeasingRequirement = selectedCellsCareinstitution.findIndex((cell:any) => cell.item && cell.item.isLeasing) > -1 ? true :false
+  const isLeasingRequirement = false
+  // selectedCellsCareinstitution.findIndex((cell:any) => cell.item && cell.item.isLeasing) > -1 ? true :false
   
   return (
     <>

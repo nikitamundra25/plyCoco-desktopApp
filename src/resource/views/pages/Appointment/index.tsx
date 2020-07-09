@@ -1012,7 +1012,10 @@ console.log("addAppointment",addAppointment);
                 requirementDataIndex
               ][requirementIndex]
             : {};
-            
+          console.log(careInstList[careInstIndex].availabilityData[
+            requirementDataIndex
+          ][requirementIndex],'careInstList[careInstIndex].availabilityData[');
+           
           temp[caregiverIndex].availabilityData[availabilityDataIndex][
             availabilityIndex
           ] = {
@@ -1032,7 +1035,7 @@ console.log("addAppointment",addAppointment);
                   startTime,
                   endTime,
                   isLeasing,
-                  division
+                  division: appointment && appointment.cr && appointment.cr.division ? appointment.cr.division : {}
                 },
               },
             ],
@@ -1043,6 +1046,7 @@ console.log("addAppointment",addAppointment);
             ...careInstList[careInstIndex].availabilityData[
               requirementDataIndex
             ][requirementIndex],
+            division: appointment && appointment.cr && appointment.cr.division ? appointment.cr.division : {},
             status: "linked",
             appointments: [
               {
@@ -1065,6 +1069,7 @@ console.log("addAppointment",addAppointment);
               ...deptList[deptIndex].availabilityData[requirementDeptDataIndex][
                 requirementDeptIndex
               ],
+              division: appointment && appointment.cr && appointment.cr.division ? appointment.cr.division : {},
               status: "linked",
               appointments: [
                 {
@@ -1114,10 +1119,12 @@ console.log("addAppointment",addAppointment);
               cell.item && appointment.requirementId === cell.item.id
           );
           if (selectedCareInstCells[cellInstIndex]) {
+            console.log("in selectedCareInstCells if");
             selectedCareInstCells[cellInstIndex] = {
               ...selectedCareInstCells[cellInstIndex],
               item: {
                 ...selectedCareInstCells[cellInstIndex].item,
+                division: appointment && appointment.cr && appointment.cr.division ? appointment.cr.division : {},
                 status: "linked",
                 appointments: [
                   {
@@ -1785,6 +1792,7 @@ console.log("addAppointment",addAppointment);
                 ? requirementData.status
                 : "",
             isLeasing: isLeasing,
+            appointments: requirementData ? requirementData.appointments : []
           },
         },
       ];
@@ -1814,6 +1822,7 @@ console.log("addAppointment",addAppointment);
         workingHoursTo = "",
         breakFrom = "",
         breakTo = "",
+        appointments = []
       } = avabilityData ? avabilityData : {};
       const {
         id: ID = "",
@@ -1861,6 +1870,7 @@ console.log("addAppointment",addAppointment);
             workingHoursTo,
             breakFrom,
             breakTo,
+            appointments
           },
         },
       ];
@@ -2207,6 +2217,8 @@ console.log("addAppointment",addAppointment);
     result: any,
     appointmentsData: any
   ) => {
+    console.log(appointmentsData,'appointmentsData', result);
+    
     let connectedCells: any[] = [];
     result.forEach((element: any) => {
       element.availabilityData.forEach((row: any) => {
@@ -2228,6 +2240,8 @@ console.log("addAppointment",addAppointment);
               .map((cell: any) => cell.id)
               .includes(availabilities.appointments[0].id)
         );
+        console.log(filteredCells,'filteredCells');
+        
         // filteredCells.map((filteredCell:any) => ({ id,
         //   firstName,
         //   lastName,

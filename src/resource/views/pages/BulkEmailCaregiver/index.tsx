@@ -955,6 +955,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
       if (props.confirmApp) {
         let apointedCareGiver: any = [];
+        console.log(selectedCells, 'selectedCells in confirmapp');
+        
         if (selectedCells && selectedCells.length) {
           selectedCells.forEach((element: any) => {
             const {
@@ -968,9 +970,12 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             const { cr = {} } =
               appointments && appointments.length ? appointments[0] : [];
             const { division = {} } = cr ? cr : {};
-
+            console.log(cr, 'cr');
+            
             if (division) {
               let divisionData: string = division ? division.name : `${name}`;
+              console.log(divisionData,'divisionData');
+              
               apointedCareGiver.push({
                 date: dateString,
                 division: divisionData
@@ -1175,21 +1180,23 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   date ? moment(date).format('DD.MM') : ''
                 } ${shiftLabel} ${duration} ${name}
               </p>`;
-                row.push(`${
-                  date ? moment(date).format('DD.MM') : ''
-                } ${shiftLabel} ${duration}${
-                  address ? `, Place of work: ${address}` : ''
-                }, job:${
-                  qualificationId && qualificationId.length
-                    ? ` - ${qualificationList
-                        .filter((qualification: any) =>
-                          qualificationId.includes(qualification.value)
-                        )
-                        .map((q: any) => q.label)
-                        .join(', ')}`
-                    : ''
+                if (index === selectedCells.length -1 ) {
+                  row.push(`${
+                    date ? `${selectedCells[0] && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length ? moment(selectedCells[0].item.appointments[0].date).format('DD.') : ''}-${moment(date).format('DD.MM.YYYY')}` : ''
+                  } ${shiftLabel} ${duration}${
+                    address ? `, Place of work: ${address}` : ''
+                  }, job:${
+                    qualificationId && qualificationId.length
+                      ? ` - ${qualificationList
+                          .filter((qualification: any) =>
+                            qualificationId.includes(qualification.value)
+                          )
+                          .map((q: any) => q.label)
+                          .join(', ')}`
+                      : ''
+                  }
+              `);
                 }
-            `);
             });
             setSubject(`Temporary employment contract for ${appointmentTimings.join(', ')}`);
           setPdfAppointmentDetails(row);

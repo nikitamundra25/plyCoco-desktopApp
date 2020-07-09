@@ -4023,15 +4023,13 @@ const Appointment: FunctionComponent = (props: any) => {
             title: languageTranslation("APPOINTMENT_CANT_BE_DELETED"),
             text: languageTranslation("UNLINK_AND_DELETE"),
             showCancelButton: false,
-            confirmButtonText:"Okay"
+            confirmButtonText:languageTranslation("OKAY_LABEL")
           });
           if (!value) {
             return;
           }
         }else{
     if (temp && temp.length) {
-   
-
       let freeEntries = temp.filter(
         (element: any) =>
           !element.item || (element.item && !element.item.status)

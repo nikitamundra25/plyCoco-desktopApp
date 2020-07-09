@@ -16,7 +16,6 @@ import {
   EmailTemplateQueries,
   ProfileQueries,
   AppointmentsQueries,
-  CareInstitutionQueries,
   SignatureQueries
 } from '../../../../graphql/queries';
 import {

@@ -1228,5 +1228,7 @@
    "INVOICE_COMMENT_HEADING":"Add remarks to invoice",
    "NO_INVOICE_FOUND": "No invoice found",
    "CREATED_AT":"Created At",
-   "UPDATED_AT":"Updated At"
+   "UPDATED_AT":"Updated At",
+
+   "MENU_BULK_EMAIL_CI":"Bulk Email Care Institutions"
 }

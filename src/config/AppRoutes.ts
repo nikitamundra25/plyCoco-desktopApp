@@ -27,6 +27,7 @@ export const AppRoutes: IAppRoutes = {
   CARE_GIVER_HIDE_FUTURE: "/caregiver-todo/hide-future",
   DOCUMENT_TEMPLATE_WORKING: "/working-proof",
   BULK_EMAIL_CAREGIVER: "/bulk-email-caregiver",
+  BULK_EMAIL_CANSTITUTION: "/bulk-email-canstitution",
   EMAIL_SENT: "/sent-email",
   EMAIL_OUTBOX: "/outbox-email",
   EMAIL_QUEUE: "/email-queue",

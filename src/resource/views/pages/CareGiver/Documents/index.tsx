@@ -400,7 +400,7 @@ const Documents = () => {
   const onDeleteDocument = async (id: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation('CONFIRM_LABEL'),
-      text: 'This document will be deleted'
+      text: languageTranslation("DELETE_DOCUMENT")
     });
     if (!value) {
       return;
@@ -413,7 +413,7 @@ const Documents = () => {
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toastId = toast.success('Document deleted successfully');
+          toastId = toast.success(languageTranslation("DELETE_DOCUMENT_SUCCESSFULLY"));
         }
       } catch (error) {
         const message = errorFormatter(error);

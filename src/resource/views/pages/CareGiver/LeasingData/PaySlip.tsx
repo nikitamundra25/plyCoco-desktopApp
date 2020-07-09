@@ -32,7 +32,7 @@ const PaySlip: FunctionComponent = () => {
             <span className="custom-menu-icon">
               <img src={rich} alt="" />
             </span>
-            <span className="custom-menu-text">Charge Now</span>
+            <span className="custom-menu-text">{languageTranslation("CHARGE_NOW")} </span>
           </div>
         </div>
 
@@ -54,7 +54,7 @@ const PaySlip: FunctionComponent = () => {
                   <span className="align-middle mr-2">
                     <i className="icon-arrow-down" />
                   </span>
-                  <span className="align-middle ">Date: 2019</span>
+                  <span className="align-middle ">{languageTranslation("DATE")}: 2019</span>
                 </div>
                 <div>
                   <Table

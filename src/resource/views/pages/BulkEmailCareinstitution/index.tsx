@@ -217,8 +217,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   }, []);
 
-  console.log('confirmAppointment ', confirmAppointment);
-
 
   useEffect(() => {
     const getUserByQualifications =

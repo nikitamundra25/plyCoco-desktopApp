@@ -392,7 +392,6 @@ const Appointment: FunctionComponent = (props: any) => {
     { id: number[] }
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted({ deleteCareGiverAvability }: any) {
-      console.log(deleteCareGiverAvability, "deleteCaregiverAvailability+++++");
       deleteCareGiverAvability.forEach((element: any) => {
         const temp = [...caregiversList];
         let index: number = temp.findIndex(
@@ -599,7 +598,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_INSTITUTION_REQUIREMENT, {
     onCompleted({ updateCareInstitutionRequirement }) {
-      console.log(updateCareInstitutionRequirement,'updateCareInstitutionRequirement');
       
       let temp: any = [...careinstitutionList];
       let deptList: any = [];
@@ -903,8 +901,6 @@ const Appointment: FunctionComponent = (props: any) => {
       const selectedCareInstCells = selectedCellsCareinstitution
         ? [...selectedCellsCareinstitution]
         : [];
-      console.log(careInstList, "careInstList");
-console.log("addAppointment",addAppointment);
 
       addAppointment.forEach((appointment: any) => {
         let availabilityDataIndex: number = -1;
@@ -1138,13 +1134,6 @@ console.log("addAppointment",addAppointment);
       });
       setSelectedCells(selectedCaregiverCells);
       setselectedCellsCareinstitution(selectedCareInstCells);
-      console.log(
-        temp,
-        selectedCareInstCells,
-        careInstList,
-        deptList,
-        "temppppp"
-      );
       if (!toast.isActive(toastId)) {
         toastId = toast.success(languageTranslation("LINKED_APPOINTMENTS"));
       }
@@ -3595,7 +3584,7 @@ console.log("addAppointment",addAppointment);
                     )},${breakToTime}`
                   : null,
                   createdBy,
-                  createdAt: createdAt ? moment(createdAt).format(dbAcceptableFormat):""
+                  createdAt: createdAt ? createdAt :""
               };
               careGiverAvabilityInput = [...careGiverAvabilityInput, temp];
               if (appointmentId) {
@@ -3803,7 +3792,7 @@ console.log("addAppointment",addAppointment);
             status: status ? status : "default",
             isLeasing: attributes && attributes.length ? attributes.includes(CareInstTIMyoCYAttrId): false,
             createdBy,
-            createdAt: createdAt? moment(createdAt).format(dbAcceptableFormat):""
+            createdAt: createdAt?createdAt :""
           };
           careInstitutionRequirementInput = [
             ...careInstitutionRequirementInput,

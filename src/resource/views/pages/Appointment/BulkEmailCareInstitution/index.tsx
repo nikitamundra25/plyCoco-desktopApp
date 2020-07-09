@@ -15,7 +15,6 @@ import { languageTranslation } from '../../../../../helpers';
 const [ADD_DOCUMENT] = DocumentMutations;
 
 const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
-
   const { openModal, handleClose, selectedCellsCareinstitution, selectedCells, confirmAppointment } = props;
 
   // Mutation to leasing document

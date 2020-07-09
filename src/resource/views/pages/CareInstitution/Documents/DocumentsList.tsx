@@ -271,8 +271,8 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                                 onClick={() => expandedText(index)}
                               >
                                 {isExpand && activeRow === index
-                                  ? "...Read less"
-                                  : "...Read more"}
+                                  ? `...${languageTranslation("READ_LESS")}`
+                                  : `...${languageTranslation("READ_MORE")}`}
                               </span>
                             </p>
                           )
@@ -428,7 +428,7 @@ const DocumentsList: FunctionComponent<any> = (props: any) => {
                 <FormGroup className="mb-0">
                   <Select
                     menuPlacement={"top"}
-                    placeholder={"Please select type from list"}
+                    placeholder={languageTranslation("SELECT_TYPE_FROM_LIST")}
                     value={addedDocumentType}
                     isMulti
                     options={explicitTypeDropdown}

@@ -1,26 +1,36 @@
+import { languageTranslation } from "../../../../../../helpers";
+
 export const careInstitutionRoutes = [
   {
-    name: "overview"
+    name: "overview",
+    viewName: languageTranslation("OVERVIEW_LABEL"),
   },
   {
-    name: "offers"
+    name: "offers",
+    viewName: languageTranslation("OFFERS_LABEL"),
   },
   {
-    name: "login"
+    name: "login",
+    viewName:  languageTranslation("LOGIN"),
   },
   {
-    name: "invoices"
+    name: "invoices",
+    viewName: languageTranslation("INVOICE_LABEL_LOWERCASE"),
   },
   {
-    name: "documents"
+    name: "documents",
+    viewName: languageTranslation("DOCUMENT_LABEL"),
   },
   {
-    name: "departments"
+    name: "departments",
+    viewName: languageTranslation("DEPARTMENTS"),
   },
   {
-    name: "emails"
+    name: "emails",
+    viewName: languageTranslation("EMAIL_LABEL_LOWERCASE"),
   },
   {
-    name: "reminders/todos"
+    name: "reminders/todos",
+    viewName: languageTranslation("REMAINDER_TODOS_LABEL"),
   }
 ];

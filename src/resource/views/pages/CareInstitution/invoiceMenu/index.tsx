@@ -63,7 +63,7 @@ const InvoiceMenu: FunctionComponent = () => {
   const [updateRemarkToInvoice, {loading:isUpdating}] = useMutation<any, any>(UPDATE_INVOICE_COMMENT,{
     onCompleted: () => {
       setOpen(false);
-      toast.success("Remark added successfully")
+      toast.success(languageTranslation("REMARK_ADDED_SUCCESSFULLY"))
     }
   });
 
@@ -106,7 +106,6 @@ const InvoiceMenu: FunctionComponent = () => {
     setActiveRow(activeRow === index ? -1 : index);
   };
   const onPageChanged = (currentPage: number) => {
-    logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       '?',
@@ -212,8 +211,8 @@ const InvoiceMenu: FunctionComponent = () => {
                             onClick={() => expandedText(index)}
                           >
                             {isExpand && activeRow === index
-                              ? 'Read less'
-                              : 'Read more'}
+                              ? languageTranslation("READ_LESS")
+                              : languageTranslation("READ_MORE")}
                           </span>
                         </p>
                       )
@@ -230,19 +229,19 @@ const InvoiceMenu: FunctionComponent = () => {
                           )
                         }>
                         <UncontrolledTooltip placement="top" target={`open`}>
-                          Open Invoice
+                          {languageTranslation("OPEN_INVOICE")}
                         </UncontrolledTooltip>
                         <i className="fa fa-eye"></i>
                       </span>
                       <span className="btn-icon mr-2" id={`comment${index}`} onClick={() => openCommentBox(parseInt(invoiceData.id), invoiceData.comment)}>
                         <UncontrolledTooltip placement="top" target={`comment${index}`}>
-                          Add Comment to Invoice
+                         {languageTranslation("ADD_COMMENT_TO_INVOICE")}
                         </UncontrolledTooltip>
                         <i className="fa fa-comment" aria-hidden="true"></i>
                       </span>
                       <span className="btn-icon " id={`resend`}>
                         <UncontrolledTooltip placement="top" target={`resend`}>
-                          Send the invoice to the care institution again
+                          {languageTranslation("SEND_INVOICE_TO_CAREINST")}
                         </UncontrolledTooltip>
                         <i className="fa fa-reply"></i>
                       </span>

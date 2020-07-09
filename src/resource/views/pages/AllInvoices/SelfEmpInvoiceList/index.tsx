@@ -195,7 +195,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                     className={`nav-link ${tabChange == 1 ? "active" : ""}`}
                     onClick={() => tabChangehandler(1)}
                   >
-                    <span className="nav-text text-capitalize">General</span>
+                    <span className="nav-text text-capitalize">{languageTranslation("GENERAL")}</span>
                   </a>
                 </li>
                 <li className="nav-item">
@@ -204,7 +204,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                     onClick={() => tabChangehandler(2)}
                   >
                     <span className="nav-text text-capitalize">
-                      Dunning and export
+                      {languageTranslation("DUNNING_EXPORT")}
                     </span>
                   </a>
                 </li>

@@ -1,29 +1,40 @@
+import { languageTranslation } from "../../../../../../helpers";
+
 export const careGiverRoutes = [
   {
-    name: 'overview',
+    viewName: languageTranslation("OVERVIEW_LABEL"),
+    name: "overView"
   },
   {
-    name: 'offers',
+    viewName: languageTranslation("OFFERS_LABEL"),
+    name: "offers"
   },
   {
-    name: 'login',
+    viewName:  languageTranslation("LOGIN"),
+    name:"login"
   },
   {
-    name: 'invoices',
+    viewName: languageTranslation("INVOICE_LABEL_LOWERCASE"),
+    name: "invoices"
   },
   {
-    name: 'documents',
+    viewName: languageTranslation("DOCUMENT_LABEL"),
+    name:"documents"
   },
   {
-    name: 'emails',
+    viewName: languageTranslation("EMAIL_LABEL_LOWERCASE"),
+    name:"emails"
   },
   {
-    name: 'reminders/todos',
+    viewName: languageTranslation("REMAINDER_TODOS_LABEL"),
+    name:"reminders/todos"
   },
   {
-    name: 'leasing',
+    viewName: languageTranslation("LEASING_LABLE"),
+    name:"leasing"
   },
   {
-    name: 'grouped below',
+    viewName: languageTranslation("GROUPED_BELOW_LABEL"),
+    name:"grouped below"
   },
 ];

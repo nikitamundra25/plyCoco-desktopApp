@@ -199,8 +199,8 @@ const RemarkFormData: FunctionComponent<FormikProps<
                                 onClick={() => expandedText(index)}
                               >
                                 {isExpand && activeRow === index
-                                  ? '...Read less'
-                                  : '...Read more'}
+                                  ? `...${languageTranslation("READ_LESS")}`
+                                  : `...${languageTranslation("READ_MORE")}`}
                               </span>
                             </p>
                           )}

@@ -81,7 +81,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                     className={`nav-link ${tabChange == 1 ? 'active' : ''}`}
                     onClick={() => tabChangehandler(1)}
                   >
-                    <span className='nav-text text-capitalize'>General</span>
+                    <span className='nav-text text-capitalize'>{languageTranslation("GENERAL")} </span>
                   </a>
                 </li>
                 <li className='nav-item'>
@@ -90,7 +90,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                     onClick={() => tabChangehandler(2)}
                   >
                     <span className='nav-text text-capitalize'>
-                      Dunning and export
+                      {languageTranslation("DUNNING_EXPORT")}
                     </span>
                   </a>
                 </li>
@@ -99,7 +99,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
             {tabChange == 1 ? (
               <div className='common-topheader d-flex  px-2 mb-1'>
                 <div className='header-nav-colmn-items'>
-                  <div className='header-nav-heading mx-1'>Filter</div>
+                  <div className='header-nav-heading mx-1'>{languageTranslation("FILTER_LABEL")} </div>
                   <div className='header-nav-item '>
                     <span className='header-nav-icon'>
                       <img src={refresh} alt='' />

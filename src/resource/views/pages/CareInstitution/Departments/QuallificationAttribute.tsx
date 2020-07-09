@@ -30,7 +30,6 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
     attributes,
     setAttributes,
   } = props;
-  console.log('qualifications',qualifications)
 
   const colourStyles = {
     option: (styles: any, { data }: any) => {
@@ -75,7 +74,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           <div className='common-list-footer '>
             <FormGroup className='mb-0'>
               <Select
-                placeholder={'Please Select Qualification from the dropdown'}
+                placeholder={languageTranslation("SELECT_QUALIFICATION")}
                 name={'qualifications'}
                 value={qualifications}
                 onChange={(value: any) => selectQualification(value)}
@@ -126,7 +125,7 @@ const QuallificationAttribute: FunctionComponent<FormikProps<
           <div className='common-list-footer  '>
             <FormGroup className='mb-0'>
               <Select
-                placeholder={'Please Select Attribute from the dropdown'}
+                placeholder={languageTranslation("SELECT_ATTRIBUTE")}
                 name={'attributes'}
                 value={attributes}
                 onChange={(value: any) => selectAttribute(value)}

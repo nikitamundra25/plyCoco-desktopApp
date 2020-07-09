@@ -84,7 +84,7 @@ const Invoices: FunctionComponent = () => {
         userId: id
       },
     });
-  }, []); // It will run when the search value gets changed
+  }, [id]); // It will run when the search value gets changed
 
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);

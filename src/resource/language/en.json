@@ -1228,5 +1228,39 @@
    "INVOICE_COMMENT_HEADING":"Add remarks to invoice",
    "NO_INVOICE_FOUND": "No invoice found",
    "CREATED_AT":"Created At",
-   "UPDATED_AT":"Updated At"
+   "UPDATED_AT":"Updated At",
+   "FEEL_FREE_TO_CONTACT_INSTITUTION":"Please send your fee contract to the institution immediately.",
+   "YOU_CAN_USE_CORRESPONDING_WEB":"You can also use the corresponding function on the website.",
+   "CALL_INSTITUTION_BEFORE_TWO_DAYS":"Please call the institution about 2 days before the start of the service to make sure you are coming.",
+   "APPOINTMENT_CONFIRM":"Appointment confirmation",
+   "FACILITY_CANCELLED_ON_DATE":"The facility has unfortunately canceled the following dates::-",
+   "CANCELLED_DATE_MARKED_AS_FREE":"The canceled dates have been marked as 'free' and you will immediately receive offers for these days",
+   "INFORM_CANSTITUTION_FOR_DATES":"We have informed the institution of your cancellation for the following dates:-",
+   "APPOINTMENT_CANCEL_CONFIRMATION":"Appointment cancellation confirmation for",
+   "SIGN_TERMINATION_AGREEMENT_TIMYOCY":"Please sign a termination contract for a temporary employment contract with TIMyoCY for:",
+   "SIGN_UP_LINK":"SIGN_TERMINATION_AGREEMENT_TIMYOCY",
+   "TERMINATE_AGREEMENT":"Teminate aggrement",
+   "TEMPORAY_EMPLOYEMENT_CONTRACT":"Temporary employment contract for",
+   "USE_FOLLOWING_LINK":"Please use the following link:",
+   "PLACE_OF_WORK":"Place of work:",
+   "JOB":"job:",
+
+
+   "I_WOULD_LIKE_TO_BE_EMPLOYEED":"I would like to be employed indefinitely on identical terms: yes ( ) / no ( ) (please check).",
+   "DIRECT_BOOKING":"Direct Booking",
+   "WHY_INVOICE_NOT_CREATED_AUTO":"Why was my invoice not created automatically?",
+   "INVOICE_CORRECTION_IS_PENDING":" An invoice correction is still pending. You entered incorrect working hours or the invoice had to be canceled for other reasons. Before you have not corrected the times and created the invoice again using the link in the email, the invoice creation is suspended. Otherwise, an incorrect invoice would be created again.",
+
+
+   "BILLING_FAQ":"Billing FAQ",
+   "DELETE_DOCUMENT":"This document will be deleted",
+   "DELETE_DOCUMENT_SUCCESSFULLY":"Document deleted successfully",
+   "REMARK_ADDED_SUCCESSFULLY":"Remark added successfully",
+   "OPEN_INVOICE":"Open Invoice",
+   "CREATE_NEW_INVOICE":"Create New Invoice",
+   "ADD_COMMENT_TO_INVOICE":"Add Comment to Invoice",
+   "CANCEL_INVOICE":" Cancel Invoice",
+   "REPLACE_INVOICE":"Replace Invoice",
+   "SEND_INVOICE_TO_CAREINST":" Send the invoice to the care institution again",
+   "CHARGE_NOW":"Charge Now"
 }

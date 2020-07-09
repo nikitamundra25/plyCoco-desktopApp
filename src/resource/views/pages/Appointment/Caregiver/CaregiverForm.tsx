@@ -105,7 +105,7 @@ const CaregiverFormView: FunctionComponent<
       status,
       createdBy,
       createdAt,
-    updatedAt,
+      updatedAt,
     },
     touched,
     errors,
@@ -271,7 +271,7 @@ const CaregiverFormView: FunctionComponent<
           documentUploadType: "leasingContract",
         },
       });
-      return
+      return;
     }
     if (isAppointment) {
       console.log("inside pdf form");
@@ -395,14 +395,13 @@ const CaregiverFormView: FunctionComponent<
 
   // signed self employmentt contract
   const { getContractByAppointmentID = [] } = contractData ? contractData : {};
-  const { user_document = {},appointmentId:contractApptmentIds=[] } =
+  const { user_document = {}, appointmentId: contractApptmentIds = [] } =
     getContractByAppointmentID && getContractByAppointmentID.length
       ? getContractByAppointmentID[0]
       : [];
   const { document: selfEmploymentcontract = "" } = user_document
     ? user_document
     : {};
-  console.log("selfEmploymentcontract", selfEmploymentcontract);
 
   let isCorrespondingAppointment: boolean = false;
   if (
@@ -418,8 +417,7 @@ const CaregiverFormView: FunctionComponent<
     }
   }
 
-  console.log(createdBy,'createdBy in form');
-  
+
   return (
     <>
       <div className="form-section">
@@ -519,20 +517,10 @@ const CaregiverFormView: FunctionComponent<
                                       : false
                                     : false
                                 )
-                              : // handleUserList(
-                                //   selectedCareGiver ? selectedCareGiver.id : '',
-                                //   'caregiver'
-                                // )
+                              : 
                                 ""
                           }
-                          // onClick={() =>
-                          //   name
-                          //     ? handleUserList(
-                          //         selectedCareGiver ? selectedCareGiver.id : '',
-                          //         'caregiver'
-                          //       )
-                          //     : ''
-                          // }
+                        
                         >
                           <InputGroupText>
                             <i
@@ -971,7 +959,7 @@ const CaregiverFormView: FunctionComponent<
                       </Button>
                     </FormGroup>
                     <FormGroup className="total-input flex-grow-1">
-                      <Label className="form-label col-form-label">Total</Label>
+                      <Label className="form-label col-form-label">{languageTranslation("TOTAL")} </Label>
                       <div className="required-input">
                         <Input
                           type="text"
@@ -1410,11 +1398,12 @@ const CaregiverFormView: FunctionComponent<
                         </div>
                       </FormGroup>
                     </div>
-                    {console.log(
-                      "${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}",
-                      `${AppConfig.FILES_ENDPOINT}/${selfEmploymentcontract}`
-                    )}
-                    {document && leasingContract && leasingContract.length && leasingContract[0] && leasingContract[0].avabilityId === appointmentId ? (
+                  
+                    {document &&
+                    leasingContract &&
+                    leasingContract.length &&
+                    leasingContract[0] &&
+                    leasingContract[0].avabilityId === appointmentId ? (
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${document}`}
                         target={"_blank"}
@@ -1425,10 +1414,9 @@ const CaregiverFormView: FunctionComponent<
                       </a>
                     ) : getContractByAppointmentID &&
                       getContractByAppointmentID.length &&
-                      selfEmploymentcontract 
+                      selfEmploymentcontract ? (
                       // && selectedCells && selectedCells.length && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length && selectedCells[0].item.appointments[0] && contractApptmentIds.includes(selectedCells[0].item.appointments[0].id
-                        // ) 
-                      ? (
+                      // )
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}`}
                         target={"_blank"}
@@ -1494,25 +1482,38 @@ const CaregiverFormView: FunctionComponent<
               </FormGroup>
             </Col>
 
-
             {createdBy ? (
               <Col lg={"12"} className="mb-2 text-right text-muted">
                 <i>
-                {`${languageTranslation("CREATED_BY")} ${createdBy ? createdBy : ""}`}
+                  {`${languageTranslation("CREATED_BY")} ${
+                    createdBy ? createdBy : ""
+                  }`}
                 </i>
               </Col>
             ) : null}
-{createdAt ? (
+            {createdAt ? (
               <Col lg={"12"} className="mb-2 text-right text-muted">
                 <i>
-                {`${languageTranslation("CREATED_AT")} ${createdAt ? moment(createdAt).format(defaultDateTimeFormatForDashboard) : ""}`}
+                  {`${languageTranslation("CREATED_AT")} ${
+                    createdAt
+                      ? moment(createdAt).format(
+                          defaultDateTimeFormatForDashboard
+                        )
+                      : ""
+                  }`}
                 </i>
               </Col>
             ) : null}
             {updatedAt ? (
               <Col lg={"12"} className="mb-2 text-right text-muted">
                 <i>
-                {`${languageTranslation("UPDATED_AT")} ${updatedAt ? moment(updatedAt).format(defaultDateTimeFormatForDashboard) : ""}`}
+                  {`${languageTranslation("UPDATED_AT")} ${
+                    updatedAt
+                      ? moment(updatedAt).format(
+                          defaultDateTimeFormatForDashboard
+                        )
+                      : ""
+                  }`}
                 </i>
               </Col>
             ) : null}

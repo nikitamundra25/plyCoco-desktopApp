@@ -87,7 +87,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       id: Id ? parseInt(Id) : '',
     },
   });
-  console.log('datadata', data ? data.getCaregiver.salutation : null);
   
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
@@ -202,7 +201,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       }
     );
   }
-  console.log("careGiverOpt", careGiverOpt);
 
   // It's used to set active tab
   useEffect(() => {

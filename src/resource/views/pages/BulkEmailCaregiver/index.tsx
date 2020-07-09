@@ -16,7 +16,6 @@ import {
   EmailTemplateQueries,
   ProfileQueries,
   AppointmentsQueries,
-  CareInstitutionQueries,
   SignatureQueries
 } from '../../../../graphql/queries';
 import {
@@ -42,9 +41,6 @@ import {
   defaultDateFormat
 } from '../../../../config';
 import moment from 'moment';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import LeasingContactPdf from './PDF/LeasingContactPdf';
-import TerminationAgreementPdf from './PDF/TerminationAgreementPdf';
 import Loader from '../../containers/Loader/Loader';
 import filter from '../../../assets/img/filter.svg';
 import refresh from '../../../assets/img/refresh.svg';
@@ -386,8 +382,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     let list: any = [...careGiverData];
     if (props.offerCareGiver) {
       if (careGiversList) {
-        console.log("*******************careGiversList", careGiversList);
-        
+       
         const { getUserByQualifications } = careGiversList;
         const { result } = getUserByQualifications;
         if (result && result.length) {
@@ -663,9 +658,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     }
   }, [tokenData]);
 
-  console.log("hhhhhhhhhhhhhhhh",selectedCellsCareinstitution);
-  console.log("slelelelele",selectedCells);
-  
   //Use Effect for email template data
   useEffect(() => {
     // let emailTemplate:any = emailContent.filter((item:any) => item.label === mailEvent)[0];
@@ -837,7 +829,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           ' ' +
           qualificationString}</p><br/>${divRow}</br>${
           props.showButton
-            ? `</br><p><a href="http://78.47.143.190:8000/">Direct Booking</a></p></br>`
+            ? `</br><p><a href="http://78.47.143.190:8000/">${languageTranslation("DIRECT_BOOKING")} </a></p></br>`
             : ''
         }${remarkRow}</br><p>${languageTranslation('FEE') +
           ':' +
@@ -990,9 +982,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             apointedCareGiver[0].division ? apointedCareGiver[0].division : ''
           }</b></span></br>`;
         }
-        const bodyData: any = `<span>${divRow}</br>Please send your fee contract to the institution immediately.</br></br>You can also use the corresponding function on the website.</br></br>Please call the institution about 2 days before the start of the service to make sure you are coming.</span>`;
+        const bodyData: any = `<span>${divRow}</br>${languageTranslation("FEEL_FREE_TO_CONTACT_INSTITUTION")} </br></br>${languageTranslation("YOU_CAN_USE_CORRESPONDING_WEB")} </br></br>${languageTranslation("CALL_INSTITUTION_BEFORE_TWO_DAYS")} </span>`;
         const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
-        setSubject('Appointment confirmation');
+        setSubject(languageTranslation("APPOINTMENT_CONFIRM"));
         setBody(editorState);
       }
       if (props.unlinkedBy) {
@@ -1029,10 +1021,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               data.caregivername
             }</b></span></br>`;
           });
-          const bodyData: any = `<span>The facility has unfortunately canceled the following dates::-</br></br>${divRow}</br>The canceled dates have been marked as "free" and you will immediately receive offers for these days</span>`;
+          const bodyData: any = `<span>${languageTranslation("FACILITY_CANCELLED_ON_DATE")} </br></br>${divRow}</br>${languageTranslation("CANCELLED_DATE_MARKED_AS_FREE")} </span>`;
           const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
 
-          let subject: string = `Appointment cancellation for ${moment(
+          let subject: string = `${languageTranslation("UNLINK_CAREGIVER_SUBJECT")} ${moment(
             apointedCareGiver[0].date
           ).format('DD.MM')}`;
           setBody(editorState);
@@ -1076,9 +1068,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               data.caregivername
             }</b></span></br>`;
           });
-          const bodyData: any = `<span>We have informed the institution of your cancellation for the following dates:-</br></br>${divRow}</span>`;
+          const bodyData: any = `<span>${languageTranslation("INFORM_CANSTITUTION_FOR_DATES")} </br></br>${divRow}</span>`;
           const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
-          let subject: string = `Appointment cancellation confirmation for ${moment(
+          let subject: string = `${languageTranslation("APPOINTMENT_CANCEL_CONFIRMATION")} ${moment(
             apointedCareGiver[0] && apointedCareGiver[0].date
               ? apointedCareGiver[0].date
               : ''
@@ -1121,14 +1113,14 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               cname = cr.name;
             }
             let mailBody = '';
-            mailBody = `<p>${`Please sign a termination contract for a temporary employment contract with TIMyoCY for: ${' '}<span><b>${
+            mailBody = `<p>${`${languageTranslation("SIGN_TERMINATION_AGREEMENT_TIMYOCY")} ${' '}<span><b>${
               element && element.dateString
                 ? moment(element.dateString).format('DD.MM')
                 : ''
             }</b></span> ${cname ? cname : ''}</br>` +
-              `<p>Please use the following link: <a href="http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}</a>`}</p>`;
+              `<p>${languageTranslation("SIGN_UP_LINK")} <a href="http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}</a>`}</p>`;
             const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
-            setSubject('Teminate aggrement');
+            setSubject(languageTranslation("TERMINATE_AGREEMENT"));
             setBody(editorState);
           });
         }
@@ -1178,8 +1170,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 row.push(`${
                   date ? moment(date).format('DD.MM') : ''
                 } ${shiftLabel} ${duration}${
-                  address ? `, Place of work: ${address}` : ''
-                }, job:${
+                  address ? `, ${languageTranslation("PLACE_OF_WORK")} ${address}` : ''
+                }, ${languageTranslation("JOB")}${
                   qualificationId && qualificationId.length
                     ? ` - ${qualificationList
                         .filter((qualification: any) =>
@@ -1191,7 +1183,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 }
             `);
             });
-            setSubject(`Temporary employment contract for ${appointmentTimings.join(', ')}`);
+            setSubject(`${languageTranslation("TEMPORAY_EMPLOYEMENT_CONTRACT")} ${appointmentTimings.join(', ')}`);
           setPdfAppointmentDetails(row);
         }
         for (let i = 0; i < selectedCellsCareinstitution.length; i++) {
@@ -1254,23 +1246,23 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             let pdfDivRow: string = '';
             divRow += `<p>${v.date +
               ' ' +
-              v.shiftLabel +
-              ', Place of work: ' +
+              v.shiftLabel , +
+               languageTranslation("PLACE_OF_WORK")  +
               (v.division ? v.division : ' - ') +
               '' +
-              (v.address ? ', ' + v.address : ' ') +
-              ', job: ' +
+              (v.address ? ', ' + v.address : ' '), +
+              languageTranslation("JOB") +
               qualificationString}
               </p>`;
 
             pdfDivRow += `${v.date +
               ' ' +
-              v.shiftLabel +
-              ', Place of work: ' +
+              v.shiftLabel , +
+              languageTranslation("PLACE_OF_WORK") +
               (v.division ? v.division : ' - ') +
               '' +
-              (v.address ? ', ' + v.address : ' ') +
-              ', job: ' +
+              (v.address ? ', ' + v.address : ' ') , +
+              languageTranslation("JOB") +
               qualificationString}`;
 
             pdfDivData.push(pdfDivRow);
@@ -1282,7 +1274,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let mailBody = `<p>${languageTranslation(
           'CAREGIVER_EMAIL_LEASING_CONTRACT'
         )}</p></br>${requirementEmailData}</br>
-        <p>Please use the following link: <br/> <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
+        <p>${languageTranslation("USE_FOLLOWING_LINK")} <br/> <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
         </p>`;
 
         const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
@@ -1314,6 +1306,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       });
     }
   }, [terminateAggrement]);
+
   useEffect(() => {
     if (selectedCells && selectedCells.length) {
       const { qualificationIds = [] } = selectedCells[0]
@@ -1828,7 +1821,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       toast.error(message);
     }
   };
-  console.log(pdfAppointmentDetails,'pdfAppointmentDetails', leasingContract);
   
   return (
     <>

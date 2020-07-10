@@ -208,8 +208,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       getCareInstitutions({
         variables: {
           searchBy: '',
-          sortBy: 3,
-          limit: 30,
+          sortBy: 1,
+          limit: 50,
           page,
           isActive: ''
         }
@@ -878,7 +878,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   </PDFDownloadLink>
                 ) : null}
                 <CareInstitutionListComponent
-                  careInstData={careInstData}
+                  careInstData={careInstitutionListData}
                   handleSelectAll={handleSelectAll}
                   called={called}
                   loading={dataLoading}

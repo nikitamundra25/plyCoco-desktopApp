@@ -20,6 +20,7 @@ export const CareInstitutionListComponent: FunctionComponent<
     bulkcareGivers,
     careInstData,
   } = props;
+  console.log('inside renderlist', careInstData ? careInstData.getCareInstitutions : null)
 
   const handleChecked = (id: string) => {
     if (selectedCareGiver && selectedCareGiver.length) {
@@ -42,51 +43,52 @@ export const CareInstitutionListComponent: FunctionComponent<
     }
   };
 
-  const { getCareInstitution = {} } = careInstData ? careInstData : {};
-  const {
-    firstName = "",
-    lastName = "",
-    email = "",
-    id = "",
-    userId = "",
-    canstitution = {},
-    contact = [],
-  } = getCareInstitution ? getCareInstitution : {};
-  const { companyName = "" } = canstitution ? canstitution : {};
-  const temp = [
-    {
-      companyName,
-      contactType: languageTranslation("MAIN_CONTACT"),
-      name: [lastName, firstName].join(" "),
-      email,
-      userId,
-      id,
-    },
-  ];
+  // const { getCareInstitution = {} } = careInstData ? careInstData : {};
+  // console.log('getCareInstitution',getCareInstitution)
+  // const {
+  //   firstName = "",
+  //   lastName = "",
+  //   email = "",
+  //   id = "",
+  //   userId = "",
+  //   canstitution = {},
+  //   contact = [],
+  // } = getCareInstitution ? getCareInstitution : {};
+  // const { companyName = "" } = canstitution ? canstitution : {};
+  // const temp = [
+  //   {
+  //     companyName,
+  //     contactType: languageTranslation("MAIN_CONTACT"),
+  //     name: [lastName, firstName].join(" "),
+  //     email,
+  //     userId,
+  //     id,
+  //   },
+  // ];
 
-  if (contact && contact.length) {
-    contact.forEach((item: any) => {
-      const {
-        firstName = "",
-        surName = "",
-        email = "",
-        contact_type = {},
-        id = "",
-        userId = "",
-      } = item ? item : {};
-      temp.push({
-        id,
-        userId,
-        companyName: "",
-        contactType:
-          contact_type && contact_type.contactType
-            ? contact_type.contactType
-            : "",
-        name: [surName, firstName].join(" "),
-        email,
-      });
-    });
-  }
+  // if (contact && contact.length) {
+  //   contact.forEach((item: any) => {
+  //     const {
+  //       firstName = "",
+  //       surName = "",
+  //       email = "",
+  //       contact_type = {},
+  //       id = "",
+  //       userId = "",
+  //     } = item ? item : {};
+  //     temp.push({
+  //       id,
+  //       userId,
+  //       companyName: "",
+  //       contactType:
+  //         contact_type && contact_type.contactType
+  //           ? contact_type.contactType
+  //           : "",
+  //       name: [surName, firstName].join(" "),
+  //       email,
+  //     });
+  //   });
+  // }
 
   return (
     <Col lg={"6"} className="pr-lg-0">
@@ -109,19 +111,13 @@ export const CareInstitutionListComponent: FunctionComponent<
                   <Loader />
                 </td>
               </tr>
-            ) : temp && temp.length ? (
-              temp.map((item: any, index: number) => {
-                const {
-                  companyName = "",
-                  contactType = "",
-                  name = "",
-                  email = "",
-                } = item ? item : {};
+            ) : careInstData && careInstData.getCareInstitutions && careInstData.getCareInstitutions.careInstitutionData ? (
+              careInstData.getCareInstitutions.careInstitutionData.map((data: any, index: number) => {
                 return (
                   <tr
                     key={index}
                     onClick={(e: any) => {
-                      handleChecked(item.id);
+                      handleChecked(data.id);
                     }}
                     className="cursor-pointer"
                   >
@@ -135,26 +131,26 @@ export const CareInstitutionListComponent: FunctionComponent<
                           checked={
                             selectedCareGiver &&
                             selectedCareGiver.length &&
-                            selectedCareGiver.indexOf(parseInt(item.id)) > -1
+                            selectedCareGiver.indexOf(parseInt(data.id)) > -1
                               ? true
                               : false
                           }
                           onChange={(
                             e: React.ChangeEvent<HTMLInputElement>
                           ) => {
-                            handleCheckElement(e, item.id);
+                            handleCheckElement(e, data.id);
                           }}
                         />
                         <label className=""></label>
                       </span>
                     </td>
-                    <td>{companyName}</td>
-                    <td>{contactType}</td>
-                    <td>{name}</td>
-                    <td>{email}</td>
+                    <td>{data.canstitution.companyName}</td>
+                    <td>{languageTranslation("MAIN_CONTACT")}</td>
+                    <td>{data.firstName + data.lastName}</td>
+                    <td>{data.email}</td>
                     {/* <td>{item.salutation}</td> */}
                   </tr>
-                );
+                );  
               })
             ) : null}
           </tbody>

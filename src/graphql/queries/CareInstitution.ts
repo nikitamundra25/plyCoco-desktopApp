@@ -34,6 +34,18 @@ const GET_CARE_INSTITUTION_LIST = gql`
           shortName
           attributes
         }
+        contact {
+          salutation
+          firstName
+          surName
+          userId
+          contactTypeId
+          email
+          id
+          contact_type {
+            contactType
+          }
+        }
       }
     }
   }

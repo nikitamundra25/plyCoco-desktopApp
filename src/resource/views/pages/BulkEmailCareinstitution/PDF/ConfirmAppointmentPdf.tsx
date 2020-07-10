@@ -106,7 +106,6 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
   });
   const { selectedCellsCareinstitution } = props;
 
-
   // Create Document Component
   return (
     <Document>
@@ -116,16 +115,19 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
           <Link style={styles.subtext} src="#">
             {languageTranslation("PDF_DIAMOND_PERSONAL_GMBH")}
           </Link>
-          <Text style={styles.subtext}>
-            {languageTranslation("ARKADIA_PFLEGE")}{" "}
+          {selectedCellsCareinstitution && selectedCellsCareinstitution.length && selectedCellsCareinstitution[0].canstitution ? <><Text style={styles.subtext}>
+          {selectedCellsCareinstitution[0].canstitution.companyName || ''}
+            {/* {languageTranslation("ARKADIA_PFLEGE")}{" "} */}
           </Text>
           <Text style={styles.subtext}>
+            {selectedCellsCareinstitution[0].canstitution.shortName || ''}
+            {/* {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "} */}
+          </Text>
+          <Text style={styles.subtext}>
+          {[selectedCellsCareinstitution[0].canstitution.street, selectedCellsCareinstitution[0].canstitution.city].filter(Boolean).join(', ') || ''}            
             {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "}
           </Text>
-          <Text style={styles.subtext}>
-            {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "}
-          </Text>
-          <Text style={styles.subtext}>{languageTranslation("WERDER")} </Text>
+          <Text style={styles.subtext}>{languageTranslation("WERDER")} </Text></> : null}
         </View>
         <View style={styles.section}>
           <Text style={styles.subtitle}>
@@ -141,7 +143,8 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
           </Text>
           {selectedCellsCareinstitution && selectedCellsCareinstitution.length
             ? selectedCellsCareinstitution.map((cell: any, index: number) => {
-                const { item = {} } = cell;
+                const { item = {}, canstitution } = cell;
+                const {companyName='', strret = '', city = ''} = canstitution
                 const {
                   id = "",
                   startTime = "",
@@ -152,6 +155,8 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
                 } = item ? item : {};
                 const { ca = {} } =
                   appointments && appointments.length ? appointments[0] : {};
+                console.log(ca, 'ca');
+                
                 let shiftLabel: string =
                   startTime === "06:00"
                     ? "FD"
@@ -161,7 +166,7 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
                 return id ? (
                   <Text style={styles.subtext} key={index}>
                     {date ? moment(date).format(defaultDateFormat) : ""},{" "}
-                    {shiftLabel}, {ca && ca.name ? `Worker:${ca.name},` : ""}{" "}
+                    {shiftLabel}, {ca && ca.name ? `${languageTranslation("WORKER")}:${ca.name},` : ""}{" "}
                     {languageTranslation("QUALIFICATION")}:{" "}
                     {qualificationId
                       .map((quali: IReactSelectInterface) => quali.label)

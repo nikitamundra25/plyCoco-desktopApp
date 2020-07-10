@@ -57,6 +57,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   const [pdfAppointmentDetails, setPdfAppointmentDetails] = useState<string[]>([]);
   const [temporaryWorkerPdf, setTemporaryWorkerPdf] = useState<any>();
 
+  const [careInstitutionData, setcareInstitutionData] = useState<Object[]>([]);
+
+
   // To access data of loggedIn user
   let userData: any = '';
   try {
@@ -96,6 +99,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   ] = useLazyQuery<any, any>(GET_CARE_INSTITUTION_LIST, {
     fetchPolicy: 'no-cache'
   });
+
   console.log('careInstitutionListData',careInstitutionListData)
 
   const [
@@ -232,6 +236,29 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   }, [careInstitutionsList]);
 
+console.log("careInstitutionListData",careInstitutionListData);
+
+  useEffect(() => {
+    let list: any = [...careInstitutionData];
+    if (careInstitutionListData) {
+      const { getCareInstitutions } = careInstitutionListData;
+      const { careInstitutionData } = getCareInstitutions;
+      if (careInstitutionData && careInstitutionData.length) {
+        careInstitutionData.map((key: any) => {
+          return (list = [...list, key]);
+        });
+      }
+      setcareInstitutionData(list);
+      let selectedId: any = [];
+      if (bulkcareGivers) {
+        list.map((key: any) => {
+          return (selectedId = [...selectedId, parseInt(key.id)]);
+        });
+        setcareInstitutionData(selectedId);
+      }
+    }
+  }, [careInstitutionListData]);
+
   // Refresh component
   const onRefresh = () => {
     // refetch();
@@ -313,6 +340,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         size:fileSize}])
     }
   },[documentRes])
+  
   //Use Effect for set default email template data
   useEffect(() => {
     if (data && props.label === 'appointment') {
@@ -396,6 +424,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   name=''
                 } = element;
                 isLeasing = element.isLeasing;
+                
                 const { appointments = [], division = {} } = item;
                 if (appointments && appointments.length) {
                   const { ca = {}, date = '' } =
@@ -417,6 +446,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
               });
             }
             let divRow: string = '';
+            
             if (props.sortBy === 'day') {
               apointedCareGiver = apointedCareGiver.sort(function (
                 a: any,
@@ -427,6 +457,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             } else {
               apointedCareGiver = apointedCareGiver.sort(sortByDivision);
             }
+            
             apointedCareGiver.map((data: any) => {
               divRow += `<span><b>${moment(data.date).format(
                 'DD/MM'

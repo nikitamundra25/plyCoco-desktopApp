@@ -34,7 +34,7 @@ const GET_CARE_INSTITUTION_LIST = gql`
           shortName
           attributes
         }
-        contact {
+        contacts {
           salutation
           firstName
           surName

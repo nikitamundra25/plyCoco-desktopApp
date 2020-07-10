@@ -1288,5 +1288,6 @@
    "OUTBOX_LABEL":"Outbox",
    "NO_INVOICE_FOR_LIST": "No contract list for invoice creation",
    "YES":"Yes",
-   "OKAY_LABEL":"Okay!"
+   "OKAY_LABEL":"Okay!",
+   "WORKER":"Arbeiter"
 }

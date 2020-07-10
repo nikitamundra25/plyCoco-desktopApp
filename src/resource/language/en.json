@@ -1296,5 +1296,7 @@
    "SENT_INBOX":"Sent inbox",
    "OUTBOX_LABEL":"Outbox",
    "YES":"Yes",
-   "OKAY_LABEL":"Okay!"
+   "OKAY_LABEL":"Okay!",
+
+   "REQUIRED_DATEOFBIRTH":"Date of birth is required"
 }

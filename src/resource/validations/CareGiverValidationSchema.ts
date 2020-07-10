@@ -35,7 +35,9 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .trim()
     .email(languageTranslation('VALID_EMAIL'))
     .required(languageTranslation('REQUIRED_EMAIL')),
-  dateOfBirth: Yup.mixed().test({
+  dateOfBirth: Yup.mixed()
+  .required(languageTranslation('REQUIRED_DATEOFBIRTH'))
+  .test({
     name: 'validate-date',
     test: function(val) {
       const { path, createError } = this;

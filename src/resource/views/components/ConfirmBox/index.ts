@@ -12,7 +12,8 @@ export const ConfirmBox = async (obj: object | any) => {
     confirmButtonColor,
     showCancelButton,
     cancelButtonColor,
-    confirmButtonText
+    confirmButtonText,
+    cancelButtonText
   } = obj;
   
   return await Swal.fire({
@@ -22,6 +23,7 @@ export const ConfirmBox = async (obj: object | any) => {
     showCancelButton: showCancelButton === false? false : true ,
     confirmButtonColor: confirmButtonColor || "#3085d6",
     cancelButtonColor: cancelButtonColor || "#d33",
-    confirmButtonText: confirmButtonText || "Yes!"
+    confirmButtonText: confirmButtonText || `${languageTranslation("YES")!}`,
+    cancelButtonText: cancelButtonText || languageTranslation("CANCEL")
   });
 };

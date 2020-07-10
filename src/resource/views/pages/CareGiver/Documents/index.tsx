@@ -547,7 +547,8 @@ const Documents = () => {
                 setDocumentType(
                   documentTypeList.filter(
                     (docType: any) =>
-                      docType.label === languageTranslation('VARIOUS_DOCUMENTS')
+                       docType.value === "6"
+                      //  languageTranslation('VARIOUS_DOCUMENTS')
                   )[0]
                 );
               }}

@@ -91,7 +91,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     name: '',
     dateOfBirth: '',
     street: '',
-    city: ''
+    city: '',
+    zipCode: ''
   });
 
   // To access data of loggedIn user
@@ -1298,7 +1299,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         firstName = '',
         lastName = ''
       } = selectedCells[0] ? selectedCells[0] : {};
-      const { street = '', city = '', dateOfBirth = '' } = caregiver
+      const { street = '', city = '', zipCode='', dateOfBirth = '' } = caregiver
         ? caregiver
         : {};
       setPdfTerminateAppointment({
@@ -1309,7 +1310,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             )}`
           : '',
         street,
-        city
+        city,
+        zipCode
       });
     }
   }, [terminateAggrement]);

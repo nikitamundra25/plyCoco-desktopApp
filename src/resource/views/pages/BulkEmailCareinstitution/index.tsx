@@ -795,6 +795,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
 
   const isLeasingRequirement = selectedCellsCareinstitution && selectedCellsCareinstitution.length &&
   selectedCellsCareinstitution.findIndex((cell:any) => cell.item && cell.item.isLeasing) > -1 ? true :false
+
+  console.log(props.qualificationList,'props.qualification');
+  
   
   return (
     <>
@@ -864,6 +867,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     document={
                       <ConfirmAppointmentPdf
                         selectedCellsCareinstitution={pdfAppointmentDetails}
+                        qualificationList={props.qualificationList}
                       />
                     }
                   >

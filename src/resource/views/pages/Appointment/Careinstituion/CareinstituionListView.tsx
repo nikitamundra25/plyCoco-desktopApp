@@ -1477,6 +1477,7 @@ const CarinstituionListView: FunctionComponent<
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
         confirmAppointment={confirmAppointment}
+        qualificationList={props.qualificationList}
       />
       {renderDetailedList()}
       <UnlinkAppointment

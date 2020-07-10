@@ -18,8 +18,8 @@ import { defaultDateFormat } from "../../../../../config";
 import { languageTranslation } from "../../../../../helpers";
 import timyocLogo from "../../../../assets/img/timyoc.png";
 
-const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
-  props: IConfirmAppointmentPdfProps
+const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qualificationList:any}> = (
+  props: IConfirmAppointmentPdfProps & {qualificationList:any}
 ) => {
   // Create styles
   const styles = StyleSheet.create({
@@ -104,7 +104,7 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
       textAlign: "center",
     },
   });
-  const { selectedCellsCareinstitution } = props;
+  const { selectedCellsCareinstitution, qualificationList } = props;
 
   // Create Document Component
   return (
@@ -119,15 +119,17 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
           {selectedCellsCareinstitution[0].canstitution.companyName || ''}
             {/* {languageTranslation("ARKADIA_PFLEGE")}{" "} */}
           </Text>
-          <Text style={styles.subtext}>
+          {/* <Text style={styles.subtext}>
             {selectedCellsCareinstitution[0].canstitution.shortName || ''}
+            {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "}
+          </Text> */}
+          <Text style={styles.subtext}>
+          {selectedCellsCareinstitution[0].canstitution.street || '-'}            
             {/* {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "} */}
           </Text>
-          <Text style={styles.subtext}>
-          {[selectedCellsCareinstitution[0].canstitution.street, selectedCellsCareinstitution[0].canstitution.city].filter(Boolean).join(', ') || ''}            
-            {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "}
-          </Text>
-          <Text style={styles.subtext}>{languageTranslation("WERDER")} </Text></> : null}
+          <Text style={styles.subtext}>{selectedCellsCareinstitution[0].canstitution.zipCode || ''} {selectedCellsCareinstitution[0].canstitution.city || ''}
+          {/* {languageTranslation("WERDER")}  */}
+          </Text></> : null}
         </View>
         <View style={styles.section}>
           <Text style={styles.subtitle}>
@@ -152,11 +154,13 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
                   date = "",
                   appointments = [],
                   qualificationId = [],
+                  qualificationForCharge=""
                 } = item ? item : {};
                 const { ca = {} } =
                   appointments && appointments.length ? appointments[0] : {};
                 console.log(ca, 'ca');
-                
+                let qualificationforChargerData = qualificationList
+                .filter((item:any) => item.value === qualificationForCharge)
                 let shiftLabel: string =
                   startTime === "06:00"
                     ? "FD"
@@ -166,12 +170,14 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
                 return id ? (
                   <Text style={styles.subtext} key={index}>
                     {date ? moment(date).format(defaultDateFormat) : ""},{" "}
-                    {shiftLabel}, {ca && ca.name ? `${languageTranslation("WORKER")}:${ca.name},` : ""}{" "}
+                    {shiftLabel}, {ca && ca.name ? `${languageTranslation("WORKER")}: ${ca.name},` : ""}{" "}
                     {languageTranslation("QUALIFICATION")}:{" "}
-                    {qualificationId
+                    {/* {qualificationId
                       .map((quali: IReactSelectInterface) => quali.label)
                       .filter(Boolean)
-                      .join(", ")}
+                      .join(", ")} */}
+                    {qualificationforChargerData && qualificationforChargerData.length ? 
+                      qualificationforChargerData[0].label : ''}
                     , {languageTranslation("PAY_GROUP_TXT")}: 3{" "}
                   </Text>
                 ) : null;

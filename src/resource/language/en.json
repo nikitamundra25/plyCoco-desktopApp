@@ -1298,5 +1298,6 @@
    "YES":"Yes",
    "OKAY_LABEL":"Okay!",
 
-   "REQUIRED_DATEOFBIRTH":"Date of birth is required"
+   "REQUIRED_DATEOFBIRTH":"Date of birth is required",
+   "WORKER":"Worker"
 }

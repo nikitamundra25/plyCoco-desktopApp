@@ -1733,10 +1733,12 @@ const Appointment: FunctionComponent = (props: any) => {
         lastName = "",
         canstitution = {},
         qualificationIds = [],
+        item = undefined
       } =
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
           : {};
+console.log("pppppppp+++++",item);
 
       let careinstitutionvalue: any[] = [
         {
@@ -1765,6 +1767,7 @@ const Appointment: FunctionComponent = (props: any) => {
             contactPerson,
             divisionId,
             department: divisionId,
+            division: item && item.division ? item.division : {},
             // ? departmentData && departmentData.length
             //   ? {
             //       value: departmentData[0].id,
@@ -2754,8 +2757,8 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   // change department
-  useEffect(() => {
-    let deptId = careInstituionDept ? careInstituionDept.value : "";
+  useEffect(() => {  
+   let deptId = careInstituionDept ? careInstituionDept.value : "";
     let departmentData: any = {};
     const careInstitutionTimesOptions:
       | IReactSelectTimeInterface[]
@@ -2849,6 +2852,7 @@ const Appointment: FunctionComponent = (props: any) => {
             },
           },
         ];
+console.log("temptemp",temp);
 
         if (
           selectedCellsCareinstitution &&

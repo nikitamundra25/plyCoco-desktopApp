@@ -83,20 +83,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     { documentInput: any }
   >(ADD_DOCUMENT);
 
-  // To fetch caregivers by qualification id
-  const [
-    fetchCaregiverListFromQualification,
-    {
-      data: careInstitutionsList,
-      called: careGiverListCalled,
-      loading: caregiverLoading,
-      refetch: caregiverQulliRefetch,
-      fetchMore: caregiverListFetch,
-    },
-  ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: "no-cache",
-  });
-
   // To get careinstitution list from db
   const [
     getCareInstitutions,
@@ -104,7 +90,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   ] = useLazyQuery<any, any>(GET_CARE_INSTITUTION_LIST, {
     fetchPolicy: "no-cache",
   });
-
 
   const [
     fetchCareInstDetails,
@@ -183,14 +168,11 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         },
       });
     }
-
   // To set default salutation & signature while composing the newemail
     let body = "<br /><br /><br /><br /><br /><br />";
     const updatedContent: any = setDefaultSignature(body);
     setBody(updatedContent);
   }, []);
-
-
 
   // To fetch users according to user selected
   useEffect(() => {
@@ -248,14 +230,14 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   }, []);
 
-  useEffect(() => {
-    const { getCareInstitution = {} } = careInstData ? careInstData : {};
-    let temp = [];
-    temp.push(getCareInstitution);
-    if (temp && temp.length && props.label === "appointment") {
-      setcareInstitutionData(temp);
-    }
-  }, [careInstData]);
+  // useEffect(() => {
+  //   const { getCareInstitution = {} } = careInstData ? careInstData : {};
+  //   let temp = [];
+  //   temp.push(getCareInstitution);
+  //   if (temp && temp.length && props.label === "appointment") {
+  //     setcareInstitutionData(temp);
+  //   }
+  // }, [careInstData]);
 
   useEffect(() => {
     let list: any = [...careInstitutionData];
@@ -438,8 +420,10 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           )}</br></br>${divRow}</br>${languageTranslation(
             "OFFERED_BODY_INDEPENDENT_CAREGIVER_HAS_OWN_FEE"
           )}</span>`;
-          const editorState = bodyData ? HtmlToDraftConverter(bodyData) : "";
-          setBody(editorState);
+          const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+          setBody(updatedContent);
+          // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : "";
+          // setBody(editorState);
 
           // setTemplate({
           //   label: emailData.menuEntry,
@@ -512,13 +496,14 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 )}</p><p>${languageTranslation("CONTRACT_MAIL_INFO")}</p>`
               : ""
           }`;
-          const editorState = bodyData ? HtmlToDraftConverter(bodyData) : "";
+          // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : "";
           setSubject(
             `${languageTranslation(
               "SUBJECT_APPOINTMENT_CONFIRMATION"
             )} ${appointmentTimings.join(", ")}`
           );
-          setBody(editorState);
+          const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+          setBody(updatedContent);
           // setTemplate({
           //   label: emailData.menuEntry,
           //   value: emailData
@@ -561,7 +546,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             const bodyData: any = `<span>${languageTranslation(
               "UNLINK_EMAIL_CAREINSTITUTION_BODY"
             )}</br></br>${divRow}</span>`;
-            const editorState = bodyData ? HtmlToDraftConverter(bodyData) : "";
+            // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : "";
 
             let subject: string = `${languageTranslation("UNLINK_SUBJECT")} ${
               apointedCareGiver &&
@@ -578,7 +563,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 ? apointedCareGiver[0].division
                 : ""
             }`;
-            setBody(editorState);
+            const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+            setBody(updatedContent);
             setSubject(subject);
             // setTemplate({
             //   label: emailData.menuEntry,
@@ -622,7 +608,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             )}</br></br>${divRow}</span></br>${languageTranslation(
               "UNLINK_EMAIL_CAREGIVER_BODY_CONTACT"
             )}`;
-            const editorState = bodyData ? HtmlToDraftConverter(bodyData) : "";
+            // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : "";
 
             let subject: string = `${languageTranslation(
               "UNLINK_CAREGIVER_SUBJECT"
@@ -633,7 +619,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   }`
                 : ""
             }`;
-            setBody(editorState);
+            const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+            setBody(updatedContent);
             setSubject(subject);
             setTemplate({
               label: "",
@@ -647,15 +634,22 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         ) {
           // const { subject, body, attachments } = emailData;
           setSubject(languageTranslation("ACKNOWLEDGE_FOR_OFFER_SENT_SUBJECT"));
-          setBody(
-            HtmlToDraftConverter(
-              `<span>${languageTranslation(
-                "REQUEST_ALL_SUITABLE_NURSE_BODY"
-              )}<br /><br /><span>${languageTranslation(
-                "INFORM_YOU_IMMEDIATELY_BODY"
-              )}</span>`
-            )
-          );
+          const bodyData: any = `<span>${languageTranslation(
+            "REQUEST_ALL_SUITABLE_NURSE_BODY"
+          )}<br /><br /><span>${languageTranslation(
+            "INFORM_YOU_IMMEDIATELY_BODY"
+          )}</span>`
+          const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+          setBody(updatedContent);
+          // setBody(
+          //   HtmlToDraftConverter(
+          //     `<span>${languageTranslation(
+          //       "REQUEST_ALL_SUITABLE_NURSE_BODY"
+          //     )}<br /><br /><span>${languageTranslation(
+          //       "INFORM_YOU_IMMEDIATELY_BODY"
+          //     )}</span>`
+          //   )
+          // );
         }
       }
     }
@@ -972,41 +966,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           }
         },
       });
-    } else {
-      caregiverListFetch({
-        variables: {
-          page: page + 1,
-        },
-        updateQuery: (prev: any, { fetchMoreResult }: any) => {
-          if (!fetchMoreResult) return prev;
-          if (prev.getUserByQualifications) {
-            let list = [
-              ...careInstitutionData,
-              ...fetchMoreResult.getUserByQualifications.result,
-            ];
-            setcareInstitutionData((prevArray: any) => [
-              ...prevArray,
-              ...fetchMoreResult.getUserByQualifications.result,
-            ]);
-            let selectedId: any = [];
-            if (bulkcareGivers) {
-              list.forEach((caregiver) => {
-                selectedId = [...selectedId, parseInt(caregiver.id)];
-              });
-              setselectedCareGiver(selectedId);
-            }
-            return Object.assign({}, prev, {
-              getUserByQualifications: {
-                ...prev.getUserByQualifications,
-                result: [
-                  ...prev.getUserByQualifications.result,
-                  ...fetchMoreResult.getUserByQualifications.result,
-                ],
-              },
-            });
-          }
-        },
-      });
     }
   };
 
@@ -1102,14 +1061,14 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   </PDFDownloadLink>
                 ) : null}
                 <CareInstitutionListComponent
-                  careInstData={careInstitutionData}
+                  careInstData={props.label === "appointment" && careInstData && careInstData.getCareInstitution ? [careInstData.getCareInstitution] : careInstitutionData}
                   handleSelectAll={handleSelectAll}
                   called={called}
                   loading={loading}
                   careInstitutions={
                     props.label !== "appointment"
                       ? careInstitutionListData
-                      : careInstitutionsList
+                      : []
                   }
                   setCareInstitution={setCareInstitution}
                   selectedCareGiver={selectedCareGiver}

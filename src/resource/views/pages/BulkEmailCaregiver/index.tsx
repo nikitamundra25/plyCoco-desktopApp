@@ -655,7 +655,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       let temp = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '';
       temp = temp.replace(new RegExp(`{token}`, 'g'), token);
       const editorState = temp ? HtmlToDraftConverter(temp) : '';
-      // const updatedContent: any = setDefaultSignature(editorState);
       setBody(editorState);
     }
   }, [tokenData]);
@@ -844,9 +843,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }`;
         // }
 
-        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';
+        setBody(updatedContent);
         setSubject(customSub);
-        setBody(editorState);
+        // setBody(editorState);
       } else {
         let qualificationArray: any = [];
         let qualificationString: string = '';
@@ -942,9 +943,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
           )}</p>`;
 
-          const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+          // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
           setSubject(languageTranslation('CAREGIVER_OFFER_EMAIL_SUBJECT'));
-          setBody(editorState);
+          const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';
+          setBody(updatedContent);
+          // setBody(editorState);
         }
       }
       if (props.confirmApp) {
@@ -990,9 +993,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }</b></span></br>`;
         }
         const bodyData: any = `<span>${divRow}</br>${languageTranslation("FEEL_FREE_TO_CONTACT_INSTITUTION")} </br></br>${languageTranslation("YOU_CAN_USE_CORRESPONDING_WEB")} </br></br>${languageTranslation("CALL_INSTITUTION_BEFORE_TWO_DAYS")} </span>`;
-        const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+        // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
         setSubject(languageTranslation("APPOINTMENT_CONFIRM"));
-        setBody(editorState);
+        const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+        setBody(updatedContent);
+        // setBody(editorState);
       }
       if (props.unlinkedBy) {
         if (props.unlinkedBy === 'canstitution') {
@@ -1029,12 +1034,14 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             }</b></span></br>`;
           });
           const bodyData: any = `<span>${languageTranslation("FACILITY_CANCELLED_ON_DATE")} </br></br>${divRow}</br>${languageTranslation("CANCELLED_DATE_MARKED_AS_FREE")} </span>`;
-          const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+          // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
 
           let subject: string = `${languageTranslation("UNLINK_CAREGIVER_SUBJECT")} ${moment(
             apointedCareGiver[0].date
           ).format('DD.MM')}`;
-          setBody(editorState);
+          // setBody(editorState);
+          const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+          setBody(updatedContent);
           setSubject(subject);
           setTemplate({
             label: '',
@@ -1076,7 +1083,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             }</b></span></br>`;
           });
           const bodyData: any = `<span>${languageTranslation("INFORM_CANSTITUTION_FOR_DATES")} </br></br>${divRow}</span>`;
-          const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+          // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
           let subject: string = `${languageTranslation("APPOINTMENT_CANCEL_CONFIRMATION")} ${moment(
             apointedCareGiver[0] && apointedCareGiver[0].date
               ? apointedCareGiver[0].date
@@ -1086,7 +1093,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               ? apointedCareGiver[0].division
               : ''
           }`;
-          setBody(editorState);
+          // setBody(editorState);
+          const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+          setBody(updatedContent);
           setSubject(subject);
           setTemplate({
             label: '',
@@ -1126,9 +1135,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 : ''
             }</b></span> ${cname ? cname : ''}</br>` +
               `<p>${languageTranslation("SIGN_UP_LINK")} <a href="http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}</a>`}</p>`;
-            const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+            // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
             setSubject(languageTranslation("TERMINATE_AGREEMENT"));
-            setBody(editorState);
+            const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';
+            setBody(updatedContent);
+            // setBody(editorState);
           });
         }
       }
@@ -1285,9 +1296,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         )}</p></br>${requirementEmailData}</br>
         <p>${languageTranslation("USE_FOLLOWING_LINK")} <br/> <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
         </p>`;
-
-        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
-        setBody(editorState);
+        // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';
+        setBody(updatedContent);
+        // setBody(editorState);
       }
     }
   }, []);
@@ -1427,9 +1439,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         )}</p>${qualificationReq}<br/><p>${languageTranslation('FEE') +
           ':' +
           languageTranslation('FEE_TEXT')}<br/>`;
-        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         setSubject(languageTranslation('OFFER_REQUIREMENTS_SUB'));
-        setBody(editorState);
+        const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';
+        setBody(updatedContent);
+        // setBody(editorState);
       }
     }
   }, [requirmentList]);

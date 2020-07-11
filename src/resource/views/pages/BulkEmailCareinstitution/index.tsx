@@ -1009,9 +1009,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     }
   };
 
-  const isLeasingRequirement: boolean = false;
+  let isLeasingRequirement: boolean = false;
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-    const isLeasingRequirement =
+    isLeasingRequirement =
       selectedCellsCareinstitution.findIndex(
         (cell: any) => cell.item && cell.item.isLeasing
       ) > -1

@@ -323,6 +323,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       );
     }
   }
+
   useEffect(() => {
     if (temporaryWorkerPdf) {
       let documentInput: any = {
@@ -721,11 +722,12 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
 
     try {
       let careGiverIdList: any = [];
+    let temp:any = props.label === "appointment" && careInstData && careInstData.getCareInstitution ? [careInstData.getCareInstitution] : careInstitutionData;
+  
 
       if (selectedCareGiver && selectedCareGiver.length) {
-        if (careInstitutionData && careInstitutionData.length) {
+        if (temp && temp.length) {
           // Remove duplicate values from an array of objects
-
           let uniqueUser = selectedCareGiver.reduce((unique: any, key: any) => {
             if (
               !unique.some(
@@ -745,7 +747,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           }
 
           uniqueUser.map((careGiverId: any) => {
-            let careInstData: any = careInstitutionData.filter(
+            let careInstData: any = temp.filter(
               (k: any, index: number) =>
                 parseInt(k.id) === parseInt(careGiverId)
             );

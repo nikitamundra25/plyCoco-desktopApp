@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Row, Button } from "reactstrap";
-import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import { convertToRaw, ContentState, EditorState } from "draft-js";
+import htmlToDraft from "html-to-draftjs";
 
 import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import {
@@ -38,6 +39,8 @@ import moment from "moment";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ConfirmAppointmentPdf from "./PDF/ConfirmAppointmentPdf";
 import { DocumentMutations } from "../../../../graphql/Mutations";
+import logo from "../../../assets/img/plycoco-orange.png";
+
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
 const [BULK_EMAILS_CAREINSTITUTION] = BulkEmailCareInstituion;
@@ -102,7 +105,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     fetchPolicy: "no-cache",
   });
 
-  console.log("careInstitutionListData", careInstitutionListData);
 
   const [
     fetchCareInstDetails,
@@ -137,7 +139,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       }
       if (props.handleClose) props.handleClose();
       setSubject("");
-      setBody("");
+      let body = "<br /><br /><br /><br /><br /><br />";
+      const updatedContent: any = setDefaultSignature(body);
+      setBody(updatedContent);
       setAttachments([]);
       setIsSubmit(false);
       setTemplate({ label: "", value: "" });
@@ -152,6 +156,21 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     },
   });
 
+  const setDefaultSignature = (body: any) => {  
+    const contentBlock = htmlToDraft(
+      `<div>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
+        "BEST_WISHES"
+      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-644 99 444" style="color: #000; text-decoration: none;">+49-30-644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-644 99 445" style="color: #000; text-decoration: none;">+49-30-644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="https://www.plycoco.de/" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Vertreten durch: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746</span><br><span style="font-size: 12px;color: #b5b4b4;">Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz DE290375287</span></div></div>`
+    );
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      return editorState;
+    }
+  };
+
   useEffect(() => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       let careInstIds: string = selectedCellsCareinstitution.map(
@@ -164,7 +183,14 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         },
       });
     }
+
+  // To set default salutation & signature while composing the newemail
+    let body = "<br /><br /><br /><br /><br /><br />";
+    const updatedContent: any = setDefaultSignature(body);
+    setBody(updatedContent);
   }, []);
+
+
 
   // To fetch users according to user selected
   useEffect(() => {
@@ -210,7 +236,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     // Fetch list of care instituion
     if (props.label !== "appointment") {
-      console.log("under ");
       getCareInstitutions({
         variables: {
           searchBy: "",
@@ -266,7 +291,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       },
     });
     setSubject("");
-    setBody(undefined);
+    let body = "<br /><br /><br /><br /><br /><br />";
+    const updatedContent: any = setDefaultSignature(body);
+    setBody(updatedContent);
     setAttachments([]);
     setIsSubmit(false);
     setPage(page);
@@ -1077,7 +1104,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                   careInstData={careInstitutionData}
                   handleSelectAll={handleSelectAll}
                   called={called}
-                  loading={dataLoading}
+                  loading={loading}
                   careInstitutions={
                     props.label !== "appointment"
                       ? careInstitutionListData

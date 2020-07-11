@@ -103,7 +103,7 @@ const Cell = ({
           item.status === 'confirmed' ? (
             <i className='fa fa-circle-o'></i>
           ) : item.status === 'timeSheetPending' ? (
-            <i className='far fa-clock'></i>
+            <i className='fa fa-clock-o'></i>
           ) :  item.status === 'timeSheetUpdated' ? (
             <i  className="fa fa-check"></i>
           ) :

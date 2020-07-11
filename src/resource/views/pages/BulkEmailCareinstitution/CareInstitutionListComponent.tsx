@@ -187,7 +187,7 @@ export const CareInstitutionListComponent: FunctionComponent<
             <thead className="thead-bg">
               <tr>
                 <th className="checkbox-th-column">
-                  {props.label !==" appointment" ? 
+                  {props.label !== "appointment" ? 
                   <span className=" checkbox-custom ">
                     <input
                       type="checkbox"
@@ -219,7 +219,7 @@ export const CareInstitutionListComponent: FunctionComponent<
               </tr>
             </thead>
             <tbody>
-              {loading ? (
+            {page === 1 && loading ? (
                 <tr>
                   <td className={"table-loader"} colSpan={8}>
                     <Loader />

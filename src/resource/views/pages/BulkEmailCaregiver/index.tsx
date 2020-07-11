@@ -204,6 +204,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [uploadedSignature]);
+  
   const setDefaultSignature = (body: any) => {  
     const contentBlock = htmlToDraft(
       `<div>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(

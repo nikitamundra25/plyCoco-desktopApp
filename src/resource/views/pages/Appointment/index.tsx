@@ -1738,7 +1738,6 @@ const Appointment: FunctionComponent = (props: any) => {
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
           : {};
-console.log("pppppppp+++++",item);
 
       let careinstitutionvalue: any[] = [
         {

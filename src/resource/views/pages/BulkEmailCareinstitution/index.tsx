@@ -357,6 +357,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       });
     }
   }, [temporaryWorkerPdf]);
+  
   useEffect(() => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length)
       setPdfAppointmentDetails(selectedCellsCareinstitution);

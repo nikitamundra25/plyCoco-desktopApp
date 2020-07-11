@@ -1733,7 +1733,7 @@ const Appointment: FunctionComponent = (props: any) => {
         lastName = "",
         canstitution = {},
         qualificationIds = [],
-        item= undefined
+        item = undefined
       } =
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]

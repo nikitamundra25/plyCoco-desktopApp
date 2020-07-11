@@ -1064,6 +1064,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     document={
                       <ConfirmAppointmentPdf
                         selectedCellsCareinstitution={pdfAppointmentDetails}
+                        qualificationList={props.qualificationList}
                       />
                     }
                   >

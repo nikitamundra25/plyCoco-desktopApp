@@ -105,6 +105,7 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
           <BulkEmailCareInstitution
             label={'appointment'}
             qualification={props.qualification}
+            qualificationList={props.qualificationList}
             selectedCellsCareinstitution={selectedCellsCareinstitution}
             gte={props.gte}
             lte={props.lte}

@@ -12,4 +12,4 @@ export interface IConfirmAppointmentPdfProps {
   selectedCellsCareinstitution:any
 }
 
-export interface ITerminatePdfDetails{name:string, dateOfBirth:string, street:string, city:string}
+export interface ITerminatePdfDetails{name:string, dateOfBirth:string, street:string, city:string, zipCode:string}

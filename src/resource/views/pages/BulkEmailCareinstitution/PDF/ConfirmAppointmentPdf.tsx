@@ -105,7 +105,6 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
     },
   });
   const { selectedCellsCareinstitution, qualificationList } = props;
-  console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
   
   // Create Document Component
   return (

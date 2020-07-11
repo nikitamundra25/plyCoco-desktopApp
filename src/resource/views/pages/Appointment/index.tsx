@@ -2756,8 +2756,8 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   // change department
-  useEffect(() => {
-    let deptId = careInstituionDept ? careInstituionDept.value : "";
+  useEffect(() => {  
+   let deptId = careInstituionDept ? careInstituionDept.value : "";
     let departmentData: any = {};
     const careInstitutionTimesOptions:
       | IReactSelectTimeInterface[]
@@ -2851,6 +2851,7 @@ const Appointment: FunctionComponent = (props: any) => {
             },
           },
         ];
+console.log("temptemp",temp);
 
         if (
           selectedCellsCareinstitution &&

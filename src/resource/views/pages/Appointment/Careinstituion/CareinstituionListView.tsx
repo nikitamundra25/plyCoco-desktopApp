@@ -100,6 +100,8 @@ const CarinstituionListView: FunctionComponent<
       selectedRows = selectedCells.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
         const { item, list: careInstData, cellIndex, day } = cellProps;
+        console.log("item555555555555555555555555",item);
+        
         const {
           userId = "",
           id = "",
@@ -133,6 +135,7 @@ const CarinstituionListView: FunctionComponent<
           ...item,
           qualificationId: qualification1 ? qualification1 : [],
         };
+console.log("divisions",divisions);
 
         return {
           id: deptId ? userId : id,
@@ -1477,6 +1480,7 @@ const CarinstituionListView: FunctionComponent<
         unlinkedBy={unlinkedBy}
         isFromUnlink={isFromUnlink}
         confirmAppointment={confirmAppointment}
+        qualificationList={props.qualificationList}
       />
       {renderDetailedList()}
       <UnlinkAppointment

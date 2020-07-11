@@ -50,7 +50,7 @@ const Cell = ({
   if (item) {
     if (item.status === 'linked') {
       isMatching = true;
-    } else if (item.status === 'confirmed' || item.status === 'timeSheetUpdated') {
+    } else if (item.status === 'confirmed' || item.status === 'timeSheetUpdated' || item.status ==='timeSheetPending') {
       isConfirm = true;
     } else if (item.status === 'contractcancelled') {
       isContractCancel = true;
@@ -103,7 +103,7 @@ const Cell = ({
           item.status === 'confirmed' ? (
             <i className='fa fa-circle-o'></i>
           ) : item.status === 'timeSheetPending' ? (
-            <i className='far fa-clock'></i>
+            <i className='fa fa-clock-o'></i>
           ) :  item.status === 'timeSheetUpdated' ? (
             <i  className="fa fa-check"></i>
           ) :

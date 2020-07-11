@@ -238,6 +238,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         createdBy
         createdAt
     updatedAt
+    
         appointments {
           id
           date

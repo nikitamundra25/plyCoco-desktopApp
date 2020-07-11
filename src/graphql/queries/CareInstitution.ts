@@ -108,6 +108,18 @@ const GET_CARE_INSTITUION_BY_ID = gql`
         id
         name
       }
+      contacts {
+        salutation
+        firstName
+        surName
+        userId
+        contactTypeId
+        email
+        id
+        contact_type {
+          contactType
+        }
+      }
       contact {
         salutation
         firstName

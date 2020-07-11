@@ -85,8 +85,10 @@ const CotactFormComponent: any = (
       // To check if someone tries to add already added attribute
       const alreadyAdded: number = careInstitutionAttrOpt.filter(
         (attribute: IReactSelectInterface) =>
-          attribute.label.toLowerCase() ===
-          selectOption[selectOption.length - 1].label.toLowerCase()
+          attribute && attribute.label
+            ? attribute.label.toLowerCase() ===
+              selectOption[selectOption.length - 1].label.toLowerCase()
+            : null
       )[0];
       if (index < 0 && !alreadyAdded) {
         setFieldValue(name, selectOption);

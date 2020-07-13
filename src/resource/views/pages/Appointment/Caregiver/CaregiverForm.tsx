@@ -234,6 +234,9 @@ const CaregiverFormView: FunctionComponent<
   };
   let isLeasingAppointment = false;
   let isAppointment = false;
+
+  console.log("selectedCells-----------",selectedCells);
+  
   // To check appointment with leasing careInst or not
   if (selectedCells && selectedCells.length) {
     isLeasingAppointment = selectedCells.filter(

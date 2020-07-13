@@ -2111,7 +2111,8 @@ const Appointment: FunctionComponent = (props: any) => {
       if (
         careinstitutionSoloFilter &&
         careinstitutionSoloFilter.value &&
-        starCanstitution &&
+        starCanstitution && 
+        result && result.length &&
         (!starCanstitution.isStar || starCanstitution.id !== result[0].id)
       ) {
         handleFirstStarCanstitution(result[0], 1);
@@ -2273,7 +2274,7 @@ const Appointment: FunctionComponent = (props: any) => {
               email,
               caregiver,
               canstitution,
-              isLeasing: canstitution.attributes && canstitution.attributes.length ? canstitution.attributes.includes(CareInstTIMyoCYAttrId): false,
+              isLeasing:canstitution && canstitution.attributes && canstitution.attributes.length ? canstitution.attributes.includes(CareInstTIMyoCYAttrId): false,
               dateString:
                 filteredCell && filteredCell.date
                   ? moment(filteredCell.date).format(dbAcceptableFormat)
@@ -2854,10 +2855,10 @@ const Appointment: FunctionComponent = (props: any) => {
                   : "",
               startTime: startTime ? startTime : values ? values.startTime : "",
               endTime: endTime ? endTime : values ? values.endTime : "",
+              isLeasing: item && item.isLeasing ? item.isLeasing : false,
             },
           },
         ];
-console.log("temptemp",temp);
 
         if (
           selectedCellsCareinstitution &&
@@ -2875,11 +2876,6 @@ console.log("temptemp",temp);
 
   // Change time shift option
   useEffect(() => {
-    console.log(
-      "updateCanstitutionFormikValues",
-      updateCanstitutionFormikValues
-    );
-
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
     let values = updateCanstitutionFormikValues;
     let time = timeData && !timeData.data ? timeData.value.split("-") : "";
@@ -2891,6 +2887,8 @@ console.log("temptemp",temp);
       canstitution = {},
       qualificationIds = [],
       dateString = "",
+      isLeasing= "",
+      item = undefined
     } =
       selectedCellsCareinstitution && selectedCellsCareinstitution.length
         ? selectedCellsCareinstitution[0]
@@ -2905,10 +2903,12 @@ console.log("temptemp",temp);
         canstitution,
         qualificationIds,
         dateString,
+        isLeasing,
         item: {
           ...values,
           id: values && values.appointmentId ? values.appointmentId : "",
           shift: careInstituionShift,
+          isLeasing: item&&  item.isLeasing ? item.isLeasing : false,
           startTime: timeData
             ? timeData.data && timeData.data.begin
               ? timeData.data.begin

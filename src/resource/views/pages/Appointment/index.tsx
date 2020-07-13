@@ -1687,6 +1687,7 @@ const Appointment: FunctionComponent = (props: any) => {
         comments = "",
         contactPerson = "",
         date = "",
+        division={},
         divisionId = "",
         departmentBookingRemarks = "",
         departmentOfferRemarks = "",
@@ -1767,7 +1768,7 @@ const Appointment: FunctionComponent = (props: any) => {
             contactPerson,
             divisionId,
             department: divisionId,
-            division: item && item.division ? item.division : {},
+            division: division ? division : {},
             // ? departmentData && departmentData.length
             //   ? {
             //       value: departmentData[0].id,

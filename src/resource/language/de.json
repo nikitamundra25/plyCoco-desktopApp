@@ -1291,5 +1291,6 @@
    "OKAY_LABEL":"Okay!",
 
    "REQUIRED_DATEOFBIRTH":"Date of birth is required",
-   "WORKER":"Arbeiter"
+   "WORKER":"Arbeiter",
+   "NO_WORKING_HISTORY_AVAILABLE":"No working history available"
 }

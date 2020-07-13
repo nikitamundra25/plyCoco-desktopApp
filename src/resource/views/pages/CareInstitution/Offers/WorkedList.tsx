@@ -74,7 +74,7 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (
            </div>
            <h4 className="mb-1">
              {languageTranslation(
-               "NO_DATA_IN_APPOINTMENTS"
+               "NO_WORKING_HISTORY_AVAILABLE"
              )}{" "}
            </h4>
          </div>

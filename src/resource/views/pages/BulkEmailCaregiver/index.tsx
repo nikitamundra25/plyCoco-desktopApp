@@ -1151,6 +1151,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         if (selectedCells && selectedCells.length) {
           let row: any[] = [];
           let appointmentTimings:string[] = []
+          let apptRowData:any[] = []
           selectedCells
             .map((cell: any) =>
               cell.item && cell.item.appointments ? cell.item.appointments : []
@@ -1164,10 +1165,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 endTime = '',
                 name = '',
                 division = {},
-                qualificationId = []
+                qualificationId = [],
+                qualificationForCharge = []
               } = cr ? cr : {};
               console.log(cr, 'cr in map');
-              
               appointmentTimings = [...appointmentTimings, moment(date).format(index ==0 ? 'MMMM DD' : 'DD')]
               // let { address = '' } = division ? division : {};
               let shiftLabel =
@@ -1181,28 +1182,67 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     moment(endTime, 'HH:mm').diff(moment(startTime, 'HH:mm'))
                   )
                   .format('H.m');
+                  apptRowData.push({
+                    shiftLabel,
+                    date,
+                    qualificationForCharge,
+                    address,
+                    duration
+                  })
                 requirementEmailData += `<p>${
                   date ? moment(date).format('DD.MM') : ''
                 } ${shiftLabel} ${duration} ${name}
               </p>`;
-                if (index === selectedCells.length -1 ) {
-                  row.push(`${
-                    date ? `${selectedCells[0] && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length && selectedCells.length > 1 ? `${moment(selectedCells[0].item.appointments[0].date).format('DD.')}-` : ''}${moment(date).format('DD.MM.YYYY')}` : ''
-                  } ${shiftLabel} ${duration}${
-                    address ? `, ${languageTranslation("PLACE_OF_WORK")} ${address}` : ''
-                  }, ${languageTranslation("JOB")}${
-                    qualificationId && qualificationId.length
-                      ? ` ${qualificationList
-                          .filter((qualification: any) =>
-                            qualificationId.includes(qualification.value)
-                          )
-                          .map((q: any) => q.label)
-                          .join(', ')}`
-                      : ''
-                  }
-              `);
-                }
+              //   if (index === selectedCells.length -1 ) {
+              //     row.push(`${
+              //       date ? `${selectedCells[0] && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length && selectedCells.length > 1 ? `${moment(selectedCells[0].item.appointments[0].date).format('DD.')}-` : ''}${moment(date).format('DD.MM.YYYY')}` : ''
+              //     } ${shiftLabel} ${duration}${
+              //       address ? `, ${languageTranslation("PLACE_OF_WORK")} ${address}` : ''
+              //     }, ${languageTranslation("JOB")}${
+              //       qualificationForCharge && qualificationForCharge.length
+              //         ? ` ${qualificationList
+              //             .filter((qualification: any) =>
+              //               qualificationForCharge.includes(qualification.value)
+              //             )
+              //             .map((q: any) => q.label)
+              //             .join(', ')}`
+              //         : ''
+              //     }
+              // `);
+              //   }
             });
+            console.log(apptRowData,'apptRowData');
+            
+            // group by shift label
+            let result = apptRowData.reduce((h, obj) => Object.assign(h, { [obj.shiftLabel]:( h[obj.shiftLabel] || [] ).concat(obj) }), {})
+            console.log(result,'result*****');
+            
+            for (const property in result) {
+              const {
+                shiftLabel='',
+                    date='',
+                    qualificationForCharge=[],
+                    address='',
+                    duration=''
+              } = result[property] && result[property].length ? result[property][0] : {}
+              row.push(`${
+                date ? `${moment(date).format(defaultDateFormat)}` : ''} : ${result[property] && result[property].length > 1 ? `till ${moment(date).format(defaultDateFormat)}` : ''
+              } ${shiftLabel} ${duration}${
+                address ? `, ${languageTranslation("PLACE_OF_WORK")} ${address}` : ''
+              }, ${languageTranslation("JOB")}${
+                qualificationForCharge && qualificationForCharge.length
+                  ? ` ${qualificationList
+                      .filter((qualification: any) =>
+                        qualificationForCharge.includes(qualification.value)
+                      )
+                      .map((q: any) => q.label)
+                      .join(', ')}`
+                  : ''
+              }
+          `);
+            }
+            // if (index === selectedCells.length -1 ) {
+            // }
             setSubject(`${languageTranslation("TEMPORAY_EMPLOYEMENT_CONTRACT")} ${appointmentTimings.join(', ')}`);
           setPdfAppointmentDetails(row);
         }

@@ -1189,10 +1189,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                   row.push(`${
                     date ? `${selectedCells[0] && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length && selectedCells.length > 1 ? `${moment(selectedCells[0].item.appointments[0].date).format('DD.')}-` : ''}${moment(date).format('DD.MM.YYYY')}` : ''
                   } ${shiftLabel} ${duration}${
-                    address ? `, ${languageTranslation("PLACE_OF_WORK")}: ${address}` : ''
+                    address ? `, ${languageTranslation("PLACE_OF_WORK")} ${address}` : ''
                   }, ${languageTranslation("JOB")}${
                     qualificationId && qualificationId.length
-                      ? ` - ${qualificationList
+                      ? ` ${qualificationList
                           .filter((qualification: any) =>
                             qualificationId.includes(qualification.value)
                           )

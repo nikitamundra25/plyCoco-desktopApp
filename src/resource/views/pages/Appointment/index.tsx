@@ -521,7 +521,6 @@ const Appointment: FunctionComponent = (props: any) => {
               }
             }
           }
-          console.log(temp, "temp++++++++");
 
           if (
             starCanstitution &&
@@ -1703,7 +1702,10 @@ const Appointment: FunctionComponent = (props: any) => {
         createdBy="",
         createdAt="",
         updatedAt="",
-        appointments: RequirementAppointData=[]
+        appointments: RequirementAppointData=[],
+        f: requirementF="",
+        s: requirementS="",
+        n: requirementN=""
       } = requirementData ? requirementData : {};
       let qualificationData: IReactSelectInterface[] = [];
       if (qualificationList && qualificationId) {
@@ -1791,12 +1793,13 @@ const Appointment: FunctionComponent = (props: any) => {
             appointments: requirementData ? requirementData.appointments : [],
             createdBy,
             createdAt,
-            updatedAt
+            updatedAt,
+            f: requirementF,
+            s: requirementS,
+            n: requirementN
           },
         },
       ];
-
-      console.log("careinstitutionvaluecareinstitutionvalue",careinstitutionvalue);
       
       if (requirementData !== null) {
         setselectedCellsCareinstitution(careinstitutionvalue);
@@ -2986,10 +2989,9 @@ const Appointment: FunctionComponent = (props: any) => {
 
   const updateCareInstitutionStatus = async (name: string) => {
     console.log(selectedCellsCareinstitution,name,'updateCareInstitutionStatus');
-    
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async (element) => {
-        const { item } = element;
+        const { item,  id = "", } = element;
         const Item = { ...item };
         if (Item && Item.id) {
           if (
@@ -3003,11 +3005,16 @@ const Appointment: FunctionComponent = (props: any) => {
               (name === "notoffered" && Item.status === "offered")
           ) {
             let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+
+            
             delete Item.id;
             delete Item.__typename;
             delete Item.appointments;
             delete Item.division;
-            delete Item.updatedAt
+            delete Item.updatedAt;
+            delete Item.appointmentId;
+            delete Item.department;
+            delete Item.shift;
 
             await updateCareinstitutionRequirment({
               variables: {
@@ -3017,6 +3024,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   qualificationId: Item.qualificationId.map((Item: any) => {
                     return Item.value;
                   }),
+                  userId: id ? parseInt(id) : 0,
                   status:
                     name === "confirmed"
                       ? "confirmed"

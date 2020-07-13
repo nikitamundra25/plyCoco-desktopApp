@@ -1531,9 +1531,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
-      const editorState = body ? HtmlToDraftConverter(body) : '';
+      // const editorState = body ? HtmlToDraftConverter(body) : '';
+      const updatedContent: any = body ? setDefaultSignature(body) : '';
       setSubject(subject);
-      setBody(editorState);
+      setBody(updatedContent);
       setAttachments(
         attachments
           ? attachments.map(

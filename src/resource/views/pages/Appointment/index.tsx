@@ -1701,7 +1701,8 @@ const Appointment: FunctionComponent = (props: any) => {
         qualificationForCharge = "",
         createdBy="",
         createdAt="",
-        updatedAt=""
+        updatedAt="",
+        appointments: RequirementAppointData=[]
       } = requirementData ? requirementData : {};
       let qualificationData: IReactSelectInterface[] = [];
       if (qualificationList && qualificationId) {
@@ -1738,15 +1739,15 @@ const Appointment: FunctionComponent = (props: any) => {
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
           : {};
+  
+          let appointmentData =  RequirementAppointData && RequirementAppointData.length && RequirementAppointData[0] && RequirementAppointData[0].cr && RequirementAppointData[0].cr.user && RequirementAppointData[0].cr.user.canstitution ? RequirementAppointData[0].cr.user.canstitution : {}
 
       let careinstitutionvalue: any[] = [
         {
           id: userId,
           firstName,
           lastName,
-          canstitution: {
-            ...canstitution,
-          },
+          canstitution: appointmentData,
           qualificationIds,
           dateString: date ? date : "",
           isLeasing: isLeasing,
@@ -1793,6 +1794,9 @@ const Appointment: FunctionComponent = (props: any) => {
           },
         },
       ];
+
+      console.log("careinstitutionvaluecareinstitutionvalue",careinstitutionvalue);
+      
       if (requirementData !== null) {
         setselectedCellsCareinstitution(careinstitutionvalue);
       }

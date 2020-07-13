@@ -87,6 +87,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
               name
               status
               qualificationId
+              qualificationForCharge
               address
               startTime
               endTime
@@ -248,6 +249,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
             name
             status
             qualificationId
+            qualificationForCharge
             address
             startTime
             endTime

@@ -521,7 +521,6 @@ const Appointment: FunctionComponent = (props: any) => {
               }
             }
           }
-          console.log(temp, "temp++++++++");
 
           if (
             starCanstitution &&
@@ -1703,7 +1702,10 @@ const Appointment: FunctionComponent = (props: any) => {
         createdBy="",
         createdAt="",
         updatedAt="",
-        appointments: RequirementAppointData=[]
+        appointments: RequirementAppointData=[],
+        f: requirementF="",
+        s: requirementS="",
+        n: requirementN=""
       } = requirementData ? requirementData : {};
       let qualificationData: IReactSelectInterface[] = [];
       if (qualificationList && qualificationId) {
@@ -1791,12 +1793,13 @@ const Appointment: FunctionComponent = (props: any) => {
             appointments: requirementData ? requirementData.appointments : [],
             createdBy,
             createdAt,
-            updatedAt
+            updatedAt,
+            f: requirementF,
+            s: requirementS,
+            n: requirementN
           },
         },
       ];
-
-      console.log("careinstitutionvaluecareinstitutionvalue",careinstitutionvalue);
       
       if (requirementData !== null) {
         setselectedCellsCareinstitution(careinstitutionvalue);
@@ -2111,7 +2114,8 @@ const Appointment: FunctionComponent = (props: any) => {
       if (
         careinstitutionSoloFilter &&
         careinstitutionSoloFilter.value &&
-        starCanstitution &&
+        starCanstitution && 
+        result && result.length &&
         (!starCanstitution.isStar || starCanstitution.id !== result[0].id)
       ) {
         handleFirstStarCanstitution(result[0], 1);
@@ -2854,10 +2858,10 @@ const Appointment: FunctionComponent = (props: any) => {
                   : "",
               startTime: startTime ? startTime : values ? values.startTime : "",
               endTime: endTime ? endTime : values ? values.endTime : "",
+              isLeasing: item && item.isLeasing ? item.isLeasing : false,
             },
           },
         ];
-console.log("temptemp",temp);
 
         if (
           selectedCellsCareinstitution &&
@@ -2875,11 +2879,6 @@ console.log("temptemp",temp);
 
   // Change time shift option
   useEffect(() => {
-    console.log(
-      "updateCanstitutionFormikValues",
-      updateCanstitutionFormikValues
-    );
-
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
     let values = updateCanstitutionFormikValues;
     let time = timeData && !timeData.data ? timeData.value.split("-") : "";
@@ -2891,6 +2890,8 @@ console.log("temptemp",temp);
       canstitution = {},
       qualificationIds = [],
       dateString = "",
+      isLeasing= "",
+      item = undefined
     } =
       selectedCellsCareinstitution && selectedCellsCareinstitution.length
         ? selectedCellsCareinstitution[0]
@@ -2905,10 +2906,12 @@ console.log("temptemp",temp);
         canstitution,
         qualificationIds,
         dateString,
+        isLeasing,
         item: {
           ...values,
           id: values && values.appointmentId ? values.appointmentId : "",
           shift: careInstituionShift,
+          isLeasing: item&&  item.isLeasing ? item.isLeasing : false,
           startTime: timeData
             ? timeData.data && timeData.data.begin
               ? timeData.data.begin
@@ -2986,10 +2989,9 @@ console.log("temptemp",temp);
 
   const updateCareInstitutionStatus = async (name: string) => {
     console.log(selectedCellsCareinstitution,name,'updateCareInstitutionStatus');
-    
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async (element) => {
-        const { item } = element;
+        const { item,  id = "", } = element;
         const Item = { ...item };
         if (Item && Item.id) {
           if (
@@ -3003,11 +3005,16 @@ console.log("temptemp",temp);
               (name === "notoffered" && Item.status === "offered")
           ) {
             let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+
+            
             delete Item.id;
             delete Item.__typename;
             delete Item.appointments;
             delete Item.division;
-            delete Item.updatedAt
+            delete Item.updatedAt;
+            delete Item.appointmentId;
+            delete Item.department;
+            delete Item.shift;
 
             await updateCareinstitutionRequirment({
               variables: {
@@ -3017,6 +3024,7 @@ console.log("temptemp",temp);
                   qualificationId: Item.qualificationId.map((Item: any) => {
                     return Item.value;
                   }),
+                  userId: id ? parseInt(id) : 0,
                   status:
                     name === "confirmed"
                       ? "confirmed"

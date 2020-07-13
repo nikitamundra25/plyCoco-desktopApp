@@ -319,6 +319,9 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         createdAt
         updatedAt
         isLeasing
+        f
+        s
+        n
         division {
           id
           name

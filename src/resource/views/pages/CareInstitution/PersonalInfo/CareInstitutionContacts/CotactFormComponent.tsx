@@ -654,6 +654,7 @@ const CotactFormComponent: any = (
                     </Row>
                   </FormGroup>
                 </Col>
+{/* 
                 <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row className="align-items-center">
@@ -696,7 +697,8 @@ const CotactFormComponent: any = (
                       </Col>
                     </Row>
                   </FormGroup>
-                </Col>
+                </Col> */}
+                
               </Row>
             </div>
             <div className="form-flex-tile">

@@ -80,7 +80,6 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .required(languageTranslation('COUNTRY_REQUIRED'))
   ,
   state: Yup.mixed()
-    .required(languageTranslation('STATE_REQUIRED'))
 });
 
 export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
@@ -112,7 +111,6 @@ export const CareInstituionContactValidationSchema: Yup.ObjectSchema<Yup.Shape<
   country: Yup.mixed()
     .required(languageTranslation('COUNTRY_REQUIRED')),
   state: Yup.mixed()
-    .required(languageTranslation('STATE_REQUIRED'))
 });
 
 export const AddDepartmentValidationSchema: Yup.ObjectSchema<Yup.Shape<

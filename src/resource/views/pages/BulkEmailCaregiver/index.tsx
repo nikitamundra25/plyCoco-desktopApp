@@ -1226,8 +1226,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     duration=''
               } = result[property] && result[property].length ? result[property][0] : {}
               row.push(`${
-                date ? `${moment(date).format(defaultDateFormat)}` : ''} : ${result[property] && result[property].length > 1 ? `till ${moment(date).format(defaultDateFormat)}` : ''
-              } ${shiftLabel} ${duration}${
+                date ? `${moment(date).format(defaultDateFormat)}` : ''}${result[property] && result[property].length > 1 ? ` till ${moment(result[property][result[property].length-1].date).format(defaultDateFormat)}` : ''
+              }, [${shiftLabel}] ${duration}${
                 address ? `, ${languageTranslation("PLACE_OF_WORK")} ${address}` : ''
               }, ${languageTranslation("JOB")}${
                 qualificationForCharge && qualificationForCharge.length

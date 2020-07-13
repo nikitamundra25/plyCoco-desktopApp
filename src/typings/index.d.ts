@@ -13,6 +13,10 @@ declare module "draftjs-to-html";
 declare module "html-to-draftjs";
 declare module "react-multiselect-checkboxes";
 
+declare module "*.ttf" {
+  const content: any;
+  export default content;
+  }
 declare interface String {
   truncate(n: number, decorator?: string): string;
   isNullOrWhitespace(): boolean;

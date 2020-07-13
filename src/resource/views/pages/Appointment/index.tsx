@@ -2274,7 +2274,7 @@ const Appointment: FunctionComponent = (props: any) => {
               email,
               caregiver,
               canstitution,
-              isLeasing:canstitution && canstitution.attributes && canstitution.attributes.length ? canstitution.attributes.includes(CareInstTIMyoCYAttrId): false,
+              isLeasing: canstitution && canstitution.attributes && canstitution.attributes.length ? canstitution.attributes.includes(CareInstTIMyoCYAttrId): false,
               dateString:
                 filteredCell && filteredCell.date
                   ? moment(filteredCell.date).format(dbAcceptableFormat)

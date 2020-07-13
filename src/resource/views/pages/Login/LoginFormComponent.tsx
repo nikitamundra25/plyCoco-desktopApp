@@ -18,6 +18,9 @@ import {
 import { ILoginFormValues } from "../../../../interfaces";
 import { languageTranslation } from "../../../../helpers";
 import logo from "../../../assets/img/plycoco-white.png";
+import { PDFViewer } from "@react-pdf/renderer";
+import ConfirmAppointmentPdf from "../BulkEmailCareinstitution/PDF/ConfirmAppointmentPdf";
+import { config } from "rxjs";
 
 const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
   loading: boolean;
@@ -34,6 +37,9 @@ const LoginFormComponent: FunctionComponent<FormikProps<ILoginFormValues> & {
   return (
     <div className="app flex-row align-items-center auth-page">
       <div className="auth-bg"></div>
+      <PDFViewer>
+        <ConfirmAppointmentPdf selectedCellsCareinstitution={{}} qualificationList={[]} />
+    </PDFViewer>
       <Container>
         <Row className="justify-content-center">
           <Col md="12">

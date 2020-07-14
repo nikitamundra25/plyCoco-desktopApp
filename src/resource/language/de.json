@@ -1292,5 +1292,6 @@
 
    "REQUIRED_DATEOFBIRTH":"Date of birth is required",
    "WORKER":"Arbeiter",
-   "NO_WORKING_HISTORY_AVAILABLE":"No working history available"
+   "NO_WORKING_HISTORY_AVAILABLE":"No working history available",
+   "TILL":"bis"
 }

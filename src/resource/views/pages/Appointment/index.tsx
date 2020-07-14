@@ -3018,6 +3018,7 @@ const Appointment: FunctionComponent = (props: any) => {
             delete Item.appointmentId;
             delete Item.department;
             delete Item.shift;
+            delete Item.careInstitutionDepartment;
 
             await updateCareinstitutionRequirment({
               variables: {

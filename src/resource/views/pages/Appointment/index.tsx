@@ -2384,7 +2384,6 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       });
     });
-    console.log(connectedCells, "listDatalistData");
     if (connectedCells && connectedCells.length) {
       if (name === "careinstitution") {
         setselectedCellsCareinstitution(connectedCells);

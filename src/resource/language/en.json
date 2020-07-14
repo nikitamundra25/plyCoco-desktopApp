@@ -1297,5 +1297,9 @@
    "OUTBOX_LABEL":"Outbox",
    "YES":"Yes",
    "OKAY_LABEL":"Okay!",
-   "WORKER":"Worker"
+
+   "REQUIRED_DATEOFBIRTH":"Date of birth is required",
+   "WORKER":"Worker",
+   "NO_WORKING_HISTORY_AVAILABLE":"No working history available",
+   "TILL":"till"
 }

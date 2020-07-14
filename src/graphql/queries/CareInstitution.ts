@@ -34,7 +34,7 @@ const GET_CARE_INSTITUTION_LIST = gql`
           shortName
           attributes
         }
-        contact {
+        contacts {
           salutation
           firstName
           surName
@@ -107,6 +107,18 @@ const GET_CARE_INSTITUION_BY_ID = gql`
       attributes {
         id
         name
+      }
+      contacts {
+        salutation
+        firstName
+        surName
+        userId
+        contactTypeId
+        email
+        id
+        contact_type {
+          contactType
+        }
       }
       contact {
         salutation

@@ -521,7 +521,6 @@ const Appointment: FunctionComponent = (props: any) => {
               }
             }
           }
-          console.log(temp, "temp++++++++");
 
           if (
             starCanstitution &&
@@ -996,6 +995,7 @@ const Appointment: FunctionComponent = (props: any) => {
             name = "",
             status = "",
             qualificationId = [],
+            qualificationForCharge = "",
             address = "",
             startTime = "",
             endTime = "",
@@ -1027,6 +1027,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   name,
                   status,
                   qualificationId,
+                  qualificationForCharge,
                   address,
                   startTime,
                   endTime,
@@ -1100,6 +1101,7 @@ const Appointment: FunctionComponent = (props: any) => {
                       name,
                       status,
                       qualificationId,
+                      qualificationForCharge,
                       address,
                       startTime,
                       endTime,
@@ -1687,6 +1689,7 @@ const Appointment: FunctionComponent = (props: any) => {
         comments = "",
         contactPerson = "",
         date = "",
+        division={},
         divisionId = "",
         departmentBookingRemarks = "",
         departmentOfferRemarks = "",
@@ -1701,7 +1704,11 @@ const Appointment: FunctionComponent = (props: any) => {
         qualificationForCharge = "",
         createdBy="",
         createdAt="",
-        updatedAt=""
+        updatedAt="",
+        appointments: RequirementAppointData=[],
+        f: requirementF="",
+        s: requirementS="",
+        n: requirementN=""
       } = requirementData ? requirementData : {};
       let qualificationData: IReactSelectInterface[] = [];
       if (qualificationList && qualificationId) {
@@ -1738,15 +1745,15 @@ const Appointment: FunctionComponent = (props: any) => {
         selectedCellsCareinstitution && selectedCellsCareinstitution.length
           ? selectedCellsCareinstitution[0]
           : {};
+  
+          let appointmentData =  RequirementAppointData && RequirementAppointData.length && RequirementAppointData[0] && RequirementAppointData[0].cr && RequirementAppointData[0].cr.user && RequirementAppointData[0].cr.user.canstitution ? RequirementAppointData[0].cr.user.canstitution : {}
 
       let careinstitutionvalue: any[] = [
         {
           id: userId,
           firstName,
           lastName,
-          canstitution: {
-            ...canstitution,
-          },
+          canstitution: appointmentData,
           qualificationIds,
           dateString: date ? date : "",
           isLeasing: isLeasing,
@@ -1766,7 +1773,7 @@ const Appointment: FunctionComponent = (props: any) => {
             contactPerson,
             divisionId,
             department: divisionId,
-            division: item && item.division ? item.division : {},
+            division: division ? division : {},
             // ? departmentData && departmentData.length
             //   ? {
             //       value: departmentData[0].id,
@@ -1789,10 +1796,14 @@ const Appointment: FunctionComponent = (props: any) => {
             appointments: requirementData ? requirementData.appointments : [],
             createdBy,
             createdAt,
-            updatedAt
+            updatedAt,
+            f: requirementF,
+            s: requirementS,
+            n: requirementN
           },
         },
       ];
+      
       if (requirementData !== null) {
         setselectedCellsCareinstitution(careinstitutionvalue);
       }
@@ -2106,7 +2117,8 @@ const Appointment: FunctionComponent = (props: any) => {
       if (
         careinstitutionSoloFilter &&
         careinstitutionSoloFilter.value &&
-        starCanstitution &&
+        starCanstitution && 
+        result && result.length &&
         (!starCanstitution.isStar || starCanstitution.id !== result[0].id)
       ) {
         handleFirstStarCanstitution(result[0], 1);
@@ -2268,6 +2280,7 @@ const Appointment: FunctionComponent = (props: any) => {
               email,
               caregiver,
               canstitution,
+              isLeasing: canstitution && canstitution.attributes && canstitution.attributes.length ? canstitution.attributes.includes(CareInstTIMyoCYAttrId): false,
               dateString:
                 filteredCell && filteredCell.date
                   ? moment(filteredCell.date).format(dbAcceptableFormat)
@@ -2756,8 +2769,8 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   // change department
-  useEffect(() => {
-    let deptId = careInstituionDept ? careInstituionDept.value : "";
+  useEffect(() => {  
+   let deptId = careInstituionDept ? careInstituionDept.value : "";
     let departmentData: any = {};
     const careInstitutionTimesOptions:
       | IReactSelectTimeInterface[]
@@ -2848,6 +2861,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   : "",
               startTime: startTime ? startTime : values ? values.startTime : "",
               endTime: endTime ? endTime : values ? values.endTime : "",
+              isLeasing: item && item.isLeasing ? item.isLeasing : false,
             },
           },
         ];
@@ -2868,11 +2882,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // Change time shift option
   useEffect(() => {
-    console.log(
-      "updateCanstitutionFormikValues",
-      updateCanstitutionFormikValues
-    );
-
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
     let values = updateCanstitutionFormikValues;
     let time = timeData && !timeData.data ? timeData.value.split("-") : "";
@@ -2884,6 +2893,8 @@ const Appointment: FunctionComponent = (props: any) => {
       canstitution = {},
       qualificationIds = [],
       dateString = "",
+      isLeasing= "",
+      item = undefined
     } =
       selectedCellsCareinstitution && selectedCellsCareinstitution.length
         ? selectedCellsCareinstitution[0]
@@ -2898,10 +2909,12 @@ const Appointment: FunctionComponent = (props: any) => {
         canstitution,
         qualificationIds,
         dateString,
+        isLeasing,
         item: {
           ...values,
           id: values && values.appointmentId ? values.appointmentId : "",
           shift: careInstituionShift,
+          isLeasing: item&&  item.isLeasing ? item.isLeasing : false,
           startTime: timeData
             ? timeData.data && timeData.data.begin
               ? timeData.data.begin
@@ -2979,10 +2992,9 @@ const Appointment: FunctionComponent = (props: any) => {
 
   const updateCareInstitutionStatus = async (name: string) => {
     console.log(selectedCellsCareinstitution,name,'updateCareInstitutionStatus');
-    
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async (element) => {
-        const { item } = element;
+        const { item,  id = "", } = element;
         const Item = { ...item };
         if (Item && Item.id) {
           if (
@@ -2996,11 +3008,17 @@ const Appointment: FunctionComponent = (props: any) => {
               (name === "notoffered" && Item.status === "offered")
           ) {
             let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
+
+            
             delete Item.id;
             delete Item.__typename;
             delete Item.appointments;
             delete Item.division;
-            delete Item.updatedAt
+            delete Item.updatedAt;
+            delete Item.appointmentId;
+            delete Item.department;
+            delete Item.shift;
+            delete Item.careInstitutionDepartment;
 
             await updateCareinstitutionRequirment({
               variables: {
@@ -3010,6 +3028,7 @@ const Appointment: FunctionComponent = (props: any) => {
                   qualificationId: Item.qualificationId.map((Item: any) => {
                     return Item.value;
                   }),
+                  userId: id ? parseInt(id) : 0,
                   status:
                     name === "confirmed"
                       ? "confirmed"

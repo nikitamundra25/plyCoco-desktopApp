@@ -1289,5 +1289,9 @@
    "NO_INVOICE_FOR_LIST": "No contract list for invoice creation",
    "YES":"Yes",
    "OKAY_LABEL":"Okay!",
-   "WORKER":"Arbeiter"
+
+   "REQUIRED_DATEOFBIRTH":"Date of birth is required",
+   "WORKER":"Arbeiter",
+   "NO_WORKING_HISTORY_AVAILABLE":"No working history available",
+   "TILL":"bis"
 }

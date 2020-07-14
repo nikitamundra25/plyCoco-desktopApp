@@ -87,6 +87,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
               name
               status
               qualificationId
+              qualificationForCharge
               address
               startTime
               endTime
@@ -237,7 +238,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         breakTo
         createdBy
         createdAt
-    updatedAt
+       updatedAt
         appointments {
           id
           date
@@ -248,10 +249,45 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
             name
             status
             qualificationId
+            qualificationForCharge
             address
             startTime
             endTime
             isLeasing
+            user{
+              canstitution {
+                city
+                zipCode
+                companyName
+                shortName
+                street
+                countryId
+                stateId
+                remarks
+                title
+                fax
+                linkedTo
+                doctorCommission
+                leasingPriceListId
+                plycocoInvoiceTax
+                leasingInvoiceTax
+                defaultTaxValue
+                isArchive
+                careGiverCommission
+                anonymousName
+                anonymousName2
+                mobileNumber
+                remarksViewable
+                defaultQualification
+                invoiceType
+                emailInvoice
+                addressInvoice
+                interval
+                website
+                attributes
+              }
+            }
+           
             division {
               id
               name
@@ -283,15 +319,53 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         createdAt
         updatedAt
         isLeasing
+        f
+        s
+        n
         division {
           id
           name
-        }
+        }   
         appointments {
           id
           date
           requirementId
           avabilityId
+          cr{
+          user{
+            canstitution {
+              city
+              zipCode
+              companyName
+              shortName
+              street
+              countryId
+              stateId
+              remarks
+              title
+              fax
+              linkedTo
+              doctorCommission
+              leasingPriceListId
+              plycocoInvoiceTax
+              leasingInvoiceTax
+              defaultTaxValue
+              isArchive
+              careGiverCommission
+              anonymousName
+              anonymousName2
+              mobileNumber
+              remarksViewable
+              defaultQualification
+              invoiceType
+              emailInvoice
+              addressInvoice
+              interval
+              website
+              attributes
+            }
+          }
+        }
           ca {
             userId
             id

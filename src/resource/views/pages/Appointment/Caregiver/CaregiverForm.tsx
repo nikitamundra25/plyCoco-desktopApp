@@ -234,6 +234,9 @@ const CaregiverFormView: FunctionComponent<
   };
   let isLeasingAppointment = false;
   let isAppointment = false;
+
+  console.log("selectedCells-----------",selectedCells);
+  
   // To check appointment with leasing careInst or not
   if (selectedCells && selectedCells.length) {
     isLeasingAppointment = selectedCells.filter(
@@ -289,7 +292,6 @@ const CaregiverFormView: FunctionComponent<
           // appointments && appointments[0] ? appointments[0].id : null,
         },
       });
-      console.log("contractData@@@@@@@@@@@@@@@@@", contractData);
     }
   }, [selectedCells]);
 
@@ -333,10 +335,11 @@ const CaregiverFormView: FunctionComponent<
     } else if (
       (selctedAvailability &&
         (selctedAvailability.status === "confirmed" ||
-          selctedAvailability.status === "timeSheetUpdated")) ||
+          selctedAvailability.status === "timeSheetUpdated"||
+          selctedAvailability.status === "timeSheetPending")) ||
       status === "confirmed" ||
-      status === "timeSheetUpdated"
-    ) {
+      status === "timeSheetUpdated" ||
+      status ==='timeSheetPending' ) {
       isConfirm = true;
     } else if (
       (selctedAvailability &&

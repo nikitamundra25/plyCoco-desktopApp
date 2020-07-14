@@ -85,8 +85,10 @@ const CotactFormComponent: any = (
       // To check if someone tries to add already added attribute
       const alreadyAdded: number = careInstitutionAttrOpt.filter(
         (attribute: IReactSelectInterface) =>
-          attribute.label.toLowerCase() ===
-          selectOption[selectOption.length - 1].label.toLowerCase()
+          attribute && attribute.label
+            ? attribute.label.toLowerCase() ===
+              selectOption[selectOption.length - 1].label.toLowerCase()
+            : null
       )[0];
       if (index < 0 && !alreadyAdded) {
         setFieldValue(name, selectOption);
@@ -652,6 +654,7 @@ const CotactFormComponent: any = (
                     </Row>
                   </FormGroup>
                 </Col>
+{/* 
                 <Col xs={"12"} sm={"12"} md={"12"} lg={"12"}>
                   <FormGroup>
                     <Row className="align-items-center">
@@ -694,7 +697,8 @@ const CotactFormComponent: any = (
                       </Col>
                     </Row>
                   </FormGroup>
-                </Col>
+                </Col> */}
+                
               </Row>
             </div>
             <div className="form-flex-tile">

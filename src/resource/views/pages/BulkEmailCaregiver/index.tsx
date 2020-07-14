@@ -91,7 +91,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     name: '',
     dateOfBirth: '',
     street: '',
-    city: ''
+    city: '',
+    zipCode: ''
   });
 
   // To access data of loggedIn user
@@ -203,6 +204,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
     }
   }, [uploadedSignature]);
+  
   const setDefaultSignature = (body: any) => {  
     const contentBlock = htmlToDraft(
       `<div>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
@@ -653,7 +655,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       let temp = body ? draftToHtml(convertToRaw(body.getCurrentContent())) : '';
       temp = temp.replace(new RegExp(`{token}`, 'g'), token);
       const editorState = temp ? HtmlToDraftConverter(temp) : '';
-      // const updatedContent: any = setDefaultSignature(editorState);
       setBody(editorState);
     }
   }, [tokenData]);
@@ -842,9 +843,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }`;
         // }
 
-        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';
+        setBody(updatedContent);
         setSubject(customSub);
-        setBody(editorState);
+        // setBody(editorState);
       } else {
         let qualificationArray: any = [];
         let qualificationString: string = '';
@@ -940,9 +943,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             'LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER'
           )}</p>`;
 
-          const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+          // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
           setSubject(languageTranslation('CAREGIVER_OFFER_EMAIL_SUBJECT'));
-          setBody(editorState);
+          const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';
+          setBody(updatedContent);
+          // setBody(editorState);
         }
       }
       if (props.confirmApp) {
@@ -988,9 +993,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }</b></span></br>`;
         }
         const bodyData: any = `<span>${divRow}</br>${languageTranslation("FEEL_FREE_TO_CONTACT_INSTITUTION")} </br></br>${languageTranslation("YOU_CAN_USE_CORRESPONDING_WEB")} </br></br>${languageTranslation("CALL_INSTITUTION_BEFORE_TWO_DAYS")} </span>`;
-        const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+        // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
         setSubject(languageTranslation("APPOINTMENT_CONFIRM"));
-        setBody(editorState);
+        const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+        setBody(updatedContent);
+        // setBody(editorState);
       }
       if (props.unlinkedBy) {
         if (props.unlinkedBy === 'canstitution') {
@@ -1027,12 +1034,14 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             }</b></span></br>`;
           });
           const bodyData: any = `<span>${languageTranslation("FACILITY_CANCELLED_ON_DATE")} </br></br>${divRow}</br>${languageTranslation("CANCELLED_DATE_MARKED_AS_FREE")} </span>`;
-          const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+          // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
 
           let subject: string = `${languageTranslation("UNLINK_CAREGIVER_SUBJECT")} ${moment(
             apointedCareGiver[0].date
           ).format('DD.MM')}`;
-          setBody(editorState);
+          // setBody(editorState);
+          const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+          setBody(updatedContent);
           setSubject(subject);
           setTemplate({
             label: '',
@@ -1074,7 +1083,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             }</b></span></br>`;
           });
           const bodyData: any = `<span>${languageTranslation("INFORM_CANSTITUTION_FOR_DATES")} </br></br>${divRow}</span>`;
-          const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
+          // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
           let subject: string = `${languageTranslation("APPOINTMENT_CANCEL_CONFIRMATION")} ${moment(
             apointedCareGiver[0] && apointedCareGiver[0].date
               ? apointedCareGiver[0].date
@@ -1084,7 +1093,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               ? apointedCareGiver[0].division
               : ''
           }`;
-          setBody(editorState);
+          // setBody(editorState);
+          const updatedContent: any = bodyData ? setDefaultSignature(bodyData) : '';
+          setBody(updatedContent);
           setSubject(subject);
           setTemplate({
             label: '',
@@ -1124,9 +1135,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 : ''
             }</b></span> ${cname ? cname : ''}</br>` +
               `<p>${languageTranslation("SIGN_UP_LINK")} <a href="http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}</a>`}</p>`;
-            const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+            // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
             setSubject(languageTranslation("TERMINATE_AGREEMENT"));
-            setBody(editorState);
+            const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';
+            setBody(updatedContent);
+            // setBody(editorState);
           });
         }
       }
@@ -1138,6 +1151,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         if (selectedCells && selectedCells.length) {
           let row: any[] = [];
           let appointmentTimings:string[] = []
+          let apptRowData:any[] = []
           selectedCells
             .map((cell: any) =>
               cell.item && cell.item.appointments ? cell.item.appointments : []
@@ -1151,10 +1165,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 endTime = '',
                 name = '',
                 division = {},
-                qualificationId = []
+                qualificationId = [],
+                qualificationForCharge = []
               } = cr ? cr : {};
               console.log(cr, 'cr in map');
-              
               appointmentTimings = [...appointmentTimings, moment(date).format(index ==0 ? 'MMMM DD' : 'DD')]
               // let { address = '' } = division ? division : {};
               let shiftLabel =
@@ -1168,28 +1182,67 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                     moment(endTime, 'HH:mm').diff(moment(startTime, 'HH:mm'))
                   )
                   .format('H.m');
+                  apptRowData.push({
+                    shiftLabel,
+                    date,
+                    qualificationForCharge,
+                    address,
+                    duration
+                  })
                 requirementEmailData += `<p>${
                   date ? moment(date).format('DD.MM') : ''
                 } ${shiftLabel} ${duration} ${name}
               </p>`;
-                if (index === selectedCells.length -1 ) {
-                  row.push(`${
-                    date ? `${selectedCells[0] && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length && selectedCells.length > 1 ? `${moment(selectedCells[0].item.appointments[0].date).format('DD.')}-` : ''}${moment(date).format('DD.MM.YYYY')}` : ''
-                  } ${shiftLabel} ${duration}${
-                    address ? `, ${languageTranslation("PLACE_OF_WORK")}: ${address}` : ''
-                  }, ${languageTranslation("JOB")}${
-                    qualificationId && qualificationId.length
-                      ? ` - ${qualificationList
-                          .filter((qualification: any) =>
-                            qualificationId.includes(qualification.value)
-                          )
-                          .map((q: any) => q.label)
-                          .join(', ')}`
-                      : ''
-                  }
-              `);
-                }
+              //   if (index === selectedCells.length -1 ) {
+              //     row.push(`${
+              //       date ? `${selectedCells[0] && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length && selectedCells.length > 1 ? `${moment(selectedCells[0].item.appointments[0].date).format('DD.')}-` : ''}${moment(date).format('DD.MM.YYYY')}` : ''
+              //     } ${shiftLabel} ${duration}${
+              //       address ? `, ${languageTranslation("PLACE_OF_WORK")} ${address}` : ''
+              //     }, ${languageTranslation("JOB")}${
+              //       qualificationForCharge && qualificationForCharge.length
+              //         ? ` ${qualificationList
+              //             .filter((qualification: any) =>
+              //               qualificationForCharge.includes(qualification.value)
+              //             )
+              //             .map((q: any) => q.label)
+              //             .join(', ')}`
+              //         : ''
+              //     }
+              // `);
+              //   }
             });
+            console.log(apptRowData,'apptRowData');
+            
+            // group by shift label
+            let result = apptRowData.reduce((h, obj) => Object.assign(h, { [obj.shiftLabel]:( h[obj.shiftLabel] || [] ).concat(obj) }), {})
+            console.log(result,'result*****');
+            
+            for (const property in result) {
+              const {
+                shiftLabel='',
+                    date='',
+                    qualificationForCharge=[],
+                    address='',
+                    duration=''
+              } = result[property] && result[property].length ? result[property][0] : {}
+              row.push(`${
+                date ? `${moment(date).format(defaultDateFormat)}` : ''}${result[property] && result[property].length > 1 ? ` ${languageTranslation("TILL")} ${moment(result[property][result[property].length-1].date).format(defaultDateFormat)}` : ''
+              }, [${shiftLabel}] ${duration}${
+                address ? `, ${languageTranslation("PLACE_OF_WORK")} ${address}` : ''
+              }, ${languageTranslation("JOB")}${
+                qualificationForCharge && qualificationForCharge.length
+                  ? ` ${qualificationList
+                      .filter((qualification: any) =>
+                        qualificationForCharge.includes(qualification.value)
+                      )
+                      .map((q: any) => q.label)
+                      .join(', ')}`
+                  : ''
+              }
+          `);
+            }
+            // if (index === selectedCells.length -1 ) {
+            // }
             setSubject(`${languageTranslation("TEMPORAY_EMPLOYEMENT_CONTRACT")} ${appointmentTimings.join(', ')}`);
           setPdfAppointmentDetails(row);
         }
@@ -1283,9 +1336,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         )}</p></br>${requirementEmailData}</br>
         <p>${languageTranslation("USE_FOLLOWING_LINK")} <br/> <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
         </p>`;
-
-        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
-        setBody(editorState);
+        // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';
+        setBody(updatedContent);
+        // setBody(editorState);
       }
     }
   }, []);
@@ -1298,7 +1352,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         firstName = '',
         lastName = ''
       } = selectedCells[0] ? selectedCells[0] : {};
-      const { street = '', city = '', dateOfBirth = '' } = caregiver
+      const { street = '', city = '', zipCode='', dateOfBirth = '' } = caregiver
         ? caregiver
         : {};
       setPdfTerminateAppointment({
@@ -1309,7 +1363,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             )}`
           : '',
         street,
-        city
+        city,
+        zipCode
       });
     }
   }, [terminateAggrement]);
@@ -1424,9 +1479,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         )}</p>${qualificationReq}<br/><p>${languageTranslation('FEE') +
           ':' +
           languageTranslation('FEE_TEXT')}<br/>`;
-        const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
+        // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         setSubject(languageTranslation('OFFER_REQUIREMENTS_SUB'));
-        setBody(editorState);
+        const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';
+        setBody(updatedContent);
+        // setBody(editorState);
       }
     }
   }, [requirmentList]);
@@ -1514,9 +1571,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     )[0];
     if (templateData) {
       const { subject, body, attachments } = templateData;
-      const editorState = body ? HtmlToDraftConverter(body) : '';
+      // const editorState = body ? HtmlToDraftConverter(body) : '';
+      const updatedContent: any = body ? setDefaultSignature(body) : '';
       setSubject(subject);
-      setBody(editorState);
+      setBody(updatedContent);
       setAttachments(
         attachments
           ? attachments.map(

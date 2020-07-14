@@ -8,6 +8,7 @@ import {
   StyleSheet,
   PDFViewer,
   Link,
+  Font,
 } from "@react-pdf/renderer";
 import moment from "moment";
 import {
@@ -17,9 +18,13 @@ import {
 import { defaultDateFormat } from "../../../../../config";
 import { languageTranslation } from "../../../../../helpers";
 import timyocLogo from "../../../../assets/img/timyoc.png";
+import robotoBold from "../../../../assets/fonts/Roboto-Bold.ttf";
+import robotoMedium from "../../../../assets/fonts/Roboto-Medium.ttf";
+import robotoNormal from "../../../../assets/fonts/Roboto-Regular.ttf";
 
-const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
-  props: IConfirmAppointmentPdfProps
+
+const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qualificationList:any}> = (
+  props: IConfirmAppointmentPdfProps & {qualificationList:any}
 ) => {
   // Create styles
   const styles = StyleSheet.create({
@@ -30,32 +35,48 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
       paddingRight: "40px",
       paddingLeft: "40px",
       marginRight: "auto",
-      marginTop: "20px",
+      marginTop: "0px",
       marginLeft: "auto",
+      fontFamily: 'Roboto Normal',
     },
     section: {
-      margin: 10,
-      padding: 10,
-      marginBottom: "0",
-      paddingBottom: "0",
-      flexGrow: 1,
+      paddingRight: "10px",
+      paddingLeft: "10px",
+      marginRight: "10px",
+      marginLeft: "10px",
+      marginTop: "10",
+      marginBottom: "10",
+      paddingBottom: "10",
+      paddingTop: "0",
+      fontFamily: 'Roboto Normal',
+      // flexGrow: 1,
     },
     name: {
       width: "150px",
       marginBottom: "40px",
-      marginTop: "40px",
+      marginTop: "30px",
+      fontFamily: 'Roboto Bold',
     },
     subtitle: {
       fontSize: 18,
       fontWeight: "bold",
       color: "black",
       marginBottom: "15px",
+      fontFamily: 'Roboto Medium',
     },
     subtext: {
       fontSize: 10,
       color: "#333",
       marginTop: "10px",
       marginBottom: "10px",
+      fontFamily: 'Roboto Normal',
+    },
+    subtext1: {
+      fontSize: 10,
+      color: "#333",
+      marginTop: "0px",
+      marginBottom: "10px",
+      fontFamily: 'Roboto Normal',
     },
     subtextbold: {
       fontSize: 12,
@@ -66,6 +87,7 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
       borderBottomWidth: 2,
       borderColor: "black",
       borderStyle: "solid",
+      fontFamily: 'Roboto Medium',
     },
     signaturecontainer: {
       flex: 1,
@@ -74,6 +96,9 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
       flexGrow: 1,
       marginLeft: "10px",
       marginRight: "10px",
+      paddingRight: "10px",
+      paddingLeft: "10px",
+      fontFamily: 'Roboto Normal',
     },
     imagediv: {
       width: "50%",
@@ -88,24 +113,41 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
       borderColor: "black",
       borderStyle: "solid",
       paddingTop: "10px",
-      fontSize: 12,
+      fontSize: 10,
       fontWeight: "bold",
+      fontFamily: 'Roboto Medium',
     },
     footerwrapper: {
       margin: 10,
       textAlign: "center",
       flexGrow: 1,
       justifyContent: "center",
+      fontFamily: 'Roboto Normal',
     },
     footertext: {
-      fontSize: 10,
+      fontSize: 9,
       color: "gray",
       marginBottom: "2px",
       textAlign: "center",
+      fontFamily: 'Roboto Normal',
     },
   });
-  const { selectedCellsCareinstitution } = props;
 
+  Font.register( {
+    family: 'Roboto Bold',
+    src: robotoBold
+  });
+  Font.register( {
+    family: 'Roboto Normal',
+    src: robotoNormal
+  });
+  Font.register( {
+    family: 'Roboto Medium',
+    src: robotoMedium
+  });
+
+  const { selectedCellsCareinstitution, qualificationList } = props;
+  
   // Create Document Component
   return (
     <Document>
@@ -119,15 +161,19 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
           {selectedCellsCareinstitution[0].canstitution.companyName || ''}
             {/* {languageTranslation("ARKADIA_PFLEGE")}{" "} */}
           </Text>
-          <Text style={styles.subtext}>
+          {/* <Text style={styles.subtext}>
             {selectedCellsCareinstitution[0].canstitution.shortName || ''}
+            {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "}
+          </Text> */}
+          <Text style={styles.subtext}>
+          {selectedCellsCareinstitution[0].canstitution.street || '-'}            
             {/* {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "} */}
           </Text>
-          <Text style={styles.subtext}>
-          {[selectedCellsCareinstitution[0].canstitution.street, selectedCellsCareinstitution[0].canstitution.city].filter(Boolean).join(', ') || ''}            
-            {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "}
-          </Text>
-          <Text style={styles.subtext}>{languageTranslation("WERDER")} </Text></> : null}
+          <Text style={styles.subtext}>{selectedCellsCareinstitution[0].canstitution.zipCode || ''} {selectedCellsCareinstitution[0].canstitution.city || ''}
+          {/* {languageTranslation("WERDER")}  */}
+          </Text></> : null}
+
+         
         </View>
         <View style={styles.section}>
           <Text style={styles.subtitle}>
@@ -141,6 +187,7 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
           <Text style={styles.subtextbold}>
             {languageTranslation("WORK_DETAILS")}
           </Text>
+         
           {selectedCellsCareinstitution && selectedCellsCareinstitution.length
             ? selectedCellsCareinstitution.map((cell: any, index: number) => {
                 const { item = {}, canstitution } = cell;
@@ -152,11 +199,13 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
                   date = "",
                   appointments = [],
                   qualificationId = [],
+                  qualificationForCharge=""
                 } = item ? item : {};
                 const { ca = {} } =
                   appointments && appointments.length ? appointments[0] : {};
                 console.log(ca, 'ca');
-                
+                let qualificationforChargerData = qualificationList
+                .filter((item:any) => item.value === qualificationForCharge)
                 let shiftLabel: string =
                   startTime === "06:00"
                     ? "FD"
@@ -164,14 +213,16 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
                     ? "SD"
                     : "ND";
                 return id ? (
-                  <Text style={styles.subtext} key={index}>
+                  <Text style={styles.subtext1} key={index}>
                     {date ? moment(date).format(defaultDateFormat) : ""},{" "}
-                    {shiftLabel}, {ca && ca.name ? `${languageTranslation("WORKER")}:${ca.name},` : ""}{" "}
+                    {shiftLabel}, {ca && ca.name ? `${languageTranslation("WORKER")}: ${ca.name},` : ""}{" "}
                     {languageTranslation("QUALIFICATION")}:{" "}
-                    {qualificationId
+                    {/* {qualificationId
                       .map((quali: IReactSelectInterface) => quali.label)
                       .filter(Boolean)
-                      .join(", ")}
+                      .join(", ")} */}
+                    {qualificationforChargerData && qualificationforChargerData.length ? 
+                      qualificationforChargerData[0].label : ''}
                     , {languageTranslation("PAY_GROUP_TXT")}: 3{" "}
                   </Text>
                 ) : null;
@@ -179,8 +230,8 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps> = (
             : null}
         </View>
 
-        <View style={styles.signaturecontainer}>
-          <View>
+        <View  style={styles.signaturecontainer} >
+          <View >
             <Text style={styles.imagediv}></Text>
             <Text style={styles.imgtext}>
               {languageTranslation("SIGN_IT_AND_SEND_BACK")}

@@ -51,6 +51,7 @@ const ADD_INSTITUTION_REQUIREMENT = gql`
    endTime
    divisionId
    qualificationId
+   qualificationForCharge
    address
    contactPerson
    departmentOfferRemarks

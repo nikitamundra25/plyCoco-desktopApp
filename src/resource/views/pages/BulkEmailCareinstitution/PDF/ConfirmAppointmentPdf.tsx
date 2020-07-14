@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import {
   Document,
   Page,
@@ -22,10 +22,27 @@ import robotoBold from "../../../../assets/fonts/Roboto-Bold.ttf";
 import robotoMedium from "../../../../assets/fonts/Roboto-Medium.ttf";
 import robotoNormal from "../../../../assets/fonts/Roboto-Regular.ttf";
 
-
 const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qualificationList:any}> = (
   props: IConfirmAppointmentPdfProps & {qualificationList:any}
 ) => {
+  const registerFont = () => {
+    Font.register( {
+      family: 'Roboto Bold',
+      src: robotoBold
+    });
+    Font.register( {
+      family: 'Roboto Normal',
+      src: robotoNormal
+    });
+    Font.register( {
+      family: 'Roboto Medium',
+      src: robotoMedium
+    });
+  }
+    
+  useEffect(() => {
+    registerFont();
+  }, []);
   // Create styles
   const styles = StyleSheet.create({
     page: {
@@ -131,19 +148,6 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
       textAlign: "center",
       fontFamily: 'Roboto Normal',
     },
-  });
-
-  Font.register( {
-    family: 'Roboto Bold',
-    src: robotoBold
-  });
-  Font.register( {
-    family: 'Roboto Normal',
-    src: robotoNormal
-  });
-  Font.register( {
-    family: 'Roboto Medium',
-    src: robotoMedium
   });
 
   const { selectedCellsCareinstitution, qualificationList } = props;

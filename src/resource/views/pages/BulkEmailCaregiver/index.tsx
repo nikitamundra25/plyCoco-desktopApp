@@ -1239,8 +1239,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       .map((q: any) => q.label)
                       .join(', ')}`
                   : ''
-              }
-          `);
+              }`);
             }
             // if (index === selectedCells.length -1 ) {
             // }

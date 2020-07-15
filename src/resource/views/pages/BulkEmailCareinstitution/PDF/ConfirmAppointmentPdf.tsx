@@ -15,7 +15,7 @@ import {
   IConfirmAppointmentPdfProps,
   IReactSelectInterface,
 } from "../../../../../interfaces";
-import { defaultDateFormat } from "../../../../../config";
+import { defaultDateFormat, payGroups } from "../../../../../config";
 import { languageTranslation } from "../../../../../helpers";
 import timyocLogo from "../../../../assets/img/timyoc.png";
 import robotoBold from "../../../../assets/fonts/Roboto-Bold.ttf";
@@ -25,24 +25,25 @@ import robotoNormal from "../../../../assets/fonts/Roboto-Regular.ttf";
 const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qualificationList:any}> = (
   props: IConfirmAppointmentPdfProps & {qualificationList:any}
 ) => {
-  const registerFont = () => {
-    Font.register( {
-      family: 'Roboto Bold',
-      src: robotoBold
-    });
-    Font.register( {
-      family: 'Roboto Normal',
-      src: robotoNormal
-    });
-    Font.register( {
-      family: 'Roboto Medium',
-      src: robotoMedium
-    });
-  }
+  // const registerFont = () => {
+  //   Font.register( {
+  //     family: 'Roboto Bold',
+  //     src: robotoBold
+  //   });
+  //   Font.register( {
+  //     family: 'Roboto Normal',
+  //     src: robotoNormal
+  //   });
+  //   Font.register( {
+  //     family: 'Roboto Medium',
+  //     src: robotoMedium
+  //   });
+  // }
     
-  useEffect(() => {
-    registerFont();
-  }, []);
+  // useEffect(() => {
+  //   registerFont();
+  // }, []);
+  
   // Create styles
   const styles = StyleSheet.create({
     page: {
@@ -149,7 +150,19 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
       fontFamily: 'Roboto Normal',
     },
   });
-
+  Font.register( {
+    family: 'Roboto Bold',
+    src: robotoBold
+  });
+  Font.register( {
+    family: 'Roboto Normal',
+    src: robotoNormal
+  });
+  Font.register( {
+    family: 'Roboto Medium',
+    src: robotoMedium
+  });
+  
   const { selectedCellsCareinstitution, qualificationList } = props;
   
   // Create Document Component
@@ -205,6 +218,11 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
                   qualificationId = [],
                   qualificationForCharge=""
                 } = item ? item : {};
+                let payGroup:number = 4;
+                let payGroupIndex = payGroups.findIndex((paygrp:any) => paygrp.includes(qualificationForCharge))
+                if (payGroupIndex > -1) {
+                  payGroup = payGroupIndex + 1
+                }
                 const { ca = {} } =
                   appointments && appointments.length ? appointments[0] : {};
                 console.log(ca, 'ca');
@@ -227,7 +245,7 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
                       .join(", ")} */}
                     {qualificationforChargerData && qualificationforChargerData.length ? 
                       qualificationforChargerData[0].label : ''}
-                    , {languageTranslation("PAY_GROUP_TXT")}: 3{" "}
+                    , {languageTranslation("PAY_GROUP_TXT")}: {payGroup }{" "}
                   </Text>
                 ) : null;
               })

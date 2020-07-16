@@ -75,7 +75,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           remarksInternal
           createdBy
           createdAt
-    updatedAt
+          updatedAt
           appointments {
             id
             date
@@ -126,7 +126,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
           isLeasing
           createdBy
           createdAt
-    updatedAt
+          updatedAt
           division {
             id
             name
@@ -238,7 +238,28 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         breakTo
         createdBy
         createdAt
-       updatedAt
+        updatedAt
+        user {
+          firstName
+          lastName
+          userName
+          email
+          userRole
+          id
+          isActive
+          qualificationId
+          caregiver {
+            nightAllowance
+            weekendAllowance
+            fee
+            holiday
+            night
+            attributes
+            street
+            city
+            dateOfBirth
+          }
+        }
         appointments {
           id
           date
@@ -254,7 +275,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
             startTime
             endTime
             isLeasing
-            user{
+            user {
               canstitution {
                 city
                 zipCode
@@ -287,7 +308,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
                 attributes
               }
             }
-           
+
             division {
               id
               name
@@ -325,47 +346,53 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
         division {
           id
           name
-        }   
+        }
+        user {
+          firstName
+          lastName
+          userName
+          email
+          userRole
+          id
+          isActive
+          qualificationId
+          canstitution {
+            city
+            zipCode
+            companyName
+            shortName
+            street
+            countryId
+            stateId
+            remarks
+            title
+            fax
+            linkedTo
+            doctorCommission
+            leasingPriceListId
+            plycocoInvoiceTax
+            leasingInvoiceTax
+            defaultTaxValue
+            isArchive
+            careGiverCommission
+            anonymousName
+            anonymousName2
+            mobileNumber
+            remarksViewable
+            defaultQualification
+            invoiceType
+            emailInvoice
+            addressInvoice
+            interval
+            website
+            attributes
+          }
+        }
         appointments {
           id
           date
           requirementId
           avabilityId
-          cr{
-          user{
-            canstitution {
-              city
-              zipCode
-              companyName
-              shortName
-              street
-              countryId
-              stateId
-              remarks
-              title
-              fax
-              linkedTo
-              doctorCommission
-              leasingPriceListId
-              plycocoInvoiceTax
-              leasingInvoiceTax
-              defaultTaxValue
-              isArchive
-              careGiverCommission
-              anonymousName
-              anonymousName2
-              mobileNumber
-              remarksViewable
-              defaultQualification
-              invoiceType
-              emailInvoice
-              addressInvoice
-              interval
-              website
-              attributes
-            }
-          }
-        }
           ca {
             userId
             id
@@ -406,7 +433,7 @@ const GET_CAREGIVER_AVABILITY_DETAILS_BY_ID = gql`
       status
       createdBy
       createdAt
-    updatedAt
+      updatedAt
     }
   }
 `;

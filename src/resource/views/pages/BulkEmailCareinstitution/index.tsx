@@ -28,7 +28,7 @@ import filter from "../../../assets/img/filter.svg";
 import refresh from "../../../assets/img/refresh.svg";
 import "./index.scss";
 import { useHistory } from "react-router";
-import { client, CareInstTIMyoCYAttrId } from "../../../../config";
+import { client, CareInstTIMyoCYAttrId, AppConfig } from "../../../../config";
 import { EmailEditorComponent } from "./EmailFormComponent";
 import { ConfirmBox } from "../../components/ConfirmBox";
 import { IBulkEmailVariables } from "../../../../interfaces";
@@ -145,7 +145,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     const contentBlock = htmlToDraft(
       `<div>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
         "BEST_WISHES"
-      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${logo}" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49-30-644 99 444" style="color: #000; text-decoration: none;">+49-30-644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax:+49-30-644 99 445" style="color: #000; text-decoration: none;">+49-30-644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="https://www.plycoco.de/" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Vertreten durch: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746</span><br><span style="font-size: 12px;color: #b5b4b4;">Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz DE290375287</span></div></div>`
+      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${AppConfig.APP_ENDPOINT}/plycoco.png" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49.30.644 99 444" style="color: #000; text-decoration: none;">+49.30.644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax: +49.30.644 99 445" style="color: #000; text-decoration: none;">+49.30.644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="https://www.plycoco.de/" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister: Registergericht: Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746, Geschäftsführerin: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Tel: +49.30.644 99 444, Fax: +49.30.644 99 445</span></div></div>`
     );
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(

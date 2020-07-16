@@ -8,12 +8,3 @@ export const GET_QUALIFICATION_ATTRIBUTE = gql`
     }
   }
 `;
-
-// export const GET_QUALIFICATION_ATTRIBUTE = gql`
-//   query getQualificationAttribute {
-//     getQualificationAttributes {
-//       attributeName
-//       id
-//     }
-//   }
-// `;

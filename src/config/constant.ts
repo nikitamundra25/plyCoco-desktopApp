@@ -957,7 +957,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
 ];
 
 export const Religion: IReactSelectInterface[] = [
-  { value: ' Evangelical Church (EKD)', label: 'Evangelical Church (EKD)' },
+  { value: 'Evangelical Church (EKD)', label: 'Evangelical Church (EKD)' },
   {
     value: 'Freely Religious Communities',
     label: 'Freely religious communities',
@@ -968,10 +968,10 @@ export const Religion: IReactSelectInterface[] = [
     label: 'Catholic bishopric of the old Catholics in Germany',
   },
   { value: 'Others Without', label: 'Others without' },
-  { value: ' Roman Catholic Church', label: ' Roman Catholic church' },
+  { value: 'Roman Catholic Church', label: 'Roman Catholic church' },
   {
-    value: ' Unitarian Religious Community Free Protestants',
-    label: ' Unitarian Religious Community Free Protestants',
+    value: 'Unitarian Religious Community Free Protestants',
+    label: 'Unitarian Religious Community Free Protestants',
   },
 ];
 

@@ -996,7 +996,7 @@ export const NightAllowancePerHour: IReactSelectInterface[] = [
   { value: 'From 10 p.m.', label: 'From 10 p.m.' },
   { value: 'From 8 p.m.', label: 'From 8 p.m.' },
   { value: 'From 8:45 p.m.', label: 'From 8:45 p.m.' },
-  { value: 'From 9 p.m', label: 'From 9 p.m.' },
+  { value: 'From 9 p.m.', label: 'From 9 p.m.' },
 ];
 
 export const Priority: IReactSelectInterface[] = [

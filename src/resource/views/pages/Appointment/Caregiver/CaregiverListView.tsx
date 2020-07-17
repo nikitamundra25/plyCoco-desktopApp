@@ -121,7 +121,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       updateLeasingContractStatus
     ) {
       console.log('in if');
-      updateLeasingContractStatus(leasingContract ? 'contractInitiated' : 'contractcancelled');
+      updateLeasingContractStatus(leasingContract ? 'contractInitiated' : 'contractCancelled');
     }
     setopenCareGiverBulkEmail(false);
     setconfirmApp(false);

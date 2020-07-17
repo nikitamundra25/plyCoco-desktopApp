@@ -1699,7 +1699,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           appointmentId: appointmentIds,
           availablityId: avabilityIds,
           requirementId: requirementIds,
-          status: 'contractcancelled'
+          status: 'contractCancelled'
         }
       });
       generateLeasingContractLinkToken({
@@ -1711,7 +1711,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           pdfAppointmentDetails: [pdfTerminateAppointment]
         }
       });
-      // updateLinkedStatus('contractcancelled')
+      // updateLinkedStatus('contractCancelled')
 
     }
   }, [pdfTerminateAppointment]);

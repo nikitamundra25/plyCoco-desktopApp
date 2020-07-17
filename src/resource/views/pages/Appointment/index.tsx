@@ -3232,11 +3232,11 @@ const Appointment: FunctionComponent = (props: any) => {
               id: availabilityId,
               careGiverAvabilityInput: {
                 ...item,
-                status: "contractcancelled",
+                status: "contractCancelled",
               },
             },
           });
-          updateLinkedStatus("contractcancelled");
+          updateLinkedStatus("contractCancelled");
         }
       });
     }
@@ -3334,8 +3334,8 @@ const Appointment: FunctionComponent = (props: any) => {
               ? "confirmed"
               : name === "notconfirmed"
               ? "linked"
-              : name === "contractcancelled"
-              ? "contractcancelled"
+              : name === "contractCancelled"
+              ? "contractCancelled"
               : name === "contractInitiated"
               ? "contractInitiated"
               : "default",

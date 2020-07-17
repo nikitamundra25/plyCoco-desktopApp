@@ -52,7 +52,7 @@ const Cell = ({
       isMatching = true;
     } else if (item.status === 'confirmed' || item.status === 'timeSheetUpdated' || item.status ==='timeSheetPending') {
       isConfirm = true;
-    } else if (item.status === 'contractcancelled') {
+    } else if (item.status === 'contractCancelled') {
       isContractCancel = true;
     } else if (item.status === 'contractInitiated') {
       isContractInitiated = true;

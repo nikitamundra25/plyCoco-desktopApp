@@ -258,6 +258,27 @@ const GET_DIVISION_DETAILS_BY_ID = gql`
     }
   }
 `;
+
+const GET_DEPARTMENT_ATTRIBUTES = gql`
+  query getDepartmentAttribute {
+    getDepartmentAttribute {
+      id
+      name
+      color
+    }
+  }
+`;
+
+const GET_CONTACT_ATTRIBUTES = gql`
+  query getContactAttribute {
+    getContactAttribute {
+      id
+      name
+      color
+    }
+  }
+`;
+
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
@@ -265,5 +286,7 @@ export const CareInstitutionQueries = [
   GET_CAREINSTITUTION_ATTRIBUTES,
   GET_CONTACT_LIST_BY_ID,
   GET_CONTACT_TYPES,
-  GET_DIVISION_DETAILS_BY_ID
+  GET_DIVISION_DETAILS_BY_ID,
+  GET_DEPARTMENT_ATTRIBUTES,
+  GET_CONTACT_ATTRIBUTES
 ];

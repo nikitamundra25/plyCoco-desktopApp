@@ -38,6 +38,7 @@ const [
   ,
   ,
   GET_DIVISION_DETAILS_BY_ID,
+  GET_DEPARTMENT_ATTRIBUTES
 ] = CareInstitutionQueries;
 
 const [
@@ -102,6 +103,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
           getDivisionsDetails.division_attributes.length
         ) {
           getDivisionsDetails.division_attributes.map((attr: any) => {
+            console.log('attrattr',attr);
             return temp.push({
               label: attr.name,
               value: attr.id,
@@ -109,6 +111,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
             });
           });
         }
+        console.log('temptemp',temp )
         if (
           getDivisionsDetails &&
           getDivisionsDetails.division_qualifications &&
@@ -121,7 +124,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
             });
           });
         }
-        console.log('tempQualification',tempQualification)
+        
 
         setIsActive(getDivisionsDetails.id);
         setDepartmentDetails(getDivisionsDetails);
@@ -139,8 +142,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   // Fetch attribute list from db
   const { data: attributeData } = useQuery<{
-    getCareInstitutionAtrribute: IAttributeValues[];
-  }>(GET_CAREINSTITUTION_ATTRIBUTES);
+    getDepartmentAttribute: IAttributeValues[];
+  }>(GET_DEPARTMENT_ATTRIBUTES);
 
   const qualificationList: IReactSelectInterface[] | undefined = [];
   if (qualificationData && qualificationData.getQualifications) {
@@ -153,8 +156,8 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   }
 
   const careInstitutionAttrOpt: IAttributeOptions[] | undefined = [];
-  if (attributeData && attributeData.getCareInstitutionAtrribute) {
-    attributeData.getCareInstitutionAtrribute.forEach(
+  if (attributeData && attributeData.getDepartmentAttribute) {
+    attributeData.getDepartmentAttribute.forEach(
       ({ id, name, color }: IAttributeValues) =>
         careInstitutionAttrOpt.push({
           label: name,

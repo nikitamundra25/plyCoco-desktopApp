@@ -45,6 +45,11 @@ const [
   GET_CARE_INSTITUION_BY_ID,
   GET_DEPARTMENT_LIST,
   GET_CAREINSTITUTION_ATTRIBUTES,
+  ,
+  ,
+  ,
+  ,
+  GET_CONTACT_ATTRIBUTES
 ] = CareInstitutionQueries;
 
 const [
@@ -92,6 +97,23 @@ const PersonalInformation: any = (props: any) => {
         }),
     );
   }
+
+    // Fetch attribute list from db
+    const { data: attributeContactData } = useQuery<{
+      getContactAttribute: IAttributeValues[];
+    }>(GET_CONTACT_ATTRIBUTES);
+    // Push into attribute options
+    const contactAttrOpt: IAttributeOptions[] | undefined = [];
+    if (attributeContactData && attributeContactData.getContactAttribute) {
+      attributeContactData.getContactAttribute.forEach(
+        ({ id, name, color }: IAttributeValues) =>
+          contactAttrOpt.push({
+            label: name,
+            value: id ? id.toString() : '',
+            color,
+          }),
+      );
+    }
 
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
   //To get country details
@@ -149,14 +171,19 @@ const PersonalInformation: any = (props: any) => {
         : {};
       const { contact = [] } = getCareInstitution ? getCareInstitution : {};
       const contactsData: any[] = [];
+      console.log('contactAttrOpt',contactAttrOpt)
+
       contact.forEach((element: any) => {
+        console.log('element.attributes',element.attributes)
         let attr_value: IAttributeOptions[] = [];
         if (element.attributes && element.attributes.length) {
-          attr_value = careInstitutionAttrOpt.filter(
+          attr_value = contactAttrOpt.filter(
             (attrOpt: IAttributeOptions) =>
               element.attributes.includes(parseInt(attrOpt.value)),
           );
         }
+        console.log('attr_valueattr_value',attr_value);
+        
         contactsData.push({
           ...element,
           attributes: attr_value,
@@ -619,7 +646,7 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
         <CareInstitutionContacts
           contacts={contacts}
           careInstId={id}
-          careInstitutionAttrOpt={careInstitutionAttrOpt}
+          careInstitutionAttrOpt={contactAttrOpt}
           refetch={() => refetch()}
           setContacts={(contacts: any) => {
             setContacts((contacts = contacts));

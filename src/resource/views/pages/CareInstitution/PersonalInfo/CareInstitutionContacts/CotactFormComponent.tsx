@@ -150,6 +150,7 @@ const CotactFormComponent: any = (
     addingtype,
     userSelectedCountry,
   } = props;
+  console.log('contactAttribute',attributeId)
 
   useEffect(() => {
     if (contacttypeOpt && contacttypeOpt.length) {
@@ -899,9 +900,10 @@ const CotactFormComponent: any = (
                         </Col>
                       </Row>
                     </FormGroup>
-                  </Col>
+                  </Col>  
                 </Row>
               </div>
+              
               <div className="attribute-div">
                 <div className="common-list-wrap">
                   <div className="common-list-header d-flex align-items-cente justify-content-between">

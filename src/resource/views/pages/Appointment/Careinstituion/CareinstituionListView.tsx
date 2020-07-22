@@ -190,7 +190,7 @@ console.log("divisions",divisions);
           selectedCells[0].caregiver.attributes.length
         ) {
           let checkAttribute = selectedCells[0].caregiver.attributes.includes(
-            8
+            10060
           );
           if (checkAttribute) {
             const { value } = await ConfirmBox({

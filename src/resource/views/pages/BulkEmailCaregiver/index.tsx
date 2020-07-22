@@ -1803,7 +1803,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 key.caregiver.attributes &&
                 key.caregiver.attributes.length
               ) {
-                checkAttribute = key.caregiver.attributes.includes(4);
+                checkAttribute = key.caregiver.attributes.includes(60);
               }
               singleButtonCaregiverList.push({
                 receiverUserId: key && key.id ? parseInt(key.id) : null,

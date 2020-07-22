@@ -24,6 +24,7 @@ import {
   deactivatedListColor,
   leasingListColor,
   selfEmployesListColor,
+  CareInstTIMyoCYAttrId,
 } from '../../../../../config';
 let toastId: any = "";
 
@@ -170,9 +171,9 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
             value: id,
             color: !isActive
               ? deactivatedListColor
-              : attributes.includes('TIMyoCY')
+              : attributes.includes(CareInstTIMyoCYAttrId)
                 ? leasingListColor
-                : attributes.includes('Plycoco')
+                : attributes.includes(70)
                   ? selfEmployesListColor
                   : '',
             companyName: canstitution && canstitution.companyName

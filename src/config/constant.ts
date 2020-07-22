@@ -1298,10 +1298,10 @@ export const InvoiceSummaryFilter: IReactSelectInterface[] = [
   { value: 'perMonth', label: languageTranslation('PER_MONTH') },
 ];
 
-export const CaregiverTIMyoCYAttrId: number = 9;
-export const CareInstTIMyoCYAttrId: number = 73;
-export const CareInstPlycocoAttrId: number = 72;
-export const CareInstInActiveAttrId: number = 101;
+export const CaregiverTIMyoCYAttrId: number = 67; //9
+export const CareInstTIMyoCYAttrId: number = 67; //73
+export const CareInstPlycocoAttrId: number = 70; // 72
+export const CareInstInActiveAttrId: number = 10032; // 101
 
 export const deactivatedListColor: string = '#cacaca';
 export const leasingListColor: string = '#f7d158';

@@ -2691,7 +2691,7 @@ const Appointment: FunctionComponent = (props: any) => {
             ? deactivatedListColor
             : attributes.includes(CaregiverTIMyoCYAttrId)
             ? leasingListColor
-            : attributes.includes("Plycoco")
+            : attributes.includes(70)
             ? selfEmployesListColor
             : "",
         });
@@ -4289,7 +4289,7 @@ const Appointment: FunctionComponent = (props: any) => {
           selectedCells[0].caregiver.attributes.length
         ) {
           let checkAttribute = selectedCells[0].caregiver.attributes.includes(
-            8
+            10060
           );
           if (checkAttribute) {
             const { value } = await ConfirmBox({

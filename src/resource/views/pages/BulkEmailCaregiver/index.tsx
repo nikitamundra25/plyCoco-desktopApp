@@ -208,9 +208,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   
   const setDefaultSignature = (body: any) => {  
     const contentBlock = htmlToDraft(
-      `<div>${body}<div><span style="font-size:13px; margin:0px 0px;">${languageTranslation(
+      `<div>${body}<div><span style="font-size:15px; margin:0px 0px;">${languageTranslation(
         "BEST_WISHES"
-      )}</span><br><span style="font-size:13px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${AppConfig.APP_ENDPOINT}/plycoco.png" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49.30.644 99 444" style="color: #000; text-decoration: none;">+49.30.644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax: +49.30.644 99 445" style="color: #000; text-decoration: none;">+49.30.644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="https://www.plycoco.de/" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister: Registergericht: Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746, Geschäftsführerin: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Tel: +49.30.644 99 444, Fax: +49.30.644 99 445</span></div></div>`
+      )}</span><br><span style="font-size:15px; margin:0px 0px;">${firstName} ${lastName}</span><br><span style="text-align:left;"><a href="https://www.plycoco.de/"><img alt="" src="${AppConfig.APP_ENDPOINT}/plycoco.png" style="height: auto; width: 180px; margin:0px;"></a></span></div><div><span><strong>Tel:</strong> <a href="tel:+49.30.644 99 444" style="color: #000; text-decoration: none;">+49.30.644 99 444</a></span><br><span><strong>Fax:</strong> <a href="fax: +49.30.644 99 445" style="color: #000; text-decoration: none;">+49.30.644 99 445</a></span><br><span><strong>E-Mail:</strong> <a href="mailto:kontakt@plycoco.de" style="color: #000; text-decoration: none;">kontakt@plycoco.de</a></span><br><span><a href="https://www.plycoco.de/" style="color: #000; text-decoration: none;">www.plycoco.de</a></span></div><div><span style="font-size: 12px;color: #b5b4b4;">Plycoco GmbH, Welfenallee 3-7, 13465 Berlin</span><br><span style="font-size: 12px;color: #b5b4b4;">Eintragung im Handelsregister: Registergericht: Amtsgericht Berlin-Charlottenburg, Registernummer: HRB 150746, Geschäftsführerin: Maren Krusch</span><br><span style="font-size: 12px;color: #b5b4b4;">Tel: +49.30.644 99 444, Fax: +49.30.644 99 445</span></div></div>`
     );
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
@@ -1238,7 +1238,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       )
                       .map((q: any) => q.label)
                       .join(', ')}`
-                  : ''
+                  : '-'
               }`);
             }
             // if (index === selectedCells.length -1 ) {
@@ -1699,7 +1699,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           appointmentId: appointmentIds,
           availablityId: avabilityIds,
           requirementId: requirementIds,
-          status: 'contractcancelled'
+          status: 'contractCancelled'
         }
       });
       generateLeasingContractLinkToken({
@@ -1711,7 +1711,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           pdfAppointmentDetails: [pdfTerminateAppointment]
         }
       });
-      // updateLinkedStatus('contractcancelled')
+      // updateLinkedStatus('contractCancelled')
 
     }
   }, [pdfTerminateAppointment]);
@@ -1803,7 +1803,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 key.caregiver.attributes &&
                 key.caregiver.attributes.length
               ) {
-                checkAttribute = key.caregiver.attributes.includes(4);
+                checkAttribute = key.caregiver.attributes.includes(60);
               }
               singleButtonCaregiverList.push({
                 receiverUserId: key && key.id ? parseInt(key.id) : null,

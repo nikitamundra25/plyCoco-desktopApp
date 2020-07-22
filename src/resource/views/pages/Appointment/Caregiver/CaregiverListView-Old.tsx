@@ -346,7 +346,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     checkAttribute = selectedCells.filter((x: any) => {
       if (x && x.caregiver && x.caregiver.attributes) {
         return x.caregiver.attributes && x.caregiver.attributes.length
-          ? x.caregiver.attributes.includes("101")
+          ? x.caregiver.attributes.includes("10032")
           : "";
       } else {
         return ["abc"];

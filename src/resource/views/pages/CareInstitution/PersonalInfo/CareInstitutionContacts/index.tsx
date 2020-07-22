@@ -55,6 +55,9 @@ const [
   GET_CAREINSTITUTION_ATTRIBUTES,
   ,
   GET_CONTACT_TYPES,
+  ,
+  ,
+  GET_CONTACT_ATTRIBUTES
 ] = CareInstitutionQueries;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
@@ -183,6 +186,7 @@ const CareInstitutionContacts: any = (props: any) => {
     { deleteContact: any },
     { id: number }
   >(DELETE_CONTACT);
+  
   // let selectedAttributes: IReactSelectInterface[] = [];
   // Mutation to add new attributes in contact
   const [addAttribute, { data: addAttriContact }] = useMutation<{
@@ -192,15 +196,16 @@ const CareInstitutionContacts: any = (props: any) => {
       const { data } = customData;
       const { addContactAttribute = {} } = data ? data : {};
       if (addContactAttribute && addContactAttribute.id) {
-        const { getCareInstitutionAtrribute }: any = cache.readQuery({
-          query: GET_CAREINSTITUTION_ATTRIBUTES,
+        const { getContactAttribute }: any = cache.readQuery({
+          query: GET_CONTACT_ATTRIBUTES,
         });
+        console.log('datadata',data)
         // Update cache with new value
         cache.writeQuery({
-          query: GET_CAREINSTITUTION_ATTRIBUTES,
+          query: GET_CONTACT_ATTRIBUTES,
           data: {
-            getCareInstitutionAtrribute: [
-              ...getCareInstitutionAtrribute,
+            getContactAttribute: [
+              ...getContactAttribute,
               addContactAttribute,
             ],
           },

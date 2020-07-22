@@ -140,7 +140,7 @@ const CaregiverFormView: FunctionComponent<
     idSearchAppointmentLoading,
     selectedCellsCareinstitution,
   } = props;
-
+  
   let dateData =
     activeDateCaregiver && activeDateCaregiver.length
       ? moment(activeDateCaregiver[0]).format(defaultDateFormat)
@@ -343,8 +343,8 @@ const CaregiverFormView: FunctionComponent<
       isConfirm = true;
     } else if (
       (selctedAvailability &&
-        selctedAvailability.status === "contractcancelled") ||
-      status === "contractcancelled"
+        selctedAvailability.status === "contractCancelled") ||
+      status === "contractCancelled"
     ) {
       isContractCancel = true;
     } else if (

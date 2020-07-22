@@ -957,7 +957,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
 ];
 
 export const Religion: IReactSelectInterface[] = [
-  { value: ' Evangelical Church (EKD)', label: 'Evangelical Church (EKD)' },
+  { value: 'Evangelical Church (EKD)', label: 'Evangelical Church (EKD)' },
   {
     value: 'Freely Religious Communities',
     label: 'Freely religious communities',
@@ -968,10 +968,10 @@ export const Religion: IReactSelectInterface[] = [
     label: 'Catholic bishopric of the old Catholics in Germany',
   },
   { value: 'Others Without', label: 'Others without' },
-  { value: ' Roman Catholic Church', label: ' Roman Catholic church' },
+  { value: 'Roman Catholic Church', label: 'Roman Catholic church' },
   {
-    value: ' Unitarian Religious Community Free Protestants',
-    label: ' Unitarian Religious Community Free Protestants',
+    value: 'Unitarian Religious Community Free Protestants',
+    label: 'Unitarian Religious Community Free Protestants',
   },
 ];
 
@@ -996,7 +996,7 @@ export const NightAllowancePerHour: IReactSelectInterface[] = [
   { value: 'From 10 p.m.', label: 'From 10 p.m.' },
   { value: 'From 8 p.m.', label: 'From 8 p.m.' },
   { value: 'From 8:45 p.m.', label: 'From 8:45 p.m.' },
-  { value: 'From 9 p.m', label: 'From 9 p.m.' },
+  { value: 'From 9 p.m.', label: 'From 9 p.m.' },
 ];
 
 export const Priority: IReactSelectInterface[] = [
@@ -1298,10 +1298,10 @@ export const InvoiceSummaryFilter: IReactSelectInterface[] = [
   { value: 'perMonth', label: languageTranslation('PER_MONTH') },
 ];
 
-export const CaregiverTIMyoCYAttrId: number = 9;
-export const CareInstTIMyoCYAttrId: number = 73;
-export const CareInstPlycocoAttrId: number = 72;
-export const CareInstInActiveAttrId: number = 101;
+export const CaregiverTIMyoCYAttrId: number = 67; //9
+export const CareInstTIMyoCYAttrId: number = 67; //73
+export const CareInstPlycocoAttrId: number = 70; // 72
+export const CareInstInActiveAttrId: number = 10032; // 101
 
 export const deactivatedListColor: string = '#cacaca';
 export const leasingListColor: string = '#f7d158';

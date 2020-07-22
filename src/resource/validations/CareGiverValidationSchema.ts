@@ -54,12 +54,6 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
   }),
   phoneNumber: Yup.mixed(),
   mobileNumber: Yup.mixed(),
-  taxNumber: Yup.mixed()
-    .test(
-      'num-length',
-      languageTranslation('TAX_MAXLENGTH'),
-      value => !value || (value && value.length <= taxNumberLimit)
-    ),
   userName: Yup.string()
     .trim()
     .required(languageTranslation('USERNAME_REQUIRED')),
@@ -107,5 +101,5 @@ export const CareGiverValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .min(13, languageTranslation("AGE_VALIDATION"))
     .max(100, languageTranslation("AGE_MAXLENGTH")),
   country: Yup.mixed().required(languageTranslation('COUNTRY_REQUIRED')),
-  state: Yup.mixed().required(languageTranslation('STATE_REQUIRED'))
+  state: Yup.mixed()
 });

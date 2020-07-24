@@ -1293,5 +1293,14 @@
    "REQUIRED_DATEOFBIRTH":"Date of birth is required",
    "WORKER":"Arbeiter",
    "NO_WORKING_HISTORY_AVAILABLE":"No working history available",
-   "TILL":"bis"
+   "TILL":"bis",
+
+
+   "EVANGELICAL_CHURCH_LABEL":"Evangelical Church (EKD)",
+   "FREELY_RELIGIOUS_COMMUNITIES_LABEL":"Freely religious communities",
+   "JEWSIH_COMMUNITIES_LABEL":"Jewish Communities",
+   "CATHOLIC_BISHOPRIC_LABEL":"Catholic bishopric of the old Catholics in Germany",
+   "OTHERS_WITHOUT_LABEL":"Others without",
+   "ROMAN_CATHOLIC_CHURCH_LABEL":"Roman Catholic church",
+   "UNITARIAN_RELIGIOUS_LABEL":"Unitarian Religious Community Free Protestants"
 }

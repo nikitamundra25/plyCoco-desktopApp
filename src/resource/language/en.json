@@ -1527,6 +1527,14 @@
    "KRANKENUNTERSTÜTZUNGSKASSE_DER_BERUFSFEUERWEHR_HANNOVER": "Krankenunterstützungskasse der Berufsfeuerwehr Hannover",
    "Landeskrankenhilfe_V.V.a.G.": "Landeskrankenhilfe V.V.a.G.",
    "LIGA_KRANKENVERSICHERUNG_KATHOLISCHER_PRIESTER_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT_REGENSBURG": "LIGA Krankenversicherung katholischer Priester Versicherungsverein auf Gegenseitigkeit Regensburg",
-   "LKK_NIEDERSACHSEN-BREMEN": "LKK Niedersachsen-Bremen"
+   "LKK_NIEDERSACHSEN-BREMEN": "LKK Niedersachsen-Bremen",
 
+   
+   "EVANGELICAL_CHURCH_LABEL":"Evangelical Church (EKD)",
+   "FREELY_RELIGIOUS_COMMUNITIES_LABEL":"Freely religious communities",
+   "JEWSIH_COMMUNITIES_LABEL":"Jewish Communities",
+   "CATHOLIC_BISHOPRIC_LABEL":"Catholic bishopric of the old Catholics in Germany",
+   "OTHERS_WITHOUT_LABEL":"Others without",
+   "ROMAN_CATHOLIC_CHURCH_LABEL":"Roman Catholic church",
+   "UNITARIAN_RELIGIOUS_LABEL":"Unitarian Religious Community Free Protestants"
   }

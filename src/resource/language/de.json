@@ -1312,5 +1312,12 @@
     
     "VOLUNTARILY_INSURED_BY_LAW":"Voluntarily insured by law",
     "LEGALLY_INSURED":"Legally insured",
-    "PRIVATELY_INSURED":"Privately insured"
+    "PRIVATELY_INSURED":"Privately insured",
+   "EVANGELICAL_CHURCH_LABEL":"Evangelical Church (EKD)",
+   "FREELY_RELIGIOUS_COMMUNITIES_LABEL":"Freely religious communities",
+   "JEWSIH_COMMUNITIES_LABEL":"Jewish Communities",
+   "CATHOLIC_BISHOPRIC_LABEL":"Catholic bishopric of the old Catholics in Germany",
+   "OTHERS_WITHOUT_LABEL":"Others without",
+   "ROMAN_CATHOLIC_CHURCH_LABEL":"Roman Catholic church",
+   "UNITARIAN_RELIGIOUS_LABEL":"Unitarian Religious Community Free Protestants"
 }

@@ -976,18 +976,18 @@ export const Religion: IReactSelectInterface[] = [
 ];
 
 export const Preoccupation: IReactSelectInterface[] = [
-  { value: 'Other Sideline Activities', label: 'Other sideline activities' },
+  { value: 'OtherSidelineActivities', label: 'Other sideline activities' },
   { value: 'Officials', label: 'Officials' },
-  { value: 'Blockwise TIMyoCE', label: 'Blockwise TIMyoCE' },
+  { value: 'BlockwiseTIMyoCE', label: 'Blockwise TIMyoCE' },
   {
-    value: 'Permanently Employed TIMyoCE',
+    value: 'PermanentlyEmployedTIMyoCE',
     label: 'Permanently employed TIMyoCE',
   },
   { value: 'Pensioner', label: 'Pensioner' },
-  { value: 'Pupil Student', label: 'Pupil student' },
-  { value: 'Self-employed/Freelance', label: 'Self-employed/Freelance' },
+  { value: 'PupilStudent', label: 'Pupil student' },
+  { value: 'SelfemployedFreelance', label: 'Self-employed/Freelance' },
   {
-    value: 'Fully Employed In Other Company',
+    value: 'FullTimeInOtherCompany',
     label: 'Full time in another company',
   },
 ];

@@ -250,8 +250,8 @@ export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
 ];
 
 export const DocumentTempSelect: IReactSelectInterface[] = [
-  { value: 'workingProof', label: 'Working Proof' },
-  { value: 'sickNote', label: 'Sick Note' },
+  { value: 'workingProof', label: languageTranslation('WORKING_PROOF_LABEL') },
+  { value: 'sickNote', label: languageTranslation('SICK_NOTE_LABEL') },
 ];
 
 export const Gender: IReactSelectInterface[] = [
@@ -321,19 +321,19 @@ export const CalculationInterval: IReactSelectInterface[] = [
   { value: 'Weekly On Mondays', label: 'Weekly on Mondays' },
 ];
 export const Supplements: IReactSelectInterface[] = [
-  { value: 'Exclusive', label: 'Exclusive' },
-  { value: 'Cumulative', label: 'Cumulative' },
+  { value: 'Exclusive', label: languageTranslation("EXCLUSIVE_LABEL") },
+  { value: 'Cumulative', label: languageTranslation("CUMULATIVE_LABEL") },
 ];
 
 export const MaritalStatus: IReactSelectInterface[] = [
-  { value: 'Divorced', label: 'Divorced' },
-  { value: 'Single', label: 'Single' },
-  { value: 'Married', label: 'Married' },
+  { value: 'Divorced', label: languageTranslation('DIVORSED_LABEL') },
+  { value: 'Single', label: languageTranslation('SINGLE_LABEL') },
+  { value: 'Married', label: languageTranslation('MARRIED_LABEL') },
   {
     value: 'MarriedPermanentlySeparated',
-    label: 'Married, Permanently separated',
+    label: languageTranslation('SEPEARTED_LABEL'),
   },
-  { value: 'Widowed', label: 'Widowed' },
+  { value: 'Widowed', label: languageTranslation('WIDOWED_LABEL') },
 ];
 
 
@@ -1071,50 +1071,50 @@ export const StatusOptions: IReactSelectInterface[] = [
 export const LeasingPriceList: IReactSelectInterface[] = [
   {
     label: 'Default caregiver',
-    value: 'Default caregiver',
+    value: languageTranslation("DEFAULT_CAREGIVER"),
   },
   {
     label: 'Permanent worker 12,5',
-    value: 'Permanent worker 12,5',
+    value: languageTranslation("PERMANENT_WORKER_12_5_LABEL"),
   },
   {
     label: 'Permanent worker 14,5',
-    value: 'Permanent worker 14,5',
+    value: languageTranslation("PERMANENT_WORKER_14_5_LABEL"),
   },
   {
     label: 'Permanent worker 20,0',
-    value: 'Permanent worker 20,0',
+    value: languageTranslation("PERMANENT_WORKER_20_5_LABEL"),
   },
   {
     label: 'Permanent worker 23,5',
-    value: 'Permanent worker 23,5',
+    value: languageTranslation("PERMANENT_WORKER_23_5_LABEL"),
   },
   {
     label: 'Permanent worker 25,0',
-    value: 'Permanent worker 25,0',
+    value: languageTranslation("PERMANENT_WORKER_25_5_LABEL"),
   },
   {
     label: 'Permanent worker 26,0',
-    value: 'Permanent worker 26,0',
+    value: languageTranslation("PERMANENT_WORKER_26_5_LABEL"),
   },
   {
     label: 'Permanent worker 27,0',
-    value: 'Permanent worker 27,0',
+    value: languageTranslation("PERMANENT_WORKER_27_5_LABEL"),
   },
 ];
 
 export const CareInstLeasingPriceList: IReactSelectInterface[] = [
   {
     label: 'Facility 22,5',
-    value: 'Facility 22,5',
+    value: languageTranslation("FACILITY_22_5"),
   },
   {
     label: 'Facility 23,5',
-    value: 'Facility 23,5',
+    value: languageTranslation("FACILITY_23_5"),
   },
   {
     label: 'Facility 25,5',
-    value: 'Facility 25,5',
+    value: languageTranslation("FACILITY_25_5"),
   },
 ];
 
@@ -1189,51 +1189,51 @@ export const EmailMenusTab: Array<{ name: string; icon: string }> = [
 export const DocumentTypes: IReactSelectInterface[] = [
   {
     value: 'Registration professional association',
-    label: 'Registration professional association',
+    label: languageTranslation("REGISTRATION_PROFESSIONAL_ASSOCIATION"),
   },
-  { value: 'Registration health office', label: 'Registration health office' },
+  { value: 'Registration health office', label: languageTranslation("REGISTRATION_HEALTH_LABEL") },
   {
     value: 'Medical certificate / health certificate',
-    label: 'Medical certificate / health certificate',
+    label: languageTranslation("MEDICAL_HEALTH_CERTIFICATE"),
   },
   {
     value: 'Exemption from pension insurance',
-    label: 'Exemption from pension insurance',
+    label: languageTranslation("EXEMPTION_PENSION_LABEL"),
   },
   {
     value: 'Professional liability insurance (no application)',
-    label: 'Professional liability insurance (no application)',
+    label: languageTranslation("PROFESSIONAL_LIABILITY_LABEL"),
   },
   // { value: 'Various documents', label: 'Various documents' },
-  { value: 'First-aid pass', label: 'First-aid pass' },
-  { value: 'Driving license car', label: 'Driving license car' },
-  { value: 'Business registration', label: 'Business registration' },
-  { value: 'CV / Vita', label: 'CV / Vita' },
+  { value: 'First-aid pass', label: languageTranslation("FIRST_AID_PASS_LABEL") },
+  { value: 'Driving license car', label: languageTranslation("DRIVING_LICENSE_CAR_LABEL") },
+  { value: 'Business registration', label: languageTranslation("BUSINESS_REGISTRATION_LABEL") },
+  { value: 'CV / Vita', label:  languageTranslation("CV_VITA_LABEL") },
   {
     value: 'Proof of employees subject to social security contributions',
-    label: 'Proof of employees subject to social security contributions',
+    label:  languageTranslation("PROOF_EMPLOYEE_SUBJECT_LABEL"),
   },
   {
     value: 'User agreement (all 5 pages)',
-    label: 'User agreement (all 5 pages)',
+    label: languageTranslation("USER_AGREEMENT_LABEL"),
   },
   {
     value: 'Criminal record certificate',
-    label: 'Criminal record certificate',
+    label: languageTranslation("CRIMINAL_RECORD_LABEL"),
   },
   {
     value: 'Police certificate of good conduct, expanded',
-    label: 'Police certificate of good conduct, expanded',
+    label: languageTranslation("POLICE_CERTIFICATE_LABEL"),
   },
   {
     value: 'Framework contract for fixed-term contracts',
-    label: 'Framework contract for fixed-term contracts',
+    label: languageTranslation("FRAMEWORK_CONTRACT_LABEL"),
   },
-  { value: 'Governance agreement', label: 'Governance agreement' },
-  { value: 'Pension Insurance', label: 'Pension Insurance' },
+  { value: 'Governance agreement', label: languageTranslation("GOVERNMENT_AGREEMENT_LABEL") },
+  { value: 'Pension Insurance', label: languageTranslation("PENSION_INSURANCE_LABEL") },
   {
     value: 'Certificate / diploma / exam',
-    label: 'Certificate / diploma / exam',
+    label: languageTranslation("CERTIFICATE_DIPLOMA_LABEL"),
   },
 ];
 

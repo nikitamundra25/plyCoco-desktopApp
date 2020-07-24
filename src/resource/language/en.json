@@ -1304,6 +1304,24 @@
    "TILL":"till",
 
 
+   "BY_EMAILS_WITHOUT_DOCUMENTS":"By emails without documents",
+    "BY_EMAIL_WITH_DOCUMENTS":"By email with documents",
+    "BY_POST_AND_EMAIL_WITHOUT_DOCUMENTS":"By post + email without documents",
+    "BY_POST_AND_EMAIL_WITH_DOCUMENTS":"By post + email with documents",
+    "ONE_EMAIL_FOR_EACH_INVOICE":"One Email For Each Invoice",
+    "ONE_EMAIL_FOR_EACH_INVOICE_INCL_WORKING_PROOF":"One Email For Each Invoice Incl. Working Proof",
+    "VIA_EMAIL_WITHOUT_WORK_PROOF":"Via Email Without Work Proof",
+    "VIA_EMAIL_WITH_WORK_PROOF":"via Email With Work Proof",
+    
+    "MONTHLY_FOR_1ST":"Monthly for the 1st",
+    "SEMIMONTHLY_FOR_1_AND_16":"Semimonthly for 1 and 16",
+    "WEEKLY_MONDAYS":"Weekly Mondays",
+    
+    "VOLUNTARILY_INSURED_BY_LAW":"Voluntarily insured by law",
+    "LEGALLY_INSURED":"Legally insured",
+    "PRIVATELY_INSURED":"Privately insured",
+
+
    "ACTIMONDA_BKK": "actimonda BKK",
    "ACTIMONDA_BKK_(NBL)": "actimonda BKK (NBL)",
    "AKA_AUGENOPTIKER_AUSGL.kASSE": "AKA Augenoptiker Ausgl.kasse",
@@ -1510,4 +1528,5 @@
    "Landeskrankenhilfe_V.V.a.G.": "Landeskrankenhilfe V.V.a.G.",
    "LIGA_KRANKENVERSICHERUNG_KATHOLISCHER_PRIESTER_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT_REGENSBURG": "LIGA Krankenversicherung katholischer Priester Versicherungsverein auf Gegenseitigkeit Regensburg",
    "LKK_NIEDERSACHSEN-BREMEN": "LKK Niedersachsen-Bremen"
+
   }

@@ -1293,5 +1293,24 @@
    "REQUIRED_DATEOFBIRTH":"Date of birth is required",
    "WORKER":"Arbeiter",
    "NO_WORKING_HISTORY_AVAILABLE":"No working history available",
-   "TILL":"bis"
+   "TILL":"bis",
+
+
+   
+   "BY_EMAILS_WITHOUT_DOCUMENTS":"By emails without documents",
+    "BY_EMAIL_WITH_DOCUMENTS":"By email with documents",
+    "BY_POST_AND_EMAIL_WITHOUT_DOCUMENTS":"By post + email without documents",
+    "BY_POST_AND_EMAIL_WITH_DOCUMENTS":"By post + email with documents",
+    "ONE_EMAIL_FOR_EACH_INVOICE":"One Email For Each Invoice",
+    "ONE_EMAIL_FOR_EACH_INVOICE_INCL_WORKING_PROOF":"One Email For Each Invoice Incl. Working Proof",
+    "VIA_EMAIL_WITHOUT_WORK_PROOF":"Via Email Without Work Proof",
+    "VIA_EMAIL_WITH_WORK_PROOF":"via Email With Work Proof",
+    
+    "MONTHLY_FOR_1ST":"Monthly for the 1st",
+    "SEMIMONTHLY_FOR_1_AND_16":"Semimonthly for 1 and 16",
+    "WEEKLY_MONDAYS":"Weekly Mondays",
+    
+    "VOLUNTARILY_INSURED_BY_LAW":"Voluntarily insured by law",
+    "LEGALLY_INSURED":"Legally insured",
+    "PRIVATELY_INSURED":"Privately insured"
 }

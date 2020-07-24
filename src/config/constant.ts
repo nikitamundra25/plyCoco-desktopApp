@@ -331,7 +331,7 @@ export const MaritalStatus: IReactSelectInterface[] = [
   { value: 'Single', label: 'Single' },
   { value: 'Married', label: 'Married' },
   {
-    value: 'Married, Permanently separated',
+    value: 'MarriedPermanentlySeparated',
     label: 'Married, Permanently separated',
   },
   { value: 'Widowed', label: 'Widowed' },

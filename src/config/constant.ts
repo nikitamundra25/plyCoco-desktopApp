@@ -732,226 +732,226 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   { label: languageTranslation('LKK_NIEDERSACHSEN-BREMEN'), value: 'LKK Niedersachsen-Bremen' },
   {
-    label: 'Lohnfortzahlungskasse Aurich VVaG',
+    label: languageTranslation('Lohnfortzahlungskasse Aurich VVaG'),
     value: 'Lohnfortzahlungskasse Aurich VVaG',
   },
   {
-    label: 'Lohnfortzahlungskasse Leer VVaG',
+    label: languageTranslation('LOHNFORTZAHLUNGSKASSE_LEER_VVAG'),
     value: 'Lohnfortzahlungskasse Leer VVaG',
   },
   {
-    label: 'LVM Krankenversicherungs-AG',
+    label: languageTranslation('LVM_KRANKENVERSICHERUNGS-AG'),
     value: 'LVM Krankenversicherungs-AG',
   },
   {
-    label: 'Mannheimer Krankenversicherung Aktiengesellschaft',
+    label: languageTranslation('MANNHEIMER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
     value: 'Mannheimer Krankenversicherung Aktiengesellschaft',
   },
   {
-    label: 'Mecklenburgische Krankenversicherungs-Aktiengesellschaft',
+    label: languageTranslation('MECKLENBURGISCHE_KRANKENVERSICHERUNGS-AKTIENGESELLSCHAFT'),
     value: 'Mecklenburgische Krankenversicherungs-Aktiengesellschaft',
   },
-  { label: 'Miele BKK', value: 'Miele BKK' },
+  { label: languageTranslation('Miele_BKK'), value: 'Miele BKK' },
   { label: 'Miele BKK (NBL)', value: 'Miele BKK (NBL)' },
   {
-    label: 'MÜNCHENER VEREIN Krankenversicherung a.G.',
+    label: languageTranslation('MÜNCHENER_VEREIN_Krankenversicherung_a.G.'),
     value: 'MÜNCHENER VEREIN Krankenversicherung a.G.',
   },
   {
-    label: 'Niedersächs.Versorgungsw.d. RA',
+    label: languageTranslation('Niedersächs.Versorgungsw.d._RA'),
     value: 'Niedersächs.Versorgungsw.d. RA',
   },
   {
-    label: 'NÜRNBERGER Krankenversicherung Aktiengesellschaft',
+    label: languageTranslation('NÜRNBERGER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
     value: 'NÜRNBERGER Krankenversicherung Aktiengesellschaft',
   },
   {
-    label: 'PAX-FAMILIENFÜRSORGE Krankenversicherung AG',
+    label: languageTranslation('PAX-FAMILIENFÜRSORGE_KRANKENVERSICHERUNG_AG'),
     value: 'PAX-FAMILIENFÜRSORGE Krankenversicherung AG',
   },
   {
-    label: 'praenatura Versicherungsverein auf Gegenseitigkeit (VVaG)',
+    label: languageTranslation('PRAENATURA_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT(VVAG)'),
     value: 'praenatura Versicherungsverein auf Gegenseitigkeit (VVaG)',
   },
-  { label: 'pronova BKK', value: 'pronova BKK' },
-  { label: 'pronova BKK (NBL)', value: 'pronova BKK (NBL)' },
+  { label: languageTranslation('PRONOVA_BKK'), value: 'pronova BKK' },
+  { label: languageTranslation('PRONOVA_BKK(NBL)'), value: 'pronova BKK (NBL)' },
   {
-    label: 'Provinzial Krankenversicherung Hannover AG',
+    label: languageTranslation('PROVINZIAL_KRANKENVERSICHERUNG_HANNOVER_AG'),
     value: 'Provinzial Krankenversicherung Hannover AG',
   },
   {
-    label: 'R+V Krankenversicherung Aktiengesellschaft',
+    label: languageTranslation('R+V_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
     value: 'R+V Krankenversicherung Aktiengesellschaft',
   },
-  { label: 'Sächsische Ärzteversorgung', value: 'Sächsische Ärzteversorgung' },
+  { label: languageTranslation('Sächsische_Ärzteversorgung'), value: 'Sächsische Ärzteversorgung' },
   {
-    label: 'Sächsische Landesapotkerkammer',
+    label: languageTranslation('Sächsische_Landesapotkerkammer'),
     value: 'Sächsische Landesapotkerkammer',
   },
-  { label: 'Salus BKK', value: 'Salus BKK' },
-  { label: 'Salus BKK (NBL)', value: 'Salus BKK (NBL)' },
-  { label: 'Schwenninger BKK', value: 'Schwenninger BKK' },
-  { label: 'Schwenninger BKK (NBL)', value: 'Schwenninger BKK (NBL)' },
-  { label: 'SECURVITA BKK', value: 'SECURVITA BKK' },
-  { label: 'SECURVITA BKK (NBL)', value: 'SECURVITA BKK (NBL)' },
-  { label: 'See-Krankenkasse', value: 'See-Krankenkasse' },
-  { label: 'Seekrankenkasse', value: 'Seekrankenkasse' },
-  { label: 'Siemens BKK (NBL)', value: 'Siemens BKK (NBL)' },
-  { label: 'Siemens BKK (SBK)', value: 'Siemens BKK (SBK)' },
+  { label: languageTranslation('Salus_BKK'), value: 'Salus BKK' },
+  { label: languageTranslation('Salus_BKK(NBL)'), value: 'Salus BKK (NBL)' },
+  { label: languageTranslation('SCHWENNINGER_BKK'), value: 'Schwenninger BKK' },
+  { label: languageTranslation('SCHWENNINGER_BKK(NBL)'), value: 'Schwenninger BKK (NBL)' },
+  { label: languageTranslation('SECURVITA_BKK'), value: 'SECURVITA BKK' },
+  { label: languageTranslation('SECURVITA_BKK(NBL)'), value: 'SECURVITA BKK (NBL)' },
+  { label: languageTranslation('See-Krankenkasse'), value: 'See-Krankenkasse' },
+  { label: languageTranslation('SEEKRANKENKASSE'), value: 'Seekrankenkasse' },
+  { label: languageTranslation('SIEMENS_BKK(NBL)'), value: 'Siemens BKK (NBL)' },
+  { label: languageTranslation('SIEMENS_BKK(SBK)'), value: 'Siemens BKK (SBK)' },
   {
-    label: 'SIGNAL Krankenversicherung a.G.',
+    label: languageTranslation('SIGNAL_Krankenversicherung a.G.'),
     value: 'SIGNAL Krankenversicherung a.G.',
   },
   {
-    label: 'SONO Krankenversicherung a.G.',
+    label: languageTranslation('SONO_Krankenversicherung a.G.'),
     value: 'SONO Krankenversicherung a.G.',
   },
   {
     label:
-      'St. Martinus Priesterverein d. Diözese Rottenburg-…d Sterbekasse-(KSK) Vers.Verein auf Gegenseitigk.',
+    languageTranslation('St._Martinus_Priesterverein_d._Diözese Rottenburg-…d_Sterbekasse-(KSK)_Vers.Verein_auf_Gegenseitigk.'),
     value:
       'St. Martinus Priesterverein d. Diözese Rottenburg-…d Sterbekasse-(KSK) Vers.Verein auf Gegenseitigk.',
   },
   {
-    label: 'Steuerberatervers. Brandenburg',
+    label: languageTranslation('Steuerberatervers._Brandenburg'),
     value: 'Steuerberatervers. Brandenburg',
   },
-  { label: 'Steuerberatervers.Nieders.', value: 'Steuerberatervers.Nieders.' },
+  { label: languageTranslation('Steuerberatervers.Nieders.'), value: 'Steuerberatervers.Nieders.' },
   {
-    label: 'Süddeutsche Krankenversicherung a.G.',
+    label: languageTranslation('Süddeutsche_Krankenversicherung_a.G.'),
     value: 'Süddeutsche Krankenversicherung a.G.',
   },
-  { label: 'TBK Thüringer BKK', value: 'TBK Thüringer BKK' },
-  { label: 'TBK Thüringer BKK (NBL)', value: 'TBK Thüringer BKK (NBL)' },
+  { label: languageTranslation('TBK_Thüringer_BKK'), value: 'TBK Thüringer BKK' },
+  { label: languageTranslation('TBK_Thüringer_BKK(NBL)'), value: 'TBK Thüringer BKK (NBL)' },
   {
-    label: 'Techniker Krankenkasse (TK)',
+    label: languageTranslation('TECHNIKER_KRANKENKASSE(TK)'),
     value: 'Techniker Krankenkasse (TK)',
   },
-  { label: 'Tierärztekammer Nordrhein', value: 'Tierärztekammer Nordrhein' },
+  { label: languageTranslation('Tierärztekammer_Nordrhein'), value: 'Tierärztekammer Nordrhein' },
   {
-    label: 'Tierärztevers.Niedersachsen',
+    label: languageTranslation('Tierärztevers.Niedersachsen'),
     value: 'Tierärztevers.Niedersachsen',
   },
   {
-    label: 'Tierärzteversorgung Meckl./V.',
+    label: languageTranslation('Tierärzteversorgung_Meckl./V.'),
     value: 'Tierärzteversorgung Meckl./V.',
   },
   {
-    label: 'UNION KRANKENVERSICHERUNG AKTIENGESELLSCHAFT',
+    label: languageTranslation('UNION_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
     value: 'UNION KRANKENVERSICHERUNG AKTIENGESELLSCHAFT',
   },
   {
-    label: 'uniVersa Krankenversicherung a.G.',
+    label: languageTranslation('uniVersa_Krankenversicherung_a.G.'),
     value: 'uniVersa Krankenversicherung a.G.',
   },
   {
-    label: 'Versorgungsw. Zahnärztek. Hamb',
+    label: languageTranslation('Versorgungsw._Zahnärztek._Hamb'),
     value: 'Versorgungsw. Zahnärztek. Hamb',
   },
   {
-    label: 'Versorgungswerk der Apoth.Hessen',
+    label: languageTranslation('VERSORGUNGSWERK_DER_APOTH.HESSEN'),
     value: 'Versorgungswerk der Apoth.Hessen',
   },
   {
-    label: 'Versorgungswerk der Apoth.NRW',
+    label: languageTranslation('VERSORGUNGSWERK_DER_APOTH.NRW'),
     value: 'Versorgungswerk der Apoth.NRW',
   },
   {
-    label: 'Versorgungswerk der Apoth.Schlesw.H',
+    label: languageTranslation('VERSORGUNGSWERK_DER_APOTH.SCHLESW.H'),
     value: 'Versorgungswerk der Apoth.Schlesw.H',
   },
   {
-    label: 'Versorgungswerk der Apoth.Westf/Lip',
+    label: languageTranslation('VERSORGUNGSWERK_DER_APOTH.WESTF/LIP'),
     value: 'Versorgungswerk der Apoth.Westf/Lip',
   },
   {
-    label: 'Versorgungswerk der Arch.Bayern',
+    label: languageTranslation('VERSORGUNGSWERK_DER_ARCH.BAYERN'),
     value: 'Versorgungswerk der Arch.Bayern',
   },
   {
-    label: 'Versorgungswerk der Arch.Berlin',
+    label: languageTranslation('VERSORGUNGSWERK_DER_ARCH.BERLIN'),
     value: 'Versorgungswerk der Arch.Berlin',
   },
   {
-    label: 'Versorgungswerk der Arch.NRW',
+    label: languageTranslation('VERSORGUNGSWERK_DER_ARCH.NRW'),
     value: 'Versorgungswerk der Arch.NRW',
   },
   {
-    label: 'Versorgungswerk der Arch.Sachsen',
+    label: languageTranslation('Versorgungswerk der Arch.Sachsen'),
     value: 'Versorgungswerk der Arch.Sachsen',
   },
   {
-    label: 'Versorgungswerk der Arch.Stuttgart',
+    label: languageTranslation('Versorgungswerk der Arch.Stuttgart'),
     value: 'Versorgungswerk der Arch.Stuttgart',
   },
   {
-    label: 'Versorgungswerk der Ärztekammer HH',
+    label: languageTranslation('VERSORGUNGSWERK_DER_ÄRZTEKAMMER_HH'),
     value: 'Versorgungswerk der Ärztekammer HH',
   },
   {
-    label: 'Versorgungswerk der LÄK Hessen',
+    label: languageTranslation('VERSORGUNGSWERK_DER_LÄK_HESSEN'),
     value: 'Versorgungswerk der LÄK Hessen',
   },
   {
-    label: 'Versorgungswerk der RA Baden-Wuert.',
+    label: languageTranslation('VERSORGUNGSWERK_DER_RA_BADEN-WUERT.'),
     value: 'Versorgungswerk der RA Baden-Wuert.',
   },
   {
-    label: 'Versorgungswerk der RA Bayern',
+    label: languageTranslation('VERSORGUNGSWERK_DER_RA_BAYERN'),
     value: 'Versorgungswerk der RA Bayern',
   },
   {
-    label: 'Versorgungswerk der RA Berlin',
+    label: languageTranslation('VERSORGUNGSWERK_DER_RA_BERLIN'),
     value: 'Versorgungswerk der RA Berlin',
   },
   {
-    label: 'Versorgungswerk der RA Brandenbg.',
+    label: languageTranslation('Versorgungswerk der RA Brandenbg.'),
     value: 'Versorgungswerk der RA Brandenbg.',
   },
   {
-    label: 'Versorgungswerk der RA Hamburg',
+    label: languageTranslation('VERSORGUNGSWERK_DER_RA_HAMBURG'),
     value: 'Versorgungswerk der RA Hamburg',
   },
   {
-    label: 'Versorgungswerk der RA Hessen',
+    label: languageTranslation('VERSORGUNGSWERK_DER_RA_HESSEN'),
     value: 'Versorgungswerk der RA Hessen',
   },
   {
-    label: 'Versorgungswerk der RA Mecklenbg-V.',
+    label: languageTranslation('VERSORGUNGSWERK_DER_RA_MECKLENBG'),
     value: 'Versorgungswerk der RA Mecklenbg-V.',
   },
-  { label: 'Versorgungswerk der RA NRW', value: 'Versorgungswerk der RA NRW' },
+  { label: languageTranslation('VERSORGUNGSWERK_DER_RA_NRW'), value: 'Versorgungswerk der RA NRW' },
   {
-    label: 'Versorgungswerk der RA Saarland',
+    label: languageTranslation('VERSORGUNGSWERK_DER_RA_SAARLAND'),
     value: 'Versorgungswerk der RA Saarland',
   },
   {
-    label: 'Versorgungswerk der StB Sachsen',
+    label: languageTranslation('VERSORGUNGSWERK_DER_STB_SACHSEN'),
     value: 'Versorgungswerk der StB Sachsen',
   },
   {
-    label: 'Versorgungswerk der StB Sachsen-Anh',
+    label: languageTranslation('VERSORGUNGSWERK_DER_STB_SACHSEN-ANH'),
     value: 'Versorgungswerk der StB Sachsen-Anh',
   },
   {
-    label: 'Versorgungswerk der Tierärztek.Münster',
+    label: languageTranslation('VERSORGUNGSWERK_DER_TIERÄRZTEK.MÜNSTER'),
     value: 'Versorgungswerk der Tierärztek.Münster',
   },
   {
-    label: 'Versorgungswerk der ZÄK Berlin',
+    label: languageTranslation('VERSORGUNGSWERK_DER_ZÄK_BERLIN'),
     value: 'Versorgungswerk der ZÄK Berlin',
   },
   {
-    label: 'Versorgungswerk WP u. BP NRW',
+    label: languageTranslation('VERSORGUNGSWERK_WP_U._BP_NRW'),
     value: 'Versorgungswerk WP u. BP NRW',
   },
-  { label: 'Viactiv', value: 'Viactiv' },
+  { label: languageTranslation('Viactiv'), value: 'Viactiv' },
   {
-    label: 'vigo Krankenversicherung VVaG',
+    label: languageTranslation('VIGO_KRANKENVERSICHERUNG_VVAG'),
     value: 'vigo Krankenversicherung VVaG',
   },
   {
-    label: 'Württembergische Krankenversicherung Aktiengesellschaft',
+    label: languageTranslation('WÜRTTEMBERGISCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
     value: 'Württembergische Krankenversicherung Aktiengesellschaft',
   },
 ];
@@ -975,28 +975,31 @@ export const Religion: IReactSelectInterface[] = [
   },
 ];
 
+
+
 export const Preoccupation: IReactSelectInterface[] = [
-  { value: 'OtherSidelineActivities', label: 'Other sideline activities' },
-  { value: 'Officials', label: 'Officials' },
-  { value: 'BlockwiseTIMyoCE', label: 'Blockwise TIMyoCE' },
+  { value: 'OtherSidelineActivities', label: languageTranslation('OTHER_SIDELINE_ACTIVITIES') },
+  { value: 'Officials', label:  languageTranslation('OFFICIALS') },
+  { value: 'BlockwiseTIMyoCE', label: languageTranslation('BLOCKWISE_TIMYOCE') },
   {
     value: 'PermanentlyEmployedTIMyoCE',
-    label: 'Permanently employed TIMyoCE',
+    label:  languageTranslation('PERMANENTLY_EMPLOYED_TIMYOCE'),
   },
-  { value: 'Pensioner', label: 'Pensioner' },
-  { value: 'PupilStudent', label: 'Pupil student' },
-  { value: 'SelfemployedFreelance', label: 'Self-employed/Freelance' },
+  { value: 'Pensioner', label:  languageTranslation('PENSIONER') },
+  { value: 'PupilStudent', label:  languageTranslation('PUPIL_STUDENT') },
+  { value: 'SelfemployedFreelance', label:  languageTranslation('SELF_EMPLOYED_FREELANCE') },
   {
     value: 'FullTimeInOtherCompany',
-    label: 'Full time in another company',
+    label:  languageTranslation('FULL_TIME_IN_ANOTHER_COMPANY'),
   },
 ];
 
+
 export const NightAllowancePerHour: IReactSelectInterface[] = [
-  { value: 'From 10 p.m.', label: 'From 10 p.m.' },
-  { value: 'From 8 p.m.', label: 'From 8 p.m.' },
-  { value: 'From 8:45 p.m.', label: 'From 8:45 p.m.' },
-  { value: 'From 9 p.m.', label: 'From 9 p.m.' },
+  { value: '22:00', label: languageTranslation('FROM_10_PM') },
+  { value: '20:00', label: languageTranslation('FROM_8_PM') },
+  { value: '20:45', label: languageTranslation('FROM_8:45_PM') },
+  { value: '21:00', label: languageTranslation('FROM_9:00_PM') },
 ];
 
 export const Priority: IReactSelectInterface[] = [
@@ -1274,6 +1277,7 @@ export const ShiftTime: IReactSelectInterface[] = [
   },
   { value: '22:00-06:00', label: '22:00-06:00 Night' },
 ];
+
 export const InvoiceFilter: IReactSelectInterface[] = [
   {
     value: 'Select all by email',
@@ -1285,6 +1289,7 @@ export const InvoiceFilter: IReactSelectInterface[] = [
   },
   { value: 'Select all', label: languageTranslation('SELECT_ALL') },
 ];
+
 export const InvoiceSummaryFilter: IReactSelectInterface[] = [
   { value: 'all', label: languageTranslation('ALL') },
   {

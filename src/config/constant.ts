@@ -148,41 +148,41 @@ export const ContactType: IReactSelectInterface[] = [
 
 export const InvoiceType: IReactSelectInterface[] = [
   {
-    value: 'By emails without documents',
+    value: 'ByEmailsWithoutDocuments',
     label: 'By emails without documents',
   },
-  { value: 'By email with documents', label: 'By email with documents' },
+  { value: 'ByEmailsWithDocuments', label: 'By email with documents' },
   {
-    value: 'By post + email without documents',
+    value: 'ByPostAndEmailWithoutDocuments',
     label: 'By post + email without documents',
   },
   {
-    value: 'By post + email with documents',
+    value: 'ByPostAndEmailWithDocuments',
     label: 'By post + email with documents',
   },
   {
-    value: 'One Email For Each Invoice',
+    value: 'OneEmailForEachInvoice',
     label: 'One Email For Each Invoice',
   },
   {
-    value: 'One Email For Each Invoice Incl. Working Proof',
+    value: 'OneEmailForEachInvoiceInclWorkingProof',
     label: 'One Email For Each Invoice Incl. Working Proof',
   },
   {
-    value: 'Via Email Without Work Proof',
+    value: 'ViaEmailWithoutWorkProof',
     label: 'Via Email Without Work Proof',
   },
   {
-    value: 'via Email With Work Proof',
+    value: 'viaEmailWithWorkProof',
     label: 'via Email With Work Proof',
   },
 ];
 
 export const InvoiceInterval: IReactSelectInterface[] = [
-  { value: 'Monthly for the 1st', label: 'Monthly for the 1st' },
-  { value: 'Semimonthly for 1 and 16', label: 'Semimonthly for 1 and 16' },
+  { value: 'MonthlyForThe1st', label: 'Monthly for the 1st' },
+  { value: 'SemimonthlyFor1and16', label: 'Semimonthly for 1 and 16' },
   {
-    value: 'Weekly Mondays',
+    value: 'WeeklyMondays',
     label: 'Weekly Mondays',
   },
 ];
@@ -205,7 +205,6 @@ export const LeasingInvoiceTax: IReactSelectInterface[] = [
   { value: '16', label: `16% ${languageTranslation('TAX')}` },
   { value: '19',label: `19% ${languageTranslation('TAX')}`},
 ];
-
 
 
 export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
@@ -255,6 +254,7 @@ export const DocumentTempSelect: IReactSelectInterface[] = [
   { value: 'workingProof', label: 'Working Proof' },
   { value: 'sickNote', label: 'Sick Note' },
 ];
+
 export const Gender: IReactSelectInterface[] = [
   {
     value: languageTranslation('MALE'),

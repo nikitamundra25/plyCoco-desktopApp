@@ -146,45 +146,44 @@ export const ContactType: IReactSelectInterface[] = [
   { value: 'Vice director', label: 'Vice director' },
 ];
 
+
+
 export const InvoiceType: IReactSelectInterface[] = [
   {
-    value: 'By emails without documents',
-    label: 'By emails without documents',
+    value: 'ByEmailsWithoutDocuments',
+    label: languageTranslation('BY_EMAILS_WITHOUT_DOCUMENTS'),
   },
-  { value: 'By email with documents', label: 'By email with documents' },
+  { value: 'ByEmailsWithDocuments', label: languageTranslation('BY_EMAIL_WITH_DOCUMENTS') },
   {
-    value: 'By post + email without documents',
-    label: 'By post + email without documents',
-  },
-  {
-    value: 'By post + email with documents',
-    label: 'By post + email with documents',
+    value: 'ByPostAndEmailWithoutDocuments',
+    label: languageTranslation('BY_POST_AND_EMAIL_WITHOUT_DOCUMENTS'),
   },
   {
-    value: 'One Email For Each Invoice',
-    label: 'One Email For Each Invoice',
+    value: 'ByPostAndEmailWithDocuments',
+    label: languageTranslation('BY_POST_AND_EMAIL_WITH_DOCUMENTS'),
   },
   {
-    value: 'One Email For Each Invoice Incl. Working Proof',
-    label: 'One Email For Each Invoice Incl. Working Proof',
+    value: 'OneEmailForEachInvoice',
+    label: languageTranslation('ONE_EMAIL_FOR_EACH_INVOICE'),
   },
   {
-    value: 'Via Email Without Work Proof',
-    label: 'Via Email Without Work Proof',
+    value: 'OneEmailForEachInvoiceInclWorkingProof',
+    label: languageTranslation('ONE_EMAIL_FOR_EACH_INVOICE_INCL_WORKING_PROOF'),
   },
   {
-    value: 'via Email With Work Proof',
-    label: 'via Email With Work Proof',
+    value: 'ViaEmailWithoutWorkProof',
+    label: languageTranslation('VIA_EMAIL_WITHOUT_WORK_PROOF'),
+  },
+  {
+    value: 'viaEmailWithWorkProof',
+    label: languageTranslation('VIA_EMAIL_WITH_WORK_PROOF'),
   },
 ];
 
 export const InvoiceInterval: IReactSelectInterface[] = [
-  { value: 'Monthly for the 1st', label: 'Monthly for the 1st' },
-  { value: 'Semimonthly for 1 and 16', label: 'Semimonthly for 1 and 16' },
-  {
-    value: 'Weekly Mondays',
-    label: 'Weekly Mondays',
-  },
+  { value: 'MonthlyForThe1st', label: languageTranslation('MONTHLY_FOR_1ST') },
+  { value: 'SemimonthlyFor1and16', label: languageTranslation('SEMIMONTHLY_FOR_1_AND_16')},
+  { value: 'WeeklyMondays', label: languageTranslation('WEEKLY_MONDAYS')},
 ];
 
 
@@ -205,7 +204,6 @@ export const LeasingInvoiceTax: IReactSelectInterface[] = [
   { value: '16', label: `16% ${languageTranslation('TAX')}` },
   { value: '19',label: `19% ${languageTranslation('TAX')}`},
 ];
-
 
 
 export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
@@ -255,6 +253,7 @@ export const DocumentTempSelect: IReactSelectInterface[] = [
   { value: 'workingProof', label: 'Working Proof' },
   { value: 'sickNote', label: 'Sick Note' },
 ];
+
 export const Gender: IReactSelectInterface[] = [
   {
     value: languageTranslation('MALE'),
@@ -337,10 +336,11 @@ export const MaritalStatus: IReactSelectInterface[] = [
   { value: 'Widowed', label: 'Widowed' },
 ];
 
+
 export const HealthInsuranceType: IReactSelectInterface[] = [
-  { value: 'VoluntarilyInsuredByLaw', label: 'Voluntarily insured by law' },
-  { value: 'LegallyInsured', label: 'Legally insured' },
-  { value: 'PrivatelyInsured', label: 'Privately insured' },
+  { value: 'VoluntarilyInsuredByLaw',  label: languageTranslation('VOLUNTARILY_INSURED_BY_LAW')},
+  { value: 'LegallyInsured', label: languageTranslation('LEGALLY_INSURED') },
+  { value: 'PrivatelyInsured', label: languageTranslation('PRIVATELY_INSURED')},
 ];
 
 export const HealthInsuranceProvider: IReactSelectInterface[] = [
@@ -976,18 +976,18 @@ export const Religion: IReactSelectInterface[] = [
 ];
 
 export const Preoccupation: IReactSelectInterface[] = [
-  { value: 'Other Sideline Activities', label: 'Other sideline activities' },
+  { value: 'OtherSidelineActivities', label: 'Other sideline activities' },
   { value: 'Officials', label: 'Officials' },
-  { value: 'Blockwise TIMyoCE', label: 'Blockwise TIMyoCE' },
+  { value: 'BlockwiseTIMyoCE', label: 'Blockwise TIMyoCE' },
   {
-    value: 'Permanently Employed TIMyoCE',
+    value: 'PermanentlyEmployedTIMyoCE',
     label: 'Permanently employed TIMyoCE',
   },
   { value: 'Pensioner', label: 'Pensioner' },
-  { value: 'Pupil Student', label: 'Pupil student' },
-  { value: 'Self-employed/Freelance', label: 'Self-employed/Freelance' },
+  { value: 'PupilStudent', label: 'Pupil student' },
+  { value: 'SelfemployedFreelance', label: 'Self-employed/Freelance' },
   {
-    value: 'Fully Employed In Other Company',
+    value: 'FullTimeInOtherCompany',
     label: 'Full time in another company',
   },
 ];

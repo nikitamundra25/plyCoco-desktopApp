@@ -146,45 +146,44 @@ export const ContactType: IReactSelectInterface[] = [
   { value: 'Vice director', label: 'Vice director' },
 ];
 
+
+
 export const InvoiceType: IReactSelectInterface[] = [
   {
     value: 'ByEmailsWithoutDocuments',
-    label: 'By emails without documents',
+    label: languageTranslation('BY_EMAILS_WITHOUT_DOCUMENTS'),
   },
-  { value: 'ByEmailsWithDocuments', label: 'By email with documents' },
+  { value: 'ByEmailsWithDocuments', label: languageTranslation('BY_EMAIL_WITH_DOCUMENTS') },
   {
     value: 'ByPostAndEmailWithoutDocuments',
-    label: 'By post + email without documents',
+    label: languageTranslation('BY_POST_AND_EMAIL_WITHOUT_DOCUMENTS'),
   },
   {
     value: 'ByPostAndEmailWithDocuments',
-    label: 'By post + email with documents',
+    label: languageTranslation('BY_POST_AND_EMAIL_WITH_DOCUMENTS'),
   },
   {
     value: 'OneEmailForEachInvoice',
-    label: 'One Email For Each Invoice',
+    label: languageTranslation('ONE_EMAIL_FOR_EACH_INVOICE'),
   },
   {
     value: 'OneEmailForEachInvoiceInclWorkingProof',
-    label: 'One Email For Each Invoice Incl. Working Proof',
+    label: languageTranslation('ONE_EMAIL_FOR_EACH_INVOICE_INCL_WORKING_PROOF'),
   },
   {
     value: 'ViaEmailWithoutWorkProof',
-    label: 'Via Email Without Work Proof',
+    label: languageTranslation('VIA_EMAIL_WITHOUT_WORK_PROOF'),
   },
   {
     value: 'viaEmailWithWorkProof',
-    label: 'via Email With Work Proof',
+    label: languageTranslation('VIA_EMAIL_WITH_WORK_PROOF'),
   },
 ];
 
 export const InvoiceInterval: IReactSelectInterface[] = [
-  { value: 'MonthlyForThe1st', label: 'Monthly for the 1st' },
-  { value: 'SemimonthlyFor1and16', label: 'Semimonthly for 1 and 16' },
-  {
-    value: 'WeeklyMondays',
-    label: 'Weekly Mondays',
-  },
+  { value: 'MonthlyForThe1st', label: languageTranslation('MONTHLY_FOR_1ST') },
+  { value: 'SemimonthlyFor1and16', label: languageTranslation('SEMIMONTHLY_FOR_1_AND_16')},
+  { value: 'WeeklyMondays', label: languageTranslation('WEEKLY_MONDAYS')},
 ];
 
 
@@ -337,10 +336,11 @@ export const MaritalStatus: IReactSelectInterface[] = [
   { value: 'Widowed', label: 'Widowed' },
 ];
 
+
 export const HealthInsuranceType: IReactSelectInterface[] = [
-  { value: 'VoluntarilyInsuredByLaw', label: 'Voluntarily insured by law' },
-  { value: 'LegallyInsured', label: 'Legally insured' },
-  { value: 'PrivatelyInsured', label: 'Privately insured' },
+  { value: 'VoluntarilyInsuredByLaw',  label: languageTranslation('VOLUNTARILY_INSURED_BY_LAW')},
+  { value: 'LegallyInsured', label: languageTranslation('LEGALLY_INSURED') },
+  { value: 'PrivatelyInsured', label: languageTranslation('PRIVATELY_INSURED')},
 ];
 
 export const HealthInsuranceProvider: IReactSelectInterface[] = [

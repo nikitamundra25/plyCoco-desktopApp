@@ -975,28 +975,31 @@ export const Religion: IReactSelectInterface[] = [
   },
 ];
 
+
+
 export const Preoccupation: IReactSelectInterface[] = [
-  { value: 'OtherSidelineActivities', label: 'Other sideline activities' },
-  { value: 'Officials', label: 'Officials' },
-  { value: 'BlockwiseTIMyoCE', label: 'Blockwise TIMyoCE' },
+  { value: 'OtherSidelineActivities', label: languageTranslation('OTHER_SIDELINE_ACTIVITIES') },
+  { value: 'Officials', label:  languageTranslation('OFFICIALS') },
+  { value: 'BlockwiseTIMyoCE', label: languageTranslation('BLOCKWISE_TIMYOCE') },
   {
     value: 'PermanentlyEmployedTIMyoCE',
-    label: 'Permanently employed TIMyoCE',
+    label:  languageTranslation('PERMANENTLY_EMPLOYED_TIMYOCE'),
   },
-  { value: 'Pensioner', label: 'Pensioner' },
-  { value: 'PupilStudent', label: 'Pupil student' },
-  { value: 'SelfemployedFreelance', label: 'Self-employed/Freelance' },
+  { value: 'Pensioner', label:  languageTranslation('PENSIONER') },
+  { value: 'PupilStudent', label:  languageTranslation('PUPIL_STUDENT') },
+  { value: 'SelfemployedFreelance', label:  languageTranslation('SELF_EMPLOYED_FREELANCE') },
   {
     value: 'FullTimeInOtherCompany',
-    label: 'Full time in another company',
+    label:  languageTranslation('FULL_TIME_IN_ANOTHER_COMPANY'),
   },
 ];
 
+
 export const NightAllowancePerHour: IReactSelectInterface[] = [
-  { value: 'From 10 p.m.', label: 'From 10 p.m.' },
-  { value: 'From 8 p.m.', label: 'From 8 p.m.' },
-  { value: 'From 8:45 p.m.', label: 'From 8:45 p.m.' },
-  { value: 'From 9 p.m.', label: 'From 9 p.m.' },
+  { value: '22:00', label: languageTranslation('FROM_10_PM') },
+  { value: '20:00', label: languageTranslation('FROM_8_PM') },
+  { value: '20:45', label: languageTranslation('FROM_8:45_PM') },
+  { value: '21:00', label: languageTranslation('FROM_9:00_PM') },
 ];
 
 export const Priority: IReactSelectInterface[] = [
@@ -1274,6 +1277,7 @@ export const ShiftTime: IReactSelectInterface[] = [
   },
   { value: '22:00-06:00', label: '22:00-06:00 Night' },
 ];
+
 export const InvoiceFilter: IReactSelectInterface[] = [
   {
     value: 'Select all by email',
@@ -1285,6 +1289,7 @@ export const InvoiceFilter: IReactSelectInterface[] = [
   },
   { value: 'Select all', label: languageTranslation('SELECT_ALL') },
 ];
+
 export const InvoiceSummaryFilter: IReactSelectInterface[] = [
   { value: 'all', label: languageTranslation('ALL') },
   {

@@ -1304,6 +1304,24 @@
    "TILL":"till",
 
 
+   "BY_EMAILS_WITHOUT_DOCUMENTS":"By emails without documents",
+    "BY_EMAIL_WITH_DOCUMENTS":"By email with documents",
+    "BY_POST_AND_EMAIL_WITHOUT_DOCUMENTS":"By post + email without documents",
+    "BY_POST_AND_EMAIL_WITH_DOCUMENTS":"By post + email with documents",
+    "ONE_EMAIL_FOR_EACH_INVOICE":"One Email For Each Invoice",
+    "ONE_EMAIL_FOR_EACH_INVOICE_INCL_WORKING_PROOF":"One Email For Each Invoice Incl. Working Proof",
+    "VIA_EMAIL_WITHOUT_WORK_PROOF":"Via Email Without Work Proof",
+    "VIA_EMAIL_WITH_WORK_PROOF":"via Email With Work Proof",
+    
+    "MONTHLY_FOR_1ST":"Monthly for the 1st",
+    "SEMIMONTHLY_FOR_1_AND_16":"Semimonthly for 1 and 16",
+    "WEEKLY_MONDAYS":"Weekly Mondays",
+    
+    "VOLUNTARILY_INSURED_BY_LAW":"Voluntarily insured by law",
+    "LEGALLY_INSURED":"Legally insured",
+    "PRIVATELY_INSURED":"Privately insured",
+
+
    "ACTIMONDA_BKK": "actimonda BKK",
    "ACTIMONDA_BKK_(NBL)": "actimonda BKK (NBL)",
    "AKA_AUGENOPTIKER_AUSGL.kASSE": "AKA Augenoptiker Ausgl.kasse",
@@ -1578,5 +1596,14 @@
    "VERSORGUNGSWERK_WP_U._BP_NRW": "Versorgungswerk WP u. BP NRW",
    "VIACTIV": "Viactiv",
    "VIGO_KRANKENVERSICHERUNG_VVAG": "vigo Krankenversicherung VVaG",
-   "WÜRTTEMBERGISCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT": "Württembergische Krankenversicherung Aktiengesellschaft"
+   "WÜRTTEMBERGISCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT": "Württembergische Krankenversicherung Aktiengesellschaft",
+  
+  
+   "EVANGELICAL_CHURCH_LABEL":"Evangelical Church (EKD)",
+   "FREELY_RELIGIOUS_COMMUNITIES_LABEL":"Freely religious communities",
+   "JEWSIH_COMMUNITIES_LABEL":"Jewish Communities",
+   "CATHOLIC_BISHOPRIC_LABEL":"Catholic bishopric of the old Catholics in Germany",
+   "OTHERS_WITHOUT_LABEL":"Others without",
+   "ROMAN_CATHOLIC_CHURCH_LABEL":"Roman Catholic church",
+   "UNITARIAN_RELIGIOUS_LABEL":"Unitarian Religious Community Free Protestants"
   }

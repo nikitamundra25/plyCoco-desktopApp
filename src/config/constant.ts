@@ -316,10 +316,14 @@ export const Hours: IReactSelectInterface[] = [
   { value: '4', label: '4' },
 ];
 export const CalculationInterval: IReactSelectInterface[] = [
-  { value: 'Monthly to 1', label: 'Monthly to 1' },
-  { value: 'Bi-monthly to the 1 & 16', label: 'Bi-monthly to the 1 & 16' },
-  { value: 'Weekly On Mondays', label: 'Weekly on Mondays' },
+  { value: 'MonthlyForThe1st', label: languageTranslation('MONTHLY_FOR_1ST') },
+  {
+    value: 'SemimonthlyFor1And16',
+    label: languageTranslation('SEMIMONTHLY_FOR_1_AND_16'),
+  },
+  { value: 'WeeklyMondays', label: languageTranslation('WEEKLY_MONDAYS') },
 ];
+
 export const Supplements: IReactSelectInterface[] = [
   { value: 'Exclusive', label: languageTranslation("EXCLUSIVE_LABEL") },
   { value: 'Cumulative', label: languageTranslation("CUMULATIVE_LABEL") },

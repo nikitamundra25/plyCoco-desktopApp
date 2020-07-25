@@ -22,6 +22,7 @@ import {
   CareInstTIMyoCYAttrId,
   CareInstPlycocoAttrId,
   CareInstInActiveAttrId,
+  defaultDateFormat,
 } from "./../../../../config";
 import {
   IGetDaysArrayByMonthRes,
@@ -4595,10 +4596,7 @@ const Appointment: FunctionComponent = (props: any) => {
         : "",
     nightAllowance:
       caregiver && nightAllowance
-        ? {
-            value: nightAllowance,
-            label: nightAllowance,
-          }
+        ?  NightAllowancePerHour.filter((list:any) => list.value === nightAllowance)[0]
         : NightAllowancePerHour[0],
     holidayAllowance:
       item && (item.f === "block" || item.s === "block" || item.n === "block")
@@ -4621,7 +4619,7 @@ const Appointment: FunctionComponent = (props: any) => {
     otherExpenses: otherExpenses ? otherExpenses : "",
     workingHoursFromDate:
       workingHoursFromDateData && workingHoursFromDateData.length
-        ? workingHoursFromDateData[0]
+        ? moment(workingHoursFromDateData[0]).format(defaultDateFormat)
         : "",
     workingHoursFromTime:
       workingHoursFromDateData && workingHoursFromDateData.length
@@ -4629,18 +4627,18 @@ const Appointment: FunctionComponent = (props: any) => {
         : "",
     workingHoursToDate:
       workingHoursToDateData && workingHoursToDateData.length
-        ? workingHoursToDateData[0]
+        ? moment(workingHoursToDateData[0]).format(defaultDateFormat)
         : "",
     workingHoursToTime:
       workingHoursToDateData && workingHoursToDateData.length
         ? workingHoursToDateData[1]
         : "",
-    breakFromDate:
-      breakFromDateData && breakFromDateData.length ? breakFromDateData[0] : "",
+    breakFromDate: 
+      breakFromDateData && breakFromDateData.length ? moment(breakFromDateData[0]).format(defaultDateFormat) : "",
     breakFromTime:
       breakFromDateData && breakFromDateData.length ? breakFromDateData[1] : "",
     breakToDate:
-      breakToDateData && breakToDateData.length ? breakToDateData[0] : "",
+      breakToDateData && breakToDateData.length ? moment(breakToDateData[0]).format(defaultDateFormat) : "",
     breakToTime:
       breakToDateData && breakToDateData.length ? breakToDateData[1] : "",
     remarksCareGiver: caregiver && remarksCareGiver ? remarksCareGiver : "",

@@ -1716,5 +1716,20 @@
    "UKRAINE": "Ukraine",
    "UNGARN": "Ungarn",
    "UNGEKLÄRT/STAATENLOS": "ungeklärt/staatenlos",
-   "USA": "USA"
+   "USA": "USA",
+   
+   "ONLY_IF_DIFFERENT_BIRTH_NAME":"(only if different from family name)",
+   "CHILD_ALLOWANCE_FACTOR":"Child allowance factor",
+   "O_IF_NONE":"(0 if none)",
+   "TAX_BRACKET":"Tax Bracket",
+   "HEALTH_ISURANCE_TYPE":"Health insurance type",
+   "HEALTH_ISURANCE_PROVIDER":"Health insurance provider",
+   "SOCIAL_SECURITY_NUMBER":"Social Security Number",
+   "NECESSARY_ACCOUNT":"(only necessary if an account other than the one in the profile is required.)",
+   "SELECT_NATIONALITY":"Select Nationality",
+   "PAY_SLIP_TIMYOCE":"Pay Slip TimYOCE"
+
+
+
+
 }

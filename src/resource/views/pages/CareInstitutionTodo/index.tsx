@@ -20,6 +20,9 @@ import {
   PAGE_LIMIT,
   AppRoutes,
   TODO_PAGE_LIMIT,
+  TodoDateFilter,
+  Priority,
+  TodoFilter,
 } from '../../../../config';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { ToDoQueries } from '../../../../graphql/queries';
@@ -129,12 +132,22 @@ const CareInstitutionTodo: FunctionComponent = () => {
       if (searchData && searchData.priority) {
         priority = searchData.priority;
       }
-
+      let prioritydata = Priority.filter(
+        (x: any) => x.value === searchData.priority
+      )[0];
+      let todoFilterData = TodoFilter.filter(
+        (x: any) => x.value === searchData.toDoFilter
+      )[0];
+      let sortByDateData = TodoDateFilter.filter(
+        (x: any) => x.value === searchData.sortByDate
+      )[0];
       setSearchValues({
         toDoFilter: searchData.toDoFilter
           ? {
-              label:
-                searchData.toDoFilter.charAt(0).toUpperCase() +
+            label:
+            todoFilterData && todoFilterData.label
+              ? todoFilterData.label
+              : searchData.toDoFilter.charAt(0).toUpperCase() +
                 searchData.toDoFilter.slice(1),
               value: searchData.toDoFilter,
             }
@@ -147,14 +160,19 @@ const CareInstitutionTodo: FunctionComponent = () => {
                 value: searchData.priority,
               }
             : {
-                label: searchData.priority,
+              label:
+              prioritydata && prioritydata.label
+                ? prioritydata.label
+                : searchData.priority,
                 value: searchData.priority,
               }
           : undefined,
         sortByDate: searchData.sortByDate
           ? {
-              label:
-                searchData.sortByDate.charAt(0).toUpperCase() +
+            label:
+            sortByDateData && sortByDateData.label
+              ? sortByDateData.label
+              : searchData.sortByDate.charAt(0).toUpperCase() +
                 searchData.sortByDate.slice(1),
               value: searchData.sortByDate,
             }

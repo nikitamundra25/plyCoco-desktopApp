@@ -80,16 +80,16 @@ const CareGiver: FunctionComponent = () => {
       );
     }
     if (sortByValue === "3") {
-      sortBy.label = "A-Z";
+      sortBy.label = languageTranslation("SORTBY_OPTION3");
     }
     if (sortByValue === "4") {
-      sortBy.label = "Z-A";
+      sortBy.label = languageTranslation("SORTBY_OPTION4");
     }
     if (sortByValue === "2") {
-      sortBy.label = "Oldest";
+      sortBy.label = languageTranslation("SORTBY_OPTION2");
     }
     if (sortByValue === "1") {
-      sortBy.label = "Newest";
+      sortBy.label = languageTranslation("SORTBY_OPTION1");
     }
     if (query) {
       searchBy = query.search ? (query.search as string) : "";
@@ -101,7 +101,7 @@ const CareGiver: FunctionComponent = () => {
                 (key: any) => sortFilter[key] === query.sortBy
               ) || "1",
           }
-        : { label: "Newest", value: "1" };
+        : { label: languageTranslation("SORTBY_OPTION1"), value: "1" };
       isActive = query.status
         ? query.status === "active"
           ? { label: languageTranslation("ACTIVE"), value: "true" }

@@ -37,7 +37,7 @@ import {
 } from "../../../../../interfaces/qualification";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
 import { errorFormatter } from "../../../../../helpers";
-import { Gender, PlycocoInvoiceTax } from "../../../../../config";
+import { Gender, NightAllowancePerHour,LeasingPriceList,InvoiceInterval, PlycocoInvoiceTax } from "../../../../../config";
 let toastId: any;
 
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
@@ -278,15 +278,15 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         holiday: holiday ? parseFloat(holiday.replace(/,/g, ".")) : null,
         night: night ? parseFloat(night.replace(/,/g, ".")) : null,
         nightAllowance:
-          nightAllowance && nightAllowance.value ? nightAllowance.label : null,
+          nightAllowance && nightAllowance.value ? nightAllowance.value : null,
         regionId: regionId && regionId.value ? parseInt(regionId.value) : null,
         invoiceInterval:
           invoiceInterval && invoiceInterval.value
-            ? invoiceInterval.label
+            ? invoiceInterval.value
             : null,
         leasingPricingList:
           leasingPricingList && leasingPricingList.value
-            ? leasingPricingList.label
+            ? leasingPricingList.value
             : null,
             caregiverInvoiceTax:
             caregiverInvoiceTax 
@@ -516,10 +516,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           ],
     remarkData: "",
     invoiceInterval: invoiceInterval
-      ? {
-          label: invoiceInterval,
-          value: invoiceInterval,
-        }
+      ? InvoiceInterval.filter(({ value } : IReactSelectInterface) => value === invoiceInterval)[0]
       : undefined,
     qualifications: qualificationsData,
     fee: fee !== null ? germanNumberFormat(fee) : "",
@@ -527,18 +524,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : "",
     holiday: holiday !== null ? germanNumberFormat(holiday) : "",
     night: night !== null ? germanNumberFormat(night) : "",
-    nightAllowance: nightAllowance
-      ? {
-          label: nightAllowance,
-          value: nightAllowance,
-        }
-      : undefined,
+    nightAllowance: nightAllowance ? NightAllowancePerHour.filter(({value}:IReactSelectInterface ) => value === nightAllowance)[0] : undefined,
     leasingPricingList: leasingPricingList
-      ? {
-          label: leasingPricingList,
-          value: leasingPricingList,
-        }
-      : undefined,
+      ? LeasingPriceList.filter( ({value} : IReactSelectInterface) => value === leasingPricingList)[0]
+       : undefined,
       caregiverInvoiceTax:  caregiverInvoiceTax ? caregiverInvoiceTax : defaultTaxValue,
     salutation: salutation ,
     gender: gender

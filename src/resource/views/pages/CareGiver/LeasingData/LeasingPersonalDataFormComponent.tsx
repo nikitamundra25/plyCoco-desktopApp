@@ -128,9 +128,9 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row>
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label">
-                          Birth Name
+                          {languageTranslation("CAREGIVER_BIRTH_NAME_LABEL")}
                           <br />
-                          <small>(only if different from family name)</small>
+                          <small>{languageTranslation("ONLY_IF_DIFFERENT_BIRTH_NAME")} </small>
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -139,7 +139,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           <Field
                             component={FormikTextField}
                             name={"birthName"}
-                            placeholder="Birth Name"
+                            placeholder={languageTranslation("CAREGIVER_BIRTH_NAME_LABEL")}
                             className="width-common"
                             maxLength={30}
                           />
@@ -153,7 +153,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label">
-                          Nationality
+                          {languageTranslation("CAREGIVER_NATIONALITY_LABEL")}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -163,7 +163,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             name={"nationality"}
                             component={FormikSelectField}
                             options={Nationality}
-                            placeholder="Select Nationality"
+                            placeholder={languageTranslation("SELECT_NATIONALITY")}
                           />
                         </div>
                       </Col>
@@ -175,7 +175,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Marital Status
+                          {languageTranslation("CAREGIVER_MARITAL_STATUS_LABEL")}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -185,7 +185,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             component={FormikSelectField}
                             name={"maritalStatus"}
                             options={MaritalStatus}
-                            placeholder="Marital Status"
+                            placeholder= {languageTranslation("CAREGIVER_MARITAL_STATUS_LABEL")}
                           />
                         </div>
                       </Col>
@@ -197,9 +197,9 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row>
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Children
+                          {languageTranslation("CAREGIVER_CHILDREN_LABEL")}
                           <br />
-                          <small>(0 if none)</small>
+                          <small>{languageTranslation("O_IF_NONE")}</small>
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -208,7 +208,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           <Field
                             component={FormikTextField}
                             name={"children"}
-                            placeholder=" Children "
+                            placeholder= {languageTranslation("CAREGIVER_CHILDREN_LABEL")}
                           />
                         </div>
                       </Col>
@@ -221,9 +221,9 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row>
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Child allowance factor
+                         {languageTranslation("CHILD_ALLOWANCE_FACTOR")}
                           <br />
-                          <small>(0 if none)</small>
+                          <small>{languageTranslation("O_IF_NONE")} </small>
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -233,7 +233,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           <Field
                             component={FormikTextField}
                             name={"factorChildAllowance"}
-                            placeholder=" Child allowance factor "
+                            placeholder={languageTranslation("CHILD_ALLOWANCE_FACTOR")}
                             className="width-common"
                           />
                         </div>
@@ -246,7 +246,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Status
+                          {languageTranslation("STATUS")}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -256,7 +256,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             component={FormikSelectField}
                             name={"status"}
                             options={Status}
-                            placeholder="Status"
+                            placeholder={languageTranslation("STATUS")}
                           />
                         </div>
                       </Col>
@@ -268,7 +268,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Tax Bracket
+                          {languageTranslation("TAX_BRACKET")}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -277,7 +277,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                           <Field
                             component={FormikTextField}
                             name={"taxBracket"}
-                            placeholder="Tax Bracket"
+                            placeholder={languageTranslation("TAX_BRACKET")}
                           />
                         </div>
                       </Col>
@@ -290,7 +290,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label">
-                          Health insurance type
+                          {languageTranslation("HEALTH_ISURANCE_TYPE")}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -300,7 +300,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             component={FormikSelectField}
                             name={"healthInsuranceType"}
                             options={HealthInsuranceType}
-                            placeholder="Health Insurance Type"
+                            placeholder={languageTranslation("HEALTH_ISURANCE_TYPE")}
                           />
                         </div>
                       </Col>
@@ -312,7 +312,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Health insurance provider
+                          {languageTranslation("HEALTH_ISURANCE_PROVIDER")}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -322,7 +322,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             component={FormikSelectField}
                             name={"healthInsuranceProvider"}
                             options={HealthInsuranceProvider}
-                            placeholder="Health insurance provider"
+                            placeholder={languageTranslation("HEALTH_ISURANCE_PROVIDER")}
                           />
                         </div>
                       </Col>
@@ -334,7 +334,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Social Security Number
+                          {languageTranslation("SOCIAL_SECURITY_NUMBER")}
                           <br />
                           {/* <small>(example: 65170839J003)</small> */}
                           {/* <span className='required'>*</span> */}
@@ -357,7 +357,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Religion
+                          {languageTranslation("CAREGIVER_RELIGION_LABEL")}
                         </Label>
                       </Col>
                       <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
@@ -366,7 +366,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             component={FormikSelectField}
                             name={"religion"}
                             options={Religion}
-                            placeholder="Religion"
+                            placeholder={languageTranslation("CAREGIVER_RELIGION_LABEL")}
                           />
                         </div>
                       </Col>
@@ -378,7 +378,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row className="align-items-center">
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label">
-                          Preoccupation
+                          {languageTranslation("CAREGIVER_PREOCCUPATION_LABEL")}
                           {/* <span className='required'>*</span> */}
                         </Label>
                       </Col>
@@ -388,7 +388,7 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                             component={FormikSelectField}
                             name={"preoccupation"}
                             options={Preoccupation}
-                            placeholder="Preoccupation "
+                            placeholder={languageTranslation("CAREGIVER_PREOCCUPATION_LABEL")}
                           />
                         </div>
                       </Col>
@@ -400,10 +400,9 @@ const LeasingPersonalDataFormComponent: FunctionComponent<FormikProps<
                     <Row>
                       <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                         <Label className="form-label col-form-label ">
-                          Payroll IBAN <br />
+                          {languageTranslation("CAREGIVER_PAYROLL_IBAN_LABEL")} <br />
                           <small>
-                            (only necessary if an account other than the one in
-                            the profile is required.)
+                            {languageTranslation("NECESSARY_ACCOUNT")}
                           </small>
                         </Label>
                       </Col>

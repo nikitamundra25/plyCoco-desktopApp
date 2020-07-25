@@ -1,22 +1,28 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
-import ToDoListForm from './ToDoListForm';
-import * as qs from 'query-string';
-import { ToDoQueries } from '../../../../graphql/queries';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { RouteComponentProps } from "react-router";
+import { useParams, useLocation, useHistory } from "react-router-dom";
+import ToDoListForm from "./ToDoListForm";
+import * as qs from "query-string";
+import { ToDoQueries } from "../../../../graphql/queries";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import {
   IReactSelectInterface,
   ISearchToDoValues,
-} from '../../../../interfaces';
-import { FormikHelpers, FormikProps, Formik } from 'formik';
-import { TODO_PAGE_LIMIT, AppRoutes } from '../../../../config';
-import { ConfirmBox } from '../ConfirmBox';
-import { languageTranslation } from '../../../../helpers';
-import { toast } from 'react-toastify';
-import { ToDoMutations } from '../../../../graphql/Mutations';
-import CreateTodo from '../CreateTodo';
-import Search from '../SearchFilter';
+} from "../../../../interfaces";
+import { FormikHelpers, FormikProps, Formik } from "formik";
+import {
+  TODO_PAGE_LIMIT,
+  AppRoutes,
+  Priority,
+  TodoFilter,
+  TodoDateFilter,
+} from "../../../../config";
+import { ConfirmBox } from "../ConfirmBox";
+import { languageTranslation } from "../../../../helpers";
+import { toast } from "react-toastify";
+import { ToDoMutations } from "../../../../graphql/Mutations";
+import CreateTodo from "../CreateTodo";
+import Search from "../SearchFilter";
 const [
   ,
   ,
@@ -26,11 +32,11 @@ const [
 const [GET_TO_DOS] = ToDoQueries;
 let toastId: any = null;
 const ToDoList: FunctionComponent<RouteComponentProps> & any = (
-  mainProps: any,
+  mainProps: any
 ) => {
   const { userRole } = mainProps;
   const userType =
-    userRole === 'careinstitution' ? 'canstitution' : 'caregiver';
+    userRole === "careinstitution" ? "canstitution" : "caregiver";
   let { id } = useParams();
   const userId: string | undefined = id;
 
@@ -46,7 +52,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
     any,
     any
   >(GET_TO_DOS, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache",
   });
 
   // Mutation to delete careInstitution todo status
@@ -70,8 +76,8 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   // Delete todo
   const deleteToDo = async (id: string) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('DELETE_CARE_INSTITUTION_TODO'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("DELETE_CARE_INSTITUTION_TODO"),
     });
     if (!value) {
       return;
@@ -85,13 +91,13 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         });
         refetch();
         if (!toast.isActive(toastId)) {
-          toast.success(languageTranslation('TODO_SUCCESS_DELETE_MSG'));
+          toast.success(languageTranslation("TODO_SUCCESS_DELETE_MSG"));
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -111,13 +117,13 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
 
   useEffect(() => {
     const query = qs.parse(search);
-    let searchBy: string = '';
-    let sortBy: IReactSelectInterface | undefined = { label: '', value: '' };
+    let searchBy: string = "";
+    let sortBy: IReactSelectInterface | undefined = { label: "", value: "" };
     let sortByDate: IReactSelectInterface | undefined = {
-      label: '',
-      value: '',
+      label: "",
+      value: "",
     };
-    let priority: IReactSelectInterface | undefined = { label: '', value: '' };
+    let priority: IReactSelectInterface | undefined = { label: "", value: "" };
 
     // To handle display and query param text
     if (query) {
@@ -150,33 +156,48 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           page: query.page ? parseInt(query.page as string) : 1,
         },
       });
-
+      let prioritydata = Priority.filter(
+        (x: any) => x.value === searchData.priority
+      )[0];
+      let todoFilterData = TodoFilter.filter(
+        (x: any) => x.value === searchData.toDoFilter
+      )[0];
+      let sortByDateData = TodoDateFilter.filter(
+        (x: any) => x.value === searchData.sortByDate
+      )[0];
       setSearchValues({
         toDoFilter: searchData.toDoFilter
           ? {
               label:
-                searchData.toDoFilter.charAt(0).toUpperCase() +
-                searchData.toDoFilter.slice(1),
+                todoFilterData && todoFilterData.label
+                  ? todoFilterData.label
+                  : searchData.toDoFilter.charAt(0).toUpperCase() +
+                    searchData.toDoFilter.slice(1),
               value: searchData.toDoFilter,
             }
           : undefined,
         searchValue: searchData.search,
         priority: searchData.priority
-          ? searchData.priority === 'normal'
+          ? searchData.priority === "normal"
             ? {
-                label: languageTranslation('NORMAL'),
+                label: languageTranslation("NORMAL"),
                 value: searchData.priority,
               }
             : {
-                label: searchData.priority,
+                label:
+                  prioritydata && prioritydata.label
+                    ? prioritydata.label
+                    : searchData.priority,
                 value: searchData.priority,
               }
           : undefined,
         sortByDate: searchData.sortByDate
           ? {
               label:
-                searchData.sortByDate.charAt(0).toUpperCase() +
-                searchData.sortByDate.slice(1),
+                sortByDateData && sortByDateData.label
+                  ? sortByDateData.label
+                  : searchData.sortByDate.charAt(0).toUpperCase() +
+                    searchData.sortByDate.slice(1),
               value: searchData.sortByDate,
             }
           : undefined,
@@ -187,51 +208,51 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   // To search data
   const handleSubmit = async (
     values: ISearchToDoValues,
-    {}: FormikHelpers<ISearchToDoValues>,
+    {}: FormikHelpers<ISearchToDoValues>
   ) => {
     let params: any = qs.parse(search);
     params.page = 1;
     if (values.searchValue) {
       params.search = values.searchValue;
     } else {
-      params.search = '';
+      params.search = "";
     }
 
     if (values.toDoFilter && values.toDoFilter.value !== null) {
       params.toDoFilter =
-        values.toDoFilter.value !== null ? values.toDoFilter.value : '';
+        values.toDoFilter.value !== null ? values.toDoFilter.value : "";
     } else {
-      params.toDoFilter = '';
+      params.toDoFilter = "";
     }
 
-    if (values.priority && values.priority.value !== '') {
+    if (values.priority && values.priority.value !== "") {
       params.priority =
-        values.priority.value !== '' ? values.priority.value : '';
+        values.priority.value !== "" ? values.priority.value : "";
     } else {
-      params.priority = '';
+      params.priority = "";
     }
 
-    if (values.sortByDate && values.sortByDate.value !== '') {
+    if (values.sortByDate && values.sortByDate.value !== "") {
       params.sortByDate =
-        values.sortByDate.value !== '' ? values.sortByDate.value : '';
+        values.sortByDate.value !== "" ? values.sortByDate.value : "";
     } else {
-      params.sortByDate = '';
+      params.sortByDate = "";
     }
 
-    const path = [pathname, qs.stringify(params)].join('?');
+    const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
   };
 
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
-      '?',
+      "?"
     );
     history.push(path);
   };
 
   const {
-    searchValue = '',
+    searchValue = "",
     sortBy = undefined,
     sortByDate = undefined,
     toDoFilter = undefined,
@@ -250,11 +271,11 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
 
   const handleStatusChange = async (id: any, status: string, priority: any) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
+      title: languageTranslation("CONFIRM_LABEL"),
       text:
-        status === 'pending'
-          ? languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG')
-          : languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG'),
+        status === "pending"
+          ? languageTranslation("CONFIRM_CARE_INSTITUTION_TODO_DONE_MSG")
+          : languageTranslation("CONFIRM_CARE_INSTITUTION_TODO_UNDONE_MSG"),
     });
     if (!value) {
       return;
@@ -264,21 +285,21 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         await updateStatus({
           variables: {
             id: parseInt(id),
-            status: status === 'pending' ? 'completed' : 'pending',
+            status: status === "pending" ? "completed" : "pending",
             priority: null,
           },
         });
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('TODO_STATUS_UPDATED_SUCCESSFULLY'),
+            languageTranslation("TODO_STATUS_UPDATED_SUCCESSFULLY")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -289,11 +310,11 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   const handlePriorityChange = async (
     id: any,
     status: string,
-    priority: string,
+    priority: string
   ) => {
     const { value } = await ConfirmBox({
-      title: languageTranslation('CONFIRM_LABEL'),
-      text: languageTranslation('CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG'),
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_CARE_INSTITUTION_TODO_PRIORITY_MSG"),
     });
     if (!value) {
       return;
@@ -310,14 +331,14 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         refetch();
         if (!toast.isActive(toastId)) {
           toast.success(
-            languageTranslation('TODO_PRIORITY_UPDATED_SUCCESSFULLY'),
+            languageTranslation("TODO_PRIORITY_UPDATED_SUCCESSFULLY")
           );
         }
       } catch (error) {
         const message = error.message
-          .replace('SequelizeValidationError: ', '')
-          .replace('Validation error: ', '')
-          .replace('GraphQL error: ', '');
+          .replace("SequelizeValidationError: ", "")
+          .replace("Validation error: ", "")
+          .replace("GraphQL error: ", "");
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
@@ -327,10 +348,10 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
 
   return (
     <>
-      <h5 className='content-title'>
-        {languageTranslation('CG_SUB_MENU_REMINDER')}
+      <h5 className="content-title">
+        {languageTranslation("CG_SUB_MENU_REMINDER")}
       </h5>
-      <div className='filter-form form-section'>
+      <div className="filter-form form-section">
         <Formik
           initialValues={values}
           enableReinitialize={true}
@@ -338,19 +359,19 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
           children={(props: FormikProps<ISearchToDoValues>) => (
             <Search
               {...props}
-              label={'toDos'}
+              label={"toDos"}
               filterbyStatus={true}
               isTab={true}
               pushTo={
-                userRole === 'careinstitution'
+                userRole === "careinstitution"
                   ? `${AppRoutes.CARE_INSTITUION_VIEW.replace(
-                      ':id',
-                      mainProps.Id,
-                    )}?tab=${encodeURIComponent('reminders/todos')}`
+                      ":id",
+                      mainProps.Id
+                    )}?tab=${encodeURIComponent("reminders/todos")}`
                   : `${AppRoutes.CARE_GIVER_VIEW.replace(
-                      ':id',
-                      mainProps.Id,
-                    )}?tab=${encodeURIComponent('reminders/todos')}`
+                      ":id",
+                      mainProps.Id
+                    )}?tab=${encodeURIComponent("reminders/todos")}`
               }
             />
           )}
@@ -387,7 +408,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
         }
         editToDo={true}
         userData={selectUser}
-        userRole={userRole === 'caregiver' ? 'caregiver' : 'careInstitution'}
+        userRole={userRole === "caregiver" ? "caregiver" : "careInstitution"}
         handleRefetch={handleRefetch}
       />
     </>

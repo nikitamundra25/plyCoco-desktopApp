@@ -770,7 +770,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               //     (disconnectAppCond && disconnectAppCond.length !== 0)
               //     : true
               // }
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              // disabled={selectedCells ? selectedCells.length === 0 : true}
               onClick={() => {
                 setopenToggleMenu(false);
                 handleUnLinkAppointments();

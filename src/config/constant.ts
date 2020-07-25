@@ -272,8 +272,14 @@ export const State: IReactSelectInterface[] = [
   { value: 'HR', label: 'HR' },
 ];
 export const Salutation: IReactSelectInterface[] = [
-  { value: 'Sir', label: 'Sir' },
-  { value: 'Madam', label: 'Madam' },
+  {
+    value: languageTranslation('SIR'),
+    label: languageTranslation('SIR'),
+  },
+  {
+    value: languageTranslation('MADAM'),
+    label: languageTranslation('MADAM'),
+  },
 ];
 
 export const LockedOptions: any[] = [
@@ -301,11 +307,17 @@ export const Country: IReactSelectInterface[] = [
   { value: 'Austria', label: 'Austria' },
 ];
 export const LegalForm: IReactSelectInterface[] = [
-  { value: 'Individual', label: 'Individual' },
-  { value: 'UG', label: 'UG' },
-  { value: 'GmbH', label: 'GmbH' },
-  { value: 'Ltd.', label: 'Ltd.' },
-  { value: 'GbR', label: 'GbR' },
+  { value: 'Individual', label: languageTranslation('INDIVIDUAL') },
+  {
+    value: 'UG (limited liability company)',
+    label: languageTranslation('UG_LIMITED_LIABILITY'),
+  },
+  {
+    value: 'GmbH (limited liability company)',
+    label: languageTranslation('GHB_LIMITED_LIABILITY'),
+  },
+  { value: 'Ltd. (Limited)', label: languageTranslation('LTD_LIMITED') },
+  { value: 'GbR', label: languageTranslation('GBR') },
 ];
 
 export const Hours: IReactSelectInterface[] = [

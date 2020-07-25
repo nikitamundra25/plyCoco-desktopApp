@@ -1717,7 +1717,7 @@
    "UNGARN": "Ungarn",
    "UNGEKLÄRT/STAATENLOS": "ungeklärt/staatenlos",
    "USA": "USA",
-   
+
    "ONLY_IF_DIFFERENT_BIRTH_NAME":"(only if different from family name)",
    "CHILD_ALLOWANCE_FACTOR":"Child allowance factor",
    "O_IF_NONE":"(0 if none)",
@@ -1727,6 +1727,15 @@
    "SOCIAL_SECURITY_NUMBER":"Social Security Number",
    "NECESSARY_ACCOUNT":"(only necessary if an account other than the one in the profile is required.)",
    "SELECT_NATIONALITY":"Select Nationality",
-   "PAY_SLIP_TIMYOCE":"Pay Slip TimYOCE"
+   "PAY_SLIP_TIMYOCE":"Pay Slip TimYOCE",
+
+   "SIR": "Sir",
+   "MADAM": "Madam",
+
+   "INDIVIDUAL":"Individual",
+   "UG_LIMITED_LIABILITY":"UG (limited liability company)",
+   "GHB_LIMITED_LIABILITY":"GmbH (limited liability company)",
+   "LTD_LIMITED":"Ltd. (Limited)",
+   "GBR":"GbR"
 
   }

@@ -24,7 +24,7 @@ const PaySlip: FunctionComponent = () => {
               type="switch"
               id="exampleCustomSwitch"
               name="customSwitch"
-              label="Pay Slip TimYOCE"
+              label={languageTranslation("PAY_SLIP_TIMYOCE")}
               className="custom-switch"
             />
           </div>

@@ -299,6 +299,14 @@ const CaregiverFormView: FunctionComponent<
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
     setFieldValue(name, selectOption);
   };
+  // Date condition to not display fsn if date is before today
+  let isBeforedate = false;
+  if (selectedCells &&
+    selectedCells.length &&
+    selectedCells[0] &&
+    selectedCells[0].item  && selectedCells[0].item.date) {
+    isBeforedate = moment(selectedCells[0].item.date).isBefore();
+  }
 
   let isAvailability: boolean = false,
     isMatching: boolean = false,
@@ -306,7 +314,9 @@ const CaregiverFormView: FunctionComponent<
     isConfirm: boolean = false,
     isContractInitiated: boolean = false,
     isSingleButtonAccepted: boolean = false,
-    isContractCancel: boolean = false;
+    isContractCancel: boolean = false,
+    isTimeSheetPending: boolean = false,
+    isBeforeDate: boolean = false
 
   if (selctedAvailability || status) {
     if (
@@ -319,9 +329,16 @@ const CaregiverFormView: FunctionComponent<
         selctedAvailability &&
         (selctedAvailability.f !== "block" ||
           selctedAvailability.s !== "block" ||
-          selctedAvailability.n !== "block"))
+          selctedAvailability.n !== "block")) 
     ) {
-      isAvailability = true;
+      if( selctedAvailability &&
+        selctedAvailability.status === "default" && isBeforedate || status === "default" && isBeforedate){
+          isAvailability = false;
+          isBeforeDate = true
+        }else{
+          isAvailability = true;
+          isBeforeDate = false
+        }
     } else if (
       (selctedAvailability && selctedAvailability.status === "linked") ||
       status === "linked"
@@ -335,11 +352,9 @@ const CaregiverFormView: FunctionComponent<
     } else if (
       (selctedAvailability &&
         (selctedAvailability.status === "confirmed" ||
-          selctedAvailability.status === "timeSheetUpdated"||
-          selctedAvailability.status === "timeSheetPending")) ||
+          selctedAvailability.status === "timeSheetUpdated")) ||
       status === "confirmed" ||
-      status === "timeSheetUpdated" ||
-      status ==='timeSheetPending' ) {
+      status === "timeSheetUpdated"  ) {
       isConfirm = true;
     } else if (
       (selctedAvailability &&
@@ -358,6 +373,13 @@ const CaregiverFormView: FunctionComponent<
       status === "contractInitiated"
     ) {
       isContractInitiated = true;
+    }
+    else if (
+      (selctedAvailability &&
+        selctedAvailability.status === "timeSheetPending") ||
+      status === "timeSheetPending"
+    ) {
+      isTimeSheetPending = true;
     }
   }
 
@@ -421,6 +443,7 @@ const CaregiverFormView: FunctionComponent<
   }
 
 
+
   return (
     <>
       <div className="form-section">
@@ -432,10 +455,12 @@ const CaregiverFormView: FunctionComponent<
             "form-card custom-height custom-scrollbar": true,
             "availability-dark-bg": isAvailability,
             "matching-bg": isMatching,
-            "confirmation-bg": isConfirm,
+            "contract-bg": isConfirm,
             "cancel-contract-bg": isContractCancel,
             "accepted-bg": isSingleButtonAccepted,
             "contact-initiate-bg": isContractInitiated,
+            "confirmation-bg":isTimeSheetPending,
+            "availability-bg":isBeforeDate
           })}
         >
           <h5 className="content-title">

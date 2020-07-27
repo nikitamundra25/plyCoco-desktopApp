@@ -336,8 +336,12 @@
             li {
               border-bottom: 0px;
               .checkbox-custom {
+                padding-left:0px;
+                display: flex;
+                align-items: center;
                 label {
                   font-family: $font_open_sans;
+                  padding-left:30px;
                 }
               }
             }

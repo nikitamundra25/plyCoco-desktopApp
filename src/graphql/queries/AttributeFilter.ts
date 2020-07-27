@@ -6,7 +6,7 @@ const GET_CAREGIVER_ATTRIBUTES_WITH_CATEGORY = gql`
       id
       name
       parentId
-      attribute_managements {
+      attributes {
         id
         name
       }

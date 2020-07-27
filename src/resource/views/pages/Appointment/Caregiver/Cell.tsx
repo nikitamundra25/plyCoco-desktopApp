@@ -58,8 +58,7 @@ const Cell = ({
     if (item.status === "linked") {
       isMatching = true;
     } else if (
-      item.status === "confirmed" ||
-      item.status === "timeSheetUpdated"
+      item.status === "confirmed" 
     ) {
       isConfirm = true;
     } else if (item.status === "contractCancelled") {
@@ -68,10 +67,12 @@ const Cell = ({
       isContractInitiated = true;
     } else if (item.status === "accepted") {
       isSingleButtonAccepted = true;
-    } else if (item.status === "timeSheetPending") {
+    } else if (item.status === "timeSheetPending" ||
+    item.status === "timeSheetUpdated") {
       isTimeSheetPending = true;
     }
   }
+console.log("isTimeSheetPending",isTimeSheetPending);
 
   return (
     <>

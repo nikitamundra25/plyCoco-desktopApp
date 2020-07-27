@@ -351,10 +351,8 @@ const CaregiverFormView: FunctionComponent<
       isContract = true;
     } else if (
       (selctedAvailability &&
-        (selctedAvailability.status === "confirmed" ||
-          selctedAvailability.status === "timeSheetUpdated")) ||
-      status === "confirmed" ||
-      status === "timeSheetUpdated"  ) {
+        selctedAvailability.status === "confirmed" ) ||
+      status === "confirmed"   ) {
       isConfirm = true;
     } else if (
       (selctedAvailability &&
@@ -376,8 +374,10 @@ const CaregiverFormView: FunctionComponent<
     }
     else if (
       (selctedAvailability &&
-        selctedAvailability.status === "timeSheetPending") ||
-      status === "timeSheetPending"
+        (selctedAvailability.status === "timeSheetPending" || 
+        selctedAvailability.status === "timeSheetUpdated") ||
+      (status === "timeSheetPending" ||
+      status === "timeSheetUpdated") )
     ) {
       isTimeSheetPending = true;
     }

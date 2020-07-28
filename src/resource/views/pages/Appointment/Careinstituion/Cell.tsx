@@ -69,6 +69,12 @@ if(item && item.date){
   isFutureDate= moment(dateStr, "YYYY/MM/DD").isAfter();
 }
 
+ // Date condition to not display fsn if date is before today
+ let isBeforedate = false;
+ if (item && item.date) {
+   isBeforedate = moment(item.date).isBefore();
+ }
+
   if (item) {
     if (item.status === 'default') {
       isRequirment = true;
@@ -127,7 +133,7 @@ if(item && item.date){
       ref={selectableRef}
       // onClick={() => handleSelectedUser(list, day, 'caregiver')}
     >
-      {item ? (
+      {item ?  isBeforedate ? null : (
         <>
           {item.f ? item.f : null}
           {item.s ? item.s : null}

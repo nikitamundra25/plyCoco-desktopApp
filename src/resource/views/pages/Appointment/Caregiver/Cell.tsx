@@ -72,7 +72,6 @@ const Cell = ({
       isTimeSheetPending = true;
     }
   }
-console.log("isTimeSheetPending",isTimeSheetPending);
 
   return (
     <>

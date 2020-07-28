@@ -3681,22 +3681,22 @@ const Appointment: FunctionComponent = (props: any) => {
                   ? status
                   : "default",
                 workingHoursFrom: workingHoursFromDate
-                  ? `${moment(workingHoursFromDate).format(
+                  ? `${moment(workingHoursFromDate, defaultDateFormat).format(
                       dbAcceptableFormat
                     )},${workingHoursFromTime}`
                   : null,
                 workingHoursTo: workingHoursToDate
-                  ? `${moment(workingHoursToDate).format(
+                  ? `${moment(workingHoursToDate, defaultDateFormat).format(
                       dbAcceptableFormat
                     )},${workingHoursToTime}`
                   : null,
                 breakFrom: breakFromDate
-                  ? `${moment(breakFromDate).format(
+                  ? `${moment(breakFromDate, defaultDateFormat).format(
                       dbAcceptableFormat
                     )},${breakFromTime}`
                   : null,
                 breakTo: breakToDate
-                  ? `${moment(breakToDate).format(
+                  ? `${moment(breakToDate, defaultDateFormat).format(
                       dbAcceptableFormat
                     )},${breakToTime}`
                   : null,

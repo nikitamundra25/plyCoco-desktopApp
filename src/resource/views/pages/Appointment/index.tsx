@@ -1248,7 +1248,7 @@ const Appointment: FunctionComponent = (props: any) => {
         let availabilityIndex: number = -1;
         let requirementIndex: number = -1;
         let requirementDeptIndex: number = -1;
-        // To find index of particular caregiver in list
+        // To find index of particular caregiver in list  
         let caregiverIndex: number = temp.findIndex(
           (caregiver: any) =>
             appointment.ca && caregiver.id === appointment.ca.userId
@@ -3674,7 +3674,8 @@ const Appointment: FunctionComponent = (props: any) => {
                 f: f ? "available" : isBlockeddate ? "block" : "default",
                 s: s ? "available" : isBlockeddate ? "block" : "default",
                 n: n ? "available" : isBlockeddate ? "block" : "default",
-                status: isWorkProofStatus
+                status: 
+                isWorkProofStatus
                   ? "timeSheetUpdated"
                   : status
                   ? status

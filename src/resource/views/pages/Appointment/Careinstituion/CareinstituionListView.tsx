@@ -99,9 +99,7 @@ const CarinstituionListView: FunctionComponent<
     if (selectedCells && selectedCells.length) {
       selectedRows = selectedCells.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
-        const { item, list: careInstData, cellIndex, day } = cellProps;
-        console.log("item555555555555555555555555",item);
-        
+        const { item, list: careInstData, cellIndex, day } = cellProps;     
         const {
           userId = "",
           id = "",
@@ -135,7 +133,7 @@ const CarinstituionListView: FunctionComponent<
           ...item,
           qualificationId: qualification1 ? qualification1 : [],
         };
-console.log("divisions",divisions);
+        
 
         return {
           id: deptId ? userId : id,
@@ -1118,13 +1116,13 @@ console.log("divisions",divisions);
             </NavItem>
             <NavItem>
               <NavLink
-                disabled={
-                  disconnectAppCond !== undefined
-                    ? disconnectAppCond && disconnectAppCond.length !== 0
-                      ? "disabled-class"
-                      : ""
-                    : "disabled-class"
-                }
+                // disabled={
+                //   disconnectAppCond !== undefined
+                //     ? disconnectAppCond && disconnectAppCond.length !== 0
+                //       ? "disabled-class"
+                //       : ""
+                //     : "disabled-class"
+                // }
                 // disabled={
                 //   selectedCellsCareinstitution
                 //     ? selectedCellsCareinstitution.length === 0

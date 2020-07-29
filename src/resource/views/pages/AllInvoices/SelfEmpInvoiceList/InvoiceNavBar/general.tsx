@@ -25,7 +25,7 @@ import "../../index.scss";
 const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
-  const { handleShowInvoice, handleSendInvoiceModal } = mainProps
+  const { handleShowInvoice, handleSendInvoiceModal } = mainProps;
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
@@ -58,9 +58,7 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
           </div>
         </div>
         <div className="header-nav-colmn-items">
-          <div className="header-nav-heading mx-1 text-center">
-            Filter
-                  </div>
+          <div className="header-nav-heading mx-1 text-center">Filter</div>
           <div className="user-select mx-1 ">
             <Select
               classNamePrefix="custom-inner-reactselect"
@@ -92,12 +90,15 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
         <div className="header-nav-colmn-items">
           <div className="header-nav-heading mx-1 text-center">
             View Invoice PDFs
-                  </div>
+          </div>
           <div className="header-nav-item ">
             <span className="header-nav-icon">
               <img src={PlyCocoreceipt} alt="" />
             </span>
-            <span onClick={() => handleShowInvoice("Plycoco")} className="header-nav-text">
+            <span
+              onClick={() => handleShowInvoice("Plycoco")}
+              className="header-nav-text"
+            >
               Show PlyCoco Invoice
             </span>
           </div>
@@ -105,31 +106,28 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
             <span className="header-nav-icon">
               <img src={SpecialistInvoice} alt="" />
             </span>
-            <span onClick={() => handleShowInvoice("Caregiver")} className="header-nav-text">
+            <span
+              onClick={() => handleShowInvoice("Caregiver")}
+              className="header-nav-text"
+            >
               Show Caregiver Invoice
             </span>
           </div>
         </div>
         <div className="header-nav-colmn-items">
-          <div className="header-nav-heading mx-1 text-center">
-            Save
-                  </div>
+          <div className="header-nav-heading mx-1 text-center">Save</div>
           <div className="header-nav-item">
             <span className="header-nav-icon">
               <img src={saveinvoice} alt="" />
             </span>
 
-            <span className="header-nav-text">
-              Save Plycoco Invoice
-            </span>
+            <span className="header-nav-text">Save Plycoco Invoice</span>
           </div>
           <div className="header-nav-item">
             <span className="header-nav-icon">
               <img src={saveinvoice} alt="" />
             </span>
-            <span className="header-nav-text">
-              Save Caregiver Invoice
-            </span>
+            <span className="header-nav-text">Save Caregiver Invoice</span>
           </div>
           <div className="header-nav-item">
             <span className="header-nav-icon">
@@ -139,9 +137,7 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
           </div>
         </div>
         <div className="header-nav-colmn-items">
-          <div className="header-nav-heading mx-1 text-center">
-            Send
-                  </div>
+          <div className="header-nav-heading mx-1 text-center">Send</div>
           <div className="header-nav-item">
             <span className="header-nav-icon">
               <img src={Again} alt="" />
@@ -149,7 +145,10 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
 
             <span className="header-nav-text">Send again</span>
           </div>
-          <div onClick={()=> handleSendInvoiceModal()} className="header-nav-item">
+          <div
+            onClick={() => handleSendInvoiceModal()}
+            className="header-nav-item"
+          >
             <span className="header-nav-icon">
               <img src={sent} alt="" />
             </span>
@@ -165,7 +164,7 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
         <div className="header-nav-colmn-items">
           <div className="header-nav-heading mx-1 text-center">
             Paid &amp; Unpaid
-                  </div>
+          </div>
 
           <div className="header-nav-item">
             <span className="header-nav-icon">
@@ -204,9 +203,7 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
             <span className="header-nav-icon">
               <img src={interierDesign} alt="" />
             </span>
-            <span className="header-nav-text">
-              Care Institution Profile
-                    </span>
+            <span className="header-nav-text">Care Institution Profile</span>
           </div>
           <div className="header-nav-item">
             <span className="header-nav-icon">
@@ -230,9 +227,7 @@ const GeneralTab: FunctionComponent<RouteComponentProps> & any = (
             <span className="header-nav-icon">
               <img src={funiturIc} alt="" />
             </span>
-            <span className="header-nav-text">
-              Care Institution Solo
-            </span>
+            <span className="header-nav-text">Care Institution Solo</span>
           </div>
         </div>
       </div>

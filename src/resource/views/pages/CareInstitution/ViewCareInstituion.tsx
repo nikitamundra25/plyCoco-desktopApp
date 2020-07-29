@@ -66,7 +66,6 @@ const ViewCareInstitution: FunctionComponent<
 > = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
   let { id } = useParams();
   const Id: any | undefined = id;
-  console.log('canstitution - id', id);
 
   let userId = Number(id)
   const [showToDo, setShowToDo] = useState<boolean>(false);
@@ -92,10 +91,7 @@ const ViewCareInstitution: FunctionComponent<
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID, {
     fetchPolicy: "no-cache",
   });
-  console.log('careInstituitionData',careInstituitionData)
-  console.log('careInstituitionData',careInstituitionData && careInstituitionData.getCareInstitution ? careInstituitionData.getCareInstitution.lastName : null)
-
-
+  
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: "",
@@ -273,7 +269,6 @@ console.log("selectUserselectUser",selectUser);
       },
     });
   };
-  console.log(selectUser, "selectUser+++");
 
   return (
     <div>

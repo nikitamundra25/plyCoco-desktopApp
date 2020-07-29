@@ -33,7 +33,7 @@ import { errorFormatter } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
 import '../careinstitution.scss';
 import { RemarkMutations } from '../../../../../graphql/Mutations';
-import { Gender, CaregiverInvoiceTax, LeasingInvoiceTax, PlycocoInvoiceTax } from '../../../../../config';
+import { Gender, CaregiverInvoiceTax, LeasingInvoiceTax, PlycocoInvoiceTax, CareInstLeasingPriceList, InvoiceType, InvoiceInterval } from '../../../../../config';
 import { any } from 'prop-types';
 
 let toastId: any;
@@ -384,12 +384,15 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
     }
   };
   let userSelectedCountry: any = {};
-  const convertintoLabelValue = (data: string) => {
+  const convertintoLabelValue = (data: string, constArr: IReactSelectInterface[] ) => {
+    let selectedValue: IReactSelectInterface | undefined= undefined
+    console.log("data",data);
+    
+    if(data){
+       selectedValue =  constArr.filter((list:any) => list.value === data)[0];
+    }
     return data
-      ? {
-          label: data,
-          value: data,
-        }
+      ? selectedValue
       : undefined;
   };
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
@@ -563,10 +566,10 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       attributeId: selectedAttributes,
       remarkData: '',
       // Invoice related fields
-      invoiceType: convertintoLabelValue(invoiceType),
+      invoiceType: convertintoLabelValue(invoiceType,InvoiceType),
       emailInvoice,
       addressInvoice: addressInvoice || '',
-      interval: convertintoLabelValue(interval),
+      interval: convertintoLabelValue(interval,InvoiceInterval),
       // Fees related fields
       careGiverCommission:
         careGiverCommission !== null
@@ -574,7 +577,7 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
           : '',
       doctorCommission:
         doctorCommission !== null ? germanNumberFormat(doctorCommission) : '',
-      leasingPriceListId: convertintoLabelValue(leasingPriceListId),
+      leasingPriceListId: convertintoLabelValue(leasingPriceListId,CareInstLeasingPriceList),
       leasingInvoiceTax: leasingInvoiceTax != null ? leasingInvoiceTax : defaultTaxValue, 
       plycocoInvoiceTax: plycocoInvoiceTax != null ? plycocoInvoiceTax : defaultTaxValue, 
     };

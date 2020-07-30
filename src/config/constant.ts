@@ -1090,50 +1090,50 @@ export const StatusOptions: IReactSelectInterface[] = [
 export const LeasingPriceList: IReactSelectInterface[] = [
   {
     label:  languageTranslation("DEFAULT_CAREGIVER"),
-    value: 'Default caregiver',
+    value: '12.5',
   },
   {
     label:languageTranslation("PERMANENT_WORKER_12_5_LABEL"),
-    value: 'Permanent worker 12,5', 
+    value: '12.5', 
   },
   {
     label:  languageTranslation("PERMANENT_WORKER_14_5_LABEL"),
-    value:'Permanent worker 14,5',
+    value:'14.5',
   },
   {
     label:  languageTranslation("PERMANENT_WORKER_20_5_LABEL"),
-    value:'Permanent worker 20,0',
+    value:'20.5',
   },
   {
     label: languageTranslation("PERMANENT_WORKER_23_5_LABEL"),
-    value: 'Permanent worker 23,5'
+    value: '23.5'
   },
   {
     label: languageTranslation("PERMANENT_WORKER_25_5_LABEL"),
-    value: 'Permanent worker 25,0',
+    value: '25.5',
   },
   {
     label: languageTranslation("PERMANENT_WORKER_26_5_LABEL"),
-    value: 'Permanent worker 26,0',
+    value: '26.5',
   },
   {
     label: languageTranslation("PERMANENT_WORKER_27_5_LABEL"),
-    value: 'Permanent worker 27,0',
+    value: '27.5',
   },
 ];
 
 export const CareInstLeasingPriceList: IReactSelectInterface[] = [
   {
     label: languageTranslation("FACILITY_22_5"),
-    value: 'Facility 22,5',
+    value: '22.5',
   },
   {
     label: languageTranslation("FACILITY_23_5"),
-    value: 'Facility 23,5',
+    value: '23.5',
   },
   {
     label: languageTranslation("FACILITY_25_5"),
-    value: 'Facility 25,5',
+    value: '25.5',
   },
 ];
 

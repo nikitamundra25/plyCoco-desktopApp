@@ -3,7 +3,8 @@ import {
   ILeasingValues,
   IAddLeasingRes,
   ILeasingInput,
-  IReactSelectInterface
+  IReactSelectInterface,
+  IPayslipValues
 } from '../../../../../interfaces';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import LeasingPersonalDataFormComponent from './LeasingPersonalDataFormComponent';
@@ -26,7 +27,7 @@ import { CareGiverMutations } from '../../../../../graphql/Mutations';
 import { CareGiverQueries } from '../../../../../graphql/queries';
 import Loader from '../../../containers/Loader/Loader';
 
-const [, , GET_LEASING_INFO] = CareGiverQueries;
+const [, , GET_LEASING_INFO, , , , , , , ,GET_ALL_PAYSLIP_CAREGIVER] = CareGiverQueries;
 const [, , , , ADD_UPDATE_CARE_GIVER_LEASING_INFO] = CareGiverMutations;
 
 export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
@@ -34,6 +35,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
 ) => {
   let { id } = useParams();
   const [leasingData, setleasingData] = useState<ILeasingValues | null>();
+  const [payslipData, setpayslipData] = useState<ILeasingValues | null>();
 
   // To update employee details into db
   const [addUpdateLeasingInformation] = useMutation<
@@ -47,6 +49,15 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     { data: leasingDetails, loading, refetch }
   ] = useLazyQuery<any>(GET_LEASING_INFO);
 
+  // To get the employee details by id
+    const [
+      getAllPayslipCaregiver,
+      { data: payslipDetails, loading: payslipLoading}
+  ] = useLazyQuery<any>(GET_ALL_PAYSLIP_CAREGIVER);
+
+
+  
+
   // Fetch leasing data on mount & user update
   useEffect(() => {
     // Fetch details by caregiver id
@@ -56,6 +67,29 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
       });
     }
   }, [id]);
+
+  // Fetch payslip data on mount & user update
+  useEffect(() => {
+      // Fetch details by caregiver id
+      if (id) {
+        getAllPayslipCaregiver({
+          variables: { userId: parseInt(id) }
+        });
+      }
+  }, [id]);
+
+  // Fetch payslip data on mount & user update
+  useEffect(() => {
+    // Fetch details by caregiver id
+    // if (id) {
+    //   getAllPayslipCaregiver({
+    //     variables: { userId: parseInt(id) }
+    //   });
+    // }
+    console.log('useefect payslipDetails',payslipDetails)
+}, [payslipDetails]);
+
+  console.log('payslipDetails',payslipDetails)
 
   const setLabelValue = (
     value: string,
@@ -187,6 +221,8 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     }
     setSubmitting(false);
   };
+
+
   const {
     placeOfBirth = '',
     birthName = '',
@@ -208,6 +244,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
     monthlyWorkingHrs = null,
     weeklyWorkingHrs = null
   } = leasingData ? leasingData : {};
+
   const initialValues: ILeasingValues = {
     placeOfBirth: placeOfBirth ? placeOfBirth : '',
     birthName: birthName ? birthName : '',
@@ -247,7 +284,10 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
               return <LeasingPersonalDataFormComponent {...props} />;
             }}
           />
-          <LeasingPaySlipComponent />
+          <LeasingPaySlipComponent 
+              payslipDetails={payslipDetails}
+              loading={payslipLoading}
+          />
         </>
       )}
     </>

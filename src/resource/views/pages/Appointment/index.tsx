@@ -1836,7 +1836,7 @@ const Appointment: FunctionComponent = (props: any) => {
           item: {
             appointmentId: id ? id : "",
             id: id ? id : "",
-            name,
+            name : name ? name : canstitution.shortName,
             date,
             shift: undefined,
             endTime,

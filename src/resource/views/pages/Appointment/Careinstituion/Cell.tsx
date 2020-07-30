@@ -72,7 +72,7 @@ if(item && item.date){
  // Date condition to not display fsn if date is before today
  let isBeforedate = false;
  if (item && item.date) {
-   isBeforedate = moment(item.date).isBefore();
+   isBeforedate = moment(item.date).isBefore(moment(), "day")
  }
 
   if (item) {

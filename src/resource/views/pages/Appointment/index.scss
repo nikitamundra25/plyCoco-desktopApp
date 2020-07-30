@@ -173,6 +173,9 @@
 
 // custom-color for matching
 
+.weekend {
+  background: $cell_weekend !important;
+}
 .availability-bg {
   background: $availability_color !important;
 }

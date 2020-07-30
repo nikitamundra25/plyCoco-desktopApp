@@ -4,7 +4,21 @@ import Select from "react-select";
 import { languageTranslation } from "../../../../../helpers";
 import rich from "../../../../assets/img/rich.svg";
 import "../caregiver.scss";
-const PaySlip: FunctionComponent = () => {
+import { IPayslipValues } from "../../../../../interfaces";
+import Loader from '../../../containers/Loader/Loader';
+import moment from 'moment';
+import { defaultDateFormat } from '../../../../../config';
+
+const PaySlip: FunctionComponent<any> = (props: any) => {
+
+  const {
+    payslipDetails,
+    loading
+  } = props
+
+  console.log('payslipDetailspayslipDetails', payslipDetails ? payslipDetails.getAllPayslipCaregiver.length  : null)
+  console.log('loading',loading)
+
   return (
     <>
       <div className="payslip-section">
@@ -19,7 +33,7 @@ const PaySlip: FunctionComponent = () => {
               menuPlacement={"auto"}
             />
           </div>
-          <div className="custom-switch-block mb-2 mr-3 ">
+          {/* <div className="custom-switch-block mb-2 mr-3 ">
             <CustomInput
               type="switch"
               id="exampleCustomSwitch"
@@ -33,7 +47,7 @@ const PaySlip: FunctionComponent = () => {
               <img src={rich} alt="" />
             </span>
             <span className="custom-menu-text">{languageTranslation("CHARGE_NOW")} </span>
-          </div>
+          </div> */}
         </div>
 
         <Table responsive className="payslip-table">
@@ -64,120 +78,29 @@ const PaySlip: FunctionComponent = () => {
                     className="inner-payslip-table"
                   >
                     <tbody>
-                      <tr>
-                        <td className="sno-col">1</td>
-                        <td className="date-col">29.04.2019</td>
-                        <td className="type-col">type1</td>
-                        <td className="amount-col">2,190.50</td>
-                        <td className="remarks-col">remark text</td>
-                        <td className="paid-col">2,190.50</td>
-                      </tr>
-                      <tr>
-                        <td className="sno-col">2</td>
-                        <td className="date-col">29.04.2019</td>
-                        <td className="type-col">type1</td>
-                        <td className="amount-col">2,190.50</td>
-                        <td className="remarks-col">remark text</td>
-                        <td className="paid-col">2,190.50</td>
-                      </tr>
-                      <tr>
-                        <td className="sno-col">3</td>
-                        <td className="date-col">29.04.2019</td>
-                        <td className="type-col">type1</td>
-                        <td className="amount-col">2,190.50</td>
-                        <td className="remarks-col">remark text</td>
-                        <td className="paid-col">2,190.50</td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={12}>
-                <div className="date-title">
-                  <span className="align-middle mr-2">
-                    <i className="icon-arrow-down" />
-                  </span>
-                  <span className="align-middle ">Date: 2018</span>
-                </div>
-                <div>
-                  <Table
-                    bordered
-                    hover
-                    responsive
-                    className="inner-payslip-table"
-                  >
-                    <tbody>
-                      <tr>
-                        <td className="sno-col">1</td>
-                        <td className="date-col">29.04.2019</td>
-                        <td className="type-col">type1</td>
-                        <td className="amount-col">2,190.50</td>
-                        <td className="remarks-col">remark text</td>
-                        <td className="paid-col">2,190.50</td>
-                      </tr>
-                      <tr>
-                        <td className="sno-col">2</td>
-                        <td className="date-col">29.04.2019</td>
-                        <td className="type-col">type1</td>
-                        <td className="amount-col">2,190.50</td>
-                        <td className="remarks-col">remark text</td>
-                        <td className="paid-col">2,190.50</td>
-                      </tr>
-                      <tr>
-                        <td className="sno-col">3</td>
-                        <td className="date-col">29.04.2019</td>
-                        <td className="type-col">type1</td>
-                        <td className="amount-col">2,190.50</td>
-                        <td className="remarks-col">remark text</td>
-                        <td className="paid-col">2,190.50</td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={12}>
-                <div className="date-title">
-                  <span className="align-middle mr-2">
-                    <i className="icon-arrow-down" />
-                  </span>
-                  <span className="align-middle ">Date: 2017</span>
-                </div>
-                <div>
-                  <Table
-                    bordered
-                    hover
-                    responsive
-                    className="inner-payslip-table"
-                  >
-                    <tbody>
-                      <tr>
-                        <td className="sno-col">1</td>
-                        <td className="date-col">29.04.2019</td>
-                        <td className="type-col">type1</td>
-                        <td className="amount-col">2,190.50</td>
-                        <td className="remarks-col">remark text</td>
-                        <td className="paid-col">2,190.50</td>
-                      </tr>
-                      <tr>
-                        <td className="sno-col">2</td>
-                        <td className="date-col">29.04.2019</td>
-                        <td className="type-col">type1</td>
-                        <td className="amount-col">2,190.50</td>
-                        <td className="remarks-col">remark text</td>
-                        <td className="paid-col">2,190.50</td>
-                      </tr>
-                      <tr>
-                        <td className="sno-col">3</td>
-                        <td className="date-col">29.04.2019</td>
-                        <td className="type-col">type1</td>
-                        <td className="amount-col">2,190.50</td>
-                        <td className="remarks-col">remark text</td>
-                        <td className="paid-col">2,190.50</td>
-                      </tr>
+                      {loading ? (
+                        <div className='table-loader'>
+                          <Loader />
+                        </div>
+                      ) : payslipDetails &&
+                        payslipDetails.getAllPayslipCaregiver &&
+                        payslipDetails.getAllPayslipCaregiver.length ? 
+                          payslipDetails.getAllPayslipCaregiver.map((element: any, index: number) => {
+                            console.log('element',element)
+                            return(<tr>
+                        <td className="sno-col">{index}</td>
+                        <td className="date-col">
+                          {moment(element .date).format(
+                                defaultDateFormat ,
+                              )}</td>
+                        <td className="type-col"> {"Permanent Employee"} </td>
+                        <td className="amount-col">{element .totalSalary}</td>
+                        <td className="remarks-col">{element .remarks}</td>
+                        <td className="paid-col">{element .totalSalary}</td>
+                      </tr>)
+                        }) : 
+                        null }
+                    
                     </tbody>
                   </Table>
                 </div>

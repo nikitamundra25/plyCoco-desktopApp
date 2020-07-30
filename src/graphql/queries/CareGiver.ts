@@ -315,6 +315,7 @@ const GET_CAREGIVERS_FOR_BULK_EMAIL = gql`
     }
   }
 `;
+
 const GET_NEGATIVE_USERS_LIST = gql`
   query GetNegativeList($id: ID!) {
     getNegativeList(id: $id) {
@@ -399,6 +400,18 @@ query getInvoiceByUserId( $userId: ID!) {
 //   }
 //  }
 //  getNegativeList(id: ID!): User
+
+const GET_ALL_PAYSLIP_CAREGIVER = gql`
+  query getAllPayslipCaregiver($userId: ID) {
+    getAllPayslipCaregiver(userId: $userId) {
+      id
+      date
+      totalSalary
+      comment
+    }
+  }
+`;
+
 export const CareGiverQueries = [
   GET_CAREGIVERS,
   GET_CAREGIVER_BY_ID,
@@ -409,6 +422,8 @@ export const CareGiverQueries = [
   GET_CAREGIVERS_FOR_BULK_EMAIL,
   GET_NEGATIVE_USERS_LIST,
   GET_CAREGIVER_BY_NAME,
+  GET_INVOICE_BY_USERID,
 
-  GET_INVOICE_BY_USERID
+  GET_ALL_PAYSLIP_CAREGIVER
 ];
+

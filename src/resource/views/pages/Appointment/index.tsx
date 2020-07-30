@@ -1274,6 +1274,7 @@ const Appointment: FunctionComponent = (props: any) => {
           );
         }
         // To find the exact index of requirement
+        if(careInstIndex > -1){
         for (
           let j = 0;
           j < careInstList[careInstIndex].availabilityData.length;
@@ -1295,6 +1296,7 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
+      }
         // To find the exact index of requirement in dept list
         for (
           let j = 0;

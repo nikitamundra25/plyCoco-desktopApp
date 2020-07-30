@@ -43,6 +43,10 @@ export const CareGiverListComponent: FunctionComponent<
       handleCheckElement(e, id);
     }
   };
+
+  console.log("careGiverData",loading , called);
+  
+
   return (
     <Col lg={"5"} className="pr-lg-0">
       <div id="scrollableDiv" className="caregiver-list custom-scroll">
@@ -57,6 +61,7 @@ export const CareGiverListComponent: FunctionComponent<
           hasMore={
             props.confirmApp ||
             props.unlinkedBy ||
+            props.isFromUnlink ||
             props.offerRequirements ||
             terminateAggrement
               ? false
@@ -114,10 +119,10 @@ export const CareGiverListComponent: FunctionComponent<
               </tr>
             </thead>
             <tbody>
-              {page === 1 && (!called || loading) ? (
+              {page === 1 && (!called || loading) &&  !props.isFromUnlink ? (
                 <tr>
                   <td className={"table-loader"} colSpan={8}>
-                    <Loader />
+                     <Loader />  
                   </td>
                 </tr>
               ) : careGiverData && careGiverData.length ? (

@@ -4499,9 +4499,10 @@ const Appointment: FunctionComponent = (props: any) => {
   ) {
     qualificationfor = qualificationList.filter((value: any) => {
       return Item && Item.qualificationForCharge
-        ? Item.qualificationForCharge.includes(value.value)
+        ? Item.qualificationForCharge === value.value
+        // Item.qualificationForCharge.includes(value.value)
         : null;
-    });
+    });  
   } else {
     qualificationfor = [Item.qualificationForCharge];
   }

@@ -126,6 +126,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     setopenCareGiverBulkEmail(false);
     setconfirmApp(false);
     setunlinkedBy("");
+    setisFromUnlink(false);
     setOfferRequirements(false);
     setleasingContract(false);
     setTerminateAggrement(false);

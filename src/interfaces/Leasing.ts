@@ -22,6 +22,12 @@ export interface ILeasingValues {
   weeklyWorkingHrs: number | null;
 }
 
+export interface IPayslipValues {
+  date : Date,
+  totalSalary : string,
+  comment : string
+}
+
 export interface IAddLeasingRes {
   userId: string;
 }

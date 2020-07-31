@@ -172,7 +172,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
       selectedInvoice.forEach((invoiceData: any) => {
         console.log(">>>>>>>>>>>>", invoiceData);
         window.open(
-          `${AppConfig.FILES_ENDPOINT}${invoiceData.plycocoPdf}`,
+          `${AppConfig.APP_ENDPOINT}${invoiceData.plycocoPdf}`,
           "_blank"
         );
       });

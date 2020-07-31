@@ -230,7 +230,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   // To fetch users according to qualification selected in case of offer caregiver to care institution
   useEffect(() => {
-    if (props.label === 'appointment' && props.offerCareGiver) {
+    if (props.label === 'appointment' && props.offerCareGiver && !props.unlinkedBy) {
       let temp: any = [];
 
       if (props.qualification && props.qualification.length) {
@@ -258,6 +258,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       });
     } else {
+      console.log("hereeeeeeeeee iffffffffffffffff",selectedCells);
+      
       let temp: any = [];
       selectedCells &&
         selectedCells.length &&
@@ -274,6 +276,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             });
           }
         });
+        console.log("temptemp",temp);
+        
       setcareGiverData(temp);
     }
   }, [label]);
@@ -383,7 +387,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   useEffect(() => {
     let list: any = [...careGiverData];
-    if (props.offerCareGiver) {
+    if (props.offerCareGiver && !props.unlinkedBy) {
       if (careGiversList) {
        
         const { getUserByQualifications } = careGiversList;
@@ -2031,6 +2035,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                       bulkcareGivers={bulkcareGivers}
                       confirmApp={props.confirmApp}
                       unlinkedBy={props.unlinkedBy}
+                      isFromUnlink={props.isFromUnlink}
                       terminateAggrement={terminateAggrement}
                     />
 

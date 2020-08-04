@@ -44,12 +44,10 @@ export const CareGiverListComponent: FunctionComponent<
     }
   };
 
-  console.log("careGiverData",careGiverData.length );
   
-
   return (
     <Col lg={"5"} className="pr-lg-0">
-      <div id="scrollableDiv" className="caregiver-list custom-scroll">
+      <div id="scrollableDivCareGiver" className="caregiver-list custom-scroll">
         <InfiniteScroll
           dataLength={
             careGiverData && careGiverData.length ? careGiverData.length : 0
@@ -57,7 +55,7 @@ export const CareGiverListComponent: FunctionComponent<
           next={() => {
              handleInfiniteScroll();
           }}
-          scrollableTarget="scrollableDiv"
+          scrollableTarget="scrollableDivCareGiver"
           hasMore={
             props.confirmApp ||
             props.unlinkedBy ||

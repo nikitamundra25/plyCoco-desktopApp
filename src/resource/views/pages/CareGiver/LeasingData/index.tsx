@@ -78,18 +78,7 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
       }
   }, [id]);
 
-  // Fetch payslip data on mount & user update
-  useEffect(() => {
-    // Fetch details by caregiver id
-    // if (id) {
-    //   getAllPayslipCaregiver({
-    //     variables: { userId: parseInt(id) }
-    //   });
-    // }
-    console.log('useefect payslipDetails',payslipDetails)
-}, [payslipDetails]);
-
-  console.log('payslipDetails',payslipDetails)
+  // console.log('payslipDetails',payslipDetails)
 
   const setLabelValue = (
     value: string,

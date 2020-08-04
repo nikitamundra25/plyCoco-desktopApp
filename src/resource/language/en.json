@@ -331,6 +331,7 @@
   "ROUTES_CARE_INSTITUTION": "/care-institution",
   "ROUTES_CARE_INSTITUTION_PERSONAL_DATA": "/care-institution/personal-information",
   "OFFERS": "Offers",
+  "OFFER": "Offer",
   "OFFER_FOR": "Offer for",
   "POSITIVE": "Positive",
   "NEGATIVE": "Negative",

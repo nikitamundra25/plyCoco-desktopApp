@@ -44,7 +44,7 @@ export const CareGiverListComponent: FunctionComponent<
     }
   };
 
-  console.log("careGiverData",loading , called);
+  console.log("careGiverData",careGiverData.length );
   
 
   return (
@@ -55,7 +55,7 @@ export const CareGiverListComponent: FunctionComponent<
             careGiverData && careGiverData.length ? careGiverData.length : 0
           } //This is important field to render the next data totalCount
           next={() => {
-            handleInfiniteScroll();
+             handleInfiniteScroll();
           }}
           scrollableTarget="scrollableDiv"
           hasMore={

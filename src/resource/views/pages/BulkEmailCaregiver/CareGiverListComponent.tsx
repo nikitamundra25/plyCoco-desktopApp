@@ -44,20 +44,18 @@ export const CareGiverListComponent: FunctionComponent<
     }
   };
 
-  console.log("careGiverData",loading , called);
   
-
   return (
     <Col lg={"5"} className="pr-lg-0">
-      <div id="scrollableDiv" className="caregiver-list custom-scroll">
+      <div id="scrollableDivCareGiver" className="caregiver-list custom-scroll">
         <InfiniteScroll
           dataLength={
             careGiverData && careGiverData.length ? careGiverData.length : 0
           } //This is important field to render the next data totalCount
           next={() => {
-            handleInfiniteScroll();
+             handleInfiniteScroll();
           }}
-          scrollableTarget="scrollableDiv"
+          scrollableTarget="scrollableDivCareGiver"
           hasMore={
             props.confirmApp ||
             props.unlinkedBy ||

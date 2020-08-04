@@ -95,6 +95,8 @@ const CarinstituionListView: FunctionComponent<
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCells: any[]) => {
+    console.log("Insiodeeee");
+    
     let selectedRows: any[] = [];
     if (selectedCells && selectedCells.length) {
       selectedRows = selectedCells.map((selectedCell: any) => {
@@ -112,18 +114,20 @@ const CarinstituionListView: FunctionComponent<
           deptId = "",
           divisions = [],
         } = careInstData ? careInstData : {};
-
+  console.log("careInstDatacareInstData",qualificationList);
+  console.log("qualificationIdqualificationId",qualificationId,"jjjjj" ,item);
+  
         let qualification1: IReactSelectInterface[] = [];
         if (
           qualificationList &&
           qualificationList.length &&
           item &&
-          item.qualificationId
+          item.qualificationId && item.qualificationId[0] !== null
         ) {
           qualification1 = qualificationList.filter(({ value }: any) =>
             item.qualificationId.includes(value)
           );
-        } else if (qualificationId && qualificationId.length) {
+        } else if (qualificationId && qualificationId.length) {     
           qualification1 = qualificationList.filter(({ value }: any) =>
             qualificationId.includes(value)
           );
@@ -160,6 +164,8 @@ const CarinstituionListView: FunctionComponent<
           cellIndex,
         };
       });
+      console.log("selectedRowsselectedRows",selectedRows);
+      
       handleSelection(selectedRows, "careinstitution");
     }
   };
@@ -339,10 +345,12 @@ const CarinstituionListView: FunctionComponent<
       setshowCareGiverEmail(true);
     } else {
       setshowCareGiverEmail(false);
+      setisFromUnlink(false)
       setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
     }
     if (openCareGiverBulkEmail) {
       setunlinkedBy("");
+      setisFromUnlink(false)
     }
   };
 

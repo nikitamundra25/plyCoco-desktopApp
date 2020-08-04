@@ -4492,17 +4492,19 @@ const Appointment: FunctionComponent = (props: any) => {
     );
   }
   let qualificationfor: any;
+  console.log("ItemItem",Item);
   if (
     Item &&
     Item.qualificationForCharge &&
     !Item.qualificationForCharge.value
   ) {
-    qualificationfor = qualificationList.filter((value: any) => {
-      return Item && Item.qualificationForCharge
-        ? Item.qualificationForCharge === value.value
-        // Item.qualificationForCharge.includes(value.value)
-        : null;
-    });  
+    
+    // qualificationfor = qualificationList.filter((value: any) => {
+    //   return Item && Item.qualificationForCharge
+    //     ? Item.qualificationForCharge === value.value
+    //     // Item.qualificationForCharge.includes(value.value)
+    //     : null;
+    // });  
   } else {
     qualificationfor = [Item.qualificationForCharge];
   }

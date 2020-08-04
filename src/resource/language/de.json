@@ -331,6 +331,7 @@
   "ROUTES_CARE_INSTITUTION":"/Pflegeeinrichtung",
   "ROUTES_CARE_INSTITUTION_PERSONAL_DATA":"/Pflegeeinrichtung/personenbezogene-Daten",
   "OFFERS":"Angebote",
+  "OFFER":"Angebot",
   "OFFER_FOR":"Angebot für",
   "POSITIVE":"Positiv",
   "NEGATIVE":"Negativ",
@@ -352,7 +353,7 @@
   "AGE":"Alter",
   "TITLE":"Titel",
   "SALUTATION":"Anrede",
-  "BEST_WISHES":"Mit freundlichen Grüßen",
+  "BEST_WISHES":"Viele Grüße",
   "FIRST_NAME":"Vorname",
   "SURNAME":"Nachname",
   "SHORT_NAME":"Kurzname",
@@ -627,7 +628,7 @@
   "QUALIFICATION_HEAD":"Qualifikation gesucht",
   "LEASING_OFFER":"Leasing-Angebot",
   "CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED":"Qualifizierung erwünscht:",
-  "FEE_TEXT":"Gebühren frei ausgehandelt",
+  "FEE_TEXT":"Frei verhandelbar",
   "LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER":"Leasing-Angebote im Namen der TIMyoCY,Gebühr gemäß Rahmenvertrag.",
   "CONTRACT_LINE":"Im Namen von TIMyoCY gemäß Rahmenvertrag (Rahmenvertrag ist beigefügt)",
   "CONTRACT_MAIL_INFO":"Die Betreuungseinrichtung sendet den unterzeichneten Vertrag per E-Mail/Fax oder Post zurück. Der Plycoco-Mitarbeiter kann den Termin dann auf „bestätigt“ setzen.",
@@ -725,7 +726,7 @@
   "CG_PROFILE_DISAPPROVE":"Das Profil dieser Pflegekraft wird abgelehnt",
   "CG_PROFILE_APPROVE_SUCESS":"Profil der Pflegekraft erfolgreich genehmigt",
   "CG_PROFILE_DISAPPROVE_SUCESS":"Profil der Pflegekraft erfolgreich abgelehnt",
-  "FEE":"Gebühren",
+  "FEE":"Honorars",
   "VIEW_ARCHIVE":"Papierkorb anzeigen",
   "CONFIRM_EMPLOYEE_RESTORE_MSG":"Dieser Mitarbeiter wird wiederhergestellt.",
   "EMPLOYEE_RESTORED_SUCCESS":"Mitarbeiter erfolgreich wiederhergestellt.",
@@ -1248,7 +1249,7 @@
    "CAREGIVER_INVOICE_NUM_ERROR": "Pflegekraft-Rechnungs-Steuerklasse muss eine Zahl sein",
    "LEASING_INVOICE_NUM_ERROR": "Leasing-Rechnungs-Steuerklasse muss eine Zahl sein",
    "PLYCOCO_INVOICE_NUM_ERROR": "Plycoco-Rechnungs-Steuerklasse muss eine Nummer sein",
-    "MENU_BULK_EMAIL_CI":"Bulk Email Care Institutions",
+    "MENU_BULK_EMAIL_CI":"Massen-E-Mail Einrichtungen",
 
 
 

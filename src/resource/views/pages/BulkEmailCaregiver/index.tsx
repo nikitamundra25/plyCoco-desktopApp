@@ -827,9 +827,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
         let mailBody: any = '';
         mailBody = `<p>${languageTranslation('CAREGIVER_OFFER_EMAIL_HEADING')}
-          </p><br/>${
+          </p>${
             isLeasing
-              ? `<p>${languageTranslation('LEASING_OFFER')}</p></BR>`
+              ? `<p>${languageTranslation('LEASING_OFFER')}</p>`
               : ''
           }<p>${languageTranslation(
           'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
@@ -837,7 +837,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           ' ' +
           qualificationString}</p><br/>${divRow}</br>${
           props.showButton
-            ? `</br><p><a href="http://78.47.143.190:8000/">${languageTranslation("DIRECT_BOOKING")} </a></p></br>`
+            ? `<p><a href="http://78.47.143.190:8000/">${languageTranslation("DIRECT_BOOKING")} </a></p></br>`
             : ''
         }${remarkRow}</br><p>${languageTranslation('FEE') +
           ':' +
@@ -934,11 +934,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         });
 
         if (!terminateAggrement && !leasingContract) {
-          let mailBody = `<p>${languageTranslation(
+          let mailBody = `<div>${languageTranslation(
             'CAREGIVER_OFFER_EMAIL_HEADING'
-          )}</p><br/><p>${languageTranslation(
+          )}</div><div>${languageTranslation(
             'LEASING_OFFER'
-          )}</p></BR><p>${languageTranslation(
+          )}</div><p>${languageTranslation(
             'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
           ) +
             ' ' +
@@ -1480,11 +1480,11 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           'OFFER_REQUIREMENTS_TO_CG'
         )}</p><p>${languageTranslation(
           'CAREGIVER_OFFER_EMAIL_HEADING'
-        )}</p><br/><p>${languageTranslation(
+        )}</p><p>${languageTranslation(
           'CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED'
         )}</p>${qualificationReq}<br/><p>${languageTranslation('FEE') +
           ':' +
-          languageTranslation('FEE_TEXT')}<br/>`;
+          languageTranslation('FEE_TEXT')}`;
         // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         setSubject(languageTranslation('OFFER_REQUIREMENTS_SUB'));
         const updatedContent: any = mailBody ? setDefaultSignature(mailBody) : '';

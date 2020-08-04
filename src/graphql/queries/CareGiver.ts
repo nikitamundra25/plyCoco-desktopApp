@@ -404,11 +404,14 @@ query getInvoiceByUserId( $userId: ID!) {
 const GET_ALL_PAYSLIP_CAREGIVER = gql`
   query getAllPayslipCaregiver($userId: ID) {
     getAllPayslipCaregiver(userId: $userId) {
-      id
-      date
-      totalSalary
-      comment
+      year
+      payslips{
+        id
+        totalSalary
+        date
+        comment
     }
+  }
   }
 `;
 

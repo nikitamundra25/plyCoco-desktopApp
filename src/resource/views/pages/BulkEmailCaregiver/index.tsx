@@ -555,6 +555,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         }
       });
     } else {
+      console.log("In infinite scroll");
+      
       caregiverListFetch({
         variables: {
           page: page + 1

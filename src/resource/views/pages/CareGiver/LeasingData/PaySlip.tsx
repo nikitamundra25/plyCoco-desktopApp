@@ -16,7 +16,11 @@ const PaySlip: FunctionComponent<any> = (props: any) => {
     loading
   } = props
 
+  console.log('payslipDetailspayslipDetails', payslipDetails ? payslipDetails.getAllPayslipCaregiver  : null)
+  
   console.log('payslipDetailspayslipDetails', payslipDetails ? payslipDetails.getAllPayslipCaregiver.length  : null)
+  
+  console.log('payslipDetailspayslipDetails', payslipDetails ? payslipDetails.getAllPayslipCaregiver  : null)
   console.log('loading',loading)
 
   return (
@@ -62,13 +66,21 @@ const PaySlip: FunctionComponent<any> = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            <tr>
+          {loading ? (
+              <div className='table-loader'>
+                <Loader />
+                </div>
+                      ) : payslipDetails &&
+                        payslipDetails.getAllPayslipCaregiver &&
+                        payslipDetails.getAllPayslipCaregiver.length ? 
+                          payslipDetails.getAllPayslipCaregiver.map((element: any, index: number) => {
+                            return(<tr>
               <td colSpan={12}>
                 <div className="date-title">
                   <span className="align-middle mr-2">
                     <i className="icon-arrow-down" />
                   </span>
-                  <span className="align-middle ">{languageTranslation("DATE")}: 2019</span>
+                          <span className="align-middle ">{languageTranslation("DATE")}: {element.year}</span>
                 </div>
                 <div>
                   <Table
@@ -82,21 +94,23 @@ const PaySlip: FunctionComponent<any> = (props: any) => {
                         <div className='table-loader'>
                           <Loader />
                         </div>
-                      ) : payslipDetails &&
-                        payslipDetails.getAllPayslipCaregiver &&
-                        payslipDetails.getAllPayslipCaregiver.length ? 
-                          payslipDetails.getAllPayslipCaregiver.map((element: any, index: number) => {
+                      ) : element &&
+                        element.payslips &&
+                        element.payslips.length ? 
+                        element.payslips.map((d: any, index: number) => {
                             console.log('element',element)
+                            console.log('element',element.year)
+                            console.log('element',element.payslips)
                             return(<tr>
                         <td className="sno-col">{index}</td>
                         <td className="date-col">
-                          {moment(element .date).format(
+                          {moment(d .date).format(
                                 defaultDateFormat ,
                               )}</td>
                         <td className="type-col"> {"Permanent Employee"} </td>
-                        <td className="amount-col">{element .totalSalary}</td>
-                        <td className="remarks-col">{element .remarks}</td>
-                        <td className="paid-col">{element .totalSalary}</td>
+                        <td className="amount-col">{d.totalSalary}</td>
+                        <td className="remarks-col">{d.remarks}</td>
+                        <td className="paid-col">{d.totalSalary}</td>
                       </tr>)
                         }) : 
                         null }
@@ -105,7 +119,9 @@ const PaySlip: FunctionComponent<any> = (props: any) => {
                   </Table>
                 </div>
               </td>
-            </tr>
+            </tr>)
+              }) : 
+            null }
           </tbody>
         </Table>
       </div>

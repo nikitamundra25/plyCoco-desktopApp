@@ -948,9 +948,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         });
 
         if (!terminateAggrement && !leasingContract) {
-          let mailBody = `<div>${languageTranslation(
+          let mailBody = `<p>${languageTranslation(
             "CAREGIVER_OFFER_EMAIL_HEADING"
-          )}</div><div>${languageTranslation("LEASING_OFFER")}</div><p>${
+          )}</p><p>${languageTranslation("LEASING_OFFER")}</p><p>${
             languageTranslation("CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED") +
             " " +
             qualificationString
@@ -1028,6 +1028,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       }
       if (props.unlinkedBy) {
         if (props.unlinkedBy === "canstitution") {
+          console.log("++++++++++++In this section");
+          
           let apointedCareGiver: any[] = [];
           if (
             selectedCellsCareinstitution &&
@@ -1072,7 +1074,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           )} ${moment(apointedCareGiver[0].date).format("DD.MM")}`;
           // setBody(editorState);
           const updatedContent: any = bodyData
-            ? setDefaultSignature(bodyData)
+            ? setDefaultSignature(`<div>${bodyData}</div>`)
             : "";
           setBody(updatedContent);
           setSubject(subject);
@@ -1081,6 +1083,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             value: "",
           });
         } else if (!props.confirmApp) {
+          console.log("************In this section");
           let apointedCareGiver: any[] = [];
 
           if (
@@ -1132,7 +1135,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }`;
           // setBody(editorState);
           const updatedContent: any = bodyData
-            ? setDefaultSignature(bodyData)
+            ? setDefaultSignature(`<div>${bodyData}</div>`)
             : "";
           setBody(updatedContent);
           setSubject(subject);

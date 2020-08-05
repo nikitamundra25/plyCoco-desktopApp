@@ -256,11 +256,11 @@ export const DocumentTempSelect: IReactSelectInterface[] = [
 
 export const Gender: IReactSelectInterface[] = [
   {
-    value: languageTranslation('MALE'),
+    value: 'MALE',
     label: languageTranslation('MALE'),
   },
   {
-    value: languageTranslation('FEMALE'),
+    value: 'FEMALE',
     label: languageTranslation('FEMALE'),
   },
 ];

@@ -851,7 +851,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             : ""
         }${remarkRow}</br><p>${
           languageTranslation("FEE") + ":" + languageTranslation("FEE_TEXT")
-        }</p>${
+        }</p></br>${
           isLeasing
             ? `<p>${languageTranslation(
                 "LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER"
@@ -958,7 +958,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             languageTranslation("FEE") + ":" + languageTranslation("FEE_TEXT")
           }</p><p>${languageTranslation(
             "LEASING_OFFERS_BEHALF_OF_TIMYOCY_FOOTER"
-          )}</p>`;
+          )}</p></br>`;
 
           // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
           setSubject(languageTranslation("CAREGIVER_OFFER_EMAIL_SUBJECT"));
@@ -1021,7 +1021,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         // const editorState = bodyData ? HtmlToDraftConverter(bodyData) : '';
         setSubject(languageTranslation("APPOINTMENT_CONFIRM"));
         const updatedContent: any = bodyData
-          ? setDefaultSignature(bodyData)
+          ? setDefaultSignature(`<div>${bodyData}</div>`)
           : "";
         setBody(updatedContent);
         // setBody(editorState);
@@ -1554,7 +1554,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           "CAREGIVER_OFFER_EMAIL_QUALIFICATION_WANTED"
         )}</p>${qualificationReq}<br/><p>${
           languageTranslation("FEE") + ":" + languageTranslation("FEE_TEXT")
-        }`;
+        }</br>`;
         // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         setSubject(languageTranslation("OFFER_REQUIREMENTS_SUB"));
         const updatedContent: any = mailBody

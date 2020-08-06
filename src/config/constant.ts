@@ -13,16 +13,16 @@ export const PAGE_LIMIT: number = 10;
 export const TODO_PAGE_LIMIT: number = 14;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
 export const ASYNC_LIST_LIMIT: number = 50;
-export const defaultDateTimeFormatForDashboard: any = "DD.MM.YYYY HH:mm";
-export const appointmentDayFormat: string = "dd";
-export const appointmentDateFormat: string = "DD";
-export const appointmentMonthFormat: string = "MMMM";
-export const appointmentYearFormat: string = "YYYY";
-export const defaultDateTimeFormat: any = "DD.MM.YYYY HH:mm:ss";
-export const defaultDateFormat: any = "DD.MM.YYYY";
-export const dbAcceptableFormat: any = "YYYY-MM-DD";
-export const dateFormat: any = "MMM, Do YYYY";
-export const regSinceDate: any = "DD.MM.YYYY";
+export const defaultDateTimeFormatForDashboard: any = 'DD.MM.YYYY HH:mm';
+export const appointmentDayFormat: string = 'dd';
+export const appointmentDateFormat: string = 'DD';
+export const appointmentMonthFormat: string = 'MMMM';
+export const appointmentYearFormat: string = 'YYYY';
+export const defaultDateTimeFormat: any = 'DD.MM.YYYY HH:mm:ss';
+export const defaultDateFormat: any = 'DD.MM.YYYY';
+export const dbAcceptableFormat: any = 'YYYY-MM-DD';
+export const dateFormat: any = 'MMM, Do YYYY';
+export const regSinceDate: any = 'DD.MM.YYYY';
 
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
@@ -146,14 +146,15 @@ export const ContactType: IReactSelectInterface[] = [
   { value: 'Vice director', label: 'Vice director' },
 ];
 
-
-
 export const InvoiceType: IReactSelectInterface[] = [
   {
     value: 'ByEmailsWithoutDocuments',
     label: languageTranslation('BY_EMAILS_WITHOUT_DOCUMENTS'),
   },
-  { value: 'ByEmailsWithDocuments', label: languageTranslation('BY_EMAIL_WITH_DOCUMENTS') },
+  {
+    value: 'ByEmailsWithDocuments',
+    label: languageTranslation('BY_EMAIL_WITH_DOCUMENTS'),
+  },
   {
     value: 'ByPostAndEmailWithoutDocuments',
     label: languageTranslation('BY_POST_AND_EMAIL_WITHOUT_DOCUMENTS'),
@@ -182,29 +183,30 @@ export const InvoiceType: IReactSelectInterface[] = [
 
 export const InvoiceInterval: IReactSelectInterface[] = [
   { value: 'MonthlyForThe1st', label: languageTranslation('MONTHLY_FOR_1ST') },
-  { value: 'SemimonthlyFor1and16', label: languageTranslation('SEMIMONTHLY_FOR_1_AND_16')},
-  { value: 'WeeklyMondays', label: languageTranslation('WEEKLY_MONDAYS')},
+  {
+    value: 'SemimonthlyFor1and16',
+    label: languageTranslation('SEMIMONTHLY_FOR_1_AND_16'),
+  },
+  { value: 'WeeklyMondays', label: languageTranslation('WEEKLY_MONDAYS') },
 ];
-
 
 export const CaregiverInvoiceTax: IReactSelectInterface[] = [
   { value: '0', label: `0% ${languageTranslation('TAX')}` },
   { value: '16', label: `16% ${languageTranslation('TAX')}` },
-  { value: '19',label: `19% ${languageTranslation('TAX')}`},
+  { value: '19', label: `19% ${languageTranslation('TAX')}` },
 ];
 
 export const PlycocoInvoiceTax: IReactSelectInterface[] = [
   { value: '0', label: `0% ${languageTranslation('TAX')}` },
   { value: '16', label: `16% ${languageTranslation('TAX')}` },
-  { value: '19',label: `19% ${languageTranslation('TAX')}`},
+  { value: '19', label: `19% ${languageTranslation('TAX')}` },
 ];
 
 export const LeasingInvoiceTax: IReactSelectInterface[] = [
   { value: '0', label: `0% ${languageTranslation('TAX')}` },
   { value: '16', label: `16% ${languageTranslation('TAX')}` },
-  { value: '19',label: `19% ${languageTranslation('TAX')}`},
+  { value: '19', label: `19% ${languageTranslation('TAX')}` },
 ];
-
 
 export const CareInstitutionContactAttribute: IReactSelectInterface[] = [
   {
@@ -256,11 +258,11 @@ export const DocumentTempSelect: IReactSelectInterface[] = [
 
 export const Gender: IReactSelectInterface[] = [
   {
-    value: 'MALE',
+    value: 'Male',
     label: languageTranslation('MALE'),
   },
   {
-    value: 'FEMALE',
+    value: 'Female',
     label: languageTranslation('FEMALE'),
   },
 ];
@@ -337,8 +339,8 @@ export const CalculationInterval: IReactSelectInterface[] = [
 ];
 
 export const Supplements: IReactSelectInterface[] = [
-  { value: 'Exclusive', label: languageTranslation("EXCLUSIVE_LABEL") },
-  { value: 'Cumulative', label: languageTranslation("CUMULATIVE_LABEL") },
+  { value: 'Exclusive', label: languageTranslation('EXCLUSIVE_LABEL') },
+  { value: 'Cumulative', label: languageTranslation('CUMULATIVE_LABEL') },
 ];
 
 export const MaritalStatus: IReactSelectInterface[] = [
@@ -352,16 +354,24 @@ export const MaritalStatus: IReactSelectInterface[] = [
   { value: 'Widowed', label: languageTranslation('WIDOWED_LABEL') },
 ];
 
-
 export const HealthInsuranceType: IReactSelectInterface[] = [
-  { value: 'VoluntarilyInsuredByLaw',  label: languageTranslation('VOLUNTARILY_INSURED_BY_LAW')},
+  {
+    value: 'VoluntarilyInsuredByLaw',
+    label: languageTranslation('VOLUNTARILY_INSURED_BY_LAW'),
+  },
   { value: 'LegallyInsured', label: languageTranslation('LEGALLY_INSURED') },
-  { value: 'PrivatelyInsured', label: languageTranslation('PRIVATELY_INSURED')},
+  {
+    value: 'PrivatelyInsured',
+    label: languageTranslation('PRIVATELY_INSURED'),
+  },
 ];
 
 export const HealthInsuranceProvider: IReactSelectInterface[] = [
   { label: languageTranslation('ACTIMONDA_BKK'), value: 'ActimondaBkk' },
-  { label: languageTranslation('ACTIMONDA_BKK_(NBL)'), value: 'ActimondaBkk(NBL)' },
+  {
+    label: languageTranslation('ACTIMONDA_BKK_(NBL)'),
+    value: 'ActimondaBkk(NBL)',
+  },
   {
     label: languageTranslation('AKA_AUGENOPTIKER_AUSGL.kASSE'),
     value: 'AKAAugenoptikerAusgl.kasse',
@@ -375,8 +385,9 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     value: 'ALTEOLDENBURGERKrankenversicherungAG',
   },
   {
-    label:
-    languageTranslation('ALTE_OLDENBURGER_Krankenversicherung_von_1927_Versicherungsverein'),
+    label: languageTranslation(
+      'ALTE_OLDENBURGER_Krankenversicherung_von_1927_Versicherungsverein',
+    ),
     value:
       'ALTEOLDENBURGERKrankenversicherungvon1927VersicherungsvereinAufGegenseitigkeit',
   },
@@ -384,15 +395,36 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('AOK_BADEN-WTBG./NECKAR-FILS'),
     value: 'AOKBaden-Wtbg./Neckar-Fils',
   },
-  { label: languageTranslation('AOK_BADEN-Württemberg'), value: 'AOKBaden-Württemberg' },
+  {
+    label: languageTranslation('AOK_BADEN-Württemberg'),
+    value: 'AOKBaden-Württemberg',
+  },
   { label: languageTranslation('AOK_BAYERN'), value: 'AOKBayern' },
-  { label: languageTranslation('AOK_BREMEN/BREMEHAVEN'), value: 'AOKBremen/Bremerhaven' },
+  {
+    label: languageTranslation('AOK_BREMEN/BREMEHAVEN'),
+    value: 'AOKBremen/Bremerhaven',
+  },
   { label: languageTranslation('AOK_HESSEN'), value: 'AOKHessen' },
-  { label: languageTranslation('AOK_NIEDERSACHSEN'), value: 'AOKNiedersachsen' },
-  { label: languageTranslation('AOK_NIENBURG/WESER'), value: 'AOKNienburg/Weser' },
-  { label: languageTranslation('AOK_NORDOST(Berlin)'), value: 'AOKNordost(Berlin)' },
-  { label: languageTranslation('AOK_NORDOST(Brandenburg)'), value: 'AOKNordost(Brandenburg)' },
-  { label: languageTranslation('AOK_NORDOST(Meckl.-Vorp.)'), value: 'AOKNordost(Meckl.-Vorp.)' },
+  {
+    label: languageTranslation('AOK_NIEDERSACHSEN'),
+    value: 'AOKNiedersachsen',
+  },
+  {
+    label: languageTranslation('AOK_NIENBURG/WESER'),
+    value: 'AOKNienburg/Weser',
+  },
+  {
+    label: languageTranslation('AOK_NORDOST(Berlin)'),
+    value: 'AOKNordost(Berlin)',
+  },
+  {
+    label: languageTranslation('AOK_NORDOST(Brandenburg)'),
+    value: 'AOKNordost(Brandenburg)',
+  },
+  {
+    label: languageTranslation('AOK_NORDOST(Meckl.-Vorp.)'),
+    value: 'AOKNordost(Meckl.-Vorp.)',
+  },
   {
     label: languageTranslation('AOK_NORDWEST(Schlesw.-Holst.)'),
     value: 'AOKNordWest(Schlesw.-Holst.)',
@@ -401,8 +433,14 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('AOK_NORDWEST(Westf.-Lippe)'),
     value: 'AOKNordWest(Westf.-Lippe)',
   },
-  { label: languageTranslation('AOK_PLUS(Sachsen)'), value: 'AOKPlus(Sachsen)' },
-  { label: languageTranslation('AOK_PLUS(Thüringen)'), value: 'AOKPlus(Thüringen)' },
+  {
+    label: languageTranslation('AOK_PLUS(Sachsen)'),
+    value: 'AOKPlus(Sachsen)',
+  },
+  {
+    label: languageTranslation('AOK_PLUS(Thüringen)'),
+    value: 'AOKPlus(Thüringen)',
+  },
   {
     label: languageTranslation('AOK_RHEINL.-Pf./Saarl.(Rh-Pf.)'),
     value: 'AOKRheinl.-Pf./Saarl.(Rh-Pf.)',
@@ -411,8 +449,14 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('AOK_RHEINL.-Pf./Saarl.(Saarl.)'),
     value: 'AOK Rheinl.-Pf./Saarl.(Saarl.)',
   },
-  { label: languageTranslation('AOK_RHEINLAND/HAMBURG'), value: 'AOKRheinland/Hamburg' },
-  { label: languageTranslation('AOK_SACHSEN-ANHALT'), value: 'AOKSachsen-Anhalt' },
+  {
+    label: languageTranslation('AOK_RHEINLAND/HAMBURG'),
+    value: 'AOKRheinland/Hamburg',
+  },
+  {
+    label: languageTranslation('AOK_SACHSEN-ANHALT'),
+    value: 'AOKSachsen-Anhalt',
+  },
   {
     label: languageTranslation('APOTHEKER-VERSORGUNG_BERLIN'),
     value: 'Apotheker-VersorgungBerlin',
@@ -429,7 +473,10 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('ARAG_KRANKENVERSICHERUNGS-AKTIENGESELLSCHAFT'),
     value: 'ARAGKrankenversicherungs-Aktiengesellschaft',
   },
-  { label: languageTranslation('ÄRZTEVERSORGUNG_BERLIN'), value: 'ÄrzteversorgungBerlin' },
+  {
+    label: languageTranslation('ÄRZTEVERSORGUNG_BERLIN'),
+    value: 'ÄrzteversorgungBerlin',
+  },
   {
     label: languageTranslation('ÄRZTEVERSORGUNG_LAND_BRDBG'),
     value: 'ÄrzteversorgungLandBrdbg.',
@@ -438,7 +485,10 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('ÄRZTEVERSORGUNG_NIEDERSACHSEN'),
     value: 'ÄrzteversorgungNiedersachsen',
   },
-  { label: languageTranslation('ÄRZTEVERSORGUNG_NORDRHEIN'), value: 'ÄrzteversorgungNordrhein' },
+  {
+    label: languageTranslation('ÄRZTEVERSORGUNG_NORDRHEIN'),
+    value: 'ÄrzteversorgungNordrhein',
+  },
   {
     label: languageTranslation('ÄRZTEVERSORGUNG_SACHSEN-ANHALT'),
     value: 'ÄrzteversorgungSachsen-Anhalt',
@@ -463,39 +513,68 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('BaWü_Versorg.anst.Ärzte/ZÄ/TÄ'),
     value: 'BaWüVersorg.anst.Ärzte/ZÄ/TÄ',
   },
-  { label: languageTranslation('BAY_APOTHEKERVERSORGUNG'), value: 'Bay.Apothekerversorgung' },
+  {
+    label: languageTranslation('BAY_APOTHEKERVERSORGUNG'),
+    value: 'Bay.Apothekerversorgung',
+  },
   {
     label: languageTranslation('BAYERISCHE_APOTHEKERVERSORGUNG'),
     value: 'BayerischeApothekerversorgung',
   },
-  { label: languageTranslation('BAYERISCHE_ÄRZTEVERSORGUNG'), value: 'BayerischeÄrzteversorgung' },
   {
-    label: languageTranslation('BAYERISCHE_BEATENKRANKENKASSE_AKTIENGESELLCHAFT'),
+    label: languageTranslation('BAYERISCHE_ÄRZTEVERSORGUNG'),
+    value: 'BayerischeÄrzteversorgung',
+  },
+  {
+    label: languageTranslation(
+      'BAYERISCHE_BEATENKRANKENKASSE_AKTIENGESELLCHAFT',
+    ),
     value: 'BayerischeBeamtenkrankenkasseAktiengesellschaft',
   },
   { label: languageTranslation('BERTELSMANN_BKK'), value: 'BertelsmannBKK' },
-  { label: languageTranslation('BERTELSMANN_BKK(NBL)'), value: 'BertelsmannBKK(NBL)' },
+  {
+    label: languageTranslation('BERTELSMANN_BKK(NBL)'),
+    value: 'BertelsmannBKK(NBL)',
+  },
   { label: languageTranslation('BIG_DIREKT_GESUND'), value: 'BIGDirektGesund' },
-  { label: languageTranslation('BIG_DIREKT_GESUND(NBL)'), value: 'BIGDirektGesund(NBL)' },
+  {
+    label: languageTranslation('BIG_DIREKT_GESUND(NBL)'),
+    value: 'BIGDirektGesund(NBL)',
+  },
   { label: languageTranslation('BKK_A.T.U._(NBL)'), value: 'BKKA.T.U.(NBL)' },
-  { label: languageTranslation('BKK_ACHENBACH_Buschhütten'), value: 'BKKAchenbachBuschhütten' },
+  {
+    label: languageTranslation('BKK_ACHENBACH_Buschhütten'),
+    value: 'BKKAchenbachBuschhütten',
+  },
   { label: languageTranslation('BKK_ADVITA'), value: 'BKKAdvita' },
   { label: languageTranslation('BKK_ADVITA(NBL)'), value: 'BKKAdvita(NBL)' },
   { label: languageTranslation('BKK_AESCULAP'), value: 'BkkAesculap' },
   { label: languageTranslation('BKK_AKZO_NOBEL'), value: 'BKKAkzoNobel' },
   { label: languageTranslation('BKK_AUDI'), value: 'BKKAudi' },
   { label: languageTranslation('BKK_AUDI(NBL)'), value: 'BKKAudi(NBL)' },
-  { label: languageTranslation('BKK_B.BRAUN_MELSUNGEN'), value: 'BKKB.BraunMelsungen' },
+  {
+    label: languageTranslation('BKK_B.BRAUN_MELSUNGEN'),
+    value: 'BKKB.BraunMelsungen',
+  },
   { label: languageTranslation('BKK_BENTELER_AG'), value: 'BkkBenteleRag' },
   { label: languageTranslation('BKK_BMW_AG'), value: 'BKKBMWAG' },
   { label: languageTranslation('BKK_BMW-AG(NBL)'), value: 'BKKBMW-AG(NBL)' },
   { label: languageTranslation('BKK_BOSCH'), value: 'BKKBosch' },
   { label: languageTranslation('BKK_BOSCH(NBL)'), value: 'BKKBosch(NBL)' },
   { label: languageTranslation('BKK_BPW_WIEHL'), value: 'BKKBPWWiehl' },
-  { label: languageTranslation('BKK_BRANDENBURGISCHE'), value: 'BKKBrandenburgische' },
-  { label: languageTranslation('BKK_BRAUN-GILETTE'), value: 'BKKBraun-Gilette' },
+  {
+    label: languageTranslation('BKK_BRANDENBURGISCHE'),
+    value: 'BKKBrandenburgische',
+  },
+  {
+    label: languageTranslation('BKK_BRAUN-GILETTE'),
+    value: 'BKKBraun-Gilette',
+  },
   { label: languageTranslation('BKK_CONTINENTALE'), value: 'BKKContinentale' },
-  { label: languageTranslation('BKK_D.G.M._PFAFF_AG'), value: 'BKKd.G.M.PfaffAG' },
+  {
+    label: languageTranslation('BKK_D.G.M._PFAFF_AG'),
+    value: 'BKKd.G.M.PfaffAG',
+  },
   { label: languageTranslation('BKK_DEBEKA'), value: 'BKKDebeka' },
   { label: languageTranslation('BKK_DEBEKA(NBL)'), value: 'BKKDebeka(NBL)' },
   {
@@ -503,8 +582,14 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     value: 'BKKDerMTUFriedrichshafen',
   },
   { label: languageTranslation('BKK_DER_SIEMAG'), value: 'BKKDerSIEMAG' },
-  { label: languageTranslation('BKK_DEUSTSCHE_BANK_AG'), value: 'BKKDeutscheBankAG' },
-  { label: languageTranslation('BKK_DEUSTSCHE_BANK_AG(NBL)'), value: 'BKKDeutscheBankAG(NBL)' },
+  {
+    label: languageTranslation('BKK_DEUSTSCHE_BANK_AG'),
+    value: 'BKKDeutscheBankAG',
+  },
+  {
+    label: languageTranslation('BKK_DEUSTSCHE_BANK_AG(NBL)'),
+    value: 'BKKDeutscheBankAG(NBL)',
+  },
   { label: languageTranslation('BKK_DIAKONIE'), value: 'BKKDiakonie' },
   { label: languageTranslation('BKK_DIAKONIE_NBL'), value: 'BKKDiakonieNBL' },
   { label: languageTranslation('BKK_DIE_BERGISCHE'), value: 'BKKDieBergische' },
@@ -514,12 +599,21 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   { label: languageTranslation('BKK_EWE'), value: 'BKKEWE' },
   { label: languageTranslation('BKK_EWE(NBL)'), value: 'BKKEWE(NBL)' },
   { label: languageTranslation('BKK_EXKLUSIVE'), value: 'BKKExklusiv' },
-  { label: languageTranslation('BKK_EXKLUSIVE(NBL)'), value: 'BKKExklusiv(NBL)' },
-  { label: languageTranslation('BKK_FABER-CASTELL'), value: 'BKKFaber-Castell' },
+  {
+    label: languageTranslation('BKK_EXKLUSIVE(NBL)'),
+    value: 'BKKExklusiv(NBL)',
+  },
+  {
+    label: languageTranslation('BKK_FABER-CASTELL'),
+    value: 'BKKFaber-Castell',
+  },
   { label: languageTranslation('BKK_FIRMUS'), value: 'BKKFirmus' },
   { label: languageTranslation('BKK_FIRMUS(NBL)'), value: 'BKKFirmus(NBL)' },
   { label: languageTranslation('BKK_FREUDENBERG'), value: 'BKKFreudenberg' },
-  { label: languageTranslation('BKK_für_UMWELT_UND_BAUEN'), value: 'BKKfürUmweltAndBauen' },
+  {
+    label: languageTranslation('BKK_für_UMWELT_UND_BAUEN'),
+    value: 'BKKfürUmweltAndBauen',
+  },
   { label: languageTranslation('BKK_GANDV'), value: 'BKKGANDV' },
   {
     label: languageTranslation('BKK_GILDEMEISTER/SEIDENST.(NBL)'),
@@ -531,21 +625,30 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   { label: languageTranslation('BKK_GRILLO_WERKE'), value: 'BKKGrilloWerke' },
   { label: languageTranslation('BKK_GROZ-BECKERT'), value: 'BKKGroz-Beckert' },
-  { label: languageTranslation('BKK_HAPAG-LLOYD_BREMEN'), value: 'BKKHapag-LloydBremen' },
+  {
+    label: languageTranslation('BKK_HAPAG-LLOYD_BREMEN'),
+    value: 'BKKHapag-LloydBremen',
+  },
   { label: languageTranslation('BKK_HEAG'), value: 'BKKHEAG' },
   { label: languageTranslation('BKK_HENSCHEL_PLUS'), value: 'BKKHenschelPlus' },
   { label: languageTranslation('BKK_HERKULES'), value: 'BKKHerkules' },
   { label: languageTranslation('BKK_HMR'), value: 'BKKHMR' },
   { label: languageTranslation('BKK_INOVITA'), value: 'BKKINOVITA' },
   { label: languageTranslation('BKK_INOVITA(NBL)'), value: 'BKKINOVITA(NBL)' },
-  { label: languageTranslation('BKK_KARL_MAYER_GmbH'), value: 'BKKKarlMayerGmbH' },
+  {
+    label: languageTranslation('BKK_KARL_MAYER_GmbH'),
+    value: 'BKKKarlMayerGmbH',
+  },
   { label: languageTranslation('BKK_KBA'), value: 'BKKKBA' },
   { label: languageTranslation('BKK_KBA(NBL)'), value: 'BKKKBA(NBL)' },
   { label: languageTranslation('BKK_KNOLL_AG'), value: 'BKKKnollAG' },
   { label: languageTranslation('BKK_LINDE'), value: 'BKKLinde' },
   { label: languageTranslation('BKK_LINDE(NBL)'), value: 'BKKLinde(NBL)' },
   { label: languageTranslation('BKK_LOGISTIK'), value: 'BKKLogistik' },
-  { label: languageTranslation('BKK_LOGISTIK(NBL)'), value: 'BKKLogistik(NBL)' },
+  {
+    label: languageTranslation('BKK_LOGISTIK(NBL)'),
+    value: 'BKKLogistik(NBL)',
+  },
   { label: languageTranslation('BKK_MAHLE'), value: 'BKKMahle' },
   { label: languageTranslation('BKK_MEDICUS_OST'), value: 'BKKMEDICUSOST' },
   { label: languageTranslation('BKK_MELITTA_PLUS'), value: 'BKKMelittaPlus' },
@@ -561,33 +664,57 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   { label: languageTranslation('BKK_PFAFF(NBL)'), value: 'BKKPFAFF(NBL)' },
   { label: languageTranslation('BKK_PFALZ'), value: 'BKKPfalz' },
   { label: languageTranslation('BKK_PFALZ(NBL)'), value: 'BKKPfalz(NBL)' },
-  { label: languageTranslation('BKK_PREUSSAG_Publik'), value: 'BKKPREUSSAGPublik' },
+  {
+    label: languageTranslation('BKK_PREUSSAG_Publik'),
+    value: 'BKKPREUSSAGPublik',
+  },
   { label: languageTranslation('BKK_PROVITA'), value: 'BKKProVita' },
-  { label: languageTranslation('BKK_PWC_DEUTSCHE_REVISION'), value: 'BKKPWCDeutscheRevision' },
+  {
+    label: languageTranslation('BKK_PWC_DEUTSCHE_REVISION'),
+    value: 'BKKPWCDeutscheRevision',
+  },
   { label: languageTranslation('BKK_R+V'), value: 'BKKR+V' },
   { label: languageTranslation('BKK_R+V(NBL)'), value: 'BKKR+V(NBL)' },
   { label: languageTranslation('BKK_RHEINLAND'), value: 'BKKRheinland' },
-  { label: languageTranslation('BKK_RHEINLAND(NBL)'), value: 'BKKRheinland(NBL)' },
+  {
+    label: languageTranslation('BKK_RHEINLAND(NBL)'),
+    value: 'BKKRheinland(NBL)',
+  },
   { label: languageTranslation('BKK_RUHRGAS'), value: 'BKKRuhrgas' },
   { label: languageTranslation('BKK_RWE'), value: 'BKKRWE' },
   { label: languageTranslation('BKK_SALZGITTER'), value: 'BKKSalzgitter' },
-  { label: languageTranslation('BKK_SALZGITTER(NBL)'), value: 'BKKSalzgitter(NBL)' },
+  {
+    label: languageTranslation('BKK_SALZGITTER(NBL)'),
+    value: 'BKKSalzgitter(NBL)',
+  },
   { label: languageTranslation('BKK_SBH'), value: 'BKKSBH' },
   { label: languageTranslation('BKK_SCHEUFELEN'), value: 'BKKScheufelen' },
   { label: languageTranslation('BKK_SKD'), value: 'BKKSKD' },
   { label: languageTranslation('BKK_SKD(NBL)'), value: 'BKKSKD(NBL)' },
-  { label: languageTranslation('BKK_STADT_AUGSBURG'), value: 'BKKStadtAugsburg' },
+  {
+    label: languageTranslation('BKK_STADT_AUGSBURG'),
+    value: 'BKKStadtAugsburg',
+  },
   { label: languageTranslation('BKK_STINNES'), value: 'BKKStinnes' },
   { label: languageTranslation('BKK_Südzucker'), value: 'BKKSüdzucker' },
-  { label: languageTranslation('BKK_Südzucker(NBL)'), value: 'BKKSüdzucker(NBL)' },
+  {
+    label: languageTranslation('BKK_Südzucker(NBL)'),
+    value: 'BKKSüdzucker(NBL)',
+  },
   { label: languageTranslation('BKK_TECHNOFORM'), value: 'BKKTechnoform' },
   { label: languageTranslation('BKK_TUI'), value: 'BKKTUI' },
   { label: languageTranslation('BKK_TUI(NBL)'), value: 'BKKTUI(NBL)' },
   { label: languageTranslation('BKK_VDN'), value: 'BKKVDN' },
   { label: languageTranslation('BKK_VDN(NBL)'), value: 'BKKVDN(NBL)' },
   { label: languageTranslation('BKK_VERBUNDPLUS'), value: 'BKKVerbundPlus' },
-  { label: languageTranslation('BKK_VERBUNDPLUS(NBL)'), value: 'BKKVerbundPlus(NBL)' },
-  { label: languageTranslation('BKK_VERBUNDPLUS_UNION'), value: 'BKKVerkehrsbauUnion' },
+  {
+    label: languageTranslation('BKK_VERBUNDPLUS(NBL)'),
+    value: 'BKKVerbundPlus(NBL)',
+  },
+  {
+    label: languageTranslation('BKK_VERBUNDPLUS_UNION'),
+    value: 'BKKVerkehrsbauUnion',
+  },
   {
     label: languageTranslation('BKK_VERBUNDPLUS_UNION(NBL)'),
     value: 'BKKVerkehrsbauUnion(NBL)',
@@ -597,8 +724,14 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('BKK_Voralb_Heller*Leuze*Traub'),
     value: 'BKKVoralbHeller*Leuze*Traub',
   },
-  { label: languageTranslation('BKK_WERRA-MEISSNER'), value: 'BKKWerra-Meissner' },
-  { label: languageTranslation('BKK_Wieland-Werke'), value: 'BKKWieland-Werke' },
+  {
+    label: languageTranslation('BKK_WERRA-MEISSNER'),
+    value: 'BKKWerra-Meissner',
+  },
+  {
+    label: languageTranslation('BKK_Wieland-Werke'),
+    value: 'BKKWieland-Werke',
+  },
   {
     label: languageTranslation('BKK_WirtschaftANDFinanzen'),
     value: 'BKKWirtschaftANDFinanzen',
@@ -611,25 +744,38 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   { label: languageTranslation('BKK_WMF(NBL)'), value: 'BKKWMF(NBL)' },
   { label: languageTranslation('BKK_Würth'), value: 'BKKWürth' },
   { label: languageTranslation('BKK_Würth(NBL)'), value: 'BKKWürth(NBL)' },
-  { label: languageTranslation('BKK_ZF_AND_Partner'), value: 'BKKZFANDPartner' },
-  { label: languageTranslation('BKK_ZF_AND_Partner_(NBL)'), value: 'BKKZFANDPartner(NBL)' },
+  {
+    label: languageTranslation('BKK_ZF_AND_Partner'),
+    value: 'BKKZFANDPartner',
+  },
+  {
+    label: languageTranslation('BKK_ZF_AND_Partner_(NBL)'),
+    value: 'BKKZFANDPartner(NBL)',
+  },
   { label: languageTranslation('BKK24'), value: 'BKK24' },
   { label: languageTranslation('BKK24(NBL)'), value: 'BKK24(NBL)' },
   {
     label: languageTranslation('BUNDESKNAPPSCH.f.ANG._(WEST)'),
     value: 'Bundesknappsch.f.Ang.(WEST)',
   },
-  { label: languageTranslation('BUNDESKNAPPSCHAFT'), value: 'Bundesknappschaft' },
+  {
+    label: languageTranslation('BUNDESKNAPPSCHAFT'),
+    value: 'Bundesknappschaft',
+  },
   {
     label: languageTranslation('BUNDESKNAPPSCHAFT_f._MINIJOBS'),
     value: 'Bundesknappschaft.Minijobs',
   },
   {
-    label: languageTranslation('CENTRAL_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
+    label: languageTranslation(
+      'CENTRAL_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+    ),
     value: 'CentralKrankenversicherungAktiengesellschaft',
   },
   {
-    label: languageTranslation('CONCORDIA_KRANKENVERSICHERUNGS-AKTIENGESELLSCHAFT'),
+    label: languageTranslation(
+      'CONCORDIA_KRANKENVERSICHERUNGS-AKTIENGESELLSCHAFT',
+    ),
     value: 'ConcordiaKrankenversicherungs-Aktiengesellschaft',
   },
   {
@@ -640,13 +786,16 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   { label: languageTranslation('DAIMLER_BKK(NBL)'), value: 'DaimlerBKK(NBL)' },
   { label: languageTranslation('DAK-GESUNDHEIT'), value: 'DAK-Gesundheit' },
   {
-    label:
-    languageTranslation('DEBEKA_KRANKENVERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT_SITZ_KOBLENZ_AM_RHEIN'),
+    label: languageTranslation(
+      'DEBEKA_KRANKENVERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT_SITZ_KOBLENZ_AM_RHEIN',
+    ),
     value:
       'DebekaKrankenversicherungsvereinAufGegenseitigkeitSitzKoblenzAmRhein',
   },
   {
-    label: languageTranslation('DEUTSCHER_RING_KRANKENVERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT'),
+    label: languageTranslation(
+      'DEUTSCHER_RING_KRANKENVERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT',
+    ),
     value: 'DEUTSCHERRINGKrankenversicherungsvereinAufGegenseitigkeit',
   },
   {
@@ -654,31 +803,42 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     value: 'DEVKKrankenversicherungs-Aktiengesellschaft',
   },
   {
-    label: languageTranslation('DKV_DEUTSCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
+    label: languageTranslation(
+      'DKV_DEUTSCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+    ),
     value: 'DKVDeutscheKrankenversicherungAktiengesellschaft',
   },
   { label: languageTranslation('ENERGIE-BKK'), value: 'Energie-BKK' },
   { label: languageTranslation('ENERGIE-BKK(NBL)'), value: 'Energie-BKK(NBL)' },
   {
-    label: languageTranslation('ENVIVAS_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
+    label: languageTranslation(
+      'ENVIVAS_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+    ),
     value: 'ENVIVASKrankenversicherungAktiengesellschaft',
   },
   {
-    label: languageTranslation('ERGO_DIREKT_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
+    label: languageTranslation(
+      'ERGO_DIREKT_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+    ),
     value: 'ERGODirektKrankenversicherungAktiengesellschaft',
   },
   {
-    label:
-    languageTranslation('FREIE_ARZT-UND_MEDIZINKASSE_DER_ANGEHÖRIGEN_DER_BERUFSFEUERWEHR_UND_DER_POLIZEI_VVAG'),
+    label: languageTranslation(
+      'FREIE_ARZT-UND_MEDIZINKASSE_DER_ANGEHÖRIGEN_DER_BERUFSFEUERWEHR_UND_DER_POLIZEI_VVAG',
+    ),
     value:
       'FreieArzt-undMedizinkasseDerAngehörigenDerBerufsfeuerwehrUndDerPolizeiVVaG',
   },
   {
-    label: languageTranslation('GOTHAER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
+    label: languageTranslation(
+      'GOTHAER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+    ),
     value: 'GothaerKrankenversicherungAktiengesellschaft',
   },
   {
-    label: languageTranslation('HALLESCHE_KRANKENVERSICHERUNG_AUF_GEGENSEITIGKEIT'),
+    label: languageTranslation(
+      'HALLESCHE_KRANKENVERSICHERUNG_AUF_GEGENSEITIGKEIT',
+    ),
     value: 'HALLESCHEKrankenversicherungaufGegenseitigkeit',
   },
   {
@@ -686,30 +846,47 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     value: 'HanseMerkurKrankenversicherungAG',
   },
   {
-    label: languageTranslation('HANSEMERKUR_KRANKENVERSICHERUNG_AUF_GEGENSEITIGKEIT'),
+    label: languageTranslation(
+      'HANSEMERKUR_KRANKENVERSICHERUNG_AUF_GEGENSEITIGKEIT',
+    ),
     value: 'HanseMerkurKrankenversicherungaufGegenseitigkeit',
   },
   {
     label: languageTranslation('HANSEMERKUR_SPEZIALE_KRANKENVERSICHERUNG_AG'),
     value: 'HanseMerkurSpezialeKrankenversicherungAG',
   },
-  { label: languageTranslation('HEIMAT_KRANKENKASSE'), value: 'HeimatKrankenkasse' },
-  { label: languageTranslation('HEIMAT_KRANKENKASSE(NBL)'), value: 'HeimatKrankenkasse(NBL)' },
+  {
+    label: languageTranslation('HEIMAT_KRANKENKASSE'),
+    value: 'HeimatKrankenkasse',
+  },
+  {
+    label: languageTranslation('HEIMAT_KRANKENKASSE(NBL)'),
+    value: 'HeimatKrankenkasse(NBL)',
+  },
   {
     label: languageTranslation('HEK_HANSEATISCHE_KRANKENKASSE'),
     value: 'HEKHanseatischeKrankenkasse',
   },
-  { label: languageTranslation('HKK_HANDELSKRANKENKASSE'), value: 'HKKHandelskrankenkasse' },
+  {
+    label: languageTranslation('HKK_HANDELSKRANKENKASSE'),
+    value: 'HKKHandelskrankenkasse',
+  },
   {
     label: languageTranslation('HUK-COBURG-KRANKENVERSICHERUNG_AG'),
     value: 'HUK-COBURG-KrankenversicherungAG',
   },
-  { label: languageTranslation('IKK_BRANDENBURG_UND_BERLIN'), value: 'IKKBrandenburgundBerlin' },
+  {
+    label: languageTranslation('IKK_BRANDENBURG_UND_BERLIN'),
+    value: 'IKKBrandenburgundBerlin',
+  },
   { label: languageTranslation('IKK_BRAUNSCHWEIG'), value: 'IKKBraunschweig' },
   { label: languageTranslation('IKK_CLASSIC'), value: 'IKKClassic' },
   { label: languageTranslation('IKK_CLASSIC(NBL)'), value: 'IKKClassic(NBL)' },
   { label: languageTranslation('IKK_GESUND_PLUS'), value: 'IKKGesundPlus' },
-  { label: languageTranslation('IKK_GESUND_PLUS(NBL)'), value: 'IKKGesundPlus(NBL)' },
+  {
+    label: languageTranslation('IKK_GESUND_PLUS(NBL)'),
+    value: 'IKKGesundPlus(NBL)',
+  },
   { label: languageTranslation('IKK_NORD'), value: 'IKKNord' },
   { label: languageTranslation('IKK_NORD(NBL)'), value: 'IKKNord(NBL)' },
   { label: languageTranslation('IKK_Südwest'), value: 'IKKSüdwest' },
@@ -717,23 +894,46 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('INTER_KRANKENVERSICHERUNG_AG'),
     value: 'INTERKrankenversicherungAG',
   },
-  { label: languageTranslation('ITSG_Test-AOK_BY-eVpT'), value: 'ITSGTest-AOKBY-eVpT' },
-  { label: languageTranslation('ITSG_Test-AOK_NDS-eVpT'), value: 'ITSGTest-AOKNDS-eVpT' },
-  { label: languageTranslation('ITSG_Test-AOK_NW-eVpT'), value: 'ITSGTest-AOKNW-eVpT' },
-  { label: languageTranslation('ITSG_Test-BEK-eVpT'), value: 'ITSGTest-BEK-eVpT' },
-  { label: languageTranslation('ITSG_Test-DAK-eVpT'), value: 'ITSGTest-DAK-eVpT' },
-  { label: languageTranslation('ITSG_Test-HKK-eVpT'), value: 'ITSGTest-HKK-eVpT' },
+  {
+    label: languageTranslation('ITSG_Test-AOK_BY-eVpT'),
+    value: 'ITSGTest-AOKBY-eVpT',
+  },
+  {
+    label: languageTranslation('ITSG_Test-AOK_NDS-eVpT'),
+    value: 'ITSGTest-AOKNDS-eVpT',
+  },
+  {
+    label: languageTranslation('ITSG_Test-AOK_NW-eVpT'),
+    value: 'ITSGTest-AOKNW-eVpT',
+  },
+  {
+    label: languageTranslation('ITSG_Test-BEK-eVpT'),
+    value: 'ITSGTest-BEK-eVpT',
+  },
+  {
+    label: languageTranslation('ITSG_Test-DAK-eVpT'),
+    value: 'ITSGTest-DAK-eVpT',
+  },
+  {
+    label: languageTranslation('ITSG_Test-HKK-eVpT'),
+    value: 'ITSGTest-HKK-eVpT',
+  },
   {
     label: languageTranslation('ITSG_Test-KBS_MiniJob-eVpT'),
     value: 'ITSGTest-KBSMiniJob-eVpT',
   },
-  { label: languageTranslation('ITSG_Test-TK-eVpT'), value: 'ITSGTest-TK-eVpT' },
+  {
+    label: languageTranslation('ITSG_Test-TK-eVpT'),
+    value: 'ITSGTest-TK-eVpT',
+  },
   {
     label: languageTranslation('KKH_KAUFMÄNNISCHE_KRANKENKASSE'),
     value: 'KKHKaufmännischeKrankenkasse',
   },
   {
-    label: languageTranslation('KRANKENUNTERSTÜTZUNGSKASSE_DER_BERUFSFEUERWEHR_HANNOVER'),
+    label: languageTranslation(
+      'KRANKENUNTERSTÜTZUNGSKASSE_DER_BERUFSFEUERWEHR_HANNOVER',
+    ),
     value: 'KrankenunterstützungskasseDerBerufsfeuerwehrHannover',
   },
   {
@@ -741,12 +941,16 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     value: 'LandeskrankenhilfeV.V.a.G.',
   },
   {
-    label:
-    languageTranslation('LIGA_KRANKENVERSICHERUNG_KATHOLISCHER_PRIESTER_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT_REGENSBURG'),
+    label: languageTranslation(
+      'LIGA_KRANKENVERSICHERUNG_KATHOLISCHER_PRIESTER_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT_REGENSBURG',
+    ),
     value:
       'LIGAKrankenversicherungkatholischerPriesterVersicherungsvereinaufGegenseitigkeitRegensburg',
   },
-  { label: languageTranslation('LKK_NIEDERSACHSEN-BREMEN'), value: 'LKKNiedersachsen-Bremen' },
+  {
+    label: languageTranslation('LKK_NIEDERSACHSEN-BREMEN'),
+    value: 'LKKNiedersachsen-Bremen',
+  },
   {
     label: languageTranslation('LOHNFORTZAHLUNGSKASSE_AURICH_VVAG'),
     value: 'LohnfortzahlungskasseAurichVVaG',
@@ -760,11 +964,15 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     value: 'LVMKrankenversicherungs-AG',
   },
   {
-    label: languageTranslation('MANNHEIMER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
+    label: languageTranslation(
+      'MANNHEIMER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+    ),
     value: 'MannheimerKrankenversicherungAktiengesellschaft',
   },
   {
-    label: languageTranslation('MECKLENBURGISCHE_KRANKENVERSICHERUNGS-AKTIENGESELLSCHAFT'),
+    label: languageTranslation(
+      'MECKLENBURGISCHE_KRANKENVERSICHERUNGS-AKTIENGESELLSCHAFT',
+    ),
     value: 'MecklenburgischeKrankenversicherungs-Aktiengesellschaft',
   },
   { label: languageTranslation('Miele_BKK'), value: 'MieleBKK' },
@@ -778,7 +986,9 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     value: 'Niedersächs.Versorgungsw.d.RA',
   },
   {
-    label: languageTranslation('NÜRNBERGER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
+    label: languageTranslation(
+      'NÜRNBERGER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+    ),
     value: 'NÜRNBERGERKrankenversicherungAktiengesellschaft',
   },
   {
@@ -786,7 +996,9 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     value: 'PAX-FAMILIENFÜRSORGEKrankenversicherungAG',
   },
   {
-    label: languageTranslation('PRAENATURA_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT(VVAG)'),
+    label: languageTranslation(
+      'PRAENATURA_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT(VVAG)',
+    ),
     value: 'praenaturaVersicherungsvereinaufGegenseitigkeit(VVaG)',
   },
   { label: languageTranslation('PRONOVA_BKK'), value: 'pronovaBKK' },
@@ -799,7 +1011,10 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('R+V_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
     value: 'R+VKrankenversicherungAktiengesellschaft',
   },
-  { label: languageTranslation('Sächsische_Ärzteversorgung'), value: 'SächsischeÄrzteversorgung' },
+  {
+    label: languageTranslation('Sächsische_Ärzteversorgung'),
+    value: 'SächsischeÄrzteversorgung',
+  },
   {
     label: languageTranslation('Sächsische_Landesapotkerkammer'),
     value: 'SächsischeLandesapotkerkammer',
@@ -807,9 +1022,15 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   { label: languageTranslation('Salus_BKK'), value: 'SalusBKK' },
   { label: languageTranslation('Salus_BKK(NBL)'), value: 'SalusBKK(NBL)' },
   { label: languageTranslation('SCHWENNINGER_BKK'), value: 'SchwenningerBKK' },
-  { label: languageTranslation('SCHWENNINGER_BKK(NBL)'), value: 'SchwenningerBKK(NBL)' },
+  {
+    label: languageTranslation('SCHWENNINGER_BKK(NBL)'),
+    value: 'SchwenningerBKK(NBL)',
+  },
   { label: languageTranslation('SECURVITA_BKK'), value: 'SECURVITABKK' },
-  { label: languageTranslation('SECURVITA_BKK(NBL)'), value: 'SECURVITABKK(NBL)' },
+  {
+    label: languageTranslation('SECURVITA_BKK(NBL)'),
+    value: 'SECURVITABKK(NBL)',
+  },
   { label: languageTranslation('SEE-KRANKENKASSE'), value: 'See-Krankenkasse' },
   { label: languageTranslation('SEEKRANKENKASSE'), value: 'Seekrankenkasse' },
   { label: languageTranslation('SIEMENS_BKK(NBL)'), value: 'SiemensBKK(NBL)' },
@@ -823,8 +1044,9 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     value: 'SONOKrankenversicherungA.G.',
   },
   {
-    label:
-    languageTranslation('St._Martinus_Priesterverein_d._Diözese Rottenburg-…d_Sterbekasse-(KSK)_Vers.Verein_auf_Gegenseitigk.'),
+    label: languageTranslation(
+      'St._Martinus_Priesterverein_d._Diözese Rottenburg-…d_Sterbekasse-(KSK)_Vers.Verein_auf_Gegenseitigk.',
+    ),
     value:
       'St.MartinusPriestervereind.DiözeseRottenburg-…dSterbekasse-(KSK)Vers.VereinAufGegenseitigk.',
   },
@@ -832,18 +1054,27 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('Steuerberatervers._Brandenburg'),
     value: 'Steuerberatervers.Brandenburg',
   },
-  { label: languageTranslation('Steuerberatervers.Nieders.'), value: 'Steuerberatervers.Nieders.' },
+  {
+    label: languageTranslation('Steuerberatervers.Nieders.'),
+    value: 'Steuerberatervers.Nieders.',
+  },
   {
     label: languageTranslation('Süddeutsche_Krankenversicherung_a.G.'),
     value: 'SüddeutscheKrankenversicherunga.G.',
   },
   { label: languageTranslation('TBK_Thüringer_BKK'), value: 'TBKThüringerBKK' },
-  { label: languageTranslation('TBK_Thüringer_BKK(NBL)'), value: 'TBKThüringerBKK(NBL)' },
+  {
+    label: languageTranslation('TBK_Thüringer_BKK(NBL)'),
+    value: 'TBKThüringerBKK(NBL)',
+  },
   {
     label: languageTranslation('TECHNIKER_KRANKENKASSE(TK)'),
     value: 'TechnikerKrankenkasse(TK)',
   },
-  { label: languageTranslation('Tierärztekammer_Nordrhein'), value: 'TierärztekammerNordrhein' },
+  {
+    label: languageTranslation('Tierärztekammer_Nordrhein'),
+    value: 'TierärztekammerNordrhein',
+  },
   {
     label: languageTranslation('Tierärztevers.Niedersachsen'),
     value: 'Tierärztevers.Niedersachsen',
@@ -936,7 +1167,10 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     label: languageTranslation('VERSORGUNGSWERK_DER_RA_MECKLENBG-V.'),
     value: 'VersorgungswerkDerRAMecklenbg-V.',
   },
-  { label: languageTranslation('VERSORGUNGSWERK_DER_RA_NRW'), value: 'VersorgungswerkDerRANRW' },
+  {
+    label: languageTranslation('VERSORGUNGSWERK_DER_RA_NRW'),
+    value: 'VersorgungswerkDerRANRW',
+  },
   {
     label: languageTranslation('VERSORGUNGSWERK_DER_RA_SAARLAND'),
     value: 'VersorgungswerkDerRASaarland',
@@ -967,49 +1201,69 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
     value: 'vigoKrankenversicherungVVaG',
   },
   {
-    label: languageTranslation('WÜRTTEMBERGISCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'),
+    label: languageTranslation(
+      'WÜRTTEMBERGISCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+    ),
     value: 'WürttembergischeKrankenversicherungAktiengesellschaft',
   },
 ];
 
 export const Religion: IReactSelectInterface[] = [
-  { value: 'EvangelicalChurch(EKD)', label: languageTranslation('EVANGELICAL_CHURCH_LABEL')  },
+  {
+    value: 'EvangelicalChurch(EKD)',
+    label: languageTranslation('EVANGELICAL_CHURCH_LABEL'),
+  },
   {
     value: 'FreelyReligiousCommunities',
     label: languageTranslation('FREELY_RELIGIOUS_COMMUNITIES_LABEL'),
   },
-  { value: 'JewishCommunities', label: languageTranslation('JEWSIH_COMMUNITIES_LABEL') },
+  {
+    value: 'JewishCommunities',
+    label: languageTranslation('JEWSIH_COMMUNITIES_LABEL'),
+  },
   {
     value: 'CatholicBishopricGermanyOfTheoldCatholicsinGermany',
     label: languageTranslation('CATHOLIC_BISHOPRIC_LABEL'),
   },
-  { value: 'OthersWithout', label: languageTranslation("OTHERS_WITHOUT_LABEL") },
-  { value: 'RomanCatholicChurch', label: languageTranslation('ROMAN_CATHOLIC_CHURCH_LABEL') },
+  {
+    value: 'OthersWithout',
+    label: languageTranslation('OTHERS_WITHOUT_LABEL'),
+  },
+  {
+    value: 'RomanCatholicChurch',
+    label: languageTranslation('ROMAN_CATHOLIC_CHURCH_LABEL'),
+  },
   {
     value: 'UnitarianReligiousCommunityFreeProtestants',
     label: languageTranslation('UNITARIAN_RELIGIOUS_LABEL'),
   },
 ];
 
-
-
 export const Preoccupation: IReactSelectInterface[] = [
-  { value: 'OtherSidelineActivities', label: languageTranslation('OTHER_SIDELINE_ACTIVITIES') },
-  { value: 'Officials', label:  languageTranslation('OFFICIALS') },
-  { value: 'BlockwiseTIMyoCE', label: languageTranslation('BLOCKWISE_TIMYOCE') },
+  {
+    value: 'OtherSidelineActivities',
+    label: languageTranslation('OTHER_SIDELINE_ACTIVITIES'),
+  },
+  { value: 'Officials', label: languageTranslation('OFFICIALS') },
+  {
+    value: 'BlockwiseTIMyoCE',
+    label: languageTranslation('BLOCKWISE_TIMYOCE'),
+  },
   {
     value: 'PermanentlyEmployedTIMyoCE',
-    label:  languageTranslation('PERMANENTLY_EMPLOYED_TIMYOCE'),
+    label: languageTranslation('PERMANENTLY_EMPLOYED_TIMYOCE'),
   },
-  { value: 'Pensioner', label:  languageTranslation('PENSIONER') },
-  { value: 'PupilStudent', label:  languageTranslation('PUPIL_STUDENT') },
-  { value: 'SelfemployedFreelance', label:  languageTranslation('SELF_EMPLOYED_FREELANCE') },
+  { value: 'Pensioner', label: languageTranslation('PENSIONER') },
+  { value: 'PupilStudent', label: languageTranslation('PUPIL_STUDENT') },
+  {
+    value: 'SelfemployedFreelance',
+    label: languageTranslation('SELF_EMPLOYED_FREELANCE'),
+  },
   {
     value: 'FullTimeInOtherCompany',
-    label:  languageTranslation('FULL_TIME_IN_ANOTHER_COMPANY'),
+    label: languageTranslation('FULL_TIME_IN_ANOTHER_COMPANY'),
   },
 ];
-
 
 export const NightAllowancePerHour: IReactSelectInterface[] = [
   { value: '22:00', label: languageTranslation('FROM_10_PM') },
@@ -1089,50 +1343,50 @@ export const StatusOptions: IReactSelectInterface[] = [
 
 export const LeasingPriceList: IReactSelectInterface[] = [
   {
-    label:  languageTranslation("DEFAULT_CAREGIVER"),
+    label: languageTranslation('DEFAULT_CAREGIVER'),
     value: '12.5',
   },
   {
-    label:languageTranslation("PERMANENT_WORKER_12_5_LABEL"),
-    value: '12.5', 
+    label: languageTranslation('PERMANENT_WORKER_12_5_LABEL'),
+    value: '12.5',
   },
   {
-    label:  languageTranslation("PERMANENT_WORKER_14_5_LABEL"),
-    value:'14.5',
+    label: languageTranslation('PERMANENT_WORKER_14_5_LABEL'),
+    value: '14.5',
   },
   {
-    label:  languageTranslation("PERMANENT_WORKER_20_5_LABEL"),
-    value:'20.5',
+    label: languageTranslation('PERMANENT_WORKER_20_5_LABEL'),
+    value: '20.5',
   },
   {
-    label: languageTranslation("PERMANENT_WORKER_23_5_LABEL"),
-    value: '23.5'
+    label: languageTranslation('PERMANENT_WORKER_23_5_LABEL'),
+    value: '23.5',
   },
   {
-    label: languageTranslation("PERMANENT_WORKER_25_5_LABEL"),
+    label: languageTranslation('PERMANENT_WORKER_25_5_LABEL'),
     value: '25.5',
   },
   {
-    label: languageTranslation("PERMANENT_WORKER_26_5_LABEL"),
+    label: languageTranslation('PERMANENT_WORKER_26_5_LABEL'),
     value: '26.5',
   },
   {
-    label: languageTranslation("PERMANENT_WORKER_27_5_LABEL"),
+    label: languageTranslation('PERMANENT_WORKER_27_5_LABEL'),
     value: '27.5',
   },
 ];
 
 export const CareInstLeasingPriceList: IReactSelectInterface[] = [
   {
-    label: languageTranslation("FACILITY_22_5"),
+    label: languageTranslation('FACILITY_22_5'),
     value: '22.5',
   },
   {
-    label: languageTranslation("FACILITY_23_5"),
+    label: languageTranslation('FACILITY_23_5'),
     value: '23.5',
   },
   {
-    label: languageTranslation("FACILITY_25_5"),
+    label: languageTranslation('FACILITY_25_5'),
     value: '25.5',
   },
 ];
@@ -1140,7 +1394,10 @@ export const CareInstLeasingPriceList: IReactSelectInterface[] = [
 export const Nationality: IReactSelectInterface[] = [
   { value: 'Albanien', label: languageTranslation('ALBANIEN') },
   { value: 'Belgien', label: languageTranslation('BELGIEN') },
-  { value: 'BosnienUndHerzegowina', label: languageTranslation('BOSNIEN_UND_HERZEGOWINA') },
+  {
+    value: 'BosnienUndHerzegowina',
+    label: languageTranslation('BOSNIEN_UND_HERZEGOWINA'),
+  },
   { value: 'Bulgarien', label: languageTranslation('BULGARIEN') },
   { value: 'Dänemark', label: languageTranslation('DÄNEMARK') },
   { value: 'Deutschland', label: languageTranslation('DEUTSCHLAND') },
@@ -1195,64 +1452,85 @@ export const Nationality: IReactSelectInterface[] = [
   { value: 'Türkei', label: languageTranslation('TÜRKEI') },
   { value: 'Ukraine', label: languageTranslation('UKRAINE') },
   { value: 'Ungarn', label: languageTranslation('UNGARN') },
-  { value: 'ungeklärt/staatenlos', label: languageTranslation('UNGEKLÄRT/STAATENLOS') },
+  {
+    value: 'ungeklärt/staatenlos',
+    label: languageTranslation('UNGEKLÄRT/STAATENLOS'),
+  },
   { value: 'USA', label: languageTranslation('USA') },
 ];
 
 export const EmailMenusTab: Array<{ name: string; icon: string }> = [
-  { name: languageTranslation("INBOX_LABEL"), icon: 'fa fa-inbox '},
-  { name: languageTranslation("SENT_LABEL"), icon: 'fa fa-send'  },
-  { name: languageTranslation("NEW_EMAIL_LABEL"), icon: 'fa fa-edit' },
+  { name: languageTranslation('INBOX_LABEL'), icon: 'fa fa-inbox ' },
+  { name: languageTranslation('SENT_LABEL'), icon: 'fa fa-send' },
+  { name: languageTranslation('NEW_EMAIL_LABEL'), icon: 'fa fa-edit' },
 ];
 
 export const DocumentTypes: IReactSelectInterface[] = [
   {
     value: 'Registration professional association',
-    label: languageTranslation("REGISTRATION_PROFESSIONAL_ASSOCIATION"),
+    label: languageTranslation('REGISTRATION_PROFESSIONAL_ASSOCIATION'),
   },
-  { value: 'Registration health office', label: languageTranslation("REGISTRATION_HEALTH_LABEL") },
+  {
+    value: 'Registration health office',
+    label: languageTranslation('REGISTRATION_HEALTH_LABEL'),
+  },
   {
     value: 'Medical certificate / health certificate',
-    label: languageTranslation("MEDICAL_HEALTH_CERTIFICATE"),
+    label: languageTranslation('MEDICAL_HEALTH_CERTIFICATE'),
   },
   {
     value: 'Exemption from pension insurance',
-    label: languageTranslation("EXEMPTION_PENSION_LABEL"),
+    label: languageTranslation('EXEMPTION_PENSION_LABEL'),
   },
   {
     value: 'Professional liability insurance (no application)',
-    label: languageTranslation("PROFESSIONAL_LIABILITY_LABEL"),
+    label: languageTranslation('PROFESSIONAL_LIABILITY_LABEL'),
   },
   // { value: 'Various documents', label: 'Various documents' },
-  { value: 'First-aid pass', label: languageTranslation("FIRST_AID_PASS_LABEL") },
-  { value: 'Driving license car', label: languageTranslation("DRIVING_LICENSE_CAR_LABEL") },
-  { value: 'Business registration', label: languageTranslation("BUSINESS_REGISTRATION_LABEL") },
-  { value: 'CV / Vita', label:  languageTranslation("CV_VITA_LABEL") },
+  {
+    value: 'First-aid pass',
+    label: languageTranslation('FIRST_AID_PASS_LABEL'),
+  },
+  {
+    value: 'Driving license car',
+    label: languageTranslation('DRIVING_LICENSE_CAR_LABEL'),
+  },
+  {
+    value: 'Business registration',
+    label: languageTranslation('BUSINESS_REGISTRATION_LABEL'),
+  },
+  { value: 'CV / Vita', label: languageTranslation('CV_VITA_LABEL') },
   {
     value: 'Proof of employees subject to social security contributions',
-    label:  languageTranslation("PROOF_EMPLOYEE_SUBJECT_LABEL"),
+    label: languageTranslation('PROOF_EMPLOYEE_SUBJECT_LABEL'),
   },
   {
     value: 'User agreement (all 5 pages)',
-    label: languageTranslation("USER_AGREEMENT_LABEL"),
+    label: languageTranslation('USER_AGREEMENT_LABEL'),
   },
   {
     value: 'Criminal record certificate',
-    label: languageTranslation("CRIMINAL_RECORD_LABEL"),
+    label: languageTranslation('CRIMINAL_RECORD_LABEL'),
   },
   {
     value: 'Police certificate of good conduct, expanded',
-    label: languageTranslation("POLICE_CERTIFICATE_LABEL"),
+    label: languageTranslation('POLICE_CERTIFICATE_LABEL'),
   },
   {
     value: 'Framework contract for fixed-term contracts',
-    label: languageTranslation("FRAMEWORK_CONTRACT_LABEL"),
+    label: languageTranslation('FRAMEWORK_CONTRACT_LABEL'),
   },
-  { value: 'Governance agreement', label: languageTranslation("GOVERNMENT_AGREEMENT_LABEL") },
-  { value: 'Pension Insurance', label: languageTranslation("PENSION_INSURANCE_LABEL") },
+  {
+    value: 'Governance agreement',
+    label: languageTranslation('GOVERNMENT_AGREEMENT_LABEL'),
+  },
+  {
+    value: 'Pension Insurance',
+    label: languageTranslation('PENSION_INSURANCE_LABEL'),
+  },
   {
     value: 'Certificate / diploma / exam',
-    label: languageTranslation("CERTIFICATE_DIPLOMA_LABEL"),
+    label: languageTranslation('CERTIFICATE_DIPLOMA_LABEL'),
   },
 ];
 
@@ -1362,10 +1640,10 @@ export const matchingColorCareinstituion: IMatchingColorInterface[] = [
     color: '#ffd7b0',
   },
 ];
-export const payGroups:Array<string[]> = [
-["30", "31", "32", "33", "34", "35"],
-["36", "37", "38", "39", "40"],
-["41", "42", "43", "44", "45", "46", "47"],
-["48", "49", "50", "51", "52", "53", "54"],
-["59", "55", "56", "57", "58", "60", "62", "63", "64", "65"]
-]
+export const payGroups: Array<string[]> = [
+  ['30', '31', '32', '33', '34', '35'],
+  ['36', '37', '38', '39', '40'],
+  ['41', '42', '43', '44', '45', '46', '47'],
+  ['48', '49', '50', '51', '52', '53', '54'],
+  ['59', '55', '56', '57', '58', '60', '62', '63', '64', '65'],
+];

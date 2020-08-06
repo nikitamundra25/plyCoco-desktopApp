@@ -4498,13 +4498,14 @@ const Appointment: FunctionComponent = (props: any) => {
     Item.qualificationForCharge &&
     !Item.qualificationForCharge.value
   ) {
+    console.log("*************tem.qualificationForCharge", Item.qualificationForCharge);
     
-    // qualificationfor = qualificationList.filter((value: any) => {
-    //   return Item && Item.qualificationForCharge
-    //     ? Item.qualificationForCharge === value.value
-    //     // Item.qualificationForCharge.includes(value.value)
-    //     : null;
-    // });  
+    qualificationfor = qualificationList.filter((value: any) => {
+      return Item && Item.qualificationForCharge
+        ? Item.qualificationForCharge === value.value
+        // Item.qualificationForCharge.includes(value.value)
+        : null;
+    });  
   } else {
     qualificationfor = [Item.qualificationForCharge];
   }

@@ -31,6 +31,9 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (
       }
     }
   }
+
+  console.log("iiiiiiiiiiiii", workedAtList);
+  
   return (
     <div className="common-list-wrap">
       <div className="common-list-header d-flex align-items-center justify-content-between">

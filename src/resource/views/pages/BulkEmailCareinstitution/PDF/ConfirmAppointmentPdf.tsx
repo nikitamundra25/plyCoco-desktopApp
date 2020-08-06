@@ -55,7 +55,7 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
       marginRight: "auto",
       marginTop: "0px",
       marginLeft: "auto",
-      fontFamily: 'Roboto Normal',
+      // fontFamily: 'Roboto Normal',
     },
     section: {
       paddingRight: "10px",
@@ -66,35 +66,35 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
       marginBottom: "10",
       paddingBottom: "10",
       paddingTop: "0",
-      fontFamily: 'Roboto Normal',
+      // fontFamily: 'Roboto Normal',
       // flexGrow: 1,
     },
     name: {
       width: "150px",
       marginBottom: "40px",
       marginTop: "30px",
-      fontFamily: 'Roboto Bold',
+      // fontFamily: 'Roboto Bold',
     },
     subtitle: {
       fontSize: 18,
       fontWeight: "bold",
       color: "black",
       marginBottom: "15px",
-      fontFamily: 'Roboto Medium',
+      // fontFamily: 'Roboto Medium',
     },
     subtext: {
       fontSize: 10,
       color: "#333",
       marginTop: "10px",
       marginBottom: "10px",
-      fontFamily: 'Roboto Normal',
+      // fontFamily: 'Roboto Normal',
     },
     subtext1: {
       fontSize: 10,
       color: "#333",
       marginTop: "0px",
       marginBottom: "10px",
-      fontFamily: 'Roboto Normal',
+      // fontFamily: 'Roboto Normal',
     },
     subtextbold: {
       fontSize: 12,
@@ -105,7 +105,7 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
       borderBottomWidth: 2,
       borderColor: "black",
       borderStyle: "solid",
-      fontFamily: 'Roboto Medium',
+      // fontFamily: 'Roboto Medium',
     },
     signaturecontainer: {
       flex: 1,
@@ -116,7 +116,7 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
       marginRight: "10px",
       paddingRight: "10px",
       paddingLeft: "10px",
-      fontFamily: 'Roboto Normal',
+      // fontFamily: 'Roboto Normal',
     },
     imagediv: {
       width: "50%",
@@ -133,35 +133,35 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
       paddingTop: "10px",
       fontSize: 10,
       fontWeight: "bold",
-      fontFamily: 'Roboto Medium',
+      // fontFamily: 'Roboto Medium',
     },
     footerwrapper: {
       margin: 10,
       textAlign: "center",
       flexGrow: 1,
       justifyContent: "center",
-      fontFamily: 'Roboto Normal',
+      // fontFamily: 'Roboto Normal',
     },
     footertext: {
       fontSize: 9,
       color: "gray",
       marginBottom: "2px",
       textAlign: "center",
-      fontFamily: 'Roboto Normal',
+      // fontFamily: 'Roboto Normal',
     },
   });
-  Font.register( {
-    family: 'Roboto Bold',
-    src: robotoBold
-  });
-  Font.register( {
-    family: 'Roboto Normal',
-    src: robotoNormal
-  });
-  Font.register( {
-    family: 'Roboto Medium',
-    src: robotoMedium
-  });
+  // Font.register( {
+  //   family: 'Roboto Bold',
+  //   src: robotoBold
+  // });
+  // Font.register( {
+  //   family: 'Roboto Normal',
+  //   src: robotoNormal
+  // });
+  // Font.register( {
+  //   family: 'Roboto Medium',
+  //   src: robotoMedium
+  // });
   
   const { selectedCellsCareinstitution, qualificationList } = props;
   

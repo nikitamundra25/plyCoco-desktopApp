@@ -1178,7 +1178,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
                 element && element.dateString
                   ? moment(element.dateString).format("DD.MM")
                   : ""
-              }</b></span> ${cname ? cname : ""}</br>` +
+              }</b></span> ${cname ? cname : ""}` +
               `<p>${languageTranslation(
                 "SIGN_UP_LINK"
               )} <a href="http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/cancellation-contract/{token}</a>`
@@ -1406,7 +1406,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         <p>${languageTranslation(
           "USE_FOLLOWING_LINK"
         )} <br/> <a href="http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}"/> http://78.47.143.190:8000/confirm-leasing-appointment/employment-contract/{token}</a>
-        </p>`;
+        </p></br></br>`;
         // const editorState = mailBody ? HtmlToDraftConverter(mailBody) : '';
         const updatedContent: any = mailBody
           ? setDefaultSignature(mailBody)

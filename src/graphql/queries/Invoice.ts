@@ -52,6 +52,7 @@ const GET_INVOICE_LIST = gql`
             id
             caregiver {
               attributes
+              leasingPricingList
             }
           }
         }
@@ -59,6 +60,14 @@ const GET_INVOICE_LIST = gql`
           userId
           divisionId
           name
+          startTime
+          endTime
+          date
+          qualificationForCharge
+          qualification{
+            id
+            qualificationAllowance
+          }
           division {
             id
             name
@@ -66,12 +75,6 @@ const GET_INVOICE_LIST = gql`
           f
           s
           n
-          attribute_management {
-            id
-            moneyPerHour
-            basicSalaryPerHour
-            qualificationAllowance
-          }
           user {
             id
             canstitution {
@@ -80,6 +83,9 @@ const GET_INVOICE_LIST = gql`
               leasingInvoiceTax
               defaultTaxValue
               shortName
+            }
+            caregiver{
+              id
             }
           }
         }

@@ -98,22 +98,22 @@ const PersonalInformation: any = (props: any) => {
     );
   }
 
-    // Fetch attribute list from db
-    const { data: attributeContactData } = useQuery<{
-      getContactAttribute: IAttributeValues[];
-    }>(GET_CONTACT_ATTRIBUTES);
-    // Push into attribute options
-    const contactAttrOpt: IAttributeOptions[] | undefined = [];
-    if (attributeContactData && attributeContactData.getContactAttribute) {
-      attributeContactData.getContactAttribute.forEach(
-        ({ id, name, color }: IAttributeValues) =>
-          contactAttrOpt.push({
-            label: name,
-            value: id ? id.toString() : '',
-            color,
-          }),
-      );
-    }
+  // Fetch attribute list from db
+  const { data: attributeContactData } = useQuery<{
+    getContactAttribute: IAttributeValues[];
+  }>(GET_CONTACT_ATTRIBUTES);
+  // Push into attribute options
+  const contactAttrOpt: IAttributeOptions[] | undefined = [];
+  if (attributeContactData && attributeContactData.getContactAttribute) {
+    attributeContactData.getContactAttribute.forEach(
+      ({ id, name, color }: IAttributeValues) =>
+        contactAttrOpt.push({
+          label: name,
+          value: id ? id.toString() : '',
+          color,
+        }),
+    );
+  }
 
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
   //To get country details
@@ -171,10 +171,10 @@ const PersonalInformation: any = (props: any) => {
         : {};
       const { contact = [] } = getCareInstitution ? getCareInstitution : {};
       const contactsData: any[] = [];
-      console.log('contactAttrOpt',contactAttrOpt)
+      console.log('contactAttrOpt', contactAttrOpt)
 
       contact.forEach((element: any) => {
-        console.log('element.attributes',element.attributes)
+        console.log('element.attributes', element.attributes)
         let attr_value: IAttributeOptions[] = [];
         if (element.attributes && element.attributes.length) {
           attr_value = contactAttrOpt.filter(
@@ -182,8 +182,8 @@ const PersonalInformation: any = (props: any) => {
               element.attributes.includes(parseInt(attrOpt.value)),
           );
         }
-        console.log('attr_valueattr_value',attr_value);
-        
+        console.log('attr_valueattr_value', attr_value);
+
         contactsData.push({
           ...element,
           attributes: attr_value,
@@ -268,7 +268,7 @@ const PersonalInformation: any = (props: any) => {
       );
     }
     // var temp to manage if shortName is not entered, store companyName.
-let temp =  values.shortName ? values.shortName.trim() : values.companyName ? values.companyName.trim() : ""
+    let temp = values.shortName ? values.shortName.trim() : values.companyName ? values.companyName.trim() : ""
     try {
       const careInstitutionInput: any = {
         gender: values && values.gender ? values.gender.value : '',
@@ -316,23 +316,23 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
         qualificationId:
           values.qualificationId && values.qualificationId.length
             ? values.qualificationId.map(
-                (qualification: IReactSelectInterface) =>
-                  parseInt(qualification.value),
-              )
+              (qualification: IReactSelectInterface) =>
+                parseInt(qualification.value),
+            )
             : null,
         attributes: AttributeData,
         leasingPriceListId:
           values.leasingPriceListId && values.leasingPriceListId.value
             ? values.leasingPriceListId.value
             : null,
-            leasingInvoiceTax:
-            values.leasingInvoiceTax != null
-              ? parseInt(values.leasingInvoiceTax)
-              : parseInt(values.defaultTaxValue),
-              plycocoInvoiceTax:
-              values.plycocoInvoiceTax != null
-                ? parseInt(values.plycocoInvoiceTax)
-                : parseInt(values.defaultTaxValue)
+        leasingInvoiceTax:
+          values.leasingInvoiceTax != null
+            ? parseInt(values.leasingInvoiceTax)
+            : parseInt(values.defaultTaxValue),
+        plycocoInvoiceTax:
+          values.plycocoInvoiceTax != null
+            ? parseInt(values.plycocoInvoiceTax)
+            : parseInt(values.defaultTaxValue)
       };
       await updateCareInstitution({
         variables: {
@@ -384,12 +384,12 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
     }
   };
   let userSelectedCountry: any = {};
-  const convertintoLabelValue = (data: string, constArr: IReactSelectInterface[] ) => {
-    let selectedValue: IReactSelectInterface | undefined= undefined
-    console.log("data",data);
-    
-    if(data){
-       selectedValue =  constArr.filter((list:any) => list.value === data)[0];
+  const convertintoLabelValue = (data: string, constArr: IReactSelectInterface[]) => {
+    let selectedValue: IReactSelectInterface | undefined = undefined
+    console.log("data", data);
+
+    if (data) {
+      selectedValue = constArr.filter((list: any) => list.value === data)[0];
     }
     return data
       ? selectedValue
@@ -523,8 +523,8 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       lastName: lastName || '',
       gender: gender
         ? Gender.filter(
-            ({ value }: IReactSelectInterface) => value === gender,
-          )[0]
+          ({ value }: IReactSelectInterface) => value === gender,
+        )[0]
         : undefined,
       userName,
       phoneNumber: phoneNumber || '',
@@ -543,9 +543,9 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       remarksViewable: remarksViewable || '',
       country: userSelectedCountry.value
         ? {
-            label: userSelectedCountry.value ? userSelectedCountry.label : null,
-            value: userSelectedCountry.value ? userSelectedCountry.value : null,
-          }
+          label: userSelectedCountry.value ? userSelectedCountry.label : null,
+          value: userSelectedCountry.value ? userSelectedCountry.value : null,
+        }
         : undefined,
       state:
         userSelectedState && userSelectedState.value
@@ -566,10 +566,10 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       attributeId: selectedAttributes,
       remarkData: '',
       // Invoice related fields
-      invoiceType: convertintoLabelValue(invoiceType,InvoiceType),
+      invoiceType: convertintoLabelValue(invoiceType, InvoiceType),
       emailInvoice,
       addressInvoice: addressInvoice || '',
-      interval: convertintoLabelValue(interval,InvoiceInterval),
+      interval: convertintoLabelValue(interval, InvoiceInterval),
       // Fees related fields
       careGiverCommission:
         careGiverCommission !== null
@@ -577,19 +577,19 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
           : '',
       doctorCommission:
         doctorCommission !== null ? germanNumberFormat(doctorCommission) : '',
-      leasingPriceListId: convertintoLabelValue(leasingPriceListId,CareInstLeasingPriceList),
-      leasingInvoiceTax: leasingInvoiceTax != null ? leasingInvoiceTax : defaultTaxValue, 
-      plycocoInvoiceTax: plycocoInvoiceTax != null ? plycocoInvoiceTax : defaultTaxValue, 
+      leasingPriceListId: convertintoLabelValue(leasingPriceListId, CareInstLeasingPriceList),
+      leasingInvoiceTax: leasingInvoiceTax != null ? leasingInvoiceTax : defaultTaxValue,
+      plycocoInvoiceTax: plycocoInvoiceTax != null ? plycocoInvoiceTax : defaultTaxValue,
     };
-    console.log('plycocoInvoiceTaxplycocoInvoiceTax',values);
-    
-    
+    console.log('plycocoInvoiceTaxplycocoInvoiceTax', values);
+
+
     // values.qualificationId = qualificationsData;
 
     Data = {
       label: `${getCareInstitution.lastName} ${''} ${
         getCareInstitution.firstName
-      }`,
+        }`,
       value: Id,
     };
   } else {
@@ -597,6 +597,7 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       countryId: '',
       createdAt: new Date(),
       email: '',
+      zipCode: '',
       firstName: '',
       lastName: '',
       salutation: '',
@@ -625,39 +626,39 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
       <Loader />
     </div>
   ) : (
-    <Form className='form-section forms-main-section'>
-      <Formik
-        initialValues={values}
-        enableReinitialize={true}
-        onSubmit={handleSubmit}
-        children={(props: FormikProps<ICareInstitutionFormValues>) => (
-          <PersonalInfoForm
-            CareInstitutionList={CareInstitutionLinkedTo}
-            {...props}
-            qualificationList={qualificationList}
-            setRemarksDetail={setRemarksDetail}
-            remarksDetail={remarksDetail}
-            saveRemark={saveRemark}
-            careInstitutionAttrOpt={careInstitutionAttrOpt}
-            countriesOpt={countriesOpt}
-            userSelectedCountry={userSelectedCountry}
-          />
-        )}
-        validationSchema={CareInstituionValidationSchema}
-      />
-      <div className='position-relative'>
-        <CareInstitutionContacts
-          contacts={contacts}
-          careInstId={id}
-          careInstitutionAttrOpt={contactAttrOpt}
-          refetch={() => refetch()}
-          setContacts={(contacts: any) => {
-            setContacts((contacts = contacts));
-          }}
-          neContactAdded={() => props.neContactAdded()}
+      <Form className='form-section forms-main-section'>
+        <Formik
+          initialValues={values}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
+          children={(props: FormikProps<ICareInstitutionFormValues>) => (
+            <PersonalInfoForm
+              CareInstitutionList={CareInstitutionLinkedTo}
+              {...props}
+              qualificationList={qualificationList}
+              setRemarksDetail={setRemarksDetail}
+              remarksDetail={remarksDetail}
+              saveRemark={saveRemark}
+              careInstitutionAttrOpt={careInstitutionAttrOpt}
+              countriesOpt={countriesOpt}
+              userSelectedCountry={userSelectedCountry}
+            />
+          )}
+          validationSchema={CareInstituionValidationSchema}
         />
-      </div>
-    </Form>
-  );
+        <div className='position-relative'>
+          <CareInstitutionContacts
+            contacts={contacts}
+            careInstId={id}
+            careInstitutionAttrOpt={contactAttrOpt}
+            refetch={() => refetch()}
+            setContacts={(contacts: any) => {
+              setContacts((contacts = contacts));
+            }}
+            neContactAdded={() => props.neContactAdded()}
+          />
+        </div>
+      </Form>
+    );
 };
 export default PersonalInformation;

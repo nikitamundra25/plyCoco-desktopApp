@@ -25,7 +25,7 @@ export const AddHolidayValidations: Yup.ObjectSchema<Yup.Shape<
             });
           }
           const { isValid, message }: IDateResponse = dateValidator(val, {
-            minDate: moment().format(),
+            minDate: moment().subtract(1, "day").format(),
             maxDate: moment()
               .add(100, "years")
               .format()

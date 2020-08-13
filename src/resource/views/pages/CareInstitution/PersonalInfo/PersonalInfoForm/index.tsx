@@ -568,6 +568,7 @@ const PersonalInformationForm: FunctionComponent<
                   <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                     <Label className="form-label col-form-label ">
                       {languageTranslation("ZIP")}
+                      <span className="required">*</span>
                     </Label>
                   </Col>
                   <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
@@ -579,9 +580,16 @@ const PersonalInformationForm: FunctionComponent<
                         onBlur={handleBlur}
                         value={zipCode}
                         placeholder={languageTranslation("ZIP")}
-                        className=" width-common"
                         maxLength={15}
+                        className={"width-common " +
+                          (errors.zipCode && touched.zipCode
+                            ? "text-input error"
+                            : "text-input")
+                        }
                       />
+                      {errors.zipCode && touched.zipCode && (
+                        <div className="required-tooltip">{errors.zipCode}</div>
+                      )}
                     </div>
                   </Col>
                 </Row>

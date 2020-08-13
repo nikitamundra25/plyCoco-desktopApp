@@ -8,11 +8,18 @@ import {
   PAGE_LIMIT,
   defaultDateFormat,
   dbAcceptableFormat,
+  defaultDateTimeFormatForDashboard,
 } from "../../../../../config";
 import { useHistory, useLocation } from "react-router-dom";
 import PaginationComponent from "../../../components/Pagination";
 import * as qs from "query-string";
 import moment from "moment";
+import {
+  getNightMinutes,
+  getMinutes,
+  convertIntoHours,
+  getSundayMinutes,
+} from "../../../../../helpers";
 
 const InvoiceList: FunctionComponent<IInvoiceList & any> = (
   props: IInvoiceList & any
@@ -89,18 +96,47 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
               </tr>
             ) : invoiceList && invoiceList.length ? (
               invoiceList.map((list: any, index: number) => {
-                let workBegain: any, workEnd: any;
+                let workBegain: any,
+                  workEnd: any,
+                  reqWorkBegain: any,
+                  reqWorkEnd: any;
+                let reqDate = list.cr.date;
+                let startTime = list.cr.startTime;
+                let endTime = list.cr.endTime;
+                let reqStartDate = moment(reqDate + " " + startTime).format();
+                let reqEndDate: any = moment(reqDate + " " + endTime).format();
+
+                var date1 = moment(reqStartDate);
+                var date2 = moment(reqEndDate);
+                var diff = date2.diff(date1, "minutes");
+
+                if (diff < 0) {
+                  reqEndDate = moment(reqEndDate).add("days", 1).format();
+                }
                 if (list && list.ca && list.ca.workingHoursFrom) {
                   workBegain = list.ca.workingHoursFrom.split(",");
                   workEnd = list.ca.workingHoursTo.split(",");
+                } else {
+                  reqWorkBegain = moment(reqStartDate).format(
+                    defaultDateFormat
+                  );
+                  reqWorkEnd = moment(reqEndDate).format(defaultDateFormat);
                 }
                 //Combime date and time
                 let initialdate =
-                  workBegain && workBegain.length ? workBegain[0] : null;
+                  workBegain && workBegain.length
+                    ? workBegain[0]
+                    : reqWorkBegain;
                 let start_time =
-                  workBegain && workBegain.length ? workBegain[1] : null;
-                let enddate = workEnd && workEnd.length ? workEnd[0] : null;
-                let end_time = workEnd && workEnd.length ? workEnd[1] : null;
+                  workBegain && workBegain.length
+                    ? workBegain[1]
+                    : moment(reqStartDate).format("HH:mm");
+                let enddate =
+                  workEnd && workEnd.length ? workEnd[0] : reqWorkEnd;
+                let end_time =
+                  workEnd && workEnd.length
+                    ? workEnd[1]
+                    : moment(reqEndDate).format("HH:mm");
                 console.log(
                   initialdate,
                   "initialdate",
@@ -126,10 +162,7 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
 
                 // let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
                 // let hours = duration ? duration.asHours() : null;
-                let diffDate: any =
-                  (new Date(datetimeB).getTime() -
-                    new Date(datetimeA).getTime()) /
-                  (3600 * 1000);
+
                 let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : "";
                 let timeStamp: any = "";
                 console.log("time", time);
@@ -150,64 +183,112 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                 }
                 //Show Weekend day
                 const dayData = new Date(list.date).getDay();
-                let isWeekendDay: boolean =
-                  dayData === 6 || dayData === 0 ? true : false;
+                let isWeekendDay: boolean = dayData === 0 ? true : false;
                 let hasHoliday: any;
                 if (careGiverHolidays && careGiverHolidays.length) {
                   hasHoliday = careGiverHolidays.filter(
                     (data: any) => data.date === list.date
                   );
                 }
-                let nightStartTime: any = "22:00",
-                  nightEndTime: any = "06:00";
-                if (list && list.ca && list.ca.nightAllowance) {
-                  if (list.ca.nightAllowance === "From 10 p.m.") {
-                    nightStartTime = "22:00";
-                    nightEndTime = "06:00";
-                  } else if (list.ca.nightAllowance === "From 8 p.m.") {
-                    nightStartTime = "20:00";
-                    nightEndTime = "04:00";
-                  } else if (list.ca.nightAllowance === "From 8:45 p.m.") {
-                    nightStartTime = "20:45";
-                    nightEndTime = "04:45";
-                  } else if (list.ca.nightAllowance === "From 9 p.m.") {
-                    nightStartTime = "21:00";
-                    nightEndTime = "05:00";
-                  }
+
+                let diffDate: any;
+                if (list.ca.workingHoursFrom) {
+                  diffDate =
+                    (new Date(datetimeB).getTime() -
+                      new Date(datetimeA).getTime()) /
+                    (3600 * 1000);
+                } else {
+                  diffDate =
+                    (new Date(reqEndDate).getTime() -
+                      new Date(reqStartDate).getTime()) /
+                    (3600 * 1000);
                 }
-                let nightST: any = moment("22:00", "H:mm").format("HH:mm"),
-                  nightET: any = moment("06:00", "H:mm").format("HH:mm");
-                let startTime: any = moment("20:00", "H:mm").format("HH:mm"),
-                  endTime: any = moment("03:00", "H:mm").format("HH:mm");
+                let startHourSunday =
+                  list && list.ca && list.ca.nightAllowance
+                    ? list.ca.nightAllowance
+                    : "22:00";
+                let finalStartHourSunday = initialdate + "," + startHourSunday;
+                let finalEndHourSunday = initialdate + "," + "6:00";
+                let finalMidnightHour = initialdate + "," + "00:00";
+                let startHour =
+                  list && list.ca && list.ca.workingHoursFrom
+                    ? list.ca.workingHoursFrom
+                    : reqStartDate;
+                console.log("startHour", startHour);
+                let endHour =
+                  list && list.ca && list.ca.workingHoursFrom
+                    ? list.ca.workingHoursTo
+                    : reqEndDate;
+                console.log("endHour", endHour);
 
-                //Conditions to get time include night shift hours
-                let condiA1: any = moment
-                  .utc(moment(startTime, "HH").diff(moment(nightST, "HH")))
-                  .format("H");
-                let condiA2: any = moment
-                  .utc(moment(nightET, "HH").diff(moment(startTime, "HH")))
-                  .format("H");
+                let startBreak =
+                  list && list.ca && list.ca.breakFrom ? list.ca.breakFrom : "";
+                console.log("startBreak", startBreak);
+                let endBreak =
+                  list && list.ca && list.ca.breakTo ? list.ca.breakTo : "";
+                console.log("endBreak", endBreak);
 
+                let workingMinutes: any = startHour
+                  ? getMinutes(startHour, endHour)
+                  : 0.0;
+                let workingHours = convertIntoHours(workingMinutes);
+
+                let totalBreakMinutes: any =
+                  startBreak && endBreak ? getMinutes(startBreak, endBreak) : 0;
+                let totalBreakHours = convertIntoHours(totalBreakMinutes);
+
+                let totalWorkingMinutes = workingMinutes - totalBreakMinutes;
+                let totalWorkingHours = convertIntoHours(totalWorkingMinutes);
+
+                // NIGHT MINUTES
+                let nightWorkingMinutes: any = getNightMinutes(
+                  finalStartHourSunday,
+                  finalEndHourSunday,
+                  startHour,
+                  endHour
+                );
+                let nightWorkingHours: any =
+                  nightWorkingMinutes !== NaN
+                    ? convertIntoHours(nightWorkingMinutes)
+                    : 0;
+                console.log("nightWorkingHours", nightWorkingHours);
+                console.log("nightWorkingMinutes", nightWorkingMinutes);
                 console.log(
-                  "####################",
-                  12 > condiA1 && condiA1 > 0,
-                  " ?????????????",
-                  condiA2
+                  ">>>>>>>>>>>>>>>>list.ca.nightAllowance",
+                  finalStartHourSunday
+                );
+                console.log(
+                  ">>>>>>>>>>>>>>>>finalStartHourSunday",
+                  initialdate
+                );
+                const nightHoursToAdd: any = nightWorkingMinutes / 60;
+                let nightAllottedRates: any =
+                  parseFloat(list.ca.nightFee) * parseFloat(nightHoursToAdd);
+                console.log(
+                  "++++++++++++++++++++nightAllottedRates",
+                  nightAllottedRates,
+                  "pppppppppppp",
+                  parseFloat(list.ca.nightFee)
                 );
 
-                if (list && list.ca && list.ca.nightFee) {
-                  if (
-                    (12 > condiA1 && condiA1 > 0) ||
-                    (12 > condiA2 && condiA2 > 0)
-                  ) {
-                    console.log("*********************in this condition");
-                  } else if (nightST - endTime > 0) {
-                  }
-                }
-                console.log(">>>>>>>>>>>>>>>>nightStartTime", nightStartTime);
-                console.log(">>>>>>>>>>>>>>>>nightEndTime", nightEndTime);
+                // SUNDAY MINUTES
+                let sundayWorkingMinutes: any = getSundayMinutes(
+                  startHour,
+                  endHour,
+                  finalMidnightHour
+                );
+                let sundayWorkingHours = convertIntoHours(sundayWorkingMinutes);
+                console.log(
+                  "*******************sundayWorkingMinutes",
+                  sundayWorkingMinutes
+                );
+                console.log(
+                  "*******************sundayWorkingHours",
+                  sundayWorkingHours
+                );
+
                 //Find Total Ammount
-                let totalAmount: number = 0;
+                let totalAmount: number | any = 0;
                 if (list && list.ca) {
                   let weekendRate: any = list.ca.weekendAllowance
                     ? list.ca.weekendAllowance
@@ -222,27 +303,26 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                     : 0 * list.ca.feePerKM
                     ? list.ca.feePerKM
                     : 0;
-                  let hours: any = list.ca.workingHoursFrom
-                    ? parseFloat(diffDate).toFixed(2)
-                    : 0;
+                  let hours: any = parseFloat(diffDate).toFixed(2);
                   let expenses =
                     list.ca && list.ca.otherExpenses
                       ? list.ca.otherExpenses
                       : 0;
-                  if (isWeekendDay && hasHoliday && hasHoliday.length) {
-                    if (weekendRate > holidayRate) {
-                      totalAmount =
-                        (fees + weekendRate) * hours +
-                        transportation +
-                        expenses;
-                    } else if (holidayRate > weekendRate) {
-                      totalAmount =
-                        (fees + holidayRate) * hours +
-                        transportation +
-                        expenses;
-                    }
+                  if (sundayWorkingMinutes !== 0) {
+                    console.log("================In this sunday");
+
+                    totalAmount =
+                      fees * hours +
+                      weekendRate * (sundayWorkingMinutes / 60) +
+                      transportation +
+                      nightAllottedRates +
+                      expenses;
                   } else {
-                    totalAmount = fees * hours + transportation + expenses;
+                    totalAmount =
+                      fees * hours +
+                      transportation +
+                      expenses +
+                      nightAllottedRates;
                   }
                 }
                 console.log("++++++++++++++++++++", totalAmount);
@@ -264,9 +344,7 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                     </td>
                     <td className="invoiceid-col"> {list.id}</td>
                     <td className="h-col">
-                      {list.ca && list.ca.workingHoursFrom
-                        ? parseFloat(diffDate).toFixed(2)
-                        : "-"}{" "}
+                      {parseFloat(diffDate).toFixed(2)}{" "}
                     </td>
                     <td className="text-col">
                       {list.cr && list.cr.division
@@ -276,12 +354,16 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                     <td className="datetime-col">
                       {list.ca && list.ca.workingHoursFrom
                         ? list.ca.workingHoursFrom
-                        : "-"}{" "}
+                        : moment(reqStartDate).format(
+                            defaultDateTimeFormatForDashboard
+                          )}{" "}
                     </td>
                     <td className="datetime-col">
                       {list.ca && list.ca.workingHoursTo
                         ? list.ca.workingHoursTo
-                        : "-"}
+                        : moment(reqEndDate).format(
+                            defaultDateTimeFormatForDashboard
+                          )}
                     </td>
                     <td className="datetime-col">
                       {list.ca && list.ca.breakTo ? list.ca.breakTo : "-"}
@@ -296,21 +378,29 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                           <i className="fa fa-euro pl-1" aria-hidden="true"></i>
                         </>
                       ) : (
-                        "-"
+                        <>
+                          {parseFloat("0").toFixed(2)}
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       )}
                     </td>
                     <td className="price-col">
                       {list.ca && list.ca.nightFee ? (
                         <>
-                          {list.ca.nightFee}.00
+                          {parseFloat(list.ca.nightFee).toFixed(2)}
                           <i className="fa fa-euro pl-1" aria-hidden="true"></i>
                         </>
                       ) : (
-                        "-"
+                        <>
+                          {parseFloat("0").toFixed(2)}
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       )}
                     </td>
                     <td className="price-col">
-                      00.00
+                      {!isNaN(nightAllottedRates)
+                        ? parseFloat(nightAllottedRates).toFixed(2)
+                        : parseFloat("0").toFixed(2)}
                       <i className="fa fa-euro pl-1" aria-hidden="true"></i>
                     </td>
                     <td className="price-col">
@@ -320,7 +410,10 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                           <i className="fa fa-euro pl-1" aria-hidden="true"></i>
                         </>
                       ) : (
-                        "-"
+                        <>
+                          {parseFloat("0").toFixed(2)}
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       )}
                     </td>
                     <td className="price-col">
@@ -346,7 +439,10 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                           <i className="fa fa-euro pl-1" aria-hidden="true"></i>
                         </>
                       ) : (
-                        "-"
+                        <>
+                          {parseFloat("0").toFixed(2)}
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       )}
                     </td>
                     <td className="price-col">
@@ -369,9 +465,11 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                       )}
                     </td>
                     <td className="price-col">
-                      {list.ca && list.ca.distanceInKM
-                        ? list.ca.distanceInKM
-                        : "-"}{" "}
+                      {list.ca && list.ca.distanceInKM ? (
+                        list.ca.distanceInKM
+                      ) : (
+                        <>{parseFloat("0").toFixed(2)}</>
+                      )}{" "}
                     </td>
                     <td className="price-col">
                       {list.ca && list.ca.feePerKM ? (
@@ -417,7 +515,9 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                       <i className="fa fa-euro pl-1" aria-hidden="true"></i>
                     </td>
                     <td className="price-col">
-                      {totalAmount}
+                      {!isNaN(totalAmount)
+                        ? parseFloat(totalAmount).toFixed(2)
+                        : parseFloat("0").toFixed(2)}
                       <i className="fa fa-euro pl-1" aria-hidden="true"></i>
                     </td>
                     <td className="action-col">

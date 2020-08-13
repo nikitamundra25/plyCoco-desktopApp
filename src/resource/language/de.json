@@ -1768,7 +1768,8 @@
   "APPND_ORD_NUB_PYC":"Append order number Plycoco",
   "APPND_ORD_NUB_SPC":"Append order number specialist",
   "OTH_TOOL":"Other tool",
-  "TO_EDIT":"To edit"
+  "TO_EDIT":"To edit",
+  "REQUIRED_ZIP": "Postleitzahl ist erforderlich"
 
 
 }

@@ -1032,14 +1032,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                               key,
                               style,
                             }) => {
-                              console.log(
-                                index,
-                                temp.length,
-                                fetchingCaregivers && index === temp.length - 1
-                                  ? 'loading rowRenderer'
-                                  : 'loaded rowRenderer',
-                              );
-
+                              // let top: any = style.top;
                               const list = temp[index] || {};
                               let item = list.new;
                               let row = list.row;
@@ -1187,12 +1180,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     <div
                                       className='custom-appointment-row'
                                       key={`loader`}
-                                      style={
-                                        style
-                                        // {...style, top:index + (row *30)}
-                                      }
+                                      style={{
+                                        ...style,
+                                        // top: top ? top + 28 : top,
+                                      }}
                                     >
-                                      <Loader />
+                                      <div className='apptmnt-loader'>
+                                        <Loader />
+                                      </div>
                                     </div>
                                   ) : null}
                                 </>

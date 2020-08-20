@@ -979,7 +979,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
               </div>
             </div>
             <div className='custom-appointment-calendar-body'>
-              {loading && careGiversList && !careGiversList.length ? (
+              {loading ? (
                 <div className={'appointment-loader'}>
                   <Loader />
                 </div>

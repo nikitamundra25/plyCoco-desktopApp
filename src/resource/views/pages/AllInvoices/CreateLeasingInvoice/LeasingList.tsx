@@ -17,8 +17,15 @@ import {
   holidayCommission,
   weekendCommission,
   nightCommissionTim,
+  defaultDateTimeFormatForDashboard,
   dbAcceptableFormat,
-} from '../../../../../config/constant';
+} from "../../../../../config/constant";
+import {
+  getNightMinutes,
+  getMinutes,
+  convertIntoHours,
+  getSundayMinutes,
+} from "../../../../../helpers";
 const LeasingList: FunctionComponent<IInvoiceList & any> = (
   props: IInvoiceList & any
 ) => {
@@ -54,7 +61,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
   //     : null;
   // });
   // console.log('qualiFilter', qualiFilter);
-  console.log('invoiceList', invoiceList);
+  console.log("invoiceList", invoiceList);
   return (
     <>
       <div className="table-minheight createinvoices-table">
@@ -117,23 +124,53 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
               </tr>
             ) : invoiceList && invoiceList.length ? (
               invoiceList.map((list: any, index: number) => {
+                let workBegain: any,
+                  workEnd: any,
+                  reqWorkBegain: any,
+                  reqWorkEnd: any;
+                let reqDate = list.cr.date;
+                let startTime = list.cr.startTime;
+                let endTime = list.cr.endTime;
+                let reqStartDate = moment(reqDate + " " + startTime).format();
+                let reqEndDate: any = moment(reqDate + " " + endTime).format();
+
+                var date1 = moment(reqStartDate);
+                var date2 = moment(reqEndDate);
+                var diff = date2.diff(date1, "minutes");
+
+                if (diff < 0) {
+                  reqEndDate = moment(reqEndDate).add("days", 1).format();
+                }
+
                 let transportation: number =
                   list.ca && list.ca.feePerKM ? list.ca.feePerKM : 0;
                 let expenses: number =
                   list.ca && list.ca.otherExpenses ? list.ca.otherExpenses : 0;
 
-                let workBegain: any, workEnd: any;
                 if (list && list.ca && list.ca.workingHoursFrom) {
                   workBegain = list.ca.workingHoursFrom.split(",");
                   workEnd = list.ca.workingHoursTo.split(",");
+                } else {
+                  reqWorkBegain = moment(reqStartDate).format(
+                    defaultDateFormat
+                  );
+                  reqWorkEnd = moment(reqEndDate).format(defaultDateFormat);
                 }
                 //Combime date and time
                 let initialdate =
-                  workBegain && workBegain.length ? workBegain[0] : null;
+                  workBegain && workBegain.length
+                    ? workBegain[0]
+                    : reqWorkBegain;
                 let start_time =
-                  workBegain && workBegain.length ? workBegain[1] : null;
-                let enddate = workEnd && workEnd.length ? workEnd[0] : null;
-                let end_time = workEnd && workEnd.length ? workEnd[1] : null;
+                  workBegain && workBegain.length
+                    ? workBegain[1]
+                    : moment(reqStartDate).format("HH:mm");
+                let enddate =
+                  workEnd && workEnd.length ? workEnd[0] : reqWorkEnd;
+                let end_time =
+                  workEnd && workEnd.length
+                    ? workEnd[1]
+                    : moment(reqEndDate).format("HH:mm");
                 let datetimeA: any = initialdate
                   ? moment(
                       `${initialdate} ${start_time}`,
@@ -146,144 +183,187 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                       `${dbAcceptableFormat} HH:mm`
                     ).format()
                   : null;
-                let diffDate: any =
-                  (new Date(datetimeB).getTime() -
-                    new Date(datetimeA).getTime()) /
-                  (3600 * 1000);
-                console.log('diffDate', diffDate);
+                let diffDate: any;
+                if (list.ca.workingHoursFrom) {
+                  diffDate =
+                    (new Date(datetimeB).getTime() -
+                      new Date(datetimeA).getTime()) /
+                    (3600 * 1000);
+                } else {
+                  diffDate =
+                    (new Date(reqEndDate).getTime() -
+                      new Date(reqStartDate).getTime()) /
+                    (3600 * 1000);
+                }
+                console.log("diffDate", diffDate);
 
-                let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : '';
-                let timeStamp: any = '';
-                if (time === 'f' || time === 's' || time === 'n') {
-                  timeStamp = '08';
+                let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : "";
+                let timeStamp: any = "";
+                if (time === "f" || time === "s" || time === "n") {
+                  timeStamp = "08";
                 } else {
                   let splitData =
-                    time === 'f'
-                      ? 'f'
-                      : time === 's'
-                      ? 's'
-                      : time === 'n'
-                      ? 'n'
-                      : '';
+                    time === "f"
+                      ? "f"
+                      : time === "s"
+                      ? "s"
+                      : time === "n"
+                      ? "n"
+                      : "";
                   // let split = time.split();
-                  timeStamp = '';
+                  timeStamp = "";
                 }
-                //Show Weekend day
-                let isWeekendDay: boolean = false;
-                const dayData = new Date(list.date).getDay();
-                isWeekendDay = dayData === 6 || dayData === 0 ? true : false;
-                // show holiday
-                let hasHoliday: any;
-                if (careGiverHolidays && careGiverHolidays.length) {
-                  hasHoliday = careGiverHolidays.filter(
-                    (data: any) => data.date === list.date
-                  );
-                }
-                console.log('hasHoliday', hasHoliday);
+                console.log("++++++++++++list.ca", list.ca.user.caregiver);
+                console.log("++++++++++++list", list);
+                console.log("++++++++++++list.cr", list.cr.qualification);
 
-                // show night
-                let isNight: boolean = false;
-                // const dayData = new Date(list.date).getDay();
-                isNight = dayData === 6 || dayData === 0 ? true : false;
-
-                //Find Total Ammount
-                let totalAmount: number = 0;
-                if (list && list.ca) {
-                  totalAmount = list.ca.fee * 100;
-                }
-                let days: number = 1,
-                  hours: any =
-                    list.ca && list.ca.workingHoursFrom
-                      ? parseFloat(diffDate).toFixed(2)
-                      : 0,
-                  NP: number = 0, // Money/hr + Margin
-                  Brutto: number = 0; // BS + QA
-                let leasingPriceList: number =
-                  list &&
+                let qualificationAllowance: any =
                   list.cr &&
-                  list.cr.canstitution &&
-                  list.ca.canstitution.leasingPriceListId
-                    ? list.ca.canstitution.leasingPriceListId
-                    : 23.5;
-                let MoneyPH: number =
-                  list &&
-                  list.cr &&
-                  list.cr.attribute_management &&
-                  list.cr.attribute_management.moneyPerHour
-                    ? parseInt(list.cr.attribute_management.moneyPerHour)
-                    : 0;
-                let BS: number =
-                  list &&
-                  list.cr &&
-                  list.cr.attribute_management &&
-                  list.cr.attribute_management.basicSalaryPerHour
-                    ? parseInt(list.cr.attribute_management.basicSalaryPerHour)
-                    : 0;
-                let QA: number =
-                  list &&
-                  list.cr &&
-                  list.cr.attribute_management &&
-                  list.cr.attribute_management.qualificationAllowance
-                    ? parseInt(
-                        list.cr.attribute_management.qualificationAllowance
-                      )
-                    : 0;
-                console.log('leasingPriceList', leasingPriceList);
-                console.log('MoneyPH', MoneyPH);
+                  list.cr.qualification &&
+                  list.cr.qualification.qualificationAllowance !== null
+                    ? Number(list.cr.qualification.qualificationAllowance)
+                    : 12.5;
+                let basicAllowance =
+                  list.ca.user &&
+                  list.ca.user.caregiver &&
+                  list.ca.user.caregiver.leasingPricingList !== null
+                    ? Number(list.ca.user.caregiver.leasingPricingList)
+                    : 12.5;
 
-                // calculating new price
-                NP = MoneyPH + leasingPriceList;
-                console.log('NP', NP);
+                let travelAllowance =
+                  Number(list.ca.distanceInKM) * Number(list.ca.feePerKM);
+                let otherAllowance = Number(list.ca.otherExpenses);
 
-                // calculating brutto
-                Brutto = BS + QA;
-                console.log('Brutto', Brutto);
+                let salaryPerHour =
+                  Number(qualificationAllowance) + Number(basicAllowance);
+                let salaryPerHourNight = Number(salaryPerHour * 0.25);
+                let salaryPerHourSunday = Number(salaryPerHour * 0.5);
+                let salaryPerHourHoliday = Number(salaryPerHour * 1);
 
-                // find caregiver gross
-                let holidayPrice: number = 0,
-                  weekendPrice: number = 0,
-                  nightPrice: number = 0;
-                if (hasHoliday && hasHoliday.length) {
-                  holidayPrice += Brutto * holidayCommission;
-                }
-                if (isWeekendDay) {
-                  weekendPrice += Brutto * weekendCommission;
-                }
-                if (isNight) {
-                  nightPrice += Brutto * nightCommission;
-                }
+                console.log("============salaryPerHourNight================");
+                console.log(salaryPerHourNight);
+                console.log("==============salaryPerHourSunday==============");
+                console.log(salaryPerHourSunday);
+                console.log("==============salaryPerHourHoliday==============");
+                console.log(salaryPerHourHoliday);
+                console.log("=============travelAllowance===============");
+                console.log(travelAllowance);
+                console.log("=============otherAllowance===============");
+                console.log(otherAllowance);
                 console.log(
-                  'caregiver gross',
-                  'holidayPrice',
-                  holidayPrice,
-                  'weekendPrice',
-                  weekendPrice,
-                  'nightPrice',
-                  nightPrice
+                  "===============qualificationAllowance============="
+                );
+                console.log(qualificationAllowance);
+                console.log("===============basicAllowance=============");
+                console.log(basicAllowance);
+
+                let startHour =
+                  list && list.ca && list.ca.workingHoursFrom
+                    ? list.ca.workingHoursFrom
+                    : reqStartDate;
+                console.log("startHour", startHour);
+                let endHour =
+                  list && list.ca && list.ca.workingHoursFrom
+                    ? list.ca.workingHoursTo
+                    : reqEndDate;
+                console.log("endHour", endHour);
+                let startHourSunday =
+                  list && list.ca && list.ca.nightAllowance
+                    ? list.ca.nightAllowance
+                    : "22:00";
+
+                let finalStartHourSunday = initialdate + "," + startHourSunday;
+                let finalEndHourSunday = initialdate + "," + "6:00";
+                let finalMidnightHour = initialdate + "," + "00:00";
+                // SUNDAY MINUTES
+                let sundayWorkingMinutes: any = getSundayMinutes(
+                  startHour,
+                  endHour,
+                  finalMidnightHour
+                );
+                let sundayWorkingHours = convertIntoHours(sundayWorkingMinutes);
+                console.log(
+                  "*******************sundayWorkingMinutes",
+                  sundayWorkingMinutes
+                );
+                console.log(
+                  "*******************sundayWorkingHours",
+                  sundayWorkingHours
                 );
 
-                // find timyocy sum
-                let holidayPriceTim: number = 0,
-                  weekendPriceTim: number = 0,
-                  nightPriceTim: number = 0;
-                if (hasHoliday && hasHoliday.length) {
-                  holidayPriceTim += NP * holidayCommission;
-                }
-                if (isWeekendDay) {
-                  weekendPriceTim += NP * weekendCommission;
-                }
-                if (isNight) {
-                  nightPriceTim += NP * nightCommissionTim;
-                }
-                console.log(
-                  'timyocy sum',
-                  'holidayPriceTim',
-                  holidayPriceTim,
-                  'weekendPriceTim',
-                  weekendPriceTim,
-                  'nightPriceTim',
-                  nightPriceTim
+                // NIGHT MINUTES
+                let nightWorkingMinutes: any = getNightMinutes(
+                  finalStartHourSunday,
+                  finalEndHourSunday,
+                  startHour,
+                  endHour
                 );
+                let nightWorkingHours: any =
+                  nightWorkingMinutes !== NaN
+                    ? convertIntoHours(nightWorkingMinutes)
+                    : 0;
+                console.log("nightWorkingHours", nightWorkingHours);
+                console.log("nightWorkingMinutes", nightWorkingMinutes);
+                console.log(
+                  ">>>>>>>>>>>>>>>>list.ca.nightAllowance",
+                  finalStartHourSunday
+                );
+                console.log(
+                  ">>>>>>>>>>>>>>>>finalStartHourSunday",
+                  initialdate
+                );
+
+                let startBreak = list.ca.breakFrom;
+                console.log("startBreak", startBreak);
+                let endBreak = list.ca.breakTo;
+                console.log("endBreak", endBreak);
+
+                // MAIN MINUTES
+                let workingMinutes: any = getMinutes(startHour, endHour);
+                let workingHours = convertIntoHours(workingMinutes);
+
+                let totalBreakMinutes: any | number = getMinutes(
+                  startBreak,
+                  endBreak
+                );
+                let totalBreakHours = convertIntoHours(totalBreakMinutes);
+                let reqTotalBreakMin: any = !isNaN(totalBreakMinutes)
+                  ? totalBreakMinutes
+                  : 0;
+                let totalWorkingMinutes = workingMinutes - reqTotalBreakMin;
+                let totalWorkingHours = convertIntoHours(totalWorkingMinutes);
+
+                let feeAllowance = Number(
+                  totalWorkingMinutes * (salaryPerHour / 60)
+                );
+                console.log(
+                  "feeAllowance",
+                  feeAllowance,
+                  "reqTotalBreakMin",
+                  reqTotalBreakMin
+                );
+
+                let nightAllowance = Number(
+                  nightWorkingMinutes * (salaryPerHourNight / 60)
+                );
+                console.log("nightAllowance", nightAllowance);
+
+                let sundayAllowance = Number(
+                  sundayWorkingMinutes * (salaryPerHourSunday / 60)
+                );
+                console.log("sundayAllowance", sundayAllowance);
+
+                let totalSalary = Number(
+                  feeAllowance +
+                    nightAllowance +
+                    sundayAllowance +
+                    travelAllowance +
+                    otherAllowance
+                );
+                let workSalary = Number(
+                  feeAllowance + nightAllowance + sundayAllowance
+                );
+                console.log("totalSalary", totalSalary);
 
                 return (
                   <tr key={index}>
@@ -299,9 +379,9 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                         <label className="">{count++}</label>
                       </span>
                     </td>
-                    <td className='invoiceid-col'> {list.id}</td>
-                    <td className='h-col'>{hours ? hours : '-'}</td>
-                    <td className='text-col'>
+                    <td className="invoiceid-col"> {list.id}</td>
+                    <td className="h-col">{parseFloat(diffDate).toFixed(2)}</td>
+                    <td className="text-col">
                       {list && list.cr && list.cr.division
                         ? list.cr.division.name
                         : "-"}
@@ -309,12 +389,16 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                     <td className="datetime-col">
                       {list.ca && list.ca.workingHoursFrom
                         ? list.ca.workingHoursFrom
-                        : "-"}{" "}
+                        : moment(reqStartDate).format(
+                            defaultDateTimeFormatForDashboard
+                          )}{" "}
                     </td>
                     <td className="datetime-col">
                       {list.ca && list.ca.workingHoursTo
                         ? list.ca.workingHoursTo
-                        : "-"}
+                        : moment(reqEndDate).format(
+                            defaultDateTimeFormatForDashboard
+                          )}
                     </td>
                     <td className="datetime-col">
                       {list.ca && list.ca.breakTo ? list.ca.breakTo : "-"}
@@ -322,40 +406,27 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                     <td className="datetime-col">
                       {list.ca && list.ca.breakFrom ? list.ca.breakFrom : "-"}
                     </td>
-                    <td className='price-col'>{QA ? QA : 0}</td>
-                    <td className='price-col'>00.00 &euro;</td>
-                    <td className='price-col'>
-                      {list.ca && list.ca.nightFee ? (
-                        <>
-                          {list.ca.nightFee}.00
-                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
-                        </>
-                      ) : (
-                        "-"
-                      )}
+                    <td className="price-col">
+                      {qualificationAllowance ? qualificationAllowance : 0}
                     </td>
+                    <td className="price-col">00.00 &euro;</td>
+                    <td className="price-col">{nightWorkingHours}</td>
                     <td className="price-col">
                       {list.ca && list.ca.nightFee ? (
                         <>
-                          {list.ca.nightFee}.00
+                          {parseFloat(list.ca.nightFee).toFixed(2)}
                           <i className="fa fa-euro pl-1" aria-hidden="true"></i>
                         </>
                       ) : (
-                        "-"
+                        <>
+                          {parseFloat("0").toFixed(2)}
+                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
+                        </>
                       )}
                     </td>
+                    <td className="price-col">{<>{sundayWorkingHours}</>}</td>
                     <td className="price-col">
                       {list.ca && list.ca.weekendAllowance ? (
-                        <>
-                          {list.ca.weekendAllowance}.00
-                          <i className="fa fa-euro pl-1" aria-hidden="true"></i>
-                        </>
-                      ) : (
-                        "-"
-                      )}
-                    </td>
-                    <td className="price-col">
-                      {list.ca && list.ca.weekendAllowance && isWeekendDay ? (
                         <>
                           {(
                             parseFloat(list.ca.weekendAllowance) *
@@ -381,10 +452,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                       )}
                     </td>
                     <td className="price-col">
-                      {list.ca &&
-                      list.ca.holidayAllowance &&
-                      hasHoliday &&
-                      hasHoliday.length ? (
+                      {list.ca && list.ca.holidayAllowance ? (
                         <>
                           {(
                             parseFloat(list.ca.holidayAllowance) *
@@ -399,41 +467,8 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                         </>
                       )}
                     </td>
-                    <td className='price-col'>
-                      {workBegain && workEnd ? (
-                        <>
-                          {
-                            (NP +
-                              holidayPriceTim +
-                              weekendPriceTim +
-                              nightPriceTim) *
-                              hours +
-                              2 * (transportation + expenses) /* * days */
-                          }{' '}
-                          &euro;
-                        </>
-                      ) : (
-                        <>00.00 &euro;</>
-                      )}
-                    </td>
-                    <td className='price-col'>
-                      {workBegain && workEnd ? (
-                        <>
-                          {(
-                            (Brutto +
-                              holidayPrice +
-                              weekendPrice +
-                              nightPrice) *
-                              hours +
-                            2 * (transportation + expenses)
-                          ) /* * days */
-                            .toFixed(2)}{' '}
-                          &euro;
-                        </>
-                      ) : (
-                        <>00.00 &euro;</>
-                      )}
-                    </td>
+                    <td className="price-col">{totalSalary}</td>
+                    <td className="price-col">{totalWorkingHours}</td>
                   </tr>
                 );
               })

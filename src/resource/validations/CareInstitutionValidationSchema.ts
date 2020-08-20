@@ -17,6 +17,8 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     .trim()
     .email(languageTranslation('VALID_EMAIL'))
     .required(languageTranslation('REQUIRED_EMAIL')),
+  zipCode: Yup.string()
+    .required(languageTranslation('REQUIRED_ZIP')),
   firstName: Yup.string()
     .trim()
     .min(3, languageTranslation('NAME_MINLENGTH'))
@@ -46,27 +48,27 @@ export const CareInstituionValidationSchema: Yup.ObjectSchema<Yup.Shape<
     value => !value || NumberWithCommaRegex.test(value)
   ),
   plycocoInvoiceTax: Yup.mixed()
-  .test(
-    "check-num",
-    languageTranslation("LEASING_INVOICE_NUM_ERROR"),
-    value => !value || (value && !isNaN(value))
-  )
-  .test(
-    "check-limit",
-    languageTranslation("CAREGIVER_INVOICE_TAX_ERROR"),
-    value => !value || value <= taxBracket
-  ),
+    .test(
+      "check-num",
+      languageTranslation("LEASING_INVOICE_NUM_ERROR"),
+      value => !value || (value && !isNaN(value))
+    )
+    .test(
+      "check-limit",
+      languageTranslation("CAREGIVER_INVOICE_TAX_ERROR"),
+      value => !value || value <= taxBracket
+    ),
   leasingInvoiceTax: Yup.mixed()
-  .test(
-    "check-num",
-    languageTranslation("LEASING_INVOICE_NUM_ERROR"),
-    value => !value || (value && !isNaN(value))
-  )
-  .test(
-    "check-limit",
-    languageTranslation("LEASING_INVOICE_TAX_ERROR"),
-    value => !value || value <= taxBracket
-  ),
+    .test(
+      "check-num",
+      languageTranslation("LEASING_INVOICE_NUM_ERROR"),
+      value => !value || (value && !isNaN(value))
+    )
+    .test(
+      "check-limit",
+      languageTranslation("LEASING_INVOICE_TAX_ERROR"),
+      value => !value || value <= taxBracket
+    ),
 
 
 

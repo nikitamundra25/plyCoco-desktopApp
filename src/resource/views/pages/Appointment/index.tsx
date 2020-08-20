@@ -58,7 +58,7 @@ import CaregiverListView from './Caregiver/CaregiverListView';
 import CarinstituionListView from './Careinstituion/CareinstituionListView';
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
-import UnlinkAppointment from './unlinkModal';
+// import UnlinkAppointment from './unlinkModal';
 import BulkEmailCareGiverModal from './BulkEmailCareGiver';
 import BulkEmailCareInstitutionModal from './BulkEmailCareInstitution';
 import './index.scss';
@@ -5055,16 +5055,20 @@ const Appointment: FunctionComponent = (props: any) => {
   //     />
   //     </Suspense>
   // }
-  // if (showUnlinkModal) {
-  //   const UnlinkAppointment = React.lazy(() => import('./unlinkModal'));
-  //   return <Suspense fallback={null}>
-  //     <UnlinkAppointment
-  //       show={showUnlinkModal}
-  //       handleClose={() => setshowUnlinkModal(false)}
-  //       handleUnlinkData={handleUnlinkData}
-  //     />
-  //     </Suspense>
-  // }
+  const renderUnlinkModal = () => {
+    if (showUnlinkModal) {
+      const UnlinkAppointment = React.lazy(() => import('./unlinkModal'));
+      return (
+        <Suspense fallback={null}>
+          <UnlinkAppointment
+            show={showUnlinkModal}
+            handleClose={() => setshowUnlinkModal(false)}
+            handleUnlinkData={handleUnlinkData}
+          />
+        </Suspense>
+      );
+    }
+  };
 
   const handleWidth = function() {
     let appointment_list_section: HTMLElement | null = document.getElementById(
@@ -5471,12 +5475,12 @@ const Appointment: FunctionComponent = (props: any) => {
           </div>
         </div>
       </div>
-
-      <UnlinkAppointment
+      {renderUnlinkModal()}
+      {/* <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
-      />
+      /> */}
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() =>

@@ -44,8 +44,8 @@ import { languageTranslation } from '../../../../../helpers';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import '../index.scss';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
-import UnlinkAppointment from '../unlinkModal';
-import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
+// import UnlinkAppointment from '../unlinkModal';
+// import DetaillistCareinstitutionPopup from '../DetailedList/DetailListCareinstitution';
 import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
 
 let toastId: any = null;
@@ -810,7 +810,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const renderUnlinkModal = () => {
     if (showUnlinkModal) {
       const UnlinkAppointment = lazy(() => import('../unlinkModal'));
-
       return (
         <Suspense fallback={null}>
           <UnlinkAppointment
@@ -1512,11 +1511,12 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         qualificationList={props.qualificationList}
       />
       {renderDetailedList()}
-      <UnlinkAppointment
+      {renderUnlinkModal()}
+      {/* <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
-      />
+      /> */}
     </>
   );
 };

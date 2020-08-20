@@ -47,7 +47,7 @@ import refresh from '../../../../assets/img/refresh.svg';
 // import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
-import UnlinkAppointment from '../unlinkModal';
+// import UnlinkAppointment from '../unlinkModal';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import '../index.scss';
 import 'react-virtualized/styles.css'; // only needs to be imported once
@@ -574,17 +574,20 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       );
     }
   };
-  // if (showUnlinkModal) {
-  //   const UnlinkAppointment= lazy(() => import('../unlinkModal'));
-  //   return <Suspense fallback={null}>
-  //     <UnlinkAppointment
-  //       show={showUnlinkModal}
-  //       handleClose={() => setshowUnlinkModal(false)}
-  //       handleUnlinkData={handleUnlinkData}
-  //     />
-  //   </Suspense>
-  // }
-
+  const renderUnlinkModal = () => {
+    if (showUnlinkModal) {
+      const UnlinkAppointment = lazy(() => import('../unlinkModal'));
+      return (
+        <Suspense fallback={null}>
+          <UnlinkAppointment
+            show={showUnlinkModal}
+            handleClose={() => setshowUnlinkModal(false)}
+            handleUnlinkData={handleUnlinkData}
+          />
+        </Suspense>
+      );
+    }
+  };
   console.log(selectedCells, 'selectedCells');
 
   let selectedcareInstApptId: number[] = [];
@@ -1253,11 +1256,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         isFromUnlink={isFromUnlink}
       />
       {renderDetailedList()}
-      <UnlinkAppointment
+      {renderUnlinkModal()}
+      {/* <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
-      />
+      /> */}
     </div>
   );
 };

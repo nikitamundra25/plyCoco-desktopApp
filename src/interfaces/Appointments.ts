@@ -30,7 +30,7 @@ export interface IAppointmentNav {
   applyFilter: (
     userRole: string | null,
     positiveId: number[],
-    negativeId: number[]
+    negativeId: number[],
   ) => void;
   handleSelectAppointment: (selectOption: IReactSelectInterface) => void;
   onFilterByUserId: (userId: string, userRole: string) => void;
@@ -56,12 +56,13 @@ export interface IAppointmentCareGiverList {
   onAddingRow: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string,
-    index: number
+    index: number,
   ) => void | undefined;
   // handleSecondStar: (list: object, name: string) => void;
   handleReset: (name: string) => void;
   totalCaregiver: number;
   getNext: (skip: number) => void;
+  fetchingCaregivers?: boolean;
   selectedCells?: any[];
   qualification?: any;
   gte?: any;
@@ -81,10 +82,10 @@ export interface IAppointmentCareGiverList {
   onTerminateAggrement: () => Promise<void>;
   locationState: any;
   careinstitutionSoloFilter: IReactSelectInterface | undefined;
-  onhandleCaregiverStar: (id: string, isSecondStar:boolean) => void;
+  onhandleCaregiverStar: (id: string, isSecondStar: boolean) => void;
   starMarkCaregiver: boolean;
   starCaregiver: IStarInterface;
-  updateLeasingContractStatus:(status:string) => void
+  updateLeasingContractStatus: (status: string) => void;
 }
 
 export interface IAppointmentCareInstitutionList {
@@ -94,12 +95,12 @@ export interface IAppointmentCareInstitutionList {
   onAddingRow: (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string,
-    index: number
+    index: number,
   ) => void | undefined;
   handleSelectedUser: (
     value: object,
     date: IDaysArray[] | null,
-    name: string
+    name: string,
   ) => void;
   onhandleSecondStarCanstitution: (list: any) => void;
   handleFirstStarCanstitution: (id: string) => void;
@@ -138,7 +139,7 @@ export interface IStarInterface {
   isStar: boolean;
   setIndex?: number;
   id: string;
-  isSecondStar?:boolean;
+  isSecondStar?: boolean;
 }
 
 export interface ICaregiverFormValue {
@@ -166,18 +167,18 @@ export interface ICaregiverFormValue {
   s?: boolean;
   n?: boolean;
   status?: string;
-  workingHoursFromDate ?: string,
-  workingHoursFromTime?: string,
-  workingHoursToDate?: string,
-  workingHoursToTime?: string,
-  breakFromDate?: string,
-  breakFromTime?: string,
-  breakToDate?: string,
-  breakToTime?:string,
-  dateString?: string,
-  createdBy?: string,
-  createdAt?:any,
-  updatedAt?:any
+  workingHoursFromDate?: string;
+  workingHoursFromTime?: string;
+  workingHoursToDate?: string;
+  workingHoursToTime?: string;
+  breakFromDate?: string;
+  breakFromTime?: string;
+  breakToDate?: string;
+  breakToTime?: string;
+  dateString?: string;
+  createdBy?: string;
+  createdAt?: any;
+  updatedAt?: any;
 }
 
 export interface ICaregiverValidationFormValue {
@@ -189,15 +190,15 @@ export interface ICaregiverValidationFormValue {
   distanceInKM?: string;
   feePerKM?: string;
   otherExpenses?: string;
-  workingHoursFromDate?: string ,
-  workingHoursFromTime?: string ,
-  workingHoursToDate?: string ,
-  workingHoursToTime?: string ,
-  breakFromDate?: string ,
-  breakFromTime?: string ,
-  breakToDate?: string ,
-  breakToTime?: string ,
-  dateString?:string
+  workingHoursFromDate?: string;
+  workingHoursFromTime?: string;
+  workingHoursToDate?: string;
+  workingHoursToTime?: string;
+  breakFromDate?: string;
+  breakFromTime?: string;
+  breakToDate?: string;
+  breakToTime?: string;
+  dateString?: string;
 }
 
 export interface ICareinstituionValidationFormValue {
@@ -226,8 +227,8 @@ export interface IAddCargiverAppointmentRes {
   id: string;
   userId: string;
   status: string;
-  divisionId: any
-  qualificationId: any
+  divisionId: any;
+  qualificationId: any;
 }
 
 export interface IReactSelectTimeInterface {
@@ -243,7 +244,7 @@ export interface ICareinstitutionFormValue {
   startTime: string;
   endTime: string;
   qualificationId: IReactSelectInterface[] | undefined;
-  qualificationForCharge?:IReactSelectInterface | undefined
+  qualificationForCharge?: IReactSelectInterface | undefined;
   address: string;
   contactPerson: string;
   departmentOfferRemarks?: string;
@@ -257,9 +258,9 @@ export interface ICareinstitutionFormValue {
   comments: string;
   status?: string;
   careInstitutionDepartment?: IReactSelectInterface[] | undefined;
-  createdBy?: string
-  updatedAt?:any
-  createdAt?:any
+  createdBy?: string;
+  updatedAt?: any;
+  createdAt?: any;
 }
 
 export interface ICareinstitutionFormSubmitValue {
@@ -270,7 +271,7 @@ export interface ICareinstitutionFormSubmitValue {
   endTime: string;
   divisionId: number | null;
   qualificationId: number[];
-  qualificationForCharge?:any; 
+  qualificationForCharge?: any;
   address: string;
   contactPerson: string;
   departmentOfferRemarks: string | null;
@@ -286,7 +287,7 @@ export interface ICareinstitutionFormSubmitValue {
   status: string;
   isLeasing?: boolean;
   createdBy?: string;
-  createdAt?:any
+  createdAt?: any;
 }
 
 export interface IUnlinkInterface {

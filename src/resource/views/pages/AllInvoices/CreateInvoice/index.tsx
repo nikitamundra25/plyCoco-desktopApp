@@ -1,15 +1,16 @@
-import React, { useState, FunctionComponent, useEffect } from "react";
+import React, { useState, FunctionComponent, useEffect } from 'react';
+import { Form, FormGroup, Input, Label, Row, Col } from 'reactstrap';
 import {
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-  Col,
-} from "reactstrap";
-import { languageTranslation, errorFormatter } from "../../../../../helpers";
-import { RouteComponentProps, useLocation } from "react-router";
-import "../index.scss";
+  languageTranslation,
+  errorFormatter,
+  getNightMinutes,
+  getSaturdayAndSundayMinutes,
+  getHolidayMinutes,
+  getSelfEmployeeExclusiveMinutes,
+  convertIntoHours,
+} from '../../../../../helpers';
+import { RouteComponentProps, useLocation } from 'react-router';
+import '../index.scss';
 import {
   CareInstInActiveAttrId,
   deactivatedListColor,
@@ -21,23 +22,23 @@ import {
   CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
   defaultDateFormat,
-} from "../../../../../config";
-import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
-import { IReactSelectInterface } from "../../../../../interfaces";
+} from '../../../../../config';
+import CareInstCustomOption from '../../../components/CustomOptions/CustomCareInstOptions';
+import { IReactSelectInterface } from '../../../../../interfaces';
 import {
   CareInstitutionQueries,
   InvoiceQueries,
   CareGiverQueries,
   GlobalHolidaysQueries,
-} from "../../../../../graphql/queries";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import moment from "moment";
-import InvoiceList from "./InvoiceList";
-import CustomOption from "../../../components/CustomOptions";
-import InvoiceNavbar from "./InvoiceNavbar";
-import * as qs from "query-string";
-import { toast } from "react-toastify";
-import { InvoiceMutations } from "../../../../../graphql/Mutations";
+} from '../../../../../graphql/queries';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import moment from 'moment';
+import InvoiceList from './InvoiceList';
+import CustomOption from '../../../components/CustomOptions';
+import InvoiceNavbar from './InvoiceNavbar';
+import * as qs from 'query-string';
+import { toast } from 'react-toastify';
+import { InvoiceMutations } from '../../../../../graphql/Mutations';
 
 let toastId: any = null;
 
@@ -51,11 +52,11 @@ const [
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
-const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries
+const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries;
 //Create New Invoice PDF
-const [CREATE_INVOICE] = InvoiceMutations
+const [CREATE_INVOICE] = InvoiceMutations;
 const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
-  mainProps: any
+  mainProps: any,
 ) => {
   const { search } = useLocation();
   const query = qs.parse(search);
@@ -85,10 +86,10 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   >(undefined);
 
   //  State for handling date filter
-  const [dateFilter, setDateFilter] = useState<string>("");
+  const [dateFilter, setDateFilter] = useState<string>('');
 
   //  State for Total amount selected
-  const [totalAmount, settotalAmount] = useState<string>("");
+  const [totalAmount, settotalAmount] = useState<string>('');
 
   // State for department options
   const [
@@ -97,25 +98,24 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   ] = useState<IReactSelectInterface[] | undefined>([]);
 
   //
-  const [CreateInvoice,{loading: createInvoiceLoading}] = useMutation<
-    {
-      invoiceInput: any;
-    }
-  >(CREATE_INVOICE, {
-    onCompleted(){
+  const [CreateInvoice, { loading: createInvoiceLoading }] = useMutation<{
+    invoiceInput: any;
+  }>(CREATE_INVOICE, {
+    onCompleted() {
       toast.dismiss();
       if (!toast.isActive(toastId)) {
-        toastId = toast.success(
-          languageTranslation('CREATE_INVOICE_SUCCESS')
-        );
+        toastId = toast.success(languageTranslation('CREATE_INVOICE_SUCCESS'));
       }
-    }
+    },
   });
 
-
   // Default value is start & end of month
-  let gte: string = moment().startOf("month").format(dbAcceptableFormat);
-  let lte: string = moment().endOf("month").format(dbAcceptableFormat);
+  let gte: string = moment()
+    .startOf('month')
+    .format(dbAcceptableFormat);
+  let lte: string = moment()
+    .endOf('month')
+    .format(dbAcceptableFormat);
   // To get caregiver list from db
   const [
     getDepartmentList,
@@ -127,38 +127,38 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     fetchInvoiceList,
     { data: invoiceList, loading: invoiceListLoading, refetch },
   ] = useLazyQuery<any, any>(GET_INVOICE_LIST, {
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
     // notifyOnNetworkStatusChange: true
   });
 
   useEffect(() => {
-    if (invoiceList &&
+    if (
+      invoiceList &&
       invoiceList.getAllAppointment &&
-      invoiceList.getAllAppointment.result.length) {
-      const { result } = invoiceList.getAllAppointment
-      const startDate: string = result[0].date
-      const endDate: string = result[result.length - 1].date
-      console.log(">>>>>>>>>>>>>>>>>", startDate, ">>>>>>>>>", endDate);
-      getAllHolidays(startDate, endDate)
+      invoiceList.getAllAppointment.result.length
+    ) {
+      const { result } = invoiceList.getAllAppointment;
+      const startDate: string = result[0].date;
+      const endDate: string = result[result.length - 1].date;
+      console.log('>>>>>>>>>>>>>>>>>', startDate, '>>>>>>>>>', endDate);
+      getAllHolidays(startDate, endDate);
     }
-    console.log("In this use effect");
-
+    console.log('In this use effect');
   }, [invoiceList]);
 
-
   // To Fetch golbal holidays and weekends
-  const [
-    getGlobalHolidays,
-    { data: careGiverHolidays }
-  ] = useLazyQuery<any, any>(GET_GLOBAL_CAREGIVER_HOLIDAYS, {
-    fetchPolicy: "no-cache",
+  const [getGlobalHolidays, { data: careGiverHolidays }] = useLazyQuery<
+    any,
+    any
+  >(GET_GLOBAL_CAREGIVER_HOLIDAYS, {
+    fetchPolicy: 'no-cache',
     // notifyOnNetworkStatusChange: true
   });
   // To fetch all careinstitution list
   const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
     any
   >(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
@@ -168,7 +168,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         sortBy: 3,
         limit: 500,
         page: 1,
-        isActive: "",
+        isActive: '',
       },
     });
   }, []);
@@ -182,14 +182,14 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
     GET_CAREGIVER_BY_NAME,
     {
-      fetchPolicy: "no-cache",
-    }
+      fetchPolicy: 'no-cache',
+    },
   );
   useEffect(() => {
     // Fetch list of caregivers
     fetchCareGivers({
       variables: {
-        searchBy: "",
+        searchBy: '',
         limit: 500,
         page: 1,
       },
@@ -202,12 +202,12 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       variables: {
         gte: startDate,
         lte: endDate,
-      }
-    })
-  }
+      },
+    });
+  };
   // to get list of all invoices
   const getInvoiceListData = () => {
-    console.log("currentPage", currentPage);
+    console.log('currentPage', currentPage);
 
     fetchInvoiceList({
       variables: {
@@ -237,25 +237,38 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       setCurrentPage(query.page ? parseInt(query.page as string) : 1);
     }
     // call query
-    getInvoiceListData()
+    getInvoiceListData();
   }, [search]); // It will run when the search value gets changed
 
   // Call function to fetch invoice list
   useEffect(() => {
     if (monthFilter && monthFilter.value) {
-      const { value } = monthFilter
-      if (value === "weekly") {
-        gte = moment().startOf('week').format(dbAcceptableFormat);
-        lte = moment().endOf('week').format(dbAcceptableFormat);
-      } else if (value === "everySixMonths") {
-        gte = moment().startOf("month").format(dbAcceptableFormat);
-        lte = moment(gte).add(6, 'M').endOf('month').format(dbAcceptableFormat);
-      } else if (value === "perMonth") {
-        gte = moment().startOf("month").format(dbAcceptableFormat);
-        lte = moment().endOf("month").format(dbAcceptableFormat);
-      } else if (value === "all") {
-        gte = "";
-        lte = ""
+      const { value } = monthFilter;
+      if (value === 'weekly') {
+        gte = moment()
+          .startOf('week')
+          .format(dbAcceptableFormat);
+        lte = moment()
+          .endOf('week')
+          .format(dbAcceptableFormat);
+      } else if (value === 'everySixMonths') {
+        gte = moment()
+          .startOf('month')
+          .format(dbAcceptableFormat);
+        lte = moment(gte)
+          .add(6, 'M')
+          .endOf('month')
+          .format(dbAcceptableFormat);
+      } else if (value === 'perMonth') {
+        gte = moment()
+          .startOf('month')
+          .format(dbAcceptableFormat);
+        lte = moment()
+          .endOf('month')
+          .format(dbAcceptableFormat);
+      } else if (value === 'all') {
+        gte = '';
+        lte = '';
       }
     }
     getInvoiceListData();
@@ -267,27 +280,27 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     const { getCareInstitutions } = careInstituition;
     const { careInstitutionData, canstitution } = getCareInstitutions;
     careInstitutionOptions.push({
-      label: languageTranslation("NAME"),
-      value: languageTranslation("ID"),
-      companyName: languageTranslation("COMPANY_NAME"),
+      label: languageTranslation('NAME'),
+      value: languageTranslation('ID'),
+      companyName: languageTranslation('COMPANY_NAME'),
     });
 
     careInstitutionData.map((data: any, index: any) => {
       const { canstitution } = data;
-      let { attributes = [], companyName = "" } = canstitution
+      let { attributes = [], companyName = '' } = canstitution
         ? canstitution
         : {};
       attributes = attributes ? attributes : [];
       careInstitutionOptions.push({
-        label: `${data.lastName}${" "}${data.firstName}`,
+        label: `${data.lastName}${' '}${data.firstName}`,
         value: data.id,
         color: attributes.includes(CareInstInActiveAttrId)
           ? deactivatedListColor
           : attributes.includes(CareInstTIMyoCYAttrId)
-            ? leasingListColor
-            : attributes.includes(CareInstPlycocoAttrId)
-              ? selfEmployesListColor
-              : "",
+          ? leasingListColor
+          : attributes.includes(CareInstPlycocoAttrId)
+          ? selfEmployesListColor
+          : '',
         companyName,
       });
       return true;
@@ -302,9 +315,9 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     careGivers.getCaregiverByName.result
   ) {
     careGiversOptions.push({
-      label: languageTranslation("NAME"),
-      value: languageTranslation("ID"),
-      color: "",
+      label: languageTranslation('NAME'),
+      value: languageTranslation('ID'),
+      color: '',
     });
     careGivers.getCaregiverByName.result.forEach(
       ({ id, firstName, lastName, isActive, caregiver }: any) => {
@@ -312,17 +325,17 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         // To check null values
         attributes = attributes ? attributes : [];
         careGiversOptions.push({
-          label: `${lastName}${" "}${firstName}`,
+          label: `${lastName}${' '}${firstName}`,
           value: id,
           color: !isActive
             ? deactivatedListColor
             : attributes.includes(CaregiverTIMyoCYAttrId)
-              ? leasingListColor
-              : attributes.includes("Plycoco")
-                ? selfEmployesListColor
-                : "",
+            ? leasingListColor
+            : attributes.includes('Plycoco')
+            ? selfEmployesListColor
+            : '',
         });
-      }
+      },
     );
   }
 
@@ -333,7 +346,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       const { getDivision } = departmentList;
       careInstitutionDepartment = getDivision.map((dept: any) => ({
         label: dept.name,
-        value: dept && dept.id ? dept.id.toString() : "",
+        value: dept && dept.id ? dept.id.toString() : '',
       }));
       if (careInstitutionDepartment && careInstitutionDepartment.length) {
         setcareInstitutionDepartmentOption(careInstitutionDepartment);
@@ -343,15 +356,14 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
 
   // Select careinstitution or caregiver from navbar
   const onhandleSelection = (value: IReactSelectInterface, name: string) => {
-    if (name === "careinstitution") {
+    if (name === 'careinstitution') {
       setcareinstitutionFilter(value);
-    } else if (name === "department") {
+    } else if (name === 'department') {
       setdepartmentFilter(value);
-    } else if (name === "caregiver") {
+    } else if (name === 'caregiver') {
       setcaregiverFilter(value);
-    } else if (name === "monthSummary") {
-      setmonthFilter(value)
-
+    } else if (name === 'monthSummary') {
+      setmonthFilter(value);
     }
   };
 
@@ -360,7 +372,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     let userId: string =
       careinstitutionFilter && careinstitutionFilter.value
         ? careinstitutionFilter.value
-        : "";
+        : '';
     if (userId) {
       getDepartmentList({
         variables: {
@@ -379,122 +391,211 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   };
 
   const handleArrowDayChange = (name: string) => {
-    let date: any = "";
-    if (name === "previous") {
+    let date: any = '';
+    if (name === 'previous') {
       date = moment(dateFilter)
-        .subtract(1, "months")
+        .subtract(1, 'months')
         .format(dbAcceptableFormat);
     } else {
-      date = moment(dateFilter).add(1, "months").format(dbAcceptableFormat);
+      date = moment(dateFilter)
+        .add(1, 'months')
+        .format(dbAcceptableFormat);
     }
     setDateFilter(date);
   };
 
   const handleCheckedChange = (e: any, list: any) => {
-    const { checked } = e.target
+    const { checked } = e.target;
     if (checked === true) {
-      selectedAppointment.push(list)
-      setselectedAppointment(selectedAppointment)
+      selectedAppointment.push(list);
+      setselectedAppointment(selectedAppointment);
     } else {
-      const arrayIndex: number = selectedAppointment.findIndex((data: any) => data.id === list.id)
-      selectedAppointment.splice(arrayIndex, 1)
-      setselectedAppointment(selectedAppointment)
+      const arrayIndex: number = selectedAppointment.findIndex(
+        (data: any) => data.id === list.id,
+      );
+      selectedAppointment.splice(arrayIndex, 1);
+      setselectedAppointment(selectedAppointment);
     }
-  }
+  };
 
   const handleCreateInvoice = async () => {
-    console.log("in handle Selected Invoice Created Data", selectedAppointment)
-    let singleCareGiverData: any[] = [], selectedAppointmentId: any[] = [], singleCareInstData: any[] = [], amount: number = 0, subTotal: number = 0;
+    console.log('in handle Selected Invoice Created Data', selectedAppointment);
+    let singleCareGiverData: any[] = [],
+      selectedAppointmentId: any[] = [],
+      singleCareInstData: any[] = [],
+      amount: number = 0,
+      subTotal: number = 0;
     // all selected caregivers id
-    let selectedCareGiverId: string[] = selectedAppointment.map((appointment: any) => appointment.ca && appointment.ca.userId ? appointment.ca.userId : '').filter(Boolean)
-    // all selected care institutions id    
-    let selectedCareInstId: string[] = selectedAppointment.map((appointment: any) => appointment.cr && appointment.cr.userId ? appointment.cr.userId : '').filter(Boolean)
+    let selectedCareGiverId: string[] = selectedAppointment
+      .map((appointment: any) =>
+        appointment.ca && appointment.ca.userId ? appointment.ca.userId : '',
+      )
+      .filter(Boolean);
+    // all selected care institutions id
+    let selectedCareInstId: string[] = selectedAppointment
+      .map((appointment: any) =>
+        appointment.cr && appointment.cr.userId ? appointment.cr.userId : '',
+      )
+      .filter(Boolean);
     try {
       // To check appointment is bettween the same caregiver or careinstitution or not
-      let isInvoiceComaptible: boolean = selectedCareGiverId.length && selectedCareInstId.length && selectedCareGiverId.length === selectedCareInstId.length && selectedCareGiverId.every((val: string, i: number, arr: string[]) => val === arr[0]) && selectedCareInstId.every((val: string, i: number, arr: string[]) => val === arr[0]) ? true : false;
+      let isInvoiceComaptible: boolean =
+        selectedCareGiverId.length &&
+        selectedCareInstId.length &&
+        selectedCareGiverId.length === selectedCareInstId.length &&
+        selectedCareGiverId.every(
+          (val: string, i: number, arr: string[]) => val === arr[0],
+        ) &&
+        selectedCareInstId.every(
+          (val: string, i: number, arr: string[]) => val === arr[0],
+        )
+          ? true
+          : false;
       if (!isInvoiceComaptible) {
         if (!toast.isActive(toastId)) {
-          toastId = toast.warn("You can't create invoice with the selected appointment because of mismatch beetween caregiver & care-institutions")
+          toastId = toast.warn(
+            "You can't create invoice with the selected appointment because of mismatch beetween caregiver & care-institutions",
+          );
         }
-        return
+        return;
       } else {
         if (selectedAppointment && selectedAppointment.length) {
           selectedAppointment.forEach((appointmentData: any) => {
-            console.log("????????????", appointmentData);
+            console.log('????????????', appointmentData);
             if (appointmentData.ca && appointmentData.cr) {
-              singleCareGiverData.push(appointmentData.ca.userId)
-              console.log(">>>>>>>>>>>>>");
+              singleCareGiverData.push(appointmentData.ca.userId);
+              console.log('>>>>>>>>>>>>>');
 
-              singleCareInstData.push(appointmentData.cr.userId)
-              selectedAppointmentId.push(appointmentData.id)
+              singleCareInstData.push(appointmentData.cr.userId);
+              selectedAppointmentId.push(appointmentData.id);
 
-              let workBegain: any, workEnd: any
-              if (appointmentData && appointmentData.ca && appointmentData.ca.workingHoursFrom) {
-                workBegain = appointmentData.ca.workingHoursFrom.split(",")
-                workEnd = appointmentData.ca.workingHoursTo.split(",")
+              let workBegain: any, workEnd: any;
+              if (
+                appointmentData &&
+                appointmentData.ca &&
+                appointmentData.ca.workingHoursFrom
+              ) {
+                workBegain = appointmentData.ca.workingHoursFrom.split(',');
+                workEnd = appointmentData.ca.workingHoursTo.split(',');
               }
-              //Combime date and time 
-              let initialdate = workBegain && workBegain.length ? workBegain[0] : null;
-              let start_time = workBegain && workBegain.length ? workBegain[1] : null;
+              //Combime date and time
+              let initialdate =
+                workBegain && workBegain.length ? workBegain[0] : null;
+              let start_time =
+                workBegain && workBegain.length ? workBegain[1] : null;
               let enddate = workEnd && workEnd.length ? workEnd[0] : null;
               let end_time = workEnd && workEnd.length ? workEnd[1] : null;
-              console.log(initialdate, 'initialdate', start_time, moment(`${initialdate} ${start_time}`, `${dbAcceptableFormat} HH:mm`).format());
+              console.log(
+                initialdate,
+                'initialdate',
+                start_time,
+                moment(
+                  `${initialdate} ${start_time}`,
+                  `${dbAcceptableFormat} HH:mm`,
+                ).format(),
+              );
 
-              let datetimeA: any = initialdate ? moment(`${initialdate} ${start_time}`, `${dbAcceptableFormat} HH:mm`).format() : "";
-              let datetimeB: any = enddate ? moment(`${enddate} ${end_time}`, `${dbAcceptableFormat} HH:mm`).format() : null;
+              let datetimeA: any = initialdate
+                ? moment(
+                    `${initialdate} ${start_time}`,
+                    `${dbAcceptableFormat} HH:mm`,
+                  ).format()
+                : '';
+              let datetimeB: any = enddate
+                ? moment(
+                    `${enddate} ${end_time}`,
+                    `${dbAcceptableFormat} HH:mm`,
+                  ).format()
+                : null;
 
               // let duration = datetimeB && datetimeA ? moment.duration(datetimeB.diff(datetimeA)) : null;
               // let hours = duration ? duration.asHours() : null;
-              let diffDate: any = (new Date(datetimeB).getTime() - new Date(datetimeA).getTime()) / (3600 * 1000)
+              let diffDate: any =
+                (new Date(datetimeB).getTime() -
+                  new Date(datetimeA).getTime()) /
+                (3600 * 1000);
 
               //Show Weekend day
-              const dayData = new Date(appointmentData.date).getDay()
-              let isWeekendDay: boolean = (dayData === 6) || (dayData === 0) ? true : false
-              let hasHoliday: any
+              const dayData = new Date(appointmentData.date).getDay();
+              let isWeekendDay: boolean =
+                dayData === 6 || dayData === 0 ? true : false;
+              let hasHoliday: any;
               if (careGiverHolidays && careGiverHolidays.length) {
-                hasHoliday = careGiverHolidays.filter((data: any) => data.date === appointmentData.date)
+                hasHoliday = careGiverHolidays.filter(
+                  (data: any) => data.date === appointmentData.date,
+                );
               }
-              let weekendRate: any = appointmentData.ca.weekendAllowance ? appointmentData.ca.weekendAllowance : 0
-              let holidayRate: any = appointmentData.ca.holidayAllowance ? appointmentData.ca.holidayAllowance : 0
-              let nightRate: any = appointmentData.ca.nightFee ? appointmentData.ca.nightFee : 0
-              let fees: any = (appointmentData.ca.fee * 100)
-              let transportation: any = (appointmentData.ca.distanceInKM ? appointmentData.ca.distanceInKM : 0 * appointmentData.ca.feePerKM ? appointmentData.ca.feePerKM : 0)
-              let hours: any = (appointmentData.ca.workingHoursFrom ? parseFloat(diffDate).toFixed(2) : 0)
-              let expenses = (appointmentData.ca && appointmentData.ca.otherExpenses ? appointmentData.ca.otherExpenses : 0)
+              let weekendRate: any = appointmentData.ca.weekendAllowance
+                ? appointmentData.ca.weekendAllowance
+                : 0;
+              let holidayRate: any = appointmentData.ca.holidayAllowance
+                ? appointmentData.ca.holidayAllowance
+                : 0;
+              let nightRate: any = appointmentData.ca.nightFee
+                ? appointmentData.ca.nightFee
+                : 0;
+              let fees: any = appointmentData.ca.fee * 100;
+              let transportation: any = appointmentData.ca.distanceInKM
+                ? appointmentData.ca.distanceInKM
+                : 0 * appointmentData.ca.feePerKM
+                ? appointmentData.ca.feePerKM
+                : 0;
+              let hours: any = appointmentData.ca.workingHoursFrom
+                ? parseFloat(diffDate).toFixed(2)
+                : 0;
+              let expenses =
+                appointmentData.ca && appointmentData.ca.otherExpenses
+                  ? appointmentData.ca.otherExpenses
+                  : 0;
               if (isWeekendDay && hasHoliday && hasHoliday.length) {
                 if (weekendRate > holidayRate) {
-                  subTotal = ((((fees + weekendRate) * hours) + transportation + expenses))
+                  subTotal =
+                    (fees + weekendRate) * hours + transportation + expenses;
                 } else if (holidayRate > weekendRate) {
-                  subTotal = ((((fees + holidayRate) * hours) + transportation + expenses))
+                  subTotal =
+                    (fees + holidayRate) * hours + transportation + expenses;
                 }
               } else {
-                subTotal += (((fees * hours) + transportation + expenses))
+                subTotal += fees * hours + transportation + expenses;
               }
             } else {
-              const message = errorFormatter("Selected appointment don't have care giver");
+              const message = errorFormatter(
+                "Selected appointment don't have care giver",
+              );
               if (!toast.isActive(toastId)) {
-                toastId = toast.warn(message)
+                toastId = toast.warn(message);
               }
             }
           });
-          console.log("*****************subTotal", subTotal * 0.19);
-          const totalAmount: any = (subTotal) + (subTotal * 0.19)
-          settotalAmount(totalAmount)
+          console.log('*****************subTotal', subTotal * 0.19);
+          const totalAmount: any = subTotal + subTotal * 0.19;
+          settotalAmount(totalAmount);
           const invoiceInput: any = {
             caregiverId: singleCareGiverData[singleCareGiverData.length - 1],
-            careInstitutionId: singleCareInstData[singleCareInstData.length - 1],
+            careInstitutionId:
+              singleCareInstData[singleCareInstData.length - 1],
             appointmentIds: selectedAppointmentId,
-            status: "unpaid",
+            status: 'unpaid',
             subTotal: `${subTotal}`,
             amount: `${totalAmount}`,
             tax: `${subTotal * 0.19}`,
-            careInstitutionName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].cr ? selectedAppointment[0].cr.name : "",
-            careGiverName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].ca ? selectedAppointment[0].ca.name : "",
-            invoiceType: "selfEmployee"
-          }
+            careInstitutionName:
+              selectedAppointment &&
+              selectedAppointment.length &&
+              selectedAppointment[0].cr
+                ? selectedAppointment[0].cr.name
+                : '',
+            careGiverName:
+              selectedAppointment &&
+              selectedAppointment.length &&
+              selectedAppointment[0].ca
+                ? selectedAppointment[0].ca.name
+                : '',
+            invoiceType: 'selfEmployee',
+          };
           await CreateInvoice({
             variables: {
-              invoiceInput: invoiceInput
+              invoiceInput: invoiceInput,
             },
           });
         }
@@ -505,12 +606,156 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         toastId = toast.error(message);
       }
     }
+  };
+
+  if (
+    !invoiceListLoading &&
+    invoiceList &&
+    invoiceList.getAllAppointment &&
+    invoiceList.getAllAppointment.result.length
+  ) {
+    console.log(
+      invoiceList.getAllAppointment.result,
+      'invoiceList.getAllAppointment.result',
+    );
+    invoiceList.getAllAppointment.result.forEach(async (ele: any) => {
+      const { ca = {}, cr = {} } = ele ? ele : {};
+      let nightWorkingMinutes: any = 0,
+        sundayWorkingMinutes: any = 0,
+        holidayWorkingMinutes: any = 0,
+        appointmentDate: any = cr ? cr.date : '',
+        startHourNight: any =
+          ca && ca.nightAllowance ? ca.nightAllowance : '22:00';
+      if (
+        ca &&
+        ca.user &&
+        ca.user.caregiver &&
+        ca.user.caregiver.supplements === 'Cumulative'
+      ) {
+        console.log('Cumulative');
+
+        if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          nightWorkingMinutes = await getNightMinutes(
+            appointmentDate,
+            startHourNight,
+            startT,
+            endT,
+          );
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          nightWorkingMinutes = await getNightMinutes(
+            appointmentDate,
+            startHourNight,
+            startT,
+            endT,
+          );
+        }
+        console.log('nightWorkingMinutes', nightWorkingMinutes);
+        // SATURDAY & SUNDAY MINUTES (Weekend) =>  (WORKING ON IT!!)
+        if (ele && ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          sundayWorkingMinutes = await getSaturdayAndSundayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+          );
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          sundayWorkingMinutes = await getSaturdayAndSundayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+          );
+        }
+        console.log('sundayWorkingMinutes', sundayWorkingMinutes);
+
+        // HOLIDAY MINUTES (Holiday)
+        if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          holidayWorkingMinutes = await getHolidayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            '1359',
+          );
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          holidayWorkingMinutes = await getHolidayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            '1359',
+          );
+        }
+        console.log('holidayWorkingMinutes ####', holidayWorkingMinutes);
+      } else {
+        console.log('INSIDE ELSE!!');
+        let exclusiveMinutes: any = {};
+        if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          exclusiveMinutes = await getSelfEmployeeExclusiveMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            startHourNight,
+            '1359',
+          );
+          console.log('start & endtime', startT, endT, startHourNight);
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          exclusiveMinutes = await getSelfEmployeeExclusiveMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            startHourNight,
+            '1359',
+          );
+          console.log('start & endtime', startT, endT, startHourNight);
+        }
+
+        holidayWorkingMinutes = exclusiveMinutes.holidayMinutes;
+        sundayWorkingMinutes = exclusiveMinutes.saturdaySundayMinutes;
+        nightWorkingMinutes = exclusiveMinutes.nightMinutes;
+
+        console.log('-----------------------------');
+        console.log(
+          'holidayWorkingMinutes @ SELF IMP @ 1 ',
+          holidayWorkingMinutes,
+        );
+        console.log('nightWorkingMinutes @ SELF IMP @ 2 ', nightWorkingMinutes);
+        console.log(
+          'sundayWorkingMinutes @ SELF IMP @ 3 ',
+          sundayWorkingMinutes,
+        );
+      }
+      let sundayWorkingHours = await convertIntoHours(sundayWorkingMinutes);
+      let holidayWorkingHours = await convertIntoHours(holidayWorkingMinutes);
+      let nightWorkingHours = await convertIntoHours(nightWorkingMinutes);
+      ele.nightWorkingHours = nightWorkingHours;
+      ele.sundayWorkingHours = sundayWorkingHours;
+      ele.holidayWorkingHours = holidayWorkingHours;
+    });
   }
+  console.log(
+    invoiceList &&
+      invoiceList.getAllAppointment &&
+      invoiceList.getAllAppointment.result,
+    'above return',
+  );
 
   return (
     <>
-      <div className="common-detail-page">
-        <div className="common-detail-section">
+      <div className='common-detail-page'>
+        <div className='common-detail-section'>
           <InvoiceNavbar
             onhandleSelection={onhandleSelection}
             careGiversOptions={careGiversOptions}
@@ -526,66 +771,71 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             createInvoiceLoading={createInvoiceLoading}
           />
 
-          <div className="common-content flex-grow-1">
-            <div className="common-content flex-grow-1  p-0 all-invoice">
+          <div className='common-content flex-grow-1'>
+            <div className='common-content flex-grow-1  p-0 all-invoice'>
               <InvoiceList
                 invoiceListLoading={invoiceListLoading}
                 currentPage={currentPage}
                 selectedAppointment={selectedAppointment}
                 careGiverHolidays={careGiverHolidays}
-                handleCheckedChange={(e: any, list: any) => handleCheckedChange(e, list)}
+                handleCheckedChange={(e: any, list: any) =>
+                  handleCheckedChange(e, list)
+                }
                 invoiceList={
                   invoiceList &&
-                    invoiceList.getAllAppointment &&
-                    invoiceList.getAllAppointment.result.length
+                  invoiceList.getAllAppointment &&
+                  invoiceList.getAllAppointment.result.length
                     ? invoiceList.getAllAppointment.result
                     : []
                 }
-                totalCount={invoiceList &&
-                  invoiceList.getAllAppointment ? invoiceList.getAllAppointment.totalCount : 0}
+                totalCount={
+                  invoiceList && invoiceList.getAllAppointment
+                    ? invoiceList.getAllAppointment.totalCount
+                    : 0
+                }
               />
-              <Form className="form-section total-form-section bg-white">
-                <div className="d-flex flex-wrap total-form-block">
-                  <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+              <Form className='form-section total-form-section bg-white'>
+                <div className='d-flex flex-wrap total-form-block'>
+                  <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                     <FormGroup>
-                      <Row className="align-items-center">
-                        <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                          <Label className="form-label col-form-label">
+                      <Row className='align-items-center'>
+                        <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                          <Label className='form-label col-form-label'>
                             Total
                           </Label>
                         </Col>
-                        <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                          <div className="required-input">
+                        <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                          <div className='required-input'>
                             <Input
-                              type="text"
-                              name={"firstName"}
-                              placeholder={"Total Amount"}
+                              type='text'
+                              name={'firstName'}
+                              placeholder={'Total Amount'}
                               disable={true}
                               value={totalAmount}
-                              className="text-input text-capitalize"
+                              className='text-input text-capitalize'
                             />
                           </div>
                         </Col>
                       </Row>
                     </FormGroup>
                   </Col>
-                  <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>
+                  <Col xs={'12'} sm={'6'} md={'6'} lg={'6'}>
                     <FormGroup>
-                      <Row className="align-items-center">
-                        <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
-                          <Label className="form-label col-form-label">
+                      <Row className='align-items-center'>
+                        <Col xs={'12'} sm={'4'} md={'4'} lg={'4'}>
+                          <Label className='form-label col-form-label'>
                             Total selection
                           </Label>
                         </Col>
-                        <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
-                          <div className="required-input">
+                        <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                          <div className='required-input'>
                             <Input
-                              type="text"
-                              name={"firstName"}
-                              placeholder={"Total selection"}
+                              type='text'
+                              name={'firstName'}
+                              placeholder={'Total selection'}
                               disable={true}
                               value={selectedAppointment.length}
-                              className="text-input text-capitalize"
+                              className='text-input text-capitalize'
                             />
                           </div>
                         </Col>

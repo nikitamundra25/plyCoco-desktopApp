@@ -53,6 +53,7 @@ const GET_INVOICE_LIST = gql`
             caregiver {
               attributes
               leasingPricingList
+              supplements
             }
           }
         }
@@ -64,7 +65,7 @@ const GET_INVOICE_LIST = gql`
           endTime
           date
           qualificationForCharge
-          qualification{
+          qualification {
             id
             qualificationAllowance
           }
@@ -84,7 +85,7 @@ const GET_INVOICE_LIST = gql`
               defaultTaxValue
               shortName
             }
-            caregiver{
+            caregiver {
               id
             }
           }
@@ -95,8 +96,20 @@ const GET_INVOICE_LIST = gql`
 `;
 
 const GET_ALL_INVOICE_LIST = gql`
-  query getInvoices($status: String,$invoiceType:String, $sortBy: Int, $limit: Int, $page: Int) {
-    getInvoices(status: $status,invoiceType: $invoiceType, sortBy: $sortBy, page: $page, limit: $limit) {
+  query getInvoices(
+    $status: String
+    $invoiceType: String
+    $sortBy: Int
+    $limit: Int
+    $page: Int
+  ) {
+    getInvoices(
+      status: $status
+      invoiceType: $invoiceType
+      sortBy: $sortBy
+      page: $page
+      limit: $limit
+    ) {
       result {
         id
         invoiceNumber

@@ -1,6 +1,14 @@
 import React, { useState, FunctionComponent, useEffect } from 'react';
 import { Form, FormGroup, Input, Label, Row, Col } from 'reactstrap';
-import { languageTranslation, errorFormatter } from '../../../../../helpers';
+import {
+  languageTranslation,
+  errorFormatter,
+  getNightMinutes,
+  getHolidayMinutes,
+  convertIntoHours,
+  getLeasingExclusiveMinutes,
+  getSundayMinutes,
+} from '../../../../../helpers';
 
 import { RouteComponentProps, useLocation } from 'react-router';
 import '../index.scss';
@@ -47,7 +55,7 @@ const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const [, CREATE_LEASING_INVOICE] = InvoiceMutations;
 
 const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
-  mainProps: any
+  mainProps: any,
 ) => {
   const { search } = useLocation();
   const query = qs.parse(search);
@@ -91,19 +99,22 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     { loading: createInvoiceLoading },
   ] = useMutation<{
     invoiceInput: any;
-  }>(CREATE_LEASING_INVOICE,
-    { onCompleted(){
+  }>(CREATE_LEASING_INVOICE, {
+    onCompleted() {
       toast.dismiss();
       if (!toast.isActive(toastId)) {
-        toastId = toast.success(
-          languageTranslation('CREATE_INVOICE_SUCCESS')
-        );
+        toastId = toast.success(languageTranslation('CREATE_INVOICE_SUCCESS'));
       }
-    }});
+    },
+  });
 
   // Default value is start & end of month
-  let gte: string = moment().startOf('month').format(dbAcceptableFormat);
-  let lte: string = moment().endOf('month').format(dbAcceptableFormat);
+  let gte: string = moment()
+    .startOf('month')
+    .format(dbAcceptableFormat);
+  let lte: string = moment()
+    .endOf('month')
+    .format(dbAcceptableFormat);
   // To get caregiver list from db
   const [
     getDepartmentList,
@@ -175,7 +186,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     GET_CAREGIVER_BY_NAME,
     {
       fetchPolicy: 'no-cache',
-    }
+    },
   );
 
   useEffect(() => {
@@ -229,14 +240,27 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     if (monthFilter && monthFilter.value) {
       const { value } = monthFilter;
       if (value === 'weekly') {
-        gte = moment().startOf('week').format(dbAcceptableFormat);
-        lte = moment().endOf('week').format(dbAcceptableFormat);
+        gte = moment()
+          .startOf('week')
+          .format(dbAcceptableFormat);
+        lte = moment()
+          .endOf('week')
+          .format(dbAcceptableFormat);
       } else if (value === 'everySixMonths') {
-        gte = moment().startOf('month').format(dbAcceptableFormat);
-        lte = moment(gte).add(6, 'M').endOf('month').format(dbAcceptableFormat);
+        gte = moment()
+          .startOf('month')
+          .format(dbAcceptableFormat);
+        lte = moment(gte)
+          .add(6, 'M')
+          .endOf('month')
+          .format(dbAcceptableFormat);
       } else if (value === 'perMonth') {
-        gte = moment().startOf('month').format(dbAcceptableFormat);
-        lte = moment().endOf('month').format(dbAcceptableFormat);
+        gte = moment()
+          .startOf('month')
+          .format(dbAcceptableFormat);
+        lte = moment()
+          .endOf('month')
+          .format(dbAcceptableFormat);
       } else if (value === 'all') {
         gte = '';
         lte = '';
@@ -306,7 +330,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             ? selfEmployesListColor
             : '',
         });
-      }
+      },
     );
   }
   // to reset all the filters
@@ -376,7 +400,9 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         .subtract(1, 'months')
         .format(dbAcceptableFormat);
     } else {
-      date = moment(dateFilter).add(1, 'months').format(dbAcceptableFormat);
+      date = moment(dateFilter)
+        .add(1, 'months')
+        .format(dbAcceptableFormat);
     }
     setDateFilter(date);
   };
@@ -389,7 +415,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       setselectedAppointment(selectedAppointment);
     } else {
       const arrayIndex: number = selectedAppointment.findIndex(
-        (data: any) => data.id === list.id
+        (data: any) => data.id === list.id,
       );
       selectedAppointment.splice(arrayIndex, 1);
       setselectedAppointment(selectedAppointment);
@@ -405,13 +431,13 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     // all selected caregivers id
     let selectedCareGiverId: string[] = selectedAppointment
       .map((appointment: any) =>
-        appointment.ca && appointment.ca.userId ? appointment.ca.userId : ''
+        appointment.ca && appointment.ca.userId ? appointment.ca.userId : '',
       )
       .filter(Boolean);
     // all selected care institutions id
     let selectedCareInstId: string[] = selectedAppointment
       .map((appointment: any) =>
-        appointment.cr && appointment.cr.userId ? appointment.cr.userId : ''
+        appointment.cr && appointment.cr.userId ? appointment.cr.userId : '',
       )
       .filter(Boolean);
     try {
@@ -421,17 +447,17 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         selectedCareInstId.length &&
         selectedCareGiverId.length === selectedCareInstId.length &&
         selectedCareGiverId.every(
-          (val: string, i: number, arr: string[]) => val === arr[0]
+          (val: string, i: number, arr: string[]) => val === arr[0],
         ) &&
         selectedCareInstId.every(
-          (val: string, i: number, arr: string[]) => val === arr[0]
+          (val: string, i: number, arr: string[]) => val === arr[0],
         )
           ? true
           : false;
       if (!isInvoiceComaptible) {
         if (!toast.isActive(toastId)) {
           toastId = toast.warn(
-            languageTranslation('YOU_CANT_CREATE_INVOICE_WITH')
+            languageTranslation('YOU_CANT_CREATE_INVOICE_WITH'),
           );
         }
         return;
@@ -462,13 +488,13 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
               let datetimeA: any = initialdate
                 ? moment(
                     `${initialdate} ${start_time}`,
-                    `${dbAcceptableFormat} HH:mm`
+                    `${dbAcceptableFormat} HH:mm`,
                   ).format()
                 : '';
               let datetimeB: any = enddate
                 ? moment(
                     `${enddate} ${end_time}`,
-                    `${dbAcceptableFormat} HH:mm`
+                    `${dbAcceptableFormat} HH:mm`,
                   ).format()
                 : null;
 
@@ -486,7 +512,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
               let hasHoliday: any;
               if (careGiverHolidays && careGiverHolidays.length) {
                 hasHoliday = careGiverHolidays.filter(
-                  (data: any) => data.date === appointmentData.date
+                  (data: any) => data.date === appointmentData.date,
                 );
               }
               let weekendRate: any = appointmentData.ca.weekendAllowance
@@ -524,7 +550,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
               }
             } else {
               const message = errorFormatter(
-                languageTranslation('SELECTED_APPOINTMENT_DONT_HAVE_CG')
+                languageTranslation('SELECTED_APPOINTMENT_DONT_HAVE_CG'),
               );
               if (!toast.isActive(toastId)) {
                 toastId = toast.warn(message);
@@ -542,8 +568,18 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             subTotal: `${subTotal}`,
             amount: `${totalAmount}`,
             tax: `${subTotal * 0.19}`,
-            careInstitutionName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].cr ? selectedAppointment[0].cr.name : "",
-            careGiverName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].ca ? selectedAppointment[0].ca.name : "",
+            careInstitutionName:
+              selectedAppointment &&
+              selectedAppointment.length &&
+              selectedAppointment[0].cr
+                ? selectedAppointment[0].cr.name
+                : '',
+            careGiverName:
+              selectedAppointment &&
+              selectedAppointment.length &&
+              selectedAppointment[0].ca
+                ? selectedAppointment[0].ca.name
+                : '',
             invoiceType: 'leasing',
           };
           await CreateLeasingInvoice({
@@ -560,6 +596,288 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       }
     }
   };
+
+  let invoiceUpdatedListData = [];
+  console.log(invoiceList, 'invoiceListinvoiceList');
+
+  if (
+    !invoiceListLoading &&
+    invoiceList &&
+    invoiceList.getAllAppointment &&
+    invoiceList.getAllAppointment.result.length
+  ) {
+    console.log(
+      invoiceList.getAllAppointment.result,
+      'invoiceList.getAllAppointment.result',
+    );
+    invoiceList.getAllAppointment.result.forEach(async (ele: any) => {
+      const { ca = {}, cr = {} } = ele ? ele : {};
+      let nightWorkingMinutes: any = 0,
+        sundayWorkingMinutes: any = 0,
+        holidayWorkingMinutes: any = 0,
+        appointmentDate: any = cr ? cr.date : '',
+        startHourNight: any =
+          ca && ca.nightAllowance ? ca.nightAllowance : '22:00';
+      if (
+        ca &&
+        ca.user &&
+        ca.user.caregiver &&
+        ca.user.caregiver.supplements === 'Cumulative'
+      ) {
+        console.log('Cumulative');
+
+        if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          nightWorkingMinutes = await getNightMinutes(
+            appointmentDate,
+            startHourNight,
+            startT,
+            endT,
+          );
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          nightWorkingMinutes = await getNightMinutes(
+            appointmentDate,
+            startHourNight,
+            startT,
+            endT,
+          );
+        }
+        console.log('nightWorkingMinutes', nightWorkingMinutes);
+        // SATURDAY & SUNDAY MINUTES (Weekend) =>  (WORKING ON IT!!)
+        if (ele && ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          sundayWorkingMinutes = await getSundayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+          );
+          console.log(
+            sundayWorkingMinutes,
+            'sundayWorkingMinutessundayWorkingMinutes',
+          );
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          sundayWorkingMinutes = await getSundayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+          );
+        }
+        console.log('sundayWorkingMinutes', sundayWorkingMinutes);
+
+        // HOLIDAY MINUTES (Holiday)
+        if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          holidayWorkingMinutes = await getHolidayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            '1359',
+          );
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          holidayWorkingMinutes = await getHolidayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            '1359',
+          );
+        }
+        console.log('holidayWorkingMinutes ####', holidayWorkingMinutes);
+      } else {
+        console.log('INSIDE ELSE!!');
+        let exclusiveMinutes: any = {};
+        if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          exclusiveMinutes = await getLeasingExclusiveMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            startHourNight,
+            '1359',
+          );
+          console.log('start & endtime', startT, endT, startHourNight);
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          exclusiveMinutes = await getLeasingExclusiveMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            startHourNight,
+            '1359',
+          );
+          console.log('start & endtime', startT, endT, startHourNight);
+        }
+        console.log(exclusiveMinutes, 'exclusiveMinutes');
+
+        holidayWorkingMinutes = exclusiveMinutes.holidayMinutes;
+        sundayWorkingMinutes = exclusiveMinutes.sundayMinutes;
+        nightWorkingMinutes = exclusiveMinutes.nightMinutes;
+
+        console.log('-----------------------------');
+        console.log(
+          'holidayWorkingMinutes @ SELF IMP @ 1 ',
+          holidayWorkingMinutes,
+        );
+        console.log('nightWorkingMinutes @ SELF IMP @ 2 ', nightWorkingMinutes);
+        console.log(
+          'sundayWorkingMinutes @ SELF IMP @ 3 ',
+          sundayWorkingMinutes,
+        );
+      }
+      let requirementStartTime = null;
+      let requirementEndTime = null;
+
+      let requirementBreakStartTime = null;
+      let requirementBreakEndTime = null;
+      if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+        console.log('WORK TIME ENTERED!');
+        requirementStartTime = new Date(
+          moment(ca.workingHoursFrom, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+        requirementEndTime = new Date(
+          moment(ca.workingHoursTo, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+      } else {
+        console.log('WORK TIME NOT ENTERED!');
+        let startTime = cr && cr.startTime ? cr.startTime : null;
+        let endTime = cr && cr.endTime ? cr.endTime : null;
+
+        requirementStartTime = moment(
+          appointmentDate + ' ' + startTime,
+        ).format();
+        requirementEndTime = moment(appointmentDate + ' ' + endTime).format();
+
+        let requirementStartT = moment(requirementStartTime);
+        let requirementEndT = moment(requirementEndTime);
+
+        var diff = requirementEndT.diff(requirementStartT, 'minutes');
+        // console.log('diffdiff', diff);
+        if (diff < 0) {
+          requirementEndTime = moment(requirementEndTime)
+            .add('days', 1)
+            .format();
+        }
+      }
+      if (ca && ca.breakFrom && ca.breakTo) {
+        requirementBreakStartTime = new Date(
+          moment(ca.breakFrom, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+        requirementBreakEndTime = new Date(
+          moment(ca.breakTo, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+      }
+
+      // MAIN MINUTES
+      let workingMinutes: any =
+        (new Date(requirementEndTime).getTime() -
+          new Date(requirementStartTime).getTime()) /
+        (60 * 1000);
+      console.log(
+        requirementEndTime,
+        requirementStartTime,
+        workingMinutes,
+        'workingMinutesew4322',
+      );
+
+      // await getMinutes(
+      //   requirementStartTime,
+      //   requirementEndTime,
+      // );
+      let workingHours = await convertIntoHours(workingMinutes);
+
+      let totalBreakMinutes: any = 0;
+      if (requirementBreakEndTime && requirementBreakStartTime) {
+        totalBreakMinutes =
+          (new Date(requirementBreakEndTime).getTime() -
+            new Date(requirementBreakStartTime).getTime()) /
+          (60 * 1000);
+      }
+      // await getMinutes(
+      //   requirementBreakStartTime,
+      //   requirementBreakEndTime,
+      // );
+      let totalBreakHours = await convertIntoHours(totalBreakMinutes);
+
+      let totalWorkingMinutes: any = workingMinutes - totalBreakMinutes;
+      let sundayWorkingHours: any = await convertIntoHours(
+        sundayWorkingMinutes,
+      );
+      let holidayWorkingHours: any = await convertIntoHours(
+        holidayWorkingMinutes,
+      );
+      let nightWorkingHours: any = await convertIntoHours(nightWorkingMinutes);
+      let marginMoney: any = 0;
+      let qualificationAllowance: any = 0;
+      let salaryPerHour: any = 0;
+      let holidayAllowancePerHour: any = 0;
+      let sundayAllowancePerHour: any = 0;
+      let nightAllowancePerHour: any = 0;
+      // Per Hour Salary!!
+      marginMoney =
+        cr &&
+        cr.user &&
+        cr.user.canstitution &&
+        cr.user.canstitution.leasingPriceListId
+          ? parseFloat(cr.user.canstitution.leasingPriceListId)
+          : 23.5;
+      qualificationAllowance =
+        cr && cr.qualification && cr.qualification.qualificationAllowance
+          ? parseFloat(cr.qualification.qualificationAllowance)
+          : 23.5;
+      salaryPerHour = marginMoney + qualificationAllowance;
+      holidayAllowancePerHour = Number(salaryPerHour * 1).toFixed(2);
+      sundayAllowancePerHour = Number(salaryPerHour * 0.5).toFixed(2);
+      nightAllowancePerHour = Number(salaryPerHour * 0.25).toFixed(2);
+      let feeAllowance = Number(totalWorkingMinutes * (salaryPerHour / 60));
+      console.log('feeAllowance', feeAllowance);
+
+      let nightAllowance = Number(
+        nightWorkingMinutes * (nightAllowancePerHour / 60),
+      );
+      console.log('nightAllowance', nightAllowance);
+
+      let sundayAllowance = Number(
+        sundayWorkingMinutes * (sundayAllowancePerHour / 60),
+      );
+      console.log('sundayAllowance', sundayAllowance);
+
+      let holidayAllowance = Number(
+        holidayWorkingMinutes * (holidayAllowancePerHour / 60),
+      );
+      ele.marginMoney = marginMoney;
+      ele.salaryPerHour = salaryPerHour;
+      ele.holidayAllowance = holidayAllowance;
+      ele.sundayAllowance = sundayAllowance;
+      ele.nightAllowance = nightAllowance;
+
+      ele.workingHours = workingHours;
+      ele.sundayWorkingHours = sundayWorkingHours;
+      ele.holidayWorkingHours = holidayWorkingHours;
+      ele.nightWorkingHours = nightWorkingHours;
+
+      ele.amount =
+        Number(feeAllowance) +
+        Number(sundayAllowance) +
+        Number(nightAllowance) +
+        Number(holidayAllowance);
+    });
+  }
+  console.log(
+    invoiceList &&
+      invoiceList.getAllAppointment &&
+      invoiceList.getAllAppointment.result,
+    'above return',
+  );
 
   return (
     <>
@@ -618,7 +936,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
                             <Input
                               type='text'
                               name={'total'}
-                              placeholder={languageTranslation("ENTER_TOTAL")}
+                              placeholder={languageTranslation('ENTER_TOTAL')}
                               className='text-input text-capitalize'
                               disable={true}
                               value={totalAmount}

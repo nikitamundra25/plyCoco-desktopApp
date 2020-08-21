@@ -64,6 +64,7 @@ export interface ICareInstitutionValidationSchema {
   companyName?: string;
   careGiverCommission?: string;
   doctorCommission?: string;
+  zipCode?: string;
   fax?: number;
   website?: string | null;
   remarksViewable?: string | null;

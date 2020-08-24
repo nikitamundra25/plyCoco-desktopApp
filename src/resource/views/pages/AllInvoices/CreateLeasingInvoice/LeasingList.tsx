@@ -431,9 +431,9 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                     {/* <td className='price-col'>{nightWorkingHours}</td> */}
                     <td className='price-col'>{list.nightWorkingHours}</td>
                     <td className='price-col'>
-                      {list.nightAllowance ? (
+                      {list.nightAllowancePerHour ? (
                         <>
-                          {parseFloat(list.nightAllowance).toFixed(2)}
+                          {parseFloat(list.nightAllowancePerHour).toFixed(2)}
                           <i className='fa fa-euro pl-1' aria-hidden='true'></i>
                         </>
                       ) : (
@@ -446,7 +446,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                     {/* <td className='price-col'>{<>{sundayWorkingHours}</>}</td> */}
                     <td className='price-col'>{list.sundayWorkingHours}</td>
                     <td className='price-col'>
-                      {list.sundayAllowance ? (
+                      {list.sundayAllowancePerHour ? (
                         // <>
                         //   {(
                         //     parseFloat(list.ca.weekendAllowance) *
@@ -455,7 +455,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                         //   <i className='fa fa-euro pl-1' aria-hidden='true'></i>
                         // </>
                         <>
-                          {list.sundayAllowance.toFixed(2)}{' '}
+                          {parseFloat(list.sundayAllowancePerHour).toFixed(2)}{' '}
                           <i className='fa fa-euro pl-1' aria-hidden='true'></i>
                         </>
                       ) : (
@@ -467,7 +467,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                     </td>
                     <td className='price-col'>{list.holidayWorkingHours}</td>
                     <td className='price-col'>
-                      {list.holidayAllowance ? (
+                      {list.holidayAllowancePerHour ? (
                         // <>
                         //   {(
                         //     parseFloat(list.ca.holidayAllowance) *
@@ -476,7 +476,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                         //   <i className='fa fa-euro pl-1' aria-hidden='true'></i>
                         // </>
                         <>
-                          {list.holidayAllowance.toFixed(2)}{' '}
+                          {parseFloat(list.holidayAllowancePerHour).toFixed(2)}{' '}
                           <i className='fa fa-euro pl-1' aria-hidden='true'></i>
                         </>
                       ) : (

@@ -737,9 +737,104 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
           sundayWorkingMinutes,
         );
       }
+      let requirementStartTime = null;
+      let requirementEndTime = null;
+
+      let requirementBreakStartTime = null;
+      let requirementBreakEndTime = null;
+      if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+        console.log('WORK TIME ENTERED!');
+        requirementStartTime = new Date(
+          moment(ca.workingHoursFrom, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+        requirementEndTime = new Date(
+          moment(ca.workingHoursTo, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+      } else {
+        console.log('WORK TIME NOT ENTERED!');
+        let startTime = cr && cr.startTime ? cr.startTime : null;
+        let endTime = cr && cr.endTime ? cr.endTime : null;
+
+        requirementStartTime = moment(
+          appointmentDate + ' ' + startTime,
+        ).format();
+        requirementEndTime = moment(appointmentDate + ' ' + endTime).format();
+
+        let requirementStartT = moment(requirementStartTime);
+        let requirementEndT = moment(requirementEndTime);
+
+        var diff = requirementEndT.diff(requirementStartT, 'minutes');
+        // console.log('diffdiff', diff);
+        if (diff < 0) {
+          requirementEndTime = moment(requirementEndTime)
+            .add('days', 1)
+            .format();
+        }
+      }
+      if (ca && ca.breakFrom && ca.breakTo) {
+        requirementBreakStartTime = new Date(
+          moment(ca.breakFrom, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+        requirementBreakEndTime = new Date(
+          moment(ca.breakTo, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+      }
+      // MAIN MINUTES
+      let workingMinutes: any =
+        (new Date(requirementEndTime).getTime() -
+          new Date(requirementStartTime).getTime()) /
+        (60 * 1000);
+      console.log(
+        requirementEndTime,
+        requirementStartTime,
+        workingMinutes,
+        'workingMinutesew4322',
+      );
+
+      // await getMinutes(
+      //   requirementStartTime,
+      //   requirementEndTime,
+      // );
+      let workingHours = await convertIntoHours(workingMinutes);
+
+      let totalBreakMinutes: any = 0;
+      if (requirementBreakEndTime && requirementBreakStartTime) {
+        totalBreakMinutes =
+          (new Date(requirementBreakEndTime).getTime() -
+            new Date(requirementBreakStartTime).getTime()) /
+          (60 * 1000);
+      }
+      // await getMinutes(
+      //   requirementBreakStartTime,
+      //   requirementBreakEndTime,
+      // );
+      let totalBreakHours = await convertIntoHours(totalBreakMinutes);
+
+      let totalWorkingMinutes: any = workingMinutes - totalBreakMinutes;
       let sundayWorkingHours = await convertIntoHours(sundayWorkingMinutes);
       let holidayWorkingHours = await convertIntoHours(holidayWorkingMinutes);
       let nightWorkingHours = await convertIntoHours(nightWorkingMinutes);
+      let feeAllowance = Number(totalWorkingMinutes * (Number(ca.fee) / 60));
+      console.log('feeAllowance', feeAllowance);
+
+      let nightAllowance = Number(
+        nightWorkingMinutes * (Number(ca.nightFee) / 60),
+      );
+      console.log('nightAllowance', nightAllowance);
+
+      let sundayAllowance = Number(
+        sundayWorkingMinutes * (Number(ca.weekendAllowance) / 60),
+      );
+      console.log('sundayAllowance', sundayAllowance);
+
+      let holidayAllowance = Number(
+        holidayWorkingMinutes * (Number(ca.holidayAllowance) / 60),
+      );
+      console.log('holidayAllowance', holidayAllowance);
+
+      let travelAllowance = Number(ca.distanceInKM) * Number(ca.feePerKM);
+
+      ele.workingHours = workingHours;
       ele.nightWorkingHours = nightWorkingHours;
       ele.sundayWorkingHours = sundayWorkingHours;
       ele.holidayWorkingHours = holidayWorkingHours;

@@ -859,6 +859,9 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       ele.holidayAllowance = holidayAllowance;
       ele.sundayAllowance = sundayAllowance;
       ele.nightAllowance = nightAllowance;
+      ele.holidayAllowancePerHour = holidayAllowancePerHour;
+      ele.sundayAllowancePerHour = sundayAllowancePerHour;
+      ele.nightAllowancePerHour = nightAllowancePerHour;
 
       ele.workingHours = workingHours;
       ele.sundayWorkingHours = sundayWorkingHours;

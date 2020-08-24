@@ -833,7 +833,11 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       console.log('holidayAllowance', holidayAllowance);
 
       let travelAllowance = Number(ca.distanceInKM) * Number(ca.feePerKM);
-
+      let amount =
+        Number(feeAllowance) +
+        Number(sundayAllowance) +
+        Number(nightAllowance) +
+        Number(holidayAllowance);
       ele.workingHours = workingHours;
       ele.nightWorkingHours = nightWorkingHours;
       ele.sundayWorkingHours = sundayWorkingHours;

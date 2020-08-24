@@ -795,7 +795,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       //   requirementStartTime,
       //   requirementEndTime,
       // );
-      let workingHours = await convertIntoHours(workingMinutes);
 
       let totalBreakMinutes: any = 0;
       if (requirementBreakEndTime && requirementBreakStartTime) {
@@ -811,10 +810,16 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       let totalBreakHours = await convertIntoHours(totalBreakMinutes);
 
       let totalWorkingMinutes: any = workingMinutes - totalBreakMinutes;
+      let workingHours = await convertIntoHours(totalWorkingMinutes);
       let sundayWorkingHours = await convertIntoHours(sundayWorkingMinutes);
       let holidayWorkingHours = await convertIntoHours(holidayWorkingMinutes);
       let nightWorkingHours = await convertIntoHours(nightWorkingMinutes);
       let feeAllowance = Number(totalWorkingMinutes * (Number(ca.fee) / 60));
+
+      let PlycocoFeePerHour = 4;
+      let commission = Number(
+        totalWorkingMinutes * Number(PlycocoFeePerHour / 60),
+      );
       console.log('feeAllowance', feeAllowance);
 
       let nightAllowance = Number(
@@ -831,17 +836,21 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         holidayWorkingMinutes * (Number(ca.holidayAllowance) / 60),
       );
       console.log('holidayAllowance', holidayAllowance);
-
+      let otherExpenses = ca.otherExpenses ? Number(ca.otherExpenses) : 0;
       let travelAllowance = Number(ca.distanceInKM) * Number(ca.feePerKM);
       let amount =
         Number(feeAllowance) +
         Number(sundayAllowance) +
         Number(nightAllowance) +
-        Number(holidayAllowance);
+        Number(holidayAllowance) +
+        Number(travelAllowance) +
+        Number(otherExpenses);
       ele.workingHours = workingHours;
       ele.nightWorkingHours = nightWorkingHours;
       ele.sundayWorkingHours = sundayWorkingHours;
       ele.holidayWorkingHours = holidayWorkingHours;
+      ele.commission = commission;
+      ele.amount = amount;
     });
   }
   console.log(

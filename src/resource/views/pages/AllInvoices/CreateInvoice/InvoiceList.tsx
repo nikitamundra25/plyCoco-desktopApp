@@ -402,7 +402,7 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                     <td className='price-col'>
                       {list.ca && list.ca.fee ? (
                         <>
-                          {list.ca.fee * 100}.00
+                          {list.ca.fee}.00
                           <i className='fa fa-euro pl-1' aria-hidden='true'></i>
                         </>
                       ) : (
@@ -539,17 +539,23 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                       .00<i className='fa fa-euro pl-1' aria-hidden='true'></i>
                     </td>
                     <td className='price-col'>
-                      {list.ca && list.ca.workingHoursFrom ? (
-                        <>{(4 * parseFloat(diffDate)).toFixed(2)}</>
+                      {list.commission ? (
+                        <>{parseFloat(list.commission).toFixed(2)}</>
                       ) : (
+                        // <>{(4 * parseFloat(diffDate)).toFixed(2)}</>
                         <>00.00</>
                       )}
                       <i className='fa fa-euro pl-1' aria-hidden='true'></i>
                     </td>
                     <td className='price-col'>
-                      {!isNaN(totalAmount)
+                      {list.amount ? (
+                        <>{parseFloat(list.amount).toFixed(2)}</>
+                      ) : (
+                        <>00.00</>
+                      )}
+                      {/* !isNaN(totalAmount)
                         ? parseFloat(totalAmount).toFixed(2)
-                        : parseFloat('0').toFixed(2)}
+                        : parseFloat('0').toFixed(2) */}
                       <i className='fa fa-euro pl-1' aria-hidden='true'></i>
                     </td>
                     <td className='action-col'>

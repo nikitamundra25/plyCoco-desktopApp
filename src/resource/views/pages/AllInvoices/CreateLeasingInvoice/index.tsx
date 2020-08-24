@@ -793,7 +793,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       //   requirementStartTime,
       //   requirementEndTime,
       // );
-      let workingHours = await convertIntoHours(workingMinutes);
 
       let totalBreakMinutes: any = 0;
       if (requirementBreakEndTime && requirementBreakStartTime) {
@@ -809,6 +808,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       let totalBreakHours = await convertIntoHours(totalBreakMinutes);
 
       let totalWorkingMinutes: any = workingMinutes - totalBreakMinutes;
+      let workingHours = await convertIntoHours(totalWorkingMinutes);
       let sundayWorkingHours: any = await convertIntoHours(
         sundayWorkingMinutes,
       );

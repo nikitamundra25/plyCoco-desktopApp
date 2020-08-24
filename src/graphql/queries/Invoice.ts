@@ -11,6 +11,7 @@ const GET_INVOICE_LIST = gql`
     $page: Int
     $limit: Int
     $attributeId: ID
+    $isLeasing: Boolean
   ) {
     getAllAppointment(
       searchBy: $searchBy
@@ -22,6 +23,7 @@ const GET_INVOICE_LIST = gql`
       page: $page
       limit: $limit
       attributeId: $attributeId
+      isLeasing: $isLeasing
     ) {
       totalCount
       result {

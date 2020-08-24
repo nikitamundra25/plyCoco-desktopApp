@@ -228,6 +228,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         endDate: lte ? lte : null,
         limit: PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
+        isLeasing: false,
       },
     });
   };

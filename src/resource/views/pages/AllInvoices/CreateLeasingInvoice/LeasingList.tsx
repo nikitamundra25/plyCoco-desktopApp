@@ -333,10 +333,8 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                 let workingMinutes: any = getMinutes(startHour, endHour);
                 let workingHours = convertIntoHours(workingMinutes);
 
-                let totalBreakMinutes: any | number = getMinutes(
-                  startBreak,
-                  endBreak,
-                );
+                let totalBreakMinutes: any | number =
+                  startBreak && endBreak ? getMinutes(startBreak, endBreak) : 0;
                 let totalBreakHours = convertIntoHours(totalBreakMinutes);
                 let reqTotalBreakMin: any = !isNaN(totalBreakMinutes)
                   ? totalBreakMinutes
@@ -419,10 +417,20 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                           )}
                     </td>
                     <td className='datetime-col'>
-                      {list.ca && list.ca.breakTo ? list.ca.breakTo : '-'}
+                      {list.ca && list.ca.breakFrom
+                        ? moment(
+                            list.ca.breakFrom,
+                            `${dbAcceptableFormat},hh:mm`,
+                          ).format(defaultDateTimeFormatForDashboard)
+                        : '-'}
                     </td>
                     <td className='datetime-col'>
-                      {list.ca && list.ca.breakFrom ? list.ca.breakFrom : '-'}
+                      {list.ca && list.ca.breakTo
+                        ? moment(
+                            list.ca.breakTo,
+                            `${dbAcceptableFormat},hh:mm`,
+                          ).format(defaultDateTimeFormatForDashboard)
+                        : '-'}
                     </td>
                     <td className='price-col'>
                       {qualificationAllowance ? qualificationAllowance : 0}

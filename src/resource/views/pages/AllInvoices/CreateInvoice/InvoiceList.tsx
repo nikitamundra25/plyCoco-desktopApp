@@ -384,17 +384,17 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                           )}
                     </td>
                     <td className='datetime-col'>
-                      {list.ca && list.ca.breakTo
+                      {list.ca && list.ca.breakFrom
                         ? moment(
-                            list.ca.breakTo,
+                            list.ca.breakFrom,
                             `${dbAcceptableFormat},hh:mm`,
                           ).format(defaultDateTimeFormatForDashboard)
                         : '-'}
                     </td>
                     <td className='datetime-col'>
-                      {list.ca && list.ca.breakFrom
+                      {list.ca && list.ca.breakTo
                         ? moment(
-                            list.ca.breakFrom,
+                            list.ca.breakTo,
                             `${dbAcceptableFormat},hh:mm`,
                           ).format(defaultDateTimeFormatForDashboard)
                         : '-'}

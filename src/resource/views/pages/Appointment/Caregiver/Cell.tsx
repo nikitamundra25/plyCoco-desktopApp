@@ -53,7 +53,8 @@ const Cell = ({
     isContractCancel: boolean = false,
     isContractInitiated: boolean = false,
     isSingleButtonAccepted: boolean = false,
-    isTimeSheetPending: boolean = false;
+    isTimeSheetPending: boolean = false,
+    isInvoiceInitiated: boolean = false;
   if (item) {
     if (item.status === "linked") {
       isMatching = true;
@@ -65,6 +66,8 @@ const Cell = ({
       isContractCancel = true;
     } else if (item.status === "contractInitiated") {
       isContractInitiated = true;
+    } else if (item.status === "invoiceInitiated") {
+      isInvoiceInitiated = true;
     } else if (item.status === "accepted") {
       isSingleButtonAccepted = true;
     } else if (item.status === "timeSheetPending" ||
@@ -96,6 +99,10 @@ const Cell = ({
           weekend: daysArr,
           "contact-initiate-bg":
             isContractInitiated && !isSelected ? isContractInitiated : false,
+            
+          "invoice-bg":
+          isInvoiceInitiated && !isSelected ? isInvoiceInitiated : false,
+
           "cancel-contract-bg":
             isContractCancel && !isSelected ? isContractCancel : false,
           "block-bg": item ? (isBlocked ? true : false) : false,
@@ -133,6 +140,8 @@ const Cell = ({
             <i className="fa fa-circle-o"></i>
           ) : item.status === "timeSheetUpdated" ? (
             <i className="fa fa-check"></i>
+          ) : item.status === "invoiceInitiated" ? (
+            <i className="fa fa-euro"></i>
           ) : isBlocked ? (
             <i className="fa fa-ban"></i>
           ) : item.status === "default" && isBeforedate ? null : (

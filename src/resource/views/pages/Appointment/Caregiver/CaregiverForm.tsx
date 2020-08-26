@@ -316,6 +316,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     isContract: boolean = false,
     isConfirm: boolean = false,
     isContractInitiated: boolean = false,
+    isInvoiceInitiated: boolean = false,
     isSingleButtonAccepted: boolean = false,
     isContractCancel: boolean = false,
     isTimeSheetPending: boolean = false,
@@ -379,6 +380,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     ) {
       isContractInitiated = true;
     } else if (
+      (selctedAvailability &&
+        selctedAvailability.status === 'invoiceInitiated') ||
+      status === 'invoiceInitiated'
+    ) {
+      isInvoiceInitiated = true;
+    }  else if (
       (selctedAvailability &&
         (selctedAvailability.status === 'timeSheetPending' ||
           selctedAvailability.status === 'timeSheetUpdated')) ||
@@ -462,6 +469,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             'cancel-contract-bg': isContractCancel,
             'accepted-bg': isSingleButtonAccepted,
             'contact-initiate-bg': isContractInitiated,
+            'invoice-bg': isInvoiceInitiated,
             'confirmation-bg': isTimeSheetPending,
             'availability-bg': isBeforeDate,
           })}

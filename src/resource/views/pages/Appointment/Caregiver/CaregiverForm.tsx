@@ -68,6 +68,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     GET_INVOICE_BY_APPOINTMENT_ID,
   );
 
+  console.log('invoicePDF',invoicePDF)
+
   //For saving both
   useEffect(() => {
     if (props.savingBoth) {
@@ -275,14 +277,14 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
         appointments && appointments.length && appointments[0]
           ? appointments[0]
           : {};
-      // getLeasingContractPDF({
-      //   variables: {
-      //     userId: parseInt(id),
-      //     availabilityId: [parseInt(avabilityId)],
-      //     appointmentId: [parseInt(appointmentId)],
-      //     documentUploadType: 'leasingContract',
-      //   },
-      // });
+      getLeasingContractPDF({
+        variables: {
+          userId: parseInt(id),
+          availabilityId: [parseInt(avabilityId)],
+          appointmentId: [parseInt(appointmentId)],
+          documentUploadType: 'leasingContract',
+        },
+      });
       
       console.log('parseInt(appointmentId)',parseInt(appointmentId))
       getInvoiceByAppointmentId({
@@ -465,11 +467,14 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     : {};
 
   // Get Invoice PDFs
-  const { getInvoiceByAppointmentID: invoiceDetails = [] } = invoicePDF ? invoicePDF : {};
-  const { invoice = '', invoiceData = {} } =
-    invoiceDetails && invoiceDetails.length ? invoiceDetails[0] : {};
-
-    console.log('invoiceDetailsinvoiceDetails',invoiceDetails)
+  const { getInvoiceByAppointmentId: invoiceDetails = [] } = invoicePDF ? invoicePDF : {};
+  console.log('invoiceDetails',invoiceDetails)
+  console.log('invoiceDetails',invoiceDetails.invoiceData);
+  let invoiceData = invoiceDetails ? invoiceDetails.invoiceData : {};
+  let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : ''
+  console.log('invoiceData',invoiceData)
+  console.log('finalInvoicePDF',finalInvoicePDF)
+  console.log('`${AppConfig.FILES_ENDPOINT}${finalInvoicePDF}`',`${AppConfig.FILES_ENDPOINT}/${finalInvoicePDF}`)
 
   let isCorrespondingAppointment: boolean = false;
   if (
@@ -1497,10 +1502,28 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         {languageTranslation('CONTRACT')}
                       </a>
                     ) : null}
+                    <br/>
+
+                { getInvoiceByAppointmentId &&
+                      getInvoiceByAppointmentId.length &&
+                      finalInvoicePDF ? (
+                      <a
+                        href={`${AppConfig.FILES_ENDPOINT}/${finalInvoicePDF}`}
+                        target={'_blank'}
+                        className='view-more-link text-underline'
+                      >
+                        <i className='fa fa-file-o mr-2' />
+                        {languageTranslation('INVOICE')}
+                      </a>
+                    ) : null}
+
+
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
+
+  
 
             <Col lg={'12'}>
               <FormGroup>

@@ -152,6 +152,7 @@ query getInvoiceByAppointmentId($appointmentId: [ID]) {
   getInvoiceByAppointmentId(appointmentId: $appointmentId) {
     invoiceData {
       id
+      plycocoPdf
     }
     appointmentData {
       id

@@ -67,7 +67,7 @@ const Cell = ({
     } else if (item.status === "contractInitiated") {
       isContractInitiated = true;
     } else if (item.status === "invoiceInitiated") {
-      isInvoiceInitiated = true;
+      isInvoiceInitiated = true;    
     } else if (item.status === "accepted") {
       isSingleButtonAccepted = true;
     } else if (item.status === "timeSheetPending" ||

@@ -40,12 +40,14 @@ import '../index.scss';
 import {
   LeasingContractQueries,
   AppointmentsQueries,
+  InvoiceQueries
 } from '../../../../../graphql/queries';
 import { useLazyQuery } from '@apollo/react-hooks';
 import MaskedInput from 'react-text-mask';
 import Loader from '../../../containers/Loader/Loader';
 
 const [GET_LEASING_CONTRACT] = LeasingContractQueries;
+const [ , , GET_INVOICE_BY_APPOINTMENT_ID ] = InvoiceQueries;
 const [, , , , , , , GET_CONTRACT_BY_APPOINTMENT_ID] = AppointmentsQueries;
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm &
@@ -61,6 +63,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const [getContractPDF, { data: contractData }] = useLazyQuery<any>(
     GET_CONTRACT_BY_APPOINTMENT_ID,
   );
+  // Query to get Invoice pdf
+  const [getInvoiceByAppointmentId, { data: invoicePDF }] = useLazyQuery<any>(
+    GET_INVOICE_BY_APPOINTMENT_ID,
+  );
+
   //For saving both
   useEffect(() => {
     if (props.savingBoth) {
@@ -258,20 +265,29 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       : false;
     console.log('isAppointment', isAppointment);
   }
+
   useEffect(() => {
     if (isLeasingAppointment) {
+      console.log('isLeasingAppointment',isLeasingAppointment);
       const { id = '', item = {} } = selectedCells[0] ? selectedCells[0] : {};
       const { appointments = [] } = item ? item : {};
       const { avabilityId = '', id: appointmentId = '' } =
         appointments && appointments.length && appointments[0]
           ? appointments[0]
           : {};
-      getLeasingContractPDF({
+      // getLeasingContractPDF({
+      //   variables: {
+      //     userId: parseInt(id),
+      //     availabilityId: [parseInt(avabilityId)],
+      //     appointmentId: [parseInt(appointmentId)],
+      //     documentUploadType: 'leasingContract',
+      //   },
+      // });
+      
+      console.log('parseInt(appointmentId)',parseInt(appointmentId))
+      getInvoiceByAppointmentId({
         variables: {
-          userId: parseInt(id),
-          availabilityId: [parseInt(avabilityId)],
-          appointmentId: [parseInt(appointmentId)],
-          documentUploadType: 'leasingContract',
+          appointmentId: [parseInt(appointmentId)]
         },
       });
       return;
@@ -286,13 +302,21 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
         appointments && appointments.length && appointments[0]
           ? appointments[0]
           : {};
-      getContractPDF({
+      // getContractPDF({
+      //   variables: {
+      //     appointmentId: appointmentId,
+      //     // appointments && appointments[0] ? appointments[0].id : null,
+      //   },
+      // });
+
+      console.log('parseInt(appointmentId)',parseInt(appointmentId))
+      getInvoiceByAppointmentId({
         variables: {
-          appointmentId: appointmentId,
-          // appointments && appointments[0] ? appointments[0].id : null,
+          appointmentId: [parseInt(appointmentId)]
         },
       });
     }
+    return
   }, [selectedCells]);
 
   // Custom function to handle react select fields
@@ -439,6 +463,13 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const { document: selfEmploymentcontract = '' } = user_document
     ? user_document
     : {};
+
+  // Get Invoice PDFs
+  const { getInvoiceByAppointmentID: invoiceDetails = [] } = invoicePDF ? invoicePDF : {};
+  const { invoice = '', invoiceData = {} } =
+    invoiceDetails && invoiceDetails.length ? invoiceDetails[0] : {};
+
+    console.log('invoiceDetailsinvoiceDetails',invoiceDetails)
 
   let isCorrespondingAppointment: boolean = false;
   if (

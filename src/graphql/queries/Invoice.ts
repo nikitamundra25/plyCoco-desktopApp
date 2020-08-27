@@ -146,4 +146,19 @@ const GET_ALL_INVOICE_LIST = gql`
   }
 `;
 
-export const InvoiceQueries = [GET_INVOICE_LIST, GET_ALL_INVOICE_LIST];
+
+const GET_INVOICE_BY_APPOINTMENT_ID = gql`
+query getInvoiceByAppointmentId($appointmentId: [ID]) {
+  getInvoiceByAppointmentId(appointmentId: $appointmentId) {
+    invoiceData {
+      id
+    }
+    appointmentData {
+      id
+    }
+  }
+}
+`;
+
+
+export const InvoiceQueries = [GET_INVOICE_LIST, GET_ALL_INVOICE_LIST, GET_INVOICE_BY_APPOINTMENT_ID];

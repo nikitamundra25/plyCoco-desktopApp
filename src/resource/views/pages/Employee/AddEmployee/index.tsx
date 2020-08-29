@@ -1,6 +1,11 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
-import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import {
+  useMutation,
+  useLazyQuery,
+  useQuery,
+  useSubscription,
+} from '@apollo/react-hooks';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { toast } from 'react-toastify';
 import moment from 'moment';
@@ -27,13 +32,15 @@ import {
   dbAcceptableFormat,
 } from '../../../../../config';
 import { EmployeeMutations } from '../../../../../graphql/Mutations';
+import { EmployeeSubscription } from '../../../../../graphql/Subscription';
 import { errorFormatter } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 const [GET_EMPLOYEE_BY_ID, GET_EMPLOYEES] = EmployeeQueries;
 const [ADD_EMPLOYEE, UPDATE_EMPLOYEE] = EmployeeMutations;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+const [GET_EMPLOYEE_BY_ID_SUBSCRIPTION] = EmployeeSubscription;
 
 let toastId: any = null;
 
@@ -44,7 +51,14 @@ export const EmployeeForm: FunctionComponent<{
   let { id } = useParams();
   let history = useHistory();
   const { state: locationState } = useLocation();
-
+  const fetchEmployeeSubscription = useSubscription<any>(
+    GET_EMPLOYEE_BY_ID_SUBSCRIPTION,
+    {
+      variables: {
+        id: 'All',
+      },
+    },
+  );
   // To get the employee details by id
   const [
     getEmployeeDetails,
@@ -83,7 +97,36 @@ export const EmployeeForm: FunctionComponent<{
     undefined,
   );
   logger(id, 'id');
-
+  if (
+    fetchEmployeeSubscription &&
+    fetchEmployeeSubscription.data &&
+    fetchEmployeeSubscription.data.employeeUpdateSubscribe &&
+    employeeDetails.viewEmployee &&
+    employeeDetails.viewEmployee
+  ) {
+    if (
+      employeeDetails.viewEmployee.id ==
+      fetchEmployeeSubscription.data.employeeUpdateSubscribe.id
+    ) {
+      employeeDetails.viewEmployee.employee.state =
+        fetchEmployeeSubscription.data.employeeUpdateSubscribe.employee.state;
+      if (
+        fetchEmployeeSubscription.data.employeeUpdateSubscribe.employee &&
+        states &&
+        states.label !==
+          fetchEmployeeSubscription.data.employeeUpdateSubscribe.employee.state
+      ) {
+        setStatesValue(
+          statesOpt.filter(
+            ({ label }: IReactSelectInterface) =>
+              label ===
+              fetchEmployeeSubscription.data.employeeUpdateSubscribe.employee
+                .state,
+          )[0],
+        );
+      }
+    }
+  }
   const update = (cache: any, payload: any) => {
     logger(payload, 'payload');
     const data = cache.readQuery({
@@ -479,7 +522,7 @@ export const EmployeeForm: FunctionComponent<{
     address2,
     city,
     zip,
-    joiningDate:joiningDate||'',
+    joiningDate: joiningDate || '',
     accessLevel,
     country,
     region,
@@ -488,9 +531,17 @@ export const EmployeeForm: FunctionComponent<{
   };
   return (
     <>
-     <Helmet>
-    <title>{employeeData ? `${languageTranslation(`EDIT_EMPLOYEE`)}/ ${employeeData.firstName ? employeeData.lastName + " " +employeeData.firstName : ""}`  : languageTranslation("ADD_EMPLOYEE")} </title>
-  </Helmet>
+      <Helmet>
+        <title>
+          {employeeData
+            ? `${languageTranslation(`EDIT_EMPLOYEE`)}/ ${
+                employeeData.firstName
+                  ? employeeData.lastName + ' ' + employeeData.firstName
+                  : ''
+              }`
+            : languageTranslation('ADD_EMPLOYEE')}{' '}
+        </title>
+      </Helmet>
       {dataLoading ? (
         <Loader />
       ) : (

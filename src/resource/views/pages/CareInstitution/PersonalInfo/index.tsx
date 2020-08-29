@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'reactstrap';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
+import {
+  useLazyQuery,
+  useMutation,
+  useQuery,
+  useSubscription,
+} from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import PersonalInfoForm from './PersonalInfoForm';
@@ -20,6 +25,7 @@ import {
   CareInstitutionQueries,
   CountryQueries,
 } from '../../../../../graphql/queries';
+import { CareInstitudeSubscription } from '../../../../../graphql/Subscription';
 import {
   logger,
   languageTranslation,
@@ -33,7 +39,15 @@ import { errorFormatter } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
 import '../careinstitution.scss';
 import { RemarkMutations } from '../../../../../graphql/Mutations';
-import { Gender, CaregiverInvoiceTax, LeasingInvoiceTax, PlycocoInvoiceTax, CareInstLeasingPriceList, InvoiceType, InvoiceInterval } from '../../../../../config';
+import {
+  Gender,
+  CaregiverInvoiceTax,
+  LeasingInvoiceTax,
+  PlycocoInvoiceTax,
+  CareInstLeasingPriceList,
+  InvoiceType,
+  InvoiceInterval,
+} from '../../../../../config';
 import { any } from 'prop-types';
 
 let toastId: any;
@@ -49,7 +63,7 @@ const [
   ,
   ,
   ,
-  GET_CONTACT_ATTRIBUTES
+  GET_CONTACT_ATTRIBUTES,
 ] = CareInstitutionQueries;
 
 const [
@@ -66,10 +80,91 @@ const [
 ] = CareInstitutionMutation;
 const [UPDATE_REMARKS] = RemarkMutations;
 
+const [
+  GET_CAREINSTITUDE_SUBSCRIPTION,
+  GET_CONTACT_LIST_BY_ID_SUBSCRIPTION,
+] = CareInstitudeSubscription;
+
 const PersonalInformation: any = (props: any) => {
   let { id } = useParams();
   const Id: any | undefined = id;
   const [contacts, setContacts] = useState<any>([]);
+
+  const fetchCareInstitutionSubscription = useSubscription<any>(
+    GET_CAREINSTITUDE_SUBSCRIPTION,
+    {
+      variables: {
+        id: id,
+      },
+    },
+  );
+
+  const fetchContactByIdSubscription = useSubscription<any>(
+    GET_CONTACT_LIST_BY_ID_SUBSCRIPTION,
+    {
+      variables: {
+        id: id,
+      },
+    },
+  );
+
+  useEffect(() => {
+    if (
+      fetchCareInstitutionSubscription &&
+      fetchCareInstitutionSubscription.data &&
+      fetchCareInstitutionSubscription.data.careInstitudeUpdateSubscribe &&
+      fetchCareInstitutionSubscription.data.careInstitudeUpdateSubscribe
+        .careInstitutionData &&
+      careInstituionDetails.getCareInstitution
+    ) {
+      const updatedData = {
+        ...fetchCareInstitutionSubscription.data.careInstitudeUpdateSubscribe,
+        canstitution: {
+          ...careInstituionDetails.getCareInstitution.canstitution,
+        },
+        contact: careInstituionDetails.getCareInstitution.contact,
+      };
+      if (
+        JSON.stringify(careInstituionDetails.getCareInstitution) ===
+        JSON.stringify(updatedData)
+      ) {
+        careInstituionDetails.getCareInstitution = updatedData;
+        logger(
+          fetchCareInstitutionSubscription,
+          'fetchCareInstitutionSubscription****',
+        );
+      }
+    }
+  }, [fetchCareInstitutionSubscription]);
+  useEffect(() => {
+    if (
+      fetchContactByIdSubscription &&
+      fetchContactByIdSubscription.data &&
+      fetchContactByIdSubscription.data.getContactsByUserIDSubscribe &&
+      fetchContactByIdSubscription.data.getContactsByUserIDSubscribe &&
+      contacts.length > 0
+    ) {
+      const updatedData =
+        fetchContactByIdSubscription.data.getContactsByUserIDSubscribe;
+      let updated: boolean = false;
+      for (let index = 0; index < contacts.length; index++) {
+        if (
+          contacts[index].id ===
+          fetchContactByIdSubscription.data.getContactsByUserIDSubscribe.id
+        ) {
+          updated = true;
+          contacts[index] =
+            fetchContactByIdSubscription.data.getContactsByUserIDSubscribe;
+        }
+      }
+      if (!updated) {
+        const blank_contact = contacts[contacts.length - 1];
+        contacts[contacts.length - 1] =
+          fetchContactByIdSubscription.data.getContactsByUserIDSubscribe;
+        contacts.push(blank_contact);
+      }
+    }
+  }, [fetchContactByIdSubscription]);
 
   const [updateCareInstitution, { error, data }] = useMutation<{
     updateCareInstitution: ICareInstitutionFormValues;
@@ -171,15 +266,14 @@ const PersonalInformation: any = (props: any) => {
         : {};
       const { contact = [] } = getCareInstitution ? getCareInstitution : {};
       const contactsData: any[] = [];
-      console.log('contactAttrOpt', contactAttrOpt)
+      console.log('contactAttrOpt', contactAttrOpt);
 
       contact.forEach((element: any) => {
-        console.log('element.attributes', element.attributes)
+        console.log('element.attributes', element.attributes);
         let attr_value: IAttributeOptions[] = [];
         if (element.attributes && element.attributes.length) {
-          attr_value = contactAttrOpt.filter(
-            (attrOpt: IAttributeOptions) =>
-              element.attributes.includes(parseInt(attrOpt.value)),
+          attr_value = contactAttrOpt.filter((attrOpt: IAttributeOptions) =>
+            element.attributes.includes(parseInt(attrOpt.value)),
           );
         }
         console.log('attr_valueattr_value', attr_value);
@@ -268,7 +362,11 @@ const PersonalInformation: any = (props: any) => {
       );
     }
     // var temp to manage if shortName is not entered, store companyName.
-    let temp = values.shortName ? values.shortName.trim() : values.companyName ? values.companyName.trim() : ""
+    let temp = values.shortName
+      ? values.shortName.trim()
+      : values.companyName
+      ? values.companyName.trim()
+      : '';
     try {
       const careInstitutionInput: any = {
         gender: values && values.gender ? values.gender.value : '',
@@ -316,9 +414,9 @@ const PersonalInformation: any = (props: any) => {
         qualificationId:
           values.qualificationId && values.qualificationId.length
             ? values.qualificationId.map(
-              (qualification: IReactSelectInterface) =>
-                parseInt(qualification.value),
-            )
+                (qualification: IReactSelectInterface) =>
+                  parseInt(qualification.value),
+              )
             : null,
         attributes: AttributeData,
         leasingPriceListId:
@@ -332,7 +430,7 @@ const PersonalInformation: any = (props: any) => {
         plycocoInvoiceTax:
           values.plycocoInvoiceTax != null
             ? parseInt(values.plycocoInvoiceTax)
-            : parseInt(values.defaultTaxValue)
+            : parseInt(values.defaultTaxValue),
       };
       await updateCareInstitution({
         variables: {
@@ -384,16 +482,17 @@ const PersonalInformation: any = (props: any) => {
     }
   };
   let userSelectedCountry: any = {};
-  const convertintoLabelValue = (data: string, constArr: IReactSelectInterface[]) => {
-    let selectedValue: IReactSelectInterface | undefined = undefined
-    console.log("data", data);
+  const convertintoLabelValue = (
+    data: string,
+    constArr: IReactSelectInterface[],
+  ) => {
+    let selectedValue: IReactSelectInterface | undefined = undefined;
+    console.log('data', data);
 
     if (data) {
       selectedValue = constArr.filter((list: any) => list.value === data)[0];
     }
-    return data
-      ? selectedValue
-      : undefined;
+    return data ? selectedValue : undefined;
   };
   if (careInstituionDetails && careInstituionDetails.getCareInstitution) {
     const { getCareInstitution } = careInstituionDetails;
@@ -523,8 +622,8 @@ const PersonalInformation: any = (props: any) => {
       lastName: lastName || '',
       gender: gender
         ? Gender.filter(
-          ({ value }: IReactSelectInterface) => value === gender,
-        )[0]
+            ({ value }: IReactSelectInterface) => value === gender,
+          )[0]
         : undefined,
       userName,
       phoneNumber: phoneNumber || '',
@@ -543,9 +642,9 @@ const PersonalInformation: any = (props: any) => {
       remarksViewable: remarksViewable || '',
       country: userSelectedCountry.value
         ? {
-          label: userSelectedCountry.value ? userSelectedCountry.label : null,
-          value: userSelectedCountry.value ? userSelectedCountry.value : null,
-        }
+            label: userSelectedCountry.value ? userSelectedCountry.label : null,
+            value: userSelectedCountry.value ? userSelectedCountry.value : null,
+          }
         : undefined,
       state:
         userSelectedState && userSelectedState.value
@@ -577,19 +676,23 @@ const PersonalInformation: any = (props: any) => {
           : '',
       doctorCommission:
         doctorCommission !== null ? germanNumberFormat(doctorCommission) : '',
-      leasingPriceListId: convertintoLabelValue(leasingPriceListId, CareInstLeasingPriceList),
-      leasingInvoiceTax: leasingInvoiceTax != null ? leasingInvoiceTax : defaultTaxValue,
-      plycocoInvoiceTax: plycocoInvoiceTax != null ? plycocoInvoiceTax : defaultTaxValue,
+      leasingPriceListId: convertintoLabelValue(
+        leasingPriceListId,
+        CareInstLeasingPriceList,
+      ),
+      leasingInvoiceTax:
+        leasingInvoiceTax != null ? leasingInvoiceTax : defaultTaxValue,
+      plycocoInvoiceTax:
+        plycocoInvoiceTax != null ? plycocoInvoiceTax : defaultTaxValue,
     };
     console.log('plycocoInvoiceTaxplycocoInvoiceTax', values);
-
 
     // values.qualificationId = qualificationsData;
 
     Data = {
       label: `${getCareInstitution.lastName} ${''} ${
         getCareInstitution.firstName
-        }`,
+      }`,
       value: Id,
     };
   } else {
@@ -626,39 +729,39 @@ const PersonalInformation: any = (props: any) => {
       <Loader />
     </div>
   ) : (
-      <Form className='form-section forms-main-section'>
-        <Formik
-          initialValues={values}
-          enableReinitialize={true}
-          onSubmit={handleSubmit}
-          children={(props: FormikProps<ICareInstitutionFormValues>) => (
-            <PersonalInfoForm
-              CareInstitutionList={CareInstitutionLinkedTo}
-              {...props}
-              qualificationList={qualificationList}
-              setRemarksDetail={setRemarksDetail}
-              remarksDetail={remarksDetail}
-              saveRemark={saveRemark}
-              careInstitutionAttrOpt={careInstitutionAttrOpt}
-              countriesOpt={countriesOpt}
-              userSelectedCountry={userSelectedCountry}
-            />
-          )}
-          validationSchema={CareInstituionValidationSchema}
-        />
-        <div className='position-relative'>
-          <CareInstitutionContacts
-            contacts={contacts}
-            careInstId={id}
-            careInstitutionAttrOpt={contactAttrOpt}
-            refetch={() => refetch()}
-            setContacts={(contacts: any) => {
-              setContacts((contacts = contacts));
-            }}
-            neContactAdded={() => props.neContactAdded()}
+    <Form className='form-section forms-main-section'>
+      <Formik
+        initialValues={values}
+        enableReinitialize={true}
+        onSubmit={handleSubmit}
+        children={(props: FormikProps<ICareInstitutionFormValues>) => (
+          <PersonalInfoForm
+            CareInstitutionList={CareInstitutionLinkedTo}
+            {...props}
+            qualificationList={qualificationList}
+            setRemarksDetail={setRemarksDetail}
+            remarksDetail={remarksDetail}
+            saveRemark={saveRemark}
+            careInstitutionAttrOpt={careInstitutionAttrOpt}
+            countriesOpt={countriesOpt}
+            userSelectedCountry={userSelectedCountry}
           />
-        </div>
-      </Form>
-    );
+        )}
+        validationSchema={CareInstituionValidationSchema}
+      />
+      <div className='position-relative'>
+        <CareInstitutionContacts
+          contacts={contacts}
+          careInstId={id}
+          careInstitutionAttrOpt={contactAttrOpt}
+          refetch={() => refetch()}
+          setContacts={(contacts: any) => {
+            setContacts((contacts = contacts));
+          }}
+          neContactAdded={() => props.neContactAdded()}
+        />
+      </div>
+    </Form>
+  );
 };
 export default PersonalInformation;

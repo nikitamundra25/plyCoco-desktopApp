@@ -1,17 +1,17 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
-import { Button, Col, Row } from "reactstrap";
-import { useParams, useHistory } from "react-router";
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { Button, Col, Row } from 'reactstrap';
+import { useParams, useHistory } from 'react-router';
 import {
   languageTranslation,
   germanNumberFormat,
-} from "../../../../../helpers";
-import PersonalInfoFormComponent from "./PersonalInfoFormComponent";
-import BillingSettingsFormComponent from "./BillingSettingsFormComponent";
-import QualificationFormComponent from "./QualificationFormComponent";
-import AttributeFormComponent from "./AttributesFromComponent";
-import RemarkFormComponent from "./RemarkFormComponent";
-import { Formik, FormikHelpers, Form, FormikProps } from "formik";
-import { CareGiverQueries } from "../../../../../graphql/queries/CareGiver";
+} from '../../../../../helpers';
+import PersonalInfoFormComponent from './PersonalInfoFormComponent';
+import BillingSettingsFormComponent from './BillingSettingsFormComponent';
+import QualificationFormComponent from './QualificationFormComponent';
+import AttributeFormComponent from './AttributesFromComponent';
+import RemarkFormComponent from './RemarkFormComponent';
+import { Formik, FormikHelpers, Form, FormikProps } from 'formik';
+import { CareGiverQueries } from '../../../../../graphql/queries/CareGiver';
 import {
   ICareGiverValues,
   IPersonalObject,
@@ -22,28 +22,41 @@ import {
   IAttributeOptions,
   ICountry,
   IState,
-} from "../../../../../interfaces";
-import { CareGiverValidationSchema } from "../../../../validations/CareGiverValidationSchema";
-import { RemarkMutations } from "../../../../../graphql/Mutations";
-import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { toast } from "react-toastify";
+} from '../../../../../interfaces';
+import { CareGiverValidationSchema } from '../../../../validations/CareGiverValidationSchema';
+import { RemarkMutations } from '../../../../../graphql/Mutations';
+import { CareGiverSubscription } from '../../../../../graphql/Subscription';
+import {
+  useMutation,
+  useLazyQuery,
+  useQuery,
+  useSubscription,
+} from '@apollo/react-hooks';
+import { toast } from 'react-toastify';
 import {
   GET_QUALIFICATION_ATTRIBUTE,
   CountryQueries,
-} from "../../../../../graphql/queries";
+} from '../../../../../graphql/queries';
 import {
   IQualifications,
   IQualification,
-} from "../../../../../interfaces/qualification";
-import { CareGiverMutations } from "../../../../../graphql/Mutations";
-import { errorFormatter } from "../../../../../helpers";
-import { Gender, NightAllowancePerHour,LeasingPriceList,InvoiceInterval, PlycocoInvoiceTax } from "../../../../../config";
+} from '../../../../../interfaces/qualification';
+import { CareGiverMutations } from '../../../../../graphql/Mutations';
+import { errorFormatter } from '../../../../../helpers';
+import {
+  Gender,
+  NightAllowancePerHour,
+  LeasingPriceList,
+  InvoiceInterval,
+  PlycocoInvoiceTax,
+} from '../../../../../config';
 let toastId: any;
 
 const [, , , , , GET_CAREGIVER_ATTRIBUTES] = CareGiverQueries;
 const [, UPDATE_CAREGIVER] = CareGiverMutations;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const [UPDATE_REMARKS] = RemarkMutations;
+const [GET_CAREGIVER_SUBSCRIPTION] = CareGiverSubscription;
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const { getCaregiver } = props;
@@ -52,13 +65,18 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const [caregiverAttributeOptions, setCaregiverAttributeOptions] = useState<
     IAttributeOptions[] | undefined
   >([]);
+  useSubscription<any>(GET_CAREGIVER_SUBSCRIPTION, {
+    variables: {
+      id: 'All',
+    },
+  });
   // to update remarks
   const [updateRemark, { data: remarkData }] = useMutation<any>(UPDATE_REMARKS);
 
   const { data: CountriesData } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
-    GET_STATES_BY_COUNTRY
+    GET_STATES_BY_COUNTRY,
   );
   const countriesOpt: IReactSelectInterface[] | undefined = [];
   const statesOpt: IReactSelectInterface[] | undefined = [];
@@ -67,7 +85,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       countriesOpt.push({
         label: name,
         value: id,
-      })
+      }),
     );
   }
 
@@ -76,7 +94,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       statesOpt.push({
         label: name,
         value: id,
-      })
+      }),
     );
   }
 
@@ -92,9 +110,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ({ id, name, color }: IAttributeValues) =>
           caregiverAttrOpt.push({
             label: name,
-            value: id ? id.toString() : "",
+            value: id ? id.toString() : '',
             color,
-          })
+          }),
       );
       setCaregiverAttributeOptions(caregiverAttrOpt);
     }
@@ -142,7 +160,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   //To get country details
   const { data: countries, loading: countryLoading } = useQuery<ICountries>(
-    GET_COUNTRIES
+    GET_COUNTRIES,
   );
 
   useEffect(() => {
@@ -159,7 +177,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     ) {
       getStatesByCountry({
         variables: {
-          countryid: getCaregiver ? getCaregiver.caregiver.countryId : "",
+          countryid: getCaregiver ? getCaregiver.caregiver.countryId : '',
         },
       });
     }
@@ -167,7 +185,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
 
   const handleSubmit = async (
     values: ICareGiverValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>
+    { setSubmitting, setFieldError }: FormikHelpers<ICareGiverValues>,
   ) => {
     const {
       userName,
@@ -220,16 +238,16 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       defaultTaxValue,
       invoiceInterval,
     } = values;
-    console.log('handle salutation', salutation)
+    console.log('handle salutation', salutation);
 
     try {
       let careGiverInput: any = {
-        userName: userName ? userName.trim() : "",
-        gender: gender && gender.value ? gender.value : "",
+        userName: userName ? userName.trim() : '',
+        gender: gender && gender.value ? gender.value : '',
         title,
-        salutation: salutation ? salutation : "",
-        firstName: firstName ? firstName.trim() : "",
-        lastName: lastName ? lastName.trim() : "",
+        salutation: salutation ? salutation : '',
+        firstName: firstName ? firstName.trim() : '',
+        lastName: lastName ? lastName.trim() : '',
         dateOfBirth,
         age: age ? parseInt(age) : null,
         address1,
@@ -241,7 +259,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         qualificationId:
           qualifications && qualifications.length
             ? qualifications.map((qualification: IReactSelectInterface) =>
-                parseInt(qualification.value)
+                parseInt(qualification.value),
               )
             : null,
         street,
@@ -254,7 +272,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         phoneNumber,
         fax,
         mobileNumber,
-        email: email ? email.trim() : "",
+        email: email ? email.trim() : '',
         taxNumber,
         socialSecurityContribution,
         countryId: country && country.value ? country.value : null,
@@ -271,12 +289,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         comments,
         status,
         remarks: remarksDetail,
-        fee: fee ? parseFloat(fee.replace(/,/g, ".")) : null,
+        fee: fee ? parseFloat(fee.replace(/,/g, '.')) : null,
         weekendAllowance: weekendAllowance
-          ? parseFloat(weekendAllowance.replace(/,/g, "."))
+          ? parseFloat(weekendAllowance.replace(/,/g, '.'))
           : null,
-        holiday: holiday ? parseFloat(holiday.replace(/,/g, ".")) : null,
-        night: night ? parseFloat(night.replace(/,/g, ".")) : null,
+        holiday: holiday ? parseFloat(holiday.replace(/,/g, '.')) : null,
+        night: night ? parseFloat(night.replace(/,/g, '.')) : null,
         nightAllowance:
           nightAllowance && nightAllowance.value ? nightAllowance.value : null,
         regionId: regionId && regionId.value ? parseInt(regionId.value) : null,
@@ -288,10 +306,9 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           leasingPricingList && leasingPricingList.value
             ? leasingPricingList.value
             : null,
-            caregiverInvoiceTax:
-            caregiverInvoiceTax 
-              ? Number(caregiverInvoiceTax)
-              : Number(defaultTaxValue),
+        caregiverInvoiceTax: caregiverInvoiceTax
+          ? Number(caregiverInvoiceTax)
+          : Number(defaultTaxValue),
       };
       // Edit employee details
       if (id) {
@@ -302,7 +319,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
           },
         });
         if (!toast.isActive(toastId)) {
-          toast.success(languageTranslation("CARE_GIVER_UPDATED_SUCCESS"));
+          toast.success(languageTranslation('CARE_GIVER_UPDATED_SUCCESS'));
         }
       }
     } catch (error) {
@@ -337,16 +354,16 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   };
 
   const {
-    userName = "",
-    firstName = "",
-    lastName = "",
-    email = "",
-    gender = "",
-    salutation = "",
-    phoneNumber = "",
+    userName = '',
+    firstName = '',
+    lastName = '',
+    email = '',
+    gender = '',
+    salutation = '',
+    phoneNumber = '',
     socialSecurityContribution = false,
-    password = "",
-    status = "active",
+    password = '',
+    status = 'active',
     qualifications = [],
     regions = [],
     bankDetails = {},
@@ -363,36 +380,36 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     title = null,
     dateOfBirth = null,
     age = null,
-    address1 = "",
-    address2 = "",
-    driversLicense = "",
-    driverLicenseNumber = "",
-    street = "",
-    city = "",
-    zipCode = "",
-    countryId = "",
-    stateId = "",
-    fax = "",
-    mobileNumber = "",
-    taxNumber = "",
-    vehicleAvailable = "",
-    belongTo = "",
-    legalForm = "",
-    companyName = "",
-    registerCourt = "",
-    registrationNumber = "",
-    executiveDirector = "",
+    address1 = '',
+    address2 = '',
+    driversLicense = '',
+    driverLicenseNumber = '',
+    street = '',
+    city = '',
+    zipCode = '',
+    countryId = '',
+    stateId = '',
+    fax = '',
+    mobileNumber = '',
+    taxNumber = '',
+    vehicleAvailable = '',
+    belongTo = '',
+    legalForm = '',
+    companyName = '',
+    registerCourt = '',
+    registrationNumber = '',
+    executiveDirector = '',
     remarks = [],
     employed = false,
-    comments = "",
-    fee = "",
+    comments = '',
+    fee = '',
     weekendAllowance = null,
     holiday = null,
     night = null,
     attributes = [],
   } = caregiver ? caregiver : {};
 
-  const { bankName = "", IBAN = "" } = bankDetails ? bankDetails : {};
+  const { bankName = '', IBAN = '' } = bankDetails ? bankDetails : {};
 
   const qualificationsData: IReactSelectInterface[] | undefined = [];
   if (qualifications) {
@@ -407,7 +424,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   let userSelectedCountry: any = {};
   if (countries && countries.countries && countryId) {
     const userCountry = countries.countries.filter(
-      (x: any) => x.id === countryId
+      (x: any) => x.id === countryId,
     );
     if (userCountry && userCountry.length) {
       userSelectedCountry = {
@@ -439,7 +456,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       selectedAttributes.push({
         label: data ? data.label : attData,
         value: data ? data.value : attData,
-        color: data ? data.color : "",
+        color: data ? data.color : '',
       });
     });
   }
@@ -448,7 +465,7 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   if (props.careGiverOpt && props.careGiverOpt.length && belongTo) {
     UserSelectedBelongsTo = props.careGiverOpt.filter(
       (caregiver: IReactSelectInterface) =>
-        parseInt(caregiver.value) === belongTo
+        parseInt(caregiver.value) === belongTo,
     )[0];
   }
 
@@ -457,12 +474,12 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     createdAt,
     userName,
     state: userSelectedState,
-    title: title || "",
+    title: title || '',
     firstName,
     lastName,
-    phoneNumber: phoneNumber || "",
+    phoneNumber: phoneNumber || '',
     dateOfBirth,
-    age: age || "",
+    age: age || '',
     address1,
     address2,
     driversLicense,
@@ -488,8 +505,8 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
     email,
     taxNumber,
     socialSecurityContribution,
-    bankName: bankName || "",
-    IBAN: IBAN || "",
+    bankName: bankName || '',
+    IBAN: IBAN || '',
     belongTo: UserSelectedBelongsTo ? UserSelectedBelongsTo : undefined,
     legalForm: legalForm
       ? {
@@ -509,27 +526,37 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
         ? remarks
         : [
             {
-              data: "",
-              createdAt: "",
-              createdBy: "",
+              data: '',
+              createdAt: '',
+              createdBy: '',
             },
           ],
-    remarkData: "",
+    remarkData: '',
     invoiceInterval: invoiceInterval
-      ? InvoiceInterval.filter(({ value } : IReactSelectInterface) => value === invoiceInterval)[0]
+      ? InvoiceInterval.filter(
+          ({ value }: IReactSelectInterface) => value === invoiceInterval,
+        )[0]
       : undefined,
     qualifications: qualificationsData,
-    fee: fee !== null ? germanNumberFormat(fee) : "",
+    fee: fee !== null ? germanNumberFormat(fee) : '',
     weekendAllowance:
-      weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : "",
-    holiday: holiday !== null ? germanNumberFormat(holiday) : "",
-    night: night !== null ? germanNumberFormat(night) : "",
-    nightAllowance: nightAllowance ? NightAllowancePerHour.filter(({value}:IReactSelectInterface ) => value === nightAllowance)[0] : undefined,
+      weekendAllowance !== null ? germanNumberFormat(weekendAllowance) : '',
+    holiday: holiday !== null ? germanNumberFormat(holiday) : '',
+    night: night !== null ? germanNumberFormat(night) : '',
+    nightAllowance: nightAllowance
+      ? NightAllowancePerHour.filter(
+          ({ value }: IReactSelectInterface) => value === nightAllowance,
+        )[0]
+      : undefined,
     leasingPricingList: leasingPricingList
-      ? LeasingPriceList.filter( ({value} : IReactSelectInterface) => value === leasingPricingList)[0]
-       : undefined,
-      caregiverInvoiceTax:  caregiverInvoiceTax ? caregiverInvoiceTax : defaultTaxValue,
-    salutation: salutation ,
+      ? LeasingPriceList.filter(
+          ({ value }: IReactSelectInterface) => value === leasingPricingList,
+        )[0]
+      : undefined,
+    caregiverInvoiceTax: caregiverInvoiceTax
+      ? caregiverInvoiceTax
+      : defaultTaxValue,
+    salutation: salutation,
     gender: gender
       ? Gender.filter(({ value }: IReactSelectInterface) => value === gender)[0]
       : undefined,
@@ -545,25 +572,25 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       validationSchema={CareGiverValidationSchema}
       children={(props: FormikProps<ICareGiverValues>) => {
         return (
-          <Form className="form-section forms-main-section">
-            <div className="d-none d-md-block" id={"caregiver-add-btn"}>
+          <Form className='form-section forms-main-section'>
+            <div className='d-none d-md-block' id={'caregiver-add-btn'}>
               <Button
                 disabled={props.isSubmitting}
                 onClick={props.handleSubmit}
-                color={"primary"}
+                color={'primary'}
                 className={`save-button`}
               >
                 {props.isSubmitting ? (
-                  <i className="fa fa-spinner fa-spin mr-2" />
+                  <i className='fa fa-spinner fa-spin mr-2' />
                 ) : (
-                  ""
+                  ''
                 )}
-                {languageTranslation("SAVE_BUTTON")}
+                {languageTranslation('SAVE_BUTTON')}
               </Button>
             </div>
 
             <Row>
-              <Col lg={4} md={"12"} sm={"12"}>
+              <Col lg={4} md={'12'} sm={'12'}>
                 <PersonalInfoFormComponent
                   {...props}
                   CareInstitutionList={usersList}
@@ -571,10 +598,10 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                   userSelectedCountry={userSelectedCountry}
                 />
               </Col>
-              <Col lg={4} md={"12"} sm={"12"} className="px-lg-0">
-                <div className="common-col custom-caregiver-height  custom-scrollbar">
+              <Col lg={4} md={'12'} sm={'12'} className='px-lg-0'>
+                <div className='common-col custom-caregiver-height  custom-scrollbar'>
                   <BillingSettingsFormComponent {...props} />
-                  <div className="quality-attribute-section d-flex flex-column">
+                  <div className='quality-attribute-section d-flex flex-column'>
                     <QualificationFormComponent
                       {...props}
                       qualificationList={qualificationList}
@@ -593,20 +620,20 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
                 remarksDetail={remarksDetail}
                 saveRemark={saveRemark}
               />
-              <Col lg={"12"} md={"12"} sm={"12"}>
-                <div className="d-block d-md-none text-right">
+              <Col lg={'12'} md={'12'} sm={'12'}>
+                <div className='d-block d-md-none text-right'>
                   <Button
                     disabled={props.isSubmitting}
                     onClick={props.handleSubmit}
-                    color={"primary"}
-                    className={"submit-common-btn mb-3"}
+                    color={'primary'}
+                    className={'submit-common-btn mb-3'}
                   >
                     {props.isSubmitting ? (
-                      <i className="fa fa-spinner fa-spin mr-2" />
+                      <i className='fa fa-spinner fa-spin mr-2' />
                     ) : (
-                      ""
+                      ''
                     )}
-                    {languageTranslation("SAVE_BUTTON")}
+                    {languageTranslation('SAVE_BUTTON')}
                   </Button>
                 </div>
               </Col>

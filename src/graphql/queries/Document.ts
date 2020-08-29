@@ -56,9 +56,23 @@ const GET_REQUIRED_DOCUMENT_TYPES = gql`
   }
 `;
 
+
+const GET_WORKPROOF_PDF = gql`
+  query getWorkProofPDF($userId: ID, $documentUploadType: String, $appointmentId: [ID],$id:ID) {
+    getWorkProofPDF(userId:$userId, documentUploadType: $documentUploadType, appointmentId:$appointmentId, id:$id) {
+      document
+      leasingContract{
+				avabilityId
+      }
+    }
+  }
+`;
+
 export const DocumentQueries = [
   GET_DOCUMENT_TEMPLATE,
   GET_DOCUMENTS,
   GET_DOCUMENT_TYPES,
-  GET_REQUIRED_DOCUMENT_TYPES
+  GET_REQUIRED_DOCUMENT_TYPES,
+
+  GET_WORKPROOF_PDF
 ];

@@ -40,7 +40,8 @@ import '../index.scss';
 import {
   LeasingContractQueries,
   AppointmentsQueries,
-  InvoiceQueries
+  InvoiceQueries,
+  DocumentQueries
 } from '../../../../../graphql/queries';
 import { useLazyQuery } from '@apollo/react-hooks';
 import MaskedInput from 'react-text-mask';
@@ -49,6 +50,7 @@ import Loader from '../../../containers/Loader/Loader';
 const [GET_LEASING_CONTRACT] = LeasingContractQueries;
 const [ , , GET_INVOICE_BY_APPOINTMENT_ID ] = InvoiceQueries;
 const [, , , , , , , GET_CONTRACT_BY_APPOINTMENT_ID] = AppointmentsQueries;
+const [, , , , GET_WORKPROOF_PDF] = DocumentQueries
 const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   IAppointmentCareGiverForm &
   any> = (
@@ -67,6 +69,13 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   const [getInvoiceByAppointmentId, { data: invoicePDF }] = useLazyQuery<any>(
     GET_INVOICE_BY_APPOINTMENT_ID,
   );
+
+    // Query to get Work Proof pdf
+    const [getWorkProofPDF, { data: workProofData }] = useLazyQuery<any>(
+      GET_WORKPROOF_PDF,
+    );
+
+  console.log('invoicePDF',invoicePDF)
 
   //For saving both
   useEffect(() => {
@@ -271,23 +280,34 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       console.log('isLeasingAppointment',isLeasingAppointment);
       const { id = '', item = {} } = selectedCells[0] ? selectedCells[0] : {};
       const { appointments = [] } = item ? item : {};
+      console.log('appointments[0]',appointments[0]);
+      
       const { avabilityId = '', id: appointmentId = '' } =
         appointments && appointments.length && appointments[0]
           ? appointments[0]
           : {};
-      // getLeasingContractPDF({
-      //   variables: {
-      //     userId: parseInt(id),
-      //     availabilityId: [parseInt(avabilityId)],
-      //     appointmentId: [parseInt(appointmentId)],
-      //     documentUploadType: 'leasingContract',
-      //   },
-      // });
+      getLeasingContractPDF({
+        variables: {
+          userId: parseInt(id),
+          availabilityId: [parseInt(avabilityId)],
+          appointmentId: [parseInt(appointmentId)],
+          documentUploadType: 'leasingContract',
+        },
+      });
       
       console.log('parseInt(appointmentId)',parseInt(appointmentId))
       getInvoiceByAppointmentId({
         variables: {
           appointmentId: [parseInt(appointmentId)]
+        },
+      });
+
+      getWorkProofPDF({
+        variables: {
+          userId: parseInt(id),
+          availabilityId: [parseInt(avabilityId)],
+          appointmentId: [parseInt(appointmentId)],
+          documentUploadType: 'workingProof',
         },
       });
       return;
@@ -296,23 +316,31 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       console.log('inside pdf form');
 
       // To get signed contract in case of booked appointment
-      const { item = {} } = selectedCells[0] ? selectedCells[0] : {};
+      const { id = '',item = {} } = selectedCells[0] ? selectedCells[0] : {};
       const { appointments = [] } = item ? item : {};
-      const { id: appointmentId = '' } =
-        appointments && appointments.length && appointments[0]
-          ? appointments[0]
-          : {};
-      // getContractPDF({
-      //   variables: {
-      //     appointmentId: appointmentId,
-      //     // appointments && appointments[0] ? appointments[0].id : null,
-      //   },
-      // });
+      const { avabilityId = '', id: appointmentId = '' } =
+          appointments && appointments.length && appointments[0]
+            ? appointments[0] : {};
+      getContractPDF({
+        variables: {
+          appointmentId: appointmentId,
+          // appointments && appointments[0] ? appointments[0].id : null,
+        },
+      });
 
       console.log('parseInt(appointmentId)',parseInt(appointmentId))
       getInvoiceByAppointmentId({
         variables: {
           appointmentId: [parseInt(appointmentId)]
+        },
+      });
+
+      getWorkProofPDF({
+        variables: {
+          userId: parseInt(id),
+          availabilityId: [parseInt(avabilityId)],
+          appointmentId: [parseInt(appointmentId)],
+          documentUploadType: 'workingProof',
         },
       });
     }
@@ -465,11 +493,14 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     : {};
 
   // Get Invoice PDFs
-  const { getInvoiceByAppointmentID: invoiceDetails = [] } = invoicePDF ? invoicePDF : {};
-  const { invoice = '', invoiceData = {} } =
-    invoiceDetails && invoiceDetails.length ? invoiceDetails[0] : {};
-
-    console.log('invoiceDetailsinvoiceDetails',invoiceDetails)
+  const { getInvoiceByAppointmentId: invoiceDetails = [] } = invoicePDF ? invoicePDF : {};
+  console.log('invoiceDetails',invoiceDetails)
+  console.log('invoiceDetails',invoiceDetails.invoiceData);
+  let invoiceData = invoiceDetails ? invoiceDetails.invoiceData : {};
+  let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : ''
+  console.log('invoiceData',invoiceData)
+  console.log('finalInvoicePDF',finalInvoicePDF)
+  console.log('`${AppConfig.FILES_ENDPOINT}${finalInvoicePDF}`',`${AppConfig.FILES_ENDPOINT}/${finalInvoicePDF}`)
 
   let isCorrespondingAppointment: boolean = false;
   if (
@@ -1497,10 +1528,28 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         {languageTranslation('CONTRACT')}
                       </a>
                     ) : null}
+                    <br/>
+
+                { getInvoiceByAppointmentId &&
+                      getInvoiceByAppointmentId.length &&
+                      finalInvoicePDF ? (
+                      <a
+                        href={`${AppConfig.FILES_ENDPOINT}/${finalInvoicePDF}`}
+                        target={'_blank'}
+                        className='view-more-link text-underline'
+                      >
+                        <i className='fa fa-file-o mr-2' />
+                        {languageTranslation('INVOICE')}
+                      </a>
+                    ) : null}
+
+
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
+
+  
 
             <Col lg={'12'}>
               <FormGroup>

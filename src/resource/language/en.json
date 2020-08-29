@@ -1778,5 +1778,6 @@
   "APPND_ORD_NUB_SPC": "Append order number specialist",
   "OTH_TOOL": "Other tool",
   "TO_EDIT": "To edit",
-  "REQUIRED_ZIP": "Postal Code is required"
+  "REQUIRED_ZIP": "Postal Code is required",
+  "INVOICE":"Invoice"
 }

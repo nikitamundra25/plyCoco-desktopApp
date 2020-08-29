@@ -50,6 +50,10 @@ const wsLink = new WebSocketLink({
         authorization: localStorage.getItem('adminToken')
           ? localStorage.getItem('adminToken')
           : '',
+        language:
+          localStorage.getItem('language') === 'en'
+            ? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYW5ndWFnZSI6ImVuIiwiaWF0IjoxNTg2MzI3Mjg0fQ.NVRXn14BuJjkMd465TPpZHjIUYdOTu3ErrwFUaA8sLs'
+            : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsYW5ndWFnZSI6ImRlIiwiaWF0IjoxNTg2MzI3Mjg0fQ.m_gUJnzgPm1uA2ojH7QAIN0YYSlsnsSmo0ZG-xd6BOY',
       },
     },
   },

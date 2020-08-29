@@ -1,71 +1,112 @@
 import gql from 'graphql-tag';
 
-const GET_CAREINSTITUDE_SUBSCRIPTION = gql `
-subscription careInstitudeUpdateSubscribe($id: String){
-    careInstitudeUpdateSubscribe(id: $id){
-      totalCount
-      careInstitutionData {
+const GET_CAREINSTITUDE_SUBSCRIPTION = gql`
+  subscription careInstitudeUpdateSubscribe($id: String) {
+    careInstitudeUpdateSubscribe(id: $id) {
+      createdAt
+      firstName
+      lastName
+      salutation
+      email
+      userName
+      phoneNumber
+      id
+      userRole
+      gender
+      isApproved
+      canstitution {
+        city
+        zipCode
+        companyName
+        shortName
+        street
+        countryId
+        stateId
+        remarks
+        title
+        fax
+        linkedTo
+        doctorCommission
+        leasingPriceListId
+        plycocoInvoiceTax
+        leasingInvoiceTax
+        defaultTaxValue
+        isArchive
+        careGiverCommission
+        anonymousName
+        anonymousName2
+        mobileNumber
+        remarksViewable
+        defaultQualification
+        invoiceType
+        emailInvoice
+        addressInvoice
+        interval
+        website
+        attributes
+      }
+      qualifications {
         id
-        firstName
-        lastName
-        email
-        userName
-        gender
+        name
+      }
+      regions {
+        id
+        regionName
+      }
+      attributes {
+        id
+        name
+      }
+      contacts {
         salutation
-        qualifications {
+        firstName
+        surName
+        userId
+        contactTypeId
+        email
+        id
+        contact_type {
+          contactType
+        }
+      }
+      contact {
+        salutation
+        firstName
+        surName
+        gender
+        title
+        salutation
+        firstName
+        userId
+        surName
+        countryId
+        stateId
+        street
+        city
+        contactTypeId
+        phoneNumber
+        zip
+        phoneNumber2
+        fax
+        mobileNumber
+        email
+        remark
+        id
+        attributes
+        attribute_management {
           id
           name
-          parentId
+          color
         }
-        regions {
-          id
-          regionName
-        }
-        phoneNumber
-        isActive
-        createdAt
-        canstitution {
-          salutation
-          firstName
-          lastName
-          email
-          password
-          mobileNumber
-          userRole
-          qualificationId
-          city 
-          zipCode 
-          street
-          countryId 
-          stateId 
-          fax 
-          shortName 
-          regionId
-          remarks
-          remarksViewable
-          defaultQualification
-          companyName
-          linkedTo
-          title
-          anonymousName
-          anonymousName2
-          careGiverCommission
-          doctorCommission
-          leasingPriceList
-          leasingPriceListId
-          isArchive
-          website
-          invoiceType
-          emailInvoice
-          addressInvoice
-          interval
-          attributes
+        contact_type {
+          contactType
         }
       }
     }
   }
-  `;
-  const GET_CONTACT_LIST_BY_ID_SUBSCRIPTION = gql`
+`;
+
+const GET_CONTACT_LIST_BY_ID_SUBSCRIPTION = gql`
   subscription getContactsByUserIDSubscribe($id: String) {
     getContactsByUserIDSubscribe(id: $id) {
       id
@@ -96,5 +137,7 @@ subscription careInstitudeUpdateSubscribe($id: String){
   }
 `;
 
-  export const CareInstitudeSubscription = [ GET_CAREINSTITUDE_SUBSCRIPTION, GET_CONTACT_LIST_BY_ID_SUBSCRIPTION ]
-  
+export const CareInstitudeSubscription = [
+  GET_CAREINSTITUDE_SUBSCRIPTION,
+  GET_CONTACT_LIST_BY_ID_SUBSCRIPTION,
+];

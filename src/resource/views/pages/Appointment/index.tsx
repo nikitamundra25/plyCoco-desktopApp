@@ -58,7 +58,7 @@ import CaregiverListView from './Caregiver/CaregiverListView';
 import CarinstituionListView from './Careinstituion/CareinstituionListView';
 import CaregiverFormView from './Caregiver/CaregiverForm';
 import CareinstitutionFormView from './Careinstituion/CareinstitutionForm';
-import UnlinkAppointment from './unlinkModal';
+// import UnlinkAppointment from './unlinkModal';
 import BulkEmailCareGiverModal from './BulkEmailCareGiver';
 import BulkEmailCareInstitutionModal from './BulkEmailCareInstitution';
 import './index.scss';
@@ -189,6 +189,9 @@ const Appointment: FunctionComponent = (props: any) => {
   const [selctedAvailability, setselctedAvailability] = useState<any>({});
   const [selectedCells, setSelectedCells] = useState<any[]>();
   const [fetchingCaregivers, setFetchingCaregivers] = useState<boolean>(false);
+  const [fetchingCareInstitutions, setFetchingCareInstitutions] = useState<
+    boolean
+  >(false);
   const [
     selectedCellsCareinstitution,
     setselectedCellsCareinstitution,
@@ -4711,91 +4714,89 @@ const Appointment: FunctionComponent = (props: any) => {
     // return new Promise((resolve) =>
     // {
     console.log(caregiverLoading, 'caregiverLoading in get next', page);
-    if (!fetchingCaregivers || true) {
-      setFetchingCaregivers(true);
-      fetchMoreCareGiverList({
-        variables: {
-          qualificationId: temp ? temp : null,
-          userRole: 'caregiver',
-          negativeAttributeId: negative,
-          limit: 30,
-          page: page ? page + 1 : 1,
-          showAppointments:
-            filterByAppointments && filterByAppointments.value
-              ? filterByAppointments.value === 'showAll'
-                ? ''
-                : filterByAppointments.value
-              : null,
-          positiveAttributeId: positive,
-          gte,
-          lte,
-        },
+    setFetchingCaregivers(true);
+    fetchMoreCareGiverList({
+      variables: {
+        qualificationId: temp ? temp : null,
+        userRole: 'caregiver',
+        negativeAttributeId: negative,
+        limit: 30,
+        page: page ? page + 1 : 1,
+        showAppointments:
+          filterByAppointments && filterByAppointments.value
+            ? filterByAppointments.value === 'showAll'
+              ? ''
+              : filterByAppointments.value
+            : null,
+        positiveAttributeId: positive,
+        gte,
+        lte,
+      },
 
-        updateQuery: (prev: any, { fetchMoreResult }: any) => {
-          console.log('in updateQuery', fetchMoreResult);
+      updateQuery: (prev: any, { fetchMoreResult }: any) => {
+        console.log('in updateQuery', fetchMoreResult);
 
-          if (!fetchMoreResult) {
-            return prev;
-          }
-          if (prev && prev.getUserByQualifications) {
-            let list = [...fetchMoreResult.getUserByQualifications.result];
-            if (list && list.length) {
-              let dayDetails: any[] = daysData ? [...daysData.daysArr] : [];
-              list.forEach((user: any, index: number) => {
-                user.availabilityData = [];
-                user.attribute = [];
-                if (
-                  user.caregiver_avabilities &&
-                  user.caregiver_avabilities.length
-                ) {
-                  let result: any = user.caregiver_avabilities.reduce(
-                    (acc: any, o: any) => (
-                      (acc[moment(o.date).format(dbAcceptableFormat)] =
-                        (acc[moment(o.date).format(dbAcceptableFormat)] || 0) +
-                        1),
-                      acc
-                    ),
-                    {},
-                  );
-                  result = Object.values(result);
-                  result = Math.max(...result);
-                  for (let row = 0; row < result; row++) {
-                    user.availabilityData.push([]);
-                  }
-                  dayDetails.forEach((d: any, index: number) => {
-                    let records = user.caregiver_avabilities.filter(
-                      (available: any) =>
-                        moment(d.dateString).isSame(
-                          moment(available.date),
-                          'day',
-                        ),
-                    );
-                    for (let i = 0; i < records.length; i++) {
-                      user.availabilityData[i].push(records[i]);
-                    }
-                  });
-                } else {
+        if (!fetchMoreResult) {
+          return prev;
+        }
+        if (prev && prev.getUserByQualifications) {
+          let list = [...fetchMoreResult.getUserByQualifications.result];
+          if (list && list.length) {
+            let dayDetails: any[] = daysData ? [...daysData.daysArr] : [];
+            list.forEach((user: any, index: number) => {
+              user.availabilityData = [];
+              user.attribute = [];
+              if (
+                user.caregiver_avabilities &&
+                user.caregiver_avabilities.length
+              ) {
+                let result: any = user.caregiver_avabilities.reduce(
+                  (acc: any, o: any) => (
+                    (acc[moment(o.date).format(dbAcceptableFormat)] =
+                      (acc[moment(o.date).format(dbAcceptableFormat)] || 0) +
+                      1),
+                    acc
+                  ),
+                  {},
+                );
+                result = Object.values(result);
+                result = Math.max(...result);
+                for (let row = 0; row < result; row++) {
                   user.availabilityData.push([]);
                 }
-              });
-            }
-            setFetchingCaregivers(false);
-            setcaregiversList((prevArray: any) => [...prevArray, ...list]);
-            // resolve();
-            let selectedId: any = [];
-            return Object.assign({}, prev, {
-              getUserByQualifications: {
-                ...prev.getUserByQualifications,
-                result: [
-                  ...prev.getUserByQualifications.result,
-                  ...fetchMoreResult.getUserByQualifications.result,
-                ],
-              },
+                dayDetails.forEach((d: any, index: number) => {
+                  let records = user.caregiver_avabilities.filter(
+                    (available: any) =>
+                      moment(d.dateString).isSame(
+                        moment(available.date),
+                        'day',
+                      ),
+                  );
+                  for (let i = 0; i < records.length; i++) {
+                    user.availabilityData[i].push(records[i]);
+                  }
+                });
+              } else {
+                user.availabilityData.push([]);
+              }
             });
           }
-        },
-      });
-    }
+          setFetchingCaregivers(false);
+          setcaregiversList((prevArray: any) => [...prevArray, ...list]);
+          // resolve();
+          let selectedId: any = [];
+          return Object.assign({}, prev, {
+            getUserByQualifications: {
+              ...prev.getUserByQualifications,
+              result: [
+                ...prev.getUserByQualifications.result,
+                ...fetchMoreResult.getUserByQualifications.result,
+              ],
+            },
+          });
+        }
+      },
+    });
     // })
   };
 
@@ -4825,6 +4826,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
     let positiveAttr: number[] = [],
       negativeAttr: number[] = [];
+    setFetchingCareInstitutions(true);
     fetchMoreCareInstituionList({
       variables: {
         qualificationId: temp ? temp : null,
@@ -4900,6 +4902,7 @@ const Appointment: FunctionComponent = (props: any) => {
               }
             });
           }
+          setFetchingCareInstitutions(false);
           setcareinstitutionList((prevArray: any) => [...prevArray, ...list]);
           let selectedId: any = [];
           return Object.assign({}, prev, {
@@ -5052,16 +5055,20 @@ const Appointment: FunctionComponent = (props: any) => {
   //     />
   //     </Suspense>
   // }
-  // if (showUnlinkModal) {
-  //   const UnlinkAppointment = React.lazy(() => import('./unlinkModal'));
-  //   return <Suspense fallback={null}>
-  //     <UnlinkAppointment
-  //       show={showUnlinkModal}
-  //       handleClose={() => setshowUnlinkModal(false)}
-  //       handleUnlinkData={handleUnlinkData}
-  //     />
-  //     </Suspense>
-  // }
+  const renderUnlinkModal = () => {
+    if (showUnlinkModal) {
+      const UnlinkAppointment = React.lazy(() => import('./unlinkModal'));
+      return (
+        <Suspense fallback={null}>
+          <UnlinkAppointment
+            show={showUnlinkModal}
+            handleClose={() => setshowUnlinkModal(false)}
+            handleUnlinkData={handleUnlinkData}
+          />
+        </Suspense>
+      );
+    }
+  };
 
   const handleWidth = function() {
     let appointment_list_section: HTMLElement | null = document.getElementById(
@@ -5245,6 +5252,7 @@ const Appointment: FunctionComponent = (props: any) => {
                     showSelectedCaregiver={showSelectedCaregiver}
                     careInstituionDeptData={careInstituionDeptData}
                     deptLoading={deptLoading /* fetchingDept */}
+                    fetchingCareInstitutions={fetchingCareInstitutions}
                     starCanstitution={starCanstitution}
                     secondStarCanstitution={secondStarCanstitution}
                     handleFirstStarCanstitution={handleFirstStarCanstitution}
@@ -5467,12 +5475,12 @@ const Appointment: FunctionComponent = (props: any) => {
           </div>
         </div>
       </div>
-
-      <UnlinkAppointment
+      {renderUnlinkModal()}
+      {/* <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
-      />
+      /> */}
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}
         handleClose={() =>

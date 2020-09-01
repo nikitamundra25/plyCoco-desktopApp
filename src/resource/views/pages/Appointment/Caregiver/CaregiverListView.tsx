@@ -47,7 +47,7 @@ import refresh from '../../../../assets/img/refresh.svg';
 // import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import BulkEmailCareGiverModal from '../BulkEmailCareGiver';
-import UnlinkAppointment from '../unlinkModal';
+// import UnlinkAppointment from '../unlinkModal';
 import BulkEmailCareInstitutionModal from '../BulkEmailCareInstitution';
 import '../index.scss';
 import 'react-virtualized/styles.css'; // only needs to be imported once
@@ -574,17 +574,20 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       );
     }
   };
-  // if (showUnlinkModal) {
-  //   const UnlinkAppointment= lazy(() => import('../unlinkModal'));
-  //   return <Suspense fallback={null}>
-  //     <UnlinkAppointment
-  //       show={showUnlinkModal}
-  //       handleClose={() => setshowUnlinkModal(false)}
-  //       handleUnlinkData={handleUnlinkData}
-  //     />
-  //   </Suspense>
-  // }
-
+  const renderUnlinkModal = () => {
+    if (showUnlinkModal) {
+      const UnlinkAppointment = lazy(() => import('../unlinkModal'));
+      return (
+        <Suspense fallback={null}>
+          <UnlinkAppointment
+            show={showUnlinkModal}
+            handleClose={() => setshowUnlinkModal(false)}
+            handleUnlinkData={handleUnlinkData}
+          />
+        </Suspense>
+      );
+    }
+  };
   console.log(selectedCells, 'selectedCells');
 
   let selectedcareInstApptId: number[] = [];
@@ -1032,14 +1035,7 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                               key,
                               style,
                             }) => {
-                              console.log(
-                                index,
-                                temp.length,
-                                fetchingCaregivers && index === temp.length - 1
-                                  ? 'loading rowRenderer'
-                                  : 'loaded rowRenderer',
-                              );
-
+                              // let top: any = style.top;
                               const list = temp[index] || {};
                               let item = list.new;
                               let row = list.row;
@@ -1187,12 +1183,14 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                     <div
                                       className='custom-appointment-row'
                                       key={`loader`}
-                                      style={
-                                        style
-                                        // {...style, top:index + (row *30)}
-                                      }
+                                      style={{
+                                        ...style,
+                                        // top: top ? top + 28 : top,
+                                      }}
                                     >
-                                      <Loader />
+                                      <div className='apptmnt-loader'>
+                                        <Loader />
+                                      </div>
                                     </div>
                                   ) : null}
                                 </>
@@ -1258,11 +1256,12 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
         isFromUnlink={isFromUnlink}
       />
       {renderDetailedList()}
-      <UnlinkAppointment
+      {renderUnlinkModal()}
+      {/* <UnlinkAppointment
         show={showUnlinkModal}
         handleClose={() => setshowUnlinkModal(false)}
         handleUnlinkData={handleUnlinkData}
-      />
+      /> */}
     </div>
   );
 };

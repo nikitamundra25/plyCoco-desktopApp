@@ -114,6 +114,7 @@ export interface IAppointmentCareInstitutionList {
   activeDateCaregiver: IDate | undefined;
   activeDateCareinstitution: IDate | undefined;
   handleSelection: (value: any, name: string) => void;
+  fetchingCareInstitutions?: boolean;
 }
 
 export interface IAppointmentCareGiverForm {

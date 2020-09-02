@@ -265,6 +265,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
           date
           requirementId
           avabilityId
+          workProofId
           cr {
             id
             name
@@ -393,6 +394,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
           date
           requirementId
           avabilityId
+          workProofId
           ca {
             userId
             id

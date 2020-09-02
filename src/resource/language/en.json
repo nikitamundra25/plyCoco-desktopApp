@@ -1779,5 +1779,6 @@
   "OTH_TOOL": "Other tool",
   "TO_EDIT": "To edit",
   "REQUIRED_ZIP": "Postal Code is required",
-  "INVOICE":"Invoice"
+  "INVOICE":"Invoice",
+  "WORK_PROOF":"Work Proof"
 }

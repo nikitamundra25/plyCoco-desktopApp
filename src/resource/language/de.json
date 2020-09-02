@@ -1764,5 +1764,6 @@
   "OTH_TOOL": "Other tool",
   "TO_EDIT": "To edit",
   "REQUIRED_ZIP": "Postleitzahl ist erforderlich",
-  "INVOICE":"Invoice"
+  "INVOICE":"Invoice",
+  "WORK_PROOF":"Work Proof"
 }

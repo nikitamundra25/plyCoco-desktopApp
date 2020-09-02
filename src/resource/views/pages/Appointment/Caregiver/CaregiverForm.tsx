@@ -75,8 +75,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       GET_WORKPROOF_PDF,
     );
 
-  console.log('invoicePDF',invoicePDF)
-
   //For saving both
   useEffect(() => {
     if (props.savingBoth) {
@@ -280,12 +278,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       console.log('isLeasingAppointment',isLeasingAppointment);
       const { id = '', item = {} } = selectedCells[0] ? selectedCells[0] : {};
       const { appointments = [] } = item ? item : {};
-      console.log('appointments[0]',appointments[0]);
       
-      const { avabilityId = '', id: appointmentId = '' } =
+      const { avabilityId = '', id: appointmentId = '', workProofId = '' } =
         appointments && appointments.length && appointments[0]
           ? appointments[0]
           : {};
+      console.log('appointments[0]',appointments[0])
       getLeasingContractPDF({
         variables: {
           userId: parseInt(id),
@@ -304,9 +302,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
       getWorkProofPDF({
         variables: {
-          userId: parseInt(id),
-          availabilityId: [parseInt(avabilityId)],
-          appointmentId: [parseInt(appointmentId)],
+          id: parseInt(workProofId),
           documentUploadType: 'workingProof',
         },
       });
@@ -318,7 +314,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       // To get signed contract in case of booked appointment
       const { id = '',item = {} } = selectedCells[0] ? selectedCells[0] : {};
       const { appointments = [] } = item ? item : {};
-      const { avabilityId = '', id: appointmentId = '' } =
+      const { avabilityId = '', id: appointmentId = '', workProofId = '' } =
           appointments && appointments.length && appointments[0]
             ? appointments[0] : {};
       getContractPDF({
@@ -337,9 +333,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
       getWorkProofPDF({
         variables: {
-          userId: parseInt(id),
-          availabilityId: [parseInt(avabilityId)],
-          appointmentId: [parseInt(appointmentId)],
+          id: parseInt(workProofId),
           documentUploadType: 'workingProof',
         },
       });
@@ -501,6 +495,13 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   console.log('invoiceData',invoiceData)
   console.log('finalInvoicePDF',finalInvoicePDF)
   console.log('`${AppConfig.FILES_ENDPOINT}${finalInvoicePDF}`',`${AppConfig.FILES_ENDPOINT}/${finalInvoicePDF}`)
+
+// Get WorkProof
+  console.log('workProofData',workProofData)
+  const { getWorkProofPDF: workProof = [] } = workProofData ? workProofData : {};
+  console.log('workProof',workProof);
+  const {  id: finalWorkProofId = '' ,document: finalWorkProofPDF = '' } = workProof ? workProof : {};
+  const workingProofSubmitted =  finalWorkProofPDF ? true : false;
 
   let isCorrespondingAppointment: boolean = false;
   if (
@@ -1483,23 +1484,36 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <div className=' checkbox-custom mb-0'>
                           <input
                             type='checkbox'
-                            id='workingProofRecieved'
+                            id='workingProofSubmitted'
                             className=''
-                            name={'workingProofRecieved'}
-                            checked={workingProofRecieved}
+                            name={'workingProofSubmitted'}
+                            checked={workingProofSubmitted}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>,
                             ) => {
                               const {
                                 target: { checked },
                               } = e;
-                              setFieldValue('workingProofRecieved', checked);
+                              setFieldValue('workingProofSubmitted', checked);
                             }}
                           />
-                          <Label for='workingProofRecieved'></Label>
+                          <Label for='workingProofSubmitted'></Label>
                         </div>
                       </FormGroup>
                     </div>
+
+                    { getWorkProofPDF &&
+                      finalWorkProofPDF ? (
+                      <a
+                        href={`${AppConfig.FILES_ENDPOINT}${finalWorkProofPDF}`}
+                        target={'_blank'}
+                        className='view-more-link text-underline'
+                      >
+                        <i className='fa fa-file-o mr-2' />
+                        {languageTranslation('WORK_PROOF')}
+                      </a>
+                    ) : null}
+                     <br/>
 
                     {document &&
                     leasingContract &&

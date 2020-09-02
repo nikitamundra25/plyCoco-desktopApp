@@ -58,12 +58,10 @@ const GET_REQUIRED_DOCUMENT_TYPES = gql`
 
 
 const GET_WORKPROOF_PDF = gql`
-  query getWorkProofPDF($userId: ID, $documentUploadType: String, $appointmentId: [ID],$id:ID) {
-    getWorkProofPDF(userId:$userId, documentUploadType: $documentUploadType, appointmentId:$appointmentId, id:$id) {
+  query getWorkProofPDF($id:ID, $documentUploadType: String) {
+    getWorkProofPDF(id:$id, documentUploadType: $documentUploadType) {
+      id
       document
-      leasingContract{
-				avabilityId
-      }
     }
   }
 `;

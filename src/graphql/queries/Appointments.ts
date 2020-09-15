@@ -508,11 +508,7 @@ const GET_CONTRACT_BY_APPOINTMENT_ID = gql`
   query getContractByAppointmentID($appointmentId: ID) {
     getContractByAppointmentID(appointmentId: $appointmentId) {
       id
-      user_document {
-        id
-        fileName
-        document
-      }
+      attachment
       appointmentId
     }
   }

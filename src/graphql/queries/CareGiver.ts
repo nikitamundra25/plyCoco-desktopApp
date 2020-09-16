@@ -418,15 +418,7 @@ const GET_ALL_PAYSLIP_CAREGIVER = gql`
 const GET_WORKED_AT_LIST = gql`
   query getAllWorkedAt($userId: ID!) {
     getAllWorkedAt(userId: $userId) {
-      negativeList {
-        id
-        firstName
-        lastName
-        canstitution{
-          companyName
-          shortName
-        }
-      }
+      id
     }
   }
 `;

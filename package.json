@@ -45,7 +45,7 @@
     "js-object-validation": "^1.0.17",
     "moment": "^2.24.0",
     "msal": "^1.2.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.9.0",
     "react": "^16.8.5",

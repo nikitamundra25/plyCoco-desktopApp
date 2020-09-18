@@ -279,6 +279,52 @@ const GET_CONTACT_ATTRIBUTES = gql`
   }
 `;
 
+const GET_NEGATIVE_USERS_CAREINSTITUTION_LIST = gql`
+  query getNegativeListForCanstitution($id: ID!) {
+    getNegativeListForCanstitution(id: $id) {
+      negativeList {
+        id
+        firstName
+        lastName
+        canstitution{
+          companyName
+          shortName
+        }
+      }
+    }
+  }
+`;
+
+const GET_WORKED_AT_CAREINSTITUTION_LIST = gql`
+  query getAllWorkedAtForCanstitution($userId: ID) {
+    getAllWorkedAtForCanstitution(userId: $userId) {
+      result{
+        id 
+        status
+        ca{
+          userId
+          user{
+            id
+            firstName
+            lastName
+          }
+        }
+        cr{
+          userId
+          user{
+            id
+            firstName
+            lastName
+            canstitution{
+              shortName
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const CareInstitutionQueries = [
   GET_CARE_INSTITUTION_LIST,
   GET_CARE_INSTITUION_BY_ID,
@@ -288,5 +334,7 @@ export const CareInstitutionQueries = [
   GET_CONTACT_TYPES,
   GET_DIVISION_DETAILS_BY_ID,
   GET_DEPARTMENT_ATTRIBUTES,
-  GET_CONTACT_ATTRIBUTES
+  GET_CONTACT_ATTRIBUTES,
+  GET_NEGATIVE_USERS_CAREINSTITUTION_LIST,
+  GET_WORKED_AT_CAREINSTITUTION_LIST
 ];

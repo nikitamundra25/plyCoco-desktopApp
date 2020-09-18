@@ -1,18 +1,17 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import {
-  Col,
-  Row,
-} from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { languageTranslation, errorFormatter } from "../../../../../helpers";
-import '../careinstitution.scss';
+import "../careinstitution.scss";
 // import SearchPopup from "./SearchPopup";
 import {
-  CareGiverQueries, InvoiceQueries
+  CareGiverQueries,
+  CareInstitutionQueries,
+  InvoiceQueries,
 } from "../../../../../graphql/queries";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
 import { ApolloError } from "apollo-client";
 import { ConfirmBox } from "../../../components/ConfirmBox";
@@ -23,11 +22,10 @@ import {
   leasingListColor,
   selfEmployesListColor,
   CareInstTIMyoCYAttrId,
-} from '../../../../../config';
+} from "../../../../../config";
 let toastId: any = "";
 
 const Offer: FunctionComponent<RouteComponentProps> = () => {
-
   const [selectedOption, setSelectedOption] = useState<any>(null);
   const [negativeUsersList, setNegativeUsersList] = useState<any>([]);
   const [
@@ -39,24 +37,50 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
     ,
     ,
     ADD_NEGATIVE_USER,
-    DELETE_BLACKLIST_USER
+    DELETE_BLACKLIST_USER,
   ] = CareGiverMutations;
-  const [GET_CAREGIVERS, , , , , , , GET_NEGATIVE_USERS_LIST] = CareGiverQueries;
-const [GET_INVOICE_LIST] = InvoiceQueries;
+  const [
+    GET_CAREGIVERS,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    GET_NEGATIVE_USERS_LIST,
+    ,
+    ,
+    ,
+    GET_WORKED_AT_LIST,
+  ] = CareGiverQueries;
+  const [
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    GET_NEGATIVE_USERS_CAREINSTITUTION_LIST,
+    GET_WORKED_AT_CAREINSTITUTION_LIST,
+  ] = CareInstitutionQueries;
 
-  let { id } = useParams();
+  let { id }: any = useParams();
   let userId: any | undefined = id;
   const [caregiverOptions, setCaregiverOptions] = useState<any>([]);
   // get care institution lists
-  const [fetchCaregiverList, { data: caregiver, refetch }] = useLazyQuery<any>(GET_CAREGIVERS);
+  const [fetchCaregiverList, { data: caregiver, refetch }] = useLazyQuery<any>(
+    GET_CAREGIVERS
+  );
 
-   // To fetch workedAt list
-   const [
-    fetchInvoiceList,
+  // To fetch workedAt list
+  const [
+    fetchWorkedAtList,
     { data: workedAtList, loading: workedAtListLoading },
-  ] = useLazyQuery<any, any>(GET_INVOICE_LIST, {
+  ] = useLazyQuery<any, any>(GET_WORKED_AT_CAREINSTITUTION_LIST, {
     fetchPolicy: "no-cache",
-    // notifyOnNetworkStatusChange: true
   });
 
   // to get list of care institution
@@ -67,25 +91,24 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
         sortBy: 3,
         limit: 200,
         page: 1,
-        isActive: ""
-      }
+        isActive: "",
+      },
     });
-    fetchInvoiceList({
+
+    fetchWorkedAtList({
       variables: {
-        searchBy: null,
-        caregiverId:null,
-        careInstitutionId: userId,
-        divisionId: null,
-        startDate:  null,
-        endDate: null,
-        limit: 100000,
-        page: 1,
+        userId: userId ? parseInt(userId) : "",
       },
     });
   }, [userId]);
 
   useEffect(() => {
-    if (caregiver && caregiver.getCaregivers && caregiver.getCaregivers.result && !caregiverOptions.length) {
+    if (
+      caregiver &&
+      caregiver.getCaregivers &&
+      caregiver.getCaregivers.result &&
+      !caregiverOptions.length
+    ) {
       caregiver.getCaregivers.result.filter(
         (item: any) =>
           negativeUsersList.findIndex((ele: any) => ele.id === item.id) < 0
@@ -93,7 +116,7 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
       let temp: any = [];
       temp.push({
         label: languageTranslation("NAME"),
-        value: languageTranslation("ID")
+        value: languageTranslation("ID"),
       });
       caregiver.getCaregivers.result.forEach(
         ({ id, firstName, lastName, caregiver, isActive }: any) => {
@@ -110,11 +133,11 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
             color: !isActive
               ? deactivatedListColor
               : attributes.includes(CareInstTIMyoCYAttrId)
-                ? leasingListColor
-                : attributes.includes(70)
-                  ? selfEmployesListColor
-                  : ''
-          })
+              ? leasingListColor
+              : attributes.includes(70)
+              ? selfEmployesListColor
+              : "",
+          });
         }
       );
       setCaregiverOptions(temp);
@@ -133,22 +156,22 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    }
+    },
   });
 
   //get negative users list
   const [
     fetchNegativeUserList,
-    { data: negativeUser, refetch: negativeListRefetch }
-  ] = useLazyQuery<any>(GET_NEGATIVE_USERS_LIST, {
-    onCompleted() { }
+    { data: negativeUser, refetch: negativeListRefetch },
+  ] = useLazyQuery<any>(GET_NEGATIVE_USERS_CAREINSTITUTION_LIST, {
+    onCompleted() {},
   });
 
   useEffect(() => {
     fetchNegativeUserList({
       variables: {
-        id: userId ? parseInt(userId) : ""
-      }
+        id: userId ? parseInt(userId) : "",
+      },
     });
     const { getNegativeList = {} } = negativeUser ? negativeUser : {};
     const { negativeList = [] } = getNegativeList ? getNegativeList : {};
@@ -157,7 +180,7 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
       negativeList.map((list: any) => ({
         id: list.id,
         firstName: list.firstName,
-        lastname: list.lastName
+        lastname: list.lastName,
       }))
     );
   }, [negativeUser, userId]);
@@ -172,18 +195,16 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
-    }
+    },
   });
 
-
   const addToNegativeList = (id: any) => {
-    console.log("id",id);
-    console.log("hereeeee",[
+    console.log("id", id);
+    console.log("hereeeee", [
       ...negativeUsersList.map((list: any) => parseInt(list.id)),
-      parseInt(id)
+      parseInt(id),
     ]);
-    
-    
+
     if (id) {
       // addNegativeUser({
       //   variables: {
@@ -207,11 +228,11 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
           id: userId ? parseInt(userId) : "",
           negativeIds: careInstId
             ? [
-              ...negativeUsersList.map((list: any) => parseInt(list.id)),
-              parseInt(careInstId.value)
-            ]
-            : null
-        }
+                ...negativeUsersList.map((list: any) => parseInt(list.id)),
+                parseInt(careInstId.value),
+              ]
+            : null,
+        },
       });
     }
     setNegativeUsersList(careInstId);
@@ -221,13 +242,12 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
   const handleRemoveAll = async () => {
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("CAREGIVER_ALL_DELETE_MSG")
+      text: languageTranslation("CAREGIVER_ALL_DELETE_MSG"),
     });
     if (!value) {
       return;
     } else {
       try {
-
         let temp: any = [];
         negativeUsersList.map((item: any) => {
           temp.push(parseInt(item.id));
@@ -236,12 +256,14 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
         await deleteNegativeUser({
           variables: {
             id: userId ? userId : "",
-            negativeIds: temp
-          }
+            negativeIds: temp,
+          },
         });
         refetch();
         toast.dismiss();
-        toastId = toast.success(languageTranslation("NEGATIVE_CAREGIVER_DELETED"));
+        toastId = toast.success(
+          languageTranslation("NEGATIVE_CAREGIVER_DELETED")
+        );
       } catch (error) {
         const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {
@@ -255,7 +277,7 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
   const onDeleteNegativeUser = async (careInstId: string) => {
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation("CAREGIVER_ONE_DELETE_MSG")
+      text: languageTranslation("CAREGIVER_ONE_DELETE_MSG"),
     });
     if (!value) {
       return;
@@ -264,12 +286,14 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
         await deleteNegativeUser({
           variables: {
             id: userId ? userId : "",
-            negativeIds: [careInstId ? parseInt(careInstId) : ""]
-          }
+            negativeIds: [careInstId ? parseInt(careInstId) : ""],
+          },
         });
         refetch();
         toast.dismiss();
-        toastId = toast.success(languageTranslation("NEGATIVE_CAREGIVER_DELETED"));
+        toastId = toast.success(
+          languageTranslation("NEGATIVE_CAREGIVER_DELETED")
+        );
       } catch (error) {
         const message = errorFormatter(error);
         if (!toast.isActive(toastId)) {
@@ -295,10 +319,17 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
           />
         </Col>
         <Col md={6}>
-          <WorkedList 
-           workedAtList = {workedAtList && workedAtList.getAllAppointment && workedAtList.getAllAppointment.result && workedAtList.getAllAppointment.result.length ? workedAtList.getAllAppointment.result : []}
-          workedAtListLoading={workedAtListLoading}
-          addToNegativeList={addToNegativeList}
+          <WorkedList
+            workedAtList={
+              workedAtList &&
+              workedAtList.getAllWorkedAtForCanstitution &&
+              workedAtList.getAllWorkedAtForCanstitution.result &&
+              workedAtList.getAllWorkedAtForCanstitution.result.length
+                ? workedAtList.getAllWorkedAtForCanstitution.result
+                : []
+            }
+            workedAtListLoading={workedAtListLoading}
+            addToNegativeList={addToNegativeList}
           />
         </Col>
       </Row>

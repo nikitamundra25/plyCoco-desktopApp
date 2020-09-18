@@ -19,20 +19,25 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (
   if (workedAtList && workedAtList.length) {
     for (let index = 0; index < workedAtList.length; index++) {
       const workedAt = workedAtList[index];
+      
       if (listOfWorkedAt && listOfWorkedAt.length) {
         const lastUserId: number = listOfWorkedAt.findIndex(
           (data: any) => data.cr.userId === workedAt.cr.userId
         );
-        if (lastUserId > 0) {
+        if (lastUserId === -1) {
           listOfWorkedAt.push(workedAt);
-        }
+      } else {
+          listOfWorkedAt.splice(lastUserId, 1);
+      }
+        // if (lastUserId > 0) {
+        //   listOfWorkedAt.push(workedAt);
+        // }
       } else {
         listOfWorkedAt.push(workedAt);
       }
     }
   }
 
-  console.log("iiiiiiiiiiiii", workedAtList);
   
   return (
     <div className="common-list-wrap">

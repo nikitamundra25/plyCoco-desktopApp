@@ -49,8 +49,8 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
     DELETE_BLACKLIST_USER
   ] = CareGiverMutations;
 
-  const [, , , , , , , GET_NEGATIVE_USERS_LIST, , , GET_WORKED_AT_LIST] = CareGiverQueries;
-  let { id } = useParams();
+  const [, , , , , , , GET_NEGATIVE_USERS_LIST, , ,, GET_WORKED_AT_LIST] = CareGiverQueries;
+  let { id }:any = useParams();
   let userId: any | undefined = id;
   const [careInstOptions, setCareInstOptions] = useState<any>([]);
   // get care institution lists
@@ -106,18 +106,20 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
     }
   });
 
+   //get workedAt list
+ const [
+  fetchWorkedAtList,
+  { data: workedAtList, loading: workedAtListLoading  }
+] = useLazyQuery<any, any>(GET_WORKED_AT_LIST, {
+  fetchPolicy: "no-cache",
+});
 
-    // To fetch workedAt list
-    const [
-      fetchInvoiceList,
-      { data: workedAtList, loading: workedAtListLoading },
-    ] = useLazyQuery<any, any>(GET_INVOICE_LIST, {
-      fetchPolicy: "no-cache",
-      // notifyOnNetworkStatusChange: true
-    });
+
 
   // to get list of care institution
   useEffect(() => {
+    console.log("kkkkkkkkkkkkkkkkkkkk");
+    
     fetchCareInstitutionList({
       variables: {
         searchBy: null,
@@ -127,18 +129,25 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
         isActive: ""
       }
     });
-    fetchInvoiceList({
+    // fetchInvoiceList({
+    //   variables: {
+    //     searchBy: null,
+    //     caregiverId:userId,
+    //     careInstitutionId: null,
+    //     divisionId: null,
+    //     startDate:  null,
+    //     endDate: null,
+    //     limit: 100000,
+    //     page: 1,
+    //   },
+    // });
+
+    fetchWorkedAtList({
       variables: {
-        searchBy: null,
-        caregiverId:userId,
-        careInstitutionId: null,
-        divisionId: null,
-        startDate:  null,
-        endDate: null,
-        limit: 100000,
-        page: 1,
-      },
+        userId: userId ? parseInt(userId) : ""
+      }
     });
+
   }, [userId]);
 
   useEffect(() => {
@@ -207,6 +216,7 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
   ] = useLazyQuery<any>(GET_NEGATIVE_USERS_LIST, {
     onCompleted() { }
   });
+
 
   useEffect(() => {
     fetchNegativeUserList({
@@ -355,6 +365,8 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
     refetch();
   };
 
+
+
   return (
     <div className="common-offer-section">
       <h5 className="content-title">{languageTranslation("OFFERS")}</h5>
@@ -373,7 +385,7 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
         </Col>
         <Col md={6}>
           <WorkedList 
-          workedAtList = {workedAtList && workedAtList.getAllAppointment && workedAtList.getAllAppointment.result && workedAtList.getAllAppointment.result.length ? workedAtList.getAllAppointment.result : []}
+          workedAtList = {workedAtList && workedAtList.getAllWorkedAt && workedAtList.getAllWorkedAt.result && workedAtList.getAllWorkedAt.result.length ? workedAtList.getAllWorkedAt.result : []}
           workedAtListLoading ={workedAtListLoading}
           addToNegativeList={addToNegativeList}
           />

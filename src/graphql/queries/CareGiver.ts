@@ -415,6 +415,14 @@ const GET_ALL_PAYSLIP_CAREGIVER = gql`
   }
 `;
 
+const GET_WORKED_AT_LIST = gql`
+  query getAllWorkedAt($userId: ID!) {
+    getAllWorkedAt(userId: $userId) {
+      id
+    }
+  }
+`;
+
 export const CareGiverQueries = [
   GET_CAREGIVERS,
   GET_CAREGIVER_BY_ID,
@@ -427,6 +435,7 @@ export const CareGiverQueries = [
   GET_CAREGIVER_BY_NAME,
   GET_INVOICE_BY_USERID,
 
-  GET_ALL_PAYSLIP_CAREGIVER
+  GET_ALL_PAYSLIP_CAREGIVER,
+  GET_WORKED_AT_LIST
 ];
 

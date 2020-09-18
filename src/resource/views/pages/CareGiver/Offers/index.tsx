@@ -48,7 +48,8 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
     ADD_NEGATIVE_USER,
     DELETE_BLACKLIST_USER
   ] = CareGiverMutations;
-  const [, , , , , , , GET_NEGATIVE_USERS_LIST] = CareGiverQueries;
+
+  const [, , , , , , , GET_NEGATIVE_USERS_LIST, , , GET_WORKED_AT_LIST] = CareGiverQueries;
   let { id } = useParams();
   let userId: any | undefined = id;
   const [careInstOptions, setCareInstOptions] = useState<any>([]);

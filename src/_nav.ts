@@ -77,7 +77,7 @@ export default {
       name: languageTranslation("MENU_INVOICES"),
       icon: "icon-invoice",
       url: AppRoutes.ALLINVOICES,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "invoice"],
       children: [
         {
           name: languageTranslation("MENU_INVOICES"),

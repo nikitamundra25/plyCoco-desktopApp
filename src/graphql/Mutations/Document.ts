@@ -83,7 +83,7 @@ const UPDATE_CAREINST_DOC = gql`
   }
 `;
 const GET_DOCUMENTS_FROM_OUTLOOK = gql`
-  mutation GetDocumentFromOutlook($documentType: String) {
+  mutation GetUnreadMailAttachments($documentType: String) {
     getUnreadMailAttachments(documentType: $documentType) {
       id
       document

@@ -160,7 +160,8 @@ const WorkingProofForm: FunctionComponent<
     },
     any
   >(GET_DOCUMENTS_FROM_OUTLOOK);
-
+ 
+ 
   const handleUpload = async (file: any) => {
     try {
       if (file.length > 0) {

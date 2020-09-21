@@ -1780,5 +1780,6 @@
   "TO_EDIT": "To edit",
   "REQUIRED_ZIP": "Postal Code is required",
   "INVOICE":"Invoice",
-  "WORK_PROOF":"Work Proof"
+  "WORK_PROOF":"Work Proof",
+  "SELECT_DOCUMENT":"Please select document"
 }

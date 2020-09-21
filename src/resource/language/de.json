@@ -1765,5 +1765,7 @@
   "TO_EDIT": "To edit",
   "REQUIRED_ZIP": "Postleitzahl ist erforderlich",
   "INVOICE":"Invoice",
-  "WORK_PROOF":"Work Proof"
+  "WORK_PROOF":"Work Proof",
+  "SELECT_DOCUMENT":"Bitte Dokument auswählen"
+
 }

@@ -144,7 +144,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 
   // gernerate new password for caregiver
   const generateNewPassword = async (caregiverData: any): Promise<void> => {
-    console.log("selectUserselectUser", Id);
     const { value } = await ConfirmBox({
       title: languageTranslation("CONFIRM_LABEL"),
       text: languageTranslation("CONFIRM_REGENERATE_PASSWORD_MESSAGE", {

@@ -25,7 +25,7 @@ const Email: FunctionComponent<{
   selectedUserName: string;
   userRole: string;
 }) => {
-  let { id } = useParams();
+  let { id }:any = useParams();
   const { search, pathname } = useLocation();
   const query = qs.parse(search);
   const history = useHistory();

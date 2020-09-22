@@ -185,6 +185,8 @@ const BillingSettingsFormComponent: any = (
                 </Label>
               </Col>
               <Col xs={'12'} sm={'8'} md={'8'} lg={'8'}>
+                {console.log("leasingPricingList",leasingPricingList)
+                }
                 <div>
                   <Select
                     placeholder='Leasing Price List'

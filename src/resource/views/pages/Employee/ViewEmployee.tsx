@@ -26,7 +26,7 @@ let toastId: any = null;
 
 const ViewEmployee: FunctionComponent = () => {
   let history = useHistory();
-  let { id } = useParams();
+  let { id }:any = useParams();
   // To get the employee details by id
   const [getEmployeeDetails, { data, loading }] = useLazyQuery<any>(
     GET_EMPLOYEE_BY_ID

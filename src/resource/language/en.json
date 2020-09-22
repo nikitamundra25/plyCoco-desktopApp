@@ -1781,5 +1781,7 @@
   "REQUIRED_ZIP": "Postal Code is required",
   "INVOICE":"Invoice",
   "WORK_PROOF":"Work Proof",
-  "SELECT_DOCUMENT":"Please select document"
+  "SELECT_DOCUMENT":"Please select document",
+  "EMPLOYEE_LEASING_INVOICE":"Invoice Leasing",
+  "EMPLOYEE_SELF_EMPLOYEED_INVOICE":"Invoice Self Employeed"
 }

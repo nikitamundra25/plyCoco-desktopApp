@@ -1766,6 +1766,8 @@
   "REQUIRED_ZIP": "Postleitzahl ist erforderlich",
   "INVOICE":"Invoice",
   "WORK_PROOF":"Work Proof",
-  "SELECT_DOCUMENT":"Bitte Dokument auswählen"
+  "SELECT_DOCUMENT":"Bitte Dokument auswählen",
+  "EMPLOYEE_LEASING_INVOICE":"Invoice Leasing",
+  "EMPLOYEE_SELF_EMPLOYEED_INVOICE":"Invoice Self Employeed"
 
 }

@@ -78,16 +78,20 @@ const [VIEW_PROFILE] = ProfileQueries;
 let toastId: any = null;
 let timeInterval: any = null;
 
-const invoiceRoutes: string[] = [
+const invoiceLeasingRoutes: string[] = [
   AppRoutes.ALLINVOICES,
-  AppRoutes.INVOICE,
   AppRoutes.INVOICESOLONA,
-  AppRoutes.CREATEINVOICES,
   AppRoutes.LEASINGCREATEINVOICE,
   AppRoutes.PRINTINVOICES,
-  AppRoutes.PAYSLIPFORM,
-  AppRoutes.HEALTHINSURANCEFORM,
 ];
+
+const invoiceSelfEmployeedRoutes: string[] = [
+  AppRoutes.ALLINVOICES,
+  AppRoutes.INVOICE,
+  AppRoutes.CREATEINVOICES,
+  AppRoutes.PRINTINVOICES,
+];
+
 
 const DefaultLayout = (props: RouteComponentProps) => {
   let history = useHistory();
@@ -140,12 +144,22 @@ const DefaultLayout = (props: RouteComponentProps) => {
         history.push(AppRoutes.HOME);
       }
 
-      let pathIndex = invoiceRoutes.findIndex(
+      let pathIndex = invoiceLeasingRoutes.findIndex(
         (element: any) => pathname === element
       );
       
       if (pathIndex > -1) {
-        if (viewAdminProfile.accessLevel !== "invoice" && viewAdminProfile.accessLevel !== "superadmin" && viewAdminProfile.accessLevel !== "all" ) {
+        if (viewAdminProfile.accessLevel !== "invoiceLeasing" && viewAdminProfile.accessLevel !== "superadmin" && viewAdminProfile.accessLevel !== "all" ) {
+          history.push(AppRoutes.HOME);
+        }
+      }
+
+      let pathIndexSelfEmp = invoiceSelfEmployeedRoutes.findIndex(
+        (element: any) => pathname === element
+      );
+      
+      if (pathIndexSelfEmp > -1) {
+        if (viewAdminProfile.accessLevel !== "invoiceSelfEmployeed" && viewAdminProfile.accessLevel !== "superadmin" && viewAdminProfile.accessLevel !== "all" ) {
           history.push(AppRoutes.HOME);
         }
       }
@@ -204,13 +218,32 @@ const DefaultLayout = (props: RouteComponentProps) => {
     const navItems: any = {
       items: [],
     };
-    navigation.items.forEach((nav: any | string) => {
+    navigation.items.map((nav: any | string,i:number) => {
       if (nav) {
-        nav.authKey.map((data: string, index: number) => {
-          if (data === permissions) {
-            navItems.items.push(nav);
+        if(nav.name === "Invoices"){
+          let stemp = {
+            ...nav,
+            children : []
           }
-        });
+          navItems.items.push(stemp);
+          nav.children.map((child: any) => {
+            child.authKey.map((data: string) => {
+              if (data === permissions) {
+                const navIndex = navItems.items.findIndex((item:any) => item.name === 'Invoices');
+                if(navIndex > -1){
+                  navItems.items[navIndex].children.push(child);
+                }
+              }
+            });
+          });
+        }else{
+          nav.authKey.map((data: string, index: number) => {
+            if (data === permissions) {
+              navItems.items.push(nav);
+            }
+          });
+
+        }
       }
     });
     return navItems;

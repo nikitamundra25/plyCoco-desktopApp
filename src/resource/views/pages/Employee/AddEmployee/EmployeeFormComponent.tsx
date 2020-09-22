@@ -55,7 +55,7 @@ const EmployeeFormComponent: FunctionComponent<
     getStatesByCountry: any;
   }
 ) => {
-  let { id: employeeId } = useParams();
+  let { id: employeeId }:any = useParams();
 
   const {
     values: {
@@ -732,14 +732,31 @@ const EmployeeFormComponent: FunctionComponent<
                                         id="permission-3"
                                         name="accessLevel"
                                         label={languageTranslation(
-                                          "EMPLOYEE_INVOICE"
+                                          "EMPLOYEE_LEASING_INVOICE"
                                         )}
                                         checked={
-                                          accessLevel === "invoice"
+                                          accessLevel === "invoiceLeasing"
                                             ? true
                                             : false
                                         }
-                                        value={"invoice"}
+                                        value={"invoiceLeasing"}
+                                        onChange={handleChange}
+                                      />
+                                    </FormGroup>
+                                    <FormGroup check className="pl-0 mt-1">
+                                      <CustomInput
+                                        type="radio"
+                                        id="permission-3"
+                                        name="accessLevel"
+                                        label={languageTranslation(
+                                          "EMPLOYEE_SELF_EMPLOYEED_INVOICE"
+                                        )}
+                                        checked={
+                                          accessLevel === "invoiceSelfEmployeed"
+                                            ? true
+                                            : false
+                                        }
+                                        value={"invoiceSelfEmployeed"}
                                         onChange={handleChange}
                                       />
                                     </FormGroup>

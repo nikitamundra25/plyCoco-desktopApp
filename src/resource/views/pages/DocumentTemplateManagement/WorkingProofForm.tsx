@@ -344,7 +344,7 @@ const WorkingProofForm: FunctionComponent<
     if (documentSelectionId && documentSelectionId.id) {
       setshowModal(true);
     } else {
-      toast.success("Please select document");
+      toast.warn(languageTranslation("SELECT_DOCUMENT"));
     }
   };
 

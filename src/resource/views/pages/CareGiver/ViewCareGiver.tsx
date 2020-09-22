@@ -1,4 +1,4 @@
-  import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
+import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
 import {
   RouteComponentProps,
   useLocation,
@@ -7,21 +7,20 @@ import {
 } from "react-router";
 import Select from "react-select";
 import qs from "query-string";
-import { useQuery, useLazyQuery,useMutation } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/react-hooks";
 import {
   AppRoutes,
   deactivatedListColor,
   leasingListColor,
   selfEmployesListColor,
   CaregiverTIMyoCYAttrId,
+  client,
 } from "../../../../config";
 import { careGiverRoutes } from "./Sidebar/SidebarRoutes/CareGiverRoutes";
 import { IReactSelectInterface } from "../../../../interfaces";
 import Loader from "../../containers/Loader/Loader";
-import { CareGiverQueries } from "../../../../graphql/queries";
-import {
-  AdminProfileMutations,
-} from "../../../../graphql/Mutations";
+import { CareGiverQueries, ProfileQueries } from "../../../../graphql/queries";
+import { AdminProfileMutations } from "../../../../graphql/Mutations";
 import CustomOption from "../../components/CustomOptions";
 import { languageTranslation, errorFormatter } from "../../../../helpers";
 import add from "../../../assets/img/add.svg";
@@ -33,8 +32,8 @@ import CaregiverCustomAsyncList from "../../components/DropdownList/CareGiverCus
 import { ConfirmBox } from "../../components/ConfirmBox";
 import { toast } from "react-toastify";
 
-const CareGiverSidebar = React.lazy(() =>
-  import("./Sidebar/SidebarLayout/CareGiverLayout")
+const CareGiverSidebar = React.lazy(
+  () => import("./Sidebar/SidebarLayout/CareGiverLayout")
 );
 const PersonalInfo = React.lazy(() => import("./PersonalInfo"));
 const Offer = React.lazy(() => import("./Offers"));
@@ -43,23 +42,46 @@ const Invoices = React.lazy(() => import("./Invoices"));
 const ToDo = React.lazy(() => import("../../components/ToDosInnerList"));
 const Documents = React.lazy(() => import("./Documents"));
 const Email = React.lazy(() => import("./Emails"));
-const CreateTodo = React.lazy(() =>
-  import("../../components/CreateTodo/index")
+const CreateTodo = React.lazy(
+  () => import("../../components/CreateTodo/index")
 );
 const LeasingPersonalData = React.lazy(() => import("./LeasingData"));
 const GroupedBelow = React.lazy(() => import("./GroupedBelow"));
 
-const [, GET_CAREGIVER_BY_ID , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
+const [
+  ,
+  GET_CAREGIVER_BY_ID,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  GET_CAREGIVER_BY_NAME,
+] = CareGiverQueries;
 const [, , GENERATE_NEW_PASSWORD] = AdminProfileMutations;
+const [VIEW_PROFILE] = ProfileQueries;
 const CareGiverRoutesTabs = careGiverRoutes;
 let toastId: any = "";
 
 const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
 ) => {
-  let { id } = useParams();
+  let { id }: any = useParams();
   const Id: any | undefined = id;
   let history = useHistory();
+
+  // To access data of loggedIn user
+  let userData: any = "";
+  try {
+    userData = client.readQuery({
+      query: VIEW_PROFILE,
+    });
+  } catch (error) {}
+
+  const { viewAdminProfile }: any = userData ? userData : {};
+
+  const { accessLevel = "" } = viewAdminProfile ? viewAdminProfile : {};
 
   const [showToDo, setShowToDo] = useState<boolean>(false);
   // To fetch the list of all caregiver
@@ -70,7 +92,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   //   fetchPolicy: 'no-cache'
   // });
 
-  
   // generate new password for the user
   const [GenerateNewPassword] = useMutation<any, any>(GENERATE_NEW_PASSWORD);
 
@@ -84,10 +105,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
 
   const { data } = useQuery<any>(GET_CAREGIVER_BY_ID, {
     variables: {
-      id: Id ? parseInt(Id) : '',
+      id: Id ? parseInt(Id) : "",
     },
   });
-  
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: "",
@@ -122,40 +142,39 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     };
   }, []);
 
-    // gernerate new password for caregiver
-    const generateNewPassword = async (caregiverData: any): Promise<void> => {
-      console.log('selectUserselectUser',Id)
-      const { value } = await ConfirmBox({
-        title: languageTranslation("CONFIRM_LABEL"),
-        text: languageTranslation("CONFIRM_REGENERATE_PASSWORD_MESSAGE", {
-          userRole: languageTranslation("CAREGIVER_USERROLE"),
-          email: data.getCaregiver.email,
-        }),
+  // gernerate new password for caregiver
+  const generateNewPassword = async (caregiverData: any): Promise<void> => {
+    const { value } = await ConfirmBox({
+      title: languageTranslation("CONFIRM_LABEL"),
+      text: languageTranslation("CONFIRM_REGENERATE_PASSWORD_MESSAGE", {
+        userRole: languageTranslation("CAREGIVER_USERROLE"),
+        email: data.getCaregiver.email,
+      }),
+    });
+    if (!value) {
+      return;
+    }
+    if (toast.isActive(toastId)) {
+      toast.dismiss(toastId);
+    }
+    try {
+      await GenerateNewPassword({
+        variables: {
+          userId: Id,
+        },
       });
-      if (!value) {
-        return;
-      }
-      if (toast.isActive(toastId)) {
-        toast.dismiss(toastId);
-      }
-      try {
-        await GenerateNewPassword({
-          variables: {
-            userId: Id,
-          },
-        });
-  
-        toastId = toast.success(
-          languageTranslation("NEW_PASSWORD_SENT_SUCCESS", {
-            email: caregiverData.email,
-          })
-        );
-      } catch (error) {
-        const message = errorFormatter(error.message);
-        toastId = toast.error(message);
-      }
-    };
-    //
+
+      toastId = toast.success(
+        languageTranslation("NEW_PASSWORD_SENT_SUCCESS", {
+          email: caregiverData.email,
+        })
+      );
+    } catch (error) {
+      const message = errorFormatter(error.message);
+      toastId = toast.error(message);
+    }
+  };
+  //
 
   const handleScroll = () => {
     const scrollPositionY = window.scrollY;
@@ -205,14 +224,24 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
   // It's used to set active tab
   useEffect(() => {
     const query: any = qs.parse(search);
-    setactiveTab(
-      query.tab
-        ? careGiverRoutes.findIndex(
-            (d) => d.name === decodeURIComponent(query.tab)
-          )
-        : 0
-    );
-  }, [search]);
+    if (accessLevel === "basic" && query && query.tab === "invoices") {
+      setactiveTab(0);
+      props.history.push(
+        `${AppRoutes.CARE_GIVER_VIEW.replace(
+          ":id",
+          Id
+        )}?tab=${encodeURIComponent(careGiverRoutes[0].name)}`
+      );
+    } else {
+      setactiveTab(
+        query.tab
+          ? careGiverRoutes.findIndex(
+              (d) => d.name === decodeURIComponent(query.tab)
+            )
+          : 0
+      );
+    }
+  }, [search,accessLevel]);
 
   const [isnewDataUpdate, setisnewDataUpdate] = useState(false);
 
@@ -221,8 +250,8 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     const currenCareGiver = careGiverOpt.filter(
       (careGiver: any) => parseInt(careGiver.value) === parseInt(Id)
     )[0];
-    if(currenCareGiver && currenCareGiver.value !== ""){ 
-    setselectUser(currenCareGiver);
+    if (currenCareGiver && currenCareGiver.value !== "") {
+      setselectUser(currenCareGiver);
     }
   }, [careGiversList, pathname]);
 
@@ -334,12 +363,11 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                         {languageTranslation("CG_MENU_CREATE_TODO")}
                       </span>
                     </div>
-                    <div className="header-nav-item"
-                           id={`regenerate-password-${Id}`} 
-                           onClick={() =>
-                             generateNewPassword('123')
-                           }
-                      >
+                    <div
+                      className="header-nav-item"
+                      id={`regenerate-password-${Id}`}
+                      onClick={() => generateNewPassword("123")}
+                    >
                       <span className="header-nav-icon">
                         <img src={password} alt="" />
                       </span>
@@ -376,6 +404,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                     tabs={CareGiverRoutesTabs}
                     activeTab={activeTab}
                     onTabChange={onTabChange}
+                    accessLevel={accessLevel}
                   />
                 </div>
               </Suspense>
@@ -399,7 +428,13 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       selectedUserName={
                         selectUser && selectUser.label ? selectUser.label : ""
                       }
-                      userLastName={ data && data.getCaregiver && data.getCaregiver.salutation? data.getCaregiver.salutation : "Sehr geehrte Damen und Herren"}
+                      userLastName={
+                        data &&
+                        data.getCaregiver &&
+                        data.getCaregiver.salutation
+                          ? data.getCaregiver.salutation
+                          : "Sehr geehrte Damen und Herren"
+                      }
                       userRole={
                         careGiversList &&
                         careGiversList.getCaregiverByName &&

@@ -53,7 +53,7 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
     ? viewAdminProfile
     : {};
 
-  let { id: Id } = useParams();
+  let { id: Id }:any = useParams();
 
   const [subject, setSubject] = useState<string>("");
   const [body, setBody] = useState<any>("");

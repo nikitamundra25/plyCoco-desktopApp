@@ -7,7 +7,7 @@ const CareinstitutionTabs = (props: any) => {
       <Nav className='common-ul' tabs>
         {props.tabs
           ? props.tabs.map((tab: any, index: number) => {
-              return (
+              return props.accessLevel === "basic" && tab.name === "invoices" ? null :(
                 <NavItem key={index}>
                   <NavLink
                     // className={pathname === route.path ? "active" : null}

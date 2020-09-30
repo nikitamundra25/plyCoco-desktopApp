@@ -7,13 +7,29 @@ import { languageTranslation } from "../../../../../helpers";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import "../index.scss";
-import { defaultDateFormat, PAGE_LIMIT } from "../../../../../config";
+import { defaultDateFormat, ARCHIVE_PAGE_LIMIT } from "../../../../../config";
+import { useHistory, useLocation } from 'react-router-dom';
+import PaginationComponent from '../../../components/Pagination';
+import * as qs from 'query-string';
+import Loader from "../../../containers/Loader/Loader";
 
 const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
-  const { invoiceList, currentPage, handleCheckedChange } = mainProps
-  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  const { search, pathname } = useLocation();
+  const { invoiceList, currentPage,totalCount, handleCheckedChange, invoiceListLoading } = mainProps
+  let count = (currentPage - 1) * ARCHIVE_PAGE_LIMIT + 1;
+  let history = useHistory();
+  const onPageChanged = (currentPage: number) => {
+    const query = qs.parse(search);
+    const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
+      '?',
+    );
+    history.push(path);
+  };
+
+  console.log("Employeeeeeeeeeeeeeeeeee",totalCount);
+  
   return (
     <>
       <div className="table-minheight invoices-table">
@@ -89,7 +105,13 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
             </tr>
           </thead>
           <tbody>
-            {
+          {invoiceListLoading ? (
+              <tr>
+                <td className={'table-loader'} colSpan={22}>
+                  <Loader />
+                </td>
+              </tr>
+            ) :
               invoiceList && invoiceList.getInvoices && invoiceList.getInvoices.result && invoiceList.getInvoices.result.length ? invoiceList.getInvoices.result.map((invoiceData: any, index: number) => {
                 return (
                   <tr key={index}>
@@ -150,11 +172,31 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
                     </td>
                   </tr>
                 )
-              }) : null
+              }) : <tr className={'text-center no-hover-row'}>
+              <td colSpan={12} className={'pt-5 pb-5'}>
+                <div className='no-data-section'>
+                  <div className='no-data-icon'>
+                    <i className='icon-ban' />
+                  </div>
+                  <h4 className='mb-1'>
+                    {languageTranslation('NO_INVOICE_LIST')}{' '}
+                  </h4>
+                </div>
+              </td>
+            </tr>
             }
           </tbody>
         </Table>
       </div>
+      {totalCount ? (
+        <>
+        <PaginationComponent
+          totalRecords={totalCount}
+          currentPage={currentPage}
+          onPageChanged={onPageChanged}
+        />
+        </>
+      ) : null}
     </>
   );
 };

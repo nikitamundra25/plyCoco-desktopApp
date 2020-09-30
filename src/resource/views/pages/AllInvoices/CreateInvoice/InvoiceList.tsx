@@ -5,7 +5,7 @@ import { IInvoiceList } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import {
   AppRoutes,
-  PAGE_LIMIT,
+  ARCHIVE_PAGE_LIMIT,
   defaultDateFormat,
   dbAcceptableFormat,
   defaultDateTimeFormatForDashboard,
@@ -44,7 +44,7 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
     history.push(path);
   };
 
-  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  let count = (currentPage - 1) * ARCHIVE_PAGE_LIMIT + 1;
   return (
     <>
       <div className='table-minheight createinvoices-table'>

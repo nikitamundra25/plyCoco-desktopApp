@@ -86,19 +86,6 @@ export const EmailTemplateMenu: FunctionComponent<IEmailTemplateMenu> = (
                 {languageTranslation("VIEW_ARCHIVE")}
               </span>
             </div>
-
-            {/* <div className='header-nav-item' onClick={handleSubmit}>
-          <span className='header-nav-icon'>
-            {addEmailLoading || updateLoading ? (
-              <i className='fa fa-spinner fa-spin ' />
-            ) : (
-              <img src={save} alt='' />
-            )}
-          </span>
-          <span className='header-nav-text'>
-            {languageTranslation('SAVE_BUTTON')}
-          </span>
-        </div>  */}
             <Button
               onClick={handleSubmit}
               color={"primary"}

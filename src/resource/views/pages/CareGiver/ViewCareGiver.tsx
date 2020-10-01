@@ -5,7 +5,6 @@ import {
   useParams,
   useHistory,
 } from "react-router";
-import Select from "react-select";
 import qs from "query-string";
 import { useQuery, useLazyQuery, useMutation } from "@apollo/react-hooks";
 import {
@@ -21,7 +20,6 @@ import { IReactSelectInterface } from "../../../../interfaces";
 import Loader from "../../containers/Loader/Loader";
 import { CareGiverQueries, ProfileQueries } from "../../../../graphql/queries";
 import { AdminProfileMutations } from "../../../../graphql/Mutations";
-import CustomOption from "../../components/CustomOptions";
 import { languageTranslation, errorFormatter } from "../../../../helpers";
 import add from "../../../assets/img/add.svg";
 import reminder from "../../../assets/img/reminder.svg";
@@ -255,7 +253,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
     }
   }, [careGiversList, pathname]);
 
-  const [newContactAdded, setnewContactAdded] = useState(false);
 
   const onTabChange = (activeTab: number) => {
     props.history.push(
@@ -264,7 +261,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
       )}`
     );
   };
-  let [isUserChange, setisUserChange] = useState(false);
   const handleSelect = (e: any) => {
     if (e && e.value) {
       const data: IReactSelectInterface = {
@@ -285,13 +281,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
             qs.stringify({ ...query }),
           ].join("?")
         );
-        // props.history.push(
-        //   `${AppRoutes.CARE_GIVER_VIEW.replace(
-        //     ":id",
-        //     e.value
-        //   )}?tab=${encodeURIComponent(careGiverRoutes[activeTab].name)}`
-        // );
-        setisUserChange((isUserChange = true));
       }
     }
   };
@@ -314,21 +303,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                 <div className="sticky-common-header">
                   <div className="common-topheader d-flex align-items-center ">
                     <div className="user-select">
-                      {/* <Select
-                        classNamePrefix='custom-inner-reactselect'
-                        className={
-                          'custom-reactselect custom-reactselect-menu-width'
-                        }
-                        defaultValue={selectUser}
-                        placeholder='Select Caregiver'
-                        value={selectUser}
-                        onChange={(e: any) => handleSelect(e)}
-                        options={careGiverOpt}
-                        components={{ Option: CustomOption }}
-                        isOptionDisabled={option =>
-                          option.value === languageTranslation('ID')
-                        }
-                      /> */}
                       <CaregiverCustomAsyncList
                         placeholderLabel={languageTranslation(
                           "SELECT_CAREGIVER"
@@ -475,7 +449,6 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
         setisnewDataUpdate={() => setisnewDataUpdate(false)}
         Id={Id}
         newContactAdded={false}
-        setnewContactAdded={() => setnewContactAdded(false)}
       />
     </div>
   );

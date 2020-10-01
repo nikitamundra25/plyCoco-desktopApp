@@ -52,7 +52,7 @@ const [
   ,
   ,
   ,
-  GET_CAREINSTITUTION_ATTRIBUTES,
+  ,
   ,
   GET_CONTACT_TYPES,
   ,
@@ -70,9 +70,6 @@ const CareInstitutionContacts: any = (props: any) => {
     careInstitutionAttrOpt,
   } = props;
   const [activeContact, setActiveContact] = useState<number>(0);
-  const [selectedAttributes, setSelectedAttributes] = useState<
-    IReactSelectInterface[]
-  >([]);
   // Mutation to add custom contact type
   const [addContactType, { loading: addingtype }] = useMutation<{
     addContactType: ICareInstitutionFormValues;
@@ -129,9 +126,9 @@ const CareInstitutionContacts: any = (props: any) => {
   }, [ContactTypeData]);
 
   // To reset selected attribute on contact change
-  useEffect(() => {
-    setSelectedAttributes([]);
-  }, [activeContact]);
+  // useEffect(() => {
+  //   setSelectedAttributes([]);
+  // }, [activeContact]);
 
   const addContacts = (cache: any, data: any) => {
     let newContacts = contacts;
@@ -170,11 +167,11 @@ const CareInstitutionContacts: any = (props: any) => {
     addContact: ICareInstitutionFormValues;
   }>(ADD_NEW_CONTACT_CARE_INSTITUTION, { update: addContacts });
 
-  useEffect(() => {
-    if (contactDataA) {
-      props.neContactAdded();
-    }
-  }, [contactDataA]);
+  // useEffect(() => {
+  //   if (contactDataA) {
+  //     props.neContactAdded();
+  //   }
+  // }, [contactDataA]);
 
   // Mutation to update new contact
   const [updateContact] = useMutation<{
@@ -199,7 +196,6 @@ const CareInstitutionContacts: any = (props: any) => {
         const { getContactAttribute }: any = cache.readQuery({
           query: GET_CONTACT_ATTRIBUTES,
         });
-        console.log('datadata',data)
         // Update cache with new value
         cache.writeQuery({
           query: GET_CONTACT_ATTRIBUTES,
@@ -285,7 +281,6 @@ const CareInstitutionContacts: any = (props: any) => {
         attributes: AttributeData,
       };
 
-      console.log('contactInput',contactInput)
       if (id) {
         await updateContact({
           variables: {
@@ -381,19 +376,19 @@ const CareInstitutionContacts: any = (props: any) => {
       };
     }
   }
-  useEffect(() => {
-    let attributesData: IReactSelectInterface[] = [];
-    if (attributes && attributes.length) {
-      attributes.map((attData: any) => {
-        attributesData.push({
-          label: attData.name,
-          value: attData.id,
-          color: attData.color,
-        });
-      });
-      setSelectedAttributes(attributesData);
-    }
-  }, [contacts[activeContact]]);
+  // useEffect(() => {
+  //   let attributesData: IReactSelectInterface[] = [];
+  //   if (attributes && attributes.length) {
+  //     attributes.map((attData: any) => {
+  //       attributesData.push({
+  //         label: attData.name,
+  //         value: attData.id,
+  //         color: attData.color,
+  //       });
+  //     });
+  //     setSelectedAttributes(attributesData);
+  //   }
+  // }, [contacts[activeContact]]);
 
   // To set active contact
   useEffect(() => {

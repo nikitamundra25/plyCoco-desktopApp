@@ -1784,5 +1784,8 @@
   "SELECT_DOCUMENT":"Please select document",
   "EMPLOYEE_LEASING_INVOICE":"Invoice Leasing",
   "EMPLOYEE_SELF_EMPLOYEED_INVOICE":"Invoice Self Employeed",
-  "NO_INVOICE_LIST":"No invoice has been created yet"
+  "NO_INVOICE_LIST":"No invoice has been created yet",
+  "EMPLOYEE_EMAIL":"Employee added successfully but due to some network issue email couldn't be sent out",
+  "SELECT_ATTRIBUTE_OR_TYPE_NEW":"Please select Attribute or type to add new",
+  "CAREGIVER_EMAIL_TEXT":"Caregiver added successfully but due to some network issue email couldn't be sent out"
 }

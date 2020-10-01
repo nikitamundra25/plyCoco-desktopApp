@@ -4,7 +4,6 @@ import React, {
   ChangeEvent,
   useEffect
 } from 'react';
-import { useParams } from 'react-router';
 import { Col, FormGroup, Label, Row, Input } from 'reactstrap';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
@@ -19,7 +18,7 @@ import { ApolloError } from 'apollo-client';
 import { AcceptedFileFormat } from '../../../../../config';
 
 const [, GET_DOCUMENTS] = DocumentQueries;
-const [ADD_DOCUMENT, , UPDATE_DOCUMENT, DELETE_DOCUMENT] = DocumentMutations;
+const [ADD_DOCUMENT, , , DELETE_DOCUMENT] = DocumentMutations;
 
 let toastId: any = null;
 
@@ -31,7 +30,7 @@ export const DocumentFormComponent: FunctionComponent<{
     undefined
   );
   // Query to fetch documents
-  const { data, loading, refetch, called } = useQuery<any>(GET_DOCUMENTS, {
+  const { data } = useQuery<any>(GET_DOCUMENTS, {
     variables: {
       userId: id ? parseInt(id) : '',
       userRole: languageTranslation('EMPLOYEE_USERROLE')
@@ -222,10 +221,6 @@ export const DocumentFormComponent: FunctionComponent<{
             <div className='required-error'>{filetypeError}</div>
           </FormGroup>
         </div>
-        {/* <FormGroup className={`col-sm-6`}>
-        <Label className="simple-label mb-2">Documents</Label>
-        <input type="file" multiple onChange={handleImageChange} />
-      </FormGroup> */}
         <div className='employee-document-list custom-scrollbar'>
           {attachment && attachment.length ? (
             <AttachmentList

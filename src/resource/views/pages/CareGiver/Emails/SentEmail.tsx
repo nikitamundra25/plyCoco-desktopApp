@@ -84,11 +84,6 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                     <i className='fa fa-refresh mr-1'></i>
                     <span> {languageTranslation('REFRESH')}</span>
                   </div>
-                  {/* <span className="email-attributes-seprator">|</span>
-                  <div className="email-attributes-content">
-                    <i className="fa fa-hourglass-end mr-1"></i>
-                    <span> {languageTranslation("EXPIRED")}</span>
-                  </div> */}
                 </div>
                 <div className='email-row-wrap email-heading-wrap '>
                   <div className='email-date-time-block'>
@@ -124,20 +119,7 @@ const SentEmail: FunctionComponent<IEmailListProps> = ({
                           }`}
                           key={index}
                         >
-                          {/* <div
-                          className={`email-date-block ${
-                            opened ? 'opened' : 'closed'
-                          }`}
-                          onClick={toggle}
-                        >
-                          {' '}
-                          {languageTranslation('DATE')}: january 2020
-                        </div> */}
-                          {/* <Collapse
-                          isOpen={isOpen}
-                          onEntered={onEntered}
-                          onExiting={onEntered}
-                        > */}
+                         
                           <div
                             className='email-row-wrap inner-content-wrap'
                             onClick={() => onEmailSelection(email)}

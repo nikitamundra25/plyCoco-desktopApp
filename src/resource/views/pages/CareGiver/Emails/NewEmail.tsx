@@ -28,7 +28,6 @@ import { AttachmentList } from "../../../components/Attachments";
 import { ConfirmBox } from "../../../components/ConfirmBox";
 import { errorFormatter } from "../../../../../helpers/ErrorFormatter";
 import { client, AppConfig } from "../../../../../config";
-import logo from "../../../../assets/img/plycoco-orange.png";
 
 const [, , , , GET_CONTACT_LIST_BY_ID] = CareInstitutionQueries;
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
@@ -39,7 +38,6 @@ let toastId: any = null;
 
 const NewEmail: FunctionComponent<INewEmailProps> = ({
   emailData,
-  selectedUserName,
   userRole,
   userLastName
 }: INewEmailProps) => {
@@ -280,7 +278,6 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
   };
 
   const onEditorStateChange = (editorState: any): void => {
-    logger(editorState, "editorState");
     setBody(editorState);
   };
 
@@ -306,20 +303,13 @@ const NewEmail: FunctionComponent<INewEmailProps> = ({
 
   return (
     <div className="email-section">
-      {/* <EmailMenus {...this.props} /> */}
       <div className="email-content">
         <Form className="form-section">
           <Row>
             <Col lg={"12"}>
               <div className="email-inbox-section">
                 <div className="email-row-wrap align-items-md-center email-attributes-wrap flex-column flex-md-row">
-                  {/* <div
-                    className="email-attributes-content d-flex align-items-center"
-                    onClick={onNewEmail}
-                  >
-                    <i className="fa fa-envelope mr-1" aria-hidden="true"></i>
-                    <span> {languageTranslation("NEW_EMAIL")}</span>
-                  </div> */}
+                  
                   <div
                     className="email-attributes-content btn-primary new-email-btn mr-md-2"
                     onClick={onNewEmail}

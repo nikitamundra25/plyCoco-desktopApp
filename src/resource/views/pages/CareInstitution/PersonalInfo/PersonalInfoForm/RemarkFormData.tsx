@@ -80,12 +80,7 @@ const RemarkFormData: FunctionComponent<FormikProps<
 
   const {
     values: { remarkValue, remarkData },
-    touched,
-    errors,
-    isSubmitting,
     handleChange,
-    handleBlur,
-    handleSubmit,
     setFieldValue,
     setRemarksDetail,
     remarksDetail

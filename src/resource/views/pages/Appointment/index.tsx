@@ -207,7 +207,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // For filtering appointments in navbar
   const [filterByAppointments, setfilterByAppointments] = useState<
     IReactSelectInterface | undefined
-  >(undefined);
+  >({value: "showWithAppointments", label: languageTranslation('SHOW_APPOINTMENT')});
 
   // const [caregiverAttributeOptions, setCaregiverAttributeOptions] = useState<
   //   IAttributeOptions[] | undefined

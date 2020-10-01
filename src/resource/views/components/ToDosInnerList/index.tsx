@@ -37,7 +37,7 @@ const ToDoList: FunctionComponent<RouteComponentProps> & any = (
   const { userRole } = mainProps;
   const userType =
     userRole === "careinstitution" ? "canstitution" : "caregiver";
-  let { id } = useParams();
+  let { id }:any = useParams();
   const userId: string | undefined = id;
 
   let history = useHistory();

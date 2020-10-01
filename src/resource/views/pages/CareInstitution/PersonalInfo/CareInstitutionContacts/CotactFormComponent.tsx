@@ -107,7 +107,6 @@ const CotactFormComponent: any = (
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : "" }, // default code is for germany
       });
-      logger(statesData, "sdsdsdsd");
     } else {
       setFieldValue(name, selectOption);
     }
@@ -134,7 +133,6 @@ const CotactFormComponent: any = (
       contactType,
       faxNumber,
       id,
-      createdAt,
       attributeId,
     },
     touched,
@@ -146,11 +144,9 @@ const CotactFormComponent: any = (
     setFieldValue,
     careInstitutionAttrOpt,
     contacttypeOpt,
-    setFieldTouched,
     addingtype,
     userSelectedCountry,
   } = props;
-  console.log('contactAttribute',attributeId)
 
   useEffect(() => {
     if (contacttypeOpt && contacttypeOpt.length) {
@@ -967,14 +963,14 @@ const CotactFormComponent: any = (
                       <FormGroup className="mb-0">
                         <Select
                           placeholder={
-                            "Please select Attribute or type to add new"
+                            languageTranslation("SELECT_ATTRIBUTE_OR_TYPE_NEW")
                           }
                           options={careInstitutionAttrOpt}
                           value={
                             contactAttribute
                               ? {
                                   label:
-                                    "Please select Attribute or type to add new",
+                                    languageTranslation("SELECT_ATTRIBUTE_OR_TYPE_NEW"),
                                   value: "",
                                 }
                               : undefined

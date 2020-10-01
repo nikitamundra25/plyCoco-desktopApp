@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useCallback, useState } from 'react';
+import React, { FunctionComponent,  useState } from 'react';
 import { Col } from 'reactstrap';
 import { useDropzone } from 'react-dropzone';
-import { formatFileSize, languageTranslation } from '../../../../../helpers';
-import { toast } from 'react-toastify';
+import { languageTranslation } from '../../../../../helpers';
 export const AttachmentFormComponent: FunctionComponent<any> = ({
   uploadDocument,
   newEmailPortion,

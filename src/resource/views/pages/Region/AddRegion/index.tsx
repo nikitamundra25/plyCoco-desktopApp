@@ -17,14 +17,10 @@ export const AddRegion: FunctionComponent<{
   toggle: () => void;
   refetch: any;
 }> = (props: { toggle: () => void; refetch: any }) => {
-  // get id from params
-  let { id } = useParams();
   let history = useHistory();
-  const [regionData, setRegionData] = useState<IRegionFormValue | null>();
-  logger(id, 'id');
 
   // To add emplyee details into db
-  const [addRegion, { error, data }] = useMutation<
+  const [addRegion] = useMutation<
     { addRegion: IRegionInput },
     { regionInput: IRegionInput }
   >(ADD_REGION);
@@ -35,7 +31,6 @@ export const AddRegion: FunctionComponent<{
       setSubmitting,
       setFieldValue,
       setFieldTouched,
-      resetForm,
     }: FormikHelpers<IRegionFormValue>,
   ) => {
     const { regionName } = values;

@@ -16,13 +16,7 @@ const PaySlip: FunctionComponent<any> = (props: any) => {
     loading
   } = props
 
-  console.log('payslipDetailspayslipDetails', payslipDetails ? payslipDetails.getAllPayslipCaregiver  : null)
   
-  console.log('payslipDetailspayslipDetails', payslipDetails ? payslipDetails.getAllPayslipCaregiver.length  : null)
-  
-  console.log('payslipDetailspayslipDetails', payslipDetails ? payslipDetails.getAllPayslipCaregiver  : null)
-  console.log('loading',loading)
-
   return (
     <>
       <div className="payslip-section">
@@ -37,21 +31,7 @@ const PaySlip: FunctionComponent<any> = (props: any) => {
               menuPlacement={"auto"}
             />
           </div>
-          {/* <div className="custom-switch-block mb-2 mr-3 ">
-            <CustomInput
-              type="switch"
-              id="exampleCustomSwitch"
-              name="customSwitch"
-              label={languageTranslation("PAY_SLIP_TIMYOCE")}
-              className="custom-switch"
-            />
-          </div>
-          <div className="custom-menu mb-2 ">
-            <span className="custom-menu-icon">
-              <img src={rich} alt="" />
-            </span>
-            <span className="custom-menu-text">{languageTranslation("CHARGE_NOW")} </span>
-          </div> */}
+          
         </div>
 
         <Table responsive className="payslip-table">
@@ -98,9 +78,6 @@ const PaySlip: FunctionComponent<any> = (props: any) => {
                         element.payslips &&
                         element.payslips.length ? 
                         element.payslips.map((d: any, index: number) => {
-                            console.log('element',element)
-                            console.log('element',element.year)
-                            console.log('element',element.payslips)
                             return(<tr>
                         <td className="sno-col">{index}</td>
                         <td className="date-col">

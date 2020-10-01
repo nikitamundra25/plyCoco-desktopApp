@@ -30,7 +30,6 @@ import {
   IDocumentInputInterface,
   IReactSelectInterface,
   IQualifications,
-  IAppointmentInput,
 } from "../../../../interfaces";
 import displaydoc from "../../../assets/img/display-doc.svg";
 import upload from "../../../assets/img/upload.svg";
@@ -88,7 +87,6 @@ const WorkingProofForm: FunctionComponent<
     setRowIndex,
     documentType,
     setdocumentType,
-    careGiversOptions,
   } = props;
 
   const handleSelect = (value: any) => {
@@ -463,21 +461,6 @@ const WorkingProofForm: FunctionComponent<
                         <h5 className="content-title">
                           {languageTranslation("MENU_DOCUMENT_UPLOADS")}
                         </h5>
-                        {/* <div className="user-select">
-                          <Select
-                            placeholder="Select Type"
-                            options={DocumentTempSelect}
-                            value={documentType}
-                            onChange={(value: any) => {
-                              handleSelect(value);
-                              setRowIndex(-1);
-                              setImageUrl("");
-                              setDocumentUrl("");
-                            }}
-                            classNamePrefix="custom-inner-reactselect"
-                            className={"custom-reactselect"}
-                          />
-                        </div> */}
                       </div>
 
                       <div className="working-height">
@@ -699,7 +682,6 @@ const WorkingProofForm: FunctionComponent<
                   </Col>
                   <Col lg={"4"}>
                     <PerformedWork
-                      careGiversOptions={careGiversOptions}
                       handleChange={handleChange}
                       appointmentList={
                         appointmentData && appointmentData.length

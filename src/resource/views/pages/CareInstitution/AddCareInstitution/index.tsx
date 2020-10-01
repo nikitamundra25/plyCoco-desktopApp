@@ -76,13 +76,12 @@ export const CareInstitutionForm: FunctionComponent<FormikProps<
     );
   }
 
-  const [newContactAdded, setnewContactAdded] = useState(false);
 
   const [updateCareInstitution, { error, data }] = useMutation<{
     updateCareInstitution: ICareInstitutionFormValues;
   }>(UPDATE_CARE_INSTITUTION);
 
-  let { id } = useParams();
+  let { id }:any = useParams();
   const Id: any | undefined = id;
 
   // To fecth qualification attributes list
@@ -227,7 +226,6 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
 
         remarksViewable: values.remarksViewable
       };
-      console.log('dataSubmit',dataSubmit)
 
       await updateCareInstitution({
         variables: {
@@ -343,7 +341,7 @@ let temp =  values.shortName ? values.shortName.trim() : values.companyName ? va
                     setContacts={(contacts: any) => {
                       setContacts((contacts = contacts));
                     }}
-                    neContactAdded={() => setnewContactAdded(false)}
+                    // neContactAdded={() => setnewContactAdded(false)}
                     {...props}
                   />
                 </div>

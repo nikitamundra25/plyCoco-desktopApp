@@ -11,7 +11,7 @@ import { useHistory, useLocation } from 'react-router';
 import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
-import { languageTranslation, logger } from '../../../../helpers';
+import { languageTranslation } from '../../../../helpers';
 import { RegionQueries } from '../../../../graphql/queries/Region';
 import { ISearchValues } from '../../../../interfaces';
 import { useLazyQuery } from '@apollo/react-hooks';
@@ -57,8 +57,6 @@ export const Region: FunctionComponent = () => {
     let sortByValue: any = Object.keys(sortFilter).find(
       (key: any) => sortFilter[key] === query.sortBy,
     );
-    logger(sortByValue);
-    logger(typeof sortByValue);
     if (sortByValue === '3') {
       sortBy.label = 'A-Z';
     }
@@ -110,7 +108,7 @@ export const Region: FunctionComponent = () => {
   }, [search]); // It will run when the search value gets changed
 
   const handleSubmit = async (
-    { searchValue, isActive, sortBy }: ISearchValues,
+    { searchValue,  sortBy }: ISearchValues,
     { setSubmitting }: FormikHelpers<ISearchValues>,
   ) => {
     let params: {
@@ -125,11 +123,9 @@ export const Region: FunctionComponent = () => {
     }
     const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
-    logger('path', path);
   };
 
   const onPageChanged = (currentPage: number) => {
-    logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       '?',

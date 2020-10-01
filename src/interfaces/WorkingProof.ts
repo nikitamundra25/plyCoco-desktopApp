@@ -32,7 +32,6 @@ export interface IDocumentPreviewInterface {
 }
 
 export interface IDocumentPerformedWorkInterface{
-  careGiversOptions: IReactSelectInterface[] | undefined
   handleChange: (value:any, name:string) => void
   appointmentList: any
   caregiverDataLoading: boolean

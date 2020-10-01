@@ -196,43 +196,43 @@ const CareGiver: FunctionComponent = () => {
     }
   };
 
-  const onStatusUpdate = async (id: string, status: boolean) => {
-    const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
-      text: languageTranslation(
-        status
-          ? "CONFIRM_CAREGIVER_STATUS_ACTIVATE_MSG"
-          : "CONFIRM_CAREGIVER_STATUS_DISABLED_MSG"
-      ),
-    });
-    if (!value) {
-      return;
-    } else {
-      try {
-        toast.dismiss();
-        await updateEmployeeStatus({
-          variables: {
-            id,
-            isActive: status,
-          },
-        });
-        refetch();
-        if (!toast.isActive(toastId)) {
-          toastId = toast.success(
-            languageTranslation("CAREGIVER_STATUS_UPDATE_MSG")
-          );
-        }
-      } catch (error) {
-        const message = error.message
-          .replace("SequelizeValidationError: ", "")
-          .replace("Validation error: ", "")
-          .replace("GraphQL error: ", "");
-        if (!toast.isActive(toastId)) {
-          toastId = toast.error(message);
-        }
-      }
-    }
-  };
+  // const onStatusUpdate = async (id: string, status: boolean) => {
+  //   const { value } = await ConfirmBox({
+  //     title: languageTranslation("CONFIRM_LABEL"),
+  //     text: languageTranslation(
+  //       status
+  //         ? "CONFIRM_CAREGIVER_STATUS_ACTIVATE_MSG"
+  //         : "CONFIRM_CAREGIVER_STATUS_DISABLED_MSG"
+  //     ),
+  //   });
+  //   if (!value) {
+  //     return;
+  //   } else {
+  //     try {
+  //       toast.dismiss();
+  //       await updateEmployeeStatus({
+  //         variables: {
+  //           id,
+  //           isActive: status,
+  //         },
+  //       });
+  //       refetch();
+  //       if (!toast.isActive(toastId)) {
+  //         toastId = toast.success(
+  //           languageTranslation("CAREGIVER_STATUS_UPDATE_MSG")
+  //         );
+  //       }
+  //     } catch (error) {
+  //       const message = error.message
+  //         .replace("SequelizeValidationError: ", "")
+  //         .replace("Validation error: ", "")
+  //         .replace("GraphQL error: ", "");
+  //       if (!toast.isActive(toastId)) {
+  //         toastId = toast.error(message);
+  //       }
+  //     }
+  //   }
+  // };
 
   const readMoreQualificationData = (index: number) => {
     if (index !== readMoreIndex) {

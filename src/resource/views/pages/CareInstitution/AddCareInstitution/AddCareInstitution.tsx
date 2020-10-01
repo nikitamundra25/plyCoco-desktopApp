@@ -69,14 +69,12 @@ const AddCareInstitution: FunctionComponent<
   }
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, "value");
     setFieldValue(name, selectOption);
     if (name === "country") {
       setFieldValue("state", undefined);
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : "" }, // default code is for germany
       });
-      logger(statesData, "sdsdsdsd");
     }
   };
   // Region Data

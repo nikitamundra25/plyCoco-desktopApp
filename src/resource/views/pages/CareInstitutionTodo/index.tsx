@@ -1,5 +1,4 @@
 import React, {
-  Component,
   FunctionComponent,
   useEffect,
   useState,
@@ -7,17 +6,13 @@ import React, {
 import {
   Col,
   Row,
-  FormGroup,
-  Input,
   Table,
-  Label,
   UncontrolledTooltip,
 } from 'reactstrap';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { languageTranslation } from '../../../../helpers';
 import {
   defaultDateFormat,
-  PAGE_LIMIT,
   AppRoutes,
   TODO_PAGE_LIMIT,
   TodoDateFilter,
@@ -36,7 +31,6 @@ import { ToDoMutations } from '../../../../graphql/Mutations';
 import PaginationComponent from '../../components/Pagination';
 import * as qs from 'query-string';
 import {
-  ISearchValues,
   ISearchToDoValues,
   IReactSelectInterface,
 } from '../../../../interfaces';
@@ -53,7 +47,7 @@ const [
 let toastId: any = null;
 
 const CareInstitutionTodo: FunctionComponent = () => {
-  let { id } = useParams();
+  let { id }:any = useParams();
   let history = useHistory();
   const { pathname, search } = useLocation();
 

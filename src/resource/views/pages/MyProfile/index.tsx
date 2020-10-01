@@ -55,7 +55,7 @@ const MyProfile: FunctionComponent = () => {
     }
   });
   // Change password
-  const [changePassword, { loading: changePwdLoading, error }] = useMutation<
+  const [changePassword, { loading: changePwdLoading }] = useMutation<
     {
       changePassword: any;
     },

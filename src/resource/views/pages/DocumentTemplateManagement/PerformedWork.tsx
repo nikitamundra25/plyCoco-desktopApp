@@ -5,17 +5,11 @@ import {
   Input,
   Col,
   Row,
-  Form,
   Table,
-  UncontrolledTooltip,
 } from "reactstrap";
 import { languageTranslation } from "../../../../helpers";
 import { IDocumentPerformedWorkInterface } from "../../../../interfaces";
-import visit from "../../../assets/img/visit.svg";
-import Select from "react-select";
-
 import "./index.scss";
-import CustomOption from "../../components/CustomOptions";
 import Loader from "../../containers/Loader/Loader";
 import moment from "moment";
 import { defaultDateFormat } from "../../../../config";
@@ -25,7 +19,6 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
   props: IDocumentPerformedWorkInterface
 ) => {
   const {
-    careGiversOptions,
     handleChange,
     appointmentList,
     caregiverDataLoading,
@@ -85,16 +78,6 @@ const PerformedWork: FunctionComponent<IDocumentPerformedWorkInterface> = (
                   </Col>
                   <Col sm="8">
                     <div>
-                      {/* <Select
-                        placeholder={languageTranslation("SELECT_CAREGIVER")}
-                        options={careGiversOptions}
-                        classNamePrefix="custom-inner-reactselect"
-                        className={"custom-reactselect"}
-                        components={{ Option: CustomOption }}
-                        onChange={(value: any) =>
-                          handleChange(value, "caregiver")
-                        }
-                      /> */}
                       <CaregiverCustomAsyncList
                         placeholderLabel={languageTranslation(
                           "SELECT_CAREGIVER"

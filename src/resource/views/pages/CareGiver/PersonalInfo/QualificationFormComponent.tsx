@@ -30,7 +30,6 @@ const QualificationFormComponent: FunctionComponent<
   const { qualifications } = values;
   const handleQualification = (value: any) => {
     setselectedQualification((selectedQualification = value));
-    let qualificationValue: any = initialValues.qualifications;
     props.setFieldValue("qualifications", value);
   };
 

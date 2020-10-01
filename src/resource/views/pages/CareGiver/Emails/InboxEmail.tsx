@@ -27,7 +27,7 @@ const InboxEmail: FunctionComponent<IEmailListProps & {
 }: IEmailListProps & {
   onTabChange: (activeTab: number, data?: any) => void;
 }) => {
-  let { id } = useParams();
+  let { id }:any = useParams();
   const { search } = useLocation();
   const query = qs.parse(search);
   const [isOpen, setIsOpen] = useState<boolean>(true);

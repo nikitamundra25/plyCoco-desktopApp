@@ -5,7 +5,7 @@ import { IInvoiceList } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import {
   AppRoutes,
-  PAGE_LIMIT,
+  ARCHIVE_PAGE_LIMIT,
   defaultDateFormat,
 } from '../../../../../config';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -49,7 +49,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
     history.push(path);
   };
 
-  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  let count = (currentPage - 1) * ARCHIVE_PAGE_LIMIT + 1;
   // let qualiFilter: any;
   // qualiFilter = invoiceList.filter((item: any) => {
   //   return item &&
@@ -61,7 +61,6 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
   //     : null;
   // });
   // console.log('qualiFilter', qualiFilter);
-  console.log('invoiceList', invoiceList);
   return (
     <>
       <div className='table-minheight createinvoices-table'>

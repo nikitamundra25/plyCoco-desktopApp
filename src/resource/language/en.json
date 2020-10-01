@@ -1783,5 +1783,6 @@
   "WORK_PROOF":"Work Proof",
   "SELECT_DOCUMENT":"Please select document",
   "EMPLOYEE_LEASING_INVOICE":"Invoice Leasing",
-  "EMPLOYEE_SELF_EMPLOYEED_INVOICE":"Invoice Self Employeed"
+  "EMPLOYEE_SELF_EMPLOYEED_INVOICE":"Invoice Self Employeed",
+  "NO_INVOICE_LIST":"No invoice has been created yet"
 }

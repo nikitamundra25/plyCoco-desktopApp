@@ -18,17 +18,33 @@ import {
   StatusOptions,
   SortOptions,
   defaultDateFormat,
-  PAGE_LIMIT,
+  ARCHIVE_PAGE_LIMIT,
 } from "../../../../../config";
 import ".././index.scss";
 import moment from "moment";
+import { useHistory, useLocation } from "react-router-dom";
+import * as qs from "query-string";
+import Loader from "../../../containers/Loader/Loader";
+import PaginationComponent from "../../../components/Pagination";
 
 const SolonaList: FunctionComponent<RouteComponentProps> & any = (
   props: any
 ) => {
-  const { invoiceList, currentPage, handleCheckedChange } = props;
+  const { search, pathname } = useLocation();
+  let history = useHistory();
+
+  const { invoiceList, totalCount,
+    currentPage, handleCheckedChange,invoiceListLoading } = props;
   console.log("invoiceList in form", invoiceList);
-  let count = (currentPage - 1) * PAGE_LIMIT + 1;
+  const onPageChanged = (currentPage: number) => {
+    const query = qs.parse(search);
+    const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
+      "?"
+    );
+    history.push(path);
+  };
+ 
+  let count = (currentPage - 1) * ARCHIVE_PAGE_LIMIT + 1;
   return (
     <CardBody>
       <div className="filter-form form-section mb-2">
@@ -148,7 +164,13 @@ const SolonaList: FunctionComponent<RouteComponentProps> & any = (
                 </th>
               </tr>
             </thead>
-            {invoiceList && invoiceList.length
+            {invoiceListLoading ? (
+              <tr>
+                <td className={'table-loader'} colSpan={22}>
+                  <Loader />
+                </td>
+              </tr>
+            ) : invoiceList && invoiceList.length
               ? invoiceList.map((item: any, index: any) => {
                   return (
                     <tbody>
@@ -243,9 +265,28 @@ const SolonaList: FunctionComponent<RouteComponentProps> & any = (
                     </tbody>
                   );
                 })
-              : null}
+              :  <tr className={"text-center no-hover-row"}>
+              <td colSpan={12} className={"pt-5 pb-5"}>
+                <div className="no-data-section">
+                  <div className="no-data-icon">
+                    <i className="icon-ban" />
+                  </div>
+                  <h4 className="mb-1">
+                    {languageTranslation("NO_INVOICE_LIST")}{" "}
+                  </h4>
+                </div>
+              </td>
+            </tr>}
           </Table>
         </div>
+        {totalCount ? (
+        <PaginationComponent
+          totalRecords={totalCount}
+          currentPage={currentPage}
+          onPageChanged={onPageChanged}
+          pageLimit={ARCHIVE_PAGE_LIMIT}
+        />
+      ) : null}
         <Form className="form-section total-form-section bg-white">
           <div className="d-flex flex-wrap total-form-block">
             <Col xs={"12"} sm={"6"} md={"6"} lg={"6"}>

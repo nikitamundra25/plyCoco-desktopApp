@@ -1,17 +1,17 @@
 import React, { useState, FunctionComponent, useEffect } from "react";
 import { Card, Nav } from "reactstrap";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps ,useLocation} from "react-router";
 import ".././index.scss";
 import SolonaList from "./SolonaList";
 import { InvoiceQueries } from "../../../../../graphql/queries";
-import { PAGE_LIMIT, AppConfig } from "../../../../../config";
+import { ARCHIVE_PAGE_LIMIT, AppConfig } from "../../../../../config";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import SolonaNavBar from "./SolonaNavBar";
 import SendInvoiceModal from "../SelfEmpInvoiceList/SendInvoiceModal";
 import { InvoiceMutations } from "../../../../../graphql/Mutations";
 import { toast } from "react-toastify";
 import { languageTranslation, errorFormatter } from "../../../../../helpers";
-
+import * as qs from 'query-string';
 const [, GET_ALL_INVOICE_LIST] = InvoiceQueries;
 const [, , SEND_INVOICE_DATA] = InvoiceMutations;
 let toastId: any = null;
@@ -19,6 +19,9 @@ let toastId: any = null;
 const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
+  const { search } = useLocation();
+  const query = qs.parse(search);
+  
   // To fetch All invoice list
   const [
     fetchAllInvoiceList,
@@ -60,7 +63,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
         status: "",
         invoiceType: "leasing",
         sortBy: null,
-        limit: PAGE_LIMIT,
+        limit: ARCHIVE_PAGE_LIMIT,
         page: 1,
       },
     });
@@ -78,6 +81,14 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
   const tabChangehandler = (currentTab: any) => {
     setTabChange(currentTab);
   };
+
+  useEffect(() => {
+    if (query) {
+      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+    }
+    // call query
+    getAllInvoiceListData();
+  }, [search]); // It will run when the search value gets changed
 
   const handleCheckedChange = (e: any, invoiceData: any) => {
     const { checked } = e.target;
@@ -196,6 +207,13 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                 handleCheckedChange(e, list)
               }
               currentPage={currentPage}
+              invoiceListLoading={invoiceListLoading}
+              totalCount={
+                invoiceList &&
+                invoiceList.getInvoices 
+                  ? invoiceList.getInvoices.totalCount
+                  : 0
+              }
               invoiceList={
                 invoiceList &&
                 invoiceList.getInvoices &&

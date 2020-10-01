@@ -20,7 +20,7 @@ import {
   leasingListColor,
   CareInstPlycocoAttrId,
   selfEmployesListColor,
-  PAGE_LIMIT,
+  ARCHIVE_PAGE_LIMIT,
   CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
 } from '../../../../../config';
@@ -220,7 +220,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             : null,
         startDate: gte ? gte : null,
         endDate: lte ? lte : null,
-        limit: PAGE_LIMIT,
+        limit: ARCHIVE_PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
         // attributeId: CaregiverTIMyoCYAttrId,
         isLeasing: true,

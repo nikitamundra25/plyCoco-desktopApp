@@ -171,7 +171,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   let dtStart1: any = new Date(dt + ' ' + breakFromTime);
   let dtEnd1: any = new Date(dt + ' ' + breakToTime);
   let breakdifference = dtEnd1 - dtStart1;
-  // console.log("workingHoursFromDate",sub);
 
   let current = moment().format(defaultDateFormat);
 
@@ -249,7 +248,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   let isLeasingAppointment = false;
   let isAppointment = false;
 
-  console.log('selectedCells-----------', selectedCells);
 
   // To check appointment with leasing careInst or not
   if (selectedCells && selectedCells.length) {
@@ -270,12 +268,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     ).length
       ? true
       : false;
-    console.log('isAppointment', isAppointment);
   }
 
   useEffect(() => {
     if (isLeasingAppointment) {
-      console.log('isLeasingAppointment',isLeasingAppointment);
       const { id = '', item = {} } = selectedCells[0] ? selectedCells[0] : {};
       const { appointments = [] } = item ? item : {};
       
@@ -283,7 +279,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
         appointments && appointments.length && appointments[0]
           ? appointments[0]
           : {};
-      console.log('appointments[0]',appointments[0])
       getLeasingContractPDF({
         variables: {
           userId: parseInt(id),
@@ -293,7 +288,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
         },
       });
       
-      console.log('parseInt(appointmentId)',parseInt(appointmentId))
       getInvoiceByAppointmentId({
         variables: {
           appointmentId: [parseInt(appointmentId)]
@@ -309,7 +303,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       return;
     }
     if (isAppointment) {
-      console.log('inside pdf form');
 
       // To get signed contract in case of booked appointment
       const { id = '',item = {} } = selectedCells[0] ? selectedCells[0] : {};
@@ -324,7 +317,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
         },
       });
 
-      console.log('parseInt(appointmentId)',parseInt(appointmentId))
       getInvoiceByAppointmentId({
         variables: {
           appointmentId: [parseInt(appointmentId)]
@@ -488,18 +480,13 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
   // Get Invoice PDFs
   const { getInvoiceByAppointmentId: invoiceDetails = [] } = invoicePDF ? invoicePDF : {};
-  console.log('invoiceDetails',invoiceDetails)
-  console.log('invoiceDetails',invoiceDetails.invoiceData);
+
   let invoiceData = invoiceDetails ? invoiceDetails.invoiceData : {};
   let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : ''
-  console.log('invoiceData',invoiceData)
-  console.log('finalInvoicePDF',finalInvoicePDF)
-  console.log('`${AppConfig.FILES_ENDPOINT}${finalInvoicePDF}`',`${AppConfig.FILES_ENDPOINT}/${finalInvoicePDF}`)
-
+ 
 // Get WorkProof
-  console.log('workProofData',workProofData)
+  
   const { getWorkProofPDF: workProof = [] } = workProofData ? workProofData : {};
-  console.log('workProof',workProof);
   const {  id: finalWorkProofId = '' ,document: finalWorkProofPDF = '' } = workProof ? workProof : {};
   const workingProofSubmitted =  finalWorkProofPDF ? true : false;
 

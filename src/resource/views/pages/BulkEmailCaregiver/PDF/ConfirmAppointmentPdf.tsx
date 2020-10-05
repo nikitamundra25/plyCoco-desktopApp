@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Document, Page, Text, Image, View, StyleSheet, PDFViewer, Link } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Link } from '@react-pdf/renderer';
 import { IConfirmAppointmentPdfProps } from '../../../../../interfaces';
 import { languageTranslation } from '../../../../../helpers';
 

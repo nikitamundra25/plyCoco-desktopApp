@@ -9,13 +9,11 @@ import {
 } from "reactstrap";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { AppBreadcrumb } from "@coreui/react";
-import { NoSearchFound } from "../../components/SearchFilter/NoSearchFound";
 import { languageTranslation } from "../../../../helpers";
 import { AttributeQueries } from "../../../../graphql/queries";
 import Loader from "../../containers/Loader/Loader";
 import AttributeMenus from "./AttributeMenus";
 import routes from "../../../../routes/routes";
-import AddAttribute from "./AddAttribute";
 import { AttributeMutations } from "../../../../graphql/Mutations";
 import { IAttributeInput } from "../../../../interfaces";
 import { toast } from "react-toastify";
@@ -25,19 +23,19 @@ const [ADD_ATTRIBUTE] = AttributeMutations;
 
 const AttributeManageMent: FunctionComponent = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const [newAttribute, setNewAttribute] = useState<string>("");
+  // const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  // const [newAttribute, setNewAttribute] = useState<string>("");
   const [activeAttributeMenu, setActiveAttrMenu] = useState<number | null>(
     null
   );
   const [attributeName, setAttributeName] = useState<string | null>(null);
   const toggle = () => {
     setIsOpen(!isOpen);
-    setNewAttribute("");
-    setIsSubmit(false);
+    // setNewAttribute("");
+    // setIsSubmit(false);
   };
   // To get attributes types
-  const [getAtrributeHeading, { data, loading, refetch }] = useLazyQuery<any>(
+  const [getAtrributeHeading, { data,  refetch }] = useLazyQuery<any>(
     GET_ATTRIBUTES_TYPE
   );
   // To get attributes of selected types
@@ -64,8 +62,8 @@ const AttributeManageMent: FunctionComponent = () => {
     // fetchPolicy: 'cache-and-network',
     onCompleted() {
       attributeListRefetch();
-      setIsSubmit(false);
-      setNewAttribute("");
+      // setIsSubmit(false);
+      // setNewAttribute("");
       toggle();
       toast.dismiss();
       toast.success(languageTranslation("ADD_ATTRIBUTE_SUCCESS"));
@@ -96,37 +94,37 @@ const AttributeManageMent: FunctionComponent = () => {
     }
   }, [activeAttributeMenu]);
   // On attribute change
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value }
-    } = e;
-    setNewAttribute(value);
-  };
-  const handleSubmit = () => {
-    setIsSubmit(true);
-    if (activeAttributeMenu) {
-      try {
-        if (newAttribute) {
-          addAttribute({
-            variables: {
-              attributeInput: {
-                id: activeAttributeMenu ? activeAttributeMenu : 0,
-                name: newAttribute
-              }
-            }
-          });
-        }
-      } catch (error) {
-        if (newAttribute) {
-          const message = error.message
-            .replace("SequelizeValidationError: ", "")
-            .replace("Validation error: ", "")
-            .replace("GraphQL error: ", "");
-          toast.error(message);
-        }
-      }
-    }
-  };
+  // const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const {
+  //     target: { value }
+  //   } = e;
+  //   setNewAttribute(value);
+  // };
+  // const handleSubmit = () => {
+  //   // setIsSubmit(true);
+  //   if (activeAttributeMenu) {
+  //     try {
+  //       if (newAttribute) {
+  //         addAttribute({
+  //           variables: {
+  //             attributeInput: {
+  //               id: activeAttributeMenu ? activeAttributeMenu : 0,
+  //               name: newAttribute
+  //             }
+  //           }
+  //         });
+  //       }
+  //     } catch (error) {
+  //       if (newAttribute) {
+  //         const message = error.message
+  //           .replace("SequelizeValidationError: ", "")
+  //           .replace("Validation error: ", "")
+  //           .replace("GraphQL error: ", "");
+  //         toast.error(message);
+  //       }
+  //     }
+  //   }
+  // };
   const onAttributeChange = (id: number, name: string) => {
     setActiveAttrMenu(id);
     setAttributeName(name);

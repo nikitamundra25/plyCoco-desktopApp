@@ -95,7 +95,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCells: any[]) => {
-    console.log('Insiodeeee');
 
     let selectedRows: any[] = [];
     if (selectedCells && selectedCells.length) {
@@ -114,13 +113,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           deptId = '',
           divisions = [],
         } = careInstData ? careInstData : {};
-        console.log('careInstDatacareInstData', qualificationList);
-        console.log(
-          'qualificationIdqualificationId',
-          qualificationId,
-          'jjjjj',
-          item,
-        );
 
         let qualification1: IReactSelectInterface[] = [];
         if (
@@ -169,7 +161,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           cellIndex,
         };
       });
-      console.log('selectedRowsselectedRows', selectedRows);
 
       handleSelection(selectedRows, 'careinstitution');
     }
@@ -417,7 +408,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     // listData.forEach((list: any, index: number) => {
     // if (list && list.availabilityData && list.availabilityData.length) {
     // list.availabilityData.map((item: any, row: number) =>
-    // console.log("list",list);
+
 
     // temp.push(
     return (
@@ -822,7 +813,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
   };
 
-  console.log(selectedCellsCareinstitution, 'selectedCellsCareinstitution++**');
   let selectedcareInstApptId: number[] = [];
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     selectedcareInstApptId = selectedCellsCareinstitution
@@ -847,15 +837,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       (cell: any) => cell.cellIndex,
     );
   }
-  console.log(
-    selectedcareGiverApptId,
-    selectedcareInstApptId,
-    selectedcareInstIndexes,
-    'selectedcareInstIndexes',
-    selectedCellsCareinstitution,
-    fetchingCareInstitutions,
-    'fetchCareinstitutionList',
-  );
+
 
   return (
     <>

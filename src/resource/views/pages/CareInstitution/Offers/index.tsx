@@ -199,11 +199,6 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   });
 
   const addToNegativeList = (id: any) => {
-    console.log("id", id);
-    console.log("hereeeee", [
-      ...negativeUsersList.map((list: any) => parseInt(list.id)),
-      parseInt(id),
-    ]);
 
     if (id) {
       // addNegativeUser({

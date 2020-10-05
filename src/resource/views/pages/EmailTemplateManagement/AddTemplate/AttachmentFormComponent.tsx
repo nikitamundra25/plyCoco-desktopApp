@@ -21,8 +21,6 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
           totalFileSize += file.size;
           if (totalFileSize < 25000000) {
             const reader = new FileReader();
-            reader.onabort = () => console.log('file reading was aborted');
-            reader.onerror = () => console.log('file reading has failed');
             reader.onloadend = () => {
               if (reader.result) {
                 uploadDocument({

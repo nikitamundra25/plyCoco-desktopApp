@@ -91,7 +91,6 @@ export const Login: FunctionComponent = () => {
   //   };
 
   //   msObject.loginPopup(loginRequest).then(loginResponse => {
-  //     console.log(loginResponse, msObject.getAccount());
   //   });
   // };
 

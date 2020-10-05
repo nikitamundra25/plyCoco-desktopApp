@@ -357,7 +357,6 @@ const WorkingProofForm: FunctionComponent<
       angle = currentAngel + 180
 
     }
-    console.log("angle",angle);
     setcurrentAngel(angle)
   }
 

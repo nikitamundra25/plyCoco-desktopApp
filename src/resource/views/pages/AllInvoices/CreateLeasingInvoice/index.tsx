@@ -599,7 +599,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   };
 
   let invoiceUpdatedListData = [];
-  console.log(invoiceList, 'invoiceListinvoiceList');
 
   if (
     !invoiceListLoading &&
@@ -607,10 +606,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     invoiceList.getAllAppointment &&
     invoiceList.getAllAppointment.result.length
   ) {
-    console.log(
-      invoiceList.getAllAppointment.result,
-      'invoiceList.getAllAppointment.result',
-    );
+    
     invoiceList.getAllAppointment.result.forEach(async (ele: any) => {
       const { ca = {}, cr = {} } = ele ? ele : {};
       let nightWorkingMinutes: any = 0,
@@ -625,8 +621,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         ca.user.caregiver &&
         ca.user.caregiver.supplements === 'Cumulative'
       ) {
-        console.log('Cumulative');
-
+        
         if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
           let startT = ca.workingHoursFrom.split(',')[1];
           let endT = ca.workingHoursTo.split(',')[1];
@@ -646,7 +641,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             endT,
           );
         }
-        console.log('nightWorkingMinutes', nightWorkingMinutes);
         // SATURDAY & SUNDAY MINUTES (Weekend) =>  (WORKING ON IT!!)
         if (ele && ca && ca.workingHoursFrom && ca.workingHoursTo) {
           let startT = ca.workingHoursFrom.split(',')[1];
@@ -656,10 +650,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             startT,
             endT,
           );
-          console.log(
-            sundayWorkingMinutes,
-            'sundayWorkingMinutessundayWorkingMinutes',
-          );
+      
         } else {
           let startT = cr.startTime;
           let endT = cr.endTime;
@@ -669,7 +660,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             endT,
           );
         }
-        console.log('sundayWorkingMinutes', sundayWorkingMinutes);
 
         // HOLIDAY MINUTES (Holiday)
         if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
@@ -691,9 +681,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             '1359',
           );
         }
-        console.log('holidayWorkingMinutes ####', holidayWorkingMinutes);
       } else {
-        console.log('INSIDE ELSE!!');
         let exclusiveMinutes: any = {};
         if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
           let startT = ca.workingHoursFrom.split(',')[1];
@@ -705,7 +693,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             startHourNight,
             '1359',
           );
-          console.log('start & endtime', startT, endT, startHourNight);
         } else {
           let startT = cr.startTime;
           let endT = cr.endTime;
@@ -716,24 +703,13 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             startHourNight,
             '1359',
           );
-          console.log('start & endtime', startT, endT, startHourNight);
         }
-        console.log(exclusiveMinutes, 'exclusiveMinutes');
 
         holidayWorkingMinutes = exclusiveMinutes.holidayMinutes;
         sundayWorkingMinutes = exclusiveMinutes.sundayMinutes;
         nightWorkingMinutes = exclusiveMinutes.nightMinutes;
 
-        console.log('-----------------------------');
-        console.log(
-          'holidayWorkingMinutes @ SELF IMP @ 1 ',
-          holidayWorkingMinutes,
-        );
-        console.log('nightWorkingMinutes @ SELF IMP @ 2 ', nightWorkingMinutes);
-        console.log(
-          'sundayWorkingMinutes @ SELF IMP @ 3 ',
-          sundayWorkingMinutes,
-        );
+       
       }
       let requirementStartTime = null;
       let requirementEndTime = null;
@@ -741,7 +717,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       let requirementBreakStartTime = null;
       let requirementBreakEndTime = null;
       if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
-        console.log('WORK TIME ENTERED!');
         requirementStartTime = new Date(
           moment(ca.workingHoursFrom, `${dbAcceptableFormat},hh:mm`).format(),
         );
@@ -749,7 +724,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
           moment(ca.workingHoursTo, `${dbAcceptableFormat},hh:mm`).format(),
         );
       } else {
-        console.log('WORK TIME NOT ENTERED!');
         let startTime = cr && cr.startTime ? cr.startTime : null;
         let endTime = cr && cr.endTime ? cr.endTime : null;
 
@@ -762,7 +736,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         let requirementEndT = moment(requirementEndTime);
 
         var diff = requirementEndT.diff(requirementStartT, 'minutes');
-        // console.log('diffdiff', diff);
         if (diff < 0) {
           requirementEndTime = moment(requirementEndTime)
             .add('days', 1)
@@ -783,12 +756,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         (new Date(requirementEndTime).getTime() -
           new Date(requirementStartTime).getTime()) /
         (60 * 1000);
-      console.log(
-        requirementEndTime,
-        requirementStartTime,
-        workingMinutes,
-        'workingMinutesew4322',
-      );
+ 
 
       // await getMinutes(
       //   requirementStartTime,
@@ -840,17 +808,15 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       sundayAllowancePerHour = Number(salaryPerHour * 0.5).toFixed(2);
       nightAllowancePerHour = Number(salaryPerHour * 0.25).toFixed(2);
       let feeAllowance = Number(totalWorkingMinutes * (salaryPerHour / 60));
-      console.log('feeAllowance', feeAllowance);
+ 
 
       let nightAllowance = Number(
         nightWorkingMinutes * (nightAllowancePerHour / 60),
       );
-      console.log('nightAllowance', nightAllowance);
 
       let sundayAllowance = Number(
         sundayWorkingMinutes * (sundayAllowancePerHour / 60),
       );
-      console.log('sundayAllowance', sundayAllowance);
 
       let holidayAllowance = Number(
         holidayWorkingMinutes * (holidayAllowancePerHour / 60),
@@ -876,12 +842,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         Number(holidayAllowance);
     });
   }
-  console.log(
-    invoiceList &&
-      invoiceList.getAllAppointment &&
-      invoiceList.getAllAppointment.result,
-    'above return',
-  );
+
 
   return (
     <>

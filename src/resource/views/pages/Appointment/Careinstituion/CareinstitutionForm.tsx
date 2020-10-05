@@ -101,9 +101,7 @@ const CareinstitutionFormView: FunctionComponent<
     selectedCellsCareinstitution,
     selectedCells,
   } = props;
-  console.log(selectedCells, "selectedCells");
-  console.log("selectedCellsCareinstitution", selectedCellsCareinstitution);
-
+ 
   let d = moment().format("L");
   let dtStart: any = new Date(d + " " + startTime);
   let dtEnd: any = new Date(d + " " + endTime);
@@ -111,7 +109,7 @@ const CareinstitutionFormView: FunctionComponent<
 
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    console.log("props.values", props.values);
+  
     setFieldValue(name, selectOption);
     if (name === "department") {
       setcareInstituionDept(selectOption, props.values);

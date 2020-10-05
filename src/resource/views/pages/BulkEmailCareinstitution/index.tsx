@@ -8,14 +8,12 @@ import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import {
   languageTranslation,
   stripHtml,
-  HtmlToDraftConverter,
   errorFormatter,
 } from "../../../../helpers";
 import {
   ProfileQueries,
   CareInstitutionQueries,
-  EmailTemplateQueries,
-  AppointmentsQueries,
+  EmailTemplateQueries
 } from "../../../../graphql/queries";
 import {
   IEmailAttachmentData,
@@ -24,11 +22,9 @@ import {
   INewEmailAttachments,
 } from "../../../../interfaces";
 import { CareInstitutionListComponent } from "./CareInstitutionListComponent";
-import filter from "../../../assets/img/filter.svg";
 import refresh from "../../../assets/img/refresh.svg";
 import "./index.scss";
-import { useHistory } from "react-router";
-import { client, CareInstTIMyoCYAttrId, AppConfig } from "../../../../config";
+import { client,  AppConfig, BULK_INSTIUTION_LIST } from "../../../../config";
 import { EmailEditorComponent } from "./EmailFormComponent";
 import { ConfirmBox } from "../../components/ConfirmBox";
 import { IBulkEmailVariables } from "../../../../interfaces";
@@ -39,7 +35,6 @@ import moment from "moment";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ConfirmAppointmentPdf from "./PDF/ConfirmAppointmentPdf";
 import { DocumentMutations } from "../../../../graphql/Mutations";
-import logo from "../../../assets/img/plycoco-orange.png";
 
 
 const [, , , GET_CAREGIVER_EMAIL_TEMPLATES] = EmailTemplateQueries;
@@ -50,7 +45,6 @@ const [
 ] = CareInstitutionQueries;
 const [ADD_DOCUMENT] = DocumentMutations;
 const [VIEW_PROFILE] = ProfileQueries;
-const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 
 let toastId: any = null;
 
@@ -113,7 +107,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   const [attachments, setAttachments] = useState<IEmailAttachmentData[]>([]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [bulkcareGivers, setBulkCareGivers] = useState<boolean>(false);
-  const [careInstitutions, setCareInstitution] = useState<any>([]);
 
   const [bulkEmails, { loading: bulkEmailLoading }] = useMutation<{
     bulkEmailsInput: IBulkEmailVariables;
@@ -187,31 +180,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           userId.push(parseInt(value.id));
         }
       }
-      // let temp: any = [];
-      // if (props.qualification && props.qualification.length) {
-      //   props.qualification.map((key: any, index: number) => {
-      //     if (key.value) {
-      //       temp.push(parseInt(key.value));
-      //     } else {
-      //       temp.push(parseInt(key));
-      //     }
-      //   });
-      // }
-
-      // get careInstitutions list
-      // fetchCaregiverListFromQualification({
-      //   variables: {
-      //     qualificationId: temp ? temp : [],
-      //     positiveAttributeId: [],
-      //     negativeAttributeId: [],
-      //     userRole: 'canstitution',
-      //     limit: 30,
-      //     page,
-      //     gte: props.gte,
-      //     lte: props.lte,
-      //     userId: userId
-      //   }
-      // });
     }
   }, [props.qualification]);
 
@@ -222,7 +190,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         variables: {
           searchBy: "",
           sortBy: 1,
-          limit: 60,
+          limit: BULK_INSTIUTION_LIST,
           page,
           isActive: "",
         },
@@ -267,7 +235,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       variables: {
         searchBy: "",
         sortBy: 3,
-        limit: 60,
+        limit: BULK_INSTIUTION_LIST,
         page: 1,
         isActive: "",
       },
@@ -309,7 +277,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         cell.item.appointments.length &&
         cell.item.appointments[0].id
     );
-    console.log(appointedCells, "appointedCells");
     userId = selectedCellsCareinstitution[0].id;
     if (appointedCells && appointedCells.length) {
       appointmentIds = appointedCells.map((cell: any) =>
@@ -379,8 +346,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             selectedCellsCareinstitution.forEach((element: any) => {
               const {
                 item = {},
-                firstName = "",
-                lastName = "",
                 name = "",
               } = element;
               const { appointments = [], division = {} } = item;
@@ -432,7 +397,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           // });
         }
         if (props.statusTo === "confirmed") {
-          // console.log("in iff",emailData);
           // const { subject } = emailData;
           let apointedCareGiver: any[] = [];
           let appointmentTimings: string[] = [];
@@ -723,8 +687,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     try {
       let careGiverIdList: any = [];
     let temp:any = props.label === "appointment" && careInstData && careInstData.getCareInstitution ? [careInstData.getCareInstitution] : careInstitutionData;
-  
-
       if (selectedCareGiver && selectedCareGiver.length) {
         if (temp && temp.length) {
           // Remove duplicate values from an array of objects
@@ -1073,7 +1035,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                       ? careInstitutionListData
                       : []
                   }
-                  setCareInstitution={setCareInstitution}
                   selectedCareGiver={selectedCareGiver}
                   handleCheckElement={handleCheckElement}
                   page={page}

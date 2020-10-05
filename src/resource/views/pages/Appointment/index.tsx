@@ -269,7 +269,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(ADD_CAREGIVER_AVABILITY, {
     onCompleted({ addCareGiverAvability }) {
-      console.log(addCareGiverAvability, 'addCareGiverAvability');
       if (caregiversList && caregiversList.length) {
         const temp = [...caregiversList];
         const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
@@ -281,14 +280,7 @@ const Appointment: FunctionComponent = (props: any) => {
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
               let element: any[] = [...temp[index].availabilityData[i]];
-              console.log(
-                i,
-                element,
-                'elemnttttt',
-                element.filter((e: any) =>
-                  moment(availability.date).isSame(moment(e.date), 'day'),
-                ),
-              );
+             
               let cellIndex: number = selectedCaregiverCells.findIndex(
                 (cell: any) =>
                   moment(availability.date).isSame(
@@ -325,12 +317,7 @@ const Appointment: FunctionComponent = (props: any) => {
         );
       }
     },
-    // update(cache, { data }) {
-    //   console.log(data,'data in cacheeee');
-
-    //   const cachedData = cache.readQuery({ query: GET_USERS_BY_QUALIFICATION_ID });
-    //   console.log(cachedData,'cachedData++++');
-    // }
+ 
   });
 
   // Mutation to update careGiver data
@@ -347,7 +334,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   >(UPDATE_CAREGIVER_AVABILITY, {
     onCompleted({ updateCareGiverAvability }) {
-      console.log(updateCareGiverAvability, 'data oncomplete', selectedCells);
       const temp = [...caregiversList];
       const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
       let index: number = temp.findIndex(
@@ -359,7 +345,6 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityIndex: number = element.findIndex(
             (e: any) => e.id === updateCareGiverAvability.id,
           );
-          console.log(updateCareGiverAvability, 'updateCareGiverAvability');
           if (availabilityIndex > -1) {
             temp[index].availabilityData[i][availabilityIndex] = {
               ...temp[index].availabilityData[i][availabilityIndex],
@@ -465,7 +450,6 @@ const Appointment: FunctionComponent = (props: any) => {
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
               let element: any[] = [...temp[index].availabilityData[i]];
-              console.log(element, 'elemettt');
 
               let cellIndex: number = selectedCareInstCells.findIndex(
                 (cell: any) =>
@@ -583,7 +567,6 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         });
-        console.log(deptList, 'deptList++++');
 
         setselectedCellsCareinstitution(selectedCareInstCells);
       }
@@ -633,7 +616,6 @@ const Appointment: FunctionComponent = (props: any) => {
         appointmentData.item.appointments[0]
           ? appointmentData.item.appointments[0]
           : {};
-      console.log(appointmentData, 'appointmentData');
       // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
       if (
         updateCareInstitutionRequirement.status === 'confirmed' &&
@@ -659,7 +641,6 @@ const Appointment: FunctionComponent = (props: any) => {
           let availabilityRows: any[] = [
             ...caregiverListData[caregiverIndex].availabilityData[i],
           ];
-          console.log(availabilityRows, 'availabilityRows');
 
           availabilityIndex = availabilityRows.findIndex(
             (e: any) => e.id === appointmentData.avabilityId,
@@ -669,12 +650,7 @@ const Appointment: FunctionComponent = (props: any) => {
             break;
           }
         }
-        console.log(
-          'in iffffffff',
-          caregiverIndex,
-          availabilityDataIndex,
-          availabilityIndex,
-        );
+       
         if (availabilityDataIndex > -1 && availabilityIndex > -1) {
           let itemData =
             caregiverListData[caregiverIndex].availabilityData[
@@ -701,12 +677,7 @@ const Appointment: FunctionComponent = (props: any) => {
             };
           }
         }
-        console.log(
-          caregiverListData[caregiverIndex].availabilityData[
-            availabilityDataIndex
-          ][availabilityIndex],
-          'caregiverListData[caregiverIndex].availabilityData[availabilityDataIndex][',
-        );
+        
         // To update the selected caregiver & careInst cell
         let cellIndex: number = selectedCaregiverCells.findIndex(
           (cell: any) =>
@@ -714,7 +685,6 @@ const Appointment: FunctionComponent = (props: any) => {
             appointmentData.ca &&
             appointmentData.avabilityId === cell.item.id,
         );
-        console.log(cellIndex, 'cellIndex*******');
 
         if (
           selectedCaregiverCells[cellIndex] &&
@@ -1064,12 +1034,7 @@ const Appointment: FunctionComponent = (props: any) => {
                 requirementDataIndex
               ][requirementIndex]
             : {};
-          console.log(
-            careInstList[careInstIndex].availabilityData[requirementDataIndex][
-              requirementIndex
-            ],
-            'careInstList[careInstIndex].availabilityData[',
-          );
+        
 
           temp[caregiverIndex].availabilityData[availabilityDataIndex][
             availabilityIndex
@@ -1186,7 +1151,6 @@ const Appointment: FunctionComponent = (props: any) => {
               cell.item && appointment.requirementId === cell.item.id,
           );
           if (selectedCareInstCells[cellInstIndex]) {
-            console.log('in selectedCareInstCells if');
             selectedCareInstCells[cellInstIndex] = {
               ...selectedCareInstCells[cellInstIndex],
               item: {
@@ -2267,7 +2231,6 @@ const Appointment: FunctionComponent = (props: any) => {
           selectedCellsData &&
           selectedCellsData.length
         ) {
-          console.log('in offfffffff');
           await getCorrespondingconnectedcell(
             'careinstitution',
             careinstitutionList,
@@ -2275,7 +2238,6 @@ const Appointment: FunctionComponent = (props: any) => {
           );
         }
       }
-      console.log('selectedCellsDataselectedCellsData', selectedCellsData);
 
       setSelectedCells(selectedCellsData);
     } else {
@@ -2316,12 +2278,10 @@ const Appointment: FunctionComponent = (props: any) => {
     result: any,
     appointmentsData: any,
   ) => {
-    console.log(appointmentsData, 'appointmentsData', result);
 
     let connectedCells: any[] = [];
     result.forEach((element: any) => {
       element.availabilityData.forEach((row: any) => {
-        console.log(row, 'row');
         const {
           id = '',
           firstName = '',
@@ -2339,7 +2299,6 @@ const Appointment: FunctionComponent = (props: any) => {
               .map((cell: any) => cell.id)
               .includes(availabilities.appointments[0].id),
         );
-        console.log(filteredCells, 'filteredCells');
 
         // filteredCells.map((filteredCell:any) => ({ id,
         //   firstName,
@@ -2352,7 +2311,6 @@ const Appointment: FunctionComponent = (props: any) => {
         //   qualificationId.includes(value)
         // )
         // } : filteredCell}))
-        // console.log(filteredCells,'filteredCells');
 
         // temp.push({ ...element, new: item, row });
         if (filteredCells) {
@@ -2414,7 +2372,6 @@ const Appointment: FunctionComponent = (props: any) => {
     //   result.forEach((list: any) => {
     //     if (list.availabilityData && list.availabilityData.length) {
     //       list.availabilityData.map((item: any, i: number) => {
-    //         console.log("item",item);
 
     //         if (name === "careinstitution") {
     //           temp = item.filter(
@@ -2482,7 +2439,6 @@ const Appointment: FunctionComponent = (props: any) => {
     //     //   setSelectedCells(availData);
     //     // }
     //   }else{
-    //     console.log("call api here");
 
     //     fetchAppointmentFilterById({
     //       variables: {
@@ -2501,16 +2457,9 @@ const Appointment: FunctionComponent = (props: any) => {
     isSecondStar: boolean,
     isNotExistInList: boolean = false,
   ) => {
-    console.log(
-      starMarkCaregiver,
-      'starMarkCaregiver',
-      id,
-      'idddddddddddd',
-      isNotExistInList,
-    );
+ 
 
     // if (starMarkCaregiver && caregiverSoloFilter && caregiverSoloFilter.value) {
-    //   console.log('in ifffff');
 
     // }
     if (starCaregiver && (!starCaregiver.isStar || isSecondStar)) {
@@ -2528,7 +2477,6 @@ const Appointment: FunctionComponent = (props: any) => {
       });
       // handleSecondStar(list, name);
     } else {
-      console.log(caregiversList, 'careGiversList on star');
 
       if (
         caregiverSoloFilter &&
@@ -2617,7 +2565,6 @@ const Appointment: FunctionComponent = (props: any) => {
         getCareInstituionData();
       }
       setcareinstitutionSoloFilter(value);
-      console.log('value', value);
     }
   };
 
@@ -3079,11 +3026,7 @@ const Appointment: FunctionComponent = (props: any) => {
   };
 
   const updateCareInstitutionStatus = async (name: string) => {
-    console.log(
-      selectedCellsCareinstitution,
-      name,
-      'updateCareInstitutionStatus',
-    );
+
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async element => {
         const { item, id = '' } = element;
@@ -3182,7 +3125,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // TO update the status of the cell & data because it's api is different
   const updateLeasingContractStatus = (status: string) => {
-    console.log(status, 'updateLeasingContractStatus');
 
     const temp = [...caregiversList];
     const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
@@ -3197,7 +3139,6 @@ const Appointment: FunctionComponent = (props: any) => {
             let availabilityIndex: number = element.findIndex(
               (e: any) => cell && cell.item && e.id === cell.item.id,
             );
-            console.log(cell, availabilityIndex, 'updateCareGiverAvability');
             if (availabilityIndex > -1) {
               temp[index].availabilityData[i][availabilityIndex] = {
                 ...temp[index].availabilityData[i][availabilityIndex],
@@ -3206,7 +3147,6 @@ const Appointment: FunctionComponent = (props: any) => {
               break;
             }
           }
-          console.log(temp, 'temppppp');
           // let cellIndex: number = selectedCaregiverCells.findIndex(
           //   (cell: any) =>
           //   cell.item && updateCareGiverAvability.id === cell.item.id
@@ -3218,7 +3158,6 @@ const Appointment: FunctionComponent = (props: any) => {
             };
           }
         });
-        console.log(selectedCaregiverCells, 'selectedCaregiverCells');
 
         setSelectedCells(selectedCaregiverCells);
       }
@@ -3753,7 +3692,6 @@ const Appointment: FunctionComponent = (props: any) => {
       }
     } catch (error) {
       const message = errorFormatter(error);
-      console.log(message, 'message');
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
       }
@@ -3787,7 +3725,6 @@ const Appointment: FunctionComponent = (props: any) => {
       createdBy,
       createdAt,
     } = values;
-    console.log('values in index', values);
 
     let quali: number[] = [];
     if (qualificationId) {
@@ -4485,7 +4422,6 @@ const Appointment: FunctionComponent = (props: any) => {
     selectedCellsCareinstitution && selectedCellsCareinstitution.length
       ? selectedCellsCareinstitution[0]
       : {};
-  console.log('selectedCellsCareinstitution', selectedCellsCareinstitution);
 
   let street: string = canstitution && canstitution.street;
   let departmentData: any = Item ? Item.department : undefined;
@@ -4502,17 +4438,11 @@ const Appointment: FunctionComponent = (props: any) => {
     );
   }
   let qualificationfor: any;
-  console.log('ItemItem', Item);
   if (
     Item &&
     Item.qualificationForCharge &&
     !Item.qualificationForCharge.value
   ) {
-    console.log(
-      '*************tem.qualificationForCharge',
-      Item.qualificationForCharge,
-    );
-
     qualificationfor = qualificationList.filter((value: any) => {
       return Item && Item.qualificationForCharge
         ? Item.qualificationForCharge === value.value
@@ -4713,7 +4643,6 @@ const Appointment: FunctionComponent = (props: any) => {
     }
     // return new Promise((resolve) =>
     // {
-    console.log(caregiverLoading, 'caregiverLoading in get next', page);
     setFetchingCaregivers(true);
     fetchMoreCareGiverList({
       variables: {
@@ -4734,7 +4663,6 @@ const Appointment: FunctionComponent = (props: any) => {
       },
 
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
-        console.log('in updateQuery', fetchMoreResult);
 
         if (!fetchMoreResult) {
           return prev;
@@ -5146,7 +5074,6 @@ const Appointment: FunctionComponent = (props: any) => {
   //     window.removeEventListener("resize", handleWidth);
   //   };
   // }, [daysArr]);
-  console.log(caregiverLoading, 'caregiverLoading in render');
   return (
     <>
       <Helmet>

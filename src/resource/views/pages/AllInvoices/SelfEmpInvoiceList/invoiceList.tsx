@@ -28,7 +28,6 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
     history.push(path);
   };
 
-  console.log("Employeeeeeeeeeeeeeeeeee",totalCount);
   
   return (
     <>

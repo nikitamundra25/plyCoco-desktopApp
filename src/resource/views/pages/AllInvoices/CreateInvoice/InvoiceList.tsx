@@ -148,15 +148,7 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                   workEnd && workEnd.length
                     ? workEnd[1]
                     : moment(reqEndDate).format('HH:mm');
-                console.log(
-                  initialdate,
-                  'initialdate',
-                  start_time,
-                  moment(
-                    `${initialdate} ${start_time}`,
-                    `${dbAcceptableFormat} HH:mm`,
-                  ).format(),
-                );
+            
 
                 let datetimeA: any = initialdate
                   ? moment(
@@ -176,7 +168,6 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
 
                 let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : '';
                 let timeStamp: any = '';
-                console.log('time', time);
                 if (time === 'f' || time === 's' || time === 'n') {
                   timeStamp = '08';
                 } else {
@@ -188,7 +179,6 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                       : time === 'n'
                       ? 'n'
                       : '';
-                  console.log('splitData', splitData);
                   // let split = time.split()
                   timeStamp = '';
                 }
@@ -225,19 +215,17 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                   list && list.ca && list.ca.workingHoursFrom
                     ? list.ca.workingHoursFrom
                     : reqStartDate;
-                console.log('startHour', startHour);
                 let endHour =
                   list && list.ca && list.ca.workingHoursFrom
                     ? list.ca.workingHoursTo
                     : reqEndDate;
-                console.log('endHour', endHour);
 
                 let startBreak =
                   list && list.ca && list.ca.breakFrom ? list.ca.breakFrom : '';
-                console.log('startBreak', startBreak);
+        
                 let endBreak =
                   list && list.ca && list.ca.breakTo ? list.ca.breakTo : '';
-                console.log('endBreak', endBreak);
+            
 
                 let workingMinutes: any = startHour
                   ? getMinutes(startHour, endHour)
@@ -262,25 +250,11 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                   nightWorkingMinutes !== NaN
                     ? convertIntoHours(nightWorkingMinutes)
                     : 0;
-                console.log('nightWorkingHours', nightWorkingHours);
-                console.log('nightWorkingMinutes', nightWorkingMinutes);
-                console.log(
-                  '>>>>>>>>>>>>>>>>list.ca.nightAllowance',
-                  finalStartHourSunday,
-                );
-                console.log(
-                  '>>>>>>>>>>>>>>>>finalStartHourSunday',
-                  initialdate,
-                );
+                
                 const nightHoursToAdd: any = nightWorkingMinutes / 60;
                 let nightAllottedRates: any =
                   parseFloat(list.ca.nightFee) * parseFloat(nightHoursToAdd);
-                console.log(
-                  '++++++++++++++++++++nightAllottedRates',
-                  nightAllottedRates,
-                  'pppppppppppp',
-                  parseFloat(list.ca.nightFee),
-                );
+                
 
                 // SUNDAY MINUTES
                 let sundayWorkingMinutes: any = getSundayMinutes(
@@ -289,14 +263,7 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                   finalMidnightHour,
                 );
                 let sundayWorkingHours = convertIntoHours(sundayWorkingMinutes);
-                console.log(
-                  '*******************sundayWorkingMinutes',
-                  sundayWorkingMinutes,
-                );
-                console.log(
-                  '*******************sundayWorkingHours',
-                  sundayWorkingHours,
-                );
+                
 
                 //Find Total Ammount
                 let totalAmount: number | any = 0;
@@ -320,9 +287,7 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                       ? list.ca.otherExpenses
                       : 0;
                   if (sundayWorkingMinutes !== 0) {
-                    console.log('================In this sunday');
-
-                    totalAmount =
+                   totalAmount =
                       fees * hours +
                       weekendRate * (sundayWorkingMinutes / 60) +
                       transportation +
@@ -336,8 +301,7 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
                       nightAllottedRates;
                   }
                 }
-                console.log('++++++++++++++++++++', totalAmount);
-
+     
                 return (
                   <tr key={index}>
                     <td className='sno-col text-center'>

@@ -308,10 +308,7 @@ const AttributeFilterPage = (props: IAttributeFilterPage) => {
                                     {category.name}
                                   </span>
                                 </div>
-                                {console.log(
-                                  "category++++++++++++++++",
-                                  category
-                                )}
+                               
                                 <Collapse isOpen={collapse}>
                                   <ul className="common-list list-unstyled mb-0 text-capitalize pl-3 attribute-list">
                                     {category &&

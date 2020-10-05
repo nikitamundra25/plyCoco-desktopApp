@@ -78,7 +78,6 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
   const [sendselectedInvoice, setsendselectedInvoice] = useState<any>({ careinstitution: [], careGiver: [] });
 
   const getAllInvoiceListData = () => {
-    console.log("currentPage", currentPage);
 
     fetchAllInvoiceList({
       variables: {
@@ -120,21 +119,18 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
     if (invoiceType === "Plycoco") {
       if (selectedInvoice && selectedInvoice.length) {
         selectedInvoice.forEach((invoiceData: any) => {
-          console.log(">>>>>>>>>>>>", invoiceData);
           window.open(`${AppConfig.FILES_ENDPOINT}${invoiceData.plycocoPdf}`, '_blank')
         })
       }
     } else {
       if (selectedInvoice && selectedInvoice.length) {
         selectedInvoice.forEach((invoiceData: any) => {
-          console.log(">>>>>>>>>>>>", invoiceData);
           window.open(`${AppConfig.FILES_ENDPOINT}${invoiceData.careGiverPdf}`, '_blank')
         })
       }
     }
   }
   const handleSendInvoiceModal = () => {
-    console.log("This this function", openSendInvoice);
     if (openSendInvoice) {
       setsendselectedInvoice({ careinstitution: [], careGiver: [] })
     }

@@ -55,7 +55,6 @@ const SendInvoiceModal: FunctionComponent<FormikProps<any> &
                   {
                     selectedInvoice && selectedInvoice.length ?
                       selectedInvoice.map((invoiceData: any, index: number) => {
-                        console.log("++++++++++++++++++", invoiceData);
 
                         return (
                           <tr key={index}>

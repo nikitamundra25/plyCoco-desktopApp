@@ -10,15 +10,12 @@ import {
   UncontrolledTooltip
 } from "reactstrap";
 import { Editor } from "react-draft-wysiwyg";
-import { convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
 import Select from "react-select";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { languageTranslation } from "../../../../helpers";
 import { useDropzone } from "react-dropzone";
 import refresh from "../../../assets/img/refresh.svg";
 import "./index.scss";
-import { CareInstitutionListComponent } from "./CareInstitutionListComponent";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { CareInstitutionQueries } from "../../../../graphql/queries";
 
@@ -30,8 +27,6 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props) => {
     minSize: 0,
     maxSize: 25000000
   });
-
-  const [page, setPage] = useState<number>(1);
 
   // // To get careinstitution list from db
   const [
@@ -49,7 +44,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props) => {
           searchBy: '',
           sortBy: 3,
           limit: 30,
-          page,
+          page:1,
           isActive: ''
         }
       });

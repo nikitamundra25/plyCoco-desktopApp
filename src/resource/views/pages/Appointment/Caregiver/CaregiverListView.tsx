@@ -121,7 +121,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       (leasingContract || terminateAggrement) &&
       updateLeasingContractStatus
     ) {
-      console.log('in if');
       updateLeasingContractStatus(
         leasingContract ? 'contractInitiated' : 'contractCancelled',
       );
@@ -145,7 +144,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       selectedRows = selectedCellsData.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
         const { item, list: caregiverData, cellIndex, day } = cellProps;
-        console.log('cellProps', cellProps);
 
         const {
           id = '',
@@ -588,7 +586,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
       );
     }
   };
-  console.log(selectedCells, 'selectedCells');
 
   let selectedcareInstApptId: number[] = [];
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
@@ -613,7 +610,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
     selectedcareGiverIndexes = selectedCells.map((cell: any) => cell.cellIndex);
   }
 
-  console.log(selectedcareInstApptId, selectedcareGiverApptId, 'appt ids');
 
   return (
     <div>
@@ -994,7 +990,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                   resetOnStart={true}
                   allowCtrlClick={false}
                   onSelectionFinish={(cells: any) => {
-                    console.log('onSlectionfinish', cells);
                     onSelectFinish(cells);
                   }}
                   ignoreList={[

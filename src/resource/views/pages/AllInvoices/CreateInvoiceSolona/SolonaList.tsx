@@ -35,7 +35,6 @@ const SolonaList: FunctionComponent<RouteComponentProps> & any = (
 
   const { invoiceList, totalCount,
     currentPage, handleCheckedChange,invoiceListLoading } = props;
-  console.log("invoiceList in form", invoiceList);
   const onPageChanged = (currentPage: number) => {
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(

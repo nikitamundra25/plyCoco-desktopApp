@@ -54,9 +54,7 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
     },
   });
 
-  // console.log('++++++++++++++++++++', invoiceList);
   const getAllInvoiceListData = () => {
-    console.log("currentPage", currentPage);
 
     fetchAllInvoiceList({
       variables: {
@@ -105,7 +103,6 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
   };
 
   const handleSendInvoiceModal = () => {
-    console.log("This this function", openSendInvoice);
     if (openSendInvoice) {
       setsendselectedInvoice({ careinstitution: [], careGiver: [] });
     }
@@ -181,7 +178,6 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
   const handleShowInvoice = () => {
     if (selectedInvoice && selectedInvoice.length) {
       selectedInvoice.forEach((invoiceData: any) => {
-        console.log(">>>>>>>>>>>>", invoiceData);
         window.open(
           `${AppConfig.APP_ENDPOINT}/${invoiceData.plycocoPdf}`,
           "_blank"

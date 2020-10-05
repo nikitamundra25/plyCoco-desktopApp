@@ -20,8 +20,6 @@ import {
   leasingListColor,
   selfEmployesListColor,
   CareInstTIMyoCYAttrId,
-  CareInstPlycocoAttrId,
-  CareInstInActiveAttrId,
   defaultDateFormat,
 } from './../../../../config';
 import {
@@ -36,8 +34,7 @@ import {
   IStarInterface,
   IUnlinkAppointmentInput,
   IlinkAppointmentInput,
-  IunlinkResponse,
-  IDaysArray,
+  IunlinkResponse
 } from '../../../../interfaces';
 
 import {
@@ -77,7 +74,8 @@ const [
   UN_LINK_REQUIREMENT,
 ] = AppointmentMutations;
 const [
-  GET_CARE_INSTITUTION_LIST,
+  
+  ,
   ,
   GET_DEPARTMENT_LIST,
   ,
@@ -141,8 +139,6 @@ const Appointment: FunctionComponent = (props: any) => {
     openCareInstitutionBulkEmail,
     setopenCareInstitutionBulkEmail,
   ] = useState<boolean>(false);
-  const [select, setSelect] = useState<any>({});
-  const [select1, setSelect1] = useState<any>({});
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [fetchingDept, setFetchingDept] = useState<boolean>(false);
   const [qualification, setqualification] = useState<any>([]);

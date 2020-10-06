@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
-import { UncontrolledTooltip, Table } from 'reactstrap';
+import React, { FunctionComponent } from 'react';
+import {  Table } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
 import { IInvoiceList } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import {
-  AppRoutes,
   ARCHIVE_PAGE_LIMIT,
   defaultDateFormat,
 } from '../../../../../config';
@@ -13,10 +12,6 @@ import PaginationComponent from '../../../components/Pagination';
 import * as qs from 'query-string';
 import moment from 'moment';
 import {
-  nightCommission,
-  holidayCommission,
-  weekendCommission,
-  nightCommissionTim,
   defaultDateTimeFormatForDashboard,
   dbAcceptableFormat,
 } from '../../../../../config/constant';
@@ -35,9 +30,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
     invoiceList,
     totalCount,
     currentPage,
-    selectedAppointment,
     handleCheckedChange,
-    careGiverHolidays,
   } = props;
   let history = useHistory();
 

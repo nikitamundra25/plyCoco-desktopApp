@@ -14,21 +14,13 @@ import { RouteComponentProps, useLocation } from 'react-router';
 import '../index.scss';
 import 'react-day-picker/lib/style.css';
 import {
-  CareInstInActiveAttrId,
-  deactivatedListColor,
-  CareInstTIMyoCYAttrId,
-  leasingListColor,
-  CareInstPlycocoAttrId,
-  selfEmployesListColor,
   ARCHIVE_PAGE_LIMIT,
-  CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
 } from '../../../../../config';
 import { IReactSelectInterface } from '../../../../../interfaces';
 import {
   CareInstitutionQueries,
   InvoiceQueries,
-  CareGiverQueries,
   GlobalHolidaysQueries,
 } from '../../../../../graphql/queries';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -42,7 +34,7 @@ import { InvoiceMutations } from '../../../../../graphql/Mutations';
 let toastId: any = null;
 
 const [
-  GET_CARE_INSTITUTION_LIST,
+  ,
   ,
   GET_DEPARTMENT_LIST,
   ,
@@ -51,7 +43,6 @@ const [
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries;
-const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const [, CREATE_LEASING_INVOICE] = InvoiceMutations;
 
 const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
@@ -130,12 +121,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     // notifyOnNetworkStatusChange: true
   });
 
-  // To fetch all careinstitution list
-  const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
-    any
-  >(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache',
-  });
+ 
   // To Fetch golbal holidays and weekends
   const [getGlobalHolidays, { data: careGiverHolidays }] = useLazyQuery<
     any,
@@ -144,17 +130,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     fetchPolicy: 'no-cache',
     // notifyOnNetworkStatusChange: true
   });
-  useEffect(() => {
-    fetchCareInstitutionList({
-      variables: {
-        searchBy: null,
-        sortBy: 3,
-        limit: 500,
-        page: 1,
-        isActive: '',
-      },
-    });
-  }, []);
+ 
   //To get all holidays and weekends
   const getAllHolidays = (startDate: string, endDate: string) => {
     getGlobalHolidays({
@@ -180,25 +156,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       getAllHolidays(startDate, endDate);
     }
   }, [invoiceList]);
-
-  // To fetch the list of all caregiver
-  const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
-    GET_CAREGIVER_BY_NAME,
-    {
-      fetchPolicy: 'no-cache',
-    },
-  );
-
-  useEffect(() => {
-    // Fetch list of caregivers
-    fetchCareGivers({
-      variables: {
-        searchBy: '',
-        limit: 500,
-        page: 1,
-      },
-    });
-  }, []);
 
   // to get list of all invoices
   const getInvoiceListData = () => {
@@ -270,70 +227,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     getInvoiceListData();
   }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter]);
 
-  //  show careInstitution list options
-  const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
-  if (careInstituition && careInstituition.getCareInstitutions) {
-    const { getCareInstitutions } = careInstituition;
-    const { careInstitutionData, canstitution } = getCareInstitutions;
-    careInstitutionOptions.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID'),
-      companyName: languageTranslation('COMPANY_NAME'),
-    });
 
-    careInstitutionData.map((data: any, index: any) => {
-      const { canstitution } = data;
-      let { attributes = [], companyName = '' } = canstitution
-        ? canstitution
-        : {};
-      attributes = attributes ? attributes : [];
-      careInstitutionOptions.push({
-        label: `${data.lastName}${' '}${data.firstName}`,
-        value: data.id,
-        color: attributes.includes(CareInstInActiveAttrId)
-          ? deactivatedListColor
-          : attributes.includes(CareInstTIMyoCYAttrId)
-          ? leasingListColor
-          : attributes.includes(CareInstPlycocoAttrId)
-          ? selfEmployesListColor
-          : '',
-        companyName,
-      });
-      return true;
-    });
-  }
-
-  // show careGivers list options
-  const careGiversOptions: IReactSelectInterface[] | undefined = [];
-  if (
-    careGivers &&
-    careGivers.getCaregiverByName &&
-    careGivers.getCaregiverByName.result
-  ) {
-    careGiversOptions.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID'),
-      color: '',
-    });
-    careGivers.getCaregiverByName.result.forEach(
-      ({ id, firstName, lastName, isActive, caregiver }: any) => {
-        let { attributes = [] } = caregiver ? caregiver : {};
-        // To check null values
-        attributes = attributes ? attributes : [];
-        careGiversOptions.push({
-          label: `${lastName}${' '}${firstName}`,
-          value: id,
-          color: !isActive
-            ? deactivatedListColor
-            : attributes.includes(CaregiverTIMyoCYAttrId)
-            ? leasingListColor
-            : attributes.includes('Plycoco')
-            ? selfEmployesListColor
-            : '',
-        });
-      },
-    );
-  }
   // to reset all the filters
   const handleReset = () => {
     setcaregiverFilter({ label: '', value: '' });
@@ -850,8 +744,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         <div className='common-detail-section'>
           <InvoiceNavbar
             onhandleSelection={onhandleSelection}
-            careGiversOptions={careGiversOptions}
-            careInstitutionOptions={careInstitutionOptions}
             careinstitutionFilter={careinstitutionFilter}
             careInstitutionDepartmentOption={careInstitutionDepartmentOption}
             departmentFilter={departmentFilter}

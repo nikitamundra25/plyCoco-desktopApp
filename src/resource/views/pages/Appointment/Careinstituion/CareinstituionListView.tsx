@@ -399,14 +399,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       );
     }
 
-    // let temp: any[] = [];
-    // if (listData && listData.length) {
-    // listData.forEach((list: any, index: number) => {
-    // if (list && list.availabilityData && list.availabilityData.length) {
-    // list.availabilityData.map((item: any, row: number) =>
-
-
-    // temp.push(
+    
     return (
       <>
         <div

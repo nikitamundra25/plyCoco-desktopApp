@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import Select from "react-select";
 import { FormikProps, Field } from "formik";
 import moment from "moment";
@@ -75,7 +75,6 @@ const CareinstitutionFormView: FunctionComponent<
     },
     touched,
     errors,
-    isSubmitting,
     handleChange,
     handleBlur,
     handleSubmit,
@@ -91,15 +90,12 @@ const CareinstitutionFormView: FunctionComponent<
     handleQualification,
     onhandleDelete,
     careInstitutionListArr,
-    handleSelectUserList,
     addCareinstLoading,
     timeSlotError,
-    starMarkCareinstitution,
     handleFirstStarCanstitution,
     starCanstitution,
     idSearchAppointmentLoading,
-    selectedCellsCareinstitution,
-    selectedCells,
+    selectedCellsCareinstitution
   } = props;
  
   let d = moment().format("L");
@@ -384,34 +380,7 @@ const CareinstitutionFormView: FunctionComponent<
                 </Row>
               </FormGroup>
             </Col>
-            {/* <Col sm={'12'} lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm={'5'}>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('SHIFT')}
-                    </Label>
-                  </Col>
-                  <Col sm={'7'}>
-                    <div>
-                      <Select
-                        placeholder='Select'
-                        options={
-                          careInstitutionTimesOptions &&
-                          careInstitutionTimesOptions.length
-                            ? careInstitutionTimesOptions
-                            : ShiftTime
-                        }
-                        value={shift ? shift : undefined}
-                        classNamePrefix='custom-inner-reactselect'
-                        className={'custom-reactselect'}
-                        onChange={(value: any) => handleSelect(value, 'shift')}
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col> */}
+            
             <Col lg={"12"}>
               <FormGroup>
                 <Row>

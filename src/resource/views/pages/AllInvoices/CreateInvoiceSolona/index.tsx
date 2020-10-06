@@ -30,7 +30,6 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
     fetchPolicy: "no-cache",
   });
 
-  const [selectedAppointment, setselectedAppointment] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [openSendInvoice, setopenSendInvoice] = useState(false);
   const [selectedInvoice, setselectedInvoice] = useState<Object[]>([]);
@@ -116,8 +115,6 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
   ) => {
     const { checked } = e.target;
     if (checked === true) {
-      const careInstData: object[] = [];
-      const careGiverData: object[] = [];
       if (selectedType === "careInst") {
         sendselectedInvoice.careinstitution.push({
           email: invoiceData.careinstitution.email,

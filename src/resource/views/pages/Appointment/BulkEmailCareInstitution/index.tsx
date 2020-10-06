@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -8,23 +8,21 @@ import '../index.scss';
 import close from '../../../../assets/img/cancel.svg';
 import closehover from '../../../../assets/img/cancel-hover.svg';
 import BulkEmailCareInstitution from '../../BulkEmailCareinstitution';
-import { useMutation } from '@apollo/react-hooks';
-import { DocumentMutations } from '../../../../../graphql/Mutations';
+// import { useMutation } from '@apollo/react-hooks';
+// import { DocumentMutations } from '../../../../../graphql/Mutations';
 import { languageTranslation } from '../../../../../helpers';
 
-const [ADD_DOCUMENT] = DocumentMutations;
+// const [ADD_DOCUMENT] = DocumentMutations;
 
 const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
   const { openModal, handleClose, selectedCellsCareinstitution, selectedCells, confirmAppointment } = props;
 
   // Mutation to leasing document
-  const [addUserDocuments] = useMutation<
-    { addUserDocuments: any },
-    { documentInput: any }
-  >(ADD_DOCUMENT);
+  // const [addUserDocuments] = useMutation<
+  //   { addUserDocuments: any },
+  //   { documentInput: any }
+  // >(ADD_DOCUMENT);
 
-  const [pdfConfirmAppointment, setPdfConfirmAppointment] = useState<any>();
-  const [confirmAppointmentPdfData, setConfirmAppointmentPdfData] = useState<any>();
 
   useEffect(() => {
     if (confirmAppointment) {
@@ -45,28 +43,12 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
             selectedCellsCareinstitution[0].item.appointments;
           if (appointments.length > 0) {
             appointmentId = appointments[0].id;
-            setPdfConfirmAppointment(appointments);
+            // setPdfConfirmAppointment(appointments);
           }
         }
       }
-
-      if (confirmAppointmentPdfData) {
-        // let documentInput: any = {
-        //   appointmentId: parseInt(appointmentId),
-        //   userId: parseInt(userId),
-        //   isDocumentTemplate: false,
-        //   documentUploadType: 'confirmAppointment',
-        //   document: confirmAppointmentPdfData
-        // };
-
-        // addUserDocuments({
-        //   variables: {
-        //     documentInput
-        //   }
-        // });
-      }
     }
-  }, [confirmAppointmentPdfData]);
+  }, []);
 
   const externalCloseBtn = (
     <button
@@ -91,17 +73,6 @@ const BulkEmailCareInstitutionModal: FunctionComponent<any> = (props: any) => {
          {languageTranslation("BILK_EMAIL_CAREINSTITUTION")}
         </ModalHeader>
         <ModalBody>
-          {/* {confirmAppointment && pdfConfirmAppointment ? (
-            <PDFDownloadLink
-              document={
-                <ConfirmAppointmentPdf />
-              }
-            >
-              {({ blob, url, loading, error }: any) =>
-                !loading ? setConfirmAppointmentPdfData(blob) : null
-              }
-            </PDFDownloadLink>
-          ) : null} */}
           <BulkEmailCareInstitution
             label={'appointment'}
             qualification={props.qualification}

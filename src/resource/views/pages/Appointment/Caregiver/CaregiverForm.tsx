@@ -22,7 +22,6 @@ import {
 import {
   languageTranslation,
   dateDiffernceValidator,
-  dateValidator,
   dateValidatorNorm,
 } from '../../../../../helpers';
 import {
@@ -31,7 +30,6 @@ import {
   appointmentDayFormat,
   dbAcceptableFormat,
   AppConfig,
-  DateTimeMask,
   DateMask,
   TimeMask,
   defaultDateTimeFormatForDashboard,
@@ -98,7 +96,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       nightAllowance,
       holidayAllowance,
       weekendAllowance,
-      workingProofRecieved,
       distanceInKM,
       feePerKM,
       travelAllowance,
@@ -123,25 +120,19 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     },
     touched,
     errors,
-    isSubmitting,
     handleChange,
     handleBlur,
     handleSubmit,
     setFieldValue,
-    setFieldTouched,
-    setFieldError,
     selectedCareGiver,
     activeDateCaregiver,
     timeSlotError,
     selctedAvailability,
     onhandleDelete,
     careGiversListArr,
-    handleSelectUserList,
     handleLastTimeData,
     selectedCells,
     onhandleCaregiverStar,
-    starMarkCaregiver,
-    dateString,
     setworkingHoursFromErrMsg,
     workingHoursFromErrMsg,
     setworkingHoursToErrMsg,
@@ -152,7 +143,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     breakHoursFromErrMsg,
     starCaregiver,
     idSearchAppointmentLoading,
-    selectedCellsCareinstitution,
   } = props;
 
   let dateData =
@@ -438,19 +428,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     setFieldValue('travelAllowance', total);
   };
 
-  const handleUserList = (id: string, name: string) => {
-    let data: any =
-      careGiversListArr && careGiversListArr.result
-        ? careGiversListArr.result
-        : {};
-    if (id) {
-      data = careGiversListArr.result.filter((x: any) => x.id === id)[0];
-      onhandleCaregiverStar(data, name);
-    }
-    // else if(!starMark){
-    //   onhandleCaregiverStar(data, name);
-    // }
-  };
+
 
   let dateCondition: any;
   if (
@@ -507,9 +485,6 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   return (
     <>
       <div className='form-section'>
-        {/* {idSearchAppointmentLoading ? (
-          <Loader />
-        ) : ( */}
         <div
           className={classnames({
             'form-card custom-height custom-scrollbar': true,

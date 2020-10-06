@@ -1772,6 +1772,9 @@
   "NO_INVOICE_LIST":"No invoice has been created yet",
   "EMPLOYEE_EMAIL":"Employee added successfully but due to some network issue email couldn't be sent out",
   "SELECT_ATTRIBUTE_OR_TYPE_NEW":"Please select Attribute or type to add new",
-  "CAREGIVER_EMAIL_TEXT":"Caregiver added successfully but due to some network issue email couldn't be sent out"
+  "CAREGIVER_EMAIL_TEXT":"Caregiver added successfully but due to some network issue email couldn't be sent out",
+  "ENTER_TOTAL_SELECTION":"Enter total selection",
+  "SEND_INVOICE_TO":"Send Invoice To"
+
 
 }

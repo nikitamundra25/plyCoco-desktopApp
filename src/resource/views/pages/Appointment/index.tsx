@@ -1603,7 +1603,6 @@ const Appointment: FunctionComponent = (props: any) => {
       appointmentFilterById &&
       appointmentFilterById.getRequirementAndAvabilityById
     ) {
-      let departmentData: any = [];
       const { getRequirementAndAvabilityById } = appointmentFilterById;
       const { requirementData, avabilityData } = getRequirementAndAvabilityById;
       const {
@@ -2040,8 +2039,7 @@ const Appointment: FunctionComponent = (props: any) => {
     }
   };
 
-  const { id: selectedId = '', dateString: selectedDateString = '' } =
-    selectedCells && selectedCells.length ? selectedCells[0] : {};
+  
 
   const handleSelection = async (selectedCellsData: any, name: string) => {
     setTimeSlotError('');

@@ -25,7 +25,6 @@ export const defaultDateFormat: any = 'DD.MM.YYYY';
 export const dbAcceptableFormat: any = 'YYYY-MM-DD';
 export const dateFormat: any = 'MMM, Do YYYY';
 export const regSinceDate: any = 'DD.MM.YYYY';
-
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 export const emailRegex: RegExp = /^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;

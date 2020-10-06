@@ -5,7 +5,7 @@ import React, {
   lazy,
   useEffect,
 } from 'react';
-import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
+import {  Button, Nav, NavItem, NavLink } from 'reactstrap';
 import { SelectableGroup } from 'react-selectable-fast';
 import moment from 'moment';
 import classnames from 'classnames';
@@ -77,11 +77,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     totalCareinstituion,
     getMoreCareInstituionList,
     updateCareInstitutionStatus,
-    locationState,
     starMarkCareinstitution,
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
-  const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   //use state for toggel menu item
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
   const [confirmAppointment, setConfirmAppointment] = useState<boolean>(false);
@@ -91,11 +89,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   };
   const { daysArr = [] } = daysData ? daysData : {};
 
-  const [onEnterMenu, setonEnterMenu] = useState(false);
-  const [selectedDays, setSelectedDays] = useState<any[]>([]);
+  // const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCells: any[]) => {
-
     let selectedRows: any[] = [];
     if (selectedCells && selectedCells.length) {
       selectedRows = selectedCells.map((selectedCell: any) => {
@@ -167,7 +163,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   };
 
   const onSelectionClear = () => {
-    setSelectedDays([]);
+    // setSelectedDays([]);
   };
   // Link appointments
   const handleLinkAppointments = async (name: string) => {
@@ -280,13 +276,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   //unLinked by
   const [unlinkedBy, setunlinkedBy] = useState<string>('');
+  const [isFromUnlink, setisFromUnlink] = useState(false);
 
   // UnLink appointmnets
   const handleUnLinkAppointments = (name: string) => {
     setshowUnlinkModal(!showUnlinkModal);
   };
 
-  const [isFromUnlink, setisFromUnlink] = useState(false);
   const handleUnlinkData = (likedBy: string, check: boolean) => {
     setunlinkedBy(likedBy);
     let appointmentId: any = [];
@@ -856,11 +852,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         })}
         id={'clickbox'}
       >
-        <div
-          onMouseOver={() => {
-            setonEnterMenu(true);
-          }}
-        >
+        <div >
           <Nav vertical>
             <NavItem>
               <NavLink
@@ -1161,7 +1153,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
-                  setopenToggleMenu(false);
                   setSortBy('day');
                 }}
               >

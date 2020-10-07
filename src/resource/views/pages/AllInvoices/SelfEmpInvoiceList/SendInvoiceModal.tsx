@@ -9,7 +9,7 @@ import {
 } from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 import "react-day-picker/lib/style.css";
-import { FormikProps, Field } from "formik";
+import { FormikProps } from "formik";
 
 const SendInvoiceModal: FunctionComponent<FormikProps<any> &
   any> = (props: any) => {
@@ -27,7 +27,7 @@ const SendInvoiceModal: FunctionComponent<FormikProps<any> &
       <div>
         <Modal isOpen={show} className="common-modal" size="lg" centered>
           <ModalHeader close={externalCloseBtn}>
-            Send Invoice To
+            {languageTranslation("SEND_INVOICE_TO")}
           </ModalHeader>
           <ModalBody>
             <div className="table-minheight invoices-table">
@@ -55,7 +55,6 @@ const SendInvoiceModal: FunctionComponent<FormikProps<any> &
                   {
                     selectedInvoice && selectedInvoice.length ?
                       selectedInvoice.map((invoiceData: any, index: number) => {
-                        console.log("++++++++++++++++++", invoiceData);
 
                         return (
                           <tr key={index}>

@@ -20,12 +20,18 @@ import {
   AddTimeValidationSchema,
 } from '../../../../validations';
 import { CareInstitutionQueries } from '../../../../../graphql/queries';
-import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import {
+  useMutation,
+  useLazyQuery,
+  useQuery,
+  useSubscription,
+} from '@apollo/react-hooks';
 import { IQualifications } from '../../../../../interfaces/qualification';
 import moment from 'moment';
 import { GET_QUALIFICATION_ATTRIBUTE } from '../../../../../graphql/queries';
 import { ConfirmBox } from '../../../components/ConfirmBox';
 import { CareInstitutionMutation } from '../../../../../graphql/Mutations';
+import { CareDivisionSubscription } from '../../../../../graphql/Subscription';
 import Loader from '../../../containers/Loader/Loader';
 import Select from 'react-select';
 import { LockedOptions } from '../../../../../config';
@@ -38,7 +44,7 @@ const [
   ,
   ,
   GET_DIVISION_DETAILS_BY_ID,
-  GET_DEPARTMENT_ATTRIBUTES
+  GET_DEPARTMENT_ATTRIBUTES,
 ] = CareInstitutionQueries;
 
 const [
@@ -53,6 +59,7 @@ const [
   ADD_DEPARTMENT_CARE_INSTITUTION,
   DELETE_DEPARTMENT,
 ] = CareInstitutionMutation;
+const [GET_DIVISON_SUBSCRIPTION] = CareDivisionSubscription;
 
 let toastId: any = '';
 
@@ -66,8 +73,58 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   const [isActive, setIsActive] = useState<any>();
   const [filterValue, setFilterValue] = useState<any>(null);
   let [resetTimeForm, setResetTimeForm] = useState<any>(false);
-  let { id } = useParams();
+  let { id }:any = useParams();
   const Id: any | undefined = id;
+
+  const fetchDivisionSubscription = useSubscription<any>(
+    GET_DIVISON_SUBSCRIPTION,
+    {
+      variables: {
+        id: 'All',
+      },
+    },
+  );
+  useEffect(() => {
+    if (
+      fetchDivisionSubscription &&
+      fetchDivisionSubscription.data &&
+      fetchDivisionSubscription.data.divisonUpdateSubscribe &&
+      isActive
+    ) {
+      if (
+        fetchDivisionSubscription.data.divisonUpdateSubscribe.id == isActive
+      ) {
+        setDepartmentDetails(
+          fetchDivisionSubscription.data.divisonUpdateSubscribe,
+        );
+        setTimesData(
+          fetchDivisionSubscription.data.divisonUpdateSubscribe.times,
+        );
+        setQualifications(
+          fetchDivisionSubscription.data.divisonUpdateSubscribe.qualifications,
+        );
+        const temp: any = [];
+        if (
+          fetchDivisionSubscription.data.divisonUpdateSubscribe &&
+          fetchDivisionSubscription.data.divisonUpdateSubscribe
+            .division_attributes &&
+          fetchDivisionSubscription.data.divisonUpdateSubscribe
+            .division_attributes.length
+        ) {
+          fetchDivisionSubscription.data.divisonUpdateSubscribe.division_attributes.map(
+            (attr: any) => {
+              return temp.push({
+                label: attr.name,
+                value: attr.id,
+                color: attr ? attr.color : '',
+              });
+            },
+          );
+        }
+        setAttributes(temp);
+      }
+    }
+  }, [fetchDivisionSubscription.data]);
 
   const [addDivision] = useMutation<{
     addDivision: IAddDepartmentFormValues;
@@ -79,7 +136,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   // Mutation to delete caregiver
   const [deleteDivision] = useMutation<{ deleteDivision: any }, { id: number }>(
-    DELETE_DEPARTMENT
+    DELETE_DEPARTMENT,
   );
 
   // To get caregiver list from db
@@ -94,7 +151,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     {
       fetchPolicy: 'no-cache',
       onCompleted({ getDivisionsDetails }) {
-        console.log('onCompleted')
         const temp: any = [];
         const tempQualification: any = [];
         if (
@@ -103,7 +159,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
           getDivisionsDetails.division_attributes.length
         ) {
           getDivisionsDetails.division_attributes.map((attr: any) => {
-            console.log('attrattr',attr);
             return temp.push({
               label: attr.name,
               value: attr.id,
@@ -111,20 +166,20 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
             });
           });
         }
-        console.log('temptemp',temp )
         if (
           getDivisionsDetails &&
           getDivisionsDetails.division_qualifications &&
           getDivisionsDetails.division_qualifications.length
         ) {
-          getDivisionsDetails.division_qualifications.map((qualification: any) => {
-            return tempQualification.push({
-              label: qualification.name,
-              value: qualification.id,
-            });
-          });
+          getDivisionsDetails.division_qualifications.map(
+            (qualification: any) => {
+              return tempQualification.push({
+                label: qualification.name,
+                value: qualification.id,
+              });
+            },
+          );
         }
-        
 
         setIsActive(getDivisionsDetails.id);
         setDepartmentDetails(getDivisionsDetails);
@@ -132,12 +187,12 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         setQualifications(tempQualification);
         setAttributes(temp);
       },
-    }
+    },
   );
 
   // To fecth qualification attributes list
   const { data: qualificationData } = useQuery<IQualifications>(
-    GET_QUALIFICATION_ATTRIBUTE
+    GET_QUALIFICATION_ATTRIBUTE,
   );
 
   // Fetch attribute list from db
@@ -163,7 +218,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
           label: name,
           value: id ? id.toString() : '',
           color,
-        })
+        }),
     );
   }
 
@@ -175,7 +230,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         locked: filterValue,
       },
     });
-    
+
     setDepartmentDetails({
       id: '',
       userId: parseInt(Id),
@@ -196,17 +251,12 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setUserId(Id);
   }, [Id]);
 
-  useEffect(() => {
-
-  })
-
-  
+  useEffect(() => {});
 
   if (userId && userId !== Id) {
     setUserId(Id);
   }
   const onDepartmentClick = (item: any) => {
-    console.log('onDepartmentClick')
     setIsActive(item.id);
     setResetTimeForm(true);
     getDepartmentById({
@@ -218,7 +268,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   const handleSubmit = async (
     values: IAddDepartmentFormValues,
-    { setSubmitting, resetForm }: FormikHelpers<IAddDepartmentFormValues>
+    { setSubmitting, resetForm }: FormikHelpers<IAddDepartmentFormValues>,
   ) => {
     try {
       const departmentInput: any = {
@@ -237,15 +287,16 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         commentsVisibleInternally: values.commentsVisibleInternally,
         locked: values.locked,
         times: timesData,
-        qualifications:  qualifications && qualifications.length
-        ? qualifications.map(({ value }: IReactSelectInterface) =>
-            parseInt(value)
-          )
-        : [],
+        qualifications:
+          qualifications && qualifications.length
+            ? qualifications.map(({ value }: IReactSelectInterface) =>
+                parseInt(value),
+              )
+            : [],
         attributes:
           attributes && attributes.length
             ? attributes.map(({ value }: IReactSelectInterface) =>
-                parseInt(value)
+                parseInt(value),
               )
             : [],
       };
@@ -258,7 +309,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
           },
         });
         toast.success(
-          languageTranslation('UPDATE_DEPARTMENT_CARE_INSTITUTION')
+          languageTranslation('UPDATE_DEPARTMENT_CARE_INSTITUTION'),
         );
       } else {
         await addDivision({
@@ -273,7 +324,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
         setQualifications([]);
         setAttributes([]);
         toast.success(
-          languageTranslation('ADD_NEW_DEPARTMENT_CARE_INSTITUTION')
+          languageTranslation('ADD_NEW_DEPARTMENT_CARE_INSTITUTION'),
         );
       }
       setSubmitting(false);
@@ -334,7 +385,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
 
   const handleAddTime = async (
     TimeValues: IAddTimeFormValues,
-    { setSubmitting, resetForm }: FormikHelpers<IAddTimeFormValues>
+    { setSubmitting, resetForm }: FormikHelpers<IAddTimeFormValues>,
   ) => {
     try {
       let d = moment().format('L');
@@ -396,7 +447,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setQualifications([]);
     setAttributes([]);
     setIsActive(-1);
-    setInterval(function () {
+    setInterval(function() {
       setIsLoading(false);
     }, 1000);
   };
@@ -439,7 +490,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
       setIsActive(-1);
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
-          languageTranslation('DEPARTMENT_DELETE_SUCCESS_MSG')
+          languageTranslation('DEPARTMENT_DELETE_SUCCESS_MSG'),
         );
       }
     }
@@ -567,7 +618,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
                                   </span>
                                 </li>
                               );
-                            }
+                            },
                           )
                         : null}
                     </ul>

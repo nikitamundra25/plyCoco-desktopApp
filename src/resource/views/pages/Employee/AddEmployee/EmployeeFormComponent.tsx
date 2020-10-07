@@ -24,8 +24,7 @@ import { FormikProps, Form } from "formik";
 import {
   IBANRegex,
   DateMask,
-  AppConfig,
-  PAGE_LIMIT,
+  AppConfig
 } from "../../../../../config";
 import routes from "../../../../../routes/routes";
 import {
@@ -55,7 +54,7 @@ const EmployeeFormComponent: FunctionComponent<
     getStatesByCountry: any;
   }
 ) => {
-  let { id: employeeId } = useParams();
+  let { id: employeeId }:any = useParams();
 
   const {
     values: {
@@ -145,7 +144,6 @@ const EmployeeFormComponent: FunctionComponent<
   }, []);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, "selectOptionvalue");
     setFieldValue(name, selectOption);
     if (name === "country") {
       setFieldValue("state", undefined);
@@ -369,7 +367,6 @@ const EmployeeFormComponent: FunctionComponent<
                                       placeholder={languageTranslation(
                                         "EMPLOYEE_TELEPHONE_NUMBER_LABEL"
                                       )}
-                                      // mask="999-999-9999"
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={telephoneNumber}
@@ -732,14 +729,31 @@ const EmployeeFormComponent: FunctionComponent<
                                         id="permission-3"
                                         name="accessLevel"
                                         label={languageTranslation(
-                                          "EMPLOYEE_INVOICE"
+                                          "EMPLOYEE_LEASING_INVOICE"
                                         )}
                                         checked={
-                                          accessLevel === "invoice"
+                                          accessLevel === "invoiceLeasing"
                                             ? true
                                             : false
                                         }
-                                        value={"invoice"}
+                                        value={"invoiceLeasing"}
+                                        onChange={handleChange}
+                                      />
+                                    </FormGroup>
+                                    <FormGroup check className="pl-0 mt-1">
+                                      <CustomInput
+                                        type="radio"
+                                        id="permission-3"
+                                        name="accessLevel"
+                                        label={languageTranslation(
+                                          "EMPLOYEE_SELF_EMPLOYEED_INVOICE"
+                                        )}
+                                        checked={
+                                          accessLevel === "invoiceSelfEmployeed"
+                                            ? true
+                                            : false
+                                        }
+                                        value={"invoiceSelfEmployeed"}
                                         onChange={handleChange}
                                       />
                                     </FormGroup>

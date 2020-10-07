@@ -109,7 +109,6 @@ const CaregiverCustomAsyncList: FunctionComponent<any> = (props: any) => {
   formattedOPtions(careGivers);
 
   const handleLoadMoreCaregiver = async (input: string, callback: any) => {
-    console.log("input", input);
     const { data } = await client.query({
       query: GET_CAREGIVER_BY_NAME,
       variables: {

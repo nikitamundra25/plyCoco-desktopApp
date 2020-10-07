@@ -11,6 +11,7 @@ const GET_INVOICE_LIST = gql`
     $page: Int
     $limit: Int
     $attributeId: ID
+    $isLeasing: Boolean
   ) {
     getAllAppointment(
       searchBy: $searchBy
@@ -22,6 +23,7 @@ const GET_INVOICE_LIST = gql`
       page: $page
       limit: $limit
       attributeId: $attributeId
+      isLeasing: $isLeasing
     ) {
       totalCount
       result {
@@ -53,6 +55,7 @@ const GET_INVOICE_LIST = gql`
             caregiver {
               attributes
               leasingPricingList
+              supplements
             }
           }
         }
@@ -64,7 +67,7 @@ const GET_INVOICE_LIST = gql`
           endTime
           date
           qualificationForCharge
-          qualification{
+          qualification {
             id
             qualificationAllowance
           }
@@ -84,7 +87,7 @@ const GET_INVOICE_LIST = gql`
               defaultTaxValue
               shortName
             }
-            caregiver{
+            caregiver {
               id
             }
           }
@@ -95,8 +98,20 @@ const GET_INVOICE_LIST = gql`
 `;
 
 const GET_ALL_INVOICE_LIST = gql`
-  query getInvoices($status: String,$invoiceType:String, $sortBy: Int, $limit: Int, $page: Int) {
-    getInvoices(status: $status,invoiceType: $invoiceType, sortBy: $sortBy, page: $page, limit: $limit) {
+  query getInvoices(
+    $status: String
+    $invoiceType: String
+    $sortBy: Int
+    $limit: Int
+    $page: Int
+  ) {
+    getInvoices(
+      status: $status
+      invoiceType: $invoiceType
+      sortBy: $sortBy
+      page: $page
+      limit: $limit
+    ) {
       result {
         id
         invoiceNumber
@@ -131,4 +146,20 @@ const GET_ALL_INVOICE_LIST = gql`
   }
 `;
 
-export const InvoiceQueries = [GET_INVOICE_LIST, GET_ALL_INVOICE_LIST];
+
+const GET_INVOICE_BY_APPOINTMENT_ID = gql`
+query getInvoiceByAppointmentId($appointmentId: [ID]) {
+  getInvoiceByAppointmentId(appointmentId: $appointmentId) {
+    invoiceData {
+      id
+      plycocoPdf
+    }
+    appointmentData {
+      id
+    }
+  }
+}
+`;
+
+
+export const InvoiceQueries = [GET_INVOICE_LIST, GET_ALL_INVOICE_LIST, GET_INVOICE_BY_APPOINTMENT_ID];

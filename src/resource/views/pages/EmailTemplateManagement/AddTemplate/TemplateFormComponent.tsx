@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Row, Col, FormGroup, Label, Input, Table } from "reactstrap";
+import { Row, Col, FormGroup, Label, Input } from "reactstrap";
 import { FormikProps } from "formik";
 import CreatableSelect from "react-select/creatable";
 import { Editor } from "react-draft-wysiwyg";

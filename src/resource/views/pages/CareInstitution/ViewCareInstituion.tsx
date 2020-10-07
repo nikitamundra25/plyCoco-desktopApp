@@ -2,7 +2,6 @@ import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
 import { RouteComponentProps, useLocation, useParams } from "react-router";
 import qs from "query-string";
 import { Button } from "reactstrap";
-import Select from "react-select";
 import { FormikProps } from "formik";
 import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import { useHistory } from "react-router";
@@ -13,7 +12,7 @@ import {
   selfEmployesListColor,
   CareInstTIMyoCYAttrId,
   CareInstPlycocoAttrId,
-  CareInstInActiveAttrId,
+  CareInstInActiveAttrId, client
 } from "../../../../config";
 import { careInstitutionRoutes } from "./Sidebar/SidebarRoutes/ConstitutionRoutes";
 import {
@@ -25,6 +24,7 @@ import {
 import {
   CareInstitutionQueries,
   GET_QUALIFICATION_ATTRIBUTE,
+  ProfileQueries,
 } from "../../../../graphql/queries";
 import { CareInstitutionMutation } from "../../../../graphql/Mutations";
 import Loader from "../../containers/Loader/Loader";
@@ -45,16 +45,20 @@ const Departments = React.lazy(() => import("./Departments"));
 const Email = React.lazy(() => import("../CareGiver/Emails"));
 // const Reminders = React.lazy(() => import('./Reminders'));
 const Reminders = React.lazy(() => import("../../components/ToDosInnerList"));
-const CreateTodo = React.lazy(() =>
-  import("../../components/CreateTodo/index")
+const CreateTodo = React.lazy(
+  () => import("../../components/CreateTodo/index")
 );
 
-const [GET_CARE_INSTITUTION_LIST, GET_CARE_INSTITUION_BY_ID] = CareInstitutionQueries;
+const [
+  GET_CARE_INSTITUTION_LIST,
+  GET_CARE_INSTITUION_BY_ID,
+] = CareInstitutionQueries;
+const [VIEW_PROFILE] = ProfileQueries;
 
 const [, , , , , , , ADD_NEW_CARE_INTITUTION] = CareInstitutionMutation;
 
-const CareInstitutionSidebar = React.lazy(() =>
-  import("./Sidebar/SidebarLayout/CareInstitutionLayout")
+const CareInstitutionSidebar = React.lazy(
+  () => import("./Sidebar/SidebarLayout/CareInstitutionLayout")
 );
 
 const CareInstitutionTabs = careInstitutionRoutes;
@@ -64,10 +68,20 @@ const ViewCareInstitution: FunctionComponent<
     RouteComponentProps &
     IHandleSubmitInterface
 > = (props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps) => {
-  let { id } = useParams();
+  let { id }: any = useParams();
   const Id: any | undefined = id;
+  // To access data of loggedIn user
+  let userData: any = "";
+  try {
+    userData = client.readQuery({
+      query: VIEW_PROFILE,
+    });
+  } catch (error) {}
 
-  let userId = Number(id)
+  const { viewAdminProfile }: any = userData ? userData : {};
+
+  const { accessLevel = "" } = viewAdminProfile ? viewAdminProfile : {};
+  let userId = Number(id);
   const [showToDo, setShowToDo] = useState<boolean>(false);
   let history = useHistory();
 
@@ -87,11 +101,10 @@ const ViewCareInstitution: FunctionComponent<
 
   const [
     fetchCareInstitutionByID,
-    { data: careInstituitionData},
+    { data: careInstituitionData },
   ] = useLazyQuery<any>(GET_CARE_INSTITUION_BY_ID, {
     fetchPolicy: "no-cache",
   });
-  
 
   let [selectUser, setselectUser] = useState<IReactSelectInterface>({
     label: "",
@@ -133,7 +146,6 @@ const ViewCareInstitution: FunctionComponent<
   }, []);
 
   useEffect(() => {
-    console.log('useEffect - fetchCareInstitutionByID');
     fetchCareInstitutionByID({
       variables: {
         careInstitutionId: userId,
@@ -191,21 +203,31 @@ const ViewCareInstitution: FunctionComponent<
 
   useEffect(() => {
     const query: any = qs.parse(search);
-    setactiveTab(
-      query.tab
-        ? CareInstitutionTabs.findIndex(
-            (d) => d.name === decodeURIComponent(query.tab)
-          )
-        : 0
-    );
-  }, [search]);
+    if(accessLevel==="basic" && query && query.tab === "invoices" ){
+      setactiveTab(0);
+      props.history.push(
+        `${AppRoutes.CARE_INSTITUION_VIEW.replace(
+          ":id",
+          Id
+        )}?tab=${encodeURIComponent(CareInstitutionTabs[0].name)}`
+      );
+    }else{
+      setactiveTab(
+        query.tab
+          ? CareInstitutionTabs.findIndex(
+              (d) => d.name === decodeURIComponent(query.tab)
+            )
+          : 0
+      );
+    }
+  }, [search,accessLevel]);
 
   // Set selected care institution
   useEffect(() => {
     const currenCareInstitution: any = CareInstitutionList.filter(
       (careInstitution: any) => parseInt(careInstitution.value) === parseInt(Id)
     )[0];
-    if(currenCareInstitution && currenCareInstitution.value !== ""){    
+    if (currenCareInstitution && currenCareInstitution.value !== "") {
       setselectUser(currenCareInstitution);
     }
   }, [careInstituition, pathname]);
@@ -219,7 +241,6 @@ const ViewCareInstitution: FunctionComponent<
     );
   };
   let [isUserChange, setisUserChange] = useState(false);
-console.log("selectUserselectUser",selectUser);
 
   const handleSelect = (e: any) => {
     // if (careInstituition && careInstituition.getCareInstitutions) {
@@ -236,8 +257,7 @@ console.log("selectUserselectUser",selectUser);
         value: e.value,
         color: e.color,
       };
-      console.log("data+++++++",data);
-      
+
       setselectUser((selectUser = data));
       if (e.value !== Id) {
         props.history.push(
@@ -377,6 +397,7 @@ console.log("selectUserselectUser",selectUser);
                     tabs={CareInstitutionTabs}
                     activeTab={activeTab}
                     onTabChange={onTabChange}
+                    accessLevel={accessLevel}
                   />
                 </div>
               </Suspense>
@@ -413,7 +434,12 @@ console.log("selectUserselectUser",selectUser);
                       selectedUserName={
                         selectUser && selectUser.label ? selectUser.label : ""
                       }
-                      userLastName = {careInstituitionData && careInstituitionData.getCareInstitution.salutation ? careInstituitionData.getCareInstitution.salutation : "Sehr geehrte Damen und Herren"}
+                      userLastName={
+                        careInstituitionData &&
+                        careInstituitionData.getCareInstitution.salutation
+                          ? careInstituitionData.getCareInstitution.salutation
+                          : "Sehr geehrte Damen und Herren"
+                      }
                       userRole={
                         careInstituition &&
                         careInstituition.getCareInstitutions &&

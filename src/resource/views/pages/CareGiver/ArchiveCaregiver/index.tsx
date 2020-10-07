@@ -9,7 +9,6 @@ import moment from 'moment';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import {
   sortFilter,
-  dateFormat,
   defaultDateTimeFormat,
 } from '../../../../../config';
 import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../../config';
@@ -27,10 +26,8 @@ import {
   IObjectType,
 } from '../../../../../interfaces';
 import { ConfirmBox } from '../../../components/ConfirmBox';
-import defaultProfile from '../../../assets/avatars/default-profile.png';
 import Loader from '../../../containers/Loader/Loader';
 import { NoSearchFound } from '../../../components/SearchFilter/NoSearchFound';
-import archive from '../../../../assets/img/restore.svg';
 let toastId: any = null;
 
 const [, , GET_ARCHIVE_EMPLOYEES] = EmployeeQueries;
@@ -39,8 +36,7 @@ const [, , , , RESTORE_EMPLOYEE, , PERMANENT_DELETE_USER] = EmployeeMutations;
 const ArchiveCaregiver: FunctionComponent = () => {
   let history = useHistory();
 
-  const { search, pathname, state } = useLocation();
-  const location = useLocation();
+  const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
@@ -156,11 +152,9 @@ const ArchiveCaregiver: FunctionComponent = () => {
     }
     const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
-    logger('path', path);
   };
 
   const onPageChanged = (currentPage: number) => {
-    logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       '?',

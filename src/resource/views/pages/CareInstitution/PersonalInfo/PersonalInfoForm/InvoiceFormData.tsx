@@ -17,14 +17,8 @@ const InvoiceFormData: FunctionComponent<FormikProps<
 ) => {
   const {
     values: { invoiceType, interval, emailInvoice, addressInvoice },
-    touched,
-    errors,
-    isSubmitting,
     handleChange,
     handleBlur,
-    handleSubmit,
-    setFieldValue,
-    setFieldTouched,
     handleSelect
   } = props;
 

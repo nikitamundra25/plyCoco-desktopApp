@@ -98,7 +98,6 @@ const CreateTodoForm: FunctionComponent<FormikProps<ICreateTodoFormValues> &
     setnow(new Date(lastMon.getFullYear(), lastMon.getMonth() - 2, 1));
   };
 
-  const ContactError: any = errors.contact;
   const PriorityError: any = errors.priority;
 
   return (

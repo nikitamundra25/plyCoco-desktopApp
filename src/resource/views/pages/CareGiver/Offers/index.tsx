@@ -8,8 +8,7 @@ import "../caregiver.scss";
 import SearchPopup from "./SearchPopup";
 import {
   CareInstitutionQueries,
-  CareGiverQueries,
-  InvoiceQueries
+  CareGiverQueries
 } from "../../../../../graphql/queries";
 import { CareGiverMutations } from "../../../../../graphql/Mutations";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
@@ -20,12 +19,6 @@ import { ApolloError } from "apollo-client";
 import { ConfirmBox } from "../../../components/ConfirmBox";
 import NegativeList from "./NegativeList";
 import WorkedList from "./WorkedList";
-import {
-  deactivatedListColor,
-  leasingListColor,
-  selfEmployesListColor,
-  CareInstTIMyoCYAttrId,
-} from '../../../../../config';
 let toastId: any = "";
 
 const Offer: FunctionComponent<RouteComponentProps> = () => {
@@ -35,7 +28,6 @@ const Offer: FunctionComponent<RouteComponentProps> = () => {
   const [negativeUsersList, setNegativeUsersList] = useState<any>([]);
   const [searchValue, setSearch] = useState<any>('');
   const [GET_CARE_INSTITUTION_LIST] = CareInstitutionQueries;
-const [GET_INVOICE_LIST] = InvoiceQueries;
 
   const [
     ,
@@ -48,10 +40,11 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
     ADD_NEGATIVE_USER,
     DELETE_BLACKLIST_USER
   ] = CareGiverMutations;
-  const [, , , , , , , GET_NEGATIVE_USERS_LIST] = CareGiverQueries;
-  let { id } = useParams();
+
+  const [, , , , , , , GET_NEGATIVE_USERS_LIST, , ,, GET_WORKED_AT_LIST] = CareGiverQueries;
+  let { id }:any = useParams();
   let userId: any | undefined = id;
-  const [careInstOptions, setCareInstOptions] = useState<any>([]);
+  // const [careInstOptions, setCareInstOptions] = useState<any>([]);
   // get care institution lists
   const [fetchCareInstitutionList, { data: careInstituition, refetch }] = useLazyQuery<any>(GET_CARE_INSTITUTION_LIST, {
     onCompleted: async () => {
@@ -105,15 +98,15 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
     }
   });
 
+   //get workedAt list
+ const [
+  fetchWorkedAtList,
+  { data: workedAtList, loading: workedAtListLoading  }
+] = useLazyQuery<any, any>(GET_WORKED_AT_LIST, {
+  fetchPolicy: "no-cache",
+});
 
-    // To fetch workedAt list
-    const [
-      fetchInvoiceList,
-      { data: workedAtList, loading: workedAtListLoading },
-    ] = useLazyQuery<any, any>(GET_INVOICE_LIST, {
-      fetchPolicy: "no-cache",
-      // notifyOnNetworkStatusChange: true
-    });
+
 
   // to get list of care institution
   useEffect(() => {
@@ -126,63 +119,14 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
         isActive: ""
       }
     });
-    fetchInvoiceList({
+    fetchWorkedAtList({
       variables: {
-        searchBy: null,
-        caregiverId:userId,
-        careInstitutionId: null,
-        divisionId: null,
-        startDate:  null,
-        endDate: null,
-        limit: 100000,
-        page: 1,
-      },
+        userId: userId ? parseInt(userId) : ""
+      }
     });
+
   }, [userId]);
 
-  useEffect(() => {
-    if (
-      careInstituition &&
-      careInstituition.getCareInstitutions &&
-      careInstituition.getCareInstitutions.careInstitutionData &&
-      !careInstOptions.length
-    ) {
-      careInstituition.getCareInstitutions.careInstitutionData.filter(
-        (item: any) =>
-          negativeUsersList.findIndex((ele: any) => ele.id === item.id) < 0
-      );
-      let temp: any = [];
-      temp.push({
-        label: languageTranslation("NAME"),
-        value: languageTranslation("ID"),
-        companyName: languageTranslation("COMPANY_NAME")
-      });
-      careInstituition.getCareInstitutions.careInstitutionData.forEach(
-        ({ id, firstName, lastName, canstitution, isActive }: any) => {
-          let attributes: any = [];
-          if (canstitution) {
-            attributes = canstitution.attributes;
-            if (!attributes) {
-              attributes = [];
-            }
-          }
-          temp.push({
-            label: `${lastName}${" "}${firstName}`,
-            value: id,
-            color: !isActive
-              ? deactivatedListColor
-              : attributes.includes(CareInstTIMyoCYAttrId)
-                ? leasingListColor
-                : attributes.includes(70)
-                  ? selfEmployesListColor
-                  : '',
-            companyName: canstitution && canstitution.companyName
-          })
-        }
-      );
-      setCareInstOptions(temp);
-    }
-  }, [careInstituition]);
 
   //add negative user
   const [addNegativeUser] = useMutation<any>(ADD_NEGATIVE_USER, {
@@ -206,6 +150,7 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
   ] = useLazyQuery<any>(GET_NEGATIVE_USERS_LIST, {
     onCompleted() { }
   });
+
 
   useEffect(() => {
     fetchNegativeUserList({
@@ -354,6 +299,8 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
     refetch();
   };
 
+
+
   return (
     <div className="common-offer-section">
       <h5 className="content-title">{languageTranslation("OFFERS")}</h5>
@@ -362,7 +309,6 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
           <NegativeList
             negativeUser={negativeUser}
             handleRemoveAll={handleRemoveAll}
-            careInstOptions={careInstOptions}
             setShowSearch={setShowSearch}
             onDeleteNegativeUser={onDeleteNegativeUser}
             handleSelect={handleSelect}
@@ -372,7 +318,7 @@ const [GET_INVOICE_LIST] = InvoiceQueries;
         </Col>
         <Col md={6}>
           <WorkedList 
-          workedAtList = {workedAtList && workedAtList.getAllAppointment && workedAtList.getAllAppointment.result && workedAtList.getAllAppointment.result.length ? workedAtList.getAllAppointment.result : []}
+          workedAtList = {workedAtList && workedAtList.getAllWorkedAt && workedAtList.getAllWorkedAt.result && workedAtList.getAllWorkedAt.result.length ? workedAtList.getAllWorkedAt.result : []}
           workedAtListLoading ={workedAtListLoading}
           addToNegativeList={addToNegativeList}
           />

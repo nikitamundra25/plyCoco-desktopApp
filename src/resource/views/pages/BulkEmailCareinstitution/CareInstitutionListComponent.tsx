@@ -11,7 +11,6 @@ export const CareInstitutionListComponent: FunctionComponent<
   const {
     careInstitutions,
     handleSelectAll,
-    called,
     loading,
     selectedCareGiver,
     handleCheckElement,
@@ -43,53 +42,6 @@ export const CareInstitutionListComponent: FunctionComponent<
   };
 
   let temp: any = [];
-  // if(props.label ===" appointment"){
-  //   const {
-  //     firstName = "",
-  //     lastName = "",
-  //     email = "",
-  //     id = "",
-  //     userId = "",
-  //     canstitution = {},
-  //     contact = [],
-  //   } = careInstData ? careInstData : {};
-  //   const { companyName = "" } = canstitution ? canstitution : {};
-  //    temp = [
-  //     {
-  //       companyName,
-  //       contactType: languageTranslation("MAIN_CONTACT"),
-  //       name: [lastName, firstName].join(" "),
-  //       email,
-  //       userId,
-  //       id,
-  //     },
-  //   ];
-
-  //   if (contact && contact.length) {
-  //     contact.forEach((item: any) => {
-  //       const {
-  //         firstName = "",
-  //         surName = "",
-  //         email = "",
-  //         contact_type = {},
-  //         id = "",
-  //         userId = "",
-  //       } = item ? item : {};
-  //       temp.push({
-  //         id,
-  //         userId,
-  //         companyName: "",
-  //         contactType:
-  //           contact_type && contact_type.contactType
-  //             ? contact_type.contactType
-  //             : "",
-  //         name: [surName, firstName].join(" "),
-  //         email,
-  //       });
-  //     });
-  //   }
-  // }else{
-
   if (careInstData && careInstData.length) {
     careInstData.map((key: any, index: number) => {
       const {
@@ -142,7 +94,6 @@ export const CareInstitutionListComponent: FunctionComponent<
         });
       }
     });
-    // }
   }
 
   return (

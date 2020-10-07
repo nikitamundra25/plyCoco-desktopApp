@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 import {
   FormGroup,
   Col,
@@ -33,8 +33,7 @@ const AddHolidaysForm: FunctionComponent<IAddHolidaysFormProps> = (
     values,
     handleBlur,
     handleChange,
-    setFieldValue,
-    errors
+    setFieldValue
   } = fieldsInfo;
 
   const handleStateChange = (

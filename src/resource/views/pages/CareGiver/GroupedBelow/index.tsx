@@ -11,7 +11,7 @@ import { AppRoutes } from '../../../../../config';
 const [, , , , GET_BELONGS_TO] = CareGiverQueries;
 
 const GroupedBelow: FunctionComponent = () => {
-  const { id } = useParams();
+  const { id }:any = useParams();
   let history = useHistory();
   const { data, loading } = useQuery<
     { getBelongTo: IBelongsToData[] },

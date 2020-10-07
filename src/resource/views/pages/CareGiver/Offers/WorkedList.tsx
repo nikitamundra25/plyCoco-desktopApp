@@ -15,24 +15,25 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (
   props: IWorkedListInterface
 ) => {
   const { workedAtList, workedAtListLoading } = props;
-  const listOfWorkedAt: any = [];
-  if (workedAtList && workedAtList.length) {
-    for (let index = 0; index < workedAtList.length; index++) {
-      const workedAt = workedAtList[index];
-      if (listOfWorkedAt && listOfWorkedAt.length) {
-        const lastUserId: number = listOfWorkedAt.findIndex(
-          (data: any) => data.cr.userId === workedAt.cr.userId
-        );
-        if (lastUserId > 0) {
-          listOfWorkedAt.push(workedAt);
-        }
-      } else {
-        listOfWorkedAt.push(workedAt);
-      }
-    }
-  }
 
-  console.log("iiiiiiiiiiiii", workedAtList);
+
+  let listOfWorkedAt: any = [];
+  const getUnique = (arr: any, comp: any) => {
+    // store the comparison  values in array
+    const unique = arr
+      .map((e: any) => e.cr.userId)
+
+      // store the indexes of the unique objects
+      .map((e: any, i: any, final: any) => final.indexOf(e) === i && i)
+
+      // eliminate the false indexes & return unique objects
+      .filter((e: any) => arr[e])
+      .map((e: any) => arr[e]);
+
+    return unique;
+  };
+
+  listOfWorkedAt = getUnique(workedAtList, "cr.userId");
   
   return (
     <div className="common-list-wrap">

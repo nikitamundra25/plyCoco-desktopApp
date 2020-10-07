@@ -265,6 +265,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
           date
           requirementId
           avabilityId
+          workProofId
           cr {
             id
             name
@@ -393,6 +394,7 @@ const GET_CAREINSTITUTION_REQUIREMENT_BY_ID = gql`
           date
           requirementId
           avabilityId
+          workProofId
           ca {
             userId
             id
@@ -506,11 +508,7 @@ const GET_CONTRACT_BY_APPOINTMENT_ID = gql`
   query getContractByAppointmentID($appointmentId: ID) {
     getContractByAppointmentID(appointmentId: $appointmentId) {
       id
-      user_document {
-        id
-        fileName
-        document
-      }
+      attachment
       appointmentId
     }
   }

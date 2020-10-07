@@ -6,39 +6,39 @@ export default {
       name: languageTranslation("MENU_DASHBOARD"),
       icon: "icon-dash",
       url: AppRoutes.HOME,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
     },
     {
       name: languageTranslation("MENU_EMPLOYEE"),
       icon: "icon-emp",
       url: AppRoutes.EMPLOYEE,
-      authKey: ["superadmin"],
+      authKey: ["superadmin","all"],
     },
     {
       name: languageTranslation("REGION"),
       icon: "icon-reg",
       url: AppRoutes.REGION,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
     },
     {
       name: languageTranslation("MENU_CAREGIVER"),
       icon: "icon-care",
       url: AppRoutes.CARE_GIVER,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
     },
 
     {
       name: languageTranslation("MENU_INSTITUTION"),
       icon: "icon-build",
       url: AppRoutes.CARE_INSTITUTION,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
     },
 
     {
       name: languageTranslation("MENU_APPOINTMENTS"),
       icon: "icon-appointment",
       url: AppRoutes.APPOINTMENT,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
     },
     // {
     //   name: languageTranslation('MENU_EMAIL'),
@@ -50,59 +50,64 @@ export default {
       name: languageTranslation("MENU_TO_DO_CARE_GIVER"),
       icon: "icon-todo-care",
       url: AppRoutes.CAREGIVER_TODO,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
     },
     {
       name: languageTranslation("MENU_TO_DO_INSTITUTION"),
       icon: "icon-todo-inst",
       url: AppRoutes.CARE_INSTITUTION_TODO,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
       // url: AppRoutes.REGION
     },
     {
       name: languageTranslation("MENU_BULK_EMAIL"),
       icon: "icon-bulk-email",
       url: AppRoutes.BULK_EMAIL_CAREGIVER,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
     },
 
     {
       name: languageTranslation("MENU_BULK_EMAIL_CI"),
       icon: "icon-bulk-email",
       url: AppRoutes.BULK_EMAIL_CANSTITUTION,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
     },
 
     {
       name: languageTranslation("MENU_INVOICES"),
       icon: "icon-invoice",
       url: AppRoutes.ALLINVOICES,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "invoiceLeasing","invoiceSelfEmployeed"],
       children: [
         {
           name: languageTranslation("MENU_INVOICES"),
           icon: "icon-invoice",
           url: AppRoutes.INVOICE,
+          authKey: ["all", "superadmin","invoiceSelfEmployeed"],
         },
         {
           name: languageTranslation("MENU_INVOICE_SOLONA"),
           icon: "icon-invoice-solona",
           url: AppRoutes.INVOICESOLONA,
+          authKey: ["all", "superadmin", "invoiceLeasing"],
         },
         {
           name: languageTranslation("MENU_PRINT_INVOICE"),
           icon: "icon-print-invoice",
           url: AppRoutes.PRINTINVOICES,
+          authKey: ["all", "superadmin", "invoiceLeasing","invoiceSelfEmployeed"],
         },
         {
           name: languageTranslation("MENU_CREATE_INVOICE"),
           icon: "icon-create-invoice",
           url: AppRoutes.CREATEINVOICES,
+          authKey: ["all", "superadmin", "invoiceSelfEmployeed"],
         },
         {
           name: languageTranslation("MENU_LEASING_CREATE_INVOICE"),
           icon: "icon-invoice",
           url: AppRoutes.LEASINGCREATEINVOICE,
+          authKey: ["all", "superadmin", "invoiceLeasing"],
         },
         // {
         //   name: languageTranslation("MENU_CREATE_FREETEXT_INVOICE"),
@@ -125,7 +130,7 @@ export default {
       name: languageTranslation("MENU_DOCUMENT_UPLOADS"),
       icon: "icon-upload",
       url: AppRoutes.DOCUMENT_TEMPLATE_WORKING,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
       // children: [
       //   {
       //     name: languageTranslation("MENU_DOCUMENT_WORKING_PROOF"),
@@ -143,7 +148,7 @@ export default {
       name: languageTranslation("MENU_FURTHER"),
       icon: "icon-cms",
       url: AppRoutes.FURTHER,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
       children: [
         {
           name: languageTranslation("MENU_GLOBAL_CALENDAR"),
@@ -186,7 +191,7 @@ export default {
       name: languageTranslation("MENU_REPORTS"),
       icon: "icon-document",
       url: AppRoutes.HOME,
-      authKey: ["all", "superadmin", "basic", "invoice"],
+      authKey: ["all", "superadmin", "basic", "invoiceLeasing","invoiceSelfEmployeed"],
       children: [
         {
           name: languageTranslation("MENU_REPORTS_TURNOVER"),

@@ -15,14 +15,13 @@ import {
   Without_Appointments,
   appointmentMonthFormat,
 } from '../../../../config';
-import { IAppointmentNav, IReactSelectInterface } from '../../../../interfaces';
+import { IAppointmentNav } from '../../../../interfaces';
 // import AttributeFilter from './AttributeFilter';
 import right_arrow from '../../../assets/img/rightarrow.svg';
 import left_arrow from '../../../assets/img/leftarrow.svg';
 import filter from '../../../assets/img/filter.svg';
 import caregiver from '../../../assets/img/caregiver.svg';
 import careinstitution from '../../../assets/img/careinstitution.svg';
-import CustomOption from '../../components/CustomOptions';
 import 'react-day-picker/lib/style.css';
 import './index.scss';
 import moment from 'moment';

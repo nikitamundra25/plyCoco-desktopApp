@@ -44,19 +44,12 @@ const CareGiverFormComponent: FunctionComponent<
   }
 ) => {
   const {
-    values,
     setRemarksDetail,
     remarksDetail,
     caregiverAttributeOptions,
     attributeLoading,
   } = props;
-  const handleField = (e: any) => {
-    const value = {
-      createdBy: `${values.lastName} ${values.firstName}`,
-      description: e.target.value,
-    };
-    props.setFieldValue("remarks", [value]);
-  };
+
   // To fetch the list of all caregiver
   const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
     GET_CAREGIVERS

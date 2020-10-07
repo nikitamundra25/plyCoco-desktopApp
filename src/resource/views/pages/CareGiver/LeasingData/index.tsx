@@ -3,8 +3,7 @@ import {
   ILeasingValues,
   IAddLeasingRes,
   ILeasingInput,
-  IReactSelectInterface,
-  IPayslipValues
+  IReactSelectInterface
 } from '../../../../../interfaces';
 import { FormikHelpers, Formik, FormikProps } from 'formik';
 import LeasingPersonalDataFormComponent from './LeasingPersonalDataFormComponent';
@@ -33,9 +32,8 @@ const [, , , , ADD_UPDATE_CARE_GIVER_LEASING_INFO] = CareGiverMutations;
 export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
   props: RouteComponentProps
 ) => {
-  let { id } = useParams();
+  let { id }:any = useParams();
   const [leasingData, setleasingData] = useState<ILeasingValues | null>();
-  const [payslipData, setpayslipData] = useState<ILeasingValues | null>();
 
   // To update employee details into db
   const [addUpdateLeasingInformation] = useMutation<
@@ -78,7 +76,6 @@ export const LeasingPersonalData: FunctionComponent<RouteComponentProps> = (
       }
   }, [id]);
 
-  // console.log('payslipDetails',payslipDetails)
 
   const setLabelValue = (
     value: string,

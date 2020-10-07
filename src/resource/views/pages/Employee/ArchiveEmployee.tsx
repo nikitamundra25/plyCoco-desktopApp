@@ -18,22 +18,17 @@ import { AppRoutes, ARCHIVE_PAGE_LIMIT } from '../../../../config';
 import routes from '../../../../routes/routes';
 import Search from '../../components/SearchFilter';
 import { languageTranslation, logger } from '../../../../helpers';
-import ButtonTooltip from '../../components/Tooltip/ButtonTooltip';
 import { EmployeeQueries } from '../../../../graphql/queries';
 import { EmployeeMutations } from '../../../../graphql/Mutations';
 import PaginationComponent from '../../components/Pagination';
 import {
   ISearchValues,
-  IEmployee,
   IReactSelectInterface,
   IObjectType,
-  IReplaceObjectInterface,
 } from '../../../../interfaces';
 import { ConfirmBox } from '../../components/ConfirmBox';
-import defaultProfile from '../../../assets/avatars/default-profile.png';
 import Loader from '../../containers/Loader/Loader';
 import { NoSearchFound } from '../../components/SearchFilter/NoSearchFound';
-import archive from '../../../assets/img/restore.svg';
 let toastId: any = null;
 
 const [, , GET_ARCHIVE_EMPLOYEES] = EmployeeQueries;
@@ -41,8 +36,7 @@ const [, , , , RESTORE_EMPLOYEE, , PERMANENT_DELETE_USER] = EmployeeMutations;
 const ArchiveEmployee: FunctionComponent = () => {
   let history = useHistory();
 
-  const { search, pathname, state } = useLocation();
-  const location = useLocation();
+  const { search, pathname } = useLocation();
   const [searchValues, setSearchValues] = useState<ISearchValues | null>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFilterApplied, setIsFilter] = useState<boolean>(false);
@@ -62,7 +56,7 @@ const ArchiveEmployee: FunctionComponent = () => {
   >(RESTORE_EMPLOYEE);
 
   // To permanently delete archive user
-  const [permanentDeleteUser, { error }] = useMutation<
+  const [permanentDeleteUser] = useMutation<
     { permanentDeleteUser: any },
     { id: string }
   >(PERMANENT_DELETE_USER);
@@ -158,11 +152,9 @@ const ArchiveEmployee: FunctionComponent = () => {
     }
     const path = [pathname, qs.stringify(params)].join('?');
     history.push(path);
-    logger('path', path);
   };
 
   const onPageChanged = (currentPage: number) => {
-    logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       '?',
@@ -273,7 +265,6 @@ const ArchiveEmployee: FunctionComponent = () => {
               />
             )}
           />
-          {/* <Search /> */}
         </div>
         <div className='archieve-table-minheight '>
           <Table bordered hover responsive>
@@ -307,7 +298,6 @@ const ArchiveEmployee: FunctionComponent = () => {
                 data.trashUserList.result.map(
                   (trashUser: any, index: number) => {
                     var elements = [trashUser.lastName, trashUser.firstName];
-                    let trashLength = data.trashUserList.result.length;
 
                     return (
                       <tr key={index}>

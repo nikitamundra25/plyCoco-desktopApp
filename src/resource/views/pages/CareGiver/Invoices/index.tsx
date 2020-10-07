@@ -47,9 +47,7 @@ const Invoices: FunctionComponent = () => {
     comment:''
   })
 
-  let { id } = useParams();
-  const Id: any | undefined = id;
-  console.log('ididid', id)
+  let { id }:any = useParams();
 
   // To get invoice list from db
   const [

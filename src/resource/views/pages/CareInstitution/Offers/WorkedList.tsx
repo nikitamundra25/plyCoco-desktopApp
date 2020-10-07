@@ -3,7 +3,7 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 // import positive from "../../../../assets/img/positive.svg";
@@ -14,14 +14,25 @@ import Loader from "../../../containers/Loader/Loader";
 const WorkedList: FunctionComponent<IWorkedListInterface> = (
   props: IWorkedListInterface
 ) => {
-  const {workedAtList,workedAtListLoading,addToNegativeList} = props;
-  const unique = workedAtList.reduce((unique:any, o:any) => {
-    if (!unique.some((obj:any) => obj.ca.name)) {
-      unique.push(o);
-    }
+  const { workedAtList, workedAtListLoading, addToNegativeList } = props;
+  let listOfWorkedAt: any = [];
+  const getUnique = (arr: any, comp: any) => {
+    // store the comparison  values in array
+    const unique = arr
+      .map((e: any) => e.ca.userId)
+
+      // store the indexes of the unique objects
+      .map((e: any, i: any, final: any) => final.indexOf(e) === i && i)
+
+      // eliminate the false indexes & return unique objects
+      .filter((e: any) => arr[e])
+      .map((e: any) => arr[e]);
+
     return unique;
-  }, []);
-  
+  };
+
+  listOfWorkedAt = getUnique(workedAtList, "ca.userId");
+
   return (
     <div className="common-list-wrap">
       <div className="common-list-header d-flex align-items-center justify-content-between">
@@ -52,35 +63,46 @@ const WorkedList: FunctionComponent<IWorkedListInterface> = (
       </div>
       <div className="common-list-body worked-list custom-scrollbar">
         <ul className="common-list list-unstyled mb-0 h-100">
-        {workedAtListLoading?
-          <Loader/>
-          :workedAtList && workedAtList.length ?  
-           workedAtList.map((list:any,index:number)=>{
-         return <li className={"cursor-pointer list-item text-capitalize "}>
-            <div className="list-item-text">{list.ca && list.ca.name ? list.ca.name : ""} </div>
-            <div className="list-item-icon d-flex" onClick={()=>addToNegativeList(list.ca._id)} >
-            <div className="list-item-img">
-                <img src={negative} alt="" />{" "}
-              </div>
-              </div>
-          </li>
-           })
-       : 
-       <div className="no-data-li">
-       <li className={"text-center no-hover-row"}>
-         <div className="no-data-section">
-           <div className="no-data-icon">
-             <i className="icon-ban" />
-           </div>
-           <h4 className="mb-1">
-             {languageTranslation(
-               "NO_WORKING_HISTORY_AVAILABLE"
-             )}{" "}
-           </h4>
-         </div>
-     </li>
-     </div>
-     }
+          {workedAtListLoading ? (
+            <Loader />
+          ) : listOfWorkedAt && listOfWorkedAt.length ? (
+            listOfWorkedAt.map((list: any, index: number) => {
+              return (
+                <li className={"cursor-pointer list-item text-capitalize "}>
+                  <div className="list-item-text">
+                    {list.ca.user &&
+                    list.ca.user.firstName &&
+                    list.ca.user.lastName
+                      ? `${list.ca.user.firstName} ${list.ca.user.lastName}`
+                      : list.ca.user.firstName
+                      ? list.ca.user.firstName
+                      : ""}{" "}
+                  </div>
+                  <div
+                    className="list-item-icon d-flex"
+                    onClick={() => addToNegativeList(list.ca._id)}
+                  >
+                    <div className="list-item-img">
+                      <img src={negative} alt="" />{" "}
+                    </div>
+                  </div>
+                </li>
+              );
+            })
+          ) : (
+            <div className="no-data-li">
+              <li className={"text-center no-hover-row"}>
+                <div className="no-data-section">
+                  <div className="no-data-icon">
+                    <i className="icon-ban" />
+                  </div>
+                  <h4 className="mb-1">
+                    {languageTranslation("NO_WORKING_HISTORY_AVAILABLE")}{" "}
+                  </h4>
+                </div>
+              </li>
+            </div>
+          )}
         </ul>
       </div>
     </div>

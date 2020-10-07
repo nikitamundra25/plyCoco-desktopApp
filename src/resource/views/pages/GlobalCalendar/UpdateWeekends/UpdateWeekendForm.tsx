@@ -7,7 +7,6 @@ import { FormGroup, Row, Col, Label } from "reactstrap";
 import { languageTranslation, getYears } from "../../../../../helpers";
 import Select, { ValueType } from "react-select";
 import { Field } from "formik";
-import FormikCheckbox from "../../../components/forms/FormikFields/FormikCheckbox";
 const UpdateWeekendForm: FunctionComponent<IUpdateWeekendFormProps> = ({
   fieldsInfo
 }: IUpdateWeekendFormProps): JSX.Element => {

@@ -23,12 +23,11 @@ import { RegionQueries } from "../../../../../../graphql/queries/Region";
 import CustomOption from "../../../../components/CustomOptions";
 
 const [, GET_REGIONS] = RegionQueries;
-const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+const [ GET_STATES_BY_COUNTRY] = CountryQueries;
 const PersonalInformationForm: FunctionComponent<
   FormikProps<ICareInstitutionFormValues> & any
 > = (props: FormikProps<ICareInstitutionFormValues> & any) => {
   const { userSelectedCountry, countriesOpt } = props;
-  const { data, loading, error, refetch } = useQuery<ICountries>(GET_COUNTRIES);
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY
   );
@@ -136,14 +135,12 @@ const PersonalInformationForm: FunctionComponent<
   }, [userSelectedCountry]);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, "value");
     setFieldValue(name, selectOption);
     if (name === "country") {
       setFieldValue("state", undefined);
       getStatesByCountry({
         variables: { countryid: selectOption ? selectOption.value : "" }, // default code is for germany
       });
-      logger(statesData, "sdsdsdsd");
     }
   };
 

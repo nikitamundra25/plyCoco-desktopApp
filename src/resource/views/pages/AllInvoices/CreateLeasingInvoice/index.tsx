@@ -1,26 +1,26 @@
 import React, { useState, FunctionComponent, useEffect } from 'react';
 import { Form, FormGroup, Input, Label, Row, Col } from 'reactstrap';
-import { languageTranslation, errorFormatter } from '../../../../../helpers';
+import {
+  languageTranslation,
+  errorFormatter,
+  getNightMinutes,
+  getHolidayMinutes,
+  convertIntoHours,
+  getLeasingExclusiveMinutes,
+  getSundayMinutes,
+} from '../../../../../helpers';
 
 import { RouteComponentProps, useLocation } from 'react-router';
 import '../index.scss';
 import 'react-day-picker/lib/style.css';
 import {
-  CareInstInActiveAttrId,
-  deactivatedListColor,
-  CareInstTIMyoCYAttrId,
-  leasingListColor,
-  CareInstPlycocoAttrId,
-  selfEmployesListColor,
-  PAGE_LIMIT,
-  CaregiverTIMyoCYAttrId,
+  ARCHIVE_PAGE_LIMIT,
   dbAcceptableFormat,
 } from '../../../../../config';
 import { IReactSelectInterface } from '../../../../../interfaces';
 import {
   CareInstitutionQueries,
   InvoiceQueries,
-  CareGiverQueries,
   GlobalHolidaysQueries,
 } from '../../../../../graphql/queries';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -34,7 +34,7 @@ import { InvoiceMutations } from '../../../../../graphql/Mutations';
 let toastId: any = null;
 
 const [
-  GET_CARE_INSTITUTION_LIST,
+  ,
   ,
   GET_DEPARTMENT_LIST,
   ,
@@ -43,11 +43,10 @@ const [
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries;
-const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const [, CREATE_LEASING_INVOICE] = InvoiceMutations;
 
 const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
-  mainProps: any
+  mainProps: any,
 ) => {
   const { search } = useLocation();
   const query = qs.parse(search);
@@ -91,19 +90,22 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     { loading: createInvoiceLoading },
   ] = useMutation<{
     invoiceInput: any;
-  }>(CREATE_LEASING_INVOICE,
-    { onCompleted(){
+  }>(CREATE_LEASING_INVOICE, {
+    onCompleted() {
       toast.dismiss();
       if (!toast.isActive(toastId)) {
-        toastId = toast.success(
-          languageTranslation('CREATE_INVOICE_SUCCESS')
-        );
+        toastId = toast.success(languageTranslation('CREATE_INVOICE_SUCCESS'));
       }
-    }});
+    },
+  });
 
   // Default value is start & end of month
-  let gte: string = moment().startOf('month').format(dbAcceptableFormat);
-  let lte: string = moment().endOf('month').format(dbAcceptableFormat);
+  let gte: string = moment()
+    .startOf('month')
+    .format(dbAcceptableFormat);
+  let lte: string = moment()
+    .endOf('month')
+    .format(dbAcceptableFormat);
   // To get caregiver list from db
   const [
     getDepartmentList,
@@ -119,12 +121,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     // notifyOnNetworkStatusChange: true
   });
 
-  // To fetch all careinstitution list
-  const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
-    any
-  >(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache',
-  });
+ 
   // To Fetch golbal holidays and weekends
   const [getGlobalHolidays, { data: careGiverHolidays }] = useLazyQuery<
     any,
@@ -133,17 +130,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     fetchPolicy: 'no-cache',
     // notifyOnNetworkStatusChange: true
   });
-  useEffect(() => {
-    fetchCareInstitutionList({
-      variables: {
-        searchBy: null,
-        sortBy: 3,
-        limit: 500,
-        page: 1,
-        isActive: '',
-      },
-    });
-  }, []);
+ 
   //To get all holidays and weekends
   const getAllHolidays = (startDate: string, endDate: string) => {
     getGlobalHolidays({
@@ -170,25 +157,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     }
   }, [invoiceList]);
 
-  // To fetch the list of all caregiver
-  const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
-    GET_CAREGIVER_BY_NAME,
-    {
-      fetchPolicy: 'no-cache',
-    }
-  );
-
-  useEffect(() => {
-    // Fetch list of caregivers
-    fetchCareGivers({
-      variables: {
-        searchBy: '',
-        limit: 500,
-        page: 1,
-      },
-    });
-  }, []);
-
   // to get list of all invoices
   const getInvoiceListData = () => {
     fetchInvoiceList({
@@ -209,9 +177,10 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             : null,
         startDate: gte ? gte : null,
         endDate: lte ? lte : null,
-        limit: PAGE_LIMIT,
+        limit: ARCHIVE_PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
-        attributeId: CaregiverTIMyoCYAttrId,
+        // attributeId: CaregiverTIMyoCYAttrId,
+        isLeasing: true,
       },
     });
   };
@@ -229,14 +198,27 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     if (monthFilter && monthFilter.value) {
       const { value } = monthFilter;
       if (value === 'weekly') {
-        gte = moment().startOf('week').format(dbAcceptableFormat);
-        lte = moment().endOf('week').format(dbAcceptableFormat);
+        gte = moment()
+          .startOf('week')
+          .format(dbAcceptableFormat);
+        lte = moment()
+          .endOf('week')
+          .format(dbAcceptableFormat);
       } else if (value === 'everySixMonths') {
-        gte = moment().startOf('month').format(dbAcceptableFormat);
-        lte = moment(gte).add(6, 'M').endOf('month').format(dbAcceptableFormat);
+        gte = moment()
+          .startOf('month')
+          .format(dbAcceptableFormat);
+        lte = moment(gte)
+          .add(6, 'M')
+          .endOf('month')
+          .format(dbAcceptableFormat);
       } else if (value === 'perMonth') {
-        gte = moment().startOf('month').format(dbAcceptableFormat);
-        lte = moment().endOf('month').format(dbAcceptableFormat);
+        gte = moment()
+          .startOf('month')
+          .format(dbAcceptableFormat);
+        lte = moment()
+          .endOf('month')
+          .format(dbAcceptableFormat);
       } else if (value === 'all') {
         gte = '';
         lte = '';
@@ -245,70 +227,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     getInvoiceListData();
   }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter]);
 
-  //  show careInstitution list options
-  const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
-  if (careInstituition && careInstituition.getCareInstitutions) {
-    const { getCareInstitutions } = careInstituition;
-    const { careInstitutionData, canstitution } = getCareInstitutions;
-    careInstitutionOptions.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID'),
-      companyName: languageTranslation('COMPANY_NAME'),
-    });
 
-    careInstitutionData.map((data: any, index: any) => {
-      const { canstitution } = data;
-      let { attributes = [], companyName = '' } = canstitution
-        ? canstitution
-        : {};
-      attributes = attributes ? attributes : [];
-      careInstitutionOptions.push({
-        label: `${data.lastName}${' '}${data.firstName}`,
-        value: data.id,
-        color: attributes.includes(CareInstInActiveAttrId)
-          ? deactivatedListColor
-          : attributes.includes(CareInstTIMyoCYAttrId)
-          ? leasingListColor
-          : attributes.includes(CareInstPlycocoAttrId)
-          ? selfEmployesListColor
-          : '',
-        companyName,
-      });
-      return true;
-    });
-  }
-
-  // show careGivers list options
-  const careGiversOptions: IReactSelectInterface[] | undefined = [];
-  if (
-    careGivers &&
-    careGivers.getCaregiverByName &&
-    careGivers.getCaregiverByName.result
-  ) {
-    careGiversOptions.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID'),
-      color: '',
-    });
-    careGivers.getCaregiverByName.result.forEach(
-      ({ id, firstName, lastName, isActive, caregiver }: any) => {
-        let { attributes = [] } = caregiver ? caregiver : {};
-        // To check null values
-        attributes = attributes ? attributes : [];
-        careGiversOptions.push({
-          label: `${lastName}${' '}${firstName}`,
-          value: id,
-          color: !isActive
-            ? deactivatedListColor
-            : attributes.includes(CaregiverTIMyoCYAttrId)
-            ? leasingListColor
-            : attributes.includes('Plycoco')
-            ? selfEmployesListColor
-            : '',
-        });
-      }
-    );
-  }
   // to reset all the filters
   const handleReset = () => {
     setcaregiverFilter({ label: '', value: '' });
@@ -376,7 +295,9 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         .subtract(1, 'months')
         .format(dbAcceptableFormat);
     } else {
-      date = moment(dateFilter).add(1, 'months').format(dbAcceptableFormat);
+      date = moment(dateFilter)
+        .add(1, 'months')
+        .format(dbAcceptableFormat);
     }
     setDateFilter(date);
   };
@@ -389,7 +310,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       setselectedAppointment(selectedAppointment);
     } else {
       const arrayIndex: number = selectedAppointment.findIndex(
-        (data: any) => data.id === list.id
+        (data: any) => data.id === list.id,
       );
       selectedAppointment.splice(arrayIndex, 1);
       setselectedAppointment(selectedAppointment);
@@ -405,13 +326,13 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     // all selected caregivers id
     let selectedCareGiverId: string[] = selectedAppointment
       .map((appointment: any) =>
-        appointment.ca && appointment.ca.userId ? appointment.ca.userId : ''
+        appointment.ca && appointment.ca.userId ? appointment.ca.userId : '',
       )
       .filter(Boolean);
     // all selected care institutions id
     let selectedCareInstId: string[] = selectedAppointment
       .map((appointment: any) =>
-        appointment.cr && appointment.cr.userId ? appointment.cr.userId : ''
+        appointment.cr && appointment.cr.userId ? appointment.cr.userId : '',
       )
       .filter(Boolean);
     try {
@@ -421,17 +342,17 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         selectedCareInstId.length &&
         selectedCareGiverId.length === selectedCareInstId.length &&
         selectedCareGiverId.every(
-          (val: string, i: number, arr: string[]) => val === arr[0]
+          (val: string, i: number, arr: string[]) => val === arr[0],
         ) &&
         selectedCareInstId.every(
-          (val: string, i: number, arr: string[]) => val === arr[0]
+          (val: string, i: number, arr: string[]) => val === arr[0],
         )
           ? true
           : false;
       if (!isInvoiceComaptible) {
         if (!toast.isActive(toastId)) {
           toastId = toast.warn(
-            languageTranslation('YOU_CANT_CREATE_INVOICE_WITH')
+            languageTranslation('YOU_CANT_CREATE_INVOICE_WITH'),
           );
         }
         return;
@@ -462,13 +383,13 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
               let datetimeA: any = initialdate
                 ? moment(
                     `${initialdate} ${start_time}`,
-                    `${dbAcceptableFormat} HH:mm`
+                    `${dbAcceptableFormat} HH:mm`,
                   ).format()
                 : '';
               let datetimeB: any = enddate
                 ? moment(
                     `${enddate} ${end_time}`,
-                    `${dbAcceptableFormat} HH:mm`
+                    `${dbAcceptableFormat} HH:mm`,
                   ).format()
                 : null;
 
@@ -486,7 +407,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
               let hasHoliday: any;
               if (careGiverHolidays && careGiverHolidays.length) {
                 hasHoliday = careGiverHolidays.filter(
-                  (data: any) => data.date === appointmentData.date
+                  (data: any) => data.date === appointmentData.date,
                 );
               }
               let weekendRate: any = appointmentData.ca.weekendAllowance
@@ -524,7 +445,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
               }
             } else {
               const message = errorFormatter(
-                languageTranslation('SELECTED_APPOINTMENT_DONT_HAVE_CG')
+                languageTranslation('SELECTED_APPOINTMENT_DONT_HAVE_CG'),
               );
               if (!toast.isActive(toastId)) {
                 toastId = toast.warn(message);
@@ -542,8 +463,18 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             subTotal: `${subTotal}`,
             amount: `${totalAmount}`,
             tax: `${subTotal * 0.19}`,
-            careInstitutionName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].cr ? selectedAppointment[0].cr.name : "",
-            careGiverName: selectedAppointment && selectedAppointment.length && selectedAppointment[0].ca ? selectedAppointment[0].ca.name : "",
+            careInstitutionName:
+              selectedAppointment &&
+              selectedAppointment.length &&
+              selectedAppointment[0].cr
+                ? selectedAppointment[0].cr.name
+                : '',
+            careGiverName:
+              selectedAppointment &&
+              selectedAppointment.length &&
+              selectedAppointment[0].ca
+                ? selectedAppointment[0].ca.name
+                : '',
             invoiceType: 'leasing',
           };
           await CreateLeasingInvoice({
@@ -561,14 +492,258 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     }
   };
 
+  let invoiceUpdatedListData = [];
+
+  if (
+    !invoiceListLoading &&
+    invoiceList &&
+    invoiceList.getAllAppointment &&
+    invoiceList.getAllAppointment.result.length
+  ) {
+    
+    invoiceList.getAllAppointment.result.forEach(async (ele: any) => {
+      const { ca = {}, cr = {} } = ele ? ele : {};
+      let nightWorkingMinutes: any = 0,
+        sundayWorkingMinutes: any = 0,
+        holidayWorkingMinutes: any = 0,
+        appointmentDate: any = cr ? cr.date : '',
+        startHourNight: any =
+          ca && ca.nightAllowance ? ca.nightAllowance : '22:00';
+      if (
+        ca &&
+        ca.user &&
+        ca.user.caregiver &&
+        ca.user.caregiver.supplements === 'Cumulative'
+      ) {
+        
+        if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          nightWorkingMinutes = await getNightMinutes(
+            appointmentDate,
+            startHourNight,
+            startT,
+            endT,
+          );
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          nightWorkingMinutes = await getNightMinutes(
+            appointmentDate,
+            startHourNight,
+            startT,
+            endT,
+          );
+        }
+        // SATURDAY & SUNDAY MINUTES (Weekend) =>  (WORKING ON IT!!)
+        if (ele && ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          sundayWorkingMinutes = await getSundayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+          );
+      
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          sundayWorkingMinutes = await getSundayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+          );
+        }
+
+        // HOLIDAY MINUTES (Holiday)
+        if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          holidayWorkingMinutes = await getHolidayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            '1359',
+          );
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          holidayWorkingMinutes = await getHolidayMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            '1359',
+          );
+        }
+      } else {
+        let exclusiveMinutes: any = {};
+        if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+          let startT = ca.workingHoursFrom.split(',')[1];
+          let endT = ca.workingHoursTo.split(',')[1];
+          exclusiveMinutes = await getLeasingExclusiveMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            startHourNight,
+            '1359',
+          );
+        } else {
+          let startT = cr.startTime;
+          let endT = cr.endTime;
+          exclusiveMinutes = await getLeasingExclusiveMinutes(
+            appointmentDate,
+            startT,
+            endT,
+            startHourNight,
+            '1359',
+          );
+        }
+
+        holidayWorkingMinutes = exclusiveMinutes.holidayMinutes;
+        sundayWorkingMinutes = exclusiveMinutes.sundayMinutes;
+        nightWorkingMinutes = exclusiveMinutes.nightMinutes;
+
+       
+      }
+      let requirementStartTime = null;
+      let requirementEndTime = null;
+
+      let requirementBreakStartTime = null;
+      let requirementBreakEndTime = null;
+      if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
+        requirementStartTime = new Date(
+          moment(ca.workingHoursFrom, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+        requirementEndTime = new Date(
+          moment(ca.workingHoursTo, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+      } else {
+        let startTime = cr && cr.startTime ? cr.startTime : null;
+        let endTime = cr && cr.endTime ? cr.endTime : null;
+
+        requirementStartTime = moment(
+          appointmentDate + ' ' + startTime,
+        ).format();
+        requirementEndTime = moment(appointmentDate + ' ' + endTime).format();
+
+        let requirementStartT = moment(requirementStartTime);
+        let requirementEndT = moment(requirementEndTime);
+
+        var diff = requirementEndT.diff(requirementStartT, 'minutes');
+        if (diff < 0) {
+          requirementEndTime = moment(requirementEndTime)
+            .add('days', 1)
+            .format();
+        }
+      }
+      if (ca && ca.breakFrom && ca.breakTo) {
+        requirementBreakStartTime = new Date(
+          moment(ca.breakFrom, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+        requirementBreakEndTime = new Date(
+          moment(ca.breakTo, `${dbAcceptableFormat},hh:mm`).format(),
+        );
+      }
+
+      // MAIN MINUTES
+      let workingMinutes: any =
+        (new Date(requirementEndTime).getTime() -
+          new Date(requirementStartTime).getTime()) /
+        (60 * 1000);
+ 
+
+      // await getMinutes(
+      //   requirementStartTime,
+      //   requirementEndTime,
+      // );
+
+      let totalBreakMinutes: any = 0;
+      if (requirementBreakEndTime && requirementBreakStartTime) {
+        totalBreakMinutes =
+          (new Date(requirementBreakEndTime).getTime() -
+            new Date(requirementBreakStartTime).getTime()) /
+          (60 * 1000);
+      }
+      // await getMinutes(
+      //   requirementBreakStartTime,
+      //   requirementBreakEndTime,
+      // );
+      let totalBreakHours = await convertIntoHours(totalBreakMinutes);
+
+      let totalWorkingMinutes: any = workingMinutes - totalBreakMinutes;
+      let workingHours = await convertIntoHours(totalWorkingMinutes);
+      let sundayWorkingHours: any = await convertIntoHours(
+        sundayWorkingMinutes,
+      );
+      let holidayWorkingHours: any = await convertIntoHours(
+        holidayWorkingMinutes,
+      );
+      let nightWorkingHours: any = await convertIntoHours(nightWorkingMinutes);
+      let marginMoney: any = 0;
+      let qualificationAllowance: any = 0;
+      let salaryPerHour: any = 0;
+      let holidayAllowancePerHour: any = 0;
+      let sundayAllowancePerHour: any = 0;
+      let nightAllowancePerHour: any = 0;
+      // Per Hour Salary!!
+      marginMoney =
+        cr &&
+        cr.user &&
+        cr.user.canstitution &&
+        cr.user.canstitution.leasingPriceListId
+          ? parseFloat(cr.user.canstitution.leasingPriceListId)
+          : 23.5;
+      qualificationAllowance =
+        cr && cr.qualification && cr.qualification.qualificationAllowance
+          ? parseFloat(cr.qualification.qualificationAllowance)
+          : 23.5;
+      salaryPerHour = marginMoney + qualificationAllowance;
+      holidayAllowancePerHour = Number(salaryPerHour * 1).toFixed(2);
+      sundayAllowancePerHour = Number(salaryPerHour * 0.5).toFixed(2);
+      nightAllowancePerHour = Number(salaryPerHour * 0.25).toFixed(2);
+      let feeAllowance = Number(totalWorkingMinutes * (salaryPerHour / 60));
+ 
+
+      let nightAllowance = Number(
+        nightWorkingMinutes * (nightAllowancePerHour / 60),
+      );
+
+      let sundayAllowance = Number(
+        sundayWorkingMinutes * (sundayAllowancePerHour / 60),
+      );
+
+      let holidayAllowance = Number(
+        holidayWorkingMinutes * (holidayAllowancePerHour / 60),
+      );
+      ele.marginMoney = marginMoney;
+      ele.salaryPerHour = salaryPerHour;
+      ele.holidayAllowance = holidayAllowance;
+      ele.sundayAllowance = sundayAllowance;
+      ele.nightAllowance = nightAllowance;
+      ele.holidayAllowancePerHour = holidayAllowancePerHour;
+      ele.sundayAllowancePerHour = sundayAllowancePerHour;
+      ele.nightAllowancePerHour = nightAllowancePerHour;
+
+      ele.workingHours = workingHours;
+      ele.sundayWorkingHours = sundayWorkingHours;
+      ele.holidayWorkingHours = holidayWorkingHours;
+      ele.nightWorkingHours = nightWorkingHours;
+
+      ele.amount =
+        Number(feeAllowance) +
+        Number(sundayAllowance) +
+        Number(nightAllowance) +
+        Number(holidayAllowance);
+    });
+  }
+
+
   return (
     <>
       <div className='common-detail-page'>
         <div className='common-detail-section'>
           <InvoiceNavbar
             onhandleSelection={onhandleSelection}
-            careGiversOptions={careGiversOptions}
-            careInstitutionOptions={careInstitutionOptions}
             careinstitutionFilter={careinstitutionFilter}
             careInstitutionDepartmentOption={careInstitutionDepartmentOption}
             departmentFilter={departmentFilter}
@@ -618,7 +793,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
                             <Input
                               type='text'
                               name={'total'}
-                              placeholder={languageTranslation("ENTER_TOTAL")}
+                              placeholder={languageTranslation('ENTER_TOTAL')}
                               className='text-input text-capitalize'
                               disable={true}
                               value={totalAmount}

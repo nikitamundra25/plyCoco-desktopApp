@@ -26,7 +26,7 @@ let toastId: any = null;
 
 const ViewEmployee: FunctionComponent = () => {
   let history = useHistory();
-  let { id } = useParams();
+  let { id }:any = useParams();
   // To get the employee details by id
   const [getEmployeeDetails, { data, loading }] = useLazyQuery<any>(
     GET_EMPLOYEE_BY_ID
@@ -169,11 +169,7 @@ const ViewEmployee: FunctionComponent = () => {
                         </div>
 
                         <div className="profile-text">
-                          {/* <div className="employee-title">
-                      {languageTranslation("PERSONAL_INFORMATION")}
-                    </div> */}
                           <div className="user-item">
-                            {/* <Button>Edit</Button> */}
                             <span className=" text-label">
                               {" "}
                               {employee && employee.firstName ? (
@@ -192,8 +188,7 @@ const ViewEmployee: FunctionComponent = () => {
                                   ? employee.firstName
                                   : "N/A"}
                               </span>
-                              {/* <Badge color="" className="degination"> FreeLancer</Badge> */}
-                            </span>
+                                 </span>
                           </div>
                           <div className="user-item">
                             <span className="text-label">
@@ -238,15 +233,6 @@ const ViewEmployee: FunctionComponent = () => {
                               {languageTranslation("STATUS")}
                             </span>
                             <span className="text-value ">
-                              {/* <span
-                      className={`status-btn ${
-                        employee && employee.isActive ? "active" : "inactive"
-                      }`}
-                    >
-                      {employee && employee.isActive
-                        ? languageTranslation("ACTIVE")
-                        : languageTranslation("DISABLE")}
-                    </span> */}
                               <span
                                 className={`status-btn text-center ${
                                   employee && employee.isActive

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent } from "react";
 import {
   Document,
   Page,
@@ -6,44 +6,17 @@ import {
   Image,
   View,
   StyleSheet,
-  PDFViewer,
   Link,
-  Font,
 } from "@react-pdf/renderer";
 import moment from "moment";
-import {
-  IConfirmAppointmentPdfProps,
-  IReactSelectInterface,
-} from "../../../../../interfaces";
+import { IConfirmAppointmentPdfProps } from "../../../../../interfaces";
 import { defaultDateFormat, payGroups } from "../../../../../config";
 import { languageTranslation } from "../../../../../helpers";
 import timyocLogo from "../../../../assets/img/timyoc.png";
-import robotoBold from "../../../../assets/fonts/Roboto-Bold.ttf";
-import robotoMedium from "../../../../assets/fonts/Roboto-Medium.ttf";
-import robotoNormal from "../../../../assets/fonts/Roboto-Regular.ttf";
 
-const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qualificationList:any}> = (
-  props: IConfirmAppointmentPdfProps & {qualificationList:any}
-) => {
-  // const registerFont = () => {
-  //   Font.register( {
-  //     family: 'Roboto Bold',
-  //     src: robotoBold
-  //   });
-  //   Font.register( {
-  //     family: 'Roboto Normal',
-  //     src: robotoNormal
-  //   });
-  //   Font.register( {
-  //     family: 'Roboto Medium',
-  //     src: robotoMedium
-  //   });
-  // }
-    
-  // useEffect(() => {
-  //   registerFont();
-  // }, []);
-  
+const ConfirmAppointmentPdf: FunctionComponent<
+  IConfirmAppointmentPdfProps & { qualificationList: any }
+> = (props: IConfirmAppointmentPdfProps & { qualificationList: any }) => {
   // Create styles
   const styles = StyleSheet.create({
     page: {
@@ -150,21 +123,9 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
       // fontFamily: 'Roboto Normal',
     },
   });
-  // Font.register( {
-  //   family: 'Roboto Bold',
-  //   src: robotoBold
-  // });
-  // Font.register( {
-  //   family: 'Roboto Normal',
-  //   src: robotoNormal
-  // });
-  // Font.register( {
-  //   family: 'Roboto Medium',
-  //   src: robotoMedium
-  // });
-  
+
   const { selectedCellsCareinstitution, qualificationList } = props;
-  
+
   // Create Document Component
   return (
     <Document>
@@ -174,23 +135,22 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
           <Link style={styles.subtext} src="#">
             {languageTranslation("PDF_DIAMOND_PERSONAL_GMBH")}
           </Link>
-          {selectedCellsCareinstitution && selectedCellsCareinstitution.length && selectedCellsCareinstitution[0].canstitution ? <><Text style={styles.subtext}>
-          {selectedCellsCareinstitution[0].canstitution.companyName || ''}
-            {/* {languageTranslation("ARKADIA_PFLEGE")}{" "} */}
-          </Text>
-          {/* <Text style={styles.subtext}>
-            {selectedCellsCareinstitution[0].canstitution.shortName || ''}
-            {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "}
-          </Text> */}
-          <Text style={styles.subtext}>
-          {selectedCellsCareinstitution[0].canstitution.street || '-'}            
-            {/* {languageTranslation("SENIOR_NURSING_HOME_PACK")}{" "} */}
-          </Text>
-          <Text style={styles.subtext}>{selectedCellsCareinstitution[0].canstitution.zipCode || ''} {selectedCellsCareinstitution[0].canstitution.city || ''}
-          {/* {languageTranslation("WERDER")}  */}
-          </Text></> : null}
-
-         
+          {selectedCellsCareinstitution &&
+          selectedCellsCareinstitution.length &&
+          selectedCellsCareinstitution[0].canstitution ? (
+            <>
+              <Text style={styles.subtext}>
+                {selectedCellsCareinstitution[0].canstitution.companyName || ""}
+              </Text>
+              <Text style={styles.subtext}>
+                {selectedCellsCareinstitution[0].canstitution.street || "-"}
+              </Text>
+              <Text style={styles.subtext}>
+                {selectedCellsCareinstitution[0].canstitution.zipCode || ""}{" "}
+                {selectedCellsCareinstitution[0].canstitution.city || ""}
+              </Text>
+            </>
+          ) : null}
         </View>
         <View style={styles.section}>
           <Text style={styles.subtitle}>
@@ -204,30 +164,29 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
           <Text style={styles.subtextbold}>
             {languageTranslation("WORK_DETAILS")}
           </Text>
-         
+
           {selectedCellsCareinstitution && selectedCellsCareinstitution.length
             ? selectedCellsCareinstitution.map((cell: any, index: number) => {
-                const { item = {}, canstitution } = cell;
-                const {companyName='', strret = '', city = ''} = canstitution
+                const { item = {} } = cell;
                 const {
                   id = "",
                   startTime = "",
-                  endTime = "",
                   date = "",
                   appointments = [],
-                  qualificationId = [],
-                  qualificationForCharge=""
+                  qualificationForCharge = "",
                 } = item ? item : {};
-                let payGroup:number = 4;
-                let payGroupIndex = payGroups.findIndex((paygrp:any) => paygrp.includes(qualificationForCharge))
+                let payGroup: number = 4;
+                let payGroupIndex = payGroups.findIndex((paygrp: any) =>
+                  paygrp.includes(qualificationForCharge)
+                );
                 if (payGroupIndex > -1) {
-                  payGroup = payGroupIndex + 1
+                  payGroup = payGroupIndex + 1;
                 }
                 const { ca = {} } =
                   appointments && appointments.length ? appointments[0] : {};
-                console.log(ca, 'ca');
-                let qualificationforChargerData = qualificationList
-                .filter((item:any) => item.value === qualificationForCharge)
+                let qualificationforChargerData = qualificationList.filter(
+                  (item: any) => item.value === qualificationForCharge
+                );
                 let shiftLabel: string =
                   startTime === "06:00"
                     ? "FD"
@@ -237,23 +196,24 @@ const ConfirmAppointmentPdf: FunctionComponent<IConfirmAppointmentPdfProps & {qu
                 return id ? (
                   <Text style={styles.subtext1} key={index}>
                     {date ? moment(date).format(defaultDateFormat) : ""},{" "}
-                    {shiftLabel}, {ca && ca.name ? `${languageTranslation("WORKER")}: ${ca.name},` : ""}{" "}
+                    {shiftLabel},{" "}
+                    {ca && ca.name
+                      ? `${languageTranslation("WORKER")}: ${ca.name},`
+                      : ""}{" "}
                     {languageTranslation("QUALIFICATION")}:{" "}
-                    {/* {qualificationId
-                      .map((quali: IReactSelectInterface) => quali.label)
-                      .filter(Boolean)
-                      .join(", ")} */}
-                    {qualificationforChargerData && qualificationforChargerData.length ? 
-                      qualificationforChargerData[0].label : ''}
-                    , {languageTranslation("PAY_GROUP_TXT")}: {payGroup }{" "}
+                    {qualificationforChargerData &&
+                    qualificationforChargerData.length
+                      ? qualificationforChargerData[0].label
+                      : ""}
+                    , {languageTranslation("PAY_GROUP_TXT")}: {payGroup}{" "}
                   </Text>
                 ) : null;
               })
             : null}
         </View>
 
-        <View  style={styles.signaturecontainer} >
-          <View >
+        <View style={styles.signaturecontainer}>
+          <View>
             <Text style={styles.imagediv}></Text>
             <Text style={styles.imgtext}>
               {languageTranslation("SIGN_IT_AND_SEND_BACK")}

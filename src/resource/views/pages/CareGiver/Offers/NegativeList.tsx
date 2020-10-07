@@ -20,27 +20,12 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
   let {
     negativeUser,
     handleRemoveAll,
-    careInstOptions,
     setShowSearch,
     onDeleteNegativeUser,
     handleSelect,
     selectedOption,
     setSelectedOption,
   } = props;
-
-  if (
-    negativeUser &&
-    negativeUser.getNegativeList &&
-    negativeUser.getNegativeList.negativeList
-  ) {
-    careInstOptions = careInstOptions.filter((g: any) => {
-      return !negativeUser.getNegativeList.negativeList.find((d: any) => {
-        if (d.id === g.value) {
-          return g;
-        }
-      });
-    });
-  }
 
   return (
     <div className="common-list-wrap">
@@ -140,31 +125,6 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
           value={selectedOption}
           label="offers"
          />
-          {/* <Select
-            placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
-            options={
-              careInstOptions && careInstOptions.length > 1
-                ? careInstOptions
-                : []
-            }
-            menuPlacement={"top"}
-            className="attribute-select"
-            classNamePrefix="attribute-inner-select"
-            onChange={(value) => {
-              handleSelect(value);
-              setSelectedOption(null);
-            }}
-            noOptionsMessage={() => {
-              return careInstOptions && careInstOptions.length > 1
-                ? "No Care Institution"
-                : "No Care Institution";
-            }}
-            value={selectedOption}
-            components={{ Option: CareInstCustomOption }}
-            isOptionDisabled={(option) =>
-              option.value === languageTranslation("ID")
-            }
-          /> */}
         </FormGroup>
       </div>
     </div>

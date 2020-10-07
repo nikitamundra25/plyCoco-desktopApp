@@ -21,7 +21,6 @@ import {
   ICareInstitutionListDataInterface,
   ISearchValues,
   IReactSelectInterface,
-  IReplaceObjectInterface,
 } from "../../../../interfaces";
 import { RouteComponentProps } from "react-router";
 import PaginationComponent from "../../components/Pagination";
@@ -31,7 +30,6 @@ import Search from "../../components/SearchFilter";
 import { Formik, FormikProps, FormikHelpers } from "formik";
 import {
   languageTranslation,
-  logger,
   errorFormatter,
 } from "../../../../helpers";
 import { ConfirmBox } from "../../components/ConfirmBox";
@@ -174,11 +172,9 @@ const CareInstitution = (props: RouteComponentProps) => {
     }
     const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
-    // logger('path', path);
   };
 
   const onPageChanged = (currentPage: number) => {
-    // logger('onPageChanged', currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       "?"
@@ -186,41 +182,41 @@ const CareInstitution = (props: RouteComponentProps) => {
     history.push(path);
   };
 
-  const handleStatus = async (id: any, status: boolean) => {
-    const { value } = await ConfirmBox({
-      title: languageTranslation("CONFIRM_LABEL"),
-      text: status
-        ? languageTranslation("CONFIRM_CARE_INSTITUTION_DISABLED_MSG")
-        : languageTranslation("CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG"),
-    });
-    if (!value) {
-      return;
-    } else {
-      try {
-        toast.dismiss();
-        await updateStatus({
-          variables: {
-            id,
-            isActive: !status,
-          },
-        });
-        refetch();
-        if (!toast.isActive(toastId)) {
-          toast.success(
-            languageTranslation("CARE_INSTITUTION_STATUS_UPDATE_MSG")
-          );
-        }
-      } catch (error) {
-        const message = error.message
-          .replace("SequelizeValidationError: ", "")
-          .replace("Validation error: ", "")
-          .replace("GraphQL error: ", "");
-        if (!toast.isActive(toastId)) {
-          toastId = toast.error(message);
-        }
-      }
-    }
-  };
+  // const handleStatus = async (id: any, status: boolean) => {
+  //   const { value } = await ConfirmBox({
+  //     title: languageTranslation("CONFIRM_LABEL"),
+  //     text: status
+  //       ? languageTranslation("CONFIRM_CARE_INSTITUTION_DISABLED_MSG")
+  //       : languageTranslation("CONFIRM_CARE_INSTITUTION_ACTIVATE_MSG"),
+  //   });
+  //   if (!value) {
+  //     return;
+  //   } else {
+  //     try {
+  //       toast.dismiss();
+  //       await updateStatus({
+  //         variables: {
+  //           id,
+  //           isActive: !status,
+  //         },
+  //       });
+  //       refetch();
+  //       if (!toast.isActive(toastId)) {
+  //         toast.success(
+  //           languageTranslation("CARE_INSTITUTION_STATUS_UPDATE_MSG")
+  //         );
+  //       }
+  //     } catch (error) {
+  //       const message = error.message
+  //         .replace("SequelizeValidationError: ", "")
+  //         .replace("Validation error: ", "")
+  //         .replace("GraphQL error: ", "");
+  //       if (!toast.isActive(toastId)) {
+  //         toastId = toast.error(message);
+  //       }
+  //     }
+  //   }
+  // };
 
   const {
     searchValue = "",
@@ -228,13 +224,6 @@ const CareInstitution = (props: RouteComponentProps) => {
     isActive = undefined,
   } = searchValues ? searchValues : {};
 
-  const queryVariables = {
-    page: currentPage,
-    isActive: isActive ? isActive.value : "",
-    sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
-    searchBy: searchValue ? searchValue : "",
-    limit: PAGE_LIMIT,
-  };
 
   const onDelete = async (id: any) => {
     const { value } = await ConfirmBox({

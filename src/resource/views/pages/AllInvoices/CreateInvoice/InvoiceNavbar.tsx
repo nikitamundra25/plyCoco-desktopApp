@@ -21,8 +21,6 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (
 ) => {
   const {
     onhandleSelection,
-    careGiversOptions,
-    careInstitutionOptions,
     careinstitutionFilter,
     careInstitutionDepartmentOption,
     departmentFilter,
@@ -46,24 +44,7 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (
       </div>
 
       <div className="user-select mx-1 ">
-        {/* <Select
-        classNamePrefix="custom-inner-reactselect"
-        className={
-            "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
-          }
-        placeholder={languageTranslation("SELECT_CAREGIVER")}
-        components={{ Option: CustomOption }}
-         options={careGiversOptions}
-         onChange={(value: any) =>
-            onhandleSelection(value, "caregiver")
-          }
-        isClearable={true}
-        value={
-          caregiverFilter && caregiverFilter.value !== ""
-            ? caregiverFilter
-            : null
-        }
-      /> */}
+        
 
         <CaregiverCustomAsyncList
           placeholderLabel={languageTranslation("SELECT_CAREGIVER")}
@@ -76,24 +57,6 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (
         />
       </div>
       <div className="user-select mx-1 ">
-        {/* <Select
-        classNamePrefix="custom-inner-reactselect"
-        className={
-          "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
-        }
-        placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
-        options={careInstitutionOptions}
-        value={
-          careinstitutionFilter && careinstitutionFilter.value !== ""
-            ? careinstitutionFilter
-            : null
-        }
-        components={{ Option: CareInstCustomOption }}
-        onChange={(value: any) =>
-          onhandleSelection(value, "careinstitution")
-        }
-        isClearable={true}
-      /> */}
         <CareinstitutionCustomAsyncList
           placeholderLabel={languageTranslation("SELECT_CARE_INSTITUTION")}
           onChange={(value: any) => onhandleSelection(value, "careinstitution")}

@@ -11,6 +11,7 @@ export const ADD_DOCUMENT = gql`
   }
 `;
 
+
 export const DocumentUploadMutations = [
   ADD_DOCUMENT
 ];

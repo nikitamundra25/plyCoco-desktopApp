@@ -301,8 +301,6 @@ const Documents = () => {
         setFileObject(file);
         if (file) {
           const reader = new FileReader();
-          reader.onabort = () => console.log('file reading was aborted');
-          reader.onerror = () => console.log('file reading has failed');
           reader.onloadend = () => {
             if (reader.result) {
               temp = {

@@ -1,17 +1,17 @@
 import React, { useState, FunctionComponent, useEffect } from "react";
 import { Card, Nav } from "reactstrap";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps ,useLocation} from "react-router";
 import ".././index.scss";
 import SolonaList from "./SolonaList";
 import { InvoiceQueries } from "../../../../../graphql/queries";
-import { PAGE_LIMIT, AppConfig } from "../../../../../config";
+import { ARCHIVE_PAGE_LIMIT, AppConfig } from "../../../../../config";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import SolonaNavBar from "./SolonaNavBar";
 import SendInvoiceModal from "../SelfEmpInvoiceList/SendInvoiceModal";
 import { InvoiceMutations } from "../../../../../graphql/Mutations";
 import { toast } from "react-toastify";
 import { languageTranslation, errorFormatter } from "../../../../../helpers";
-
+import * as qs from 'query-string';
 const [, GET_ALL_INVOICE_LIST] = InvoiceQueries;
 const [, , SEND_INVOICE_DATA] = InvoiceMutations;
 let toastId: any = null;
@@ -19,6 +19,9 @@ let toastId: any = null;
 const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
   mainProps: any
 ) => {
+  const { search } = useLocation();
+  const query = qs.parse(search);
+  
   // To fetch All invoice list
   const [
     fetchAllInvoiceList,
@@ -27,7 +30,6 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
     fetchPolicy: "no-cache",
   });
 
-  const [selectedAppointment, setselectedAppointment] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [openSendInvoice, setopenSendInvoice] = useState(false);
   const [selectedInvoice, setselectedInvoice] = useState<Object[]>([]);
@@ -51,16 +53,14 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
     },
   });
 
-  // console.log('++++++++++++++++++++', invoiceList);
   const getAllInvoiceListData = () => {
-    console.log("currentPage", currentPage);
 
     fetchAllInvoiceList({
       variables: {
         status: "",
         invoiceType: "leasing",
         sortBy: null,
-        limit: PAGE_LIMIT,
+        limit: ARCHIVE_PAGE_LIMIT,
         page: 1,
       },
     });
@@ -79,6 +79,14 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
     setTabChange(currentTab);
   };
 
+  useEffect(() => {
+    if (query) {
+      setCurrentPage(query.page ? parseInt(query.page as string) : 1);
+    }
+    // call query
+    getAllInvoiceListData();
+  }, [search]); // It will run when the search value gets changed
+
   const handleCheckedChange = (e: any, invoiceData: any) => {
     const { checked } = e.target;
     if (checked === true) {
@@ -94,7 +102,6 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
   };
 
   const handleSendInvoiceModal = () => {
-    console.log("This this function", openSendInvoice);
     if (openSendInvoice) {
       setsendselectedInvoice({ careinstitution: [], careGiver: [] });
     }
@@ -108,8 +115,6 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
   ) => {
     const { checked } = e.target;
     if (checked === true) {
-      const careInstData: object[] = [];
-      const careGiverData: object[] = [];
       if (selectedType === "careInst") {
         sendselectedInvoice.careinstitution.push({
           email: invoiceData.careinstitution.email,
@@ -170,7 +175,6 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
   const handleShowInvoice = () => {
     if (selectedInvoice && selectedInvoice.length) {
       selectedInvoice.forEach((invoiceData: any) => {
-        console.log(">>>>>>>>>>>>", invoiceData);
         window.open(
           `${AppConfig.APP_ENDPOINT}/${invoiceData.plycocoPdf}`,
           "_blank"
@@ -196,6 +200,13 @@ const InvoiceSolona: FunctionComponent<RouteComponentProps> & any = (
                 handleCheckedChange(e, list)
               }
               currentPage={currentPage}
+              invoiceListLoading={invoiceListLoading}
+              totalCount={
+                invoiceList &&
+                invoiceList.getInvoices 
+                  ? invoiceList.getInvoices.totalCount
+                  : 0
+              }
               invoiceList={
                 invoiceList &&
                 invoiceList.getInvoices &&

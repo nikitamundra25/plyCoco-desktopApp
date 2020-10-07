@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 import Select from "react-select";
 import { languageTranslation } from "../../../../../../helpers";
-
 import refresh from "../../../../../assets/img/refresh.svg";
 import PlyCocoreceipt from "../../../../../assets/img/header-icons/plyCoco-receipt.svg";
 import SpecialistInvoice from "../../../../../assets/img/header-icons/specialist-invoice.svg";

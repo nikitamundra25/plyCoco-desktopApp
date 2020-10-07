@@ -32,11 +32,11 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
 
   if (
     negativeUser &&
-    negativeUser.getNegativeList &&
-    negativeUser.getNegativeList.negativeList
+    negativeUser.getNegativeListForCanstitution &&
+    negativeUser.getNegativeListForCanstitution.negativeList
   ) {
     caregiverOptions = caregiverOptions.filter((g: any) => {
-      return !negativeUser.getNegativeList.negativeList.find((d: any) => {
+      return !negativeUser.getNegativeListForCanstitution.negativeList.find((d: any) => {
         if (d.id === g.value) {
           return g;
         }
@@ -62,8 +62,8 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
               <DropdownItem
                 disabled={
                   negativeUser &&
-                  negativeUser.getNegativeList &&
-                  negativeUser.getNegativeList.negativeList.length === 0
+                  negativeUser.getNegativeListForCanstitution &&
+                  negativeUser.getNegativeListForCanstitution.negativeList.length === 0
                 }
               >
                 <span onClick={handleRemoveAll}>
@@ -78,9 +78,9 @@ const NegativeList: FunctionComponent<INegativeListInterface> = (
       <div className="common-list-body custom-scrollbar">
         <ul className="common-list list-unstyled mb-0">
           {negativeUser &&
-          negativeUser.getNegativeList &&
-          negativeUser.getNegativeList.negativeList
-            ? negativeUser.getNegativeList.negativeList.map(
+          negativeUser.getNegativeListForCanstitution &&
+          negativeUser.getNegativeListForCanstitution.negativeList
+            ? negativeUser.getNegativeListForCanstitution.negativeList.map(
                 (item: any, index: number) => {
                   return (
                     <li

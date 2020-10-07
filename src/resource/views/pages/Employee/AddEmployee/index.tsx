@@ -1,6 +1,11 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
-import { useMutation, useLazyQuery, useQuery } from '@apollo/react-hooks';
+import {
+  useMutation,
+  useLazyQuery,
+  useQuery,
+  useSubscription,
+} from '@apollo/react-hooks';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { toast } from 'react-toastify';
 import moment from 'moment';
@@ -20,20 +25,22 @@ import {
   EmployeeQueries,
   CountryQueries,
 } from '../../../../../graphql/queries';
-import { logger, languageTranslation } from '../../../../../helpers';
+import {  languageTranslation } from '../../../../../helpers';
 import {
   AppRoutes,
   defaultDateFormat,
   dbAcceptableFormat,
 } from '../../../../../config';
 import { EmployeeMutations } from '../../../../../graphql/Mutations';
+import { EmployeeSubscription } from '../../../../../graphql/Subscription';
 import { errorFormatter } from '../../../../../helpers';
 import Loader from '../../../containers/Loader/Loader';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 const [GET_EMPLOYEE_BY_ID, GET_EMPLOYEES] = EmployeeQueries;
 const [ADD_EMPLOYEE, UPDATE_EMPLOYEE] = EmployeeMutations;
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
+const [GET_EMPLOYEE_BY_ID_SUBSCRIPTION] = EmployeeSubscription;
 
 let toastId: any = null;
 
@@ -41,10 +48,17 @@ export const EmployeeForm: FunctionComponent<{
   employeeValues?: any;
 }> = ({ employeeValues }: { employeeValues?: any }) => {
   // get id from params
-  let { id } = useParams();
+  let { id }: any = useParams();
   let history = useHistory();
   const { state: locationState } = useLocation();
-
+  const fetchEmployeeSubscription = useSubscription<any>(
+    GET_EMPLOYEE_BY_ID_SUBSCRIPTION,
+    {
+      variables: {
+        id: 'All',
+      },
+    },
+  );
   // To get the employee details by id
   const [
     getEmployeeDetails,
@@ -57,7 +71,7 @@ export const EmployeeForm: FunctionComponent<{
   ] = useLazyQuery<any>(GET_EMPLOYEE_BY_ID);
 
   // To fetch the list of countries
-  const { data: countriesData, loading } = useQuery<ICountries>(GET_COUNTRIES);
+  const { data: countriesData } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
@@ -82,14 +96,40 @@ export const EmployeeForm: FunctionComponent<{
   const [states, setStatesValue] = useState<IReactSelectInterface | undefined>(
     undefined,
   );
-  logger(id, 'id');
-
+  if (
+    fetchEmployeeSubscription &&
+    fetchEmployeeSubscription.data &&
+    fetchEmployeeSubscription.data.employeeUpdateSubscribe &&
+    employeeDetails.viewEmployee &&
+    employeeDetails.viewEmployee
+  ) {
+    if (
+      employeeDetails.viewEmployee.id ==
+      fetchEmployeeSubscription.data.employeeUpdateSubscribe.id
+    ) {
+      employeeDetails.viewEmployee.employee.state =
+        fetchEmployeeSubscription.data.employeeUpdateSubscribe.employee.state;
+      if (
+        fetchEmployeeSubscription.data.employeeUpdateSubscribe.employee &&
+        states &&
+        states.label !==
+          fetchEmployeeSubscription.data.employeeUpdateSubscribe.employee.state
+      ) {
+        setStatesValue(
+          statesOpt.filter(
+            ({ label }: IReactSelectInterface) =>
+              label ===
+              fetchEmployeeSubscription.data.employeeUpdateSubscribe.employee
+                .state,
+          )[0],
+        );
+      }
+    }
+  }
   const update = (cache: any, payload: any) => {
-    logger(payload, 'payload');
     const data = cache.readQuery({
       query: GET_EMPLOYEES,
     });
-    logger(data, 'data');
   };
   // To add emplyee details into db
   const [addEmployee, { error, data }] = useMutation<
@@ -158,7 +198,6 @@ export const EmployeeForm: FunctionComponent<{
     });
   };
   useEffect(() => {
-    logger('in employeeDetail useEfect');
     if (employeeDetails && employeeDetails.viewEmployee) {
       const { viewEmployee } = employeeDetails;
       setImageUrl(viewEmployee.profileImage ? viewEmployee.profileImage : '');
@@ -184,7 +223,6 @@ export const EmployeeForm: FunctionComponent<{
           });
         });
       }
-      logger(regionData, 'statesOpt');
       setEmployeeData({
         ...viewEmployee,
         ...viewEmployee.employee,
@@ -337,7 +375,6 @@ export const EmployeeForm: FunctionComponent<{
       region,
       accessLevel,
     } = values;
-    logger(region, 'regionnnn');
     try {
       let employeeInput: IEmployeeInput = {
         firstName: firstName ? firstName.trim() : '',
@@ -408,10 +445,6 @@ export const EmployeeForm: FunctionComponent<{
             );
           }
         }
-        // history.push({
-        //   pathname: AppRoutes.EMPLOYEE,
-        //   state: { isValid: true },
-        // });
       } else {
         await addEmployee({
           variables: {
@@ -420,11 +453,6 @@ export const EmployeeForm: FunctionComponent<{
         });
         toast.success(languageTranslation('EMPLOYEE_ADD_SUCCESS_MSG'));
         history.push(AppRoutes.EMPLOYEE);
-
-        // history.push({
-        //   pathname: AppRoutes.EMPLOYEE,
-        //   state: { isValid: true },
-        // });
       }
     } catch (error) {
       const message = errorFormatter(error);
@@ -432,8 +460,7 @@ export const EmployeeForm: FunctionComponent<{
         toastId = toast.error(message);
       }
       if (
-        message ===
-        "Employee added successfully but due to some network issue email couldn't be sent out"
+        message === languageTranslation("EMPLOYEE_EMAIL")
       ) {
         history.push(AppRoutes.EMPLOYEE);
       }
@@ -479,7 +506,7 @@ export const EmployeeForm: FunctionComponent<{
     address2,
     city,
     zip,
-    joiningDate:joiningDate||'',
+    joiningDate: joiningDate || '',
     accessLevel,
     country,
     region,
@@ -488,9 +515,17 @@ export const EmployeeForm: FunctionComponent<{
   };
   return (
     <>
-     <Helmet>
-    <title>{employeeData ? `${languageTranslation(`EDIT_EMPLOYEE`)}/ ${employeeData.firstName ? employeeData.lastName + " " +employeeData.firstName : ""}`  : languageTranslation("ADD_EMPLOYEE")} </title>
-  </Helmet>
+      <Helmet>
+        <title>
+          {employeeData
+            ? `${languageTranslation(`EDIT_EMPLOYEE`)}/ ${
+                employeeData.firstName
+                  ? employeeData.lastName + ' ' + employeeData.firstName
+                  : ''
+              }`
+            : languageTranslation('ADD_EMPLOYEE')}{' '}
+        </title>
+      </Helmet>
       {dataLoading ? (
         <Loader />
       ) : (

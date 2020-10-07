@@ -1106,7 +1106,6 @@ const CaregiverListView: FunctionComponent<IAppointmentCareGiverList> = (
                                       key={`loader`}
                                       style={{
                                         ...style,
-                                        // top: top ? top + 28 : top,
                                       }}
                                     >
                                       <div className='apptmnt-loader'>

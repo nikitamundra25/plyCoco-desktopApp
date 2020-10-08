@@ -46,7 +46,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
             </thead>
             <tbody>
               {documentListLoading ? (
-                <tr>
+                <tr  >
                   <td className={"table-loader"} colSpan={7}>
                     <Loader />
                   </td>
@@ -56,7 +56,7 @@ const DocumentList: FunctionComponent<RouteComponentProps> = (props: any) => {
                 documentList.getDashboardNewDocuments.map(
                   (item: any, index: number) => {
                     return (
-                      <tr key={index}>
+                      <tr key={index} >
                         <td className="date-column">
                           {" "}
                           {moment(item.createdAt).format(

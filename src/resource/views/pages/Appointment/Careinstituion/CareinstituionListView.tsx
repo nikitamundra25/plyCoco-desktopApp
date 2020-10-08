@@ -5,7 +5,7 @@ import React, {
   lazy,
   useEffect,
 } from 'react';
-import { Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
+import {  Button, Nav, NavItem, NavLink } from 'reactstrap';
 import { SelectableGroup } from 'react-selectable-fast';
 import moment from 'moment';
 import classnames from 'classnames';
@@ -77,11 +77,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     totalCareinstituion,
     getMoreCareInstituionList,
     updateCareInstitutionStatus,
-    locationState,
     starMarkCareinstitution,
   } = props;
   const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
-  const [openToggleMenu, setopenToggleMenu] = useState<boolean>(false);
   //use state for toggel menu item
   const [toggleMenuButton, settoggleMenuButton] = useState<boolean>(false);
   const [confirmAppointment, setConfirmAppointment] = useState<boolean>(false);
@@ -91,12 +89,9 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
   };
   const { daysArr = [] } = daysData ? daysData : {};
 
-  const [onEnterMenu, setonEnterMenu] = useState(false);
-  const [selectedDays, setSelectedDays] = useState<any[]>([]);
+  // const [selectedDays, setSelectedDays] = useState<any[]>([]);
 
   const onSelectFinish = (selectedCells: any[]) => {
-    console.log('Insiodeeee');
-
     let selectedRows: any[] = [];
     if (selectedCells && selectedCells.length) {
       selectedRows = selectedCells.map((selectedCell: any) => {
@@ -114,13 +109,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           deptId = '',
           divisions = [],
         } = careInstData ? careInstData : {};
-        console.log('careInstDatacareInstData', qualificationList);
-        console.log(
-          'qualificationIdqualificationId',
-          qualificationId,
-          'jjjjj',
-          item,
-        );
 
         let qualification1: IReactSelectInterface[] = [];
         if (
@@ -169,14 +157,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
           cellIndex,
         };
       });
-      console.log('selectedRowsselectedRows', selectedRows);
 
       handleSelection(selectedRows, 'careinstitution');
     }
   };
 
   const onSelectionClear = () => {
-    setSelectedDays([]);
+    // setSelectedDays([]);
   };
   // Link appointments
   const handleLinkAppointments = async (name: string) => {
@@ -289,13 +276,13 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
 
   //unLinked by
   const [unlinkedBy, setunlinkedBy] = useState<string>('');
+  const [isFromUnlink, setisFromUnlink] = useState(false);
 
   // UnLink appointmnets
   const handleUnLinkAppointments = (name: string) => {
     setshowUnlinkModal(!showUnlinkModal);
   };
 
-  const [isFromUnlink, setisFromUnlink] = useState(false);
   const handleUnlinkData = (likedBy: string, check: boolean) => {
     setunlinkedBy(likedBy);
     let appointmentId: any = [];
@@ -412,14 +399,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       );
     }
 
-    // let temp: any[] = [];
-    // if (listData && listData.length) {
-    // listData.forEach((list: any, index: number) => {
-    // if (list && list.availabilityData && list.availabilityData.length) {
-    // list.availabilityData.map((item: any, row: number) =>
-    // console.log("list",list);
-
-    // temp.push(
+    
     return (
       <>
         <div
@@ -822,7 +802,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     }
   };
 
-  console.log(selectedCellsCareinstitution, 'selectedCellsCareinstitution++**');
   let selectedcareInstApptId: number[] = [];
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     selectedcareInstApptId = selectedCellsCareinstitution
@@ -847,15 +826,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
       (cell: any) => cell.cellIndex,
     );
   }
-  console.log(
-    selectedcareGiverApptId,
-    selectedcareInstApptId,
-    selectedcareInstIndexes,
-    'selectedcareInstIndexes',
-    selectedCellsCareinstitution,
-    fetchingCareInstitutions,
-    'fetchCareinstitutionList',
-  );
+
 
   return (
     <>
@@ -874,11 +845,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
         })}
         id={'clickbox'}
       >
-        <div
-          onMouseOver={() => {
-            setonEnterMenu(true);
-          }}
-        >
+        <div >
           <Nav vertical>
             <NavItem>
               <NavLink
@@ -1179,7 +1146,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
                 onClick={() => {
                   handleCareInstitutionBulkEmail();
                   setStatusTo('offered');
-                  setopenToggleMenu(false);
                   setSortBy('day');
                 }}
               >

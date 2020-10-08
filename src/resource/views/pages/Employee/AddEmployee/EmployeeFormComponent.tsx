@@ -24,8 +24,7 @@ import { FormikProps, Form } from "formik";
 import {
   IBANRegex,
   DateMask,
-  AppConfig,
-  PAGE_LIMIT,
+  AppConfig
 } from "../../../../../config";
 import routes from "../../../../../routes/routes";
 import {
@@ -145,7 +144,6 @@ const EmployeeFormComponent: FunctionComponent<
   }, []);
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-    logger(selectOption, "selectOptionvalue");
     setFieldValue(name, selectOption);
     if (name === "country") {
       setFieldValue("state", undefined);
@@ -369,7 +367,6 @@ const EmployeeFormComponent: FunctionComponent<
                                       placeholder={languageTranslation(
                                         "EMPLOYEE_TELEPHONE_NUMBER_LABEL"
                                       )}
-                                      // mask="999-999-9999"
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={telephoneNumber}

@@ -5,8 +5,7 @@ import { FormikProps, Field } from 'formik';
 import {
   NightAllowancePerHour,
   InvoiceInterval,
-  LeasingPriceList,
-  CaregiverInvoiceTax
+  LeasingPriceList
 } from '../../../../../config';
 import {
   CareGiverValues,
@@ -26,9 +25,6 @@ const BillingSettingsFormComponent: any = (
   logger(props.values, 'values');
   // Custom function to handle react select fields
   const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-
-    
-    logger(selectOption, 'selectOptionvalue');
     setFieldValue(name, selectOption);
   };
   return (

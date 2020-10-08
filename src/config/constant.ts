@@ -12,7 +12,9 @@ export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\
 export const PAGE_LIMIT: number = 10;
 export const TODO_PAGE_LIMIT: number = 14;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
+export const APPOINTMENT_PAGE_LIMIT: number = 30;
 export const ASYNC_LIST_LIMIT: number = 50;
+export const BULK_INSTIUTION_LIST: number = 60;
 export const defaultDateTimeFormatForDashboard: any = 'DD.MM.YYYY HH:mm';
 export const appointmentDayFormat: string = 'dd';
 export const appointmentDateFormat: string = 'DD';
@@ -23,7 +25,6 @@ export const defaultDateFormat: any = 'DD.MM.YYYY';
 export const dbAcceptableFormat: any = 'YYYY-MM-DD';
 export const dateFormat: any = 'MMM, Do YYYY';
 export const regSinceDate: any = 'DD.MM.YYYY';
-
 export const alphaNumeric: RegExp = /^[A-Za-z0-9 ]+$/;
 export const telephoneReqExp: RegExp = /^\(([0-9]{10-13})\)$/;
 export const emailRegex: RegExp = /^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;

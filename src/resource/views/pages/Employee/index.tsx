@@ -53,7 +53,6 @@ import { Helmet } from "react-helmet";
 
 let toastId: any = null;
 
-const perminssionArray: String[] = ["All", "Basic", "Invoice"];
 
 const [, GET_EMPLOYEES] = EmployeeQueries;
 
@@ -85,7 +84,7 @@ const Employee: FunctionComponent = () => {
   });
 
   // Mutation to delete employee
-  const [deleteEmployee, { error }] = useMutation<
+  const [deleteEmployee] = useMutation<
     { deleteEmployee: any },
     { id: string }
   >(DELETE_EMPLOYEE);
@@ -173,32 +172,6 @@ const Employee: FunctionComponent = () => {
     });
   }, [search]); // It will run when the search value gets changed
 
-  useEffect(() => {
-    logger(state, "state in useEffect");
-    if (state && state.isValid) {
-      // const {
-      //   searchValue = '',
-      //   sortBy = undefined,
-      //   isActive = undefined,
-      // } = searchValues ? searchValues : {};
-      // refetch({
-      //   limit: PAGE_LIMIT,
-      //   page: 1,
-      //   searchBy: '',
-      //   sortBy: 0,
-      //   isActive: '',
-      // });
-      // fetchEmployeeList({
-      //   variables: {
-      //     limit: PAGE_LIMIT,
-      //     page: 1,
-      //     searchBy: '',
-      //     sortBy: 0,
-      //     isActive: '',
-      //   },
-      // });
-    }
-  }, [location]);
 
   //  Function to manage read more/less regions
   const readMoreRegionsData = (index: number) => {
@@ -234,23 +207,14 @@ const Employee: FunctionComponent = () => {
     }
     const path = [pathname, qs.stringify(params)].join("?");
     history.push(path);
-    logger("path", path);
   };
 
   const onPageChanged = (currentPage: number) => {
-    logger("onPageChanged", currentPage);
     const query = qs.parse(search);
     const path = [pathname, qs.stringify({ ...query, page: currentPage })].join(
       "?"
     );
     history.push(path);
-  };
-  const queryVariables = {
-    page: currentPage,
-    isActive: isActive ? isActive.value : "",
-    sortBy: sortBy && sortBy.value ? parseInt(sortBy.value) : 0,
-    searchBy: searchValue ? searchValue : "",
-    limit: PAGE_LIMIT,
   };
   const onDelete = async (id: string) => {
     const { value } = await ConfirmBox({
@@ -267,27 +231,6 @@ const Employee: FunctionComponent = () => {
           },
         });
         refetch();
-        // const data = await client.readQuery({
-        //   query: GET_EMPLOYEES,
-        //   variables: queryVariables,
-        // });
-        // const newEmployees = data.getEmployees.employeeData.filter(
-        //   (employee: any) => employee.id !== id,
-        // );
-
-        // const updatedData = {
-        //   ...data,
-        //   getEmployees: {
-        //     ...data.getEmployees,
-        //     employeeData: newEmployees,
-        //     totalCount: newEmployees.length,
-        //   },
-        // };
-        // client.writeQuery({
-        //   query: GET_EMPLOYEES,
-        //   variables: queryVariables,
-        //   data: updatedData,
-        // });
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
             languageTranslation("EMPLOYEE_DELETED_SUCCESS")
@@ -301,7 +244,6 @@ const Employee: FunctionComponent = () => {
         if (!toast.isActive(toastId)) {
           toastId = toast.error(message);
         }
-        logger(error.message, "error");
       }
     }
   };
@@ -499,7 +441,6 @@ const Employee: FunctionComponent = () => {
                         userName,
                         email,
                         phoneNumber,
-                        assignedCanstitution,
                         regions,
                         isActive,
                         profileThumbnailImage,
@@ -718,14 +659,7 @@ const Employee: FunctionComponent = () => {
                           </td>
                           <td>
                             <div className="action-btn">
-                              {/* <Link
-                            to={AppRoutes.EDIT_EMPLOYEE.replace(
-                              /:id|:userName/gi,
-                              function(matched) {
-                                return replaceObj[matched];
-                              },
-                            )}
-                          > */}
+                          
                               <ButtonTooltip
                                 id={`edit${index}`}
                                 message={languageTranslation("EMP_EDIT")}
@@ -736,16 +670,6 @@ const Employee: FunctionComponent = () => {
                                   }
                                 )}
                                 currentPage={currentPage}
-                                // onBtnClick={() =>
-                                //   history.push(
-                                //     AppRoutes.EDIT_EMPLOYEE.replace(
-                                //       /:id|:userName/gi,
-                                //       function(matched) {
-                                //         return replaceObj[matched];
-                                //       },
-                                //     ),
-                                //   )
-                                // }
                               >
                                 {" "}
                                 <i className="fa fa-pencil"></i>
@@ -760,16 +684,6 @@ const Employee: FunctionComponent = () => {
                                     return replaceObj[matched];
                                   }
                                 )}
-                                // onBtnClick={() =>
-                                //   history.push(
-                                //     AppRoutes.VIEW_EMPLOYEE.replace(
-                                //       /:id|:userName/gi,
-                                //       function(matched) {
-                                //         return replaceObj[matched];
-                                //       },
-                                //     ),
-                                //   )
-                                // }
                               >
                                 {" "}
                                 <i className="fa fa-eye"></i>

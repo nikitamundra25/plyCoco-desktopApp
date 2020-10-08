@@ -36,8 +36,6 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
       loading: registrationListLoading
     }
   ] = useLazyQuery<any>(GET_DASHBOARD_REGISTRATIONS_LIST);
-  console.log('getDashboardRegistrations',registrationList);
-  
 
   // To get documents list
   const [
@@ -78,7 +76,6 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
         loading: appointmentListLoading
       }
     ] = useLazyQuery<any>(GET_DASHBOARD_APPOINTMENT_LIST);
-    console.log('appointmentList',appointmentList)
 
      // To get confirm booking list
      const [
@@ -89,7 +86,6 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
         loading: confirmBookingListLoading
       }
     ] = useLazyQuery<any>(GET_DASHBOARD_APPOINTMENT_LIST);
-    console.log('bookingListbookingList',bookingList)
 
   useEffect(() => {
     // call queries

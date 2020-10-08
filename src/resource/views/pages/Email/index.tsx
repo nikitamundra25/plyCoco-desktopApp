@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, Suspense, useEffect } from 'react';
-import { RouteComponentProps, useLocation, useParams } from 'react-router';
+import { RouteComponentProps, useLocation } from 'react-router';
 import { AppRoutes } from '../../../../config';
 import qs from 'query-string';
 import {
@@ -8,16 +8,8 @@ import {
   IReactSelectInterface
 } from '../../../../interfaces';
 import { FormikProps } from 'formik';
-import {
-  CareInstitutionQueries,
-  GET_QUALIFICATION_ATTRIBUTE
-} from '../../../../graphql/queries';
-import { useLazyQuery, useQuery, useMutation } from '@apollo/react-hooks';
-import { IQualifications } from '../../../../interfaces/qualification';
 import Loader from '../../containers/Loader/Loader';
 import clear from '../../../assets/img/clear.svg';
-import { CareInstitutionMutation } from '../../../../graphql/Mutations';
-import CreateTodo from '../../components/CreateTodo/CreateTodoForm';
 import { languageTranslation } from '../../../../helpers';
 import inbox from '../../../assets/img/inbox.svg';
 import send from '../../../assets/img/send.svg';
@@ -49,11 +41,6 @@ const ViewEmails: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
   IHandleSubmitInterface> = (
   props: FormikProps<ICareInstitutionFormValues> & RouteComponentProps
 ) => {
-  let [selectUser, setselectUser] = useState<IReactSelectInterface>({
-    label: '',
-    value: ''
-  });
-
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -75,10 +62,8 @@ const ViewEmails: FunctionComponent<FormikProps<ICareInstitutionFormValues> &
     }
   };
 
-  let CareInstitutionList: Object[] = [];
-
   const [activeTab, setactiveTab] = useState(0);
-  const { search, pathname } = useLocation();
+  const { search } = useLocation();
 
   useEffect(() => {
     const query: any = qs.parse(search);

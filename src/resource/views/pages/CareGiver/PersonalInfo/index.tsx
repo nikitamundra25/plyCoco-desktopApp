@@ -12,7 +12,7 @@ const [, GET_CAREGIVER_BY_ID] = CareGiverQueries;
 const PersonalInfo: FunctionComponent<{
   careGiverOpt: IReactSelectInterface[];
 }> = ({ careGiverOpt }: { careGiverOpt: IReactSelectInterface[] }) => {
-  let { id } = useParams();
+  let { id }:any = useParams();
   const { data, loading } = useQuery<any>(GET_CAREGIVER_BY_ID, {
     variables: {
       id: id ? parseInt(id) : '',

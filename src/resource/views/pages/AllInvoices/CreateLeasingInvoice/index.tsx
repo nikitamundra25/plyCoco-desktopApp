@@ -14,21 +14,13 @@ import { RouteComponentProps, useLocation } from 'react-router';
 import '../index.scss';
 import 'react-day-picker/lib/style.css';
 import {
-  CareInstInActiveAttrId,
-  deactivatedListColor,
-  CareInstTIMyoCYAttrId,
-  leasingListColor,
-  CareInstPlycocoAttrId,
-  selfEmployesListColor,
   ARCHIVE_PAGE_LIMIT,
-  CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
 } from '../../../../../config';
 import { IReactSelectInterface } from '../../../../../interfaces';
 import {
   CareInstitutionQueries,
   InvoiceQueries,
-  CareGiverQueries,
   GlobalHolidaysQueries,
 } from '../../../../../graphql/queries';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -42,7 +34,7 @@ import { InvoiceMutations } from '../../../../../graphql/Mutations';
 let toastId: any = null;
 
 const [
-  GET_CARE_INSTITUTION_LIST,
+  ,
   ,
   GET_DEPARTMENT_LIST,
   ,
@@ -51,7 +43,6 @@ const [
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
 const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries;
-const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const [, CREATE_LEASING_INVOICE] = InvoiceMutations;
 
 const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
@@ -130,12 +121,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     // notifyOnNetworkStatusChange: true
   });
 
-  // To fetch all careinstitution list
-  const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
-    any
-  >(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache',
-  });
+ 
   // To Fetch golbal holidays and weekends
   const [getGlobalHolidays, { data: careGiverHolidays }] = useLazyQuery<
     any,
@@ -144,17 +130,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     fetchPolicy: 'no-cache',
     // notifyOnNetworkStatusChange: true
   });
-  useEffect(() => {
-    fetchCareInstitutionList({
-      variables: {
-        searchBy: null,
-        sortBy: 3,
-        limit: 500,
-        page: 1,
-        isActive: '',
-      },
-    });
-  }, []);
+ 
   //To get all holidays and weekends
   const getAllHolidays = (startDate: string, endDate: string) => {
     getGlobalHolidays({
@@ -180,25 +156,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       getAllHolidays(startDate, endDate);
     }
   }, [invoiceList]);
-
-  // To fetch the list of all caregiver
-  const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
-    GET_CAREGIVER_BY_NAME,
-    {
-      fetchPolicy: 'no-cache',
-    },
-  );
-
-  useEffect(() => {
-    // Fetch list of caregivers
-    fetchCareGivers({
-      variables: {
-        searchBy: '',
-        limit: 500,
-        page: 1,
-      },
-    });
-  }, []);
 
   // to get list of all invoices
   const getInvoiceListData = () => {
@@ -270,70 +227,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     getInvoiceListData();
   }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter]);
 
-  //  show careInstitution list options
-  const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
-  if (careInstituition && careInstituition.getCareInstitutions) {
-    const { getCareInstitutions } = careInstituition;
-    const { careInstitutionData, canstitution } = getCareInstitutions;
-    careInstitutionOptions.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID'),
-      companyName: languageTranslation('COMPANY_NAME'),
-    });
 
-    careInstitutionData.map((data: any, index: any) => {
-      const { canstitution } = data;
-      let { attributes = [], companyName = '' } = canstitution
-        ? canstitution
-        : {};
-      attributes = attributes ? attributes : [];
-      careInstitutionOptions.push({
-        label: `${data.lastName}${' '}${data.firstName}`,
-        value: data.id,
-        color: attributes.includes(CareInstInActiveAttrId)
-          ? deactivatedListColor
-          : attributes.includes(CareInstTIMyoCYAttrId)
-          ? leasingListColor
-          : attributes.includes(CareInstPlycocoAttrId)
-          ? selfEmployesListColor
-          : '',
-        companyName,
-      });
-      return true;
-    });
-  }
-
-  // show careGivers list options
-  const careGiversOptions: IReactSelectInterface[] | undefined = [];
-  if (
-    careGivers &&
-    careGivers.getCaregiverByName &&
-    careGivers.getCaregiverByName.result
-  ) {
-    careGiversOptions.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID'),
-      color: '',
-    });
-    careGivers.getCaregiverByName.result.forEach(
-      ({ id, firstName, lastName, isActive, caregiver }: any) => {
-        let { attributes = [] } = caregiver ? caregiver : {};
-        // To check null values
-        attributes = attributes ? attributes : [];
-        careGiversOptions.push({
-          label: `${lastName}${' '}${firstName}`,
-          value: id,
-          color: !isActive
-            ? deactivatedListColor
-            : attributes.includes(CaregiverTIMyoCYAttrId)
-            ? leasingListColor
-            : attributes.includes('Plycoco')
-            ? selfEmployesListColor
-            : '',
-        });
-      },
-    );
-  }
   // to reset all the filters
   const handleReset = () => {
     setcaregiverFilter({ label: '', value: '' });
@@ -599,7 +493,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   };
 
   let invoiceUpdatedListData = [];
-  console.log(invoiceList, 'invoiceListinvoiceList');
 
   if (
     !invoiceListLoading &&
@@ -607,10 +500,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
     invoiceList.getAllAppointment &&
     invoiceList.getAllAppointment.result.length
   ) {
-    console.log(
-      invoiceList.getAllAppointment.result,
-      'invoiceList.getAllAppointment.result',
-    );
+    
     invoiceList.getAllAppointment.result.forEach(async (ele: any) => {
       const { ca = {}, cr = {} } = ele ? ele : {};
       let nightWorkingMinutes: any = 0,
@@ -625,8 +515,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         ca.user.caregiver &&
         ca.user.caregiver.supplements === 'Cumulative'
       ) {
-        console.log('Cumulative');
-
+        
         if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
           let startT = ca.workingHoursFrom.split(',')[1];
           let endT = ca.workingHoursTo.split(',')[1];
@@ -646,7 +535,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             endT,
           );
         }
-        console.log('nightWorkingMinutes', nightWorkingMinutes);
         // SATURDAY & SUNDAY MINUTES (Weekend) =>  (WORKING ON IT!!)
         if (ele && ca && ca.workingHoursFrom && ca.workingHoursTo) {
           let startT = ca.workingHoursFrom.split(',')[1];
@@ -656,10 +544,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             startT,
             endT,
           );
-          console.log(
-            sundayWorkingMinutes,
-            'sundayWorkingMinutessundayWorkingMinutes',
-          );
+      
         } else {
           let startT = cr.startTime;
           let endT = cr.endTime;
@@ -669,7 +554,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             endT,
           );
         }
-        console.log('sundayWorkingMinutes', sundayWorkingMinutes);
 
         // HOLIDAY MINUTES (Holiday)
         if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
@@ -691,9 +575,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             '1359',
           );
         }
-        console.log('holidayWorkingMinutes ####', holidayWorkingMinutes);
       } else {
-        console.log('INSIDE ELSE!!');
         let exclusiveMinutes: any = {};
         if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
           let startT = ca.workingHoursFrom.split(',')[1];
@@ -705,7 +587,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             startHourNight,
             '1359',
           );
-          console.log('start & endtime', startT, endT, startHourNight);
         } else {
           let startT = cr.startTime;
           let endT = cr.endTime;
@@ -716,24 +597,13 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
             startHourNight,
             '1359',
           );
-          console.log('start & endtime', startT, endT, startHourNight);
         }
-        console.log(exclusiveMinutes, 'exclusiveMinutes');
 
         holidayWorkingMinutes = exclusiveMinutes.holidayMinutes;
         sundayWorkingMinutes = exclusiveMinutes.sundayMinutes;
         nightWorkingMinutes = exclusiveMinutes.nightMinutes;
 
-        console.log('-----------------------------');
-        console.log(
-          'holidayWorkingMinutes @ SELF IMP @ 1 ',
-          holidayWorkingMinutes,
-        );
-        console.log('nightWorkingMinutes @ SELF IMP @ 2 ', nightWorkingMinutes);
-        console.log(
-          'sundayWorkingMinutes @ SELF IMP @ 3 ',
-          sundayWorkingMinutes,
-        );
+       
       }
       let requirementStartTime = null;
       let requirementEndTime = null;
@@ -741,7 +611,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       let requirementBreakStartTime = null;
       let requirementBreakEndTime = null;
       if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
-        console.log('WORK TIME ENTERED!');
         requirementStartTime = new Date(
           moment(ca.workingHoursFrom, `${dbAcceptableFormat},hh:mm`).format(),
         );
@@ -749,7 +618,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
           moment(ca.workingHoursTo, `${dbAcceptableFormat},hh:mm`).format(),
         );
       } else {
-        console.log('WORK TIME NOT ENTERED!');
         let startTime = cr && cr.startTime ? cr.startTime : null;
         let endTime = cr && cr.endTime ? cr.endTime : null;
 
@@ -762,7 +630,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         let requirementEndT = moment(requirementEndTime);
 
         var diff = requirementEndT.diff(requirementStartT, 'minutes');
-        // console.log('diffdiff', diff);
         if (diff < 0) {
           requirementEndTime = moment(requirementEndTime)
             .add('days', 1)
@@ -783,12 +650,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         (new Date(requirementEndTime).getTime() -
           new Date(requirementStartTime).getTime()) /
         (60 * 1000);
-      console.log(
-        requirementEndTime,
-        requirementStartTime,
-        workingMinutes,
-        'workingMinutesew4322',
-      );
+ 
 
       // await getMinutes(
       //   requirementStartTime,
@@ -840,17 +702,15 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       sundayAllowancePerHour = Number(salaryPerHour * 0.5).toFixed(2);
       nightAllowancePerHour = Number(salaryPerHour * 0.25).toFixed(2);
       let feeAllowance = Number(totalWorkingMinutes * (salaryPerHour / 60));
-      console.log('feeAllowance', feeAllowance);
+ 
 
       let nightAllowance = Number(
         nightWorkingMinutes * (nightAllowancePerHour / 60),
       );
-      console.log('nightAllowance', nightAllowance);
 
       let sundayAllowance = Number(
         sundayWorkingMinutes * (sundayAllowancePerHour / 60),
       );
-      console.log('sundayAllowance', sundayAllowance);
 
       let holidayAllowance = Number(
         holidayWorkingMinutes * (holidayAllowancePerHour / 60),
@@ -876,12 +736,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         Number(holidayAllowance);
     });
   }
-  console.log(
-    invoiceList &&
-      invoiceList.getAllAppointment &&
-      invoiceList.getAllAppointment.result,
-    'above return',
-  );
+
 
   return (
     <>
@@ -889,8 +744,6 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
         <div className='common-detail-section'>
           <InvoiceNavbar
             onhandleSelection={onhandleSelection}
-            careGiversOptions={careGiversOptions}
-            careInstitutionOptions={careInstitutionOptions}
             careinstitutionFilter={careinstitutionFilter}
             careInstitutionDepartmentOption={careInstitutionDepartmentOption}
             departmentFilter={departmentFilter}

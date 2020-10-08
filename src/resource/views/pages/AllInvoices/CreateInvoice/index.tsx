@@ -12,29 +12,18 @@ import {
 import { RouteComponentProps, useLocation } from 'react-router';
 import '../index.scss';
 import {
-  CareInstInActiveAttrId,
-  deactivatedListColor,
-  CareInstTIMyoCYAttrId,
-  leasingListColor,
-  CareInstPlycocoAttrId,
-  selfEmployesListColor,
   ARCHIVE_PAGE_LIMIT,
-  CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
-  defaultDateFormat,
 } from '../../../../../config';
-import CareInstCustomOption from '../../../components/CustomOptions/CustomCareInstOptions';
 import { IReactSelectInterface } from '../../../../../interfaces';
 import {
   CareInstitutionQueries,
   InvoiceQueries,
-  CareGiverQueries,
   GlobalHolidaysQueries,
 } from '../../../../../graphql/queries';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import moment from 'moment';
 import InvoiceList from './InvoiceList';
-import CustomOption from '../../../components/CustomOptions';
 import InvoiceNavbar from './InvoiceNavbar';
 import * as qs from 'query-string';
 import { toast } from 'react-toastify';
@@ -43,7 +32,7 @@ import { InvoiceMutations } from '../../../../../graphql/Mutations';
 let toastId: any = null;
 
 const [
-  GET_CARE_INSTITUTION_LIST,
+  ,
   ,
   GET_DEPARTMENT_LIST,
   ,
@@ -51,7 +40,6 @@ const [
   ,
 ] = CareInstitutionQueries;
 const [GET_INVOICE_LIST] = InvoiceQueries;
-const [, , , , , , , , GET_CAREGIVER_BY_NAME] = CareGiverQueries;
 const [, GET_GLOBAL_CAREGIVER_HOLIDAYS] = GlobalHolidaysQueries;
 //Create New Invoice PDF
 const [CREATE_INVOICE] = InvoiceMutations;
@@ -140,10 +128,8 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       const { result } = invoiceList.getAllAppointment;
       const startDate: string = result[0].date;
       const endDate: string = result[result.length - 1].date;
-      console.log('>>>>>>>>>>>>>>>>>', startDate, '>>>>>>>>>', endDate);
       getAllHolidays(startDate, endDate);
     }
-    console.log('In this use effect');
   }, [invoiceList]);
 
   // To Fetch golbal holidays and weekends
@@ -154,47 +140,14 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     fetchPolicy: 'no-cache',
     // notifyOnNetworkStatusChange: true
   });
-  // To fetch all careinstitution list
-  const [fetchCareInstitutionList, { data: careInstituition }] = useLazyQuery<
-    any
-  >(GET_CARE_INSTITUTION_LIST, {
-    fetchPolicy: 'no-cache',
-  });
 
-  useEffect(() => {
-    fetchCareInstitutionList({
-      variables: {
-        searchBy: null,
-        sortBy: 3,
-        limit: 500,
-        page: 1,
-        isActive: '',
-      },
-    });
-  }, []);
 
   useEffect(() => {
     let activeDate = moment().format(dbAcceptableFormat);
     setDateFilter(activeDate);
   }, []);
 
-  // To fetch the list of all caregiver
-  const [fetchCareGivers, { data: careGivers }] = useLazyQuery<any>(
-    GET_CAREGIVER_BY_NAME,
-    {
-      fetchPolicy: 'no-cache',
-    },
-  );
-  useEffect(() => {
-    // Fetch list of caregivers
-    fetchCareGivers({
-      variables: {
-        searchBy: '',
-        limit: 500,
-        page: 1,
-      },
-    });
-  }, []);
+
 
   //To get all holidays and weekends
   const getAllHolidays = (startDate: string, endDate: string) => {
@@ -207,7 +160,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   };
   // to get list of all invoices
   const getInvoiceListData = () => {
-    console.log('currentPage', currentPage);
 
     fetchInvoiceList({
       variables: {
@@ -275,70 +227,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     getInvoiceListData();
   }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter]);
 
-  // set careInstitution list options
-  const careInstitutionOptions: IReactSelectInterface[] | undefined = [];
-  if (careInstituition && careInstituition.getCareInstitutions) {
-    const { getCareInstitutions } = careInstituition;
-    const { careInstitutionData, canstitution } = getCareInstitutions;
-    careInstitutionOptions.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID'),
-      companyName: languageTranslation('COMPANY_NAME'),
-    });
-
-    careInstitutionData.map((data: any, index: any) => {
-      const { canstitution } = data;
-      let { attributes = [], companyName = '' } = canstitution
-        ? canstitution
-        : {};
-      attributes = attributes ? attributes : [];
-      careInstitutionOptions.push({
-        label: `${data.lastName}${' '}${data.firstName}`,
-        value: data.id,
-        color: attributes.includes(CareInstInActiveAttrId)
-          ? deactivatedListColor
-          : attributes.includes(CareInstTIMyoCYAttrId)
-          ? leasingListColor
-          : attributes.includes(CareInstPlycocoAttrId)
-          ? selfEmployesListColor
-          : '',
-        companyName,
-      });
-      return true;
-    });
-  }
-
-  // set careGivers list options
-  const careGiversOptions: IReactSelectInterface[] | undefined = [];
-  if (
-    careGivers &&
-    careGivers.getCaregiverByName &&
-    careGivers.getCaregiverByName.result
-  ) {
-    careGiversOptions.push({
-      label: languageTranslation('NAME'),
-      value: languageTranslation('ID'),
-      color: '',
-    });
-    careGivers.getCaregiverByName.result.forEach(
-      ({ id, firstName, lastName, isActive, caregiver }: any) => {
-        let { attributes = [] } = caregiver ? caregiver : {};
-        // To check null values
-        attributes = attributes ? attributes : [];
-        careGiversOptions.push({
-          label: `${lastName}${' '}${firstName}`,
-          value: id,
-          color: !isActive
-            ? deactivatedListColor
-            : attributes.includes(CaregiverTIMyoCYAttrId)
-            ? leasingListColor
-            : attributes.includes('Plycoco')
-            ? selfEmployesListColor
-            : '',
-        });
-      },
-    );
-  }
 
   // Options to show department data
   useEffect(() => {
@@ -420,7 +308,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
   };
 
   const handleCreateInvoice = async () => {
-    console.log('in handle Selected Invoice Created Data', selectedAppointment);
     let singleCareGiverData: any[] = [],
       selectedAppointmentId: any[] = [],
       singleCareInstData: any[] = [],
@@ -462,10 +349,8 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       } else {
         if (selectedAppointment && selectedAppointment.length) {
           selectedAppointment.forEach((appointmentData: any) => {
-            console.log('????????????', appointmentData);
             if (appointmentData.ca && appointmentData.cr) {
               singleCareGiverData.push(appointmentData.ca.userId);
-              console.log('>>>>>>>>>>>>>');
 
               singleCareInstData.push(appointmentData.cr.userId);
               selectedAppointmentId.push(appointmentData.id);
@@ -486,15 +371,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
                 workBegain && workBegain.length ? workBegain[1] : null;
               let enddate = workEnd && workEnd.length ? workEnd[0] : null;
               let end_time = workEnd && workEnd.length ? workEnd[1] : null;
-              console.log(
-                initialdate,
-                'initialdate',
-                start_time,
-                moment(
-                  `${initialdate} ${start_time}`,
-                  `${dbAcceptableFormat} HH:mm`,
-                ).format(),
-              );
+        
 
               let datetimeA: any = initialdate
                 ? moment(
@@ -568,7 +445,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
               }
             }
           });
-          console.log('*****************subTotal', subTotal * 0.19);
           const totalAmount: any = subTotal + subTotal * 0.19;
           settotalAmount(totalAmount);
           const invoiceInput: any = {
@@ -615,10 +491,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     invoiceList.getAllAppointment &&
     invoiceList.getAllAppointment.result.length
   ) {
-    console.log(
-      invoiceList.getAllAppointment.result,
-      'invoiceList.getAllAppointment.result',
-    );
+ 
     invoiceList.getAllAppointment.result.forEach(async (ele: any) => {
       const { ca = {}, cr = {} } = ele ? ele : {};
       let nightWorkingMinutes: any = 0,
@@ -633,7 +506,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         ca.user.caregiver &&
         ca.user.caregiver.supplements === 'Cumulative'
       ) {
-        console.log('Cumulative');
 
         if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
           let startT = ca.workingHoursFrom.split(',')[1];
@@ -654,7 +526,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             endT,
           );
         }
-        console.log('nightWorkingMinutes', nightWorkingMinutes);
         // SATURDAY & SUNDAY MINUTES (Weekend) =>  (WORKING ON IT!!)
         if (ele && ca && ca.workingHoursFrom && ca.workingHoursTo) {
           let startT = ca.workingHoursFrom.split(',')[1];
@@ -673,7 +544,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             endT,
           );
         }
-        console.log('sundayWorkingMinutes', sundayWorkingMinutes);
 
         // HOLIDAY MINUTES (Holiday)
         if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
@@ -695,9 +565,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             '1359',
           );
         }
-        console.log('holidayWorkingMinutes ####', holidayWorkingMinutes);
       } else {
-        console.log('INSIDE ELSE!!');
         let exclusiveMinutes: any = {};
         if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
           let startT = ca.workingHoursFrom.split(',')[1];
@@ -709,7 +577,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             startHourNight,
             '1359',
           );
-          console.log('start & endtime', startT, endT, startHourNight);
         } else {
           let startT = cr.startTime;
           let endT = cr.endTime;
@@ -720,23 +587,13 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             startHourNight,
             '1359',
           );
-          console.log('start & endtime', startT, endT, startHourNight);
         }
 
         holidayWorkingMinutes = exclusiveMinutes.holidayMinutes;
         sundayWorkingMinutes = exclusiveMinutes.saturdaySundayMinutes;
         nightWorkingMinutes = exclusiveMinutes.nightMinutes;
 
-        console.log('-----------------------------');
-        console.log(
-          'holidayWorkingMinutes @ SELF IMP @ 1 ',
-          holidayWorkingMinutes,
-        );
-        console.log('nightWorkingMinutes @ SELF IMP @ 2 ', nightWorkingMinutes);
-        console.log(
-          'sundayWorkingMinutes @ SELF IMP @ 3 ',
-          sundayWorkingMinutes,
-        );
+        
       }
       let requirementStartTime = null;
       let requirementEndTime = null;
@@ -744,7 +601,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       let requirementBreakStartTime = null;
       let requirementBreakEndTime = null;
       if (ca && ca.workingHoursFrom && ca.workingHoursTo) {
-        console.log('WORK TIME ENTERED!');
         requirementStartTime = new Date(
           moment(ca.workingHoursFrom, `${dbAcceptableFormat},hh:mm`).format(),
         );
@@ -752,7 +608,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
           moment(ca.workingHoursTo, `${dbAcceptableFormat},hh:mm`).format(),
         );
       } else {
-        console.log('WORK TIME NOT ENTERED!');
         let startTime = cr && cr.startTime ? cr.startTime : null;
         let endTime = cr && cr.endTime ? cr.endTime : null;
 
@@ -765,7 +620,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         let requirementEndT = moment(requirementEndTime);
 
         var diff = requirementEndT.diff(requirementStartT, 'minutes');
-        // console.log('diffdiff', diff);
         if (diff < 0) {
           requirementEndTime = moment(requirementEndTime)
             .add('days', 1)
@@ -785,12 +639,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         (new Date(requirementEndTime).getTime() -
           new Date(requirementStartTime).getTime()) /
         (60 * 1000);
-      console.log(
-        requirementEndTime,
-        requirementStartTime,
-        workingMinutes,
-        'workingMinutesew4322',
-      );
+   
 
       // await getMinutes(
       //   requirementStartTime,
@@ -821,22 +670,18 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       let commission = Number(
         totalWorkingMinutes * Number(PlycocoFeePerHour / 60),
       );
-      console.log('feeAllowance', feeAllowance);
 
       let nightAllowance = Number(
         nightWorkingMinutes * (Number(ca.nightFee) / 60),
       );
-      console.log('nightAllowance', nightAllowance);
 
       let sundayAllowance = Number(
         sundayWorkingMinutes * (Number(ca.weekendAllowance) / 60),
       );
-      console.log('sundayAllowance', sundayAllowance);
 
       let holidayAllowance = Number(
         holidayWorkingMinutes * (Number(ca.holidayAllowance) / 60),
       );
-      console.log('holidayAllowance', holidayAllowance);
       let otherExpenses = ca.otherExpenses ? Number(ca.otherExpenses) : 0;
       let travelAllowance = Number(ca.distanceInKM) * Number(ca.feePerKM);
       let amount =
@@ -854,12 +699,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       ele.amount = amount;
     });
   }
-  console.log(
-    invoiceList &&
-      invoiceList.getAllAppointment &&
-      invoiceList.getAllAppointment.result,
-    'above return',
-  );
+
 
   return (
     <>
@@ -867,8 +707,6 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
         <div className='common-detail-section'>
           <InvoiceNavbar
             onhandleSelection={onhandleSelection}
-            careGiversOptions={careGiversOptions}
-            careInstitutionOptions={careInstitutionOptions}
             careinstitutionFilter={careinstitutionFilter}
             careInstitutionDepartmentOption={careInstitutionDepartmentOption}
             departmentFilter={departmentFilter}

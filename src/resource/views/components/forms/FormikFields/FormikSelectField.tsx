@@ -36,7 +36,6 @@ export const FormikSelectField = (props: IFormikSelectField) => {
   };
 
   let newLabel = props.label;
- console.log("rest",rest.value);
  
   return (
     <div>

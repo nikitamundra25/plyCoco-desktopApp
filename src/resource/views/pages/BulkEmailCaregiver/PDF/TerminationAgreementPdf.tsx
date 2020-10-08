@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Document, Page, Text, Image, View, StyleSheet, PDFViewer } from '@react-pdf/renderer';
+import { Document, Page, Text, Image, View, StyleSheet } from '@react-pdf/renderer';
 import { ITerminationAgreementPdfProps } from '../../../../../interfaces';
 import { AppConfig } from '../../../../../config';
 import { languageTranslation } from '../../../../../helpers';
@@ -127,7 +127,6 @@ const TerminationAgreementPdf: FunctionComponent<ITerminationAgreementPdfProps> 
       textAlign: 'center'
     }
   });
-  console.log(signatureData && signatureData.careGiverSignature ? `${AppConfig.APP_ENDPOINT}${signatureData.careGiverSignature}` : '','signature');
   // Append base url to the signature
   let careGiverSignature:string = signatureData && signatureData.careGiverSignature ? `${AppConfig.APP_ENDPOINT}${signatureData.careGiverSignature}` : ''
   // Create Document Component

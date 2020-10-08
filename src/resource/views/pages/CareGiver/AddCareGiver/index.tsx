@@ -85,14 +85,6 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
     { careGiverInput: ICareGiverInput }
   >(ADD_CAREGIVER);
 
-  //Qualification attributes
-  // const [
-  //   getQualificationAttribute,
-  //   { data: qualificationData, loading, refetch }
-  // ] = useLazyQuery<any>(GET_QUALIFICATION_ATTRIBUTE);
-
-  let { id } = useParams();
-  const Id: any | undefined = id;
 
   useEffect(() => {
     if (data) {
@@ -277,8 +269,7 @@ export const CareGiverForm: FunctionComponent = (props: any) => {
       const message = errorFormatter(error.message);
       toast.error(message);
       if (
-        message ===
-        "Caregiver added successfully but due to some network issue email couldn't be sent out"
+        message === languageTranslation("CAREGIVER_EMAIL_TEXT")
       ) {
         history.push(AppRoutes.CARE_GIVER);
       }

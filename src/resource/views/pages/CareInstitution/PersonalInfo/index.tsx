@@ -41,23 +41,19 @@ import '../careinstitution.scss';
 import { RemarkMutations } from '../../../../../graphql/Mutations';
 import {
   Gender,
-  CaregiverInvoiceTax,
-  LeasingInvoiceTax,
-  PlycocoInvoiceTax,
   CareInstLeasingPriceList,
   InvoiceType,
   InvoiceInterval,
 } from '../../../../../config';
-import { any } from 'prop-types';
 
 let toastId: any;
 
 const [GET_COUNTRIES, GET_STATES_BY_COUNTRY] = CountryQueries;
 const [, GET_REGIONS] = RegionQueries;
 const [
-  GET_CARE_INSTITUTION_LIST,
+  ,
   GET_CARE_INSTITUION_BY_ID,
-  GET_DEPARTMENT_LIST,
+  ,
   GET_CAREINSTITUTION_ATTRIBUTES,
   ,
   ,
@@ -68,15 +64,15 @@ const [
 
 const [
   UPDATE_CARE_INSTITUTION,
-  UPDATE_CARE_INSTITUTION_STATUS,
-  UPDATE_DEPARTMENT_CARE_INSTITUTION,
-  UPDATE_NEW_CONTACT_CARE_INSTITUTION,
-  DELETE_CARE_INSTITUTION,
-  ADD_CARE_INSTITUTION,
-  ADD_NEW_CONTACT_CARE_INSTITUTION,
-  ADD_NEW_CARE_INTITUTION,
-  ADD_DEPARTMENT_CARE_INSTITUTION,
-  DELETE_DEPARTMENT,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
 ] = CareInstitutionMutation;
 const [UPDATE_REMARKS] = RemarkMutations;
 
@@ -86,7 +82,7 @@ const [
 ] = CareInstitudeSubscription;
 
 const PersonalInformation: any = (props: any) => {
-  let { id } = useParams();
+  let { id }:any = useParams();
   const Id: any | undefined = id;
   const [contacts, setContacts] = useState<any>([]);
 
@@ -129,10 +125,7 @@ const PersonalInformation: any = (props: any) => {
         JSON.stringify(updatedData)
       ) {
         careInstituionDetails.getCareInstitution = updatedData;
-        logger(
-          fetchCareInstitutionSubscription,
-          'fetchCareInstitutionSubscription****',
-        );
+ 
       }
     }
   }, [fetchCareInstitutionSubscription]);
@@ -266,17 +259,14 @@ const PersonalInformation: any = (props: any) => {
         : {};
       const { contact = [] } = getCareInstitution ? getCareInstitution : {};
       const contactsData: any[] = [];
-      console.log('contactAttrOpt', contactAttrOpt);
 
       contact.forEach((element: any) => {
-        console.log('element.attributes', element.attributes);
         let attr_value: IAttributeOptions[] = [];
         if (element.attributes && element.attributes.length) {
           attr_value = contactAttrOpt.filter((attrOpt: IAttributeOptions) =>
             element.attributes.includes(parseInt(attrOpt.value)),
           );
         }
-        console.log('attr_valueattr_value', attr_value);
 
         contactsData.push({
           ...element,
@@ -487,7 +477,6 @@ const PersonalInformation: any = (props: any) => {
     constArr: IReactSelectInterface[],
   ) => {
     let selectedValue: IReactSelectInterface | undefined = undefined;
-    console.log('data', data);
 
     if (data) {
       selectedValue = constArr.filter((list: any) => list.value === data)[0];
@@ -685,7 +674,6 @@ const PersonalInformation: any = (props: any) => {
       plycocoInvoiceTax:
         plycocoInvoiceTax != null ? plycocoInvoiceTax : defaultTaxValue,
     };
-    console.log('plycocoInvoiceTaxplycocoInvoiceTax', values);
 
     // values.qualificationId = qualificationsData;
 

@@ -36,7 +36,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
 ) => {
   const { search } = useLocation();
   const query = qs.parse(search);
-  const [tabChange, setTabChange] = useState(1);
+  const [tabChange, setTabChange] = useState(1); 
   // state for handling send invoice modal
   const [openSendInvoice, setopenSendInvoice] = useState(false);
 
@@ -78,7 +78,6 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
   const [sendselectedInvoice, setsendselectedInvoice] = useState<any>({ careinstitution: [], careGiver: [] });
 
   const getAllInvoiceListData = () => {
-    console.log("currentPage", currentPage);
 
     fetchAllInvoiceList({
       variables: {
@@ -120,21 +119,18 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
     if (invoiceType === "Plycoco") {
       if (selectedInvoice && selectedInvoice.length) {
         selectedInvoice.forEach((invoiceData: any) => {
-          console.log(">>>>>>>>>>>>", invoiceData);
           window.open(`${AppConfig.FILES_ENDPOINT}${invoiceData.plycocoPdf}`, '_blank')
         })
       }
     } else {
       if (selectedInvoice && selectedInvoice.length) {
         selectedInvoice.forEach((invoiceData: any) => {
-          console.log(">>>>>>>>>>>>", invoiceData);
           window.open(`${AppConfig.FILES_ENDPOINT}${invoiceData.careGiverPdf}`, '_blank')
         })
       }
     }
   }
   const handleSendInvoiceModal = () => {
-    console.log("This this function", openSendInvoice);
     if (openSendInvoice) {
       setsendselectedInvoice({ careinstitution: [], careGiver: [] })
     }
@@ -143,8 +139,6 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
   const handleSelectInvoice = (e: any, invoiceData: any, selectedType: string) => {
     const { checked } = e.target
     if (checked === true) {
-      const careInstData: object[] = []
-      const careGiverData: object[] = []
       if (selectedType === 'careInst') {
         sendselectedInvoice.careinstitution.push({
           email: invoiceData.careinstitution.email,
@@ -233,19 +227,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
               <div className="filter-form form-section mb-2">
                 <Form>
                   <Row>
-                    {/* <Col lg={"3"} md={"3"}>
-                      <FormGroup>
-                        <Label for="search" className="col-form-label">
-                          {languageTranslation("SEARCH_LABEL")} :
-                        </Label>
-                        <Input
-                          type="text"
-                          name="searchValue"
-                          id="search"
-                          value={""}
-                        />
-                      </FormGroup>
-                    </Col> */}
+                    
                     <Col lg={"2"} md={"3"}>
                       <FormGroup>
                         <Label for="Selectregion" className="col-form-label">
@@ -324,7 +306,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                         <Row className="align-items-center">
                           <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                             <Label className="form-label col-form-label">
-                              Total
+                              {languageTranslation("TOTAL")}
                             </Label>
                           </Col>
                           <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
@@ -332,7 +314,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                               <Input
                                 type="text"
                                 name={"firstName"}
-                                placeholder={"Enter Total"}
+                                placeholder={languageTranslation("ENTER_TOTAL")}
                                 className="text-input text-capitalize"
                               />
                             </div>
@@ -345,7 +327,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                         <Row className="align-items-center">
                           <Col xs={"12"} sm={"4"} md={"4"} lg={"4"}>
                             <Label className="form-label col-form-label">
-                              Total selection
+                              {languageTranslation("TOTAL_SELECTION")}
                             </Label>
                           </Col>
                           <Col xs={"12"} sm={"8"} md={"8"} lg={"8"}>
@@ -353,7 +335,7 @@ const AllInvoices: FunctionComponent<RouteComponentProps> & any = (
                               <Input
                                 type="text"
                                 name={"firstName"}
-                                placeholder={"Enter total selection"}
+                                placeholder={languageTranslation("ENTER_TOTAL_SELECTION")}
                                 className="text-input text-capitalize"
                               />
                             </div>

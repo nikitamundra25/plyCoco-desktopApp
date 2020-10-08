@@ -18,26 +18,6 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
   } = props;
   return (
     <>
-      {/* <Card>
-        <CardHeader>
-          <AppBreadcrumb appRoutes={routes} className="w-100 mr-3" />
-          <Button
-            color={"primary"}
-            disabled={isSubmitting}
-            className={"btn-add"}
-            onClick={handleSubmit}
-          >
-            {isSubmitting === true ? (
-              <i className="fa fa-spinner fa-spin loader" />
-            ) : (
-              ""
-            )}
-            {languageTranslation("SAVE_BUTTON")}
-          </Button>
-        </CardHeader>
-        <CardBody>
-          <Row>
-            <div xs={"12"} lg={"8"} className="mx-auto"> */}
       <Form onSubmit={handleSubmit} className="form-section">
         <FormGroup>
           <div className="d-flex align-items-sm-center flex-column flex-sm-row justify-content-center">
@@ -89,10 +69,6 @@ const RegionFormComponent: FunctionComponent<FormikProps<IRegionFormValue>> = (
           </div>
         </div>
       </Form>
-
-      {/* </Row>
-         </CardBody>
-      </Card> */}
     </>
   );
 };

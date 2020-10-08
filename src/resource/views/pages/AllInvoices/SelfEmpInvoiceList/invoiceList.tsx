@@ -28,7 +28,6 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
     history.push(path);
   };
 
-  console.log("Employeeeeeeeeeeeeeeeeee",totalCount);
   
   return (
     <>
@@ -194,6 +193,7 @@ const InvoiceListView: FunctionComponent<RouteComponentProps> & any = (
           totalRecords={totalCount}
           currentPage={currentPage}
           onPageChanged={onPageChanged}
+          pageLimit = {ARCHIVE_PAGE_LIMIT}
         />
         </>
       ) : null}

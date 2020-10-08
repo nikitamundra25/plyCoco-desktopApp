@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
-import { UncontrolledTooltip, Table } from 'reactstrap';
+import React, { FunctionComponent } from 'react';
+import {  Table } from 'reactstrap';
 import { languageTranslation } from '../../../../../helpers';
 import { IInvoiceList } from '../../../../../interfaces';
 import Loader from '../../../containers/Loader/Loader';
 import {
-  AppRoutes,
   ARCHIVE_PAGE_LIMIT,
   defaultDateFormat,
 } from '../../../../../config';
@@ -13,10 +12,6 @@ import PaginationComponent from '../../../components/Pagination';
 import * as qs from 'query-string';
 import moment from 'moment';
 import {
-  nightCommission,
-  holidayCommission,
-  weekendCommission,
-  nightCommissionTim,
   defaultDateTimeFormatForDashboard,
   dbAcceptableFormat,
 } from '../../../../../config/constant';
@@ -35,9 +30,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
     invoiceList,
     totalCount,
     currentPage,
-    selectedAppointment,
     handleCheckedChange,
-    careGiverHolidays,
   } = props;
   let history = useHistory();
 
@@ -60,7 +53,6 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
   //     ? item.ca.user.caregiver.attributes.includes(9)
   //     : null;
   // });
-  // console.log('qualiFilter', qualiFilter);
   return (
     <>
       <div className='table-minheight createinvoices-table'>
@@ -196,7 +188,6 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                       new Date(reqStartDate).getTime()) /
                     (3600 * 1000);
                 }
-                console.log('diffDate', diffDate);
 
                 let time = list.cr ? list.cr.f || list.cr.s || list.cr.n : '';
                 let timeStamp: any = '';
@@ -214,10 +205,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                   // let split = time.split();
                   timeStamp = '';
                 }
-                console.log('++++++++++++list.ca', list.ca.user.caregiver);
-                console.log('++++++++++++list', list);
-                console.log('++++++++++++list.cr', list.cr.qualification);
-
+              
                 let qualificationAllowance: any =
                   list.cr &&
                   list.cr.qualification &&
@@ -241,28 +229,12 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                 let salaryPerHourSunday = Number(salaryPerHour * 0.5);
                 let salaryPerHourHoliday = Number(salaryPerHour * 1);
 
-                console.log('============salaryPerHourNight================');
-                console.log(salaryPerHourNight);
-                console.log('==============salaryPerHourSunday==============');
-                console.log(salaryPerHourSunday);
-                console.log('==============salaryPerHourHoliday==============');
-                console.log(salaryPerHourHoliday);
-                console.log('=============travelAllowance===============');
-                console.log(travelAllowance);
-                console.log('=============otherAllowance===============');
-                console.log(otherAllowance);
-                console.log(
-                  '===============qualificationAllowance=============',
-                );
-                console.log(qualificationAllowance);
-                console.log('===============basicAllowance=============');
-                console.log(basicAllowance);
-
+               
                 let startHour =
                   list && list.ca && list.ca.workingHoursFrom
                     ? list.ca.workingHoursFrom
                     : reqStartDate;
-                console.log('startHour', startHour);
+                
                 let endHour =
                   list && list.ca && list.ca.workingHoursFrom
                     ? list.ca.workingHoursTo
@@ -275,7 +247,6 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                   list && list.ca && list.ca.workingHoursTo
                     ? list.ca.workingHoursTo.split(',')[1]
                     : endTime;
-                console.log('endHour', endHour);
                 let startHourSunday =
                   list && list.ca && list.ca.nightAllowance
                     ? list.ca.nightAllowance
@@ -291,14 +262,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                   endT,
                 );
                 let sundayWorkingHours = convertIntoHours(sundayWorkingMinutes);
-                console.log(
-                  '*******************sundayWorkingMinutes',
-                  sundayWorkingMinutes,
-                );
-                console.log(
-                  '*******************sundayWorkingHours',
-                  sundayWorkingHours,
-                );
+  
 
                 // NIGHT MINUTES
                 let nightWorkingMinutes: any = getNightMinutes(
@@ -312,21 +276,10 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                   nightWorkingMinutes !== NaN
                     ? convertIntoHours(nightWorkingMinutes)
                     : 0;
-                console.log('nightWorkingHours', nightWorkingHours);
-                console.log('nightWorkingMinutes', nightWorkingMinutes);
-                console.log(
-                  '>>>>>>>>>>>>>>>>list.ca.nightAllowance',
-                  finalStartHourSunday,
-                );
-                console.log(
-                  '>>>>>>>>>>>>>>>>finalStartHourSunday',
-                  initialdate,
-                );
-
+               
                 let startBreak = list.ca.breakFrom;
-                console.log('startBreak', startBreak);
+               
                 let endBreak = list.ca.breakTo;
-                console.log('endBreak', endBreak);
 
                 // MAIN MINUTES
                 let workingMinutes: any = getMinutes(startHour, endHour);
@@ -344,22 +297,15 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                 let feeAllowance = Number(
                   totalWorkingMinutes * (salaryPerHour / 60),
                 );
-                console.log(
-                  'feeAllowance',
-                  feeAllowance,
-                  'reqTotalBreakMin',
-                  reqTotalBreakMin,
-                );
+          
 
                 let nightAllowance = Number(
                   nightWorkingMinutes * (salaryPerHourNight / 60),
                 );
-                console.log('nightAllowance', nightAllowance);
 
                 let sundayAllowance = Number(
                   sundayWorkingMinutes * (salaryPerHourSunday / 60),
                 );
-                console.log('sundayAllowance', sundayAllowance);
 
                 let totalSalary = Number(
                   feeAllowance +
@@ -371,7 +317,6 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
                 let workSalary = Number(
                   feeAllowance + nightAllowance + sundayAllowance,
                 );
-                console.log('totalSalary', totalSalary);
 
                 return (
                   <tr key={index}>
@@ -533,6 +478,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
           totalRecords={totalCount}
           currentPage={currentPage}
           onPageChanged={onPageChanged}
+          pageLimit = {ARCHIVE_PAGE_LIMIT}
         />
       ) : null}
     </>

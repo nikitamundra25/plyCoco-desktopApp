@@ -67,33 +67,32 @@ export const Login: FunctionComponent = () => {
     }
   };
   //
-  const onOutlookLogin = (e: any) => {
-    e.preventDefault();
-    const msalConfig: Msal.Configuration = {
-      auth: {
-        clientId: "61e4553f-98b3-41b4-bad1-295ce2dbcd54",
-        authority: "https://login.microsoftonline.com/common",
-        redirectUri: "http://localhost:3000/superadmin/validate-redirection"
-      },
-      cache: {
-        cacheLocation: "localStorage",
-        storeAuthStateInCookie: true
-      }
-    };
-    const msObject = new Msal.UserAgentApplication(msalConfig);
-    const loginRequest = {
-      scopes: [
-        "openid",
-        "profile",
-        "offline_access",
-        "https://outlook.office.com/Mail.Read"
-      ]
-    };
+  // const onOutlookLogin = (e: any) => {
+  //   e.preventDefault();
+  //   const msalConfig: Msal.Configuration = {
+  //     auth: {
+  //       clientId: "61e4553f-98b3-41b4-bad1-295ce2dbcd54",
+  //       authority: "https://login.microsoftonline.com/common",
+  //       redirectUri: "http://localhost:3000/superadmin/validate-redirection"
+  //     },
+  //     cache: {
+  //       cacheLocation: "localStorage",
+  //       storeAuthStateInCookie: true
+  //     }
+  //   };
+  //   const msObject = new Msal.UserAgentApplication(msalConfig);
+  //   const loginRequest = {
+  //     scopes: [
+  //       "openid",
+  //       "profile",
+  //       "offline_access",
+  //       "https://outlook.office.com/Mail.Read"
+  //     ]
+  //   };
 
-    msObject.loginPopup(loginRequest).then(loginResponse => {
-      console.log(loginResponse, msObject.getAccount());
-    });
-  };
+  //   msObject.loginPopup(loginRequest).then(loginResponse => {
+  //   });
+  // };
 
   const values: ILoginFormValues = { userName: "", password: "" };
   return (

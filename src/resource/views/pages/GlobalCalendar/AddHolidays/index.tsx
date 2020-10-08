@@ -28,7 +28,6 @@ const AddHolidays: FunctionComponent<IAddHolidayProps> = ({
   refresh,
   editInfo
 }: IAddHolidayProps): JSX.Element => {
-  console.log(refresh, 'refreshrefresh');
   const [
     ADD_GLOBAL_HOLIDAYS,
     _,

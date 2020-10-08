@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Button, Card, CardHeader, CardBody, Input } from 'reactstrap';
+import { Button, Card, CardHeader } from 'reactstrap';
 import { AppBreadcrumb } from '@coreui/react';
 import routes from '../../../../routes/routes';
 import { languageTranslation } from '../../../../helpers';

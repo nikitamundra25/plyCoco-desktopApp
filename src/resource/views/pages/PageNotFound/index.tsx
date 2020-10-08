@@ -1,24 +1,8 @@
-import React, {
-    Component,
-    FunctionComponent,
-    useCallback,
-    useState,
-} from 'react';
-import { FormGroup, Label, Input, Col, Row, Form, Button,InputGroup,InputGroupAddon,InputGroupText,Table } from 'reactstrap';
-
-import Select from 'react-select';
+import React, { FunctionComponent} from 'react';
+import {  Button } from 'reactstrap';
 import { languageTranslation } from '../../../../helpers';
-import { State } from '../../../../config';
-
-import displaydoc from '../../../assets/img/display-doc.svg';
-import upload from '../../../assets/img/upload.svg';
-import visit from '../../../assets/img/visit.svg';
-import './index.scss';
-import { LanguageAction } from '../../../../store/actions';
 
 const PageNotFound: FunctionComponent = () => {
-
-
 
     return (
         <>
@@ -28,9 +12,7 @@ const PageNotFound: FunctionComponent = () => {
             <h2 className="sub-heading">{languageTranslation("404_LABEL")} </h2>
             <Button color="primary ">{languageTranslation("GO_TO_HOME")} </Button>{' '}
             </div>
-           
         </div>
-            
         </>
     );
 };

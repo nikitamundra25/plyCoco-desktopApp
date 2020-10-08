@@ -12,7 +12,6 @@ const SUBSCRIPTION_URL =
   AppConfig.GRAPHQL_SUBSCRIPTION_ENDPOINT ||
   `ws://localhost:8000/subscriptions`;
 
-console.log(SUBSCRIPTION_URL, 'SUBSCRIPTION_URL');
 
 const cache: any = new InMemoryCache();
 //   {

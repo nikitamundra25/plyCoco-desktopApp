@@ -98,7 +98,7 @@ export const EmailTemplateManagement: FunctionComponent = () => {
   });
 
   // To permanently delete archive user
-  const [permanentDeleteEmail, { error }] = useMutation<
+  const [permanentDeleteEmail] = useMutation<
     { permanentDeleteEmail: any },
     { id: string }
   >(PERMANENT_DELETE_EMAIL_TEMPLATE, {

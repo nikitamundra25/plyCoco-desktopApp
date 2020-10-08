@@ -34,7 +34,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
 
   let history = useHistory();
 
-  let { id } = useParams();
+  let { id }:any = useParams();
   let userId: any | undefined = id;
 
   //To get contact list by id
@@ -129,7 +129,6 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
         .replace("Validation error: ", "")
         .replace("GraphQL error: ", "");
       toast.error(message);
-      logger(error);
     }
     setSubmitting(false);
   };
@@ -189,7 +188,7 @@ const CreateTodo: FunctionComponent<any> = (mainProps: any) => {
       });
     } else {
       mainProps.setisnewDataUpdate();
-      mainProps.setnewContactAdded();
+      // mainProps.setnewContactAdded();
       setTodoValues({
         time: "",
         comment: "",

@@ -60,7 +60,7 @@ const [GET_CAREGIVER_SUBSCRIPTION] = CareGiverSubscription;
 
 export const PersonalInformation: FunctionComponent<any> = (props: any) => {
   const { getCaregiver } = props;
-  let { id } = useParams();
+  let { id }:any = useParams();
   const [remarksDetail, setRemarksDetail] = useState<any>([]);
   const [caregiverAttributeOptions, setCaregiverAttributeOptions] = useState<
     IAttributeOptions[] | undefined
@@ -238,7 +238,6 @@ export const PersonalInformation: FunctionComponent<any> = (props: any) => {
       defaultTaxValue,
       invoiceInterval,
     } = values;
-    console.log('handle salutation', salutation);
 
     try {
       let careGiverInput: any = {

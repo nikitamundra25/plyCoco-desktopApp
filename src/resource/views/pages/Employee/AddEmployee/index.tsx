@@ -25,7 +25,7 @@ import {
   EmployeeQueries,
   CountryQueries,
 } from '../../../../../graphql/queries';
-import { logger, languageTranslation } from '../../../../../helpers';
+import {  languageTranslation } from '../../../../../helpers';
 import {
   AppRoutes,
   defaultDateFormat,
@@ -48,7 +48,7 @@ export const EmployeeForm: FunctionComponent<{
   employeeValues?: any;
 }> = ({ employeeValues }: { employeeValues?: any }) => {
   // get id from params
-  let { id } = useParams();
+  let { id }: any = useParams();
   let history = useHistory();
   const { state: locationState } = useLocation();
   const fetchEmployeeSubscription = useSubscription<any>(
@@ -71,7 +71,7 @@ export const EmployeeForm: FunctionComponent<{
   ] = useLazyQuery<any>(GET_EMPLOYEE_BY_ID);
 
   // To fetch the list of countries
-  const { data: countriesData, loading } = useQuery<ICountries>(GET_COUNTRIES);
+  const { data: countriesData } = useQuery<ICountries>(GET_COUNTRIES);
   // To fetch the states of selected contry & don't want to query on initial load
   const [getStatesByCountry, { data: statesData }] = useLazyQuery<IStates>(
     GET_STATES_BY_COUNTRY,
@@ -96,7 +96,6 @@ export const EmployeeForm: FunctionComponent<{
   const [states, setStatesValue] = useState<IReactSelectInterface | undefined>(
     undefined,
   );
-  logger(id, 'id');
   if (
     fetchEmployeeSubscription &&
     fetchEmployeeSubscription.data &&
@@ -128,11 +127,9 @@ export const EmployeeForm: FunctionComponent<{
     }
   }
   const update = (cache: any, payload: any) => {
-    logger(payload, 'payload');
     const data = cache.readQuery({
       query: GET_EMPLOYEES,
     });
-    logger(data, 'data');
   };
   // To add emplyee details into db
   const [addEmployee, { error, data }] = useMutation<
@@ -201,7 +198,6 @@ export const EmployeeForm: FunctionComponent<{
     });
   };
   useEffect(() => {
-    logger('in employeeDetail useEfect');
     if (employeeDetails && employeeDetails.viewEmployee) {
       const { viewEmployee } = employeeDetails;
       setImageUrl(viewEmployee.profileImage ? viewEmployee.profileImage : '');
@@ -227,7 +223,6 @@ export const EmployeeForm: FunctionComponent<{
           });
         });
       }
-      logger(regionData, 'statesOpt');
       setEmployeeData({
         ...viewEmployee,
         ...viewEmployee.employee,
@@ -380,7 +375,6 @@ export const EmployeeForm: FunctionComponent<{
       region,
       accessLevel,
     } = values;
-    logger(region, 'regionnnn');
     try {
       let employeeInput: IEmployeeInput = {
         firstName: firstName ? firstName.trim() : '',
@@ -451,10 +445,6 @@ export const EmployeeForm: FunctionComponent<{
             );
           }
         }
-        // history.push({
-        //   pathname: AppRoutes.EMPLOYEE,
-        //   state: { isValid: true },
-        // });
       } else {
         await addEmployee({
           variables: {
@@ -463,11 +453,6 @@ export const EmployeeForm: FunctionComponent<{
         });
         toast.success(languageTranslation('EMPLOYEE_ADD_SUCCESS_MSG'));
         history.push(AppRoutes.EMPLOYEE);
-
-        // history.push({
-        //   pathname: AppRoutes.EMPLOYEE,
-        //   state: { isValid: true },
-        // });
       }
     } catch (error) {
       const message = errorFormatter(error);
@@ -475,8 +460,7 @@ export const EmployeeForm: FunctionComponent<{
         toastId = toast.error(message);
       }
       if (
-        message ===
-        "Employee added successfully but due to some network issue email couldn't be sent out"
+        message === languageTranslation("EMPLOYEE_EMAIL")
       ) {
         history.push(AppRoutes.EMPLOYEE);
       }

@@ -43,9 +43,8 @@ const InvoiceMenu: FunctionComponent = () => {
     comment:''
   })
 
-  let { id } = useParams();
+  let { id }:any = useParams();
   const Id: any | undefined = id;
-  console.log('ididid', id)
   // To get invoice list from db
   const [
     getInvoiceByUserId,
@@ -91,7 +90,6 @@ const InvoiceMenu: FunctionComponent = () => {
     }))
   }
   const openCommentBox = (id:number, comment:string) => {
-    console.log('openCommentBox', id);
     setOpen(true);
     setInputs({
       id,

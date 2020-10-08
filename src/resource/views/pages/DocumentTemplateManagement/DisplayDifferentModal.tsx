@@ -1,10 +1,8 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import {
   Modal,
   ModalHeader,
   ModalBody,
-  FormGroup,
-  Label,
   Button,
   ModalFooter,
 } from "reactstrap";
@@ -20,7 +18,6 @@ const DisplayDifferentModal: FunctionComponent<any> = (props: any) => {
     imageUrls,
     documentSelectionId,
   } = props;
-  console.log("documentSelectionId", documentSelectionId);
 
   const externalCloseBtn = (
     <button

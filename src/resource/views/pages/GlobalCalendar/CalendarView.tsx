@@ -265,12 +265,6 @@ const CalendarView: FunctionComponent<ICalendarViewProps> = ({
             )}
           </tbody>
         </table>
-{/* 
-        {isLoading || loading ? (
-          <div className="global-calendar-table-loader">
-            <Loader />
-          </div>
-        ) : null} */}
       </div>
     </div>  
       {isLoading || loading ? (

@@ -2,7 +2,6 @@ import React, { FunctionComponent, useState, Suspense, useEffect } from "react";
 import { RouteComponentProps, useLocation, useParams } from "react-router";
 import qs from "query-string";
 import { Button } from "reactstrap";
-import Select from "react-select";
 import { FormikProps } from "formik";
 import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import { useHistory } from "react-router";
@@ -147,7 +146,6 @@ const ViewCareInstitution: FunctionComponent<
   }, []);
 
   useEffect(() => {
-    console.log("useEffect - fetchCareInstitutionByID");
     fetchCareInstitutionByID({
       variables: {
         careInstitutionId: userId,
@@ -243,7 +241,6 @@ const ViewCareInstitution: FunctionComponent<
     );
   };
   let [isUserChange, setisUserChange] = useState(false);
-  console.log("selectUserselectUser", selectUser);
 
   const handleSelect = (e: any) => {
     // if (careInstituition && careInstituition.getCareInstitutions) {
@@ -260,7 +257,6 @@ const ViewCareInstitution: FunctionComponent<
         value: e.value,
         color: e.color,
       };
-      console.log("data+++++++", data);
 
       setselectUser((selectUser = data));
       if (e.value !== Id) {

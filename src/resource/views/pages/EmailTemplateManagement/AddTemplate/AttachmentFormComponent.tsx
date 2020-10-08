@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useCallback, useState } from 'react';
+import React, { FunctionComponent,  useState } from 'react';
 import { Col } from 'reactstrap';
 import { useDropzone } from 'react-dropzone';
-import { formatFileSize, languageTranslation } from '../../../../../helpers';
-import { toast } from 'react-toastify';
+import { languageTranslation } from '../../../../../helpers';
 export const AttachmentFormComponent: FunctionComponent<any> = ({
   uploadDocument,
   newEmailPortion,
@@ -22,8 +21,6 @@ export const AttachmentFormComponent: FunctionComponent<any> = ({
           totalFileSize += file.size;
           if (totalFileSize < 25000000) {
             const reader = new FileReader();
-            reader.onabort = () => console.log('file reading was aborted');
-            reader.onerror = () => console.log('file reading has failed');
             reader.onloadend = () => {
               if (reader.result) {
                 uploadDocument({

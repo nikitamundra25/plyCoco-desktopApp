@@ -73,7 +73,7 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
   const [isActive, setIsActive] = useState<any>();
   const [filterValue, setFilterValue] = useState<any>(null);
   let [resetTimeForm, setResetTimeForm] = useState<any>(false);
-  let { id } = useParams();
+  let { id }:any = useParams();
   const Id: any | undefined = id;
 
   const fetchDivisionSubscription = useSubscription<any>(
@@ -151,7 +151,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     {
       fetchPolicy: 'no-cache',
       onCompleted({ getDivisionsDetails }) {
-        console.log('onCompleted');
         const temp: any = [];
         const tempQualification: any = [];
         if (
@@ -160,7 +159,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
           getDivisionsDetails.division_attributes.length
         ) {
           getDivisionsDetails.division_attributes.map((attr: any) => {
-            console.log('attrattr', attr);
             return temp.push({
               label: attr.name,
               value: attr.id,
@@ -168,7 +166,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
             });
           });
         }
-        console.log('temptemp', temp);
         if (
           getDivisionsDetails &&
           getDivisionsDetails.division_qualifications &&
@@ -260,7 +257,6 @@ const Departments: FunctionComponent<RouteComponentProps> = (props: any) => {
     setUserId(Id);
   }
   const onDepartmentClick = (item: any) => {
-    console.log('onDepartmentClick');
     setIsActive(item.id);
     setResetTimeForm(true);
     getDepartmentById({

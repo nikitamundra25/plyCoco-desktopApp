@@ -52,8 +52,11 @@ const GET_DASHBOARD_APPOINTMENT_LIST = gql`
     getDashboardAppointments(days: $days, status: $status) {      
       id,
       date,
+      avabilityId
       ca{
         id
+        name
+        userId
         user{
           id
           firstName
@@ -63,11 +66,15 @@ const GET_DASHBOARD_APPOINTMENT_LIST = gql`
       }
       cr{
         id
+        userId
           user{
           id
           firstName
           lastName
           userName
+          canstitution{
+            shortName
+               }
         }
       }	
     }

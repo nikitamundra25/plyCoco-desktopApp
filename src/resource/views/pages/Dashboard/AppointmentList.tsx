@@ -58,7 +58,18 @@ const AppointmentList: FunctionComponent<RouteComponentProps> = ( props: any) =>
                 appointmentList.getDashboardAppointments.map(
                   (item: any, index: number) => {
                     return (
-                      <tr key={index}>
+                      <tr key={index} className="cursor-pointer" onClick={() =>
+                        history.push({
+                          pathname: AppRoutes.APPOINTMENT,
+                          state: {
+                            caregiver: item.ca.userId,
+                            name: item.ca.name,
+                            canstitutionName: item.cr && item.cr.user && item.cr.user.canstitution && item.cr.user.canstitution.shortName  ? item.cr.user.canstitution.shortName : null, 
+                            canstitution: item.cr.userId,
+                            avabilityId: item.avabilityId,
+                          },
+                        })
+                      } >
                         <td className="date-column">
                           {" "}
                           {moment(item.createdAt).format(

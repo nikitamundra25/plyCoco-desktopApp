@@ -61,7 +61,19 @@ const IncorrectLoginList: FunctionComponent<RouteComponentProps> = (
                 incorrectLoginList.getDashboardLoginHistory.map(
                   (item: any, index: number) => {
                     return (
-                      <tr className="table-danger" key={index}>
+                      <tr className="table-danger cursor-pointer" key={index} onClick={() =>
+                        history.push(
+                          item.user.userRole === "caregiver"
+                            ? AppRoutes.CARE_GIVER_VIEW.replace(
+                                /:id/gi,
+                                item.user.id + "?tab=login"
+                              )
+                            : AppRoutes.CARE_INSTITUION_VIEW.replace(
+                                /:id/gi,
+                                item.user.id + "?tab=login"
+                              )
+                        )
+                      }>
                         <td className="date-column">
                           {" "}
                           {moment(item.createdAt).format(

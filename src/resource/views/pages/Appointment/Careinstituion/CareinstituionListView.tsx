@@ -377,6 +377,8 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     // (item: any) => item.id === starCanstitution.id
     // )[0];
     // }
+    console.log("listlistlist",list);
+    
     let item = list.new;
     let row = list.row;
     let uIndex: number = -1;
@@ -1094,7 +1096,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem className='bordernav' />
             <NavItem>
               <NavLink
-                disabled={
+                className={
                   connectAppCondition !== undefined
                     ? connectAppCondition && connectAppCondition.length !== 0
                       ? 'disabled-class'
@@ -1136,7 +1138,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem className='bordernav' />
             <NavItem>
               <NavLink
-                disabled={
+                className={
                   offerAppCond !== undefined
                     ? offerAppCond && offerAppCond.length !== 0
                       ? 'disabled-class'
@@ -1155,7 +1157,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink
-                disabled={
+                className={
                   offerAppCond !== undefined
                     ? offerAppCond && offerAppCond.length !== 0
                       ? 'disabled-class'
@@ -1176,7 +1178,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem className='bordernav' />
             <NavItem>
               <NavLink
-                disabled={
+                className={
                   offerAppCond !== undefined
                     ? offerAppCond && offerAppCond.length !== 0
                       ? 'disabled-class'
@@ -1199,7 +1201,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink
-                disabled={
+                className={
                   offerAppCond !== undefined
                     ? offerAppCond && offerAppCond.length !== 0
                       ? 'disabled-class'
@@ -1251,7 +1253,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             </NavItem>
             <NavItem>
               <NavLink
-                disabled={
+                className={
                   selectedCellsCareinstitution &&
                   selectedCellsCareinstitution.length &&
                   ((selectedCellsCareinstitution.length &&
@@ -1281,7 +1283,7 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
             <NavItem className='bordernav' />
             <NavItem>
               <NavLink
-                disabled={
+                className={
                   selectedCellsCareinstitution &&
                   selectedCellsCareinstitution.length &&
                   selectedCellsCareinstitution[0] &&

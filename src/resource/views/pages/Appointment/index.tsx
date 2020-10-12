@@ -1885,53 +1885,53 @@ const Appointment: FunctionComponent = (props: any) => {
       const { getUserByQualifications } = careGiversList;
       const { result, totalCount } = getUserByQualifications;
       setTotalCaregiver(totalCount);
-      if (result && result.length) {
-        result.forEach((user: any, index: number) => {
-          user.availabilityData = [];
-          user.attribute = [];
-          if (user.caregiver_avabilities && user.caregiver_avabilities.length) {
-            // Find maximum number of availability in any date
-            let result: any = user.caregiver_avabilities.reduce(
-              (acc: any, o: any) => (
-                (acc[moment(o.date).format(dbAcceptableFormat)] =
-                  (acc[moment(o.date).format(dbAcceptableFormat)] || 0) + 1),
-                acc
-              ),
-              {},
-            );
-            result = Object.values(result);
-            result = Math.max(...result);
-            for (let row = 0; row < result; row++) {
-              user.availabilityData.push([]);
-            }
-            temp.forEach((d: any, index: number) => {
-              let records = user.caregiver_avabilities.filter(
-                (available: any) =>
-                  moment(d.dateString).isSame(moment(available.date), 'day'),
-              );
-              for (let i = 0; i < records.length; i++) {
-                // To update the status of selected cell accordingly
-                if (
-                  records[i] &&
-                  selectedCells &&
-                  selectedCells.length &&
-                  records[i].id
-                ) {
-                  let index = selectedCells.findIndex(
-                    (cell: any) => cell.item && cell.item.id === records[i].id,
-                  );
-                  if (index > -1) {
-                    careGiverSelectedCell[index].item = records[i];
-                  }
-                }
-                user.availabilityData[i].push(records[i]);
-              }
-            });
-          } else {
-            user.availabilityData.push([]);
-          }
-        });
-      }
+      // if (result && result.length) {
+      //   result.forEach((user: any, index: number) => {
+      //     user.availabilityData = [];
+      //     user.attribute = [];
+      //     if (user.caregiver_avabilities && user.caregiver_avabilities.length) {
+      //       // Find maximum number of availability in any date
+      //       let result: any = user.caregiver_avabilities.reduce(
+      //         (acc: any, o: any) => (
+      //           (acc[moment(o.date).format(dbAcceptableFormat)] =
+      //             (acc[moment(o.date).format(dbAcceptableFormat)] || 0) + 1),
+      //           acc
+      //         ),
+      //         {},
+      //       );
+      //       result = Object.values(result);
+      //       result = Math.max(...result);
+      //       for (let row = 0; row < result; row++) {
+      //         user.availabilityData.push([]);
+      //       }
+      //       temp.forEach((d: any, index: number) => {
+      //         let records = user.caregiver_avabilities.filter(
+      //           (available: any) =>
+      //             moment(d.dateString).isSame(moment(available.date), 'day'),
+      //         );
+      //         for (let i = 0; i < records.length; i++) {
+      //           // To update the status of selected cell accordingly
+      //           if (
+      //             records[i] &&
+      //             selectedCells &&
+      //             selectedCells.length &&
+      //             records[i].id
+      //           ) {
+      //             let index = selectedCells.findIndex(
+      //               (cell: any) => cell.item && cell.item.id === records[i].id,
+      //             );
+      //             if (index > -1) {
+      //               careGiverSelectedCell[index].item = records[i];
+      //             }
+      //           }
+      //           user.availabilityData[i].push(records[i]);
+      //         }
+      //       });
+      //     } else {
+      //       user.availabilityData.push([]);
+      //     }
+      //   });
+      // }
       if (careGiverSelectedCell && careGiverSelectedCell.length) {
         setSelectedCells(careGiverSelectedCell);
       }
@@ -1950,66 +1950,66 @@ const Appointment: FunctionComponent = (props: any) => {
       const { getUserByQualifications } = careInstitutionList;
       const { result, totalCount } = getUserByQualifications;
       setTotalCareinstituion(totalCount);
-      if (result && result.length) {
-        /*  */
-        result.forEach((user: any, index: number) => {
-          user.name = user.canstitution ? user.canstitution.shortName : '';
-          user.availabilityData = [];
-          if (
-            user.careinstitution_requirements &&
-            user.careinstitution_requirements.length
-          ) {
-            let result: any = user.careinstitution_requirements.reduce(
-              (acc: any, o: any) => (
-                (acc[moment(o.date).format(dbAcceptableFormat)] =
-                  (acc[moment(o.date).format(dbAcceptableFormat)] || 0) + 1),
-                acc
-              ),
-              {},
-            );
-            result = Object.values(result);
-            result = Math.max(...result);
-            for (let row = 0; row < result; row++) {
-              user.availabilityData.push([]);
-            }
-            temp.forEach((d: any, index: number) => {
-              let records = user.careinstitution_requirements
-                .filter((available: any) =>
-                  moment(d.dateString).isSame(moment(available.date), 'day'),
-                )
-                // To sort requirements by id
-                .sort((a: any, b: any) => b.id - a.id);
-              for (let i = 0; i < records.length; i++) {
-                // To update the status of selected cell accordingly
-                if (
-                  records[i] &&
-                  careInstSelectedCell &&
-                  careInstSelectedCell.length &&
-                  records[i].id
-                ) {
-                  let index = careInstSelectedCell.findIndex(
-                    (cell: any) => cell.item && cell.item.id === records[i].id,
-                  );
-                  if (index > -1) {
-                    careInstSelectedCell[index].item = {
-                      ...records[i],
-                      qualificationId: qualificationList.filter(
-                        ({ value }: any) =>
-                          records[i].qualificationId &&
-                          records[i].qualificationId.includes(value),
-                      ),
-                    };
-                  }
-                }
-                user.availabilityData[i].push(records[i]);
-              }
-            });
-          } else {
-            user.availabilityData.push([]);
-          }
-        });
-        /*  */
-      }
+      // if (result && result.length) {
+      //   /*  */
+      //   result.forEach((user: any, index: number) => {
+      //     user.name = user.canstitution ? user.canstitution.shortName : '';
+      //     user.availabilityData = [];
+      //     if (
+      //       user.careinstitution_requirements &&
+      //       user.careinstitution_requirements.length
+      //     ) {
+      //       let result: any = user.careinstitution_requirements.reduce(
+      //         (acc: any, o: any) => (
+      //           (acc[moment(o.date).format(dbAcceptableFormat)] =
+      //             (acc[moment(o.date).format(dbAcceptableFormat)] || 0) + 1),
+      //           acc
+      //         ),
+      //         {},
+      //       );
+      //       result = Object.values(result);
+      //       result = Math.max(...result);
+      //       for (let row = 0; row < result; row++) {
+      //         user.availabilityData.push([]);
+      //       }
+      //       temp.forEach((d: any, index: number) => {
+      //         let records = user.careinstitution_requirements
+      //           .filter((available: any) =>
+      //             moment(d.dateString).isSame(moment(available.date), 'day'),
+      //           )
+      //           // To sort requirements by id
+      //           .sort((a: any, b: any) => b.id - a.id);
+      //         for (let i = 0; i < records.length; i++) {
+      //           // To update the status of selected cell accordingly
+      //           if (
+      //             records[i] &&
+      //             careInstSelectedCell &&
+      //             careInstSelectedCell.length &&
+      //             records[i].id
+      //           ) {
+      //             let index = careInstSelectedCell.findIndex(
+      //               (cell: any) => cell.item && cell.item.id === records[i].id,
+      //             );
+      //             if (index > -1) {
+      //               careInstSelectedCell[index].item = {
+      //                 ...records[i],
+      //                 qualificationId: qualificationList.filter(
+      //                   ({ value }: any) =>
+      //                     records[i].qualificationId &&
+      //                     records[i].qualificationId.includes(value),
+      //                 ),
+      //               };
+      //             }
+      //           }
+      //           user.availabilityData[i].push(records[i]);
+      //         }
+      //       });
+      //     } else {
+      //       user.availabilityData.push([]);
+      //     }
+      //   });
+      //   /*  */
+      // }
 
       if (careInstSelectedCell && careInstSelectedCell.length) {
         setselectedCellsCareinstitution(careInstSelectedCell);

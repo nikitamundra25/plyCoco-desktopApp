@@ -39,12 +39,12 @@ const CareGiverTodoLayout = ({ component: Component, ...rest }: any) => {
     <Route
       {...rest}
       render={(props) => (
-        <div className="common-detail-page">
-          <div className="common-detail-section">
-            <div className="sticky-common-header">
+        <div className='common-detail-page'>
+          <div className='common-detail-section'>
+            <div className='sticky-common-header'>
               {/* <CareGiverTodoLayoutComponent /> */}
             </div>
-            <div className="common-content flex-grow-1">
+            <div className='common-content flex-grow-1'>
               <Component {...props} />
             </div>
           </div>
@@ -58,12 +58,12 @@ const CareInstitutionTodoLayout = ({ component: Component, ...rest }: any) => {
     <Route
       {...rest}
       render={(props) => (
-        <div className="common-detail-page">
-          <div className="common-detail-section">
-            <div className="sticky-common-header">
+        <div className='common-detail-page'>
+          <div className='common-detail-section'>
+            <div className='sticky-common-header'>
               {/* <CareInstitutionTodoLayoutComponent /> */}
             </div>
-            <div className="common-content flex-grow-1">
+            <div className='common-content flex-grow-1'>
               <Component {...props} />
             </div>
           </div>
@@ -91,7 +91,6 @@ const invoiceSelfEmployeedRoutes: string[] = [
   AppRoutes.CREATEINVOICES,
   AppRoutes.PRINTINVOICES,
 ];
-
 
 const DefaultLayout = (props: RouteComponentProps) => {
   let history = useHistory();
@@ -147,9 +146,13 @@ const DefaultLayout = (props: RouteComponentProps) => {
       let pathIndex = invoiceLeasingRoutes.findIndex(
         (element: any) => pathname === element
       );
-      
+
       if (pathIndex > -1) {
-        if (viewAdminProfile.accessLevel !== "invoiceLeasing" && viewAdminProfile.accessLevel !== "superadmin" && viewAdminProfile.accessLevel !== "all" ) {
+        if (
+          viewAdminProfile.accessLevel !== "invoiceLeasing" &&
+          viewAdminProfile.accessLevel !== "superadmin" &&
+          viewAdminProfile.accessLevel !== "all"
+        ) {
           history.push(AppRoutes.HOME);
         }
       }
@@ -157,9 +160,13 @@ const DefaultLayout = (props: RouteComponentProps) => {
       let pathIndexSelfEmp = invoiceSelfEmployeedRoutes.findIndex(
         (element: any) => pathname === element
       );
-      
+
       if (pathIndexSelfEmp > -1) {
-        if (viewAdminProfile.accessLevel !== "invoiceSelfEmployeed" && viewAdminProfile.accessLevel !== "superadmin" && viewAdminProfile.accessLevel !== "all" ) {
+        if (
+          viewAdminProfile.accessLevel !== "invoiceSelfEmployeed" &&
+          viewAdminProfile.accessLevel !== "superadmin" &&
+          viewAdminProfile.accessLevel !== "all"
+        ) {
           history.push(AppRoutes.HOME);
         }
       }
@@ -218,31 +225,32 @@ const DefaultLayout = (props: RouteComponentProps) => {
     const navItems: any = {
       items: [],
     };
-    navigation.items.map((nav: any | string,i:number) => {
+    navigation.items.map((nav: any | string, i: number) => {
       if (nav) {
-        if(nav.name === "Invoices"){
+        if (nav.name === "Invoices") {
           let stemp = {
             ...nav,
-            children : []
-          }
+            children: [],
+          };
           navItems.items.push(stemp);
           nav.children.map((child: any) => {
             child.authKey.map((data: string) => {
               if (data === permissions) {
-                const navIndex = navItems.items.findIndex((item:any) => item.name === 'Invoices');
-                if(navIndex > -1){
+                const navIndex = navItems.items.findIndex(
+                  (item: any) => item.name === "Invoices"
+                );
+                if (navIndex > -1) {
                   navItems.items[navIndex].children.push(child);
                 }
               }
             });
           });
-        }else{
+        } else {
           nav.authKey.map((data: string, index: number) => {
             if (data === permissions) {
               navItems.items.push(nav);
             }
           });
-
         }
       }
     });
@@ -250,16 +258,16 @@ const DefaultLayout = (props: RouteComponentProps) => {
   };
 
   return (
-    <div className="app">
+    <div className='app'>
       <AppHeader>
         <Suspense fallback={""}>
           <DefaultHeader />
         </Suspense>
       </AppHeader>
-      <div className="app-body">
-        <AppSidebar fixed minimized display="lg" id="sidebar">
-          <div className="sidebar-logo">
-            <img src={logo} alt="" className="img-fluid" />
+      <div className='app-body'>
+        <AppSidebar fixed minimized display='lg' id='sidebar'>
+          <div className='sidebar-logo'>
+            <img src={logo} alt='' className='img-fluid' />
           </div>
           <AppSidebarHeader />
           <AppSidebarForm />
@@ -273,7 +281,7 @@ const DefaultLayout = (props: RouteComponentProps) => {
           <AppSidebarFooter />
           <AppSidebarMinimizer />
         </AppSidebar>
-        <main className="main">
+        <main className='main'>
           {/* {!called || loading ? (
             <div className={'detailview-loader'}>
               <Loader />

@@ -9,6 +9,7 @@ import { IGetDaysArrayByMonthRes } from "../../../../interfaces";
 import { getDaysArrayByMonth } from "../../../../helpers";
 import Cell from "../Appointment/Caregiver/Cell";
 import CaregiverList from "./Caregiver/CaregiverList";
+import "../Appointment/index.scss";
 
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const DummyAppointment: FunctionComponent = () => {

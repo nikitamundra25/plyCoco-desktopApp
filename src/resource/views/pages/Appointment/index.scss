@@ -339,12 +339,12 @@
             li {
               border-bottom: 0px;
               .checkbox-custom {
-                padding-left:0px;
+                padding-left: 0px;
                 display: flex;
                 align-items: center;
                 label {
                   font-family: $font_open_sans;
-                  padding-left:30px;
+                  padding-left: 30px;
                 }
               }
             }
@@ -649,6 +649,31 @@ body {
     .btn-save {
       @media (max-width: 1560px) and (min-width: 1200px) {
         padding: 3px 20px;
+      }
+    }
+  }
+}
+
+.calender-section {
+  .custom-appointment-calendar {
+    .new-base-table {
+      .custom-appointment-row {
+        &.BaseTable__header-row {
+          .custom-appointment-col {
+            padding: 4px;
+          }
+        }
+        .custom-appointment-col {
+          height: 50px;
+          padding: 0px;
+
+          span {
+            display: inline-flex;
+            height: 100%;
+            padding: 4px;
+            width: 100%;
+          }
+        }
       }
     }
   }

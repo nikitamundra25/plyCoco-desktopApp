@@ -15,11 +15,11 @@ export const SelectableCell = createSelectable(
           className={classname({
             "selecting-cell-bg": isSelecting || isSelected,
             weekend: isWeekend,
-            "custom-appointment-col": true,
-            "calender-col": true,
+            //"custom-appointment-col": true,
+            //"calender-col": true,
           })}
           ref={selectableRef}>
-          Selectable div
+          sel
         </span>
       </>
     );
@@ -40,11 +40,13 @@ class CaregiverList extends React.PureComponent<any, any> {
     const { days } = this.state;
 
     const columns = [...staticHeader, ...days];
+    //columns[0].width = 300
+
     return (
       <>
         <SelectableGroup
           allowClickWithoutSelected
-          className='custom-row-selector'
+          className='custom-row-selector new-base-table'
           clickClassName='tick'
           resetOnStart={true}
           allowCtrlClick={false}
@@ -57,14 +59,19 @@ class CaregiverList extends React.PureComponent<any, any> {
             width={600}
             height={400}
             fixed
+           // columns={fixedColumns}
+           headerClassName='custom-appointment-row'
             headerRenderer={() =>
               columns.map((d: any) =>
                 staticHeader.indexOf(d) > -1 ? (
-                  <span style={{ margin: 10 }} key={d}>
-                    {d}
-                  </span>
+                  
+                <span key={d}  className={`custom-appointment-col  ${ d === "caregiver" ? "name-col" : ""}`} >
+                  {d}
+                </span>
+                  
+                  
                 ) : (
-                  <span style={{ margin: 10 }} key={d.date}>
+                  <span key={d.date} className="custom-appointment-col  ">
                     {d.day}
                     <br />
                     {d.date}
@@ -75,21 +82,25 @@ class CaregiverList extends React.PureComponent<any, any> {
             rowClassName='custom-appointment-row'
             rowRenderer={({ cells, rowData }: any) => (
               <div
-                className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
+                className='d-flex frozen-row' 
                 title={[rowData.lastName, rowData.firstName].join(" ")}>
                 {cells}
               </div>
             )}>
-            {columns.map((d: any) => (
+            {columns.map((d: any, index: number) => (
               <Column
                 key={`col0-${typeof d === "string" ? d : d.dateString}`}
-                width={50}
+              
+                width={index ===0 ? 140 : 28}
+                className={`custom-appointment-col   ${ d === "caregiver" ? "name-col" : ""}`}
+                
+                
                 frozen={typeof d === "string"}
                 cellRenderer={({ column, columnIndex, rowData }: any) => {
                   switch (d) {
                     case "caregiver":
                       return (
-                        <span className='custom-appointment-col name-col calender-col'>
+                        <span className='view-more-link one-line-text name-col'>
                           {[rowData.lastName, rowData.firstName]
                             .join(" ")
                             .trim() || "-"}
@@ -97,25 +108,25 @@ class CaregiverList extends React.PureComponent<any, any> {
                       );
                     case "H":
                       return (
-                        <span className='custom-appointment-col h-col calender-col'>
-                          Blank div
+                        <span >
+                          H
                         </span>
                       );
                     case "S":
                       return (
-                        <span className='custom-appointment-col s-col calender-col'>
-                          Blank div
+                        <span className=''>
+                         S
                         </span>
                       );
                     case "V":
                       return (
-                        <span className='custom-appointment-col v-col'>
+                        <span className=''>
                           {" "}
-                          Blank div
+                          V
                         </span>
                       );
                     case "U":
-                      return <span className='u-col'>Blank div</span>;
+                      return <span className=''>U</span>;
                     default:
                       return <SelectableCell isWeekend={d.isWeekend} />;
                   }

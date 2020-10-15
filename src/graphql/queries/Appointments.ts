@@ -32,8 +32,6 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
     ) {
       totalCount
       result {
-        name
-        availabilityData
         firstName
         lastName
         userName

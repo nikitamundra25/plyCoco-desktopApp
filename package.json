@@ -50,6 +50,7 @@
     "query-string": "^6.9.0",
     "react": "^16.8.5",
     "react-app-polyfill": "^0.2.2",
+    "react-base-table": "^1.12.0",
     "react-chartjs-2": "^2.7.4",
     "react-click-outside": "^3.0.1",
     "react-datasheet": "^1.4.1",

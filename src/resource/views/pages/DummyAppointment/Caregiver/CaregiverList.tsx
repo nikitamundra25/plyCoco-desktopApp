@@ -31,6 +31,7 @@ class CaregiverList extends React.PureComponent<any, any> {
     super(props);
     this.state = {
       days: getDaysArrayByMonth().daysArr,
+      selectedCells: [],
     };
   }
   render() {
@@ -50,8 +51,8 @@ class CaregiverList extends React.PureComponent<any, any> {
           clickClassName='tick'
           resetOnStart={true}
           allowCtrlClick={false}
-          onSelectionFinish={(cells: any) => {
-            console.log(cells);
+          onSelectionFinish={(selectedCells: any) => {
+            this.setState({ selectedCells });
           }}
           ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
           <BaseTable
@@ -59,19 +60,19 @@ class CaregiverList extends React.PureComponent<any, any> {
             width={600}
             height={400}
             fixed
-           // columns={fixedColumns}
-           headerClassName='custom-appointment-row'
+            headerClassName='custom-appointment-row'
             headerRenderer={() =>
               columns.map((d: any) =>
                 staticHeader.indexOf(d) > -1 ? (
-                  
-                <span key={d}  className={`custom-appointment-col  ${ d === "caregiver" ? "name-col" : ""}`} >
-                  {d}
-                </span>
-                  
-                  
+                  <span
+                    key={d}
+                    className={`custom-appointment-col  ${
+                      d === "caregiver" ? "name-col" : ""
+                    }`}>
+                    {d}
+                  </span>
                 ) : (
-                  <span key={d.date} className="custom-appointment-col  ">
+                  <span key={d.date} className='custom-appointment-col  '>
                     {d.day}
                     <br />
                     {d.date}
@@ -82,7 +83,7 @@ class CaregiverList extends React.PureComponent<any, any> {
             rowClassName='custom-appointment-row'
             rowRenderer={({ cells, rowData }: any) => (
               <div
-                className='d-flex frozen-row' 
+                className='d-flex frozen-row'
                 title={[rowData.lastName, rowData.firstName].join(" ")}>
                 {cells}
               </div>
@@ -90,11 +91,10 @@ class CaregiverList extends React.PureComponent<any, any> {
             {columns.map((d: any, index: number) => (
               <Column
                 key={`col0-${typeof d === "string" ? d : d.dateString}`}
-              
-                width={index ===0 ? 140 : 28}
-                className={`custom-appointment-col   ${ d === "caregiver" ? "name-col" : ""}`}
-                
-                
+                width={index === 0 ? 140 : 28}
+                className={`custom-appointment-col   ${
+                  d === "caregiver" ? "name-col" : ""
+                }`}
                 frozen={typeof d === "string"}
                 cellRenderer={({ rowData }: any) => {
                   switch (d) {
@@ -107,24 +107,11 @@ class CaregiverList extends React.PureComponent<any, any> {
                         </span>
                       );
                     case "H":
-                      return (
-                        <span >
-                          H
-                        </span>
-                      );
+                      return <span>H</span>;
                     case "S":
-                      return (
-                        <span className=''>
-                         S
-                        </span>
-                      );
+                      return <span className=''>S</span>;
                     case "V":
-                      return (
-                        <span className=''>
-                          {" "}
-                          V
-                        </span>
-                      );
+                      return <span className=''> V</span>;
                     case "U":
                       return <span className=''>U</span>;
                     default:

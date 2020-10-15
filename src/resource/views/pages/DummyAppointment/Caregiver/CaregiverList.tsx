@@ -85,7 +85,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                 key={`col0-${typeof d === "string" ? d : d.dateString}`}
                 width={50}
                 frozen={typeof d === "string"}
-                cellRenderer={({ column, columnIndex, rowData }: any) => {
+                cellRenderer={({ rowData }: any) => {
                   switch (d) {
                     case "caregiver":
                       return (

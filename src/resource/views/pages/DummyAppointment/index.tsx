@@ -45,7 +45,7 @@ const DummyAppointment: FunctionComponent = () => {
         qualificationId: [],
         userRole: "caregiver",
         negativeAttributeId: [],
-        limit: 1000,
+        limit: 30,
         page: 1,
         showAppointments: "showWithAppointments", //"showWithAppointments",
         positiveAttributeId: [],

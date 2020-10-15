@@ -55,15 +55,19 @@ const DummyAppointment: FunctionComponent = () => {
     });
   }, []);
   return (
-    <>
+    <div className='calender-section'>
       {caregiverLoading ? (
         "Loading..."
       ) : careGiversList && careGiversList.getUserByQualifications ? (
-        <CaregiverList caregiverData={careGiversList.getUserByQualifications} />
+        <div className='custom-appointment-calendar'>
+          <CaregiverList
+            caregiverData={careGiversList.getUserByQualifications}
+          />
+        </div>
       ) : (
         <>adfasdf</>
       )}
-    </>
+    </div>
   );
 };
 

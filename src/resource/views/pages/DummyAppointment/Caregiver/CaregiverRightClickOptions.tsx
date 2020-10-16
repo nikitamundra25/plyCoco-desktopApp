@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Nav, NavItem, NavLink, Button } from "reactstrap";
 import { languageTranslation } from "../../../../../helpers";
 import new_appointment from "../../../../assets/img/dropdown/new_appointment.svg";
@@ -28,7 +28,7 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
           <NavLink
             // disabled={selectedCells ? selectedCells.length === 0 : true}
             onClick={() => {
-              hide(false);
+              hide();
               // onNewAvailability ? onNewAvailability() : undefined;
             }}>
             <img src={new_appointment} className='mr-2' alt='' />
@@ -38,7 +38,10 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink>
+          <NavLink
+            onClick={() => {
+              hide();
+            }}>
             <img src={reserve} className='mr-2' alt='' />
             <span className='align-middle'>
               {languageTranslation("RESERVE")}
@@ -46,7 +49,10 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink onClick={() => {}}>
+          <NavLink
+            onClick={() => {
+              hide();
+            }}>
             <img src={delete_appointment} className='mr-2' alt='' />
             <span className='align-middle'>
               {languageTranslation("DELETE_FREE_CALENDER")}
@@ -57,7 +63,9 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
         <NavItem>
           <NavLink
             // disabled={selectedCells ? selectedCells.length === 0 : true}
-            onClick={() => {}}>
+            onClick={() => {
+              hide();
+            }}>
             <img src={detail_list} className='mr-2' alt='' />
             <span className='align-middle'>
               {languageTranslation("DETAILED_LIST")}
@@ -68,7 +76,7 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
         <NavItem
           // disabled={selectedCells ? selectedCells.length === 0 : true}
           onClick={() => {
-            hide(false);
+            hide();
             // onCaregiverQualificationFilter
             //   ? onCaregiverQualificationFilter()
             //   : undefined;
@@ -92,7 +100,7 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
             //     : true
             // }
             onClick={() => {
-              hide(false);
+              hide();
               // setOfferRequirements(true);
               // handleCareGiverBulkEmail();
             }}>
@@ -112,7 +120,7 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
             //     : true
             // }
             onClick={() => {
-              hide(false);
+              hide();
               // handleLinkAppointments("link");
             }}>
             <img src={connect} className='mr-2' alt='' />
@@ -131,7 +139,7 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
             // }
             // disabled={selectedCells ? selectedCells.length === 0 : true}
             onClick={() => {
-              hide(false);
+              hide();
               // handleUnLinkAppointments();
             }}>
             <img src={disconnect} className='mr-2' alt='' />
@@ -151,7 +159,7 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
             //     : true
             // }
             onClick={() => {
-              hide(false);
+              hide();
               // updateCaregiverStatus("confirmed");
               // setconfirmApp(true);
               // handleCareGiverBulkEmail();
@@ -177,7 +185,7 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
             <span
               className='align-middle'
               onClick={() => {
-                hide(false);
+                hide();
                 // updateCaregiverStatus("confirmed");
               }}>
               {languageTranslation("SET_ON_CONF")}
@@ -199,7 +207,7 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
             <span
               className='align-middle'
               onClick={() => {
-                hide(false);
+                hide();
                 // updateCaregiverStatus("notconfirmed");
               }}>
               {languageTranslation("SET_ON_NOT_CONF")}
@@ -227,7 +235,7 @@ export const CaregiverRightClickOptions = ({ isOpen, hide }: any) => {
             //     : true
             // }
             onClick={() => {
-              hide(false);
+              hide();
               // setleasingContract(true);
               // handleCareGiverBulkEmail();
             }}>

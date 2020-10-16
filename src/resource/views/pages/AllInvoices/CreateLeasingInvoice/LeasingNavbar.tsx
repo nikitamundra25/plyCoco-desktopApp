@@ -122,6 +122,7 @@ const LeasingNavbar: FunctionComponent<IInvoiceNavBar & any> = (
           onDayChange={handleDayClick}
           //  formatDate={formatDate}
           value={dateFilter ? `${dateFilter}` : ''}
+          clickUnselectsDay ={true}
           dayPickerProps={{
             //  month: setNewDate,
             canChangeMonth: false,

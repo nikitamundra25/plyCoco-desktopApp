@@ -129,11 +129,18 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
     // notifyOnNetworkStatusChange: true
   });
 
-  useEffect(() => {
-    let activeDate = moment().format(dbAcceptableFormat);
-    setDateFilter(activeDate);
-  }, []);
-
+  // useEffect(() => {
+  //   let activeDate = moment().format(dbAcceptableFormat);
+  //   setDateFilter(activeDate);
+  // }, []);
+  // to reset all the filters
+  const handleReset = () => {
+    setcaregiverFilter({ label: '', value: '' });
+    setcareinstitutionFilter({ label: '', value: '' });
+    setdepartmentFilter({ label: '', value: '' });
+    setmonthFilter({ value: 'all', label: languageTranslation('ALL') });
+    setDateFilter("");
+  };
   //To get all holidays and weekends
   const getAllHolidays = (startDate: string, endDate: string) => {
     getGlobalHolidays({
@@ -193,7 +200,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
       }
     }
     getInvoiceListData();
-  }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter]);
+  }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter, dateFilter]);
 
   // Options to show department data
   useEffect(() => {
@@ -676,6 +683,7 @@ const CreateInvoice: FunctionComponent<RouteComponentProps> & any = (
             handleCreateInvoice={() => handleCreateInvoice()}
             createInvoiceLoading={createInvoiceLoading}
             monthFilter={monthFilter}
+            handleReset={handleReset}
           />
 
           <div className="common-content flex-grow-1">

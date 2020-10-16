@@ -143,10 +143,10 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       },
     });
   };
-  useEffect(() => {
-    let activeDate = moment().format(dbAcceptableFormat);
-    setDateFilter(activeDate);
-  }, []);
+  // useEffect(() => {
+  //   let activeDate = moment().format(dbAcceptableFormat);
+  //   setDateFilter(activeDate);
+  // }, []);
   useEffect(() => {
     if (
       invoiceList &&
@@ -212,7 +212,7 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       }
     }
     getInvoiceListData();
-  }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter]);
+  }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter,dateFilter]);
 
 
   // to reset all the filters

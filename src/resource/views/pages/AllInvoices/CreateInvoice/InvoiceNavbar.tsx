@@ -29,12 +29,13 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (
     dateFilter,
     handleCreateInvoice,
     createInvoiceLoading,
-    monthFilter
+    monthFilter,
+    handleReset
   } = props;
 
   return (
     <div className="common-topheader d-flex  px-2 pb-1 invoice-header">
-      <div className="header-nav-item">
+      <div className="header-nav-item" onClick={handleReset}>
         <span className="header-nav-icon">
           <i className="fa fa-refresh "></i>
         </span>
@@ -151,6 +152,7 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (
           onDayChange={handleDayClick}
           //  formatDate={formatDate}
           value={dateFilter ? `${dateFilter}` : ""}
+          clickUnselectsDay ={true}
           dayPickerProps={{
             //  month: setNewDate,
             canChangeMonth: false,

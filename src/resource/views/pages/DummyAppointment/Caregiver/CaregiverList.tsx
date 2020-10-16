@@ -5,6 +5,7 @@ import "react-base-table/styles.css";
 import { createSelectable, SelectableGroup } from "react-selectable-fast";
 import classname from "classnames";
 import moment from "moment";
+import { CaregiverRightClickOptions } from "./CaregiverRightClickOptions";
 
 const staticHeader = ["caregiver", "H", "S", "U", "V"];
 
@@ -53,7 +54,8 @@ export const SelectableCell = createSelectable(
           ) : item.f === "block" || item.s === "block" || item.n === "block" ? (
             <i className='fa fa-ban'></i>
           ) : item.status === "default" &&
-            moment(item.date).isBefore(moment(), "day") ? null : (
+            new Date(item.date).toTimeString() <
+              new Date().toTimeString() ? null : (
             <>
               {item.f === "available" ? "f" : null}
               {item.s === "available" ? "s" : null}
@@ -72,26 +74,73 @@ class CaregiverList extends React.PureComponent<any, any> {
     this.state = {
       days: getDaysArrayByMonth().daysArr,
       selectedCells: [],
+      openToggleMenu: false,
     };
   }
+  handleToggleMenuItem = () => {
+    this.setState({
+      openToggleMenu: !this.state.openToggleMenu,
+    });
+  };
+  onSelectFinish = (selectedCellsData: any[]) => {
+    const { handleSelection } = this.props;
+    if (handleSelection) {
+      let selectedRows: any[] = [];
+      if (selectedCellsData && selectedCellsData.length) {
+        selectedRows = selectedCellsData.map((selectedCell: any) => {
+          const { props: cellProps } = selectedCell;
+          const { item, list: caregiverData, cellIndex, day } = cellProps;
+          const {
+            id = "",
+            firstName = "",
+            lastName = "",
+            email = "",
+            caregiver = {},
+            qualificationId = [],
+          } = caregiverData ? caregiverData : {};
+          return {
+            id,
+            firstName,
+            lastName,
+            email,
+            caregiver,
+            item,
+            qualificationIds: qualificationId,
+            dateString: day ? day.dateString : "",
+            cellIndex,
+          };
+        });
+        handleSelection(selectedRows, "caregiver");
+      }
+    }
+  };
   render() {
     const {
       caregiverData: { result, totalCount },
     } = this.props;
-    const { days } = this.state;
-
+    const { days, openToggleMenu } = this.state;
     const columns = [...staticHeader, ...days];
+
     return (
       <>
+        <div
+          className={classname({
+            "right-manu-close": true,
+            "d-none": !openToggleMenu,
+          })}
+          onClick={this.handleToggleMenuItem}></div>
+        <CaregiverRightClickOptions
+          isOpen={openToggleMenu}
+          hide={() => this.setState({ openToggleMenu: false })}
+        />
+
         <SelectableGroup
           allowClickWithoutSelected
           className='custom-row-selector new-base-table'
           clickClassName='tick'
           resetOnStart={true}
           allowCtrlClick={false}
-          onSelectionFinish={(selectedCells: any) => {
-            this.setState({ selectedCells });
-          }}
+          onSelectionFinish={this.onSelectFinish}
           ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
           <BaseTable
             data={result}
@@ -102,13 +151,21 @@ class CaregiverList extends React.PureComponent<any, any> {
             headerRenderer={() =>
               columns.map((d: any) =>
                 staticHeader.indexOf(d) > -1 ? (
-                  <span
-                    key={d}
-                    className={`custom-appointment-col  ${
-                      d === "caregiver" ? "name-col" : ""
-                    }`}>
-                    {d}
-                  </span>
+                  <React.Fragment key={d}>
+                    <span
+                      className={`custom-appointment-col  ${
+                        d === "caregiver" ? "name-col" : ""
+                      }`}>
+                      {d}
+                      {d === "caregiver" ? (
+                        <>
+                          <span onClick={this.handleToggleMenuItem}>
+                            <i className='icon-options-vertical' />
+                          </span>
+                        </>
+                      ) : null}
+                    </span>
+                  </React.Fragment>
                 ) : (
                   <span key={d.date} className='custom-appointment-col  '>
                     {d.day}
@@ -160,6 +217,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                         <SelectableCell
                           item={currentAvail[0] || {}}
                           isWeekend={d.isWeekend}
+                          list={rowData}
                         />
                       );
                   }

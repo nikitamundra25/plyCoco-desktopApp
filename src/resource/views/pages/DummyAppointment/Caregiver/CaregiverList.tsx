@@ -9,63 +9,67 @@ import { CaregiverRightClickOptions } from "./CaregiverRightClickOptions";
 
 const staticHeader = ["caregiver", "H", "S", "U", "V"];
 
-export const SelectableCell = createSelectable(
-  ({ selectableRef, isSelecting, isSelected, isWeekend, item }: any) => {
-    let isMatching: boolean = false,
-      isConfirm: boolean = false,
-      isContractCancel: boolean = false,
-      isContractInitiated: boolean = false,
-      isSingleButtonAccepted: boolean = false,
-      isTimeSheetPending: boolean = false,
-      isInvoiceInitiated: boolean = false;
-    if (item.status === "linked") {
-      isMatching = true;
-    } else if (item.status === "confirmed") {
-      isConfirm = true;
-    } else if (item.status === "contractCancelled") {
-      isContractCancel = true;
-    } else if (item.status === "contractInitiated") {
-      isContractInitiated = true;
-    } else if (item.status === "invoiceInitiated") {
-      isInvoiceInitiated = true;
-    } else if (item.status === "accepted") {
-      isSingleButtonAccepted = true;
-    } else if (
-      item.status === "timeSheetPending" ||
-      item.status === "timeSheetUpdated"
-    ) {
-      isTimeSheetPending = true;
-    }
+export const SelectableCell = React.memo(
+  createSelectable(
+    ({ selectableRef, isSelecting, isSelected, isWeekend, item }: any) => {
+      let isMatching: boolean = false,
+        isConfirm: boolean = false,
+        isContractCancel: boolean = false,
+        isContractInitiated: boolean = false,
+        isSingleButtonAccepted: boolean = false,
+        isTimeSheetPending: boolean = false,
+        isInvoiceInitiated: boolean = false;
+      if (item.status === "linked") {
+        isMatching = true;
+      } else if (item.status === "confirmed") {
+        isConfirm = true;
+      } else if (item.status === "contractCancelled") {
+        isContractCancel = true;
+      } else if (item.status === "contractInitiated") {
+        isContractInitiated = true;
+      } else if (item.status === "invoiceInitiated") {
+        isInvoiceInitiated = true;
+      } else if (item.status === "accepted") {
+        isSingleButtonAccepted = true;
+      } else if (
+        item.status === "timeSheetPending" ||
+        item.status === "timeSheetUpdated"
+      ) {
+        isTimeSheetPending = true;
+      }
 
-    return (
-      <>
-        <span
-          className={classname({
-            "selecting-cell-bg": isSelecting || isSelected,
-            weekend: isWeekend,
-          })}
-          ref={selectableRef}>
-          {item.status === "timeSheetPending" ? (
-            <i className='fa fa-circle-o'></i>
-          ) : item.status === "timeSheetUpdated" ? (
-            <i className='fa fa-check'></i>
-          ) : item.status === "invoiceInitiated" ? (
-            <i className='fa fa-euro'></i>
-          ) : item.f === "block" || item.s === "block" || item.n === "block" ? (
-            <i className='fa fa-ban'></i>
-          ) : item.status === "default" &&
-            new Date(item.date).toTimeString() <
-              new Date().toTimeString() ? null : (
-            <>
-              {item.f === "available" ? "f" : null}
-              {item.s === "available" ? "s" : null}
-              {item.n === "available" ? "n" : null}
-            </>
-          )}
-        </span>
-      </>
-    );
-  }
+      return (
+        <>
+          <span
+            className={classname({
+              "selecting-cell-bg": isSelecting || isSelected,
+              weekend: isWeekend,
+            })}
+            ref={selectableRef}>
+            {item.status === "timeSheetPending" ? (
+              <i className='fa fa-circle-o'></i>
+            ) : item.status === "timeSheetUpdated" ? (
+              <i className='fa fa-check'></i>
+            ) : item.status === "invoiceInitiated" ? (
+              <i className='fa fa-euro'></i>
+            ) : item.f === "block" ||
+              item.s === "block" ||
+              item.n === "block" ? (
+              <i className='fa fa-ban'></i>
+            ) : item.status === "default" &&
+              new Date(item.date).toTimeString() <
+                new Date().toTimeString() ? null : (
+              <>
+                {item.f === "available" ? "f" : null}
+                {item.s === "available" ? "s" : null}
+                {item.n === "available" ? "n" : null}
+              </>
+            )}
+          </span>
+        </>
+      );
+    }
+  )
 );
 
 class CaregiverList extends React.PureComponent<any, any> {

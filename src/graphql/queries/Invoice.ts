@@ -12,6 +12,7 @@ const GET_INVOICE_LIST = gql`
     $limit: Int
     $attributeId: ID
     $isLeasing: Boolean
+    $monthSummary: String
   ) {
     getAllAppointment(
       searchBy: $searchBy
@@ -24,6 +25,7 @@ const GET_INVOICE_LIST = gql`
       limit: $limit
       attributeId: $attributeId
       isLeasing: $isLeasing
+      monthSummary: $monthSummary
     ) {
       totalCount
       result {
@@ -120,7 +122,7 @@ const GET_ALL_INVOICE_LIST = gql`
         appointmentIds
         status
         amount
-        tax
+        PlycocoTax
         invoiceDate
         dueDate
         doubtful

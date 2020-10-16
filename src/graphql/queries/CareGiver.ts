@@ -348,6 +348,7 @@ query getCaregiverByName(
       firstName
       lastName
       isActive
+      userRole
       caregiver {
         attributes
       }
@@ -370,8 +371,8 @@ query getInvoiceByUserId( $userId: ID!) {
       cancelledBy
       cancelledFor
       comment
+      PlycocoTax
       createdAt
-      tax
       amount
       invoiceType
       status

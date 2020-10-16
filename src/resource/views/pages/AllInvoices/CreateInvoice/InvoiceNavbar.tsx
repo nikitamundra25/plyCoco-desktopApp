@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 import Select from "react-select";
 import { languageTranslation } from "../../../../../helpers";
-import { IInvoiceList, IInvoiceNavBar } from "../../../../../interfaces";
-import CustomOption from "../../../components/CustomOptions";
+import {  IInvoiceNavBar } from "../../../../../interfaces";
 import pen from "../../../../assets/img/header-icons/pen.svg";
 import CompleteTime from "../../../../assets/img/header-icons/tab-icons/complete-time.svg";
 import idea from "../../../../assets/img/header-icons/tab-icons/idea.svg";
@@ -12,7 +11,7 @@ import "../index.scss";
 import right_arrow from "../../../../assets/img/rightarrow.svg";
 import left_arrow from "../../../../assets/img/leftarrow.svg";
 import DayPickerInput from "react-day-picker/DayPickerInput";
-import CareInstCustomOption from "../../../components/CustomOptions/CustomCareInstOptions";
+import 'react-day-picker/lib/style.css';
 import CaregiverCustomAsyncList from "../../../components/DropdownList/CareGiverCustomAsyncSelect";
 import CareinstitutionCustomAsyncList from "../../../components/DropdownList/CareInstitutionCustomAsyncSelect";
 
@@ -29,7 +28,8 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (
     handleArrowDayChange,
     dateFilter,
     handleCreateInvoice,
-    createInvoiceLoading
+    createInvoiceLoading,
+    monthFilter
   } = props;
 
   return (
@@ -123,6 +123,7 @@ const InvoiceNavbar: FunctionComponent<IInvoiceNavBar & any> = (
           className={"custom-reactselect "}
           placeholder="Select Month Summary"
           options={InvoiceSummaryFilter}
+          value={monthFilter}
           isClearable={true}
           onChange={(value: any) => onhandleSelection(value, "monthSummary")}
         />

@@ -1789,5 +1789,6 @@
   "SELECT_ATTRIBUTE_OR_TYPE_NEW":"Please select Attribute or type to add new",
   "CAREGIVER_EMAIL_TEXT":"Caregiver added successfully but due to some network issue email couldn't be sent out",
   "ENTER_TOTAL_SELECTION":"Enter total selection",
-  "SEND_INVOICE_TO":"Send Invoice To"
+  "SEND_INVOICE_TO":"Send Invoice To",
+  "SELECT_SINGLE_DOCUMENT":"You can only upload single document"
 }

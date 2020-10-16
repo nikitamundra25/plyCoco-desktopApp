@@ -354,7 +354,9 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       onClick={() =>
                         history.push({
                           pathname: AppRoutes.APPOINTMENT,
-                          state: { caregiver: Id, name: selectUser.label },
+                          state: { caregiver: Id, name:  data &&
+                            data.getCaregiver && 
+                            data.getCaregiver.firstName &&  data.getCaregiver.lastName ? `${data.getCaregiver.lastName}${" "}${data.getCaregiver.firstName}` : data.getCaregiver.firstName ? data.getCaregiver.firstName : "" },
                         })
                       }
                     >
@@ -409,17 +411,10 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                           ? data.getCaregiver.salutation
                           : "Sehr geehrte Damen und Herren"
                       }
-                      userRole={
-                        careGiversList &&
-                        careGiversList.getCaregiverByName &&
-                        careGiversList.getCaregiverByName.result &&
-                        selectUser &&
-                        selectUser.value
-                          ? careGiversList.getCaregiverByName.result.find(
-                              (careGiver: any) =>
-                                careGiver.id === selectUser.value
-                            ).userRole
-                          : ""
+                      userRole = {
+                        data &&
+                        data.getCaregiver && 
+                        data.getCaregiver.userRole ? data.getCaregiver.userRole : ""
                       }
                     />
                   ) : null}

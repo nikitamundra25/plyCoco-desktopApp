@@ -377,7 +377,6 @@ const CarinstituionListView: FunctionComponent<IAppointmentCareInstitutionList &
     // (item: any) => item.id === starCanstitution.id
     // )[0];
     // }
-    console.log("listlistlist",list);
     
     let item = list.new;
     let row = list.row;

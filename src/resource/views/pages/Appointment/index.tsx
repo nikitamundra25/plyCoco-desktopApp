@@ -2403,9 +2403,10 @@ const Appointment: FunctionComponent = (props: any) => {
   // On previous month click
   const handlePrevious = async () => {
     setPage(1);
+    
     let month: number = activeMonth - 1;
     let year: number = activeYear;
-
+    
     // To check if active month is january than set month to december & year to previous year
     if (activeMonth === 0) {
       month = 11;
@@ -2427,7 +2428,10 @@ const Appointment: FunctionComponent = (props: any) => {
       month = 0;
       year = activeYear + 1;
     }
+    console.log("activeMonthactiveMonth",month);
+
     const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(month, year);
+    console.log("resres",res);
     setActiveMonth(month);
     setActiveYear(year);
     setDaysData(res);

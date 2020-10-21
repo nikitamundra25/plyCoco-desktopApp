@@ -248,11 +248,13 @@ console.log("listCareInst",listCareInst);
             onSelectionFinish={this.onSelectFinish}
             ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
           >
+            
             <BaseTable
               data={listCareInst}
               width={600}
               height={400}
               fixed
+              // render ={ ({ column: { listCareInst } })}
               footerHeight={loadingMore ? 50 : 0}
               // onEndReached={this.handleEndReached}
               onEndReachedThreshold={60}

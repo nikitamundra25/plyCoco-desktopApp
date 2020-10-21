@@ -47,11 +47,12 @@ export const SelectableCell = React.memo(
       ) {
         isTimeSheetPending = true;
       }
-  // Date condition to not display fsn if date is before today
-  let isBeforedate = false;
-  if (item && item.date) {
-    isBeforedate = moment(item.date).isBefore(moment(), "day")
-  }
+
+      // Date condition to not display fsn if date is before today
+      let isBeforedate = false;
+      if (item && item.date) {
+        isBeforedate = moment(item.date).isBefore(moment(), "day");
+      }
       return (
         <>
           <span
@@ -63,32 +64,34 @@ export const SelectableCell = React.memo(
               "selecting-cell-bg": isSelecting || isSelected,
               weekend: isWeekend,
               "contact-initiate-bg":
-              isContractInitiated && !isSelected ? isContractInitiated : false,
-              
-            "invoice-bg":
-            isInvoiceInitiated && !isSelected ? isInvoiceInitiated : false,
-  
-            "cancel-contract-bg":
-              isContractCancel && !isSelected ? isContractCancel : false,
-            "matching-bg": isMatching && !isSelected ? isMatching : false,
-            "confirmation-bg":
-              isTimeSheetPending && !isSelected ? isTimeSheetPending : false,
-            "contract-bg": isConfirm && !isSelected ? isConfirm : false,
-            "availability-dark-bg": !isSelected
-            ? item
-              ? item.f === "available" ||
-                item.s === "available" ||
-                item.n === "available"
-                ? item && item.status === "default" && isBeforedate
-                  ? false
-                  : true
-                : false
-              : false
-            : false,
-          "availability-bg":
-            !isSelected && item && item.status === "default" && isBeforedate
-              ? true
-              : false,
+                isContractInitiated && !isSelected
+                  ? isContractInitiated
+                  : false,
+
+              "invoice-bg":
+                isInvoiceInitiated && !isSelected ? isInvoiceInitiated : false,
+
+              "cancel-contract-bg":
+                isContractCancel && !isSelected ? isContractCancel : false,
+              "matching-bg": isMatching && !isSelected ? isMatching : false,
+              "confirmation-bg":
+                isTimeSheetPending && !isSelected ? isTimeSheetPending : false,
+              "contract-bg": isConfirm && !isSelected ? isConfirm : false,
+              "availability-dark-bg": !isSelected
+                ? item
+                  ? item.f === "available" ||
+                    item.s === "available" ||
+                    item.n === "available"
+                    ? item && item.status === "default" && isBeforedate
+                      ? false
+                      : true
+                    : false
+                  : false
+                : false,
+              "availability-bg":
+                !isSelected && item && item.status === "default" && isBeforedate
+                  ? true
+                  : false,
             })}
             ref={selectableRef}
           >
@@ -128,7 +131,7 @@ class CaregiverList extends React.PureComponent<any, any> {
       openToggleMenu: false,
       loading: false,
       loadingMore: false,
-      listCareGiver:[]
+      listCareGiver: [],
       // loadedAll: this.props.result.length < 30,
     };
   }
@@ -139,15 +142,15 @@ class CaregiverList extends React.PureComponent<any, any> {
       //   ? careGiversList.filter((cg: any) => cg.id === starCaregiver.id)
       //   :
       this.props.caregiverData;
-      
-      listData.forEach((element: any) => {
-        element.availabilityData.forEach((item: any, row: number) => {
-          return tempList.push({ ...element, new: item, row });
-        });
+
+    listData.forEach((element: any) => {
+      element.availabilityData.forEach((item: any, row: number) => {
+        return tempList.push({ ...element, new: item, row });
       });
-      this.setState({
-        listCareGiver: tempList
-      })
+    });
+    this.setState({
+      listCareGiver: tempList,
+    });
   };
 
   componentDidUpdate = ({ caregiverData }: any) => {
@@ -159,7 +162,7 @@ class CaregiverList extends React.PureComponent<any, any> {
       });
       this.setState({
         loadingMore: false,
-        listCareGiver: tempList
+        listCareGiver: tempList,
       });
     }
   };
@@ -228,17 +231,20 @@ class CaregiverList extends React.PureComponent<any, any> {
   //       ? [...temp[index].availabilityData, []]
   //       : [];
   //       console.log("temptemp",temp);
-        
+
   //     setcaregiversList(temp);
   //   }
   // };
 
   render() {
-    const { caregiverData: result, caregiverLoading, daysData,onAddingRow } = this.props;
+    const {
+      caregiverData: result,
+      caregiverLoading,
+      daysData,
+      onAddingRow,
+    } = this.props;
     const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
-   
-    
     return (
       <>
         <div
@@ -265,8 +271,8 @@ class CaregiverList extends React.PureComponent<any, any> {
           >
             <BaseTable
               data={result}
-              width={600}
-              height={400}
+              width={1000}
+              height={300}
               fixed
               footerHeight={loadingMore ? 50 : 0}
               onEndReached={this.handleEndReached}
@@ -275,7 +281,7 @@ class CaregiverList extends React.PureComponent<any, any> {
               headerRenderer={() =>
                 columns.map((d: any) =>
                   staticHeader.indexOf(d) > -1 ? (
-                    <React.Fragment key={d}>
+                    <React.Fragment key={d.id}>
                       <span
                         className={`custom-appointment-col  ${
                           d === "caregiver" ? "name-col" : ""

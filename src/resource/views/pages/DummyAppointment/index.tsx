@@ -16,6 +16,7 @@ import CaregiverList from "./Caregiver/CaregiverList";
 import CareInstitutionList from "./CareInstitution/CareinstitutionList";
 import "../Appointment/index.scss";
 import AppointmentNav from "./AppointmentNav.tsx";
+import Loader from "../../containers/Loader/Loader";
 
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const DummyAppointment: FunctionComponent = () => {
@@ -57,18 +58,18 @@ const DummyAppointment: FunctionComponent = () => {
     fetchPolicy: "no-cache",
   });
 
- // To fetch careinstitution by qualification id
- const [
-  fetchCareinstitutionList,
-  {
-    data: careInstitutionList,
-    loading: careinstitutionLoading,
-    // refetch: canstitutionRefetch,
-    fetchMore: fetchMoreCareInstituionList,
-  },
-] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-  fetchPolicy: 'no-cache',
-});
+  // To fetch careinstitution by qualification id
+  const [
+    fetchCareinstitutionList,
+    {
+      data: careInstitutionList,
+      loading: careinstitutionLoading,
+      // refetch: canstitutionRefetch,
+      fetchMore: fetchMoreCareInstituionList,
+    },
+  ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
+    fetchPolicy: "no-cache",
+  });
 
   // To fetch qualification attributes list
   const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
@@ -91,12 +92,7 @@ const DummyAppointment: FunctionComponent = () => {
   // Store caregiver's state
   useEffect(() => {
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
-    // let careGiverSelectedCell =
-    //   selectedCells && selectedCells.length ? [...selectedCells] : [];
-    // let careInstSelectedCell =
-    //   selectedCellsCareinstitution && selectedCellsCareinstitution.length
-    //     ? [...selectedCellsCareinstitution]
-    //     : [];
+
     if (careGiversList && careGiversList.getUserByQualifications) {
       const { getUserByQualifications } = careGiversList;
       const { result, totalCount } = getUserByQualifications;
@@ -113,7 +109,7 @@ const DummyAppointment: FunctionComponent = () => {
                   (acc[moment(o.date).format(dbAcceptableFormat)] || 0) + 1),
                 acc
               ),
-              {},
+              {}
             );
             result = Object.values(result);
             result = Math.max(...result);
@@ -123,7 +119,7 @@ const DummyAppointment: FunctionComponent = () => {
             temp.forEach((d: any, index: number) => {
               let records = user.caregiver_avabilities.filter(
                 (available: any) =>
-                  moment(d.dateString).isSame(moment(available.date), 'day'),
+                  moment(d.dateString).isSame(moment(available.date), "day")
               );
               for (let i = 0; i < records.length; i++) {
                 // To update the status of selected cell accordingly
@@ -153,7 +149,10 @@ const DummyAppointment: FunctionComponent = () => {
       // }
       setcaregiversList(result);
     }
+  }, [careGiversList]);
 
+  useEffect(() => {
+    let temp: any[] = daysData ? [...daysData.daysArr] : [];
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
       const { getUserByQualifications } = careInstitutionList;
       const { result, totalCount } = getUserByQualifications;
@@ -161,7 +160,7 @@ const DummyAppointment: FunctionComponent = () => {
       if (result && result.length) {
         /*  */
         result.forEach((user: any, index: number) => {
-          user.name = user.canstitution ? user.canstitution.shortName : '';
+          user.name = user.canstitution ? user.canstitution.shortName : "";
           user.availabilityData = [];
           if (
             user.careinstitution_requirements &&
@@ -173,7 +172,7 @@ const DummyAppointment: FunctionComponent = () => {
                   (acc[moment(o.date).format(dbAcceptableFormat)] || 0) + 1),
                 acc
               ),
-              {},
+              {}
             );
             result = Object.values(result);
             result = Math.max(...result);
@@ -183,7 +182,7 @@ const DummyAppointment: FunctionComponent = () => {
             temp.forEach((d: any, index: number) => {
               let records = user.careinstitution_requirements
                 .filter((available: any) =>
-                  moment(d.dateString).isSame(moment(available.date), 'day'),
+                  moment(d.dateString).isSame(moment(available.date), "day")
                 )
                 // To sort requirements by id
                 .sort((a: any, b: any) => b.id - a.id);
@@ -209,7 +208,7 @@ const DummyAppointment: FunctionComponent = () => {
                 //     };
                 //   }
                 // }
-                
+
                 user.availabilityData[i].push(records[i]);
               }
             });
@@ -236,7 +235,7 @@ const DummyAppointment: FunctionComponent = () => {
       //   handleFirstStarCanstitution(result[0], 1);
       // }
     }
-  }, [careGiversList,careInstitutionList]);
+  }, [careInstitutionList]);
 
   // Default value is start & end of month
   let gte: string = moment().startOf("month").format(dbAcceptableFormat);
@@ -290,11 +289,11 @@ const DummyAppointment: FunctionComponent = () => {
     });
   };
 
-   //to get list of all the careinstitutions
-   const fetchCareInstituionList = (
+  //to get list of all the careinstitutions
+  const fetchCareInstituionList = (
     page: number,
     positiveAttr: number[] = [],
-    negativeAttr: number[] = [],
+    negativeAttr: number[] = []
   ) => {
     const {
       qualification,
@@ -311,13 +310,13 @@ const DummyAppointment: FunctionComponent = () => {
     fetchCareinstitutionList({
       variables: {
         qualificationId: temp ? temp : null,
-        userRole: 'canstitution',
+        userRole: "canstitution",
         limit: 30,
         page: page,
         showAppointments:
           filterByAppointments && filterByAppointments.value
-            ? filterByAppointments.value === 'showAll'
-              ? ''
+            ? filterByAppointments.value === "showAll"
+              ? ""
               : filterByAppointments.value
             : null,
         negativeAttributeId:
@@ -390,21 +389,21 @@ const DummyAppointment: FunctionComponent = () => {
     });
   };
 
-   // Adding Row into table
-   const onAddingRow = (
+  // Adding Row into table
+  const onAddingRow = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     name: string,
-    index: number,
+    index: number
   ) => {
     e.preventDefault();
-    console.log("indexindex",index);
-    
-    if (name === 'caregiver') {
+    console.log("indexindex", index);
+
+    if (name === "caregiver") {
       let temp: any = [...caregiversList];
       temp[index].availabilityData = temp[index].availabilityData
         ? [...temp[index].availabilityData, []]
         : [];
-      setcaregiversList(temp);
+       setcaregiversList(temp);
     } else {
       // To check row added on solo careinstitution or all
       // if (
@@ -420,17 +419,15 @@ const DummyAppointment: FunctionComponent = () => {
       //     : [];
       //   setcareInstituionDeptData(temp);
       // } else {
-        let temp: any = [...careinstitutionList];
-        temp[index].availabilityData = temp[index].availabilityData
-          ? [...temp[index].availabilityData, []]
-          : [];
-          console.log("temptemp",temp);
-        setcareinstitutionList(temp);
+      let temp: any = [...careinstitutionList];
+      temp[index].availabilityData = temp[index].availabilityData
+        ? [...temp[index].availabilityData, []]
+        : [];
+      console.log("temptemp", temp);
+      setcareinstitutionList(temp);
       // }
     }
   };
-
-  
   return (
     <div className="common-detail-page">
       <div className="common-detail-section">
@@ -449,61 +446,51 @@ const DummyAppointment: FunctionComponent = () => {
               : []
           }
         />
-        <div className='calender-section'>
-                {
-                  // caregiverLoading ? (
-                  //   "Loading..."
-                  // ) :
-                  caregiversList && caregiversList.length ? (
-                    <div className="custom-appointment-calendar">
-                      <CaregiverList
-                        caregiverData={caregiversList}
-                        onAddingRow={onAddingRow}
-                        setcaregiversList={(data:any)=>setcaregiversList(data)}
-                        fetchMoreData={fetchMoreData}
-                        caregiverLoading={caregiverLoading}
-                        setDaysData={setDaysData}
-                        daysData={daysData}
-                        totalCount={
-                          careGiversList &&
-                          careGiversList.getUserByQualifications
-                            ? careGiversList.getUserByQualifications.totalCount
-                            : 0
-                        }
-                      />
-                    </div>
-                  ) : (
-                    <>adfasdf</>
-                  )
+        <div className="calender-section">
+          {caregiversList && caregiversList.length ? (
+            <div className="custom-appointment-calendar">
+              <CaregiverList
+                caregiverData={caregiversList}
+                onAddingRow={onAddingRow}
+                setcaregiversList={(data: any) => setcaregiversList(data)}
+                fetchMoreData={fetchMoreData}
+                caregiverLoading={caregiverLoading}
+                setDaysData={setDaysData}
+                daysData={daysData}
+                totalCount={
+                  careGiversList && careGiversList.getUserByQualifications
+                    ? careGiversList.getUserByQualifications.totalCount
+                    : 0
                 }
-                 {
-                  // caregiverLoading ? (
-                  //   "Loading..."
-                  // ) :
-                  careinstitutionList && careinstitutionList.length ? (
-                    <div className="custom-appointment-calendar">
-                      <CareInstitutionList
-                        careinstitutionData={careinstitutionList}
-                        onAddingRow={onAddingRow}
-                        fetchMoreData={fetchMoreData}
-                        caregiverLoading={caregiverLoading}
-                        setDaysData={setDaysData}
-                        daysData={daysData}
-                        totalCount={
-                          careGiversList &&
-                          careGiversList.getUserByQualifications
-                            ? careGiversList.getUserByQualifications.totalCount
-                            : 0
-                        }
-                      />
-                    </div>
-                  ) : (
-                    <>adfasdf</>
-                  )
-                }
-              </div>
+              />
             </div>
-          </div>
+          ) : (
+            <div className={"mt-5"}>
+              <Loader />
+            </div>
+          )}
+          {careinstitutionList && careinstitutionList.length ? (
+            <div className="custom-appointment-calendar">
+              <CareInstitutionList
+                careinstitutionData={careinstitutionList}
+                onAddingRow={onAddingRow}
+                fetchMoreData={fetchMoreData}
+                caregiverLoading={caregiverLoading}
+                setDaysData={setDaysData}
+                daysData={daysData}
+                totalCount={
+                  careGiversList && careGiversList.getUserByQualifications
+                    ? careGiversList.getUserByQualifications.totalCount
+                    : 0
+                }
+              />
+            </div>
+          ) : (
+            <Loader />
+          )}
+        </div>
+      </div>
+    </div>
     //     </div>
     //   </div>
     // </div>

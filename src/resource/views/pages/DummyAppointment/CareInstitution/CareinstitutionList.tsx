@@ -265,6 +265,8 @@ class CareInstitutionList extends React.PureComponent<any, any> {
       caregiverLoading,
       daysData,
       onAddingRow,
+      handleFirstStarCanstitution,
+
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareInst } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
@@ -396,9 +398,18 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                           </div>
                         );
                       case "H":
-                        return <span>H</span>;
+                        return <span></span>;
                       case "S":
-                        return <span className="">S</span>;
+                        return <span
+                        className='s-col custom-appointment-col text-center cursor-pointer'
+                        // onClick={() => handleFirstStarCanstitution(list, uIndex)}
+                      >
+                        {/* {starCanstitution.setIndex === uIndex || starCanstitution.isStar ? (
+                          <i className='fa fa-star theme-text' />
+                        ) : ( */}
+                          <i className='fa fa-star-o' />
+                        {/* )} */}
+                      </span>
                       case "U":
                         return (
                           <span className="custom-appointment-col u-col text-center">

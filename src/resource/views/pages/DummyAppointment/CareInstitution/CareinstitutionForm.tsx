@@ -698,7 +698,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                             <div className='d-flex align-items-center justify-content-between flex-wrap'>
                               <div className='required-input appointment-id-width'>
                                 <Input
-                                  // value={appointmentId}
+                                   value={appointmentId}
                                   disabled
                                   placeholder={languageTranslation(
                                     'APPOINTMENT_ID'

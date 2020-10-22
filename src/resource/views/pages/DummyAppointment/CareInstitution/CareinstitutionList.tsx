@@ -18,6 +18,7 @@ import {
 } from "../../../../../config";
 import { Link } from "react-router-dom";
 import Loader from "../../../containers/Loader/Loader";
+import { IReactSelectInterface } from "../../../../../interfaces";
 
 const staticHeader = ["careinstitution", "H", "S", "U", "V"];
 
@@ -162,36 +163,77 @@ class CareInstitutionList extends React.PureComponent<any, any> {
       openToggleMenu: !this.state.openToggleMenu,
     });
   };
-  onSelectFinish = (selectedCellsData: any[]) => {
-    const { handleSelection } = this.props;
-    if (handleSelection) {
-      let selectedRows: any[] = [];
-      if (selectedCellsData && selectedCellsData.length) {
-        selectedRows = selectedCellsData.map((selectedCell: any) => {
-          const { props: cellProps } = selectedCell;
-          const { item, list: careinstitutionData, cellIndex, day } = cellProps;
-          const {
-            id = "",
-            firstName = "",
-            lastName = "",
-            email = "",
-            caregiver = {},
-            qualificationId = [],
-          } = careinstitutionData ? careinstitutionData : {};
-          return {
-            id,
-            firstName,
-            lastName,
-            email,
-            caregiver,
-            item,
-            qualificationIds: qualificationId,
-            dateString: day ? day.dateString : "",
-            cellIndex,
-          };
-        });
-        handleSelection(selectedRows, "caregiver");
-      }
+ 
+   onSelectFinish = (selectedCells: any[]) => {
+    let selectedRows: any[] = [];
+    const {handleSelection, qualificationList} = this.props;
+    
+    if (selectedCells && selectedCells.length) {
+      selectedRows = selectedCells.map((selectedCell: any) => {
+        const { props: cellProps } = selectedCell;
+        const { item, list: careInstData, cellIndex, day } = cellProps;
+        const {
+          userId = '',
+          id = '',
+          name = '', //department name on solo care institution
+          firstName = '',
+          lastName = '',
+          caregiver = {},
+          canstitution = {},
+          qualificationId = [],
+          deptId = '',
+          divisions = [],
+        } = careInstData ? careInstData : {};
+
+        let qualification1: IReactSelectInterface[] = [];
+        if (
+          qualificationList &&
+          qualificationList.length &&
+          item &&
+          item.qualificationId &&
+          item.qualificationId[0] !== null
+        ) {
+          qualification1 = qualificationList.filter(({ value }: any) =>
+            item.qualificationId.includes(value),
+          );
+        } else if (qualificationId && qualificationId.length) {
+          qualification1 = qualificationList.filter(({ value }: any) =>
+            qualificationId.includes(value),
+          );
+        }
+
+        let temp = {
+          ...item,
+          qualificationId: qualification1 ? qualification1 : [],
+        };
+
+        return {
+          id: deptId ? userId : id,
+          firstName,
+          lastName,
+          name:
+            canstitution && canstitution.shortName
+              ? canstitution.shortName
+              : '',
+          caregiver,
+          canstitution,
+          dept: { id: deptId, name },
+          item:
+            temp && temp.qualificationId && temp.qualificationId.length
+              ? temp
+              : item,
+          qualificationIds: qualificationId,
+          dateString: day ? day.dateString : '',
+          divisions,
+          isLeasing:
+            canstitution && canstitution.attributes
+              ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
+              : false,
+          cellIndex,
+        };
+      });
+
+      handleSelection(selectedRows, 'careinstitution');
     }
   };
 
@@ -226,7 +268,6 @@ class CareInstitutionList extends React.PureComponent<any, any> {
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareInst } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
-    console.log("listCareInst", listCareInst);
 
     return (
       <>

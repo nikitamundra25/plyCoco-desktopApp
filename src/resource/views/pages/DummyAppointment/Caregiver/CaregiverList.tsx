@@ -121,7 +121,6 @@ export const SelectableCell = React.memo(
   )
 );
 
-let tempList: any = [];
 class CaregiverList extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props);
@@ -137,6 +136,8 @@ class CaregiverList extends React.PureComponent<any, any> {
   }
 
   componentDidMount = () => {
+let tempList: any = [];
+
     let listData =
       // starCaregiver.isStar || starCaregiver.isSecondStar
       //   ? careGiversList.filter((cg: any) => cg.id === starCaregiver.id)
@@ -154,7 +155,10 @@ class CaregiverList extends React.PureComponent<any, any> {
   };
 
   componentDidUpdate = ({ caregiverData }: any) => {
+let tempList: any = [];
+
     if (caregiverData !== this.props.caregiverData) {
+      
       this.props.caregiverData.forEach((element: any) => {
         element.availabilityData.forEach((item: any, row: number) => {
           return tempList.push({ ...element, new: item, row });
@@ -173,8 +177,6 @@ class CaregiverList extends React.PureComponent<any, any> {
     });
   };
   onSelectFinish = (selectedCellsData: any[]) => {
-    console.log("Hereeee");
-    
     const { handleSelection } = this.props;
       let selectedRows: any[] = [];
       if (selectedCellsData && selectedCellsData.length) {
@@ -201,7 +203,6 @@ class CaregiverList extends React.PureComponent<any, any> {
             cellIndex,
           };
         });
-        console.log("selectedRowsselectedRows",selectedRows);
         handleSelection(selectedRows, "caregiver");
     }
   };
@@ -248,8 +249,6 @@ class CaregiverList extends React.PureComponent<any, any> {
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
-    console.log("tempListtempList", tempList);
-    
     return (
       <>
         <div

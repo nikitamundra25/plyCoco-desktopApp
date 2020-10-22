@@ -460,7 +460,6 @@ const DummyAppointment: FunctionComponent = () => {
     }
   }, [careGiversList, careInstitutionList]);
 
-  console.log("careGiversListcareGiversListcareGiversList", careGiversList);
 
   // Default value is start & end of month
   let gte: string = moment().startOf("month").format(dbAcceptableFormat);
@@ -559,6 +558,12 @@ const DummyAppointment: FunctionComponent = () => {
       },
     });
   };
+
+  // filterState Call api when apply filter
+  useEffect(() => {
+    fetchCareGiversList(1);
+    fetchCareInstituionList(1);
+  }, [filterState]);
 
   const handleSelection = async (selectedCellsData: any, name: string) => {
      setTimeSlotError('');
@@ -819,6 +824,7 @@ const DummyAppointment: FunctionComponent = () => {
     }
   };
   
+  
   return (
     <div className="common-detail-page">
       <div className="common-detail-section">
@@ -895,6 +901,8 @@ const DummyAppointment: FunctionComponent = () => {
                                   .totalCount
                               : 0
                           }
+                          qualificationList={qualificationList}
+                          handleSelection={handleSelection}
                         />
                       </div>
                     ) : (
@@ -946,7 +954,7 @@ const DummyAppointment: FunctionComponent = () => {
                   </Col>
                   <Col lg={'6'} className='pl-lg-0'>
                     <CareinstitutionFormView
-                      selectedCells={selectedCells}
+                      selectedCellsCareinstitution={selectedCellsCareinstitution}
                       timeSlotError={timeSlotError}
                       setTimeSlotError={setTimeSlotError}
                       setsavingBoth={setsavingBoth}

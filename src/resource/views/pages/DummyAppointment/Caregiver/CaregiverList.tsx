@@ -173,8 +173,9 @@ class CaregiverList extends React.PureComponent<any, any> {
     });
   };
   onSelectFinish = (selectedCellsData: any[]) => {
+    console.log("Hereeee");
+    
     const { handleSelection } = this.props;
-    if (handleSelection) {
       let selectedRows: any[] = [];
       if (selectedCellsData && selectedCellsData.length) {
         selectedRows = selectedCellsData.map((selectedCell: any) => {
@@ -200,8 +201,8 @@ class CaregiverList extends React.PureComponent<any, any> {
             cellIndex,
           };
         });
+        console.log("selectedRowsselectedRows",selectedRows);
         handleSelection(selectedRows, "caregiver");
-      }
     }
   };
 

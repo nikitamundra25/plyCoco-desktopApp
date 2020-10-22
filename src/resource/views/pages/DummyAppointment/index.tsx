@@ -990,11 +990,13 @@ const DummyAppointment: FunctionComponent = () => {
 
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
-    // setselectedCareinstitution(list);
-    //  setcareinstitutionList()
-
+    console.log("Insideee",!starCanstitution.isStar);
+    
     if (!starCanstitution.isStar) {
+      console.log("Insiddeeee",index);
+      
       if (index < 0) {
+        
         setfilterState({
           ...filterState,
           careinstitutionSoloFilter: {
@@ -1003,6 +1005,7 @@ const DummyAppointment: FunctionComponent = () => {
           }
         })
       }
+      console.log("listlistlist",list);
       setstarCanstitution({
         isStar: true,
         setIndex: index,
@@ -1048,6 +1051,76 @@ const DummyAppointment: FunctionComponent = () => {
       setcareInstituionDeptData([]);
     }
   };
+
+    // useEffect for filtering department data in careinstitution list
+    useEffect(() => {
+      if (
+        departmentList &&
+        departmentList.getDivision.length &&
+        starCanstitution.isStar
+      ) {
+        
+        const { getDivision } = departmentList;
+        const dept: any[] = [];
+        let careInstData: any = careinstitutionList.filter(
+          (item: any) => item.id === starCanstitution.id,
+        )[0];
+  
+        if (careInstData) {
+          let requirements: any[] = [].concat.apply(
+            [],
+            careInstData.availabilityData,
+          );
+          let temp: any[] = daysData ? [...daysData.daysArr] : [];
+  
+          getDivision
+            .filter((division: any) => !division.locked)
+            .forEach((division: any) => {
+              division.availabilityData = [];
+              division.canstitution = careInstData.canstitution;
+              division.qualificationId = careInstData.qualificationId;
+              division.careInstId = careInstData.id;
+              division.isActive = careInstData.isActive;
+              division.deptId = division.id;
+              // To group availabilities by division
+              let deptRequirement = requirements.filter(
+                (req: any) => req.divisionId === division.id,
+              );
+              let result: any = deptRequirement.reduce(
+                (acc: any, o: any) => (
+                  (acc[moment(o.date).format(dbAcceptableFormat)] =
+                    (acc[moment(o.date).format(dbAcceptableFormat)] || 0) + 1),
+                  acc
+                ),
+                {},
+              );
+  
+              result = Object.entries(result).length
+                ? Object.values(result)
+                : [1];
+              result = Math.max(...result);
+  
+              for (let row = 0; row < result; row++) {
+                division.availabilityData.push([]);
+              }
+              temp.forEach((d: any, index: number) => {
+                let records = deptRequirement.filter((available: any) =>
+                  moment(d.dateString).isSame(moment(available.date), 'day'),
+                );
+                for (let i = 0; i < records.length; i++) {
+                  division.availabilityData[i].push(records[i]);
+                }
+              });
+            });
+          // setFetchingDept(false);
+          setcareInstituionDeptData(
+            getDivision.filter((division: any) => !division.locked),
+          );
+        }
+      } else {
+        // setFetchingDept(false);
+      }
+    }, [departmentList, starCanstitution.isStar, careinstitutionList]);
 
   return (
     <div className="common-detail-page">
@@ -1127,6 +1200,10 @@ const DummyAppointment: FunctionComponent = () => {
                           }
                           qualificationList={qualificationList}
                           handleSelection={handleSelection}
+                          handleFirstStarCanstitution={handleFirstStarCanstitution}
+                          careInstituionDeptData={careInstituionDeptData}
+                          starCanstitution={starCanstitution}
+                          secondStarCanstitution={secondStarCanstitution}
                         />
                       </div>
                     ) : (

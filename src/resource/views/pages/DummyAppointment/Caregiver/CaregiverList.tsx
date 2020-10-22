@@ -132,46 +132,52 @@ class CaregiverList extends React.PureComponent<any, any> {
       loading: false,
       loadingMore: false,
       listCareGiver: [],
+      totalCaregiver: this.props.totalCount,
       // loadedAll: this.props.result.length < 30,
     };
   }
 
   componentDidMount = () => {
-    let listData =
-      // starCaregiver.isStar || starCaregiver.isSecondStar
-      //   ? careGiversList.filter((cg: any) => cg.id === starCaregiver.id)
-      //   :
-      this.props.caregiverData;
+    //props from parent
+    const { caregiverData } = this.props;
+    const { totalCaregiver } = this.state;
+    console.log("caregiverDatacaregiverDatacaregiverData", totalCaregiver);
 
-    listData.forEach((element: any) => {
-      element.availabilityData.forEach((item: any, row: number) => {
-        return tempList.push({ ...element, new: item, row });
-      });
-    });
-    this.setState({
-      listCareGiver: tempList,
-    });
-  };
-
-  componentDidUpdate = ({ caregiverData }: any) => {
-    if (caregiverData !== this.props.caregiverData) {
-      this.props.caregiverData.forEach((element: any) => {
+    if (caregiverData && caregiverData.length) {
+      caregiverData.forEach((element: any) => {
         element.availabilityData.forEach((item: any, row: number) => {
           return tempList.push({ ...element, new: item, row });
         });
       });
       this.setState({
-        loadingMore: false,
         listCareGiver: tempList,
       });
     }
   };
 
+  // componentDidUpdate = ({ caregiverData }: any) => {
+  //   if (caregiverData !== this.props.caregiverData) {
+  //     this.props.caregiverData.forEach((element: any) => {
+  //       element.availabilityData.forEach((item: any, row: number) => {
+  //         return tempList.push({ ...element, new: item, row });
+  //       });
+  //     });
+  //     this.setState({
+  //       loadingMore: false,
+  //       listCareGiver: tempList,
+  //     });
+  //   }
+  // };
+
+  //Mange right click options menu
   handleToggleMenuItem = () => {
+    const { openToggleMenu } = this.state
     this.setState({
-      openToggleMenu: !this.state.openToggleMenu,
+      openToggleMenu: !openToggleMenu,
     });
   };
+
+  //Set data on select cell loaded
   onSelectFinish = (selectedCellsData: any[]) => {
     const { handleSelection } = this.props;
     if (handleSelection) {
@@ -217,32 +223,27 @@ class CaregiverList extends React.PureComponent<any, any> {
     this.loadMore();
   };
 
-  // // Adding Row into table
-  // onAddingRow = (
-  //   e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  //   name: string,
-  //   index: number
-  // ) => {
-  //   e.preventDefault();
-  //   const { caregiverData, setcaregiversList } = this.props;
-  //   if (name === 'caregiver') {
-  //     let temp: any = [...caregiverData];
-  //     temp[index].availabilityData = temp[index].availabilityData
-  //       ? [...temp[index].availabilityData, []]
-  //       : [];
-  //       console.log("temptemp",temp);
+  // Adding Row into table
+  onAddingRow = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    name: string,
+    index: number
+  ) => {
+    e.preventDefault();
+    const { caregiverData, setcaregiversList } = this.props;
+    if (name === "caregiver") {
+      let temp: any = [...caregiverData];
+      temp[index].availabilityData = temp[index].availabilityData
+        ? [...temp[index].availabilityData, []]
+        : [];
+      console.log("temptemp", temp);
 
-  //     setcaregiversList(temp);
-  //   }
-  // };
+      setcaregiversList(temp);
+    }
+  };
 
   render() {
-    const {
-      caregiverData: result,
-      caregiverLoading,
-      daysData,
-      onAddingRow,
-    } = this.props;
+    const { caregiverData: result, daysData } = this.props;
     const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
     return (
@@ -400,7 +401,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                             className="custom-appointment-col v-col text-center"
                             onClick={(
                               e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                            ) => onAddingRow(e, "caregiver", uIndex)}
+                            ) => this.onAddingRow(e, "caregiver", uIndex)}
                           >
                             <i className="fa fa-arrow-down" />
                           </span>

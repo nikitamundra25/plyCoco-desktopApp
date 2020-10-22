@@ -1022,6 +1022,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.9.2":
+  version "7.12.1"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.1.tgz#b4116a6b6711d010b2dad3b7b6e43bf1b9954740"
+  integrity sha512-J5AIf3vPj3UwXaAzb5j1xM4WAQDX3EMgemF8rjCP3SoW09LfRKAXQKt6CoVYl230P6iWdRcBbnLDDdnqWxZSCA==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.2.2", "@babel/template@^7.8.0":
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.8.0.tgz#a32f57ad3be89c0fa69ae87b53b4826844dc6330"
@@ -10037,6 +10044,15 @@ react-infinite-scroll-component@^5.0.4:
   integrity sha512-wl6MXreH57z6X6uILpRbvt2iaETZDX4HdnHaPy0vp9fVQ01ALM+zvFrG2xk2nsxynXxob2IEFan9eI1CDV2V0A==
   dependencies:
     throttle-debounce "^2.1.0"
+
+react-infinite-table@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-infinite-table/-/react-infinite-table-1.3.0.tgz#3bef4bdf4c8b5e39cd2dabda181a2b961da28a8e"
+  integrity sha512-o8xnMTAAF4wvCWy8jaX6ERZqVy9WuOjYdJbYT2WelRwiyrPc76rfotWd4/MLVOWZHkUh00lXgX0rqHb1IBSVrQ==
+  dependencies:
+    "@babel/runtime" "^7.9.2"
+    classnames "^2.2.6"
+    prop-types "^15.7.2"
 
 react-input-autosize@^2.2.1, react-input-autosize@^2.2.2:
   version "2.2.2"

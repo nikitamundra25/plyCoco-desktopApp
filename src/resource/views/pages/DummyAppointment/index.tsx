@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
 import {
   APPOINTMENT_PAGE_LIMIT,
+  CareInstTIMyoCYAttrId,
   dbAcceptableFormat,
   defaultDateFormat,
   NightAllowancePerHour,
@@ -148,6 +149,14 @@ const DummyAppointment: FunctionComponent = () => {
     getDepartmentList,
     { data: departmentList, loading: deptLoading },
   ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
+
+ // To fetch avabality & requirement by id
+ const [
+  fetchAppointmentFilterById,
+  { data: appointmentFilterById, loading: idSearchAppointmentLoading },
+] = useLazyQuery<any, any>(GET_CAREINSTITUTION_REQUIREMENT_BY_ID, {
+  fetchPolicy: 'no-cache',
+});
 
   // Mutation to update careGiver data
   const [
@@ -551,6 +560,164 @@ const DummyAppointment: FunctionComponent = () => {
     });
   };
 
+  const handleSelection = async (selectedCellsData: any, name: string) => {
+     setTimeSlotError('');
+    const { item = {}, dept = {}, id = '', dateString = '' } =
+      selectedCellsData && selectedCellsData.length && selectedCellsData[0]
+        ? selectedCellsData[0]
+        : {};
+
+    const checkCondition: boolean =
+      item && item.appointments && item.appointments.length;
+
+    let appointmentsData: number[] = selectedCellsData
+      .map((cell: any) =>
+        cell.item && cell.item.appointments && cell.item.appointments.length
+          ? cell.item.appointments[0]
+          : {},
+      )
+      .filter(Boolean);
+    if (name === 'caregiver') {
+      if (checkCondition) {
+        let appointId: any = item.appointments.filter((appointment: any) => {
+          return (
+            moment(selectedCellsData[0].dateString).format('DD.MM.YYYY') ===
+            moment(appointment.date).format('DD.MM.YYYY')
+          );
+        });
+        if (
+          careinstitutionList &&
+          careinstitutionList.length &&
+          // careInstitutionList.getUserByQualifications &&
+          selectedCellsData &&
+          selectedCellsData.length
+        ) {
+          await getCorrespondingconnectedcell(
+            'careinstitution',
+            careinstitutionList,
+            appointmentsData,
+          );
+        }
+      }
+
+      setSelectedCells(selectedCellsData);
+    } else {
+      setselectedCellsCareinstitution(selectedCellsData);
+      if (checkCondition) {
+        if (
+          caregiversList &&
+          caregiversList.length &&
+          selectedCellsData &&
+          selectedCellsData.length
+        ) {
+          await getCorrespondingconnectedcell(
+            'caregiver',
+            caregiversList,
+            appointmentsData,
+          );
+        }
+      }
+      // To default select department in case of selected solo careinstitution
+      // if (
+      //   dept &&
+      //   dept.id &&
+      //   !(item && item.id)
+      //   // && (!careInstituionDept || careInstituionDept && careInstituionDept.value !== dept.id)
+      // ) {
+      //   setcareInstituionDept({
+      //     label: dept.name,
+      //     value: dept.id,
+      //   });
+      // }
+      // setShowSelectedCaregiver({ id: '', isShow: false });
+    }
+  };
+
+
+    // Function to get corresponding connected cell
+    const getCorrespondingconnectedcell = (
+      name: string,
+      result: any,
+      appointmentsData: any,
+    ) => {
+  
+      let connectedCells: any[] = [];
+      result.forEach((element: any) => {
+        element.availabilityData.forEach((row: any) => {
+          const {
+            id = '',
+            firstName = '',
+            lastName = '',
+            email = '',
+            caregiver = {},
+            canstitution = {},
+            qualificationId = [],
+          } = element ? element : {};
+          let filteredCells: any = row.filter(
+            (availabilities: any) =>
+              availabilities.appointments &&
+              availabilities.appointments.length &&
+              appointmentsData
+                .map((cell: any) => cell.id)
+                .includes(availabilities.appointments[0].id),
+          );
+  
+          if (filteredCells) {
+            connectedCells.push(
+              ...filteredCells.map((filteredCell: any) => ({
+                id,
+                firstName,
+                lastName,
+                email,
+                caregiver,
+                canstitution,
+                isLeasing:
+                  canstitution &&
+                  canstitution.attributes &&
+                  canstitution.attributes.length
+                    ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
+                    : false,
+                dateString:
+                  filteredCell && filteredCell.date
+                    ? moment(filteredCell.date).format(dbAcceptableFormat)
+                    : '',
+                item:
+                  name === 'careinstitution'
+                    ? {
+                        ...filteredCell,
+                        qualificationId: filteredCell.qualificationId
+                          ? qualificationList.filter(({ value }: any) =>
+                              filteredCell.qualificationId.includes(value),
+                            )
+                          : qualificationList.filter(({ value }: any) =>
+                              qualificationId.includes(value),
+                            ),
+                      }
+                    : filteredCell,
+              })),
+            );
+          }
+        });
+      });
+      if (connectedCells && connectedCells.length) {
+        if (name === 'careinstitution') {
+          setselectedCellsCareinstitution(connectedCells);
+        } else {
+          setSelectedCells(connectedCells);
+        }
+      } else {
+        fetchAppointmentFilterById({
+          variables: {
+            id:
+              name === 'careinstitution'
+                ? parseInt(appointmentsData[0].avabilityId)
+                : parseInt(appointmentsData[0].requirementId),
+            searchIn: name === 'careinstitution' ? 'avability' : 'requirement',
+          },
+        });
+      }
+    };
+
   const handleManageFilter = (value: any, str: string) => {
     setfilterState({
       ...filterState,
@@ -651,6 +818,7 @@ const DummyAppointment: FunctionComponent = () => {
       // }
     }
   };
+  
   return (
     <div className="common-detail-page">
       <div className="common-detail-section">
@@ -700,6 +868,7 @@ const DummyAppointment: FunctionComponent = () => {
                                   .totalCount
                               : 0
                           }
+                          handleSelection={handleSelection}
                         />
                       </div>
                     ) : (

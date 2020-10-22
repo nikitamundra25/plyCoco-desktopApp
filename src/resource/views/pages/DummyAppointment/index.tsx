@@ -1123,6 +1123,32 @@ const DummyAppointment: FunctionComponent = () => {
       }
     }, [departmentList, starCanstitution.isStar, careinstitutionList]);
 
+ //  handle second star of careinstitution and autoselect department
+ const onhandleSecondStarCanstitution = (dept: any) => {
+  // To check whether first star is clicked or not
+  console.log("PPPPPPPPPPPPPPPPPP",secondStarCanstitution);
+  if (!secondStarCanstitution.isStar && !starCanstitution.isStar) {
+    console.log("hereeeee");
+    
+    handleFirstStarCanstitution({ id: dept ? dept.id : '' }, 1);
+  } else {
+    console.log("222222222222");
+    
+    setsecondStarCanstitution({
+      isStar: !secondStarCanstitution.isStar,
+      setIndex: -1,
+      id: dept && dept.id ? dept.id : '',
+    });
+    let data: any = [];
+    data.push(dept);
+    // setcareInstituionDeptData(data);
+    // setcareInstituionDept({
+    //   label: dept.name,
+    //   value: dept.id,
+    // });
+  }
+};
+
   return (
     <div className="common-detail-page">
       <div className="common-detail-section">
@@ -1205,6 +1231,7 @@ const DummyAppointment: FunctionComponent = () => {
                           careInstituionDeptData={careInstituionDeptData}
                           starCanstitution={starCanstitution}
                           secondStarCanstitution={secondStarCanstitution}
+                          onhandleSecondStarCanstitution={onhandleSecondStarCanstitution}
                         />
                       </div>
                     ) : (

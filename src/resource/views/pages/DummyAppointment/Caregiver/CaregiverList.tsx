@@ -136,7 +136,7 @@ class CaregiverList extends React.PureComponent<any, any> {
   }
 
   componentDidMount = () => {
-let tempList: any = [];
+    let tempList: any = [];
 
     let listData =
       // starCaregiver.isStar || starCaregiver.isSecondStar
@@ -155,10 +155,9 @@ let tempList: any = [];
   };
 
   componentDidUpdate = ({ caregiverData }: any) => {
-let tempList: any = [];
+    let tempList: any = [];
 
     if (caregiverData !== this.props.caregiverData) {
-      
       this.props.caregiverData.forEach((element: any) => {
         element.availabilityData.forEach((item: any, row: number) => {
           return tempList.push({ ...element, new: item, row });
@@ -178,32 +177,32 @@ let tempList: any = [];
   };
   onSelectFinish = (selectedCellsData: any[]) => {
     const { handleSelection } = this.props;
-      let selectedRows: any[] = [];
-      if (selectedCellsData && selectedCellsData.length) {
-        selectedRows = selectedCellsData.map((selectedCell: any) => {
-          const { props: cellProps } = selectedCell;
-          const { item, list: caregiverData, cellIndex, day } = cellProps;
-          const {
-            id = "",
-            firstName = "",
-            lastName = "",
-            email = "",
-            caregiver = {},
-            qualificationId = [],
-          } = caregiverData ? caregiverData : {};
-          return {
-            id,
-            firstName,
-            lastName,
-            email,
-            caregiver,
-            item,
-            qualificationIds: qualificationId,
-            dateString: day ? day.dateString : "",
-            cellIndex,
-          };
-        });
-        handleSelection(selectedRows, "caregiver");
+    let selectedRows: any[] = [];
+    if (selectedCellsData && selectedCellsData.length) {
+      selectedRows = selectedCellsData.map((selectedCell: any) => {
+        const { props: cellProps } = selectedCell;
+        const { item, list: caregiverData, cellIndex, day } = cellProps;
+        const {
+          id = "",
+          firstName = "",
+          lastName = "",
+          email = "",
+          caregiver = {},
+          qualificationId = [],
+        } = caregiverData ? caregiverData : {};
+        return {
+          id,
+          firstName,
+          lastName,
+          email,
+          caregiver,
+          item,
+          qualificationIds: qualificationId,
+          dateString: day ? day.dateString : "",
+          cellIndex,
+        };
+      });
+      handleSelection(selectedRows, "caregiver");
     }
   };
 
@@ -216,7 +215,7 @@ let tempList: any = [];
     // action('onEndReached')(args)
     const { loading, loadingMore, loadedAll } = this.state;
     // console.log("loadingloading", loading,"hhh");
-    
+
     // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
   };

@@ -313,6 +313,7 @@ class CareInstitutionList extends React.PureComponent<any, any> {
       starCanstitution,
       secondStarCanstitution,
       careInstituionDeptData,
+      onhandleSecondStarCanstitution
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareInst } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
@@ -480,8 +481,14 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                         );
                       case "U":
                         return (
-                          <span className="custom-appointment-col u-col text-center">
-                            <i className="fa fa-star-o" />
+                          <span className="custom-appointment-col u-col text-center"
+                          onClick={() => onhandleSecondStarCanstitution(list)}
+                          >
+                           {secondStarCanstitution && secondStarCanstitution.isStar ? (
+              <i className='fa fa-star theme-text' />
+            ) : (
+              <i className='fa fa-star-o' />
+            )}
                           </span>
                         );
                       case "V":

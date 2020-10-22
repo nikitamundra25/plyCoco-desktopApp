@@ -333,7 +333,7 @@ const DummyAppointment: FunctionComponent = () => {
                 (available: any) =>
                   moment(d.dateString).isSame(moment(available.date), "day")
               );
-              console.log("***************records", records);
+              // console.log("***************records", records);
               for (let i = 0; i < records.length; i++) {
                 // To update the status of selected cell accordingly
                 // if (
@@ -765,6 +765,7 @@ const DummyAppointment: FunctionComponent = () => {
                       setTimeSlotError={setTimeSlotError}
                       setsavingBoth={setsavingBoth}
                       fetchCaregiverLastTimeData={fetchCaregiverLastTimeData}
+                      addCaregiverLoading={addCaregiverLoading}
                       // activeDateCaregiver={
                       //   !multipleAvailability
                       //     ? [dateString]

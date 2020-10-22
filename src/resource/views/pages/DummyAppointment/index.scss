@@ -560,6 +560,7 @@ body {
           flex: 0 0 140px;
           max-width: 140px;
           border-left: 1px solid $table_border;
+          text-transform: capitalize;
           .btn-more {
             position: absolute;
             right: 3px;

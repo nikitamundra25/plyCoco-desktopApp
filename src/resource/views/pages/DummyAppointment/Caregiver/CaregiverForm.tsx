@@ -152,6 +152,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       selectedCells,
       setsavingBoth,
     } = this.props;
+    console.log('values in handleSubmitCaregiverForm', values);
     const {
       name,
       appointmentId,
@@ -405,6 +406,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       multipleAvailability,
       activeDateCaregiver,
       timeSlotError,
+      addCaregiverLoading,
     } = this.props;
 
     // Options to show department data
@@ -638,7 +640,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       let input = moment(activeDateCaregiver[0]).format(dbAcceptableFormat);
       dateCondition = now <= input;
     }
-    
+
     return (
       <Formik
         initialValues={valuesForCaregiver}
@@ -685,6 +687,21 @@ class CaregiverFormView extends React.PureComponent<any, any> {
             handleSubmit,
             setFieldValue,
           } = props;
+          // Custom function to handle react select fields
+          const handleSelect = (
+            selectOption: IReactSelectInterface,
+            name: string
+          ) => {
+            console.log('selectOption', selectOption);
+            setFieldValue(name, selectOption);
+          };
+          const handleTravelAllowance = () => {
+            let total: any =
+              distanceInKM && feePerKM
+                ? parseInt(distanceInKM) * parseInt(feePerKM)
+                : null;
+            setFieldValue('travelAllowance', total)
+          };
           return (
             <Form>
               <div className='form-section'>
@@ -846,7 +863,6 @@ class CaregiverFormView extends React.PureComponent<any, any> {
               selctedAvailability.n === 'block') ? (
               <div className='blocked-minheight'></div>
             ) : ( */}
-                    {console.log('valuesvaluesvalues', values)}
                     <>
                       <Col lg={'12'}>
                         <FormGroup className='mb-2'>
@@ -1036,7 +1052,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                     )}
                                     options={NightAllowancePerHour}
                                     onChange={(value: any) =>
-                                      this.props.handleSelect(value, 'nightAllowance')
+                                      handleSelect(value, 'nightAllowance')
                                     }
                                     value={
                                       nightAllowance
@@ -1235,7 +1251,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                             <Button
                               className='add-new-btn'
                               color=''
-                              // onClick={handleTravelAllowance}
+                              onClick={handleTravelAllowance}
                             >
                               <i
                                 className='fa fa-arrow-right'
@@ -1776,8 +1792,8 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                 rows='3'
                                 type='textarea'
                                 name='remarksCareGiver'
-                                // value={remarksCareGiver ? remarksCareGiver : ''}
-                                // onChange={handleChange}
+                                value={remarksCareGiver ? remarksCareGiver : ''}
+                                onChange={handleChange}
                                 id='exampleText1'
                                 maxLength={255}
                               />
@@ -1803,8 +1819,8 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                 rows='3'
                                 type='textarea'
                                 name='remarksInternal'
-                                // value={remarksInternal ? remarksInternal : ''}
-                                // onChange={handleChange}
+                                value={remarksInternal ? remarksInternal : ''}
+                                onChange={handleChange}
                                 maxLength={255}
                                 id='exampleText2'
                               />
@@ -1863,16 +1879,16 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                           className='btn-save'
                           color='primary'
                           onClick={handleSubmit}
-                          // disabled={
-                          //   addCaregiverLoading
-                          //   // ? true : appointmentId ? false : !dateCondition ? true : false
-                          // }
+                          disabled={
+                            addCaregiverLoading
+                            // ? true : appointmentId ? false : !dateCondition ? true : false
+                          }
                         >
-                          {/* {addCaregiverLoading ? (
-                    <i className='fa fa-spinner fa-spin mr-2' />
-                  ) : (
-                    ''
-                  )} */}
+                          {addCaregiverLoading ? (
+                            <i className='fa fa-spinner fa-spin mr-2' />
+                          ) : (
+                            ''
+                          )}
                           {/* {appointmentId
                       ? languageTranslation('UPDATE_BUTTON') */}
                           {languageTranslation('SAVE_BUTTON')}

@@ -260,7 +260,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       breakHoursToErrMsg: '',
       timeSlotError: '',
       savingBoth: false,
-      careInstituionShift:''
+      careInstituionShift: '',
     };
   }
   // submit careinstitution form
@@ -562,12 +562,14 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       Item.qualificationForCharge &&
       !Item.qualificationForCharge.value
     ) {
-      qualificationfor = qualificationList.filter((value: any) => {
-        return Item && Item.qualificationForCharge
-          ? Item.qualificationForCharge === value.value
-          : // Item.qualificationForCharge.includes(value.value)
-            null;
-      });
+      qualificationfor =
+        qualificationList &&
+        qualificationList.filter((value: any) => {
+          return Item && Item.qualificationForCharge
+            ? Item.qualificationForCharge === value.value
+            : // Item.qualificationForCharge.includes(value.value)
+              null;
+        });
     } else {
       qualificationfor = [Item.qualificationForCharge];
     }
@@ -616,6 +618,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
         validationSchema={CareInstitutionValidationSchema}
         children={(props: FormikProps<ICareinstitutionFormValue>) => {
           const {
+            values,
             values: {
               appointmentId,
               name,
@@ -646,6 +649,9 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
             handleSubmit,
             setFieldValue,
           } = props;
+          {
+            console.log('valuessssssssssssssss', values);
+          }
           // // Custom function to handle react select fields
           const handleSelect = (
             selectOption: IReactSelectInterface,
@@ -657,8 +663,8 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
             }
             if (name === 'shift') {
               this.setState({
-                careInstituionShift:props.values
-              })
+                careInstituionShift: props.values,
+              });
               // setcareInstituionShift(selectOption, props.values);
             }
           };
@@ -698,7 +704,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                             <div className='d-flex align-items-center justify-content-between flex-wrap'>
                               <div className='required-input appointment-id-width'>
                                 <Input
-                                   value={appointmentId}
+                                  value={appointmentId}
                                   disabled
                                   placeholder={languageTranslation(
                                     'APPOINTMENT_ID'

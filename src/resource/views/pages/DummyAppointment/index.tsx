@@ -23,6 +23,7 @@ import {
   ICareinstitutionFormValue,
   IReactSelectInterface,
   IAddCargiverAppointmentRes,
+  IStarInterface,
 } from "../../../../interfaces";
 import {
   germanNumberFormat,
@@ -99,6 +100,21 @@ const DummyAppointment: FunctionComponent = () => {
   const [caregiversList, setcaregiversList] = useState<any[]>([]);
   const [careinstitutionList, setcareinstitutionList] = useState<Object[]>([]);
   const [timeSlotError, setTimeSlotError] = useState<string>('');
+    // maintain solo careinstitution
+    const [starCanstitution, setstarCanstitution] = useState<IStarInterface>({
+      isStar: false,
+      setIndex: -1,
+      id: '',
+    });
+    // To manage solo department of careinstitution
+    const [secondStarCanstitution, setsecondStarCanstitution] = useState<
+      IStarInterface
+    >({
+      isStar: false,
+      setIndex: -1,
+      id: '',
+    });
+    const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
 
   // To fetch caregivers by id filter
   const [
@@ -927,7 +943,6 @@ const DummyAppointment: FunctionComponent = () => {
       temp[index].availabilityData = temp[index].availabilityData
         ? [...temp[index].availabilityData, []]
         : [];
-      console.log("temptemp", temp);
       setcareinstitutionList(temp);
       // }
     }
@@ -972,6 +987,68 @@ const DummyAppointment: FunctionComponent = () => {
         }
       }
     };
+
+  // handle first star of careinstitution and show department list
+  const handleFirstStarCanstitution = async (list: any, index: number) => {
+    // setselectedCareinstitution(list);
+    //  setcareinstitutionList()
+
+    if (!starCanstitution.isStar) {
+      if (index < 0) {
+        setfilterState({
+          ...filterState,
+          careinstitutionSoloFilter: {
+            label: list ? list.id : '',
+            value: list ? list.id : '',
+          }
+        })
+      }
+      setstarCanstitution({
+        isStar: true,
+        setIndex: index,
+        id: list ? list.id : '',
+      });
+    } else {
+      if (
+        filterState.careinstitutionSoloFilter &&
+        filterState.careinstitutionSoloFilter.value &&
+        careinstitutionList &&
+        careinstitutionList.length === 1
+      ) {
+        await setfilterState({
+          ...filterState,
+          careinstitutionSoloFilter: undefined
+        })
+        fetchCareInstituionList(1)
+      }
+      setstarCanstitution({
+        isStar: false,
+        setIndex: -1,
+        id: '',
+      });
+      setsecondStarCanstitution({
+        isStar: false,
+        setIndex: -1,
+        id: '',
+      });
+      setcareInstituionDeptData([]);
+    }
+
+    if (list) {
+      if (list.id && !starCanstitution.isStar) {
+        // setFetchingDept(true);
+        await getDepartmentList({
+          variables: {
+            userId: parseInt(list.id),
+            locked: false,
+          },
+        });
+      }
+    } else {
+      setcareInstituionDeptData([]);
+    }
+  };
+
   return (
     <div className="common-detail-page">
       <div className="common-detail-section">

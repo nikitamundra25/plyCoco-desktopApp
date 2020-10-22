@@ -176,7 +176,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // }>(GET_CAREGIVER_ATTRIBUTES);
   //For selected Availability
   const [selctedAvailability, setselctedAvailability] = useState<any>({});
-  const [selectedCells, setSelectedCells] = useState<any[]>();
+  const [selectedCells, setSelectedCells] = useState<any[]>();  
   const [fetchingCaregivers, setFetchingCaregivers] = useState<boolean>(false);
   const [fetchingCareInstitutions, setFetchingCareInstitutions] = useState<
     boolean

@@ -495,7 +495,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
     }
     setSubmitting(false);
   };
-
+  // Select qualification attribute
+  handleQualification = (selectedOption: IReactSelectInterface[]) => {
+    const { setqualification } = this.props;
+    setqualification(selectedOption);
+  };
   render() {
     const { startTime, endTime } = this.state;
     let d = moment().format('L');
@@ -610,6 +614,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       createdAt: Item && Item.createdAt ? Item.createdAt : '',
       updatedAt: Item && Item.updatedAt ? Item.updatedAt : '',
     };
+    // const qualificationError: any = errors.qualificationId;
+    // const shiftOptions =
+    //   careInstitutionTimesOptions && careInstitutionTimesOptions.length
+    //     ? careInstitutionTimesOptions
+    //     : ShiftTime;
     return (
       <Formik
         initialValues={valuesForCareIntituionForm}
@@ -956,11 +965,14 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                     : 'add-new-btn arrow-btn disabled-class'
                                 }
                                 color=''
-                                // onClick={() => {
-                                //   if (qualificationId && qualificationId.length) {
-                                //     handleQualification(qualificationId);
-                                //   }
-                                // }}
+                                onClick={() => {
+                                  if (
+                                    qualificationId &&
+                                    qualificationId.length
+                                  ) {
+                                    this.handleQualification(qualificationId);
+                                  }
+                                }}
                               >
                                 <i
                                   className='fa fa-arrow-up'
@@ -977,20 +989,19 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 }`}
                               >
                                 <ReactMultiSelectCheckboxes
-                                  // options={qualificationList}
+                                  options={qualificationList}
                                   placeholderButtonLabel={languageTranslation(
                                     'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                                   )}
                                   placeholder={languageTranslation(
                                     'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                                   )}
-                                  // placeholder="Select Qualifications"
-
-                                  // className={
-                                  //   errors.qualificationId && touched.qualificationId
-                                  //     ? "custom-reactselect error"
-                                  //     : "custom-reactselect"
-                                  // }
+                                  className={
+                                    errors.qualificationId &&
+                                    touched.qualificationId
+                                      ? 'custom-reactselect error'
+                                      : 'custom-reactselect'
+                                  }
                                   classNamePrefix='custom-inner-reactselect'
                                   onChange={(value: any) =>
                                     handleSelect(value, 'qualificationId')

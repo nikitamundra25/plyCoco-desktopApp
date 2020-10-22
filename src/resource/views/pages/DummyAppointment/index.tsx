@@ -97,6 +97,7 @@ const DummyAppointment: FunctionComponent = () => {
   const [multipleAvailability, setMultipleAvailability] = useState<boolean>(
     false
   );
+  const [qualification, setqualification] = useState<any>([]);
   const [caregiversList, setcaregiversList] = useState<any[]>([]);
   const [careinstitutionList, setcareinstitutionList] = useState<Object[]>([]);
   const [timeSlotError, setTimeSlotError] = useState<string>('');
@@ -1168,6 +1169,7 @@ const DummyAppointment: FunctionComponent = () => {
                       fetchCaregiverLastTimeData={fetchCaregiverLastTimeData}
                       addCaregiverLoading={addCaregiverLoading}
                       onhandleDelete={onhandleDelete}
+                      setqualification={setqualification}
                       // activeDateCaregiver={
                       //   !multipleAvailability
                       //     ? [dateString]

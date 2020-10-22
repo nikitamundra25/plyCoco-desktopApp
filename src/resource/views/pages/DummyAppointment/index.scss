@@ -617,6 +617,7 @@ body {
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
+  width: auto;
   // align-items: center;
   // justify-content: start;
   .appointment-page-list-section {
@@ -677,4 +678,7 @@ body {
       }
     }
   }
+}
+.row-appointment{
+  margin-left: -11px !important
 }

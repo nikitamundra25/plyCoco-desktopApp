@@ -61,16 +61,97 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       breakHoursFromErrMsg: '',
       breakHoursToErrMsg: '',
       timeSlotError: '',
-      savingBoth: false,
+      caregiverLastTimeValues: '',
     };
   }
-
-  //   // submit caregiver form
+  componentDidUpdate = ({ caregiverLastTimeValues }: any) => {
+    const {
+      selectedCells,
+      caregiverLastTimeData,
+      setSelectedCells,
+    } = this.props;
+    // push last time data into the caregiver field
+    if (caregiverLastTimeValues !== this.props.caregiverLastTimeValues) {
+      const {
+        distanceInKM = '',
+        f = '',
+        feePerKM = '',
+        n = '',
+        otherExpenses = '',
+        s = '',
+        travelAllowance = '',
+        workingProofRecieved = false,
+      } = caregiverLastTimeValues ? caregiverLastTimeValues : {};
+      if (
+        selectedCells &&
+        selectedCells.length &&
+        caregiverLastTimeData &&
+        caregiverLastTimeData.getCareGiverAvabilityLastTimeById
+      ) {
+        const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
+        let careGiverAvabilityInput: any[] = [];
+        selectedCells.forEach(async (element: any) => {
+          const {
+            firstName = '',
+            lastName = '',
+            email = '',
+            id: selectedCaregiverId = '',
+            dateString = '',
+            caregiver = undefined,
+            item = undefined,
+            qualificationIds = [],
+          } = element ? element : {};
+          const {
+            fee = '',
+            nightFee = '',
+            weekendAllowance = '',
+            holidayAllowance = '',
+          } = getCareGiverAvabilityLastTimeById
+            ? getCareGiverAvabilityLastTimeById
+            : {};
+          let data: any = {
+            id: selectedCaregiverId,
+            firstName,
+            lastName,
+            email,
+            caregiver: {
+              ...caregiver,
+            },
+            qualificationIds,
+            dateString,
+            item: {
+              ...item,
+              fee,
+              nightFee,
+              weekendAllowance,
+              holidayAllowance,
+              workingProofRecieved,
+              distanceInKM,
+              feePerKM,
+              travelAllowance,
+              otherExpenses,
+              f: f ? 'available' : 'default',
+              s: s ? 'available' : 'default',
+              n: n ? 'available' : 'default',
+            },
+          };
+          careGiverAvabilityInput = [...careGiverAvabilityInput, data];
+        });
+        setSelectedCells(careGiverAvabilityInput);
+      }
+    }
+  };
+  // submit caregiver form
   handleSubmitCaregiverForm = async (
     values: ICaregiverFormValue,
     { setSubmitting }: FormikHelpers<ICaregiverFormValue>
   ) => {
-    const { updateCaregiver, addCaregiverAvailability ,selectedCells} = this.props;
+    const {
+      updateCaregiver,
+      addCaregiverAvailability,
+      selectedCells,
+      setsavingBoth,
+    } = this.props;
     const {
       name,
       appointmentId,
@@ -269,9 +350,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                     )
                   );
                 }
-                this.setState({
-                  savingBoth: false,
-                });
+                setsavingBoth(false);
               } else {
                 toast.dismiss();
               }
@@ -302,13 +381,31 @@ class CaregiverFormView extends React.PureComponent<any, any> {
     }
     setSubmitting(false);
   };
-
+  // fetch last time data for caregiver
+  handleLastTimeData = (id: string, values: any) => {
+    const { fetchCaregiverLastTimeData } = this.props;
+    if (id) {
+      fetchCaregiverLastTimeData({
+        variables: {
+          userId: id ? parseInt(id) : null,
+        },
+      });
+      this.setState({
+        caregiverLastTimeValues: values,
+      });
+      // setcaregiverLastTimeValues(values);
+    }
+  };
   render() {
-    const { departmentList, qualificationList,selectedCells,selectedCellsCareinstitution ,multipleAvailability} = this.props;
-    // const {
-    //   selectedCellsCareinstitution,
-    //   multipleAvailability,
-    // } = this.state;
+    const {
+      departmentList,
+      qualificationList,
+      selectedCells,
+      selectedCellsCareinstitution,
+      multipleAvailability,
+      activeDateCaregiver,
+      timeSlotError,
+    } = this.props;
 
     // Options to show department data
     let careInstitutionDepartment: IReactSelectInterface[] = [];
@@ -507,27 +604,41 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       updatedAt,
     };
 
-    // const {
-    //   selectedCareGiver,
-    //   activeDateCaregiver,
-    //   timeSlotError,
-    //   selctedAvailability,
-    //   onhandleDelete,
-    //   careGiversListArr,
-    //   handleLastTimeData,
-    //   selectedCells,
-    //   onhandleCaregiverStar,
-    //   setworkingHoursFromErrMsg,
-    //   workingHoursFromErrMsg,
-    //   setworkingHoursToErrMsg,
-    //   workingHoursToErrMsg,
-    //   setbreakHoursToErrMsg,
-    //   breakHoursToErrMsg,
-    //   setbreakHoursFromErrMsg,
-    //   breakHoursFromErrMsg,
-    //   starCaregiver,
-    //   idSearchAppointmentLoading,
-    // } = this.props;
+    let isLeasingAppointment = false;
+    let isAppointment = false;
+
+    // To check appointment with leasing careInst or not
+    if (selectedCells && selectedCells.length) {
+      isLeasingAppointment = selectedCells.filter(
+        (cell: any) =>
+          cell &&
+          cell.item &&
+          cell.item.appointments &&
+          cell.item.appointments.length &&
+          cell.item.appointments[0].cr &&
+          cell.item.appointments[0].cr.isLeasing
+      ).length
+        ? true
+        : false;
+      isAppointment = selectedCells.filter(
+        (cell: any) =>
+          cell && cell.item && cell.item.appointments && cell.item.appointments
+      ).length
+        ? true
+        : false;
+    }
+
+    let dateCondition: any;
+    if (
+      activeDateCaregiver &&
+      activeDateCaregiver.length &&
+      activeDateCaregiver[0]
+    ) {
+      let now = moment().format(dbAcceptableFormat);
+      let input = moment(activeDateCaregiver[0]).format(dbAcceptableFormat);
+      dateCondition = now <= input;
+    }
+    
     return (
       <Formik
         initialValues={valuesForCaregiver}
@@ -623,15 +734,15 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                   className='width-common'
                                 />
                               </div>
-                              {/* {isLeasingAppointment ? (
-                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
-                            TIMyoCY
-                          </div>
-                        ) : (
-                          <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
-                            Plycoco
-                          </div>
-                        )} */}
+                              {isLeasingAppointment ? (
+                                <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                                  TIMyoCY
+                                </div>
+                              ) : (
+                                <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                                  Plycoco
+                                </div>
+                              )}
                             </div>
                           </Col>
                         </Row>
@@ -704,22 +815,26 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                             </Label>
                           </Col>
                           <Col sm='8'>
-                            {/* <div className='text-value one-line-text'>
-                      {activeDateCaregiver
-                        ? activeDateCaregiver
-                            .map(
-                              (dateString: string | undefined, index: number) =>
-                                dateString
-                                  ? moment(dateString).format(
-                                      index !== activeDateCaregiver.length - 1
-                                        ? 'dd DD'
-                                        : `${appointmentDayFormat} ${defaultDateFormat}`
+                            <div className='text-value one-line-text'>
+                              {activeDateCaregiver
+                                ? activeDateCaregiver
+                                    .map(
+                                      (
+                                        dateString: string | undefined,
+                                        index: number
+                                      ) =>
+                                        dateString
+                                          ? moment(dateString).format(
+                                              index !==
+                                                activeDateCaregiver.length - 1
+                                                ? 'dd DD'
+                                                : `${appointmentDayFormat} ${defaultDateFormat}`
+                                            )
+                                          : null
                                     )
-                                  : null
-                            )
-                            .join(', ')
-                        : null}
-                    </div> */}
+                                    .join(', ')
+                                : null}
+                            </div>
                           </Col>
                         </Row>
                       </FormGroup>
@@ -750,15 +865,15 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                       id='early'
                                       className=''
                                       name={'f'}
-                                      // checked={f ? true : false}
-                                      // onChange={(
-                                      //   e: React.ChangeEvent<HTMLInputElement>
-                                      // ) => {
-                                      //   const {
-                                      //     target: { checked },
-                                      //   } = e;
-                                      //   setFieldValue('f', checked);
-                                      // }}
+                                      checked={f ? true : false}
+                                      onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                      ) => {
+                                        const {
+                                          target: { checked },
+                                        } = e;
+                                        setFieldValue('f', checked);
+                                      }}
                                     />
                                     <Label for='early'>
                                       {languageTranslation('EARLY')}
@@ -772,15 +887,15 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                       id='late'
                                       className=''
                                       name={'s'}
-                                      // checked={s}
-                                      // onChange={(
-                                      //   e: React.ChangeEvent<HTMLInputElement>
-                                      // ) => {
-                                      //   const {
-                                      //     target: { checked },
-                                      //   } = e;
-                                      //   setFieldValue('s', checked);
-                                      // }}
+                                      checked={s}
+                                      onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                      ) => {
+                                        const {
+                                          target: { checked },
+                                        } = e;
+                                        setFieldValue('s', checked);
+                                      }}
                                     />
                                     <Label for='late'>
                                       {languageTranslation('LATE')}
@@ -794,26 +909,26 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                       id='night'
                                       className=''
                                       name={'n'}
-                                      // checked={n}
-                                      // onChange={(
-                                      //   e: React.ChangeEvent<HTMLInputElement>
-                                      // ) => {
-                                      //   const {
-                                      //     target: { checked },
-                                      //   } = e;
-                                      //   setFieldValue('n', checked);
-                                      // }}
+                                      checked={n}
+                                      onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                      ) => {
+                                        const {
+                                          target: { checked },
+                                        } = e;
+                                        setFieldValue('n', checked);
+                                      }}
                                     />
                                     <Label for='night'>
                                       {languageTranslation('NIGHT')}
                                     </Label>
                                   </div>
                                 </FormGroup>
-                                {/* {timeSlotError && (
-                            <div className='required-checkbox-error night-allawance-error'>
-                              {timeSlotError}
-                            </div>
-                          )} */}
+                                {timeSlotError && (
+                                  <div className='required-checkbox-error night-allawance-error'>
+                                    {timeSlotError}
+                                  </div>
+                                )}
                               </div>
                             </Col>
                           </Row>
@@ -835,7 +950,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                       type='text'
                                       name={'fee'}
                                       onChange={handleChange}
-                                      // onBlur={handleBlur}
+                                      onBlur={handleBlur}
                                       value={fee ? fee : ''}
                                       className={
                                         errors.fee && touched.fee
@@ -861,7 +976,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                 <span
                                   className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'
                                   // onClick={() =>
-                                  //   handleLastTimeData(
+                                  //   this.handleLastTimeData(
                                   //     selectedCareGiver ? selectedCareGiver.id : '',
                                   //     this.props.values
                                   //   )
@@ -920,9 +1035,9 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                       'NIGHT_ALLOWANCE'
                                     )}
                                     options={NightAllowancePerHour}
-                                    // onChange={(value: any) =>
-                                    //   this.props.handleSelect(value, 'nightAllowance')
-                                    // }
+                                    onChange={(value: any) =>
+                                      this.props.handleSelect(value, 'nightAllowance')
+                                    }
                                     value={
                                       nightAllowance
                                         ? nightAllowance

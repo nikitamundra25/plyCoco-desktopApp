@@ -53,9 +53,6 @@ class CaregiverFormView extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      // selectedCells: [],
-      // selectedCellsCareinstitution: [],
-      // multipleAvailability: false,
       workingHoursFromErrMsg: '',
       workingHoursToErrMsg: '',
       breakHoursFromErrMsg: '',
@@ -642,6 +639,101 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       dateCondition = now <= input;
     }
 
+    // Date condition to not display fsn if date is before today
+    let isBeforedate = false;
+    if (
+      selectedCells &&
+      selectedCells.length &&
+      selectedCells[0] &&
+      selectedCells[0].item &&
+      selectedCells[0].item.date
+    ) {
+      isBeforedate = moment(selectedCells[0].item.date).isBefore();
+    }
+    let isAvailability: boolean = false,
+      isMatching: boolean = false,
+      isContract: boolean = false,
+      isConfirm: boolean = false,
+      isContractInitiated: boolean = false,
+      isInvoiceInitiated: boolean = false,
+      isSingleButtonAccepted: boolean = false,
+      isContractCancel: boolean = false,
+      isTimeSheetPending: boolean = false,
+      isBeforeDate: boolean = false;
+
+    if (item || status) {
+      if (
+        (item &&
+          item.status === 'default' &&
+          (item.f !== 'block' ||
+            item.s !== 'block' ||
+            item.n !== 'block')) ||
+        (status === 'default' &&
+          item &&
+          (item.f !== 'block' ||
+            item.s !== 'block' ||
+            item.n !== 'block'))
+      ) {
+        if (
+          (item &&
+            item.status === 'default' &&
+            isBeforedate) ||
+          (status === 'default' && isBeforedate)
+        ) {
+          isAvailability = false;
+          isBeforeDate = true;
+        } else {
+          isAvailability = true;
+          isBeforeDate = false;
+        }
+      } else if (
+        (item && item.status === 'linked') ||
+        status === 'linked'
+      ) {
+        isMatching = true;
+      } else if (
+        (item && item.status === 'contract') ||
+        status === 'contract'
+      ) {
+        isContract = true;
+      } else if (
+        (item && item.status === 'confirmed') ||
+        status === 'confirmed'
+      ) {
+        isConfirm = true;
+      } else if (
+        (item &&
+          item.status === 'contractCancelled') ||
+        status === 'contractCancelled'
+      ) {
+        isContractCancel = true;
+      } else if (
+        (item && item.status === 'accepted') ||
+        status === 'accepted'
+      ) {
+        isSingleButtonAccepted = true;
+      } else if (
+        (item &&
+          item.status === 'contractInitiated') ||
+        status === 'contractInitiated'
+      ) {
+        isContractInitiated = true;
+      } else if (
+        (item &&
+          item.status === 'invoiceInitiated') ||
+        status === 'invoiceInitiated'
+      ) {
+        isInvoiceInitiated = true;
+      } else if (
+        (item &&
+          (item.status === 'timeSheetPending' ||
+            item.status === 'timeSheetUpdated')) ||
+        status === 'timeSheetPending' ||
+        status === 'timeSheetUpdated'
+      ) {
+        isTimeSheetPending = true;
+      }
+    }
     return (
       <Formik
         initialValues={valuesForCaregiver}
@@ -707,18 +799,18 @@ class CaregiverFormView extends React.PureComponent<any, any> {
             <Form>
               <div className='form-section'>
                 <div
-                // className={classnames({
-                //   'form-card custom-height custom-scrollbar': true,
-                //   'availability-dark-bg': isAvailability,
-                //   'matching-bg': isMatching,
-                //   'contract-bg': isConfirm,
-                //   'cancel-contract-bg': isContractCancel,
-                //   'accepted-bg': isSingleButtonAccepted,
-                //   'contact-initiate-bg': isContractInitiated,
-                //   'invoice-bg': isInvoiceInitiated,
-                //   'confirmation-bg': isTimeSheetPending,
-                //   'availability-bg': isBeforeDate,
-                // })}
+                  className={classnames({
+                    'form-card custom-height custom-scrollbar': true,
+                    'availability-dark-bg': isAvailability,
+                    'matching-bg': isMatching,
+                    'contract-bg': isConfirm,
+                    'cancel-contract-bg': isContractCancel,
+                    'accepted-bg': isSingleButtonAccepted,
+                    'contact-initiate-bg': isContractInitiated,
+                    'invoice-bg': isInvoiceInitiated,
+                    'confirmation-bg': isTimeSheetPending,
+                    'availability-bg': isBeforeDate,
+                  })}
                 >
                   <h5 className='content-title'>
                     {languageTranslation('MENU_CAREGIVER')}
@@ -858,10 +950,10 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                       </FormGroup>
                     </Col>
 
-                    {/* {selctedAvailability &&
-            (selctedAvailability.f === 'block' ||
-              selctedAvailability.s === 'block' ||
-              selctedAvailability.n === 'block') ? (
+                    {/* {item &&
+            (item.f === 'block' ||
+              item.s === 'block' ||
+              item.n === 'block') ? (
               <div className='blocked-minheight'></div>
             ) : ( */}
                     <>
@@ -1186,10 +1278,10 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                       : 'fee-width'
                                   }
                                   // disabled={
-                                  //   selctedAvailability &&
-                                  //   (selctedAvailability.f === 'block' ||
-                                  //     selctedAvailability.s === 'block' ||
-                                  //     selctedAvailability.n === 'block')
+                                  //   item &&
+                                  //   (item.f === 'block' ||
+                                  //     item.s === 'block' ||
+                                  //     item.n === 'block')
                                   // }
                                 />
                                 <InputGroupAddon addonType='append'>
@@ -1224,10 +1316,10 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                       : 'fee-width'
                                   }
                                   // disabled={
-                                  //   selctedAvailability &&
-                                  //   (selctedAvailability.f === 'block' ||
-                                  //     selctedAvailability.s === 'block' ||
-                                  //     selctedAvailability.n === 'block')
+                                  //   item &&
+                                  //   (item.f === 'block' ||
+                                  //     item.s === 'block' ||
+                                  //     item.n === 'block')
                                   // }
                                 />
                                 <InputGroupAddon addonType='append'>
@@ -1314,10 +1406,10 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                       </Col>
                     </>
                     {/* )} */}
-                    {/* {selctedAvailability &&
-            (selctedAvailability.status === 'confirmed' ||
-              selctedAvailability.status === 'timeSheetPending' ||
-              selctedAvailability.status === 'timeSheetUpdated') &&
+                    {/* {item &&
+            (item.status === 'confirmed' ||
+              item.status === 'timeSheetPending' ||
+              item.status === 'timeSheetUpdated') &&
             new Date(activeDateCaregiver[0]) <= new Date() ? ( */}
                     <>
                       <Col lg={'12'}>

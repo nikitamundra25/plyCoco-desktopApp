@@ -44,6 +44,7 @@ import {
   CareInstitutionValidationSchema,
 } from "../../../validations/AppointmentsFormValidationSchema";
 import Loader from "../../containers/Loader/Loader";
+import { ConfirmBox } from "../../components/ConfirmBox";
 
 const [GET_LEASING_CONTRACT] = LeasingContractQueries;
 const [, , GET_INVOICE_BY_APPOINTMENT_ID] = InvoiceQueries;
@@ -157,6 +158,114 @@ const DummyAppointment: FunctionComponent = () => {
 ] = useLazyQuery<any, any>(GET_CAREINSTITUTION_REQUIREMENT_BY_ID, {
   fetchPolicy: 'no-cache',
 });
+  // Mutation to delete careinstitution requirement
+  const [deleteCareinstitutionRequirement] = useMutation<
+    {
+      deleteCareInstitutionRequirement: any;
+    },
+    { id: number[] }
+  >(DELETE_CAREINSTITUTION_REQUIREMENT, {
+    // onCompleted({ deleteCareInstitutionRequirement }) {
+    //   let temp: any = [...careinstitutionList];
+    //   let deptList: any = [];
+    //   if (
+    //     starCanstitution &&
+    //     starCanstitution.isStar &&
+    //     careInstituionDeptData.length
+    //   ) {
+    //     deptList = [...careInstituionDeptData];
+    //   }
+
+    //   let index: number = -1;
+    //   deleteCareInstitutionRequirement.forEach((careInst: any) => {
+    //     let deptIndex: number = -1;
+    //     if (starCanstitution && starCanstitution.isStar && deptList.length) {
+    //       deptIndex = deptList.findIndex(
+    //         (careInst: any) =>
+    //           parseInt(careInst.userId) === parseInt(careInst.userId),
+    //       );
+    //     }
+
+    //     index = temp.findIndex((ele: any) => ele.id === careInst.userId);
+
+    //     if (index > -1) {
+    //       if (temp[index].availabilityData) {
+    //         for (let i = 0; i < temp[index].availabilityData.length; i++) {
+    //           let element: any[] = [...temp[index].availabilityData[i]];
+    //           if (element.some((value: any) => value.id === careInst.id)) {
+    //             let cellIndex: number = element.findIndex(
+    //               (ele: any) => ele.id === careInst.id,
+    //             );
+    //             if (cellIndex > -1) {
+    //               element.splice(cellIndex, 1);
+    //             }
+    //             temp[index].availabilityData[i] = element;
+    //           }
+    //         }
+    //       }
+    //     }
+    //     if (deptIndex > -1) {
+    //       if (
+    //         starCanstitution &&
+    //         starCanstitution.isStar &&
+    //         deptList.length &&
+    //         deptList[deptIndex].availabilityData
+    //       ) {
+    //         for (
+    //           let i = 0;
+    //           i < deptList[deptIndex].availabilityData.length;
+    //           i++
+    //         ) {
+    //           let element: any[] = [...deptList[deptIndex].availabilityData[i]];
+    //           if (element.some((value: any) => value.id === careInst.id)) {
+    //             let cellIndex: number = element.findIndex(
+    //               (ele: any) => ele.id === careInst.id,
+    //             );
+
+    //             if (cellIndex > -1) {
+    //               element.splice(cellIndex, 1);
+    //             }
+    //             deptList[deptIndex].availabilityData[i] = element;
+    //           }
+    //         }
+    //       }
+    //     }
+    //   });
+    //   // canstitutionRefetch();
+    //   setselectedCellsCareinstitution([]);
+    // },
+  });
+
+  // Mutation to delete caregiver
+  const [deleteCaregiverAvailability, {}] = useMutation<
+    {
+      deleteCaregiverAvailability: any;
+    },
+    { id: number[] }
+  >(DELETE_CAREGIVER_AVABILITY, {
+    onCompleted({ deleteCareGiverAvability }: any) {
+      deleteCareGiverAvability.forEach((element: any) => {
+        const temp = [...caregiversList];
+        let index: number = temp.findIndex(
+          (caregiver: any) => caregiver.id === element.userId,
+        );
+        if (index > -1) {
+          for (let i = 0; i < temp[index].availabilityData.length; i++) {
+            let availabilityRows: any[] = [...temp[index].availabilityData[i]];
+            let availabilityIndex: number = availabilityRows.findIndex(
+              (e: any) => e.id === element.id,
+            );
+            if (availabilityIndex > -1) {
+              temp[index].availabilityData[i].splice(availabilityIndex, 1);
+            }
+          }
+        }
+      });
+      // setselctedAvailability({});
+      setSelectedCells([]);
+    },
+  });
+
 
   // Mutation to update careGiver data
   const [
@@ -819,6 +928,45 @@ const DummyAppointment: FunctionComponent = () => {
     }
   };
   
+    // Delete caregiver or careinstitution data
+    const onhandleDelete = async (name: string, id: string) => {
+      if (id) {
+        const { value } = await ConfirmBox({
+          title: languageTranslation('CONFIRM_LABEL'),
+          text:
+            name === 'careinstitution'
+              ? languageTranslation('CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT')
+              : languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY'),
+        });
+        if (!value) {
+          return;
+        } else {
+          if (name === 'careinstitution') {
+            await deleteCareinstitutionRequirement({
+              variables: {
+                id: [parseInt(id)],
+              },
+            });
+            // canstitutionRefetch();
+          } else {
+            await deleteCaregiverAvailability({
+              variables: {
+                id: [parseInt(id)],
+              },
+            });
+          }
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              name === 'careinstitution'
+                ? languageTranslation(
+                    'DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS',
+                  )
+                : languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS'),
+            );
+          }
+        }
+      }
+    };
   return (
     <div className="common-detail-page">
       <div className="common-detail-section">
@@ -935,6 +1083,7 @@ const DummyAppointment: FunctionComponent = () => {
                       setsavingBoth={setsavingBoth}
                       fetchCaregiverLastTimeData={fetchCaregiverLastTimeData}
                       addCaregiverLoading={addCaregiverLoading}
+                      onhandleDelete={onhandleDelete}
                       // activeDateCaregiver={
                       //   !multipleAvailability
                       //     ? [dateString]

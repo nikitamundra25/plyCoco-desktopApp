@@ -407,6 +407,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       activeDateCaregiver,
       timeSlotError,
       addCaregiverLoading,
+      onhandleDelete,
     } = this.props;
 
     // Options to show department data
@@ -700,7 +701,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
               distanceInKM && feePerKM
                 ? parseInt(distanceInKM) * parseInt(feePerKM)
                 : null;
-            setFieldValue('travelAllowance', total)
+            setFieldValue('travelAllowance', total);
           };
           return (
             <Form>
@@ -728,44 +729,44 @@ class CaregiverFormView extends React.PureComponent<any, any> {
             </div>
           ) : null} */}
                   <Row>
-                    {/* {appointmentId ? ( */}
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('APPOINTMENT_ID')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                              <div className='required-input appointment-id-width'>
-                                <Input
-                                  type='text'
-                                  disabled={true}
-                                  name={'appointmentId'}
-                                  // value={appointmentId ? appointmentId : null}
-                                  placeholder={languageTranslation(
-                                    'APPOINTMENT_ID'
-                                  )}
-                                  className='width-common'
-                                />
+                    {appointmentId ? (
+                      <Col lg={'12'}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('APPOINTMENT_ID')}
+                              </Label>
+                            </Col>
+                            <Col sm='8'>
+                              <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                                <div className='required-input appointment-id-width'>
+                                  <Input
+                                    type='text'
+                                    disabled={true}
+                                    name={'appointmentId'}
+                                    value={appointmentId ? appointmentId : null}
+                                    placeholder={languageTranslation(
+                                      'APPOINTMENT_ID'
+                                    )}
+                                    className='width-common'
+                                  />
+                                </div>
+                                {isLeasingAppointment ? (
+                                  <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                                    TIMyoCY
+                                  </div>
+                                ) : (
+                                  <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                                    Plycoco
+                                  </div>
+                                )}
                               </div>
-                              {isLeasingAppointment ? (
-                                <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
-                                  TIMyoCY
-                                </div>
-                              ) : (
-                                <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
-                                  Plycoco
-                                </div>
-                              )}
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    {/* ) : null} */}
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                    ) : null}
                     <Col lg={'12'}>
                       <FormGroup>
                         <Row>
@@ -1680,39 +1681,42 @@ class CaregiverFormView extends React.PureComponent<any, any> {
             //   ''
             // )} */}
 
-                    {/* <Col lg={'12'}>
-              <FormGroup>
-                <Row>
-                  <Col sm='4'>
-                    <Label className='form-label col-form-label'>
-                      {languageTranslation('WORKING_PROOF_NECESSARY')}
-                    </Label>
-                  </Col>
-                  <Col sm='8'>
-                    <div className='required-input mb-1'>
-                      <FormGroup check inline>
-                        <div className=' checkbox-custom mb-0'>
-                          <input
-                            type='checkbox'
-                            id='workingProofSubmitted'
-                            className=''
-                            name={'workingProofSubmitted'}
-                            checked={workingProofSubmitted}
-                            // onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => {
-                              const {
-                                target: { checked },
-                              } = e;
-                              setFieldValue('workingProofSubmitted', checked);
-                            }}
-                          />
-                          <Label for='workingProofSubmitted'></Label>
-                        </div>
-                      </FormGroup>
-                    </div>
+                    <Col lg={'12'}>
+                      <FormGroup>
+                        <Row>
+                          <Col sm='4'>
+                            <Label className='form-label col-form-label'>
+                              {languageTranslation('WORKING_PROOF_NECESSARY')}
+                            </Label>
+                          </Col>
+                          <Col sm='8'>
+                            <div className='required-input mb-1'>
+                              <FormGroup check inline>
+                                <div className=' checkbox-custom mb-0'>
+                                  <input
+                                    type='checkbox'
+                                    id='workingProofSubmitted'
+                                    className=''
+                                    name={'workingProofSubmitted'}
+                                    // checked={workingProofSubmitted}
+                                    onChange={(
+                                      e: React.ChangeEvent<HTMLInputElement>
+                                    ) => {
+                                      const {
+                                        target: { checked },
+                                      } = e;
+                                      setFieldValue(
+                                        'workingProofSubmitted',
+                                        checked
+                                      );
+                                    }}
+                                  />
+                                  <Label for='workingProofSubmitted'></Label>
+                                </div>
+                              </FormGroup>
+                            </div>
 
-                    { getWorkProofPDF &&
+                            {/* { getWorkProofPDF &&
                       finalWorkProofPDF ? (
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${finalWorkProofPDF}`}
@@ -1722,10 +1726,10 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                         <i className='fa fa-file-o mr-2' />
                         {languageTranslation('WORK_PROOF')}
                       </a>
-                    ) : null}
-                     <br/>
+                    ) : null} */}
+                            <br />
 
-                    {document &&
+                            {/* {document &&
                     leasingContract &&
                     leasingContract.length &&
                     leasingContract[0] &&
@@ -1751,10 +1755,10 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                         <i className='fa fa-file-o mr-2' />
                         {languageTranslation('CONTRACT')}
                       </a>
-                    ) : null}
-                    <br/>
+                    ) : null} */}
+                            <br />
 
-                { getInvoiceByAppointmentId &&
+                            {/* { getInvoiceByAppointmentId &&
                       getInvoiceByAppointmentId.length &&
                       finalInvoicePDF ? (
                       <a
@@ -1765,15 +1769,11 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                         <i className='fa fa-file-o mr-2' />
                         {languageTranslation('INVOICE')}
                       </a>
-                    ) : null}
-
-
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-
-   */}
+                    ) : null} */}
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
 
                     <Col lg={'12'}>
                       <FormGroup>
@@ -1870,8 +1870,10 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                         <Button
                           className='btn-save'
                           color='danger'
-                          // onClick={() => onhandleDelete('caregiver', appointmentId)}
-                          // disabled={!appointmentId}
+                          onClick={() =>
+                            onhandleDelete('caregiver', appointmentId)
+                          }
+                          disabled={!appointmentId}
                         >
                           {languageTranslation('DELETE')}
                         </Button>
@@ -1889,9 +1891,9 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                           ) : (
                             ''
                           )}
-                          {/* {appointmentId
-                      ? languageTranslation('UPDATE_BUTTON') */}
-                          {languageTranslation('SAVE_BUTTON')}
+                          {appointmentId
+                            ? languageTranslation('UPDATE_BUTTON')
+                            : languageTranslation('SAVE_BUTTON')}
                         </Button>
                       </div>
                     </Col>

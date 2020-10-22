@@ -388,3 +388,5 @@
 [0827/182257.608:ERROR:process_memory_win.cc(73)] ReadMemory at 0x7fff440653c0 of 64 bytes failed: Only part of a ReadProcessMemory or WriteProcessMemory request was completed. (0x12B)
 [0827/182257.636:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)
 [0912/022935.778:ERROR:process_info.cc(329)] VirtualQueryEx: Access is denied. (0x5)
+[1021/102859.916:ERROR:crash_report_database_win.cc(457)] unexpected header
+[1021/104451.139:ERROR:crash_report_database_win.cc(457)] unexpected header

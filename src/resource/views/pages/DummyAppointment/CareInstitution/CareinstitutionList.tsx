@@ -119,13 +119,13 @@ class CareInstitutionList extends React.PureComponent<any, any> {
       openToggleMenu: false,
       loading: false,
       loadingMore: false,
-      listCareInst: []
+      listCareInst: [],
       // loadedAll: this.props.result.length < 30,
     };
   }
 
   componentDidMount = () => {
-let tempList: any = [];
+    let tempList: any = [];
 
     this.props.careinstitutionData.forEach((element: any, index: number) => {
       element.availabilityData.forEach((item: any, row: number) => {
@@ -133,15 +133,18 @@ let tempList: any = [];
       });
     });
     this.setState({
-      listCareInst: tempList
-    })
+      listCareInst: tempList,
+    });
   };
 
   componentDidUpdate = ({ careinstitutionData }: any) => {
-let tempList: any = [];
+    let tempList: any = [];
     if (careinstitutionData !== this.props.careinstitutionData) {
-      console.log("this.props.careinstitutionData",this.props.careinstitutionData);
-      
+      console.log(
+        "this.props.careinstitutionData",
+        this.props.careinstitutionData
+      );
+
       this.props.careinstitutionData.forEach((element: any, index: number) => {
         element.availabilityData.forEach((item: any, row: number) => {
           return tempList.push({ ...element, new: item, row });
@@ -149,7 +152,7 @@ let tempList: any = [];
       });
       this.setState({
         loadingMore: false,
-        listCareInst: tempList
+        listCareInst: tempList,
       });
     }
   };
@@ -194,13 +197,13 @@ let tempList: any = [];
 
   loadMore = async () => {
     this.setState({ loadingMore: true });
-    await this.props.fetchMoreData();
+    await this.props.fetchMoreData("careinstitution");
   };
 
   handleEndReached = (args: any) => {
     // action('onEndReached')(args)
-    const { loading, loadingMore, loadedAll } = this.state;
-    if (loading || loadingMore || loadedAll) return;
+    // const { loading, loadingMore, loadedAll } = this.state;
+    // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
   };
 
@@ -219,11 +222,11 @@ let tempList: any = [];
       careinstitutionData: result,
       caregiverLoading,
       daysData,
-      onAddingRow
+      onAddingRow,
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareInst } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
-console.log("listCareInst",listCareInst);
+    console.log("listCareInst", listCareInst);
 
     return (
       <>
@@ -248,16 +251,15 @@ console.log("listCareInst",listCareInst);
             onSelectionFinish={this.onSelectFinish}
             ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
           >
-            
             <BaseTable
               data={listCareInst}
-              width={600}
-              height={400}
+              width={1000}
+              height={300}
               fixed
               // render ={ ({ column: { listCareInst } })}
               footerHeight={loadingMore ? 50 : 0}
-              // onEndReached={this.handleEndReached}
-              onEndReachedThreshold={60}
+              onEndReached={this.handleEndReached}
+              onEndReachedThreshold={20}
               headerClassName="custom-appointment-row"
               headerRenderer={() =>
                 columns.map((d: any) =>
@@ -299,14 +301,16 @@ console.log("listCareInst",listCareInst);
             >
               {columns.map((d: any, index: number) => (
                 <Column
-                  key={`col${index}-${typeof d === "string" ? d : d.dateString}`}
+                  key={`col${index}-${
+                    typeof d === "string" ? d : d.dateString
+                  }`}
                   width={index === 0 ? 140 : 28}
                   className={`custom-appointment-col   ${
                     d === "careinstitution" ? "name-col" : ""
                   }`}
                   frozen={typeof d === "string"}
                   cellRenderer={({ rowData, rowIndex }: any) => {
-                    let list = rowData
+                    let list = rowData;
 
                     let uIndex: number = result.findIndex(
                       (item: any) => item.id === list.id

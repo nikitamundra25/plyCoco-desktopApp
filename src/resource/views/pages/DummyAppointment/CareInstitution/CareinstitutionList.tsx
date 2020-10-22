@@ -197,13 +197,13 @@ class CareInstitutionList extends React.PureComponent<any, any> {
 
   loadMore = async () => {
     this.setState({ loadingMore: true });
-    await this.props.fetchMoreData();
+    await this.props.fetchMoreData("careinstitution");
   };
 
   handleEndReached = (args: any) => {
     // action('onEndReached')(args)
-    const { loading, loadingMore, loadedAll } = this.state;
-    if (loading || loadingMore || loadedAll) return;
+    // const { loading, loadingMore, loadedAll } = this.state;
+    // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
   };
 
@@ -258,8 +258,8 @@ class CareInstitutionList extends React.PureComponent<any, any> {
               fixed
               // render ={ ({ column: { listCareInst } })}
               footerHeight={loadingMore ? 50 : 0}
-              // onEndReached={this.handleEndReached}
-              onEndReachedThreshold={60}
+              onEndReached={this.handleEndReached}
+              onEndReachedThreshold={20}
               headerClassName="custom-appointment-row"
               headerRenderer={() =>
                 columns.map((d: any) =>

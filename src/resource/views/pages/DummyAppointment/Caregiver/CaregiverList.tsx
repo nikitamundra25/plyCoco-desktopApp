@@ -207,13 +207,15 @@ class CaregiverList extends React.PureComponent<any, any> {
 
   loadMore = async () => {
     this.setState({ loadingMore: true });
-    await this.props.fetchMoreData();
+    await this.props.fetchMoreData("caregiver");
   };
 
   handleEndReached = (args: any) => {
     // action('onEndReached')(args)
     const { loading, loadingMore, loadedAll } = this.state;
-    if (loading || loadingMore || loadedAll) return;
+    // console.log("loadingloading", loading,"hhh");
+    
+    // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
   };
 
@@ -245,6 +247,8 @@ class CaregiverList extends React.PureComponent<any, any> {
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
+    console.log("tempListtempList", tempList);
+    
     return (
       <>
         <div
@@ -259,7 +263,7 @@ class CaregiverList extends React.PureComponent<any, any> {
           hide={() => this.setState({ openToggleMenu: false })}
         />
 
-        {tempList && tempList.length ? (
+        {listCareGiver && listCareGiver.length ? (
           <SelectableGroup
             allowClickWithoutSelected
             className="custom-row-selector new-base-table"
@@ -270,13 +274,13 @@ class CaregiverList extends React.PureComponent<any, any> {
             ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
           >
             <BaseTable
-              data={result}
+              data={listCareGiver}
               width={1000}
               height={300}
               fixed
               footerHeight={loadingMore ? 50 : 0}
               onEndReached={this.handleEndReached}
-              onEndReachedThreshold={60}
+              onEndReachedThreshold={20}
               headerClassName="custom-appointment-row"
               headerRenderer={() =>
                 columns.map((d: any) =>
@@ -325,7 +329,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                   }`}
                   frozen={typeof d === "string"}
                   cellRenderer={({ rowData, rowIndex }: any) => {
-                    let list = listCareGiver[rowIndex];
+                    let list = rowData;
                     let item = list.new;
                     let row = list.row;
                     let uIndex: number = result.findIndex(

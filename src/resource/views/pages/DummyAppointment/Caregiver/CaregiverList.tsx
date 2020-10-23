@@ -131,20 +131,18 @@ class CaregiverList extends React.PureComponent<any, any> {
       loading: false,
       loadingMore: false,
       listCareGiver: [],
+      totalCaregiver: this.props.totalCount,
       // loadedAll: this.props.result.length < 30,
     };
   }
 
   componentDidMount = () => {
-let tempList: any = [];
+    //props from index
+    const { caregiverData } = this.props;
+    const { totalCaregiver } = this.state;
+    let tempList: any = [];
 
-    let listData =
-      // starCaregiver.isStar || starCaregiver.isSecondStar
-      //   ? careGiversList.filter((cg: any) => cg.id === starCaregiver.id)
-      //   :
-      this.props.caregiverData;
-
-    listData.forEach((element: any) => {
+    caregiverData.forEach((element: any) => {
       element.availabilityData.forEach((item: any, row: number) => {
         return tempList.push({ ...element, new: item, row });
       });
@@ -155,55 +153,58 @@ let tempList: any = [];
   };
 
   componentDidUpdate = ({ caregiverData }: any) => {
-let tempList: any = [];
-
+    let tempList: any = [];
     if (caregiverData !== this.props.caregiverData) {
-      
       this.props.caregiverData.forEach((element: any) => {
         element.availabilityData.forEach((item: any, row: number) => {
           return tempList.push({ ...element, new: item, row });
         });
       });
       this.setState({
-        loadingMore: false,
         listCareGiver: tempList,
       });
     }
   };
 
+  //Mange right click options menu
   handleToggleMenuItem = () => {
+    const { openToggleMenu } = this.state;
     this.setState({
-      openToggleMenu: !this.state.openToggleMenu,
+      openToggleMenu: !openToggleMenu,
     });
   };
+
+  //Set data on select cell loaded
   onSelectFinish = (selectedCellsData: any[]) => {
     const { handleSelection } = this.props;
-      let selectedRows: any[] = [];
-      if (selectedCellsData && selectedCellsData.length) {
-        selectedRows = selectedCellsData.map((selectedCell: any) => {
-          const { props: cellProps } = selectedCell;
-          const { item, list: caregiverData, cellIndex, day } = cellProps;
-          const {
-            id = "",
-            firstName = "",
-            lastName = "",
-            email = "",
-            caregiver = {},
-            qualificationId = [],
-          } = caregiverData ? caregiverData : {};
-          return {
-            id,
-            firstName,
-            lastName,
-            email,
-            caregiver,
-            item,
-            qualificationIds: qualificationId,
-            dateString: day ? day.dateString : "",
-            cellIndex,
-          };
-        });
-        handleSelection(selectedRows, "caregiver");
+    let selectedRows: any[] = [];
+    if (selectedCellsData && selectedCellsData.length) {
+      selectedRows = selectedCellsData.map((selectedCell: any) => {
+        const { props: cellProps } = selectedCell;
+        
+        const { item, list: caregiverData, cellIndex, day } = cellProps;
+        const {
+          id = "",
+          firstName = "",
+          lastName = "",
+          email = "",
+          caregiver = {},
+          qualificationId = [],
+        } = caregiverData ? caregiverData : {};
+        return {
+          id,
+          firstName,
+          lastName,
+          email,
+          caregiver,
+          item,
+          qualificationIds: qualificationId,
+          dateString: day ? day.dateString : "",
+          cellIndex,
+        };
+      });
+      
+      handleSelection(selectedRows, "caregiver");
     }
   };
 
@@ -216,39 +217,41 @@ let tempList: any = [];
     // action('onEndReached')(args)
     const { loading, loadingMore, loadedAll } = this.state;
     // console.log("loadingloading", loading,"hhh");
-    
+
     // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
   };
 
-  // // Adding Row into table
-  // onAddingRow = (
-  //   e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  //   name: string,
-  //   index: number
-  // ) => {
-  //   e.preventDefault();
-  //   const { caregiverData, setcaregiversList } = this.props;
-  //   if (name === 'caregiver') {
-  //     let temp: any = [...caregiverData];
-  //     temp[index].availabilityData = temp[index].availabilityData
-  //       ? [...temp[index].availabilityData, []]
-  //       : [];
-  //       console.log("temptemp",temp);
+  // Adding Row into table
+  onAddingRow = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    name: string,
+    index: number
+  ) => {
+    e.preventDefault();
+    const { caregiverData, setcaregiversList } = this.props;
+    if (name === "caregiver") {
+      let temp: any = [...caregiverData];
+      temp[index].availabilityData = temp[index].availabilityData
+        ? [...temp[index].availabilityData, []]
+        : [];
+      console.log("temptemp", temp);
 
-  //     setcaregiversList(temp);
-  //   }
-  // };
+      setcaregiversList(temp);
+    }
+  };
 
   render() {
     const {
       caregiverData: result,
-      caregiverLoading,
       daysData,
-      onAddingRow,
+      onhandleCaregiverStar,
+      starCaregiver,
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
+    console.log("starCaregiverstarCaregiver",starCaregiver);
+    
     return (
       <>
         <div
@@ -335,6 +338,15 @@ let tempList: any = [];
                     let uIndex: number = result.findIndex(
                       (item: any) => item.id === list.id
                     );
+                    console.log("insideeeeeee",starCaregiver);
+
+                    console.log("starCaregiver.id === list.id",starCaregiver &&
+                    starCaregiver.isStar);
+                    
+                    console.log("listlist",starCaregiver &&
+                    starCaregiver.isStar &&
+                    starCaregiver.id === list.id);
+                    
                     switch (d) {
                       case "caregiver":
                         return (
@@ -375,27 +387,40 @@ let tempList: any = [];
                       case "H":
                         return <span>H</span>;
                       case "S":
-                        return <span className="">S</span>;
+                        return (
+                          <span
+                            className="custom-appointment-col s-col text-center"
+                            onClick={() =>
+                              onhandleCaregiverStar(list.id, false, `${list.firstName + list.lastName}`)
+                            }
+                          >
+                            {starCaregiver &&
+                            starCaregiver.isStar &&
+                            starCaregiver.id == list.id ? (
+                              <i className="fa fa-star theme-text" />
+                            ) : (
+                              <i className="fa fa-star-o" />
+                            )}
+                          </span>
+                        );
                       case "U":
                         return (
                           <span
                             className="custom-appointment-col u-col text-center"
-                            // onClick={() =>
-                            //   onhandleCaregiverStar(
-                            //     list.id,
-                            //     starCaregiver &&
-                            //       !starCaregiver.isSecondStar,
-                            //   )
-                            // }
+                            onClick={() =>
+                              onhandleCaregiverStar(
+                                list.id,
+                                starCaregiver && !starCaregiver.isSecondStar
+                              )
+                            }
                           >
-                            {/* {starCaregiver &&
-                      starCaregiver.isSecondStar &&
-                      starCaregiver.id === list.id ? (
-                        <i className='fa fa-star theme-text' />
-                      ) : (
-                        <i className='fa fa-star-o' />
-                        )} */}
-                            <i className="fa fa-star-o" />
+                            {starCaregiver &&
+                            starCaregiver.isSecondStar &&
+                            starCaregiver.id === list.id ? (
+                              <i className="fa fa-star theme-text" />
+                            ) : (
+                              <i className="fa fa-star-o" />
+                            )}
                           </span>
                         );
                       case "V":
@@ -404,7 +429,7 @@ let tempList: any = [];
                             className="custom-appointment-col v-col text-center"
                             onClick={(
                               e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                            ) => onAddingRow(e, "caregiver", uIndex)}
+                            ) => this.onAddingRow(e, "caregiver", uIndex)}
                           >
                             <i className="fa fa-arrow-down" />
                           </span>
@@ -424,6 +449,7 @@ let tempList: any = [];
                             item={currentAvail || {}}
                             isWeekend={d.isWeekend}
                             list={rowData}
+                            day={d}
                           />
                         );
                     }

@@ -390,3 +390,6 @@
 [0912/022935.778:ERROR:process_info.cc(329)] VirtualQueryEx: Access is denied. (0x5)
 [1021/102859.916:ERROR:crash_report_database_win.cc(457)] unexpected header
 [1021/104451.139:ERROR:crash_report_database_win.cc(457)] unexpected header
+[1022/100257.292:ERROR:crash_report_database_win.cc(457)] unexpected header
+[1022/102623.041:ERROR:crash_report_database_win.cc(457)] unexpected header
+[1022/194611.824:ERROR:crash_report_database_win.cc(457)] unexpected header

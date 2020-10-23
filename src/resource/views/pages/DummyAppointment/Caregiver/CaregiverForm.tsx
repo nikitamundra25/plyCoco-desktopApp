@@ -381,6 +381,8 @@ class CaregiverFormView extends React.PureComponent<any, any> {
   };
   // fetch last time data for caregiver
   handleLastTimeData = (id: string, values: any) => {
+    console.log('handleLastTimeDatahandleLastTimeData', id, values);
+
     const { fetchCaregiverLastTimeData } = this.props;
     if (id) {
       fetchCaregiverLastTimeData({
@@ -394,7 +396,9 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       // setcaregiverLastTimeValues(values);
     }
   };
+
   render() {
+    console.log('caregiverLastTimeValues', this.state.caregiverLastTimeValues);
     const {
       departmentList,
       qualificationList,
@@ -950,175 +954,242 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                       </FormGroup>
                     </Col>
 
-                    {/* {item &&
-            (item.f === 'block' ||
-              item.s === 'block' ||
-              item.n === 'block') ? (
-              <div className='blocked-minheight'></div>
-            ) : ( */}
-                    <>
-                      <Col lg={'12'}>
-                        <FormGroup className='mb-2'>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation('SHIFT')}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div>
-                                <FormGroup check inline>
-                                  <div className=' checkbox-custom mb-2'>
-                                    <input
-                                      type='checkbox'
-                                      id='early'
-                                      className=''
-                                      name={'f'}
-                                      checked={f ? true : false}
-                                      onChange={(
-                                        e: React.ChangeEvent<HTMLInputElement>
-                                      ) => {
-                                        const {
-                                          target: { checked },
-                                        } = e;
-                                        setFieldValue('f', checked);
-                                      }}
-                                    />
-                                    <Label for='early'>
-                                      {languageTranslation('EARLY')}
-                                    </Label>
-                                  </div>
-                                </FormGroup>
-                                <FormGroup check inline>
-                                  <div className=' checkbox-custom mb-2'>
-                                    <input
-                                      type='checkbox'
-                                      id='late'
-                                      className=''
-                                      name={'s'}
-                                      checked={s}
-                                      onChange={(
-                                        e: React.ChangeEvent<HTMLInputElement>
-                                      ) => {
-                                        const {
-                                          target: { checked },
-                                        } = e;
-                                        setFieldValue('s', checked);
-                                      }}
-                                    />
-                                    <Label for='late'>
-                                      {languageTranslation('LATE')}
-                                    </Label>
-                                  </div>
-                                </FormGroup>
-                                <FormGroup check inline>
-                                  <div className=' checkbox-custom mb-3'>
-                                    <input
-                                      type='checkbox'
-                                      id='night'
-                                      className=''
-                                      name={'n'}
-                                      checked={n}
-                                      onChange={(
-                                        e: React.ChangeEvent<HTMLInputElement>
-                                      ) => {
-                                        const {
-                                          target: { checked },
-                                        } = e;
-                                        setFieldValue('n', checked);
-                                      }}
-                                    />
-                                    <Label for='night'>
-                                      {languageTranslation('NIGHT')}
-                                    </Label>
-                                  </div>
-                                </FormGroup>
-                                {timeSlotError && (
-                                  <div className='required-checkbox-error night-allawance-error'>
-                                    {timeSlotError}
-                                  </div>
-                                )}
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation('FEE')}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                                <div className='required-input nightfee-input mb-1'>
-                                  <InputGroup className='flex-nowrap'>
-                                    <Input
-                                      type='text'
-                                      name={'fee'}
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={fee ? fee : ''}
-                                      className={
-                                        errors.fee && touched.fee
-                                          ? 'fee-width error'
-                                          : 'fee-width'
-                                      }
-                                    />
-                                    <InputGroupAddon addonType='append'>
-                                      <InputGroupText>
-                                        <i
-                                          className='fa fa-euro'
-                                          aria-hidden='true'
-                                        ></i>
-                                      </InputGroupText>
-                                    </InputGroupAddon>
-                                    {errors.fee && touched.fee && (
-                                      <div className='required-tooltip bottom-tooltip'>
-                                        {errors.fee}
-                                      </div>
-                                    )}
-                                  </InputGroup>
+                    {item &&
+                    (item.f === 'block' ||
+                      item.s === 'block' ||
+                      item.n === 'block') ? (
+                      <div className='blocked-minheight'></div>
+                    ) : (
+                      <>
+                        <Col lg={'12'}>
+                          <FormGroup className='mb-2'>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('SHIFT')}
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div>
+                                  <FormGroup check inline>
+                                    <div className=' checkbox-custom mb-2'>
+                                      <input
+                                        type='checkbox'
+                                        id='early'
+                                        className=''
+                                        name={'f'}
+                                        checked={f ? true : false}
+                                        onChange={(
+                                          e: React.ChangeEvent<HTMLInputElement>
+                                        ) => {
+                                          const {
+                                            target: { checked },
+                                          } = e;
+                                          setFieldValue('f', checked);
+                                        }}
+                                      />
+                                      <Label for='early'>
+                                        {languageTranslation('EARLY')}
+                                      </Label>
+                                    </div>
+                                  </FormGroup>
+                                  <FormGroup check inline>
+                                    <div className=' checkbox-custom mb-2'>
+                                      <input
+                                        type='checkbox'
+                                        id='late'
+                                        className=''
+                                        name={'s'}
+                                        checked={s}
+                                        onChange={(
+                                          e: React.ChangeEvent<HTMLInputElement>
+                                        ) => {
+                                          const {
+                                            target: { checked },
+                                          } = e;
+                                          setFieldValue('s', checked);
+                                        }}
+                                      />
+                                      <Label for='late'>
+                                        {languageTranslation('LATE')}
+                                      </Label>
+                                    </div>
+                                  </FormGroup>
+                                  <FormGroup check inline>
+                                    <div className=' checkbox-custom mb-3'>
+                                      <input
+                                        type='checkbox'
+                                        id='night'
+                                        className=''
+                                        name={'n'}
+                                        checked={n}
+                                        onChange={(
+                                          e: React.ChangeEvent<HTMLInputElement>
+                                        ) => {
+                                          const {
+                                            target: { checked },
+                                          } = e;
+                                          setFieldValue('n', checked);
+                                        }}
+                                      />
+                                      <Label for='night'>
+                                        {languageTranslation('NIGHT')}
+                                      </Label>
+                                    </div>
+                                  </FormGroup>
+                                  {timeSlotError && (
+                                    <div className='required-checkbox-error night-allawance-error'>
+                                      {timeSlotError}
+                                    </div>
+                                  )}
                                 </div>
-                                <span
-                                  className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'
-                                  // onClick={() =>
-                                  //   this.handleLastTimeData(
-                                  //     selectedCareGiver ? selectedCareGiver.id : '',
-                                  //     this.props.values
-                                  //   )
-                                  // }
-                                >
-                                  {languageTranslation('LAST_TIME')}
-                                </span>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('FEE')}
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                                  <div className='required-input nightfee-input mb-1'>
+                                    <InputGroup className='flex-nowrap'>
+                                      <Input
+                                        type='text'
+                                        name={'fee'}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={fee ? fee : ''}
+                                        className={
+                                          errors.fee && touched.fee
+                                            ? 'fee-width error'
+                                            : 'fee-width'
+                                        }
+                                      />
+                                      <InputGroupAddon addonType='append'>
+                                        <InputGroupText>
+                                          <i
+                                            className='fa fa-euro'
+                                            aria-hidden='true'
+                                          ></i>
+                                        </InputGroupText>
+                                      </InputGroupAddon>
+                                      {errors.fee && touched.fee && (
+                                        <div className='required-tooltip bottom-tooltip'>
+                                          {errors.fee}
+                                        </div>
+                                      )}
+                                    </InputGroup>
+                                  </div>
+                                  <span
+                                    className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'
+                                    onClick={() =>
+                                      this.handleLastTimeData(
+                                        selectedCaregiverId
+                                          ? selectedCaregiverId
+                                          : '',
+                                        values
+                                      )
+                                    }
+                                  >
+                                    {languageTranslation('LAST_TIME')}
+                                  </span>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
 
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation('NIGHT_FEE')}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div className='d-flex align-items-center flex-wrap justify-content-between'>
-                                <div className='required-input nightfee-input mb-1'>
-                                  <InputGroup className='flex-nowrap'>
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('NIGHT_FEE')}
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div className='d-flex align-items-center flex-wrap justify-content-between'>
+                                  <div className='required-input nightfee-input mb-1'>
+                                    <InputGroup className='flex-nowrap'>
+                                      <Input
+                                        type='text'
+                                        name={'nightFee'}
+                                        value={nightFee ? nightFee : ''}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        className={
+                                          errors.nightFee && touched.nightFee
+                                            ? 'fee-width error'
+                                            : 'fee-width'
+                                        }
+                                      />
+                                      <InputGroupAddon addonType='append'>
+                                        <InputGroupText>
+                                          <i
+                                            className='fa fa-euro'
+                                            aria-hidden='true'
+                                          ></i>
+                                        </InputGroupText>
+                                      </InputGroupAddon>
+                                      {errors.nightFee && touched.nightFee && (
+                                        <div className='required-tooltip bottom-tooltip'>
+                                          {errors.nightFee}
+                                        </div>
+                                      )}
+                                    </InputGroup>
+                                  </div>
+                                  <div className='flex-grow-1 nightallowance-input mb-1'>
+                                    <Select
+                                      placeholder={languageTranslation(
+                                        'NIGHT_ALLOWANCE'
+                                      )}
+                                      options={NightAllowancePerHour}
+                                      onChange={(value: any) =>
+                                        handleSelect(value, 'nightAllowance')
+                                      }
+                                      value={
+                                        nightAllowance
+                                          ? nightAllowance
+                                          : NightAllowancePerHour[0]
+                                      }
+                                      classNamePrefix='custom-inner-reactselect'
+                                      className={'custom-reactselect'}
+                                    />
+                                  </div>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('WEEKEND_FEE')}
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div className='required-input nightfee-input'>
+                                  <InputGroup>
                                     <Input
                                       type='text'
-                                      name={'nightFee'}
-                                      value={nightFee ? nightFee : ''}
+                                      name={'weekendAllowance'}
+                                      value={
+                                        weekendAllowance ? weekendAllowance : ''
+                                      }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       className={
-                                        errors.nightFee && touched.nightFee
+                                        errors.weekendAllowance &&
+                                        touched.weekendAllowance
                                           ? 'fee-width error'
                                           : 'fee-width'
                                       }
@@ -1131,450 +1202,388 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                         ></i>
                                       </InputGroupText>
                                     </InputGroupAddon>
-                                    {errors.nightFee && touched.nightFee && (
-                                      <div className='required-tooltip bottom-tooltip'>
-                                        {errors.nightFee}
-                                      </div>
-                                    )}
+                                    {errors.weekendAllowance &&
+                                      touched.weekendAllowance && (
+                                        <div className='required-tooltip bottom-tooltip'>
+                                          {errors.weekendAllowance}
+                                        </div>
+                                      )}
                                   </InputGroup>
                                 </div>
-                                <div className='flex-grow-1 nightallowance-input mb-1'>
-                                  <Select
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('HOLIDAY_FEE')}
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div className='required-input nightfee-input'>
+                                  <InputGroup>
+                                    <Input
+                                      type='text'
+                                      name={'holidayAllowance'}
+                                      value={
+                                        holidayAllowance ? holidayAllowance : ''
+                                      }
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      className={
+                                        errors.holidayAllowance &&
+                                        touched.holidayAllowance
+                                          ? 'fee-width error'
+                                          : 'fee-width'
+                                      }
+                                    />
+                                    <InputGroupAddon addonType='append'>
+                                      <InputGroupText>
+                                        <i
+                                          className='fa fa-euro'
+                                          aria-hidden='true'
+                                        ></i>
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                    {errors.holidayAllowance &&
+                                      touched.holidayAllowance && (
+                                        <div className='required-tooltip bottom-tooltip'>
+                                          {errors.holidayAllowance}
+                                        </div>
+                                      )}
+                                  </InputGroup>
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                        <Col lg={'12'}>
+                          <div className='d-flex align-items-center flex-wrap distance-section'>
+                            <FormGroup className='fee-input'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('FEE_PER_KM')}
+                              </Label>
+
+                              <div className='required-input'>
+                                <InputGroup>
+                                  <Input
+                                    type='text'
+                                    name={'distanceInKM'}
+                                    value={distanceInKM ? distanceInKM : ''}
                                     placeholder={languageTranslation(
-                                      'NIGHT_ALLOWANCE'
+                                      'FEE_PER_KM'
                                     )}
-                                    options={NightAllowancePerHour}
-                                    onChange={(value: any) =>
-                                      handleSelect(value, 'nightAllowance')
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.distanceInKM &&
+                                      touched.distanceInKM
+                                        ? 'fee-width error'
+                                        : 'fee-width'
                                     }
-                                    value={
-                                      nightAllowance
-                                        ? nightAllowance
-                                        : NightAllowancePerHour[0]
-                                    }
-                                    classNamePrefix='custom-inner-reactselect'
-                                    className={'custom-reactselect'}
+                                    // disabled={
+                                    //   item &&
+                                    //   (item.f === 'block' ||
+                                    //     item.s === 'block' ||
+                                    //     item.n === 'block')
+                                    // }
                                   />
+                                  <InputGroupAddon addonType='append'>
+                                    <InputGroupText>km</InputGroupText>
+                                  </InputGroupAddon>
+                                  {errors.distanceInKM &&
+                                    touched.distanceInKM && (
+                                      <div className='required-tooltip bottom-tooltip'>
+                                        {errors.distanceInKM}
+                                      </div>
+                                    )}
+                                </InputGroup>
+                              </div>
+                            </FormGroup>
+                            <FormGroup className='a-input'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('a')}
+                              </Label>
+
+                              <div className='required-input'>
+                                <InputGroup>
+                                  <Input
+                                    type='text'
+                                    name={'feePerKM'}
+                                    value={feePerKM ? feePerKM : ''}
+                                    placeholder={languageTranslation('a')}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    className={
+                                      errors.feePerKM && touched.feePerKM
+                                        ? 'fee-width error'
+                                        : 'fee-width'
+                                    }
+                                    // disabled={
+                                    //   item &&
+                                    //   (item.f === 'block' ||
+                                    //     item.s === 'block' ||
+                                    //     item.n === 'block')
+                                    // }
+                                  />
+                                  <InputGroupAddon addonType='append'>
+                                    <InputGroupText>
+                                      <i
+                                        className='fa fa-euro'
+                                        aria-hidden='true'
+                                      ></i>
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  {errors.feePerKM && touched.feePerKM && (
+                                    <div className='required-tooltip bottom-tooltip'>
+                                      {errors.feePerKM}
+                                    </div>
+                                  )}
+                                </InputGroup>
+                              </div>
+                            </FormGroup>
+                            <FormGroup className='totalbtn-input'>
+                              <div className='label-height'></div>
+
+                              <Button
+                                className='add-new-btn'
+                                color=''
+                                onClick={handleTravelAllowance}
+                              >
+                                <i
+                                  className='fa fa-arrow-right'
+                                  aria-hidden='true'
+                                />
+                              </Button>
+                            </FormGroup>
+                            <FormGroup className='total-input flex-grow-1'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('TOTAL')}{' '}
+                              </Label>
+                              <div className='required-input'>
+                                <Input
+                                  type='text'
+                                  disabled={true}
+                                  name={'travelAllowance'}
+                                  className='width-common'
+                                  value={travelAllowance ? travelAllowance : ''}
+                                />
+                              </div>
+                            </FormGroup>
+                          </div>
+                        </Col>
+
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('EXPENSES')}
+                                </Label>
+                              </Col>
+                              <Col sm='8'>
+                                <div className='required-input'>
+                                  <Input
+                                    type='text'
+                                    name={'otherExpenses'}
+                                    value={otherExpenses ? otherExpenses : ''}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    placeholder={languageTranslation(
+                                      'EXPENSES'
+                                    )}
+                                    className={
+                                      errors.otherExpenses &&
+                                      touched.otherExpenses
+                                        ? 'width-common error'
+                                        : 'width-common'
+                                    }
+                                  />
+                                  {errors.otherExpenses &&
+                                    touched.otherExpenses && (
+                                      <div className='required-tooltip bottom-tooltip'>
+                                        {errors.otherExpenses}
+                                      </div>
+                                    )}
                                 </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation('WEEKEND_FEE')}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div className='required-input nightfee-input'>
-                                <InputGroup>
-                                  <Input
-                                    type='text'
-                                    name={'weekendAllowance'}
-                                    value={
-                                      weekendAllowance ? weekendAllowance : ''
-                                    }
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    className={
-                                      errors.weekendAllowance &&
-                                      touched.weekendAllowance
-                                        ? 'fee-width error'
-                                        : 'fee-width'
-                                    }
-                                  />
-                                  <InputGroupAddon addonType='append'>
-                                    <InputGroupText>
-                                      <i
-                                        className='fa fa-euro'
-                                        aria-hidden='true'
-                                      ></i>
-                                    </InputGroupText>
-                                  </InputGroupAddon>
-                                  {errors.weekendAllowance &&
-                                    touched.weekendAllowance && (
-                                      <div className='required-tooltip bottom-tooltip'>
-                                        {errors.weekendAllowance}
-                                      </div>
-                                    )}
-                                </InputGroup>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation('HOLIDAY_FEE')}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div className='required-input nightfee-input'>
-                                <InputGroup>
-                                  <Input
-                                    type='text'
-                                    name={'holidayAllowance'}
-                                    value={
-                                      holidayAllowance ? holidayAllowance : ''
-                                    }
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    className={
-                                      errors.holidayAllowance &&
-                                      touched.holidayAllowance
-                                        ? 'fee-width error'
-                                        : 'fee-width'
-                                    }
-                                  />
-                                  <InputGroupAddon addonType='append'>
-                                    <InputGroupText>
-                                      <i
-                                        className='fa fa-euro'
-                                        aria-hidden='true'
-                                      ></i>
-                                    </InputGroupText>
-                                  </InputGroupAddon>
-                                  {errors.holidayAllowance &&
-                                    touched.holidayAllowance && (
-                                      <div className='required-tooltip bottom-tooltip'>
-                                        {errors.holidayAllowance}
-                                      </div>
-                                    )}
-                                </InputGroup>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                      <Col lg={'12'}>
-                        <div className='d-flex align-items-center flex-wrap distance-section'>
-                          <FormGroup className='fee-input'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('FEE_PER_KM')}
-                            </Label>
-
-                            <div className='required-input'>
-                              <InputGroup>
-                                <Input
-                                  type='text'
-                                  name={'distanceInKM'}
-                                  value={distanceInKM ? distanceInKM : ''}
-                                  placeholder={languageTranslation(
-                                    'FEE_PER_KM'
-                                  )}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  className={
-                                    errors.distanceInKM && touched.distanceInKM
-                                      ? 'fee-width error'
-                                      : 'fee-width'
-                                  }
-                                  // disabled={
-                                  //   item &&
-                                  //   (item.f === 'block' ||
-                                  //     item.s === 'block' ||
-                                  //     item.n === 'block')
-                                  // }
-                                />
-                                <InputGroupAddon addonType='append'>
-                                  <InputGroupText>km</InputGroupText>
-                                </InputGroupAddon>
-                                {errors.distanceInKM &&
-                                  touched.distanceInKM && (
-                                    <div className='required-tooltip bottom-tooltip'>
-                                      {errors.distanceInKM}
-                                    </div>
-                                  )}
-                              </InputGroup>
-                            </div>
+                              </Col>
+                            </Row>
                           </FormGroup>
-                          <FormGroup className='a-input'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('a')}
-                            </Label>
-
-                            <div className='required-input'>
-                              <InputGroup>
-                                <Input
-                                  type='text'
-                                  name={'feePerKM'}
-                                  value={feePerKM ? feePerKM : ''}
-                                  placeholder={languageTranslation('a')}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  className={
-                                    errors.feePerKM && touched.feePerKM
-                                      ? 'fee-width error'
-                                      : 'fee-width'
-                                  }
-                                  // disabled={
-                                  //   item &&
-                                  //   (item.f === 'block' ||
-                                  //     item.s === 'block' ||
-                                  //     item.n === 'block')
-                                  // }
-                                />
-                                <InputGroupAddon addonType='append'>
-                                  <InputGroupText>
-                                    <i
-                                      className='fa fa-euro'
-                                      aria-hidden='true'
-                                    ></i>
-                                  </InputGroupText>
-                                </InputGroupAddon>
-                                {errors.feePerKM && touched.feePerKM && (
-                                  <div className='required-tooltip bottom-tooltip'>
-                                    {errors.feePerKM}
-                                  </div>
-                                )}
-                              </InputGroup>
-                            </div>
-                          </FormGroup>
-                          <FormGroup className='totalbtn-input'>
-                            <div className='label-height'></div>
-
-                            <Button
-                              className='add-new-btn'
-                              color=''
-                              onClick={handleTravelAllowance}
-                            >
-                              <i
-                                className='fa fa-arrow-right'
-                                aria-hidden='true'
-                              />
-                            </Button>
-                          </FormGroup>
-                          <FormGroup className='total-input flex-grow-1'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('TOTAL')}{' '}
-                            </Label>
-                            <div className='required-input'>
-                              <Input
-                                type='text'
-                                disabled={true}
-                                name={'travelAllowance'}
-                                className='width-common'
-                                value={travelAllowance ? travelAllowance : ''}
-                              />
-                            </div>
-                          </FormGroup>
-                        </div>
-                      </Col>
-
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation('EXPENSES')}
-                              </Label>
-                            </Col>
-                            <Col sm='8'>
-                              <div className='required-input'>
-                                <Input
-                                  type='text'
-                                  name={'otherExpenses'}
-                                  value={otherExpenses ? otherExpenses : ''}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  placeholder={languageTranslation('EXPENSES')}
-                                  className={
-                                    errors.otherExpenses &&
-                                    touched.otherExpenses
-                                      ? 'width-common error'
-                                      : 'width-common'
-                                  }
-                                />
-                                {errors.otherExpenses &&
-                                  touched.otherExpenses && (
-                                    <div className='required-tooltip bottom-tooltip'>
-                                      {errors.otherExpenses}
-                                    </div>
-                                  )}
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                    </>
-                    {/* )} */}
-                    {/* {item &&
-            (item.status === 'confirmed' ||
-              item.status === 'timeSheetPending' ||
-              item.status === 'timeSheetUpdated') &&
-            new Date(activeDateCaregiver[0]) <= new Date() ? ( */}
-                    <>
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm={'4'}>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation('WORKING_HOURS')}
-                              </Label>
-                            </Col>
-                            <Col sm={'8'}>
-                              <div className='required-input'>
-                                <div className='custom-col inner-no-padding-col row'>
-                                  <Col sm={'6'}>
-                                    <InputGroup className='flex-nowrap position-relative'>
-                                      <Field name={'workingHoursFromDate'}>
-                                        {({ field }: any) => (
-                                          <MaskedInput
-                                            {...field}
-                                            mask={DateMask}
-                                            className={
-                                              /* workingHoursFromErrMsg &&
+                        </Col>
+                      </>
+                    )}
+                    {item &&
+                    (item.status === 'confirmed' ||
+                      item.status === 'timeSheetPending' ||
+                      item.status === 'timeSheetUpdated') &&
+                    new Date(activeDateCaregiver[0]) <= new Date() ? (
+                      <>
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm={'4'}>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('WORKING_HOURS')}
+                                </Label>
+                              </Col>
+                              <Col sm={'8'}>
+                                <div className='required-input'>
+                                  <div className='custom-col inner-no-padding-col row'>
+                                    <Col sm={'6'}>
+                                      <InputGroup className='flex-nowrap position-relative'>
+                                        <Field name={'workingHoursFromDate'}>
+                                          {({ field }: any) => (
+                                            <MaskedInput
+                                              {...field}
+                                              mask={DateMask}
+                                              className={
+                                                /* workingHoursFromErrMsg &&
                                               workingHoursFromErrMsg !== ''
                                                 ? 'text-input error form-control'
                                                 : */ 'text-input form-control'
-                                            }
-                                            onChange={handleChange}
-                                            // onBlur={() =>
-                                            //   workingHourDateValidator(
-                                            //     'workingHoursFromDate'
-                                            //   )
-                                            // }
-                                            placeholder={languageTranslation(
-                                              'HOLIDAY_DATE_PLACEHOLDER'
-                                            )}
-                                            value={
-                                              workingHoursFromDate
-                                                ? workingHoursFromDate
-                                                : ''
-                                            }
-                                          />
-                                        )}
-                                      </Field>
+                                              }
+                                              onChange={handleChange}
+                                              // onBlur={() =>
+                                              //   workingHourDateValidator(
+                                              //     'workingHoursFromDate'
+                                              //   )
+                                              // }
+                                              placeholder={languageTranslation(
+                                                'HOLIDAY_DATE_PLACEHOLDER'
+                                              )}
+                                              value={
+                                                workingHoursFromDate
+                                                  ? workingHoursFromDate
+                                                  : ''
+                                              }
+                                            />
+                                          )}
+                                        </Field>
 
-                                      {/* {workingHoursFromErrMsg &&
+                                        {/* {workingHoursFromErrMsg &&
                                 workingHoursFromErrMsg !== '' ? (
                                   <div className='required-tooltip'>
                                     {workingHoursFromErrMsg}
                                   </div>
                                 ) : null} */}
-                                    </InputGroup>
-                                  </Col>
-                                  <Col sm={'6'}>
-                                    <InputGroup className='flex-nowrap'>
-                                      <Field name={'workingHoursFromTime'}>
-                                        {({ field }: any) => (
-                                          <MaskedInput
-                                            {...field}
-                                            mask={TimeMask}
-                                            className={
-                                              errors.workingHoursFromTime &&
-                                              touched.workingHoursFromTime
-                                                ? 'text-input error form-control'
-                                                : 'text-input form-control'
-                                            }
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            placeholder={languageTranslation(
-                                              'TIME_FORMAT'
-                                            )}
-                                            value={
-                                              workingHoursFromTime
-                                                ? workingHoursFromTime
-                                                : ''
-                                            }
-                                          />
-                                        )}
-                                      </Field>
-                                      {errors.workingHoursFromTime &&
-                                        touched.workingHoursFromTime && (
-                                          <div className='required-tooltip'>
-                                            {errors.workingHoursFromTime}
-                                          </div>
-                                        )}
-                                    </InputGroup>
-                                  </Col>
+                                      </InputGroup>
+                                    </Col>
+                                    <Col sm={'6'}>
+                                      <InputGroup className='flex-nowrap'>
+                                        <Field name={'workingHoursFromTime'}>
+                                          {({ field }: any) => (
+                                            <MaskedInput
+                                              {...field}
+                                              mask={TimeMask}
+                                              className={
+                                                errors.workingHoursFromTime &&
+                                                touched.workingHoursFromTime
+                                                  ? 'text-input error form-control'
+                                                  : 'text-input form-control'
+                                              }
+                                              onChange={handleChange}
+                                              onBlur={handleBlur}
+                                              placeholder={languageTranslation(
+                                                'TIME_FORMAT'
+                                              )}
+                                              value={
+                                                workingHoursFromTime
+                                                  ? workingHoursFromTime
+                                                  : ''
+                                              }
+                                            />
+                                          )}
+                                        </Field>
+                                        {errors.workingHoursFromTime &&
+                                          touched.workingHoursFromTime && (
+                                            <div className='required-tooltip'>
+                                              {errors.workingHoursFromTime}
+                                            </div>
+                                          )}
+                                      </InputGroup>
+                                    </Col>
+                                  </div>
                                 </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
 
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm={'4'}></Col>
-                            <Col sm={'8'}>
-                              <div className='required-input'>
-                                <div className='custom-col inner-no-padding-col row'>
-                                  <Col sm={'6'}>
-                                    <InputGroup className='flex-nowrap'>
-                                      <Field name={'workingHoursToDate'}>
-                                        {({ field }: any) => (
-                                          <MaskedInput
-                                            {...field}
-                                            mask={DateMask}
-                                            className={
-                                              /*  workingHoursToErrMsg &&
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm={'4'}></Col>
+                              <Col sm={'8'}>
+                                <div className='required-input'>
+                                  <div className='custom-col inner-no-padding-col row'>
+                                    <Col sm={'6'}>
+                                      <InputGroup className='flex-nowrap'>
+                                        <Field name={'workingHoursToDate'}>
+                                          {({ field }: any) => (
+                                            <MaskedInput
+                                              {...field}
+                                              mask={DateMask}
+                                              className={
+                                                /*  workingHoursToErrMsg &&
                                               workingHoursToErrMsg !== ''
                                                 ? 'text-input error form-control'
                                                 :  */ 'text-input form-control'
-                                            }
-                                            onChange={handleChange}
-                                            // onBlur={() =>
-                                            //   workingHourDateValidator(
-                                            //     'workingHoursToDate'
-                                            //   )
-                                            // }
-                                            placeholder={languageTranslation(
-                                              'HOLIDAY_DATE_PLACEHOLDER'
-                                            )}
-                                            value={
-                                              workingHoursToDate
-                                                ? workingHoursToDate
-                                                : ''
-                                            }
-                                          />
-                                        )}
-                                      </Field>
-                                      {/* {workingHoursToErrMsg &&
+                                              }
+                                              onChange={handleChange}
+                                              // onBlur={() =>
+                                              //   workingHourDateValidator(
+                                              //     'workingHoursToDate'
+                                              //   )
+                                              // }
+                                              placeholder={languageTranslation(
+                                                'HOLIDAY_DATE_PLACEHOLDER'
+                                              )}
+                                              value={
+                                                workingHoursToDate
+                                                  ? workingHoursToDate
+                                                  : ''
+                                              }
+                                            />
+                                          )}
+                                        </Field>
+                                        {/* {workingHoursToErrMsg &&
                                 workingHoursToErrMsg !== '' ? (
                                   <div className='required-tooltip'>
                                     {workingHoursToErrMsg}
                                   </div>
                                 ) : null} */}
-                                    </InputGroup>
-                                  </Col>
-                                  <Col sm={'6'}>
-                                    <InputGroup className='flex-nowrap'>
-                                      <Field name={'workingHoursToTime'}>
-                                        {({ field }: any) => (
-                                          <MaskedInput
-                                            {...field}
-                                            mask={TimeMask}
-                                            className={
-                                              errors.workingHoursToTime &&
-                                              touched.workingHoursToTime
-                                                ? 'text-input error form-control'
-                                                : 'text-input form-control'
-                                            }
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            placeholder={languageTranslation(
-                                              'TIME_FORMAT'
-                                            )}
-                                            value={
-                                              workingHoursToTime
-                                                ? workingHoursToTime
-                                                : ''
-                                            }
-                                          />
-                                        )}
-                                      </Field>
-                                      {/* {errors.workingHoursToTime ? (
+                                      </InputGroup>
+                                    </Col>
+                                    <Col sm={'6'}>
+                                      <InputGroup className='flex-nowrap'>
+                                        <Field name={'workingHoursToTime'}>
+                                          {({ field }: any) => (
+                                            <MaskedInput
+                                              {...field}
+                                              mask={TimeMask}
+                                              className={
+                                                errors.workingHoursToTime &&
+                                                touched.workingHoursToTime
+                                                  ? 'text-input error form-control'
+                                                  : 'text-input form-control'
+                                              }
+                                              onChange={handleChange}
+                                              onBlur={handleBlur}
+                                              placeholder={languageTranslation(
+                                                'TIME_FORMAT'
+                                              )}
+                                              value={
+                                                workingHoursToTime
+                                                  ? workingHoursToTime
+                                                  : ''
+                                              }
+                                            />
+                                          )}
+                                        </Field>
+                                        {/* {errors.workingHoursToTime ? (
                                   errors.workingHoursToTime &&
                                   touched.workingHoursToTime && (
                                     <div className='required-tooltip'>
@@ -1587,167 +1596,169 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                     {languageTranslation('VALID_TIME_RANGE')}
                                   </div>
                                 ) : null} */}
-                                    </InputGroup>
-                                  </Col>
+                                      </InputGroup>
+                                    </Col>
+                                  </div>
                                 </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
 
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm={'4'}>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation('BREAK')}
-                              </Label>
-                            </Col>
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm={'4'}>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('BREAK')}
+                                </Label>
+                              </Col>
 
-                            <Col sm={'8'}>
-                              <div className='required-input'>
-                                <div className='custom-col inner-no-padding-col row'>
-                                  <Col sm={'6'}>
-                                    <InputGroup className='flex-nowrap'>
-                                      <Field name={'breakFromDate'}>
-                                        {({ field }: any) => (
-                                          <MaskedInput
-                                            {...field}
-                                            mask={DateMask}
-                                            className={
-                                              /* breakHoursFromErrMsg &&
+                              <Col sm={'8'}>
+                                <div className='required-input'>
+                                  <div className='custom-col inner-no-padding-col row'>
+                                    <Col sm={'6'}>
+                                      <InputGroup className='flex-nowrap'>
+                                        <Field name={'breakFromDate'}>
+                                          {({ field }: any) => (
+                                            <MaskedInput
+                                              {...field}
+                                              mask={DateMask}
+                                              className={
+                                                /* breakHoursFromErrMsg &&
                                               breakHoursFromErrMsg !== ''
                                                 ? 'text-input error form-control'
                                                 :  */ 'text-input form-control'
-                                            }
-                                            onChange={handleChange}
-                                            // onBlur={() =>
-                                            //   workingHourDateValidator(
-                                            //     'breakFromDate'
-                                            //   )
-                                            // }
-                                            placeholder={languageTranslation(
-                                              'HOLIDAY_DATE_PLACEHOLDER'
-                                            )}
-                                            // value={breakFromDate ? breakFromDate : ''}
-                                          />
-                                        )}
-                                      </Field>
-                                      {/* {breakHoursFromErrMsg &&
+                                              }
+                                              onChange={handleChange}
+                                              // onBlur={() =>
+                                              //   workingHourDateValidator(
+                                              //     'breakFromDate'
+                                              //   )
+                                              // }
+                                              placeholder={languageTranslation(
+                                                'HOLIDAY_DATE_PLACEHOLDER'
+                                              )}
+                                              // value={breakFromDate ? breakFromDate : ''}
+                                            />
+                                          )}
+                                        </Field>
+                                        {/* {breakHoursFromErrMsg &&
                                 breakHoursFromErrMsg !== '' ? (
                                   <div className='required-tooltip'>
                                     {breakHoursFromErrMsg}
                                   </div>
                                 ) : null} */}
-                                    </InputGroup>
-                                  </Col>
+                                      </InputGroup>
+                                    </Col>
 
-                                  <Col sm={'6'}>
-                                    <InputGroup className='flex-nowrap'>
-                                      <Field name={'breakFromTime'}>
-                                        {({ field }: any) => (
-                                          <MaskedInput
-                                            {...field}
-                                            mask={TimeMask}
-                                            className={
-                                              errors.breakFromTime &&
-                                              touched.breakFromTime
-                                                ? 'text-input error form-control'
-                                                : 'text-input form-control'
-                                            }
-                                            onChange={handleChange}
-                                            // onBlur={handleBlur}
-                                            placeholder={languageTranslation(
-                                              'TIME_FORMAT'
-                                            )}
-                                            value={
-                                              breakFromTime ? breakFromTime : ''
-                                            }
-                                          />
-                                        )}
-                                      </Field>
-                                      {/* {errors.breakFromTime &&
+                                    <Col sm={'6'}>
+                                      <InputGroup className='flex-nowrap'>
+                                        <Field name={'breakFromTime'}>
+                                          {({ field }: any) => (
+                                            <MaskedInput
+                                              {...field}
+                                              mask={TimeMask}
+                                              className={
+                                                errors.breakFromTime &&
+                                                touched.breakFromTime
+                                                  ? 'text-input error form-control'
+                                                  : 'text-input form-control'
+                                              }
+                                              onChange={handleChange}
+                                              // onBlur={handleBlur}
+                                              placeholder={languageTranslation(
+                                                'TIME_FORMAT'
+                                              )}
+                                              value={
+                                                breakFromTime
+                                                  ? breakFromTime
+                                                  : ''
+                                              }
+                                            />
+                                          )}
+                                        </Field>
+                                        {/* {errors.breakFromTime &&
                                   touched.breakFromTime && (
                                     <div className='required-tooltip'>
                                       {errors.breakFromTime}
                                     </div>
                                   )} */}
-                                    </InputGroup>
-                                  </Col>
+                                      </InputGroup>
+                                    </Col>
+                                  </div>
                                 </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
 
-                      <Col lg={'12'}>
-                        <FormGroup>
-                          <Row>
-                            <Col sm={'4'}></Col>
-                            <Col sm={'8'}>
-                              <div className='required-input'>
-                                <div className='custom-col inner-no-padding-col row'>
-                                  <Col sm={'6'}>
-                                    <InputGroup className='flex-nowrap'>
-                                      <Field name={'breakToDate'}>
-                                        {({ field }: any) => (
-                                          <MaskedInput
-                                            {...field}
-                                            mask={DateMask}
-                                            className={
-                                              /*  breakHoursToErrMsg &&
+                        <Col lg={'12'}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm={'4'}></Col>
+                              <Col sm={'8'}>
+                                <div className='required-input'>
+                                  <div className='custom-col inner-no-padding-col row'>
+                                    <Col sm={'6'}>
+                                      <InputGroup className='flex-nowrap'>
+                                        <Field name={'breakToDate'}>
+                                          {({ field }: any) => (
+                                            <MaskedInput
+                                              {...field}
+                                              mask={DateMask}
+                                              className={
+                                                /*  breakHoursToErrMsg &&
                                               breakHoursToErrMsg !== ''
                                                 ? 'text-input error form-control'
                                                 :  */ 'text-input form-control'
-                                            }
-                                            onChange={handleChange}
-                                            // onBlur={() =>
-                                            //   workingHourDateValidator('breakToDate')
-                                            // }
-                                            placeholder={languageTranslation(
-                                              'HOLIDAY_DATE_PLACEHOLDER'
-                                            )}
-                                            value={
-                                              breakToDate ? breakToDate : ''
-                                            }
-                                          />
-                                        )}
-                                      </Field>
-                                      {/* {breakHoursToErrMsg &&
+                                              }
+                                              onChange={handleChange}
+                                              // onBlur={() =>
+                                              //   workingHourDateValidator('breakToDate')
+                                              // }
+                                              placeholder={languageTranslation(
+                                                'HOLIDAY_DATE_PLACEHOLDER'
+                                              )}
+                                              value={
+                                                breakToDate ? breakToDate : ''
+                                              }
+                                            />
+                                          )}
+                                        </Field>
+                                        {/* {breakHoursToErrMsg &&
                                 breakHoursToErrMsg !== '' ? (
                                   <div className='required-tooltip'>
                                     {breakHoursToErrMsg}
                                   </div>
                                 ) : null} */}
-                                    </InputGroup>
-                                  </Col>
-                                  <Col sm={'6'}>
-                                    <InputGroup className='flex-nowrap'>
-                                      <Field name={'breakToTime'}>
-                                        {({ field }: any) => (
-                                          <MaskedInput
-                                            {...field}
-                                            mask={TimeMask}
-                                            className={
-                                              errors.breakToTime &&
-                                              touched.breakToTime
-                                                ? 'text-input error form-control'
-                                                : 'text-input form-control'
-                                            }
-                                            onChange={handleChange}
-                                            // onBlur={handleBlur}
-                                            placeholder={languageTranslation(
-                                              'TIME_FORMAT'
-                                            )}
-                                            value={
-                                              breakToTime ? breakToTime : ''
-                                            }
-                                          />
-                                        )}
-                                      </Field>
-                                      {/* {errors.breakToTime ? (
+                                      </InputGroup>
+                                    </Col>
+                                    <Col sm={'6'}>
+                                      <InputGroup className='flex-nowrap'>
+                                        <Field name={'breakToTime'}>
+                                          {({ field }: any) => (
+                                            <MaskedInput
+                                              {...field}
+                                              mask={TimeMask}
+                                              className={
+                                                errors.breakToTime &&
+                                                touched.breakToTime
+                                                  ? 'text-input error form-control'
+                                                  : 'text-input form-control'
+                                              }
+                                              onChange={handleChange}
+                                              // onBlur={handleBlur}
+                                              placeholder={languageTranslation(
+                                                'TIME_FORMAT'
+                                              )}
+                                              value={
+                                                breakToTime ? breakToTime : ''
+                                              }
+                                            />
+                                          )}
+                                        </Field>
+                                        {/* {errors.breakToTime ? (
                                   errors.breakToTime &&
                                   touched.breakToTime && (
                                     <div className='required-tooltip'>
@@ -1760,18 +1771,18 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                     {languageTranslation('VALID_TIME_RANGE')}
                                   </div>
                                 ) : null} */}
-                                    </InputGroup>
-                                  </Col>
+                                      </InputGroup>
+                                    </Col>
+                                  </div>
                                 </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        </FormGroup>
-                      </Col>
-                    </>
-                    {/* // ) : (
-            //   ''
-            // )} */}
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                      </>
+                    ) : (
+                      ''
+                    )}
 
                     <Col lg={'12'}>
                       <FormGroup>
@@ -1922,41 +1933,41 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                       </FormGroup>
                     </Col>
 
-                    {/* {createdBy ? (
-              <Col lg={'12'} className='mb-2 text-right text-muted'>
-                <i>
-                  {`${languageTranslation('CREATED_BY')} ${
-                    createdBy ? createdBy : ''
-                  }`}
-                </i>
-              </Col>
-            ) : null}
-            {createdAt ? (
-              <Col lg={'12'} className='mb-2 text-right text-muted'>
-                <i>
-                  {`${languageTranslation('CREATED_AT')} ${
-                    createdAt
-                      ? moment(createdAt).format(
-                          defaultDateTimeFormatForDashboard
-                        )
-                      : ''
-                  }`}
-                </i>
-              </Col>
-            ) : null}
-            {updatedAt ? (
-              <Col lg={'12'} className='mb-2 text-right text-muted'>
-                <i>
-                  {`${languageTranslation('UPDATED_AT')} ${
-                    updatedAt
-                      ? moment(updatedAt).format(
-                          defaultDateTimeFormatForDashboard
-                        )
-                      : ''
-                  }`}
-                </i>
-              </Col>
-            ) : null} */}
+                    {createdBy ? (
+                      <Col lg={'12'} className='mb-2 text-right text-muted'>
+                        <i>
+                          {`${languageTranslation('CREATED_BY')} ${
+                            createdBy ? createdBy : ''
+                          }`}
+                        </i>
+                      </Col>
+                    ) : null}
+                    {createdAt ? (
+                      <Col lg={'12'} className='mb-2 text-right text-muted'>
+                        <i>
+                          {`${languageTranslation('CREATED_AT')} ${
+                            createdAt
+                              ? moment(createdAt).format(
+                                  defaultDateTimeFormatForDashboard
+                                )
+                              : ''
+                          }`}
+                        </i>
+                      </Col>
+                    ) : null}
+                    {updatedAt ? (
+                      <Col lg={'12'} className='mb-2 text-right text-muted'>
+                        <i>
+                          {`${languageTranslation('UPDATED_AT')} ${
+                            updatedAt
+                              ? moment(updatedAt).format(
+                                  defaultDateTimeFormatForDashboard
+                                )
+                              : ''
+                          }`}
+                        </i>
+                      </Col>
+                    ) : null}
                     <Col lg={'12'}>
                       <div className='d-flex align-items-center justify-content-between'>
                         <Button

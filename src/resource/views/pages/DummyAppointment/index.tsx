@@ -1104,11 +1104,11 @@ const DummyAppointment: FunctionComponent = () => {
 const onhandleCaregiverStar = async (
   id: string,
   isSecondStar: boolean,
-  name: string
-  // isNotExistInList: boolean = false,
+  name: string,
+  isNotExistInList: boolean = false,
 ) => {
 
-console.log("starCaregiver",name)
+console.log(starCaregiver,"starCaregiverIndexxxx",(!starCaregiver.isStar || isSecondStar))
 
   if (starCaregiver && (!starCaregiver.isStar || isSecondStar)) {
     

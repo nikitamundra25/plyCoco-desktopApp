@@ -245,7 +245,6 @@ class CaregiverList extends React.PureComponent<any, any> {
   handleEndReached = (args: any) => {
     // action('onEndReached')(args)
     const { loading, loadingMore, loadedAll } = this.state;
-    // console.log("loadingloading", loading,"hhh");
 
     // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
@@ -266,8 +265,6 @@ class CaregiverList extends React.PureComponent<any, any> {
           ? [...temp[index].availabilityData, []]
           : [];
       }
-      console.log("temptemp", temp);
-
       setcaregiversList(temp);
     }
   };

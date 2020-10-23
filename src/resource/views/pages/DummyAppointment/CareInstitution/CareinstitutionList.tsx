@@ -300,7 +300,36 @@ class CareInstitutionList extends React.PureComponent<any, any> {
     index: number
   ) => {
     e.preventDefault();
-    const { caregiversList, setcaregiversList } = this.props;
+    const {
+      careinstitutionData,
+      starCanstitution,
+      secondStarCanstitution,
+      careInstituionDeptData,
+      setcareInstituionDeptData,
+      setcareinstitutionList,
+    } = this.props;
+    if (name === "careinstitution") {
+      // To check row added on solo careinstitution or all
+      if (
+        starCanstitution &&
+        secondStarCanstitution &&
+        (starCanstitution.isStar || secondStarCanstitution.isStar) &&
+        careInstituionDeptData &&
+        careInstituionDeptData.length
+      ) {
+        let temp: any = [...careInstituionDeptData];
+        temp[index].availabilityData = temp[index].availabilityData
+          ? [...temp[index].availabilityData, []]
+          : [];
+        setcareInstituionDeptData(temp);
+      } else {
+        let temp: any = [...careinstitutionData];
+        temp[index].availabilityData = temp[index].availabilityData
+          ? [...temp[index].availabilityData, []]
+          : [];
+        setcareinstitutionList(temp);
+      }
+    }
   };
 
   render() {
@@ -308,16 +337,14 @@ class CareInstitutionList extends React.PureComponent<any, any> {
       careinstitutionData: result,
       caregiverLoading,
       daysData,
-      onAddingRow,
       handleFirstStarCanstitution,
       starCanstitution,
       secondStarCanstitution,
       careInstituionDeptData,
-      onhandleSecondStarCanstitution
+      onhandleSecondStarCanstitution,
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareInst } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
-    console.log("starCanstitution", starCanstitution);
 
     return (
       <>
@@ -403,7 +430,6 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                   cellRenderer={({ rowData, rowIndex }: any) => {
                     let list = rowData;
                     let uIndex: number = -1;
-
                     // index of dept in case of solo careInst & dept
                     if (
                       starCanstitution &&
@@ -481,14 +507,16 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                         );
                       case "U":
                         return (
-                          <span className="custom-appointment-col u-col text-center"
-                          onClick={() => onhandleSecondStarCanstitution(list)}
+                          <span
+                            className="custom-appointment-col u-col text-center"
+                            onClick={() => onhandleSecondStarCanstitution(list)}
                           >
-                           {secondStarCanstitution && secondStarCanstitution.isStar ? (
-              <i className='fa fa-star theme-text' />
-            ) : (
-              <i className='fa fa-star-o' />
-            )}
+                            {secondStarCanstitution &&
+                            secondStarCanstitution.isStar ? (
+                              <i className="fa fa-star theme-text" />
+                            ) : (
+                              <i className="fa fa-star-o" />
+                            )}
                           </span>
                         );
                       case "V":
@@ -497,7 +525,7 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                             className="custom-appointment-col v-col text-center"
                             onClick={(
                               e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                            ) => onAddingRow(e, "careinstitution", uIndex)}
+                            ) => this.onAddingRow(e, "careinstitution", uIndex)}
                           >
                             <i className="fa fa-arrow-down" />
                           </span>

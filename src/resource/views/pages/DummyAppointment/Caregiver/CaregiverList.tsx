@@ -121,7 +121,6 @@ export const SelectableCell = React.memo(
   )
 );
 
-let tempList: any = [];
 class CaregiverList extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props);
@@ -138,13 +137,25 @@ class CaregiverList extends React.PureComponent<any, any> {
   }
 
   componentDidMount = () => {
-    //props from parent
+    //props from index
     const { caregiverData } = this.props;
     const { totalCaregiver } = this.state;
-    console.log("caregiverDatacaregiverDatacaregiverData", totalCaregiver);
+    let tempList: any = [];
 
-    if (caregiverData && caregiverData.length) {
-      caregiverData.forEach((element: any) => {
+    caregiverData.forEach((element: any) => {
+      element.availabilityData.forEach((item: any, row: number) => {
+        return tempList.push({ ...element, new: item, row });
+      });
+    });
+    this.setState({
+      listCareGiver: tempList,
+    });
+  };
+
+  componentDidUpdate = ({ caregiverData }: any) => {
+    let tempList: any = [];
+    if (caregiverData !== this.props.caregiverData) {
+      this.props.caregiverData.forEach((element: any) => {
         element.availabilityData.forEach((item: any, row: number) => {
           return tempList.push({ ...element, new: item, row });
         });
@@ -155,23 +166,9 @@ class CaregiverList extends React.PureComponent<any, any> {
     }
   };
 
-  // componentDidUpdate = ({ caregiverData }: any) => {
-  //   if (caregiverData !== this.props.caregiverData) {
-  //     this.props.caregiverData.forEach((element: any) => {
-  //       element.availabilityData.forEach((item: any, row: number) => {
-  //         return tempList.push({ ...element, new: item, row });
-  //       });
-  //     });
-  //     this.setState({
-  //       loadingMore: false,
-  //       listCareGiver: tempList,
-  //     });
-  //   }
-  // };
-
   //Mange right click options menu
   handleToggleMenuItem = () => {
-    const { openToggleMenu } = this.state
+    const { openToggleMenu } = this.state;
     this.setState({
       openToggleMenu: !openToggleMenu,
     });
@@ -180,46 +177,46 @@ class CaregiverList extends React.PureComponent<any, any> {
   //Set data on select cell loaded
   onSelectFinish = (selectedCellsData: any[]) => {
     const { handleSelection } = this.props;
-    if (handleSelection) {
-      let selectedRows: any[] = [];
-      if (selectedCellsData && selectedCellsData.length) {
-        selectedRows = selectedCellsData.map((selectedCell: any) => {
-          const { props: cellProps } = selectedCell;
-          const { item, list: caregiverData, cellIndex, day } = cellProps;
-          const {
-            id = "",
-            firstName = "",
-            lastName = "",
-            email = "",
-            caregiver = {},
-            qualificationId = [],
-          } = caregiverData ? caregiverData : {};
-          return {
-            id,
-            firstName,
-            lastName,
-            email,
-            caregiver,
-            item,
-            qualificationIds: qualificationId,
-            dateString: day ? day.dateString : "",
-            cellIndex,
-          };
-        });
-        handleSelection(selectedRows, "caregiver");
-      }
+    let selectedRows: any[] = [];
+    if (selectedCellsData && selectedCellsData.length) {
+      selectedRows = selectedCellsData.map((selectedCell: any) => {
+        const { props: cellProps } = selectedCell;
+        const { item, list: caregiverData, cellIndex, day } = cellProps;
+        const {
+          id = "",
+          firstName = "",
+          lastName = "",
+          email = "",
+          caregiver = {},
+          qualificationId = [],
+        } = caregiverData ? caregiverData : {};
+        return {
+          id,
+          firstName,
+          lastName,
+          email,
+          caregiver,
+          item,
+          qualificationIds: qualificationId,
+          dateString: day ? day.dateString : "",
+          cellIndex,
+        };
+      });
+      handleSelection(selectedRows, "caregiver");
     }
   };
 
   loadMore = async () => {
     this.setState({ loadingMore: true });
-    await this.props.fetchMoreData();
+    await this.props.fetchMoreData("caregiver");
   };
 
   handleEndReached = (args: any) => {
     // action('onEndReached')(args)
     const { loading, loadingMore, loadedAll } = this.state;
-    if (loading || loadingMore || loadedAll) return;
+    // console.log("loadingloading", loading,"hhh");
+
+    // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
   };
 
@@ -260,7 +257,7 @@ class CaregiverList extends React.PureComponent<any, any> {
           hide={() => this.setState({ openToggleMenu: false })}
         />
 
-        {tempList && tempList.length ? (
+        {listCareGiver && listCareGiver.length ? (
           <SelectableGroup
             allowClickWithoutSelected
             className="custom-row-selector new-base-table"
@@ -271,13 +268,13 @@ class CaregiverList extends React.PureComponent<any, any> {
             ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
           >
             <BaseTable
-              data={result}
+              data={listCareGiver}
               width={1000}
               height={300}
               fixed
               footerHeight={loadingMore ? 50 : 0}
               onEndReached={this.handleEndReached}
-              onEndReachedThreshold={60}
+              onEndReachedThreshold={20}
               headerClassName="custom-appointment-row"
               headerRenderer={() =>
                 columns.map((d: any) =>
@@ -326,7 +323,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                   }`}
                   frozen={typeof d === "string"}
                   cellRenderer={({ rowData, rowIndex }: any) => {
-                    let list = listCareGiver[rowIndex];
+                    let list = rowData;
                     let item = list.new;
                     let row = list.row;
                     let uIndex: number = result.findIndex(

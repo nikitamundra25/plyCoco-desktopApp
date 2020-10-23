@@ -18,6 +18,7 @@ import {
 } from "../../../../../config";
 import { Link } from "react-router-dom";
 import Loader from "../../../containers/Loader/Loader";
+import { IReactSelectInterface } from "../../../../../interfaces";
 
 const staticHeader = ["careinstitution", "H", "S", "U", "V"];
 
@@ -126,30 +127,74 @@ class CareInstitutionList extends React.PureComponent<any, any> {
 
   componentDidMount = () => {
     let tempList: any = [];
-
-    this.props.careinstitutionData.forEach((element: any, index: number) => {
+    const {
+      starCanstitution,
+      careInstituionDeptData,
+      careinstitutionData,
+      secondStarCanstitution,
+    } = this.props;
+    let listData = !starCanstitution.isStar
+      ? careinstitutionData
+      : secondStarCanstitution.isStar
+      ? careInstituionDeptData && careInstituionDeptData.length
+        ? careInstituionDeptData.filter(
+            (dept: any) => dept.id === secondStarCanstitution.id
+          )
+        : []
+      : careInstituionDeptData;
+    // To manage case of solo careInst and department selection if no department is there
+    if (starCanstitution.isStar && listData && !listData.length) {
+      listData = careinstitutionData.filter(
+        (item: any) => item.id === starCanstitution.id
+      );
+    }
+    listData.forEach((element: any, index: number) => {
       element.availabilityData.forEach((item: any, row: number) => {
         return tempList.push({ ...element, new: item, row });
       });
     });
+
     this.setState({
       listCareInst: tempList,
     });
   };
 
-  componentDidUpdate = ({ careinstitutionData }: any) => {
-    let tempList: any = [];
-    if (careinstitutionData !== this.props.careinstitutionData) {
-      console.log(
-        "this.props.careinstitutionData",
-        this.props.careinstitutionData
-      );
-
-      this.props.careinstitutionData.forEach((element: any, index: number) => {
+  componentDidUpdate = ({
+    careinstitutionData,
+    careInstituionDeptData,
+  }: any) => {
+    if (
+      careinstitutionData !== this.props.careinstitutionData ||
+      careInstituionDeptData !== this.props.careInstituionDeptData
+    ) {
+      let tempList: any = [];
+      const {
+        starCanstitution,
+        careInstituionDeptData,
+        careinstitutionData,
+        secondStarCanstitution,
+      } = this.props;
+      let listData = !starCanstitution.isStar
+        ? careinstitutionData
+        : secondStarCanstitution.isStar
+        ? careInstituionDeptData && careInstituionDeptData.length
+          ? careInstituionDeptData.filter(
+              (dept: any) => dept.id === secondStarCanstitution.id
+            )
+          : []
+        : careInstituionDeptData;
+      // To manage case of solo careInst and department selection if no department is there
+      if (starCanstitution.isStar && listData && !listData.length) {
+        listData = careinstitutionData.filter(
+          (item: any) => item.id === starCanstitution.id
+        );
+      }
+      listData.forEach((element: any, index: number) => {
         element.availabilityData.forEach((item: any, row: number) => {
           return tempList.push({ ...element, new: item, row });
         });
       });
+
       this.setState({
         loadingMore: false,
         listCareInst: tempList,
@@ -162,48 +207,89 @@ class CareInstitutionList extends React.PureComponent<any, any> {
       openToggleMenu: !this.state.openToggleMenu,
     });
   };
-  onSelectFinish = (selectedCellsData: any[]) => {
-    const { handleSelection } = this.props;
-    if (handleSelection) {
-      let selectedRows: any[] = [];
-      if (selectedCellsData && selectedCellsData.length) {
-        selectedRows = selectedCellsData.map((selectedCell: any) => {
-          const { props: cellProps } = selectedCell;
-          const { item, list: careinstitutionData, cellIndex, day } = cellProps;
-          const {
-            id = "",
-            firstName = "",
-            lastName = "",
-            email = "",
-            caregiver = {},
-            qualificationId = [],
-          } = careinstitutionData ? careinstitutionData : {};
-          return {
-            id,
-            firstName,
-            lastName,
-            email,
-            caregiver,
-            item,
-            qualificationIds: qualificationId,
-            dateString: day ? day.dateString : "",
-            cellIndex,
-          };
-        });
-        handleSelection(selectedRows, "caregiver");
-      }
+
+  onSelectFinish = (selectedCells: any[]) => {
+    let selectedRows: any[] = [];
+    const { handleSelection, qualificationList } = this.props;
+
+    if (selectedCells && selectedCells.length) {
+      selectedRows = selectedCells.map((selectedCell: any) => {
+        const { props: cellProps } = selectedCell;
+        const { item, list: careInstData, cellIndex, day } = cellProps;
+        const {
+          userId = "",
+          id = "",
+          name = "", //department name on solo care institution
+          firstName = "",
+          lastName = "",
+          caregiver = {},
+          canstitution = {},
+          qualificationId = [],
+          deptId = "",
+          divisions = [],
+        } = careInstData ? careInstData : {};
+
+        let qualification1: IReactSelectInterface[] = [];
+        if (
+          qualificationList &&
+          qualificationList.length &&
+          item &&
+          item.qualificationId &&
+          item.qualificationId[0] !== null
+        ) {
+          qualification1 = qualificationList.filter(({ value }: any) =>
+            item.qualificationId.includes(value)
+          );
+        } else if (qualificationId && qualificationId.length) {
+          qualification1 = qualificationList.filter(({ value }: any) =>
+            qualificationId.includes(value)
+          );
+        }
+
+        let temp = {
+          ...item,
+          qualificationId: qualification1 ? qualification1 : [],
+        };
+
+        return {
+          id: deptId ? userId : id,
+          firstName,
+          lastName,
+          name:
+            canstitution && canstitution.shortName
+              ? canstitution.shortName
+              : "",
+          caregiver,
+          canstitution,
+          dept: { id: deptId, name },
+          item:
+            temp && temp.qualificationId && temp.qualificationId.length
+              ? temp
+              : item,
+          qualificationIds: qualificationId,
+          dateString: day ? day.dateString : "",
+          divisions,
+          isLeasing:
+            canstitution && canstitution.attributes
+              ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
+              : false,
+          cellIndex,
+        };
+      });
+
+      handleSelection(selectedRows, "careinstitution");
     }
   };
 
   loadMore = async () => {
     this.setState({ loadingMore: true });
-    await this.props.fetchMoreData();
+    await this.props.fetchMoreData("careinstitution");
   };
 
   handleEndReached = (args: any) => {
     // action('onEndReached')(args)
-    const { loading, loadingMore, loadedAll } = this.state;
-    if (loading || loadingMore || loadedAll) return;
+    // const { loading, loadingMore, loadedAll } = this.state;
+    // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
   };
 
@@ -223,10 +309,15 @@ class CareInstitutionList extends React.PureComponent<any, any> {
       caregiverLoading,
       daysData,
       onAddingRow,
+      handleFirstStarCanstitution,
+      starCanstitution,
+      secondStarCanstitution,
+      careInstituionDeptData,
+      onhandleSecondStarCanstitution
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareInst } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
-    console.log("listCareInst", listCareInst);
+    console.log("starCanstitution", starCanstitution);
 
     return (
       <>
@@ -258,8 +349,8 @@ class CareInstitutionList extends React.PureComponent<any, any> {
               fixed
               // render ={ ({ column: { listCareInst } })}
               footerHeight={loadingMore ? 50 : 0}
-              // onEndReached={this.handleEndReached}
-              onEndReachedThreshold={60}
+              onEndReached={this.handleEndReached}
+              onEndReachedThreshold={20}
               headerClassName="custom-appointment-row"
               headerRenderer={() =>
                 columns.map((d: any) =>
@@ -311,10 +402,26 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                   frozen={typeof d === "string"}
                   cellRenderer={({ rowData, rowIndex }: any) => {
                     let list = rowData;
+                    let uIndex: number = -1;
 
-                    let uIndex: number = result.findIndex(
-                      (item: any) => item.id === list.id
-                    );
+                    // index of dept in case of solo careInst & dept
+                    if (
+                      starCanstitution &&
+                      secondStarCanstitution &&
+                      (starCanstitution.isStar ||
+                        secondStarCanstitution.isStar) &&
+                      careInstituionDeptData &&
+                      careInstituionDeptData.length
+                    ) {
+                      uIndex = careInstituionDeptData.findIndex(
+                        (item: any) => item.id === list.id
+                      );
+                    } else {
+                      // Direct index of care inst
+                      uIndex = result.findIndex(
+                        (item: any) => item.id === list.id
+                      );
+                    }
                     switch (d) {
                       case "careinstitution":
                         return (
@@ -355,13 +462,33 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                           </div>
                         );
                       case "H":
-                        return <span>H</span>;
+                        return <span></span>;
                       case "S":
-                        return <span className="">S</span>;
+                        return (
+                          <span
+                            className="s-col custom-appointment-col text-center cursor-pointer"
+                            onClick={() =>
+                              handleFirstStarCanstitution(list, uIndex)
+                            }
+                          >
+                            {starCanstitution.setIndex === uIndex ||
+                            starCanstitution.isStar ? (
+                              <i className="fa fa-star theme-text" />
+                            ) : (
+                              <i className="fa fa-star-o" />
+                            )}
+                          </span>
+                        );
                       case "U":
                         return (
-                          <span className="custom-appointment-col u-col text-center">
-                            <i className="fa fa-star-o" />
+                          <span className="custom-appointment-col u-col text-center"
+                          onClick={() => onhandleSecondStarCanstitution(list)}
+                          >
+                           {secondStarCanstitution && secondStarCanstitution.isStar ? (
+              <i className='fa fa-star theme-text' />
+            ) : (
+              <i className='fa fa-star-o' />
+            )}
                           </span>
                         );
                       case "V":

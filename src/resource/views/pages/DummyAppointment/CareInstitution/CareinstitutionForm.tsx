@@ -260,6 +260,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       breakHoursToErrMsg: '',
       timeSlotError: '',
       savingBoth: false,
+      careInstituionShift: '',
     };
   }
   // submit careinstitution form
@@ -494,7 +495,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
     }
     setSubmitting(false);
   };
-
+  // Select qualification attribute
+  handleQualification = (selectedOption: IReactSelectInterface[]) => {
+    const { setqualification } = this.props;
+    setqualification(selectedOption);
+  };
   render() {
     const { startTime, endTime } = this.state;
     let d = moment().format('L');
@@ -561,12 +566,14 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       Item.qualificationForCharge &&
       !Item.qualificationForCharge.value
     ) {
-      qualificationfor = qualificationList.filter((value: any) => {
-        return Item && Item.qualificationForCharge
-          ? Item.qualificationForCharge === value.value
-          : // Item.qualificationForCharge.includes(value.value)
-            null;
-      });
+      qualificationfor =
+        qualificationList &&
+        qualificationList.filter((value: any) => {
+          return Item && Item.qualificationForCharge
+            ? Item.qualificationForCharge === value.value
+            : // Item.qualificationForCharge.includes(value.value)
+              null;
+        });
     } else {
       qualificationfor = [Item.qualificationForCharge];
     }
@@ -607,6 +614,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       createdAt: Item && Item.createdAt ? Item.createdAt : '',
       updatedAt: Item && Item.updatedAt ? Item.updatedAt : '',
     };
+    // const qualificationError: any = errors.qualificationId;
+    // const shiftOptions =
+    //   careInstitutionTimesOptions && careInstitutionTimesOptions.length
+    //     ? careInstitutionTimesOptions
+    //     : ShiftTime;
     return (
       <Formik
         initialValues={valuesForCareIntituionForm}
@@ -615,6 +627,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
         validationSchema={CareInstitutionValidationSchema}
         children={(props: FormikProps<ICareinstitutionFormValue>) => {
           const {
+            values,
             values: {
               appointmentId,
               name,
@@ -645,6 +658,25 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
             handleSubmit,
             setFieldValue,
           } = props;
+          {
+            console.log('valuessssssssssssssss', values);
+          }
+          // // Custom function to handle react select fields
+          const handleSelect = (
+            selectOption: IReactSelectInterface,
+            name: string
+          ) => {
+            setFieldValue(name, selectOption);
+            if (name === 'department') {
+              // setcareInstituionDept(selectOption, props.values);
+            }
+            if (name === 'shift') {
+              this.setState({
+                careInstituionShift: props.values,
+              });
+              // setcareInstituionShift(selectOption, props.values);
+            }
+          };
           return (
             <>
               <div className='form-section '>
@@ -681,7 +713,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                             <div className='d-flex align-items-center justify-content-between flex-wrap'>
                               <div className='required-input appointment-id-width'>
                                 <Input
-                                  // value={appointmentId}
+                                  value={appointmentId}
                                   disabled
                                   placeholder={languageTranslation(
                                     'APPOINTMENT_ID'
@@ -929,15 +961,18 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                               <Button
                                 className={
                                   qualificationId && qualificationId.length
-                                    ? "add-new-btn arrow-btn"
-                                    : "add-new-btn arrow-btn disabled-class"
+                                    ? 'add-new-btn arrow-btn'
+                                    : 'add-new-btn arrow-btn disabled-class'
                                 }
                                 color=''
-                                // onClick={() => {
-                                //   if (qualificationId && qualificationId.length) {
-                                //     handleQualification(qualificationId);
-                                //   }
-                                // }}
+                                onClick={() => {
+                                  if (
+                                    qualificationId &&
+                                    qualificationId.length
+                                  ) {
+                                    this.handleQualification(qualificationId);
+                                  }
+                                }}
                               >
                                 <i
                                   className='fa fa-arrow-up'
@@ -946,31 +981,31 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                               </Button>
 
                               <div
-                              className={`custom-select-checkbox select-right-bottom ${
-                                errors.qualificationId && touched.qualificationId
-                                  ? "error"
-                                  : " "
-                              }`}
+                                className={`custom-select-checkbox select-right-bottom ${
+                                  errors.qualificationId &&
+                                  touched.qualificationId
+                                    ? 'error'
+                                    : ' '
+                                }`}
                               >
                                 <ReactMultiSelectCheckboxes
-                                  // options={qualificationList}
+                                  options={qualificationList}
                                   placeholderButtonLabel={languageTranslation(
                                     'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                                   )}
                                   placeholder={languageTranslation(
                                     'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                                   )}
-                                  // placeholder="Select Qualifications"
-
-                                  // className={
-                                  //   errors.qualificationId && touched.qualificationId
-                                  //     ? "custom-reactselect error"
-                                  //     : "custom-reactselect"
-                                  // }
+                                  className={
+                                    errors.qualificationId &&
+                                    touched.qualificationId
+                                      ? 'custom-reactselect error'
+                                      : 'custom-reactselect'
+                                  }
                                   classNamePrefix='custom-inner-reactselect'
-                                  // onChange={(value: any) =>
-                                  //   handleSelect(value, "qualificationId")
-                                  // }
+                                  onChange={(value: any) =>
+                                    handleSelect(value, 'qualificationId')
+                                  }
                                   value={
                                     qualificationId && qualificationId.length
                                       ? qualificationId
@@ -1007,13 +1042,13 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 className={
                                   errors.qualificationForCharge &&
                                   touched.qualificationForCharge
-                                    ? "custom-reactselect error"
-                                    : "custom-reactselect"
+                                    ? 'custom-reactselect error'
+                                    : 'custom-reactselect'
                                 }
                                 classNamePrefix='custom-inner-reactselect'
-                                // onChange={(value: any) =>
-                                //   handleSelect(value, "qualificationForCharge")
-                                // }
+                                onChange={(value: any) =>
+                                  handleSelect(value, 'qualificationForCharge')
+                                }
                                 value={
                                   qualificationForCharge
                                     ? qualificationForCharge
@@ -1047,17 +1082,19 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 // }
                                 classNamePrefix='custom-inner-reactselect'
                                 // className={'custom-reactselect'}
-                                // className={
-                                //   errors.department && touched.department
-                                //     ? "custom-reactselect error"
-                                //     : "custom-reactselect"
-                                // }
-                                // onChange={(value: any) =>
-                                //   handleSelect(value, "department")
-                                // }
-                                // value={
-                                //   department && department.value ? department : null
-                                // }
+                                className={
+                                  errors.department && touched.department
+                                    ? 'custom-reactselect error'
+                                    : 'custom-reactselect'
+                                }
+                                onChange={(value: any) =>
+                                  handleSelect(value, 'department')
+                                }
+                                value={
+                                  department && department.value
+                                    ? department
+                                    : null
+                                }
                               />
                               {/* {errors.department && touched.department && (
                         <div className="required-tooltip">
@@ -1085,7 +1122,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 name={'address'}
                                 disabled={true}
                                 placeholder={languageTranslation('ADDRESS')}
-                                value={department ? address : ""}
+                                value={department ? address : ''}
                                 className='textarea-custom form-control'
                                 rows='2'
                               />
@@ -1112,7 +1149,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                   'CONTACT_PERSON'
                                 )}
                                 className='width-common'
-                                value={contactPerson ? contactPerson : ""}
+                                value={contactPerson ? contactPerson : ''}
                               />
                             </div>
                           </Col>
@@ -1137,7 +1174,9 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 name='departmentOfferRemarks'
                                 id='exampleText'
                                 value={
-                                  departmentOfferRemarks ? departmentOfferRemarks : ""
+                                  departmentOfferRemarks
+                                    ? departmentOfferRemarks
+                                    : ''
                                 }
                                 maxLength={255}
                               />
@@ -1168,7 +1207,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 value={
                                   departmentBookingRemarks
                                     ? departmentBookingRemarks
-                                    : ""
+                                    : ''
                                 }
                                 maxLength={255}
                               />
@@ -1228,7 +1267,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                       const {
                                         target: { checked },
                                       } = e;
-                                      setFieldValue("isWorkingProof", checked);
+                                      setFieldValue('isWorkingProof', checked);
                                     }}
                                   />
                                   <Label for='isWorkingProof'></Label>
@@ -1281,7 +1320,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 type='textarea'
                                 name='bookingRemarks'
                                 id='exampleText'
-                                value={bookingRemarks ? bookingRemarks : ""}
+                                value={bookingRemarks ? bookingRemarks : ''}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 maxLength={255}
@@ -1309,7 +1348,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 type='textarea'
                                 name='comments'
                                 id='exampleText'
-                                value={comments ? comments : ""}
+                                value={comments ? comments : ''}
                                 onChange={handleChange}
                                 maxLength={255}
                                 onBlur={handleBlur}

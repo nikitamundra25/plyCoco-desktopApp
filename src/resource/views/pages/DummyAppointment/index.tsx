@@ -307,7 +307,6 @@ const DummyAppointment: FunctionComponent = () => {
           let index: number = temp.findIndex(
             (caregiver: any) => caregiver.id === availability.userId
           );
-          console.log('selectedCaregiverCells', selectedCaregiverCells);
 
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
@@ -381,7 +380,6 @@ const DummyAppointment: FunctionComponent = () => {
   useEffect(() => {
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
     if (careGiversList && careGiversList.getUserByQualifications) {
-      console.log('careGiversListcareGiversList', careGiversList);
       const { getUserByQualifications } = careGiversList;
       const { result, totalCount } = getUserByQualifications;
       // setTotalCaregiver(totalCount);
@@ -391,10 +389,7 @@ const DummyAppointment: FunctionComponent = () => {
           user.availabilityData = [];
           user.attribute = [];
           if (user.caregiver_avabilities && user.caregiver_avabilities.length) {
-            console.log(
-              'user.caregiver_avabilities %%%%%%%%%%%%%%',
-              user.caregiver_avabilities
-            );
+        
             // Find maximum number of availability in any date
             let result: any = user.caregiver_avabilities.reduce(
               (acc: any, o: any) => (
@@ -406,7 +401,6 @@ const DummyAppointment: FunctionComponent = () => {
             );
             result = Object.values(result);
             result = Math.max(...result);
-            console.log('***************Result', result);
 
             for (let row = 0; row < result; row++) {
               user.availabilityData.push([]);
@@ -416,12 +410,7 @@ const DummyAppointment: FunctionComponent = () => {
                 (available: any) =>
                   moment(d.dateString).isSame(moment(available.date), 'day')
               );
-              console.log('recordsrecordsrecords', records);
-
-              console.log(
-                '***************user.availabilityData',
-                user.availabilityData
-              );
+    
               for (let i = 0; i < records.length; i++) {
                 // To update the status of selected cell accordingly
                 // if (
@@ -650,7 +639,6 @@ const DummyAppointment: FunctionComponent = () => {
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
         ? selectedCellsData[0]
         : {};
-    console.log('selectedCells in handleSelection', selectedCellsData);
 
     const checkCondition: boolean =
       item && item.appointments && item.appointments.length;
@@ -670,7 +658,6 @@ const DummyAppointment: FunctionComponent = () => {
             moment(appointment.date).format('DD.MM.YYYY')
           );
         });
-        console.log('appointIdappointIdappointId', appointId);
 
         if (
           careinstitutionList &&
@@ -864,44 +851,7 @@ const DummyAppointment: FunctionComponent = () => {
   const handleSaveBoth = () => {
     setsavingBoth(true);
   };
-  // Adding Row into table
-  const onAddingRow = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    name: string,
-    index: number
-  ) => {
-    e.preventDefault();
-    console.log('indexindex', index);
-
-    if (name === 'caregiver') {
-      let temp: any = [...caregiversList];
-      temp[index].availabilityData = temp[index].availabilityData
-        ? [...temp[index].availabilityData, []]
-        : [];
-      setcaregiversList(temp);
-    } else {
-      // To check row added on solo careinstitution or all
-      // if (
-      //   starCanstitution &&
-      //   secondStarCanstitution &&
-      //   (starCanstitution.isStar || secondStarCanstitution.isStar) &&
-      //   careInstituionDeptData &&
-      //   careInstituionDeptData.length
-      // ) {
-      //   let temp: any = [...careInstituionDeptData];
-      //   temp[index].availabilityData = temp[index].availabilityData
-      //     ? [...temp[index].availabilityData, []]
-      //     : [];
-      //   setcareInstituionDeptData(temp);
-      // } else {
-      let temp: any = [...careinstitutionList];
-      temp[index].availabilityData = temp[index].availabilityData
-        ? [...temp[index].availabilityData, []]
-        : [];
-      setcareinstitutionList(temp);
-      // }
-    }
-  };
+  
 
   // Delete caregiver or careinstitution data
   const onhandleDelete = async (name: string, id: string) => {
@@ -945,6 +895,7 @@ const DummyAppointment: FunctionComponent = () => {
 
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
+    
     if (!starCanstitution.isStar) {
       if (index < 0) {
         setfilterState({
@@ -955,12 +906,13 @@ const DummyAppointment: FunctionComponent = () => {
           },
         });
       }
-      setstarCanstitution({
-        isStar: true,
-        setIndex: index,
-        id: list ? list.id : '',
-      });
+          setstarCanstitution({
+            isStar: true,
+            setIndex: index,
+            id: list ? list.id : '',
+          });
     } else {
+      
       if (
         filterState.careinstitutionSoloFilter &&
         filterState.careinstitutionSoloFilter.value &&
@@ -1069,6 +1021,7 @@ const DummyAppointment: FunctionComponent = () => {
       // setFetchingDept(false);
     }
   }, [departmentList, starCanstitution.isStar, careinstitutionList]);
+
   // Options to show department data
   let careInstitutionDepartment: IReactSelectInterface[] = [];
   if (departmentList && departmentList.getDivision.length) {
@@ -1081,6 +1034,7 @@ const DummyAppointment: FunctionComponent = () => {
 
  //  handle second star of careinstitution and autoselect department
  const onhandleSecondStarCanstitution = (dept: any) => {
+   
   // To check whether first star is clicked or not
   if (!secondStarCanstitution.isStar && !starCanstitution.isStar) {
     handleFirstStarCanstitution({ id: dept ? dept.id : '' }, 1);
@@ -1108,8 +1062,6 @@ const onhandleCaregiverStar = async (
   isNotExistInList: boolean = false,
 ) => {
 
-console.log(starCaregiver,"starCaregiverIndexxxx",(!starCaregiver.isStar || isSecondStar))
-
     if (starCaregiver && (!starCaregiver.isStar || isSecondStar)) {
       // if (isNotExistInList) {
       setfilterState({
@@ -1121,7 +1073,6 @@ console.log(starCaregiver,"starCaregiverIndexxxx",(!starCaregiver.isStar || isSe
       });
       // }
       // setstarMarkCaregiver(!starMarkCaregiver);
-      console.log('Insideee 111');
       setstarCaregiver({
         isStar: true,
         id: id,
@@ -1129,7 +1080,6 @@ console.log(starCaregiver,"starCaregiverIndexxxx",(!starCaregiver.isStar || isSe
       });
       // handleSecondStar(list, name);
     } else {
-      console.log('Insideee 22222');
 
       if (
         filterState.caregiverSoloFilter &&
@@ -1214,7 +1164,6 @@ console.log(starCaregiver,"starCaregiverIndexxxx",(!starCaregiver.isStar || isSe
                       <div className='custom-appointment-calendar overflow-hidden'>
                         <CareInstitutionList
                           careinstitutionData={careinstitutionList}
-                          onAddingRow={onAddingRow}
                           fetchMoreData={fetchMoreData}
                           setDaysData={setDaysData}
                           daysData={daysData}
@@ -1236,6 +1185,8 @@ console.log(starCaregiver,"starCaregiverIndexxxx",(!starCaregiver.isStar || isSe
                           onhandleSecondStarCanstitution={
                             onhandleSecondStarCanstitution
                           }
+                          setcareInstituionDeptData={setcareInstituionDeptData}
+                          setcareinstitutionList={(data: any) =>setcareinstitutionList(data)}
                         />
                       </div>
                     ) : (

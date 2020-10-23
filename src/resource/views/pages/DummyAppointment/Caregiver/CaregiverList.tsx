@@ -240,7 +240,6 @@ class CaregiverList extends React.PureComponent<any, any> {
   handleEndReached = (args: any) => {
     // action('onEndReached')(args)
     const { loading, loadingMore, loadedAll } = this.state;
-    // console.log("loadingloading", loading,"hhh");
 
     // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
@@ -261,8 +260,6 @@ class CaregiverList extends React.PureComponent<any, any> {
           ? [...temp[index].availabilityData, []]
           : [];
       }
-      console.log("temptemp", temp);
-
       setcaregiversList(temp);
     }
   };
@@ -276,7 +273,6 @@ class CaregiverList extends React.PureComponent<any, any> {
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
-    console.log("starCaregiverstarCaregiver",starCaregiver);
     
     return (
       <>
@@ -365,15 +361,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                     let uIndex: number = result.findIndex(
                       (item: any) => item.id === list.id
                     );
-                    console.log("insideeeeeee",starCaregiver);
-
-                    console.log("starCaregiver.id === list.id",starCaregiver &&
-                    starCaregiver.isStar);
-                    
-                    console.log("listlist",starCaregiver &&
-                    starCaregiver.isStar &&
-                    starCaregiver.id === list.id);
-                    
+            
                     switch (d) {
                       case "caregiver":
                         return (

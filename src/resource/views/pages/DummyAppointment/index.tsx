@@ -116,16 +116,16 @@ const DummyAppointment: FunctionComponent = () => {
   const [qualification, setqualification] = useState<any>([]);
   const [caregiversList, setcaregiversList] = useState<any[]>([]);
   const [multipleRequirement, setMultipleRequirement] = useState<boolean>(
-    false,
+    false
   );
   //Stores careinstitution list data fetched form backend
   const [careinstitutionList, setcareinstitutionList] = useState<Object[]>([]);
-  const [timeSlotError, setTimeSlotError] = useState<string>("");
+  const [timeSlotError, setTimeSlotError] = useState<string>('');
   // maintain solo careinstitution
   const [starCanstitution, setstarCanstitution] = useState<IStarInterface>({
     isStar: false,
     setIndex: -1,
-    id: "",
+    id: '',
   });
   // To manage solo department of careinstitution
   const [secondStarCanstitution, setsecondStarCanstitution] = useState<
@@ -133,15 +133,15 @@ const DummyAppointment: FunctionComponent = () => {
   >({
     isStar: false,
     setIndex: -1,
-    id: "",
+    id: '',
   });
   const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
- // maintain solo caregiver
- const [starCaregiver, setstarCaregiver] = useState<IStarInterface>({
-  isStar: false,
-  id: '',
-  isSecondStar: false,
-});
+  // maintain solo caregiver
+  const [starCaregiver, setstarCaregiver] = useState<IStarInterface>({
+    isStar: false,
+    id: '',
+    isSecondStar: false,
+  });
   // To fetch caregivers by id filter
   const [
     fetchCaregiverList,
@@ -369,7 +369,7 @@ const DummyAppointment: FunctionComponent = () => {
     fetchCaregiverLastTimeData,
     { data: caregiverLastTimeData },
   ] = useLazyQuery<any, any>(GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID, {
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
@@ -645,8 +645,8 @@ const DummyAppointment: FunctionComponent = () => {
   }, [filterState]);
 
   const handleSelection = async (selectedCellsData: any, name: string) => {
-    setTimeSlotError("");
-    const { item = {}, dept = {}, id = "", dateString = "" } =
+    setTimeSlotError('');
+    const { item = {}, dept = {}, id = '', dateString = '' } =
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
         ? selectedCellsData[0]
         : {};
@@ -662,12 +662,12 @@ const DummyAppointment: FunctionComponent = () => {
           : {}
       )
       .filter(Boolean);
-    if (name === "caregiver") {
+    if (name === 'caregiver') {
       if (checkCondition) {
         let appointId: any = item.appointments.filter((appointment: any) => {
           return (
-            moment(selectedCellsData[0].dateString).format("DD.MM.YYYY") ===
-            moment(appointment.date).format("DD.MM.YYYY")
+            moment(selectedCellsData[0].dateString).format('DD.MM.YYYY') ===
+            moment(appointment.date).format('DD.MM.YYYY')
           );
         });
         console.log('appointIdappointIdappointId', appointId);
@@ -680,7 +680,7 @@ const DummyAppointment: FunctionComponent = () => {
           selectedCellsData.length
         ) {
           await getCorrespondingconnectedcell(
-            "careinstitution",
+            'careinstitution',
             careinstitutionList,
             appointmentsData
           );
@@ -698,7 +698,7 @@ const DummyAppointment: FunctionComponent = () => {
           selectedCellsData.length
         ) {
           await getCorrespondingconnectedcell(
-            "caregiver",
+            'caregiver',
             caregiversList,
             appointmentsData
           );
@@ -794,10 +794,10 @@ const DummyAppointment: FunctionComponent = () => {
       fetchAppointmentFilterById({
         variables: {
           id:
-            name === "careinstitution"
+            name === 'careinstitution'
               ? parseInt(appointmentsData[0].avabilityId)
               : parseInt(appointmentsData[0].requirementId),
-          searchIn: name === "careinstitution" ? "avability" : "requirement",
+          searchIn: name === 'careinstitution' ? 'avability' : 'requirement',
         },
       });
     }
@@ -950,15 +950,15 @@ const DummyAppointment: FunctionComponent = () => {
         setfilterState({
           ...filterState,
           careinstitutionSoloFilter: {
-            label: list ? list.id : "",
-            value: list ? list.id : "",
+            label: list ? list.id : '',
+            value: list ? list.id : '',
           },
         });
       }
       setstarCanstitution({
         isStar: true,
         setIndex: index,
-        id: list ? list.id : "",
+        id: list ? list.id : '',
       });
     } else {
       if (
@@ -976,12 +976,12 @@ const DummyAppointment: FunctionComponent = () => {
       setstarCanstitution({
         isStar: false,
         setIndex: -1,
-        id: "",
+        id: '',
       });
       setsecondStarCanstitution({
         isStar: false,
         setIndex: -1,
-        id: "",
+        id: '',
       });
       setcareInstituionDeptData([]);
     }
@@ -1079,40 +1079,38 @@ const DummyAppointment: FunctionComponent = () => {
     }));
   }
 
- //  handle second star of careinstitution and autoselect department
- const onhandleSecondStarCanstitution = (dept: any) => {
-  // To check whether first star is clicked or not
-  if (!secondStarCanstitution.isStar && !starCanstitution.isStar) {
-    handleFirstStarCanstitution({ id: dept ? dept.id : '' }, 1);
-  } else {
-    setsecondStarCanstitution({
-      isStar: !secondStarCanstitution.isStar,
-      setIndex: -1,
-      id: dept && dept.id ? dept.id : '',
-    });
-    let data: any = [];
-    data.push(dept);
-    // setcareInstituionDeptData(data);
-    // setcareInstituionDept({
-    //   label: dept.name,
-    //   value: dept.id,
-    // });
-  }
-};
+  //  handle second star of careinstitution and autoselect department
+  const onhandleSecondStarCanstitution = (dept: any) => {
+    // To check whether first star is clicked or not
+    if (!secondStarCanstitution.isStar && !starCanstitution.isStar) {
+      handleFirstStarCanstitution({ id: dept ? dept.id : '' }, 1);
+    } else {
+      setsecondStarCanstitution({
+        isStar: !secondStarCanstitution.isStar,
+        setIndex: -1,
+        id: dept && dept.id ? dept.id : '',
+      });
+      let data: any = [];
+      data.push(dept);
+      // setcareInstituionDeptData(data);
+      // setcareInstituionDept({
+      //   label: dept.name,
+      //   value: dept.id,
+      // });
+    }
+  };
 
-//  Manage star functionality for caregiver
-const onhandleCaregiverStar = async (
-  id: string,
-  isSecondStar: boolean,
-  name: string
-  // isNotExistInList: boolean = false,
-) => {
+  //  Manage star functionality for caregiver
+  const onhandleCaregiverStar = async (
+    id: string,
+    isSecondStar: boolean,
+    name: string
+    // isNotExistInList: boolean = false,
+  ) => {
+    console.log('starCaregiver', name);
 
-console.log("starCaregiver",name)
-
-  if (starCaregiver && (!starCaregiver.isStar || isSecondStar)) {
-    
-    // if (isNotExistInList) {
+    if (starCaregiver && (!starCaregiver.isStar || isSecondStar)) {
+      // if (isNotExistInList) {
       setfilterState({
         ...filterState,
         caregiverSoloFilter: {
@@ -1122,35 +1120,35 @@ console.log("starCaregiver",name)
       });
       // }
       // setstarMarkCaregiver(!starMarkCaregiver);
-      console.log("Insideee 111");
-    setstarCaregiver({
-      isStar: true,
-      id: id,
-      isSecondStar,
-    });
-    // handleSecondStar(list, name);
-  } else {
-    console.log("Insideee 22222");
+      console.log('Insideee 111');
+      setstarCaregiver({
+        isStar: true,
+        id: id,
+        isSecondStar,
+      });
+      // handleSecondStar(list, name);
+    } else {
+      console.log('Insideee 22222');
 
-    if (
-      filterState.caregiverSoloFilter &&
-      filterState.caregiverSoloFilter.value &&
-      caregiversList &&
-      caregiversList.length === 1
-    ) {
-      await setfilterState({
-        ...filterState,
-        caregiverSoloFilter: undefined,
-      }); 
-      fetchCareGiversList(1);
+      if (
+        filterState.caregiverSoloFilter &&
+        filterState.caregiverSoloFilter.value &&
+        caregiversList &&
+        caregiversList.length === 1
+      ) {
+        await setfilterState({
+          ...filterState,
+          caregiverSoloFilter: undefined,
+        });
+        fetchCareGiversList(1);
+      }
+      setstarCaregiver({
+        isStar: false,
+        id: '',
+        isSecondStar,
+      });
     }
-    setstarCaregiver({
-      isStar: false,
-      id: '',
-      isSecondStar,
-    });
-  }
-};
+  };
   return (
     <div className='common-detail-page'>
       <div className='common-detail-section'>
@@ -1182,7 +1180,7 @@ console.log("starCaregiver",name)
                     //   "Loading..."
                     // ) :
                     caregiversList && caregiversList.length ? (
-                      <div className="custom-appointment-calendar overflow-hidden">
+                      <div className='custom-appointment-calendar overflow-hidden'>
                         <CaregiverList
                           caregiverData={caregiversList}
                           setcaregiversList={(data: any) =>
@@ -1212,7 +1210,7 @@ console.log("starCaregiver",name)
                     //   "Loading..."
                     // ) :
                     careinstitutionList && careinstitutionList.length ? (
-                      <div className="custom-appointment-calendar overflow-hidden">
+                      <div className='custom-appointment-calendar overflow-hidden'>
                         <CareInstitutionList
                           careinstitutionData={careinstitutionList}
                           onAddingRow={onAddingRow}
@@ -1250,7 +1248,7 @@ console.log("starCaregiver",name)
                 className='appointment-page-form-section'
                 id='appointment_form_section'
               >
-                <Row className="row-appointment">
+                <Row className='row-appointment'>
                   <Col
                     lg={'6'}
                     className='pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'
@@ -1276,12 +1274,14 @@ console.log("starCaregiver",name)
                       setTimeSlotError={setTimeSlotError}
                       setsavingBoth={setsavingBoth}
                       fetchCaregiverLastTimeData={fetchCaregiverLastTimeData}
-                      addCaregiverLoading={addCaregiverLoading}
+                      addCaregiverLoading={
+                        addCaregiverLoading || updateCaregiverLoading
+                      }
                       onhandleDelete={onhandleDelete}
                       setqualification={setqualification}
                     />
                   </Col>
-                  <Col lg={"6"} className="pl-lg-0">
+                  <Col lg={'6'} className='pl-lg-0'>
                     <CareinstitutionFormView
                       selectedCellsCareinstitution={
                         selectedCellsCareinstitution
@@ -1298,15 +1298,15 @@ console.log("starCaregiver",name)
                   <Col lg={'12'}>
                     <div className='d-flex align-items-center justify-content-center'>
                       <Button
-                        className="btn-common  mt-0 mb-2 mx-2"
-                        color="primary"
+                        className='btn-common  mt-0 mb-2 mx-2'
+                        color='primary'
                       >
                         <i className='fa fa-save mr-2' />
                         {languageTranslation('SAVE_BOTH')}
                       </Button>
                       <Button
-                        className="btn-common mt-0 mb-2 mx-2"
-                        color="secondary"
+                        className='btn-common mt-0 mb-2 mx-2'
+                        color='secondary'
                       ></Button>
                     </div>
                   </Col>

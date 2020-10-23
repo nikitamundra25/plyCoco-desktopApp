@@ -232,9 +232,11 @@ class CaregiverList extends React.PureComponent<any, any> {
     const { caregiverData, setcaregiversList } = this.props;
     if (name === "caregiver") {
       let temp: any = [...caregiverData];
-      temp[index].availabilityData = temp[index].availabilityData
-        ? [...temp[index].availabilityData, []]
-        : [];
+      if(temp[index]) {
+        temp[index].availabilityData = temp[index].availabilityData
+          ? [...temp[index].availabilityData, []]
+          : [];
+      }
       console.log("temptemp", temp);
 
       setcaregiversList(temp);

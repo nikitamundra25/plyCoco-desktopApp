@@ -279,7 +279,7 @@ const Appointment: FunctionComponent = (props: any) => {
         setSelectedCells(selectedCaregiverCells);
       }
       // setPage(1);
-      // fetchingCareGiverData();
+      fetchingCareGiverData();
       toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -339,7 +339,7 @@ const Appointment: FunctionComponent = (props: any) => {
         setSelectedCells(selectedCaregiverCells);
       }
       // setPage(1);
-      // fetchingCareGiverData();
+      fetchingCareGiverData();
     },
   });
 
@@ -369,7 +369,7 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       });
       // setPage(1);
-      // fetchingCareGiverData();
+      fetchingCareGiverData();
       setselctedAvailability({});
       setSelectedCells([]);
     },

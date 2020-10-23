@@ -991,13 +991,8 @@ const DummyAppointment: FunctionComponent = () => {
 
   // handle first star of careinstitution and show department list
   const handleFirstStarCanstitution = async (list: any, index: number) => {
-    console.log("Insideee",!starCanstitution.isStar);
-    
     if (!starCanstitution.isStar) {
-      console.log("Insiddeeee",index);
-      
       if (index < 0) {
-        
         setfilterState({
           ...filterState,
           careinstitutionSoloFilter: {
@@ -1006,7 +1001,6 @@ const DummyAppointment: FunctionComponent = () => {
           }
         })
       }
-      console.log("listlistlist",list);
       setstarCanstitution({
         isStar: true,
         setIndex: index,
@@ -1126,14 +1120,9 @@ const DummyAppointment: FunctionComponent = () => {
  //  handle second star of careinstitution and autoselect department
  const onhandleSecondStarCanstitution = (dept: any) => {
   // To check whether first star is clicked or not
-  console.log("PPPPPPPPPPPPPPPPPP",secondStarCanstitution);
   if (!secondStarCanstitution.isStar && !starCanstitution.isStar) {
-    console.log("hereeeee");
-    
     handleFirstStarCanstitution({ id: dept ? dept.id : '' }, 1);
   } else {
-    console.log("222222222222");
-    
     setsecondStarCanstitution({
       isStar: !secondStarCanstitution.isStar,
       setIndex: -1,

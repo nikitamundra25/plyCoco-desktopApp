@@ -519,6 +519,7 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                             item={currentAvail || {}}
                             isWeekend={d.isWeekend}
                             list={rowData}
+                            day={d}
                           />
                         );
                     }

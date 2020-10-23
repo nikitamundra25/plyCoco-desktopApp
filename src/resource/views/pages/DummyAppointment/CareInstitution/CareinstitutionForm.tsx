@@ -501,17 +501,15 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
     setqualification(selectedOption);
   };
   render() {
-    const { startTime, endTime } = this.state;
-    let d = moment().format('L');
-    let dtStart: any = new Date(d + ' ' + startTime);
-    let dtEnd: any = new Date(d + ' ' + endTime);
-    let difference = dtEnd - dtStart;
     const {
       selectedCells,
       multipleAvailability,
       selectedCellsCareinstitution,
       careInstitutionDepartment,
       qualificationList,
+      selctedRequirement,
+      multipleRequirement,
+      careInstitutionTimesOptions,
     } = this.props;
     // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
     let {
@@ -615,10 +613,71 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       updatedAt: Item && Item.updatedAt ? Item.updatedAt : '',
     };
     // const qualificationError: any = errors.qualificationId;
-    // const shiftOptions =
-    //   careInstitutionTimesOptions && careInstitutionTimesOptions.length
-    //     ? careInstitutionTimesOptions
-    //     : ShiftTime;
+    const shiftOptions =
+      careInstitutionTimesOptions && careInstitutionTimesOptions.length
+        ? careInstitutionTimesOptions
+        : ShiftTime;
+
+    let dateCondition: any;
+    let dateData: any;
+    console.log('careInstitutiondateString',careInstitutiondateString);
+    
+    let activeDateCareinstitution: any = !multipleRequirement
+      ? [careInstitutiondateString]
+      : selectedCellsCareinstitution
+      ? selectedCellsCareinstitution.map((cell: any) => cell.dateString)
+      : [];
+    if (
+      activeDateCareinstitution &&
+      activeDateCareinstitution.length &&
+      activeDateCareinstitution[0]
+    ) {
+      dateData = activeDateCareinstitution[0];
+      let now = moment().format(dbAcceptableFormat);
+      let input = moment(activeDateCareinstitution[0]).format(
+        dbAcceptableFormat
+      );
+      dateCondition = now <= input;
+    }
+    let isFutureDate: boolean = false;
+    if (dateData) {
+      let dateStr = moment(dateData).add(1, 'days').format('YYYY/MM/DD');
+      isFutureDate = moment(dateStr, 'YYYY/MM/DD').isAfter();
+    }
+    let isRequirment: boolean = false,
+      isMatching: boolean = false,
+      isContract: boolean = false,
+      isConfirm: boolean = false,
+      isOffered: boolean = false,
+      isOfferedFutureDate: boolean = false;
+    if (Item || status) {
+      if ((Item && Item.status === 'default') || status === 'default') {
+        isRequirment = true;
+      } else if ((Item && Item.status === 'linked') || status === 'linked') {
+        isMatching = true;
+      } else if (
+        (Item && Item.status === 'contract') ||
+        status === 'contract'
+      ) {
+        isContract = true;
+      } else if (
+        (Item && Item.status === 'confirmed') ||
+        status === 'confirmed'
+      ) {
+        isConfirm = true;
+      } else if (
+        (Item && Item.status === 'offered' && isFutureDate === false) ||
+        (status === 'offered' && isFutureDate === false)
+      ) {
+        isOffered = true;
+      } else if (
+        (Item && Item.status === 'offered' && isFutureDate === true) ||
+        (status === 'offered' && isFutureDate === true)
+      ) {
+        isOfferedFutureDate = true;
+      }
+    }
+
     return (
       <Formik
         initialValues={valuesForCareIntituionForm}
@@ -658,9 +717,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
             handleSubmit,
             setFieldValue,
           } = props;
-          {
-            console.log('valuessssssssssssssss', values);
-          }
+          let d = moment().format('L');
+          let dtStart: any = new Date(d + ' ' + startTime);
+          let dtEnd: any = new Date(d + ' ' + endTime);
+          let difference = dtEnd - dtStart;
+
           // // Custom function to handle react select fields
           const handleSelect = (
             selectOption: IReactSelectInterface,
@@ -682,14 +743,14 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
               <div className='form-section '>
                 {/* {idSearchAppointmentLoading ?  <Loader/> :  */}
                 <div
-                // className={classnames({
-                //   "form-card custom-height custom-scrollbar": true,
-                //   "requirement-bg": isRequirment,
-                //   "matching-bg": isMatching,
-                //   "contract-bg": isConfirm,
-                //   "availability-bg": isOffered,
-                //   "availability-dark-bg": isOfferedFutureDate,
-                // })}
+                  className={classnames({
+                    'form-card custom-height custom-scrollbar': true,
+                    'requirement-bg': isRequirment,
+                    'matching-bg': isMatching,
+                    'contract-bg': isConfirm,
+                    'availability-bg': isOffered,
+                    'availability-dark-bg': isOfferedFutureDate,
+                  })}
                 >
                   <h5 className='content-title'>
                     {languageTranslation('MENU_INSTITUTION')}
@@ -870,28 +931,28 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                     aria-hidden='true'
                                   />
                                 </DropdownToggle>
-                                {/* <DropdownMenu>
-                          {shiftOptions && shiftOptions.length
-                            ? shiftOptions.map(
-                                (
-                                  option: IReactSelectInterface,
-                                  index: number
-                                ) => {
-                                  return (
-                                    <DropdownItem
-                                      key={index}
-                                      value={option.value}
-                                      onClick={(e: any) =>
-                                        handleSelect(option, "shift")
-                                      }
-                                    >
-                                      {option.label}
-                                    </DropdownItem>
-                                  );
-                                }
-                              )
-                            : ""}
-                        </DropdownMenu> */}
+                                <DropdownMenu>
+                                  {shiftOptions && shiftOptions.length
+                                    ? shiftOptions.map(
+                                        (
+                                          option: IReactSelectInterface,
+                                          index: number
+                                        ) => {
+                                          return (
+                                            <DropdownItem
+                                              key={index}
+                                              value={option.value}
+                                              onClick={(e: any) =>
+                                                handleSelect(option, 'shift')
+                                              }
+                                            >
+                                              {option.label}
+                                            </DropdownItem>
+                                          );
+                                        }
+                                      )
+                                    : ''}
+                                </DropdownMenu>
                               </UncontrolledDropdown>
                             </div>
                           </Col>
@@ -1035,7 +1096,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                           <Col sm='8'>
                             <div className='postion-relative'>
                               <Select
-                                // options={qualificationList}
+                                options={qualificationList}
                                 placeholder={languageTranslation(
                                   'QUALIFICATION_FOR_CHARGE'
                                 )}
@@ -1076,12 +1137,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 placeholder={languageTranslation(
                                   'SELECT_DEPARTMENT'
                                 )}
-                                // options={careInstitutionDepartment}
+                                options={careInstitutionDepartment}
                                 // isDisabled={
                                 //   careInstitutionDepartment.length <= 0 ? true : false
                                 // }
                                 classNamePrefix='custom-inner-reactselect'
-                                // className={'custom-reactselect'}
                                 className={
                                   errors.department && touched.department
                                     ? 'custom-reactselect error'

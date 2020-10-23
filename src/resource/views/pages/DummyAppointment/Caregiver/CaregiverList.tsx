@@ -21,7 +21,9 @@ const staticHeader = ["caregiver", "H", "S", "U", "V"];
 
 export const SelectableCell = React.memo(
   createSelectable(
-    ({ selectableRef, isSelecting, isSelected, isWeekend, item }: any) => {
+    ({ selectableRef, isSelecting, isSelected, isWeekend, item, cellIndex }: any) => {
+
+
       let isMatching: boolean = false,
         isConfirm: boolean = false,
         isContractCancel: boolean = false,
@@ -48,6 +50,15 @@ export const SelectableCell = React.memo(
         isTimeSheetPending = true;
       }
 
+      let isBlocked: boolean = false;
+      if (item) {
+        isBlocked = item.f === "block" || item.s === "block" || item.n === "block";
+      }
+
+      let caregiverCell: any =
+      item && item.appointments && item.appointments[0]
+        ? item.appointments[0].id
+        : "";
       // Date condition to not display fsn if date is before today
       let isBeforedate = false;
       if (item && item.date) {
@@ -61,6 +72,16 @@ export const SelectableCell = React.memo(
               "text-center": true,
               "custom-appointment-col": true,
               "cursor-pointer": true,
+            //   "selecting-cell-bg": !isSelected
+            // ? isSelecting ||
+            //   selectedcareGiverIndexes.includes(cellIndex) ||
+            //   (selectedcareGiverApptId.length &&
+            //     selectedcareInstApptId.length &&
+            //     JSON.stringify(selectedcareGiverApptId) ===
+            //       JSON.stringify(selectedcareInstApptId) &&
+            //     selectedcareGiverApptId.includes(caregiverCell))
+            // : // (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
+            //   true,
               "selecting-cell-bg": isSelecting || isSelected,
               weekend: isWeekend,
               "contact-initiate-bg":
@@ -70,13 +91,17 @@ export const SelectableCell = React.memo(
 
               "invoice-bg":
                 isInvoiceInitiated && !isSelected ? isInvoiceInitiated : false,
-
-              "cancel-contract-bg":
+                "cancel-contract-bg":
                 isContractCancel && !isSelected ? isContractCancel : false,
+                "block-bg": item ? (isBlocked ? true : false) : false,
               "matching-bg": isMatching && !isSelected ? isMatching : false,
               "confirmation-bg":
                 isTimeSheetPending && !isSelected ? isTimeSheetPending : false,
               "contract-bg": isConfirm && !isSelected ? isConfirm : false,
+              "accepted-bg":
+            isSingleButtonAccepted && !isSelected
+              ? isSingleButtonAccepted
+              : false,
               "availability-dark-bg": !isSelected
                 ? item
                   ? item.f === "available" ||
@@ -203,7 +228,6 @@ class CaregiverList extends React.PureComponent<any, any> {
           cellIndex,
         };
       });
-      
       handleSelection(selectedRows, "caregiver");
     }
   };
@@ -335,6 +359,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                     let list = rowData;
                     let item = list.new;
                     let row = list.row;
+                    let cellIndex = `${list.id}-${rowIndex}-${row}-${rowData}`;
                     let uIndex: number = result.findIndex(
                       (item: any) => item.id === list.id
                     );
@@ -450,6 +475,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                             isWeekend={d.isWeekend}
                             list={rowData}
                             day={d}
+                            cellIndex={`${cellIndex}-${index}`}
                           />
                         );
                     }

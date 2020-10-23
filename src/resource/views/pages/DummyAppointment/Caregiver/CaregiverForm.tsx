@@ -401,7 +401,6 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       selectedCells,
       selectedCellsCareinstitution,
       multipleAvailability,
-      activeDateCaregiver,
       timeSlotError,
       addCaregiverLoading,
       onhandleDelete,
@@ -435,6 +434,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       selectedCells[0]
         ? selectedCells[0]
         : {};
+    console.log('item*************', item);
 
     const {
       id: Id = '',
@@ -627,6 +627,15 @@ class CaregiverFormView extends React.PureComponent<any, any> {
         ? true
         : false;
     }
+    let activeDateCaregiver = !multipleAvailability
+      ? [dateString]
+      : selectedCells
+      ? selectedCells.map((cell: any) => cell.dateString)
+      : [];
+    console.log('multipleAvailability', multipleAvailability);
+
+    console.log('dateString', dateString);
+    console.log('selectedCells', selectedCells);
 
     let dateCondition: any;
     if (
@@ -665,19 +674,13 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       if (
         (item &&
           item.status === 'default' &&
-          (item.f !== 'block' ||
-            item.s !== 'block' ||
-            item.n !== 'block')) ||
+          (item.f !== 'block' || item.s !== 'block' || item.n !== 'block')) ||
         (status === 'default' &&
           item &&
-          (item.f !== 'block' ||
-            item.s !== 'block' ||
-            item.n !== 'block'))
+          (item.f !== 'block' || item.s !== 'block' || item.n !== 'block'))
       ) {
         if (
-          (item &&
-            item.status === 'default' &&
-            isBeforedate) ||
+          (item && item.status === 'default' && isBeforedate) ||
           (status === 'default' && isBeforedate)
         ) {
           isAvailability = false;
@@ -686,10 +689,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
           isAvailability = true;
           isBeforeDate = false;
         }
-      } else if (
-        (item && item.status === 'linked') ||
-        status === 'linked'
-      ) {
+      } else if ((item && item.status === 'linked') || status === 'linked') {
         isMatching = true;
       } else if (
         (item && item.status === 'contract') ||
@@ -702,8 +702,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       ) {
         isConfirm = true;
       } else if (
-        (item &&
-          item.status === 'contractCancelled') ||
+        (item && item.status === 'contractCancelled') ||
         status === 'contractCancelled'
       ) {
         isContractCancel = true;
@@ -713,14 +712,12 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       ) {
         isSingleButtonAccepted = true;
       } else if (
-        (item &&
-          item.status === 'contractInitiated') ||
+        (item && item.status === 'contractInitiated') ||
         status === 'contractInitiated'
       ) {
         isContractInitiated = true;
       } else if (
-        (item &&
-          item.status === 'invoiceInitiated') ||
+        (item && item.status === 'invoiceInitiated') ||
         status === 'invoiceInitiated'
       ) {
         isInvoiceInitiated = true;
@@ -795,6 +792,7 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                 : null;
             setFieldValue('travelAllowance', total);
           };
+          console.log('activeDateCaregiver', activeDateCaregiver);
           return (
             <Form>
               <div className='form-section'>
@@ -815,6 +813,8 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                   <h5 className='content-title'>
                     {languageTranslation('MENU_CAREGIVER')}
                   </h5>
+                  {console.log('activeDateCaregiver', activeDateCaregiver)}
+
                   {/* {idSearchAppointmentLoading && !isCorrespondingAppointment ? (
             <div className='appointment-form-loader'>
               <Loader />

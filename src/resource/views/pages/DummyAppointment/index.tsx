@@ -128,7 +128,12 @@ const DummyAppointment: FunctionComponent = () => {
     id: "",
   });
   const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>([]);
-
+ // maintain solo caregiver
+ const [starCaregiver, setstarCaregiver] = useState<IStarInterface>({
+  isStar: false,
+  id: '',
+  isSecondStar: false,
+});
   // To fetch caregivers by id filter
   const [
     fetchCaregiverList,
@@ -1065,6 +1070,57 @@ const DummyAppointment: FunctionComponent = () => {
   }
 };
 
+//  Manage star functionality for caregiver
+const onhandleCaregiverStar = async (
+  id: string,
+  isSecondStar: boolean,
+  name: string
+  // isNotExistInList: boolean = false,
+) => {
+
+console.log("starCaregiver",name)
+
+  if (starCaregiver && (!starCaregiver.isStar || isSecondStar)) {
+    
+    // if (isNotExistInList) {
+      setfilterState({
+        ...filterState,
+        caregiverSoloFilter: {
+          label: name,
+          value: id,
+        },
+      });
+      // }
+      // setstarMarkCaregiver(!starMarkCaregiver);
+      console.log("Insideee 111");
+    setstarCaregiver({
+      isStar: true,
+      id: id,
+      isSecondStar,
+    });
+    // handleSecondStar(list, name);
+  } else {
+    console.log("Insideee 22222");
+
+    if (
+      filterState.caregiverSoloFilter &&
+      filterState.caregiverSoloFilter.value &&
+      caregiversList &&
+      caregiversList.length === 1
+    ) {
+      await setfilterState({
+        ...filterState,
+        caregiverSoloFilter: undefined,
+      }); 
+      fetchCareGiversList(1);
+    }
+    setstarCaregiver({
+      isStar: false,
+      id: '',
+      isSecondStar,
+    });
+  }
+};
   return (
     <div className="common-detail-page">
       <div className="common-detail-section">
@@ -1113,6 +1169,8 @@ const DummyAppointment: FunctionComponent = () => {
                               : 0
                           }
                           handleSelection={handleSelection}
+                          onhandleCaregiverStar={onhandleCaregiverStar}
+                          starCaregiver={starCaregiver}
                         />
                       </div>
                     ) : (

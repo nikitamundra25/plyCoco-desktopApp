@@ -181,6 +181,7 @@ class CaregiverList extends React.PureComponent<any, any> {
     if (selectedCellsData && selectedCellsData.length) {
       selectedRows = selectedCellsData.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
+        
         const { item, list: caregiverData, cellIndex, day } = cellProps;
         const {
           id = "",
@@ -202,6 +203,7 @@ class CaregiverList extends React.PureComponent<any, any> {
           cellIndex,
         };
       });
+      
       handleSelection(selectedRows, "caregiver");
     }
   };
@@ -240,9 +242,16 @@ class CaregiverList extends React.PureComponent<any, any> {
   };
 
   render() {
-    const { caregiverData: result, daysData } = this.props;
+    const {
+      caregiverData: result,
+      daysData,
+      onhandleCaregiverStar,
+      starCaregiver,
+    } = this.props;
     const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
+    console.log("starCaregiverstarCaregiver",starCaregiver);
+    
     return (
       <>
         <div
@@ -329,6 +338,15 @@ class CaregiverList extends React.PureComponent<any, any> {
                     let uIndex: number = result.findIndex(
                       (item: any) => item.id === list.id
                     );
+                    console.log("insideeeeeee",starCaregiver);
+
+                    console.log("starCaregiver.id === list.id",starCaregiver &&
+                    starCaregiver.isStar);
+                    
+                    console.log("listlist",starCaregiver &&
+                    starCaregiver.isStar &&
+                    starCaregiver.id === list.id);
+                    
                     switch (d) {
                       case "caregiver":
                         return (
@@ -369,27 +387,40 @@ class CaregiverList extends React.PureComponent<any, any> {
                       case "H":
                         return <span>H</span>;
                       case "S":
-                        return <span className="">S</span>;
+                        return (
+                          <span
+                            className="custom-appointment-col s-col text-center"
+                            onClick={() =>
+                              onhandleCaregiverStar(list.id, false, `${list.firstName + list.lastName}`)
+                            }
+                          >
+                            {starCaregiver &&
+                            starCaregiver.isStar &&
+                            starCaregiver.id == list.id ? (
+                              <i className="fa fa-star theme-text" />
+                            ) : (
+                              <i className="fa fa-star-o" />
+                            )}
+                          </span>
+                        );
                       case "U":
                         return (
                           <span
                             className="custom-appointment-col u-col text-center"
-                            // onClick={() =>
-                            //   onhandleCaregiverStar(
-                            //     list.id,
-                            //     starCaregiver &&
-                            //       !starCaregiver.isSecondStar,
-                            //   )
-                            // }
+                            onClick={() =>
+                              onhandleCaregiverStar(
+                                list.id,
+                                starCaregiver && !starCaregiver.isSecondStar
+                              )
+                            }
                           >
-                            {/* {starCaregiver &&
-                      starCaregiver.isSecondStar &&
-                      starCaregiver.id === list.id ? (
-                        <i className='fa fa-star theme-text' />
-                      ) : (
-                        <i className='fa fa-star-o' />
-                        )} */}
-                            <i className="fa fa-star-o" />
+                            {starCaregiver &&
+                            starCaregiver.isSecondStar &&
+                            starCaregiver.id === list.id ? (
+                              <i className="fa fa-star theme-text" />
+                            ) : (
+                              <i className="fa fa-star-o" />
+                            )}
                           </span>
                         );
                       case "V":
@@ -418,6 +449,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                             item={currentAvail || {}}
                             isWeekend={d.isWeekend}
                             list={rowData}
+                            day={d}
                           />
                         );
                     }

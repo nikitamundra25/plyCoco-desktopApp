@@ -381,6 +381,8 @@ class CaregiverFormView extends React.PureComponent<any, any> {
   };
   // fetch last time data for caregiver
   handleLastTimeData = (id: string, values: any) => {
+    console.log('handleLastTimeDatahandleLastTimeData', id, values);
+
     const { fetchCaregiverLastTimeData } = this.props;
     if (id) {
       fetchCaregiverLastTimeData({
@@ -394,7 +396,9 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       // setcaregiverLastTimeValues(values);
     }
   };
+
   render() {
+    console.log('caregiverLastTimeValues', this.state.caregiverLastTimeValues);
     const {
       departmentList,
       qualificationList,
@@ -1084,12 +1088,14 @@ class CaregiverFormView extends React.PureComponent<any, any> {
                                   </div>
                                   <span
                                     className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'
-                                    // onClick={() =>
-                                    //   this.handleLastTimeData(
-                                    //     selectedCareGiver ? selectedCareGiver.id : '',
-                                    //     this.props.values
-                                    //   )
-                                    // }
+                                    onClick={() =>
+                                      this.handleLastTimeData(
+                                        selectedCaregiverId
+                                          ? selectedCaregiverId
+                                          : '',
+                                        values
+                                      )
+                                    }
                                   >
                                     {languageTranslation('LAST_TIME')}
                                   </span>

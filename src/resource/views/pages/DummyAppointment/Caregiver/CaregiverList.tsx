@@ -310,7 +310,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                   ? appointmentListSection.clientWidth - 40
                   : 1000
               }
-              height={300}
+              height={this.props.setHeight}
               fixed
               onEndReached={this.handleEndReached}
               onEndReachedThreshold={100}

@@ -45,6 +45,24 @@ export const SelectableCell = React.memo(
         isOfferedFutureDate: boolean = false,
         showAppointedCareGiver: boolean = false;
 
+      let caregiverId: string = "";
+      if (item) {
+        const { appointments = [] } = item;
+        const { ca = {} } =
+          appointments && appointments.length ? appointments[0] : {};
+        caregiverId = ca ? ca.userId : "";
+      }
+      // if (caregiverId) {
+      //   if (caregiverId === showSelectedCaregiver.id) {
+      //     showAppointedCareGiver = true;
+      //   }
+      // }
+
+      let careinstitutionCell: any =
+        item && item.appointments && item.appointments[0]
+          ? item.appointments[0].id
+          : "";
+
       let isFutureDate: boolean = false;
       if (item && item.date) {
         let dateStr = moment(item.date).add(1, "days").format("YYYY/MM/DD");
@@ -93,6 +111,20 @@ export const SelectableCell = React.memo(
             "cursor-pointer": true,
             "requirement-bg":
               isRequirment && !isSelected ? isRequirment : false,
+            // "matching-bg":
+            //   isMatching &&
+            //   !isSelected &&
+            //   !showAppointedCareGiver &&
+            //   caregiverId !== showSelectedCaregiver.id
+            //     ? isMatching
+            //     : false,
+            // "contract-bg":
+            //   isConfirm &&
+            //   !isSelected &&
+            //   !showAppointedCareGiver &&
+            //   caregiverId !== showSelectedCaregiver.id
+            //     ? isConfirm
+            //     : false,
           })}
           ref={selectableRef}
           // onClick={() => handleSelectedUser(list, day, 'caregiver')}
@@ -228,7 +260,8 @@ class CareInstitutionList extends React.PureComponent<any, any> {
           deptId = "",
           divisions = [],
         } = careInstData ? careInstData : {};
-
+   console.log("careInstData",careInstData);
+   
         let qualification1: IReactSelectInterface[] = [];
         if (
           qualificationList &&
@@ -318,6 +351,8 @@ class CareInstitutionList extends React.PureComponent<any, any> {
         careInstituionDeptData.length
       ) {
         let temp: any = [...careInstituionDeptData];
+        console.log(index, "temptemptemp", temp);
+
         temp[index].availabilityData = temp[index].availabilityData
           ? [...temp[index].availabilityData, []]
           : [];
@@ -345,6 +380,9 @@ class CareInstitutionList extends React.PureComponent<any, any> {
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareInst } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
+    console.log("starCanstitution", starCanstitution);
+    console.log("secondStarCanstitution", secondStarCanstitution);
+    console.log("careInstituionDeptData", careInstituionDeptData);
 
     return (
       <>
@@ -370,7 +408,7 @@ class CareInstitutionList extends React.PureComponent<any, any> {
             <BaseTable
               data={listCareInst}
               width={1000}
-              height={300}
+              height={this.props.setHeight}
               fixed
               // render ={ ({ column: { listCareInst } })}
               footerHeight={loadingMore ? 50 : 0}
@@ -426,6 +464,15 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                     let list = rowData;
                     let uIndex: number = -1;
                     // index of dept in case of solo careInst & dept
+                    console.log(
+                      "listCareInstlistCareInst************",
+                      starCanstitution &&
+                        secondStarCanstitution &&
+                        (starCanstitution.isStar ||
+                          secondStarCanstitution.isStar) &&
+                        careInstituionDeptData &&
+                        careInstituionDeptData.length
+                    );
                     if (
                       starCanstitution &&
                       secondStarCanstitution &&
@@ -434,10 +481,14 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                       careInstituionDeptData &&
                       careInstituionDeptData.length
                     ) {
+                      console.log("insideee thiss");
+
                       uIndex = careInstituionDeptData.findIndex(
                         (item: any) => item.id === list.id
                       );
                     } else {
+                      console.log("outsidee thisss");
+
                       // Direct index of care inst
                       uIndex = result.findIndex(
                         (item: any) => item.id === list.id
@@ -536,6 +587,8 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                                 );
                               })[0]
                             : "";
+                            console.log("rowData",rowData);
+                            
                         return (
                           <SelectableCell
                             item={currentAvail || {}}

@@ -58,6 +58,7 @@ class AppointmentNav extends React.PureComponent<any, any> {
 
   //   handle previous and next arrow
   handlePrevNextArrow = (str: string) => {
+    const {fetchCareInstituionList,fetchCareGiversList}=this.props
     const { month: actMonth, year: activeYear } = this.props.daysData;
     let activeMonth: number = moment(`1/${actMonth}/${activeYear}`).month();
     let month: number = moment().month();
@@ -71,6 +72,8 @@ class AppointmentNav extends React.PureComponent<any, any> {
         month = 11;
         year = activeYear - 1;
       }
+      fetchCareGiversList(1);
+      fetchCareInstituionList(1);
     } else if (str === "next") {
       month = activeMonth + 1;
       year = activeYear;
@@ -79,9 +82,12 @@ class AppointmentNav extends React.PureComponent<any, any> {
         month = 0;
         year = activeYear + 1;
       }
+      fetchCareGiversList(1);
+      fetchCareInstituionList(1);
     }
     const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(month, year);
     this.props.setDaysData(res);
+
   };
 
   //     handle date selection from day picker
@@ -112,12 +118,65 @@ class AppointmentNav extends React.PureComponent<any, any> {
       return;
     }
   };
+  onFilterByUserId = (userId: string, userRole: string) => {
+  const {
+    careGiversList,
+    careInstitutionList,
+    fetchAppointmentFilterById,
+    setselectedCareinstitution,
+  } = this.props;
+  if (userRole === 'caregiver') {
+    let userIncludes: any,
+      userData: any = {};
+    if (careGiversList && careGiversList.getUserByQualifications) {
+      const { getUserByQualifications } = careGiversList;
+      const { result } = getUserByQualifications;
+      result.map((key: any, index: number) => {
+        if (key.caregiver_avabilities && key.caregiver_avabilities.length) {
+          userIncludes = key.caregiver_avabilities.filter(
+            (dept: any) => dept.id === userId
+          );
+          if (userIncludes && userIncludes.length) {
+            userData = key;
+          }
+        }
+      });
+    }
+    // setselectedCareGiver(userData ? userData : {});
+  } else {
+    let userIncludes: any, userData: any;
+    if (careInstitutionList && careInstitutionList.getUserByQualifications) {
+      const { getUserByQualifications } = careInstitutionList;
+      const { result } = getUserByQualifications;
+      result.map((key: any, index: number) => {
+        if (
+          key.careinstitution_requirements &&
+          key.careinstitution_requirements.length
+        ) {
+          userIncludes = key.careinstitution_requirements.filter(
+            (dept: any) => dept.id === userId
+          );
+          if (userIncludes && userIncludes.length) {
+            userData = key;
+          }
+        }
+      });
+    }
+    setselectedCareinstitution(userData);
+  }
+  fetchAppointmentFilterById({
+    variables: {
+      id: parseInt(userId),
+      searchIn: userRole,
+    },
+  });
+};
 
    handleBlur = () => {
        const {userId,user} = this.state;
     if (userId) {
       let userRole = user ? user : 'avability';
-    //   onFilterByUserId(userId, userRole);
+      this.onFilterByUserId(userId, userRole);
     }
   };
 

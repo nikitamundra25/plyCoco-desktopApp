@@ -1,6 +1,7 @@
 import React from "react";
 import { AppRoutes } from "../config";
 import { languageTranslation } from "../helpers";
+import { TempPage } from "../resource/views/pages/Temp";
 
 const Dashboard = React.lazy(() => import("../resource/views/pages/Dashboard"));
 const Login = React.lazy(() => import("../resource/views/pages/Login"));
@@ -499,6 +500,12 @@ const routes = [
     path: AppRoutes.NEW_APPOINTMENTS,
     name: "New Appointments",
     component: DummyAppointment,
+    exact: true,
+  },
+  {
+    path: "/temp",
+    name: "New Appointments",
+    component: TempPage,
     exact: true,
   },
 ];

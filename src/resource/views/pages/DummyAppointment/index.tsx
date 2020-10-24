@@ -24,9 +24,7 @@ import {
   IReactSelectInterface,
   IAddCargiverAppointmentRes,
   IStarInterface,
-  ICareinstitutionFormSubmitValue,
-  IReactSelectTimeInterface,
-} from '../../../../interfaces';
+} from "../../../../interfaces";
 import {
   germanNumberFormat,
   getDaysArrayByMonth,
@@ -156,21 +154,14 @@ const DummyAppointment: FunctionComponent = () => {
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: "no-cache",
   });
-  const [careInstituionShift, setcareInstituionShift] = useState<
-    IReactSelectTimeInterface
-  >();
-  // set field to update formik values
-  const [
-    updateCanstitutionFormikValues,
-    setupdateCanstitutionFormikValues,
-  ] = useState<any>();
+
   // To fetch careinstitution by qualification id
   const [
     fetchCareinstitutionList,
     {
       data: careInstitutionList,
       loading: careinstitutionLoading,
-      refetch: canstitutionRefetch,
+      // refetch: canstitutionRefetch,
       fetchMore: fetchMoreCareInstituionList,
     },
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
@@ -214,11 +205,7 @@ const DummyAppointment: FunctionComponent = () => {
       deleteCareInstitutionRequirement: any;
     },
     { id: number[] }
-  >(DELETE_CAREINSTITUTION_REQUIREMENT, {
-    onCompleted() {
-      canstitutionRefetch();
-    },
-  });
+  >(DELETE_CAREINSTITUTION_REQUIREMENT);
 
   // Mutation to delete caregiver
   const [deleteCaregiverAvailability, {}] = useMutation<
@@ -383,383 +370,6 @@ const DummyAppointment: FunctionComponent = () => {
     { data: caregiverLastTimeData },
   ] = useLazyQuery<any, any>(GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID, {
     fetchPolicy: "no-cache",
-  });
-
-  // Mutation to add careinstitution data
-  const [
-    addCareinstitutionRequirment,
-    { data: addCareinstitutionRes, loading: addCareinstLoading },
-  ] = useMutation<
-    { addCareInstitutionRequirement: [IAddCargiverAppointmentRes] },
-    { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue[] }
-  >(ADD_INSTITUTION_REQUIREMENT, {
-    onCompleted({ addCareInstitutionRequirement }) {
-      if (careinstitutionList && careinstitutionList.length) {
-        let temp: any = [...careinstitutionList];
-        let deptList: any = [];
-        if (
-          starCanstitution &&
-          starCanstitution.isStar &&
-          careInstituionDeptData.length
-        ) {
-          deptList = [...careInstituionDeptData];
-        }
-        const selectedCareInstCells = selectedCellsCareinstitution
-          ? [...selectedCellsCareinstitution]
-          : [];
-        addCareInstitutionRequirement.forEach((requirement: any) => {
-          let index: number = temp.findIndex(
-            (careInst: any) => careInst.id === requirement.userId
-          );
-          let deptIndex: number = -1;
-          if (starCanstitution && starCanstitution.isStar && deptList.length) {
-            deptIndex = deptList.findIndex(
-              (careInst: any) => careInst.deptId === requirement.divisionId
-            );
-          }
-          if (temp[index].availabilityData) {
-            for (let i = 0; i < temp[index].availabilityData.length; i++) {
-              let element: any[] = [...temp[index].availabilityData[i]];
-
-              let cellIndex: number = selectedCareInstCells.findIndex(
-                (cell: any) =>
-                  moment(requirement.date).isSame(
-                    moment(cell.dateString),
-                    'day'
-                  )
-              );
-
-              let qualification = qualificationList.filter(({ value }: any) =>
-                requirement.qualificationId.includes(value)
-              );
-
-              let departmentData: any;
-              if (
-                careInstitutionDepartment &&
-                careInstitutionDepartment.length &&
-                requirement &&
-                requirement.divisionId
-              ) {
-                departmentData = careInstitutionDepartment.filter(
-                  (dept: any) => dept.value === requirement.divisionId
-                )[0];
-              }
-
-              if (selectedCareInstCells[cellIndex]) {
-                selectedCareInstCells[cellIndex] = {
-                  ...selectedCareInstCells[cellIndex],
-                  item: {
-                    ...requirement,
-                    qualificationId:
-                      qualification && qualification.length
-                        ? qualification
-                        : [],
-                    division:
-                      departmentData && departmentData.value
-                        ? {
-                            id: departmentData.value,
-                            name: departmentData.label,
-                          }
-                        : {},
-                  },
-                };
-              }
-              // To check this row have this date entry or not
-              if (
-                element.filter((e: any) =>
-                  moment(e.date).isSame(moment(requirement.date), 'day')
-                ).length === 0 ||
-                i === temp[index].availabilityData.length - 1
-              ) {
-                if (
-                  element.filter((e: any) =>
-                    moment(e.date).isSame(moment(requirement.date), 'day')
-                  ).length === 0
-                ) {
-                  temp[index].availabilityData[i] = [...element, requirement];
-                } else {
-                  // To add new row in case of no row is left
-                  temp[index].availabilityData[i + 1] = [requirement];
-                }
-                break;
-              }
-            }
-          }
-
-          if (
-            starCanstitution &&
-            starCanstitution.isStar &&
-            deptList.length &&
-            deptList[deptIndex].availabilityData
-          ) {
-            for (
-              let i = 0;
-              i < deptList[deptIndex].availabilityData.length;
-              i++
-            ) {
-              let element: any[] = [...deptList[deptIndex].availabilityData[i]];
-              let cellIndex: number = selectedCareInstCells.findIndex(
-                (cell: any) =>
-                  moment(requirement.date).isSame(
-                    moment(cell.dateString),
-                    'day'
-                  )
-              );
-
-              let qualification = qualificationList.filter(({ value }: any) =>
-                requirement.qualificationId.includes(value)
-              );
-
-              if (selectedCareInstCells[cellIndex]) {
-                selectedCareInstCells[cellIndex] = {
-                  ...selectedCareInstCells[cellIndex],
-                  item: {
-                    ...requirement,
-                    qualificationId:
-                      qualification && qualification.length
-                        ? qualification
-                        : [],
-                  },
-                };
-              }
-              // To check this row have this date entry or not
-              if (
-                element.filter((e: any) =>
-                  moment(e.date).isSame(moment(requirement.date), 'day')
-                ).length === 0
-              ) {
-                deptList[deptIndex].availabilityData[i] = [
-                  ...element,
-                  requirement,
-                ];
-                break;
-              }
-            }
-          }
-        });
-
-        setselectedCellsCareinstitution(selectedCareInstCells);
-      }
-      canstitutionRefetch();
-    },
-  });
-
-  // update Careinstitution Requirment
-  const [
-    updateCareinstitutionRequirment,
-    { data: updateCareinstitutionRes, loading: updateCareinstitutionLoading },
-  ] = useMutation<
-    {
-      updateCareInstitutionRequirement: any;
-      // IAddCargiverAppointmentRes;
-    },
-    {
-      id: number;
-      careInstitutionRequirementInput: any;
-    }
-  >(UPDATE_INSTITUTION_REQUIREMENT, {
-    onCompleted({ updateCareInstitutionRequirement }) {
-      let temp: any = [...careinstitutionList];
-      let deptList: any = [];
-      const caregiverListData: any = [...caregiversList];
-      if (
-        starCanstitution &&
-        starCanstitution.isStar &&
-        careInstituionDeptData.length
-      ) {
-        deptList = [...careInstituionDeptData];
-      }
-      const selectedCareInstCells = selectedCellsCareinstitution
-        ? [...selectedCellsCareinstitution]
-        : [];
-      const selectedCaregiverCells = selectedCells ? [...selectedCells] : [];
-      // to get the appointment data from the care institution cell
-      let appointmentData = selectedCareInstCells.filter(
-        (cell: any) =>
-          cell.item && cell.item.id === updateCareInstitutionRequirement.id
-      )[0];
-      appointmentData =
-        appointmentData &&
-        appointmentData.item.appointments &&
-        appointmentData.item.appointments.length &&
-        appointmentData.item.appointments[0]
-          ? appointmentData.item.appointments[0]
-          : {};
-      // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
-      if (
-        updateCareInstitutionRequirement.status === 'confirmed' &&
-        updateCareInstitutionRequirement.isLeasing &&
-        appointmentData
-      ) {
-        let caregiverIndex: number = caregiverListData.findIndex(
-          (caregiver: any) =>
-            appointmentData &&
-            appointmentData.ca &&
-            appointmentData.ca.userId &&
-            caregiver.id === appointmentData.ca.userId
-        );
-        let availabilityDataIndex: number = -1;
-        let availabilityIndex: number = -1;
-        // To find the exact index of availability
-        for (
-          let i = 0;
-          caregiverIndex > -1 &&
-          i < caregiverListData[caregiverIndex].availabilityData.length;
-          i++
-        ) {
-          let availabilityRows: any[] = [
-            ...caregiverListData[caregiverIndex].availabilityData[i],
-          ];
-
-          availabilityIndex = availabilityRows.findIndex(
-            (e: any) => e.id === appointmentData.avabilityId
-          );
-          if (availabilityIndex > -1) {
-            availabilityDataIndex = i;
-            break;
-          }
-        }
-
-        if (availabilityDataIndex > -1 && availabilityIndex > -1) {
-          let itemData =
-            caregiverListData[caregiverIndex].availabilityData[
-              availabilityDataIndex
-            ][availabilityIndex];
-          if (
-            itemData &&
-            itemData.appointments &&
-            itemData.appointments.length
-          ) {
-            caregiverListData[caregiverIndex].availabilityData[
-              availabilityDataIndex
-            ][availabilityIndex] = {
-              ...itemData,
-              appointments: [
-                {
-                  ...itemData.appointments[0],
-                  cr: {
-                    ...itemData.appointments[0].cr,
-                    status: updateCareInstitutionRequirement.status,
-                  },
-                },
-              ],
-            };
-          }
-        }
-
-        // To update the selected caregiver & careInst cell
-        let cellIndex: number = selectedCaregiverCells.findIndex(
-          (cell: any) =>
-            appointmentData &&
-            appointmentData.ca &&
-            appointmentData.avabilityId === cell.item.id
-        );
-
-        if (
-          selectedCaregiverCells[cellIndex] &&
-          selectedCaregiverCells[cellIndex].item &&
-          selectedCaregiverCells[cellIndex].item.appointments &&
-          selectedCaregiverCells[cellIndex].item.appointments.length
-        ) {
-          selectedCaregiverCells[cellIndex] = {
-            ...selectedCaregiverCells[cellIndex],
-            item: {
-              ...selectedCaregiverCells[cellIndex].item,
-              appointments: [
-                {
-                  ...selectedCaregiverCells[cellIndex].item.appointments[0],
-                  cr: {
-                    ...selectedCaregiverCells[cellIndex].item.appointments[0]
-                      .cr,
-                    status: updateCareInstitutionRequirement.status,
-                  },
-                },
-              ],
-            },
-          };
-        }
-        setSelectedCells(selectedCaregiverCells);
-      }
-      let index: number = -1;
-      index = temp.findIndex(
-        (careInst: any) =>
-          careInst.id === updateCareInstitutionRequirement.userId
-      );
-
-      let deptIndex: number = -1;
-      if (starCanstitution && starCanstitution.isStar && deptList.length) {
-        deptIndex = deptList.findIndex(
-          (careInst: any) =>
-            careInst.deptId === updateCareInstitutionRequirement.divisionId
-        );
-      }
-
-      if (index > -1) {
-        for (let i = 0; i < temp[index].availabilityData.length; i++) {
-          let element: any[] = [...temp[index].availabilityData[i]];
-          let availabilityIndex: number = element.findIndex(
-            (e: any) => e.id === updateCareInstitutionRequirement.id
-          );
-          if (availabilityIndex > -1) {
-            temp[index].availabilityData[i][availabilityIndex] = {
-              ...temp[index].availabilityData[i][availabilityIndex],
-              ...updateCareInstitutionRequirement,
-            };
-            break;
-          }
-        }
-      }
-
-      if (deptIndex > -1) {
-        if (
-          starCanstitution &&
-          starCanstitution.isStar &&
-          deptList.length &&
-          deptList[deptIndex].availabilityData &&
-          deptList[deptIndex].availabilityData.length
-        ) {
-          for (
-            let i = 0;
-            i < deptList[deptIndex].availabilityData.length;
-            i++
-          ) {
-            let element: any[] = [...deptList[deptIndex].availabilityData[i]];
-
-            let availabilityIndex: number = element.findIndex(
-              (e: any) => e.id === updateCareInstitutionRequirement.id
-            );
-            if (availabilityIndex > -1) {
-              deptList[deptIndex].availabilityData[i][availabilityIndex] = {
-                ...deptList[deptIndex].availabilityData[i][availabilityIndex],
-                ...updateCareInstitutionRequirement,
-              };
-              break;
-            }
-          }
-        }
-      }
-      let cellIndex: number = selectedCareInstCells.findIndex(
-        (cell: any) =>
-          cell.item && updateCareInstitutionRequirement.id === cell.item.id
-      );
-      let qualification = qualificationList.filter(({ value }: any) =>
-        updateCareInstitutionRequirement.qualificationId.includes(value)
-      );
-
-      if (selectedCareInstCells[cellIndex]) {
-        selectedCareInstCells[cellIndex] = {
-          ...selectedCareInstCells[cellIndex],
-          item: {
-            ...selectedCareInstCells[cellIndex].item,
-            ...updateCareInstitutionRequirement,
-            qualificationId:
-              qualification && qualification.length ? qualification : [],
-          },
-        };
-      }
-      setselectedCellsCareinstitution(selectedCareInstCells);
-      canstitutionRefetch();
-    },
   });
 
   useEffect(() => {
@@ -1484,6 +1094,7 @@ const DummyAppointment: FunctionComponent = () => {
       });
     }
   };
+  console.log(caregiversList);
   return (
     <div className='common-detail-page'>
       <div className='common-detail-section'>
@@ -1525,6 +1136,7 @@ const DummyAppointment: FunctionComponent = () => {
                             ? careGiversList.getUserByQualifications.totalCount
                             : 0
                         }
+                        setcaregiversList={setcaregiversList}
                         handleSelection={handleSelection}
                         onhandleCaregiverStar={onhandleCaregiverStar}
                         starCaregiver={starCaregiver}
@@ -1623,31 +1235,6 @@ const DummyAppointment: FunctionComponent = () => {
                       qualificationList={qualificationList}
                       careInstitutionDepartment={careInstitutionDepartment}
                       multipleRequirement={multipleRequirement}
-                      onhandleDelete={onhandleDelete}
-                      addCareinstLoading={
-                        addCareinstLoading || updateCareinstitutionLoading
-                      }
-                      idSearchAppointmentLoading={idSearchAppointmentLoading}
-                      updateCanstitutionFormikValues={
-                        updateCanstitutionFormikValues
-                      }
-                      setselectedCellsCareinstitution={
-                        setselectedCellsCareinstitution
-                      }
-                      setcareInstituionDept={(deptData: any, values: any) => {
-                        setcareInstituionDept(deptData);
-                        setupdateCanstitutionFormikValues(values);
-                      }}
-                      setcareInstituionShift={(shiftData: any, values: any) => {
-                        setcareInstituionShift(shiftData);
-                        setupdateCanstitutionFormikValues(values);
-                      }}
-                      updateCareinstitutionRequirment={
-                        updateCareinstitutionRequirment
-                      }
-                      addCareinstitutionRequirment={
-                        addCareinstitutionRequirment
-                      }
                     />
                   </Col>
 

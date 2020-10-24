@@ -149,6 +149,7 @@ const DummyAppointment: FunctionComponent = () => {
       data: careGiversList,
       refetch: fetchingCareGiverData,
       fetchMore: fetchMoreCareGiverList,
+      loading: loadingCaregiver,
     },
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: "no-cache",
@@ -1093,7 +1094,6 @@ const DummyAppointment: FunctionComponent = () => {
       });
     }
   };
-  console.log(caregiversList);
   return (
     <div className='common-detail-page'>
       <div className='common-detail-section'>
@@ -1123,27 +1123,27 @@ const DummyAppointment: FunctionComponent = () => {
                     // caregiverLoading ? (
                     //   "Loading..."
                     // ) :
-                    caregiversList && caregiversList.length ? (
-                      <div className='custom-appointment-calendar overflow-hidden'>
-                        <CaregiverList
-                          caregiverData={caregiversList}
-                          fetchMoreData={fetchMoreData}
-                          daysData={daysData}
-                          totalCount={
-                            careGiversList &&
-                            careGiversList.getUserByQualifications
-                              ? careGiversList.getUserByQualifications
-                                  .totalCount
-                              : 0
-                          }
-                          handleSelection={handleSelection}
-                          onhandleCaregiverStar={onhandleCaregiverStar}
-                          starCaregiver={starCaregiver}
-                        />
-                      </div>
-                    ) : (
-                      <Loader />
-                    )
+                    // caregiversList && caregiversList.length ? (
+                    <div className='custom-appointment-calendar overflow-hidden'>
+                      <CaregiverList
+                        caregiverData={caregiversList}
+                        fetchMoreData={fetchMoreData}
+                        daysData={daysData}
+                        totalCount={
+                          careGiversList &&
+                          careGiversList.getUserByQualifications
+                            ? careGiversList.getUserByQualifications.totalCount
+                            : 0
+                        }
+                        handleSelection={handleSelection}
+                        onhandleCaregiverStar={onhandleCaregiverStar}
+                        starCaregiver={starCaregiver}
+                        loadingCaregiver={loadingCaregiver}
+                      />
+                    </div>
+                    // ) : (
+                    //   <Loader />
+                    // )
                   }
                   {
                     // caregiverLoading ? (

@@ -243,9 +243,7 @@ class CaregiverList extends React.PureComponent<any, any> {
   };
 
   handleEndReached = (args: any) => {
-    // action('onEndReached')(args)
-    const { loading, loadingMore, loadedAll } = this.state;
-
+    console.log("onEndReached", args);
     // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
   };
@@ -275,6 +273,7 @@ class CaregiverList extends React.PureComponent<any, any> {
       daysData,
       onhandleCaregiverStar,
       starCaregiver,
+      loadingCaregiver,
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
@@ -313,10 +312,36 @@ class CaregiverList extends React.PureComponent<any, any> {
               }
               height={this.props.setHeight}
               fixed
-              footerHeight={loadingMore ? 50 : 0}
               onEndReached={this.handleEndReached}
-              onEndReachedThreshold={20}
+              onEndReachedThreshold={100}
               headerClassName='custom-appointment-row'
+              overlayRenderer={() =>
+                loadingCaregiver ? (
+                  <>
+                    <div
+                      style={{
+                        pointerEvents: "none",
+                        background: "rgba(32, 60, 94, 0.3)",
+                        position: "absolute",
+                        bottom: "30px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        padding: "5px 15px",
+                        borderRadius: "10px",
+                        display: "flex",
+                        alignItems: "center",
+                      }}>
+                      <span
+                        style={{
+                          color: "#fff",
+                          marginRight: "5px",
+                        }}>
+                        Loading More
+                      </span>
+                    </div>
+                  </>
+                ) : null
+              }
               headerRenderer={() =>
                 columns.map((d: any, index: number) =>
                   staticHeader.indexOf(d) > -1 ? (

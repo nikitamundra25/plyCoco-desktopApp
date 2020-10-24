@@ -152,6 +152,7 @@ const DummyAppointment: FunctionComponent = () => {
       data: careGiversList,
       refetch: fetchingCareGiverData,
       fetchMore: fetchMoreCareGiverList,
+      loading: loadingCaregiver,
     },
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache',
@@ -176,7 +177,9 @@ const DummyAppointment: FunctionComponent = () => {
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache',
   });
-
+  const [selectedCareinstitution, setselectedCareinstitution] = useState<any>(
+    {}
+  );
   // Query to get uploaded pdf
   const [getLeasingContractPDF, { data: pdfData, loading }] = useLazyQuery<any>(
     GET_LEASING_CONTRACT
@@ -1511,7 +1514,6 @@ const DummyAppointment: FunctionComponent = () => {
       });
     }
   };
-  console.log(caregiversList);
   return (
     <div className='common-detail-page'>
       <div className='common-detail-section'>
@@ -1529,6 +1531,10 @@ const DummyAppointment: FunctionComponent = () => {
               ? careGiversList && careGiversList.getUserByQualifications
               : []
           }
+          careGiversList={careGiversList}
+          careInstitutionList={careInstitutionList}
+          fetchAppointmentFilterById={fetchAppointmentFilterById}
+          setselectedCareinstitution={setselectedCareinstitution}
         />
         <div className='common-content flex-grow-1'>
           <div>
@@ -1599,6 +1605,7 @@ const DummyAppointment: FunctionComponent = () => {
                             setcareinstitutionList(data)
                           }
                           setHeight={setHeight}
+                          selectedCareinstitution={selectedCareinstitution}
                         />
                       </div>
                     ) : (
@@ -1644,6 +1651,7 @@ const DummyAppointment: FunctionComponent = () => {
                       onhandleDelete={onhandleDelete}
                       setqualification={setqualification}
                       getLeasingContractPDF={getLeasingContractPDF}
+                      selectedCareinstitution={selectedCareinstitution}
                     />
                   </Col>
                   <Col lg={'6'} className='pl-lg-0'>
@@ -1708,7 +1716,7 @@ const DummyAppointment: FunctionComponent = () => {
                             <i className='fa fa-spinner fa-spin mr-2' />
                           ) : (
                           )} */}
-                          <i className='fa fa-link mr-2' />
+                        <i className='fa fa-link mr-2' />
                         {
                           /* isUnLinkable
                             ? 'Unlink'

@@ -45,6 +45,24 @@ export const SelectableCell = React.memo(
         isOfferedFutureDate: boolean = false,
         showAppointedCareGiver: boolean = false;
 
+      let caregiverId: string = "";
+      if (item) {
+        const { appointments = [] } = item;
+        const { ca = {} } =
+          appointments && appointments.length ? appointments[0] : {};
+        caregiverId = ca ? ca.userId : "";
+      }
+      // if (caregiverId) {
+      //   if (caregiverId === showSelectedCaregiver.id) {
+      //     showAppointedCareGiver = true;
+      //   }
+      // }
+
+      let careinstitutionCell: any =
+        item && item.appointments && item.appointments[0]
+          ? item.appointments[0].id
+          : "";
+
       let isFutureDate: boolean = false;
       if (item && item.date) {
         let dateStr = moment(item.date).add(1, "days").format("YYYY/MM/DD");
@@ -93,6 +111,20 @@ export const SelectableCell = React.memo(
             "cursor-pointer": true,
             "requirement-bg":
               isRequirment && !isSelected ? isRequirment : false,
+            // "matching-bg":
+            //   isMatching &&
+            //   !isSelected &&
+            //   !showAppointedCareGiver &&
+            //   caregiverId !== showSelectedCaregiver.id
+            //     ? isMatching
+            //     : false,
+            // "contract-bg":
+            //   isConfirm &&
+            //   !isSelected &&
+            //   !showAppointedCareGiver &&
+            //   caregiverId !== showSelectedCaregiver.id
+            //     ? isConfirm
+            //     : false,
           })}
           ref={selectableRef}
           // onClick={() => handleSelectedUser(list, day, 'caregiver')}
@@ -318,6 +350,8 @@ class CareInstitutionList extends React.PureComponent<any, any> {
         careInstituionDeptData.length
       ) {
         let temp: any = [...careInstituionDeptData];
+        console.log(index, "temptemptemp", temp);
+
         temp[index].availabilityData = temp[index].availabilityData
           ? [...temp[index].availabilityData, []]
           : [];
@@ -345,6 +379,9 @@ class CareInstitutionList extends React.PureComponent<any, any> {
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareInst } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
+    console.log("starCanstitution", starCanstitution);
+    console.log("secondStarCanstitution", secondStarCanstitution);
+    console.log("careInstituionDeptData", careInstituionDeptData);
 
     return (
       <>
@@ -353,8 +390,7 @@ class CareInstitutionList extends React.PureComponent<any, any> {
             "right-manu-close": true,
             "d-none": !openToggleMenu,
           })}
-          onClick={this.handleToggleMenuItem}
-        ></div>
+          onClick={this.handleToggleMenuItem}></div>
         <CareinstitutionRightClickOptions
           isOpen={openToggleMenu}
           hide={() => this.setState({ openToggleMenu: false })}
@@ -362,13 +398,12 @@ class CareInstitutionList extends React.PureComponent<any, any> {
         {listCareInst && listCareInst.length ? (
           <SelectableGroup
             allowClickWithoutSelected
-            className="custom-row-selector new-base-table"
-            clickClassName="tick"
+            className='custom-row-selector new-base-table'
+            clickClassName='tick'
             resetOnStart={true}
             allowCtrlClick={false}
             onSelectionFinish={this.onSelectFinish}
-            ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
-          >
+            ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
             <BaseTable
               data={listCareInst}
               width={1000}
@@ -378,7 +413,7 @@ class CareInstitutionList extends React.PureComponent<any, any> {
               footerHeight={loadingMore ? 50 : 0}
               onEndReached={this.handleEndReached}
               onEndReachedThreshold={20}
-              headerClassName="custom-appointment-row"
+              headerClassName='custom-appointment-row'
               headerRenderer={() =>
                 columns.map((d: any) =>
                   staticHeader.indexOf(d) > -1 ? (
@@ -386,20 +421,19 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                       <span
                         className={`custom-appointment-col  ${
                           d === "careinstitution" ? "name-col" : ""
-                        }`}
-                      >
+                        }`}>
                         {d}
                         {d === "careinstitution" ? (
                           <>
                             <span onClick={this.handleToggleMenuItem}>
-                              <i className="icon-options-vertical" />
+                              <i className='icon-options-vertical' />
                             </span>
                           </>
                         ) : null}
                       </span>
                     </React.Fragment>
                   ) : (
-                    <span key={d.date} className="custom-appointment-col  ">
+                    <span key={d.date} className='custom-appointment-col  '>
                       {d.day}
                       <br />
                       {d.date}
@@ -407,16 +441,14 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                   )
                 )
               }
-              rowClassName="custom-appointment-row"
+              rowClassName='custom-appointment-row'
               rowRenderer={({ cells, rowData }: any) => (
                 <div
-                  className="d-flex frozen-row"
-                  title={[rowData.lastName, rowData.firstName].join(" ")}
-                >
+                  className='d-flex frozen-row'
+                  title={[rowData.lastName, rowData.firstName].join(" ")}>
                   {cells}
                 </div>
-              )}
-            >
+              )}>
               {columns.map((d: any, index: number) => (
                 <Column
                   key={`col${index}-${
@@ -431,6 +463,15 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                     let list = rowData;
                     let uIndex: number = -1;
                     // index of dept in case of solo careInst & dept
+                    console.log(
+                      "listCareInstlistCareInst************",
+                      starCanstitution &&
+                        secondStarCanstitution &&
+                        (starCanstitution.isStar ||
+                          secondStarCanstitution.isStar) &&
+                        careInstituionDeptData &&
+                        careInstituionDeptData.length
+                    );
                     if (
                       starCanstitution &&
                       secondStarCanstitution &&
@@ -439,10 +480,14 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                       careInstituionDeptData &&
                       careInstituionDeptData.length
                     ) {
+                      console.log("insideee thiss");
+
                       uIndex = careInstituionDeptData.findIndex(
                         (item: any) => item.id === list.id
                       );
                     } else {
+                      console.log("outsidee thisss");
+
                       // Direct index of care inst
                       uIndex = result.findIndex(
                         (item: any) => item.id === list.id
@@ -452,7 +497,7 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                       case "careinstitution":
                         return (
                           <div
-                            className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
+                            className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
                             style={{
                               backgroundColor:
                                 list.canstitution &&
@@ -473,16 +518,14 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                                   : "",
                             }}
                             title={list.name}
-                            id={`careinst-${list.id}`}
-                          >
+                            id={`careinst-${list.id}`}>
                             <Link
                               to={AppRoutes.CARE_INSTITUION_VIEW.replace(
                                 ":id",
                                 list.id
                               )}
-                              target="_blank"
-                              className="text-body"
-                            >
+                              target='_blank'
+                              className='text-body'>
                               {list.row === 0 ? list.name : null}
                             </Link>
                           </div>
@@ -492,42 +535,43 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                       case "S":
                         return (
                           <span
-                            className="s-col custom-appointment-col text-center cursor-pointer"
+                            className='s-col custom-appointment-col text-center cursor-pointer'
                             onClick={() =>
                               handleFirstStarCanstitution(list, uIndex)
-                            }
-                          >
+                            }>
                             {starCanstitution.setIndex === uIndex ||
                             starCanstitution.isStar ? (
-                              <i className="fa fa-star theme-text" />
+                              <i className='fa fa-star theme-text' />
                             ) : (
-                              <i className="fa fa-star-o" />
+                              <i className='fa fa-star-o' />
                             )}
                           </span>
                         );
                       case "U":
                         return (
                           <span
-                            className="custom-appointment-col u-col text-center"
-                            onClick={() => onhandleSecondStarCanstitution(list)}
-                          >
+                            className='custom-appointment-col u-col text-center'
+                            onClick={() =>
+                              onhandleSecondStarCanstitution(list)
+                            }>
                             {secondStarCanstitution &&
                             secondStarCanstitution.isStar ? (
-                              <i className="fa fa-star theme-text" />
+                              <i className='fa fa-star theme-text' />
                             ) : (
-                              <i className="fa fa-star-o" />
+                              <i className='fa fa-star-o' />
                             )}
                           </span>
                         );
                       case "V":
                         return (
                           <span
-                            className="custom-appointment-col v-col text-center"
+                            className='custom-appointment-col v-col text-center'
                             onClick={(
                               e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                            ) => this.onAddingRow(e, "careinstitution", uIndex)}
-                          >
-                            <i className="fa fa-arrow-down" />
+                            ) =>
+                              this.onAddingRow(e, "careinstitution", uIndex)
+                            }>
+                            <i className='fa fa-arrow-down' />
                           </span>
                         );
                       default:

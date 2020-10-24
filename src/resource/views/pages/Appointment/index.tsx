@@ -3647,7 +3647,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   // fetch last time data for caregiver
   const handleLastTimeData = (id: string, values: any) => {
-    console.log('insideeeeeeeeeded',id,values);    
     if (id) {
       fetchCaregiverLastTimeData({
         variables: {

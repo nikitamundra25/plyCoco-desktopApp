@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useEffect } from 'react';
-import Select from 'react-select';
-import { Formik, FormikHelpers, FormikProps, Field } from 'formik';
-import moment from 'moment';
-import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
-import classnames from 'classnames';
+import React, { FunctionComponent, useEffect } from "react";
+import Select from "react-select";
+import { Formik, FormikHelpers, FormikProps, Field } from "formik";
+import moment from "moment";
+import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
+import classnames from "classnames";
 import {
   FormGroup,
   Label,
@@ -18,20 +18,20 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from 'reactstrap';
-import MaskedInput from 'react-text-mask';
+} from "reactstrap";
+import MaskedInput from "react-text-mask";
 import {
   errorFormatter,
   languageTranslation,
   timeDiffernce,
-} from '../../../../../helpers';
+} from "../../../../../helpers";
 import {
   IAppointmentCareInstitutionForm,
   ICareinstitutionFormSubmitValue,
   ICareinstitutionFormValue,
   IReactSelectInterface,
   IReactSelectTimeInterface,
-} from '../../../../../interfaces';
+} from "../../../../../interfaces";
 import {
   ShiftTime,
   TimeMask,
@@ -40,21 +40,21 @@ import {
   dbAcceptableFormat,
   defaultDateTimeFormatForDashboard,
   CareInstTIMyoCYAttrId,
-} from '../../../../../config';
-import '../index.scss';
-import Loader from '../../../containers/Loader/Loader';
-import { CareInstitutionValidationSchema } from '../../../../validations/AppointmentsFormValidationSchema';
-import { toast } from 'react-toastify';
+} from "../../../../../config";
+import "../index.scss";
+import Loader from "../../../containers/Loader/Loader";
+import { CareInstitutionValidationSchema } from "../../../../validations/AppointmentsFormValidationSchema";
+import { toast } from "react-toastify";
 let toastId: any = null;
 class CareinstitutionFormView extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      workingHoursFromErrMsg: '',
-      workingHoursToErrMsg: '',
-      breakHoursFromErrMsg: '',
-      breakHoursToErrMsg: '',
-      timeSlotError: '',
+      workingHoursFromErrMsg: "",
+      workingHoursToErrMsg: "",
+      breakHoursFromErrMsg: "",
+      breakHoursToErrMsg: "",
+      timeSlotError: "",
       savingBoth: false,
       // careInstituionShift: '',
     };
@@ -69,16 +69,16 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
     } = this.props;
     let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
     let values = updateCanstitutionFormikValues;
-    let time = timeData && !timeData.data ? timeData.value.split('-') : '';
+    let time = timeData && !timeData.data ? timeData.value.split("-") : "";
     const {
-      id = '',
-      firstName = '',
-      lastName = '',
-      name = '',
+      id = "",
+      firstName = "",
+      lastName = "",
+      name = "",
       canstitution = {},
       qualificationIds = [],
-      dateString = '',
-      isLeasing = '',
+      dateString = "",
+      isLeasing = "",
       item = undefined,
     } =
       selectedCellsCareinstitution && selectedCellsCareinstitution.length
@@ -97,19 +97,19 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
         isLeasing,
         item: {
           ...values,
-          id: values && values.appointmentId ? values.appointmentId : '',
+          id: values && values.appointmentId ? values.appointmentId : "",
           shift: careInstituionShift,
           isLeasing: item && item.isLeasing ? item.isLeasing : false,
           startTime: timeData
             ? timeData.data && timeData.data.begin
               ? timeData.data.begin
               : time[0]
-            : '',
+            : "",
           endTime: timeData
             ? timeData.data && timeData.data.begin
               ? timeData.data.end
               : time[1]
-            : '',
+            : "",
         },
       },
     ];
@@ -165,41 +165,41 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
 
     /*  Time slot condition for f,s, n
      */
-    let fvar: string = '';
-    let svar: string = '';
-    let nvar: string = '';
+    let fvar: string = "";
+    let svar: string = "";
+    let nvar: string = "";
     let difference: string = timeDiffernce(startTime, endTime);
     if (parseInt(startTime) >= 0 && parseInt(startTime) < 12) {
       if (parseInt(difference) > 8) {
         fvar = `f${parseInt(difference)}`;
       } else {
-        fvar = 'f';
+        fvar = "f";
       }
     } else if (parseInt(startTime) >= 12 && parseInt(startTime) < 18) {
       if (parseInt(difference) > 8) {
         svar = `s${parseInt(difference)}`;
       } else {
-        svar = 's';
+        svar = "s";
       }
     } else if (parseInt(startTime) >= 18) {
       if (parseInt(difference) > 8) {
         nvar = `n${parseInt(difference)}`;
       } else {
-        nvar = 'n';
+        nvar = "n";
       }
     }
     try {
       if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
         // To add mulitple availabilty
         const {
-          id: Id = '',
-          firstName = '',
-          lastName = '',
-          name = '',
+          id: Id = "",
+          firstName = "",
+          lastName = "",
+          name = "",
           item = undefined,
           canstitution = {},
           qualificationIds = [],
-          dateString = '',
+          dateString = "",
         } =
           selectedCellsCareinstitution &&
           selectedCellsCareinstitution.length &&
@@ -218,7 +218,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
             qualificationIds,
             dateString,
             item: {
-              id: appointmentId ? appointmentId : '',
+              id: appointmentId ? appointmentId : "",
               name,
               date: dateString,
               shift: undefined,
@@ -242,10 +242,10 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
         ];
         let careInstitutionRequirementInput: any[] = [];
         selectedCellsCareinstitution.forEach(async (element: any) => {
-          const { id = '', dateString = '', canstitution = {} } = element
+          const { id = "", dateString = "", canstitution = {} } = element
             ? element
             : {};
-          const { attributes = [], street = '', city = '' } = canstitution
+          const { attributes = [], street = "", city = "" } = canstitution
             ? canstitution
             : {};
 
@@ -267,11 +267,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
 
             address: department
               ? address
-              : [street, city].filter(Boolean).join(', '),
+              : [street, city].filter(Boolean).join(", "),
             contactPerson,
             departmentOfferRemarks: departmentOfferRemarks
               ? departmentOfferRemarks
-              : '',
+              : "",
             departmentBookingRemarks,
             departmentRemarks,
             isWorkingProof,
@@ -281,13 +281,13 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
             f: fvar,
             s: svar,
             n: nvar,
-            status: status ? status : 'default',
+            status: status ? status : "default",
             isLeasing:
               attributes && attributes.length
                 ? attributes.includes(CareInstTIMyoCYAttrId)
                 : false,
             createdBy,
-            createdAt: createdAt ? createdAt : '',
+            createdAt: createdAt ? createdAt : "",
           };
           careInstitutionRequirementInput = [
             ...careInstitutionRequirementInput,
@@ -307,7 +307,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
                 languageTranslation(
-                  'CARE_INSTITUTION_REQUIREMENT_UPDATE_SUCCESS_MSG'
+                  "CARE_INSTITUTION_REQUIREMENT_UPDATE_SUCCESS_MSG"
                 )
               );
             }
@@ -340,7 +340,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation(
-                'CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG'
+                "CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG"
               )
             );
           }
@@ -397,13 +397,15 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       addCareinstLoading,
       idSearchAppointmentLoading,
     } = this.props;
+    console.log("careInstitutionDepartment",careInstitutionDepartment);
+    
     // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
     let {
-      firstName = '',
-      lastName = '',
-      email = '',
-      id: selectedCaregiverId = '',
-      dateString = '',
+      firstName = "",
+      lastName = "",
+      email = "",
+      id: selectedCaregiverId = "",
+      dateString = "",
       caregiver = undefined,
       item = undefined,
     } =
@@ -417,14 +419,14 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
         : {};
 
     const {
-      id: Id = '',
-      firstName: FirstName = '',
-      lastName: LastName = '',
-      name: careInstName = '',
+      id: Id = "",
+      firstName: FirstName = "",
+      lastName: LastName = "",
+      name: careInstName = "",
       canstitution = {},
       item: Item = {},
       qualificationIds = {},
-      dateString: careInstitutiondateString = '',
+      dateString: careInstitutiondateString = "",
     } =
       selectedCellsCareinstitution && selectedCellsCareinstitution.length
         ? selectedCellsCareinstitution[0]
@@ -464,39 +466,39 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
 
     // const createdByName =Item && Item.appointments && Item.appointments.length && Item.appointments[0] ? Item.appointments[0].createdBy : ""
     const valuesForCareIntituionForm: ICareinstitutionFormValue = {
-      appointmentId: Item ? Item.id : '',
+      appointmentId: Item ? Item.id : "",
       name:
         Item && Item.name
           ? Item.name
           : careInstName /* Item.name : `${LastName}${' '}${FirstName}` */,
-      date: Item ? Item.date : '',
-      startTime: Item ? Item.startTime : '',
-      endTime: Item ? Item.endTime : '',
+      date: Item ? Item.date : "",
+      startTime: Item ? Item.startTime : "",
+      endTime: Item ? Item.endTime : "",
       qualificationId:
         Item && Item.qualificationId ? Item.qualificationId : undefined,
       qualificationForCharge:
         qualificationfor && qualificationfor[0]
           ? qualificationfor[0]
           : undefined,
-      address: Item ? Item.address : '',
-      contactPerson: Item ? Item.contactPerson : '',
-      departmentOfferRemarks: Item ? Item.departmentOfferRemarks : '',
-      departmentBookingRemarks: Item ? Item.departmentBookingRemarks : '',
-      departmentRemarks: Item ? Item.departmentRemarks : '',
+      address: Item ? Item.address : "",
+      contactPerson: Item ? Item.contactPerson : "",
+      departmentOfferRemarks: Item ? Item.departmentOfferRemarks : "",
+      departmentBookingRemarks: Item ? Item.departmentBookingRemarks : "",
+      departmentRemarks: Item ? Item.departmentRemarks : "",
       isWorkingProof: Item ? Item.isWorkingProof : false,
-      offerRemarks: Item ? Item.offerRemarks : '',
-      bookingRemarks: Item ? Item.bookingRemarks : '',
+      offerRemarks: Item ? Item.offerRemarks : "",
+      bookingRemarks: Item ? Item.bookingRemarks : "",
       shift: Item ? Item.shift : undefined,
       department:
         departmentData && departmentData[0]
           ? departmentData[0]
           : departmentData,
-      comments: Item ? Item.comments : '',
-      status: Item ? Item.status : '',
+      comments: Item ? Item.comments : "",
+      status: Item ? Item.status : "",
       careInstitutionDepartment,
-      createdBy: Item && Item.createdBy ? Item.createdBy : '',
-      createdAt: Item && Item.createdAt ? Item.createdAt : '',
-      updatedAt: Item && Item.updatedAt ? Item.updatedAt : '',
+      createdBy: Item && Item.createdBy ? Item.createdBy : "",
+      createdAt: Item && Item.createdAt ? Item.createdAt : "",
+      updatedAt: Item && Item.updatedAt ? Item.updatedAt : "",
     };
     // const qualificationError: any = errors.qualificationId;
     const shiftOptions =
@@ -506,14 +508,14 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
 
     let dateCondition: any;
     let dateData: any;
-    console.log('careInstitutiondateString', careInstitutiondateString);
+    console.log("careInstitutiondateString", careInstitutiondateString);
 
     let activeDateCareinstitution: any = !multipleRequirement
       ? [careInstitutiondateString]
       : selectedCellsCareinstitution
       ? selectedCellsCareinstitution.map((cell: any) => cell.dateString)
       : [];
-    console.log('activeDateCareinstitution', activeDateCareinstitution);
+    console.log("activeDateCareinstitution", activeDateCareinstitution);
     if (
       activeDateCareinstitution &&
       activeDateCareinstitution.length &&
@@ -528,8 +530,8 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
     }
     let isFutureDate: boolean = false;
     if (dateData) {
-      let dateStr = moment(dateData).add(1, 'days').format('YYYY/MM/DD');
-      isFutureDate = moment(dateStr, 'YYYY/MM/DD').isAfter();
+      let dateStr = moment(dateData).add(1, "days").format("YYYY/MM/DD");
+      isFutureDate = moment(dateStr, "YYYY/MM/DD").isAfter();
     }
     let isRequirment: boolean = false,
       isMatching: boolean = false,
@@ -538,28 +540,28 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       isOffered: boolean = false,
       isOfferedFutureDate: boolean = false;
     if (Item || status) {
-      if ((Item && Item.status === 'default') || status === 'default') {
+      if ((Item && Item.status === "default") || status === "default") {
         isRequirment = true;
-      } else if ((Item && Item.status === 'linked') || status === 'linked') {
+      } else if ((Item && Item.status === "linked") || status === "linked") {
         isMatching = true;
       } else if (
-        (Item && Item.status === 'contract') ||
-        status === 'contract'
+        (Item && Item.status === "contract") ||
+        status === "contract"
       ) {
         isContract = true;
       } else if (
-        (Item && Item.status === 'confirmed') ||
-        status === 'confirmed'
+        (Item && Item.status === "confirmed") ||
+        status === "confirmed"
       ) {
         isConfirm = true;
       } else if (
-        (Item && Item.status === 'offered' && isFutureDate === false) ||
-        (status === 'offered' && isFutureDate === false)
+        (Item && Item.status === "offered" && isFutureDate === false) ||
+        (status === "offered" && isFutureDate === false)
       ) {
         isOffered = true;
       } else if (
-        (Item && Item.status === 'offered' && isFutureDate === true) ||
-        (status === 'offered' && isFutureDate === true)
+        (Item && Item.status === "offered" && isFutureDate === true) ||
+        (status === "offered" && isFutureDate === true)
       ) {
         isOfferedFutureDate = true;
       }
@@ -625,9 +627,9 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
             handleSubmit,
             setFieldValue,
           } = props;
-          let d = moment().format('L');
-          let dtStart: any = new Date(d + ' ' + startTime);
-          let dtEnd: any = new Date(d + ' ' + endTime);
+          let d = moment().format("L");
+          let dtStart: any = new Date(d + " " + startTime);
+          let dtEnd: any = new Date(d + " " + endTime);
           let difference = dtEnd - dtStart;
 
           // Custom function to handle react select fields
@@ -635,20 +637,23 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
             selectOption: IReactSelectInterface,
             name: string
           ) => {
-            console.log('im in handle select', selectOption);
+            console.log("im in handle select", selectOption);
 
             setFieldValue(name, selectOption);
-            if (name === 'department') {
+            if (name === "department") {
               this.props.setcareInstituionDept(selectOption, values);
             }
-            if (name === 'shift') {
-              console.log('setcareInstituionShift');
+            if (name === "shift") {
+              console.log("setcareInstituionShift");
 
               this.props.setcareInstituionShift(selectOption, values);
             }
           };
-          console.log('careInstituionShift@@@@@@@@@@',this.props.careInstituionShift);
-          
+          console.log(
+            "careInstituionShift@@@@@@@@@@",
+            this.props.careInstituionShift
+          );
+
           const DepartmentError: any = errors.department;
           const qualificationError: any = errors.qualificationId;
           const shiftOptions =
@@ -673,52 +678,52 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
           }
           return (
             <>
-              <div className='form-section '>
+              <div className="form-section ">
                 <div
                   className={classnames({
-                    'form-card custom-height custom-scrollbar': true,
-                    'requirement-bg': isRequirment,
-                    'matching-bg': isMatching,
-                    'contract-bg': isConfirm,
-                    'availability-bg': isOffered,
-                    'availability-dark-bg': isOfferedFutureDate,
+                    "form-card custom-height custom-scrollbar": true,
+                    "requirement-bg": isRequirment,
+                    "matching-bg": isMatching,
+                    "contract-bg": isConfirm,
+                    "availability-bg": isOffered,
+                    "availability-dark-bg": isOfferedFutureDate,
                   })}
                 >
-                  <h5 className='content-title'>
-                    {languageTranslation('MENU_INSTITUTION')}
+                  <h5 className="content-title">
+                    {languageTranslation("MENU_INSTITUTION")}
                   </h5>
                   {idSearchAppointmentLoading && !isCorrespondingAppointment ? (
-                    <div className='appointment-form-loader'>
+                    <div className="appointment-form-loader">
                       <Loader />
                     </div>
                   ) : null}
                   <Row>
                     {appointmentId ? (
-                      <Col lg={'12'}>
+                      <Col lg={"12"}>
                         <FormGroup>
                           <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation('APPOINTMENT_ID')}
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("APPOINTMENT_ID")}
                               </Label>
                             </Col>
-                            <Col sm='8'>
-                              <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                                <div className='required-input appointment-id-width'>
+                            <Col sm="8">
+                              <div className="d-flex align-items-center justify-content-between flex-wrap">
+                                <div className="required-input appointment-id-width">
                                   <Input
                                     value={appointmentId}
                                     disabled
                                     placeholder={languageTranslation(
-                                      'APPOINTMENT_ID'
+                                      "APPOINTMENT_ID"
                                     )}
                                   />
                                 </div>
                                 {isLeasingAppointment ? (
-                                  <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                                  <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
                                     TIMyoCY
                                   </div>
                                 ) : (
-                                  <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                                  <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
                                     Plycoco
                                   </div>
                                 )}
@@ -728,36 +733,36 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </FormGroup>
                       </Col>
                     ) : null}
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('NAME')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("NAME")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <InputGroup>
                                 <Input
-                                  type='text'
-                                  name={'name'}
-                                  placeholder={languageTranslation('NAME')}
+                                  type="text"
+                                  name={"name"}
+                                  placeholder={languageTranslation("NAME")}
                                   disabled
                                   value={
-                                    name ? name : languageTranslation('NAME')
+                                    name ? name : languageTranslation("NAME")
                                   }
                                 />
                                 <InputGroupAddon
-                                  addonType='append'
-                                  className='cursor-pointer'
+                                  addonType="append"
+                                  className="cursor-pointer"
                                   onClick={() =>
                                     name
                                       ? this.handleUserList(
-                                          Id ? Id : '',
-                                          'careinstitution'
+                                          Id ? Id : "",
+                                          "careinstitution"
                                         )
-                                      : ''
+                                      : ""
                                   }
                                 >
                                   <InputGroupText>
@@ -770,7 +775,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                       //     ? "fa fa-star theme-text"
                                       //     : "fa fa-star"
                                       // }
-                                      aria-hidden='true'
+                                      aria-hidden="true"
                                     ></i>
                                   </InputGroupText>
                                 </InputGroupAddon>
@@ -780,16 +785,16 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('DATE')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("DATE")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='text-value one-line-text'>
+                          <Col sm="8">
+                            <div className="text-value one-line-text">
                               {activeDateCareinstitution
                                 ? activeDateCareinstitution
                                     .map(
@@ -802,12 +807,12 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                               index !==
                                                 activeDateCareinstitution.length -
                                                   1
-                                                ? 'dd DD'
+                                                ? "dd DD"
                                                 : `${appointmentDayFormat} ${defaultDateFormat}`
                                             )
                                           : null
                                     )
-                                    .join(', ')
+                                    .join(", ")
                                 : null}
                             </div>
                           </Col>
@@ -815,54 +820,54 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                       </FormGroup>
                     </Col>
 
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('START_WORKING')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("START_WORKING")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                              <div className='required-input clockshift-input'>
-                                <InputGroup className='flex-nowrap'>
-                                  <Field name={'startTime'}>
+                          <Col sm="8">
+                            <div className="d-flex align-items-center justify-content-between flex-wrap">
+                              <div className="required-input clockshift-input">
+                                <InputGroup className="flex-nowrap">
+                                  <Field name={"startTime"}>
                                     {({ field }: any) => (
                                       <MaskedInput
                                         {...field}
                                         mask={TimeMask}
                                         className={
                                           errors.startTime && touched.startTime
-                                            ? 'text-input error form-control'
-                                            : 'text-input form-control'
+                                            ? "text-input error form-control"
+                                            : "text-input form-control"
                                         }
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={startTime ? startTime : ''}
+                                        value={startTime ? startTime : ""}
                                       />
                                     )}
                                   </Field>
                                   {errors.startTime && touched.startTime && (
-                                    <div className='required-tooltip'>
+                                    <div className="required-tooltip">
                                       {errors.startTime}
                                     </div>
                                   )}
-                                  <InputGroupAddon addonType='append'>
+                                  <InputGroupAddon addonType="append">
                                     <InputGroupText>
-                                      {languageTranslation('UHR')}
+                                      {languageTranslation("UHR")}
                                     </InputGroupText>
                                   </InputGroupAddon>
                                 </InputGroup>
                               </div>
-                              <UncontrolledDropdown className='custom-dropdown'>
+                              <UncontrolledDropdown className="custom-dropdown">
                                 <DropdownToggle
-                                  className={'add-new-btn'}
+                                  className={"add-new-btn"}
                                   value={shift ? shift : undefined}
                                 >
                                   <i
-                                    className='fa fa-clock-o'
-                                    aria-hidden='true'
+                                    className="fa fa-clock-o"
+                                    aria-hidden="true"
                                   />
                                 </DropdownToggle>
                                 <DropdownMenu>
@@ -872,13 +877,16 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                           option: IReactSelectInterface,
                                           index: number
                                         ) => {
-                                          console.log('option.value',option.value);
-                                          return (                                            
+                                          console.log(
+                                            "option.value",
+                                            option.value
+                                          );
+                                          return (
                                             <DropdownItem
                                               key={index}
                                               value={option.value}
                                               onClick={(e: any) =>
-                                                handleSelect(option, 'shift')
+                                                handleSelect(option, "shift")
                                               }
                                             >
                                               {option.label}
@@ -886,7 +894,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                           );
                                         }
                                       )
-                                    : ''}
+                                    : ""}
                                 </DropdownMenu>
                               </UncontrolledDropdown>
                             </div>
@@ -894,48 +902,48 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('END_WORKING')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("END_WORKING")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input clockshift-input'>
-                              <InputGroup className='flex-nowrap'>
-                                <Field name={'endTime'}>
+                          <Col sm="8">
+                            <div className="required-input clockshift-input">
+                              <InputGroup className="flex-nowrap">
+                                <Field name={"endTime"}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
                                       mask={TimeMask}
                                       className={
                                         errors.endTime && touched.endTime
-                                          ? 'fee-width form-control error'
-                                          : 'fee-width form-control'
+                                          ? "fee-width form-control error"
+                                          : "fee-width form-control"
                                       }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={endTime ? endTime : ''}
+                                      value={endTime ? endTime : ""}
                                     />
                                   )}
                                 </Field>
                                 {errors.endTime ? (
                                   errors.endTime &&
                                   touched.endTime && (
-                                    <div className='required-tooltip'>
+                                    <div className="required-tooltip">
                                       {errors.endTime}
                                     </div>
                                   )
                                 ) : touched.endTime && difference <= 0 ? (
-                                  <div className='required-tooltip'>
-                                    {languageTranslation('VALID_TIME_RANGE')}
+                                  <div className="required-tooltip">
+                                    {languageTranslation("VALID_TIME_RANGE")}
                                   </div>
                                 ) : null}
-                                <InputGroupAddon addonType='append'>
+                                <InputGroupAddon addonType="append">
                                   <InputGroupText>
-                                    {languageTranslation('UHR')}
+                                    {languageTranslation("UHR")}
                                   </InputGroupText>
                                 </InputGroupAddon>
                               </InputGroup>
@@ -944,23 +952,23 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('QUALIFICATION')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("QUALIFICATION")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='postion-relative'>
+                          <Col sm="8">
+                            <div className="postion-relative">
                               <Button
                                 className={
                                   qualificationId && qualificationId.length
-                                    ? 'add-new-btn arrow-btn'
-                                    : 'add-new-btn arrow-btn disabled-class'
+                                    ? "add-new-btn arrow-btn"
+                                    : "add-new-btn arrow-btn disabled-class"
                                 }
-                                color=''
+                                color=""
                                 onClick={() => {
                                   if (
                                     qualificationId &&
@@ -971,8 +979,8 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 }}
                               >
                                 <i
-                                  className='fa fa-arrow-up'
-                                  aria-hidden='true'
+                                  className="fa fa-arrow-up"
+                                  aria-hidden="true"
                                 />
                               </Button>
 
@@ -980,27 +988,27 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 className={`custom-select-checkbox select-right-bottom ${
                                   errors.qualificationId &&
                                   touched.qualificationId
-                                    ? 'error'
-                                    : ' '
+                                    ? "error"
+                                    : " "
                                 }`}
                               >
                                 <ReactMultiSelectCheckboxes
                                   options={qualificationList}
                                   placeholderButtonLabel={languageTranslation(
-                                    'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                                    "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                                   )}
                                   placeholder={languageTranslation(
-                                    'CAREGIVER_QUALIFICATION_PLACEHOLDER'
+                                    "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                                   )}
                                   className={
                                     errors.qualificationId &&
                                     touched.qualificationId
-                                      ? 'custom-reactselect error'
-                                      : 'custom-reactselect'
+                                      ? "custom-reactselect error"
+                                      : "custom-reactselect"
                                   }
-                                  classNamePrefix='custom-inner-reactselect'
+                                  classNamePrefix="custom-inner-reactselect"
                                   onChange={(value: any) =>
-                                    handleSelect(value, 'qualificationId')
+                                    handleSelect(value, "qualificationId")
                                   }
                                   value={
                                     qualificationId && qualificationId.length
@@ -1010,7 +1018,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 />
                                 {errors.qualificationId &&
                                   touched.qualificationId && (
-                                    <div className='required-tooltip'>
+                                    <div className="required-tooltip">
                                       {qualificationError}
                                     </div>
                                   )}
@@ -1021,34 +1029,34 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                       </FormGroup>
                     </Col>
                     {showQualification ? (
-                      <Col lg={'12'}>
+                      <Col lg={"12"}>
                         <FormGroup>
                           <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
                                 {languageTranslation(
-                                  'QUALIFICATION_FOR_CHARGE'
+                                  "QUALIFICATION_FOR_CHARGE"
                                 )}
                               </Label>
                             </Col>
-                            <Col sm='8'>
-                              <div className='postion-relative'>
+                            <Col sm="8">
+                              <div className="postion-relative">
                                 <Select
                                   options={qualificationList}
                                   placeholder={languageTranslation(
-                                    'QUALIFICATION_FOR_CHARGE'
+                                    "QUALIFICATION_FOR_CHARGE"
                                   )}
                                   className={
                                     errors.qualificationForCharge &&
                                     touched.qualificationForCharge
-                                      ? 'custom-reactselect error'
-                                      : 'custom-reactselect'
+                                      ? "custom-reactselect error"
+                                      : "custom-reactselect"
                                   }
-                                  classNamePrefix='custom-inner-reactselect'
+                                  classNamePrefix="custom-inner-reactselect"
                                   onChange={(value: any) =>
                                     handleSelect(
                                       value,
-                                      'qualificationForCharge'
+                                      "qualificationForCharge"
                                     )
                                   }
                                   value={
@@ -1064,19 +1072,19 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                       </Col>
                     ) : null}
 
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('DEPARTMENT')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("DEPARTMENT")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <Select
                                 placeholder={languageTranslation(
-                                  'SELECT_DEPARTMENT'
+                                  "SELECT_DEPARTMENT"
                                 )}
                                 options={careInstitutionDepartment}
                                 isDisabled={
@@ -1084,14 +1092,14 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                     ? true
                                     : false
                                 }
-                                classNamePrefix='custom-inner-reactselect'
+                                classNamePrefix="custom-inner-reactselect"
                                 className={
                                   errors.department && touched.department
-                                    ? 'custom-reactselect error'
-                                    : 'custom-reactselect'
+                                    ? "custom-reactselect error"
+                                    : "custom-reactselect"
                                 }
                                 onChange={(value: any) =>
-                                  handleSelect(value, 'department')
+                                  handleSelect(value, "department")
                                 }
                                 value={
                                   department && department.value
@@ -1100,7 +1108,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 }
                               />
                               {errors.department && touched.department && (
-                                <div className='required-tooltip'>
+                                <div className="required-tooltip">
                                   {DepartmentError}
                                 </div>
                               )}
@@ -1110,76 +1118,76 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                       </FormGroup>
                     </Col>
 
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('ADDRESS')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("ADDRESS")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <Input
-                                type='textarea'
-                                name={'address'}
+                                type="textarea"
+                                name={"address"}
                                 disabled={true}
-                                placeholder={languageTranslation('ADDRESS')}
-                                value={department ? address : ''}
-                                className='textarea-custom form-control'
-                                rows='2'
+                                placeholder={languageTranslation("ADDRESS")}
+                                value={department ? address : ""}
+                                className="textarea-custom form-control"
+                                rows="2"
                               />
                             </div>
                           </Col>
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('CONTACT_PERSON')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("CONTACT_PERSON")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <Input
-                                type='text'
+                                type="text"
                                 disabled={true}
-                                name={'contactPerson'}
+                                name={"contactPerson"}
                                 placeholder={languageTranslation(
-                                  'CONTACT_PERSON'
+                                  "CONTACT_PERSON"
                                 )}
-                                className='width-common'
-                                value={contactPerson ? contactPerson : ''}
+                                className="width-common"
+                                value={contactPerson ? contactPerson : ""}
                               />
                             </div>
                           </Col>
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('REMARKS_OFFER_DEPARTMENT')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("REMARKS_OFFER_DEPARTMENT")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <Input
-                                className='textarea-custom form-control'
-                                rows='3'
+                                className="textarea-custom form-control"
+                                rows="3"
                                 disabled={true}
-                                type='textarea'
-                                name='departmentOfferRemarks'
-                                id='exampleText'
+                                type="textarea"
+                                name="departmentOfferRemarks"
+                                id="exampleText"
                                 value={
                                   departmentOfferRemarks
                                     ? departmentOfferRemarks
-                                    : ''
+                                    : ""
                                 }
                                 maxLength={255}
                               />
@@ -1188,29 +1196,29 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
                               {languageTranslation(
-                                'REMARKS_BOOKING_DEPARTEMENT'
+                                "REMARKS_BOOKING_DEPARTEMENT"
                               )}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <Input
-                                className='textarea-custom form-control'
-                                rows='3'
+                                className="textarea-custom form-control"
+                                rows="3"
                                 disabled={true}
-                                type='textarea'
-                                name='departmentBookingRemarks'
-                                id='exampleText'
+                                type="textarea"
+                                name="departmentBookingRemarks"
+                                id="exampleText"
                                 value={
                                   departmentBookingRemarks
                                     ? departmentBookingRemarks
-                                    : ''
+                                    : ""
                                 }
                                 maxLength={255}
                               />
@@ -1219,27 +1227,27 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
                               {languageTranslation(
-                                'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
+                                "REMARK_DEPARTMENT_VISIBLE_INTERNALLY"
                               )}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <Input
-                                className='textarea-custom form-control'
-                                rows='3'
+                                className="textarea-custom form-control"
+                                rows="3"
                                 disabled={true}
-                                type='textarea'
-                                name='departmentRemarks'
-                                id='exampleText'
+                                type="textarea"
+                                name="departmentRemarks"
+                                id="exampleText"
                                 value={
-                                  departmentRemarks ? departmentRemarks : ''
+                                  departmentRemarks ? departmentRemarks : ""
                                 }
                                 maxLength={255}
                               />
@@ -1248,23 +1256,23 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('WORKING_PROOF_NECESSARY')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("WORKING_PROOF_NECESSARY")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <FormGroup check inline>
-                                <div className=' checkbox-custom mb-0'>
+                                <div className=" checkbox-custom mb-0">
                                   <input
-                                    type='checkbox'
-                                    id='isWorkingProof'
-                                    name={'isWorkingProof'}
-                                    className=''
+                                    type="checkbox"
+                                    id="isWorkingProof"
+                                    name={"isWorkingProof"}
+                                    className=""
                                     checked={isWorkingProof}
                                     onChange={(
                                       e: React.ChangeEvent<HTMLInputElement>
@@ -1272,10 +1280,10 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                       const {
                                         target: { checked },
                                       } = e;
-                                      setFieldValue('isWorkingProof', checked);
+                                      setFieldValue("isWorkingProof", checked);
                                     }}
                                   />
-                                  <Label for='isWorkingProof'></Label>
+                                  <Label for="isWorkingProof"></Label>
                                 </div>
                               </FormGroup>
                             </div>
@@ -1283,23 +1291,23 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('REMARK_OFFER')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("REMARK_OFFER")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <Input
-                                className='textarea-custom form-control'
-                                rows='3'
-                                type='textarea'
-                                name='offerRemarks'
-                                id='exampleText'
-                                value={offerRemarks ? offerRemarks : ''}
+                                className="textarea-custom form-control"
+                                rows="3"
+                                type="textarea"
+                                name="offerRemarks"
+                                id="exampleText"
+                                value={offerRemarks ? offerRemarks : ""}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 maxLength={255}
@@ -1309,23 +1317,23 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('REMARK_BOOKING')}
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
+                              {languageTranslation("REMARK_BOOKING")}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <Input
-                                className='textarea-custom form-control'
-                                rows='3'
-                                type='textarea'
-                                name='bookingRemarks'
-                                id='exampleText'
-                                value={bookingRemarks ? bookingRemarks : ''}
+                                className="textarea-custom form-control"
+                                rows="3"
+                                type="textarea"
+                                name="bookingRemarks"
+                                id="exampleText"
+                                value={bookingRemarks ? bookingRemarks : ""}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 maxLength={255}
@@ -1335,25 +1343,25 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </Row>
                       </FormGroup>
                     </Col>
-                    <Col lg={'12'}>
+                    <Col lg={"12"}>
                       <FormGroup>
                         <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
+                          <Col sm="4">
+                            <Label className="form-label col-form-label">
                               {languageTranslation(
-                                'COMMENT_ONLY_VISIBLE_INTERNALLY'
+                                "COMMENT_ONLY_VISIBLE_INTERNALLY"
                               )}
                             </Label>
                           </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
+                          <Col sm="8">
+                            <div className="required-input">
                               <Input
-                                className='textarea-custom form-control'
-                                rows='3'
-                                type='textarea'
-                                name='comments'
-                                id='exampleText'
-                                value={comments ? comments : ''}
+                                className="textarea-custom form-control"
+                                rows="3"
+                                type="textarea"
+                                name="comments"
+                                id="exampleText"
+                                value={comments ? comments : ""}
                                 onChange={handleChange}
                                 maxLength={255}
                                 onBlur={handleBlur}
@@ -1364,66 +1372,66 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                       </FormGroup>
                     </Col>
                     {createdBy ? (
-                      <Col lg={'12'} className='mb-2 text-right text-muted'>
-                        <i>{`${languageTranslation('CREATED_BY')} ${
-                          createdBy ? createdBy : ''
+                      <Col lg={"12"} className="mb-2 text-right text-muted">
+                        <i>{`${languageTranslation("CREATED_BY")} ${
+                          createdBy ? createdBy : ""
                         }`}</i>
                       </Col>
                     ) : null}
                     {createdAt ? (
-                      <Col lg={'12'} className='mb-2 text-right text-muted'>
+                      <Col lg={"12"} className="mb-2 text-right text-muted">
                         <i>
-                          {`${languageTranslation('CREATED_AT')} ${
+                          {`${languageTranslation("CREATED_AT")} ${
                             createdAt
                               ? moment(createdAt).format(
                                   defaultDateTimeFormatForDashboard
                                 )
-                              : ''
+                              : ""
                           }`}
                         </i>
                       </Col>
                     ) : null}
                     {updatedAt ? (
-                      <Col lg={'12'} className='mb-2 text-right text-muted'>
+                      <Col lg={"12"} className="mb-2 text-right text-muted">
                         <i>
-                          {`${languageTranslation('UPDATED_AT')} ${
+                          {`${languageTranslation("UPDATED_AT")} ${
                             updatedAt
                               ? moment(updatedAt).format(
                                   defaultDateTimeFormatForDashboard
                                 )
-                              : ''
+                              : ""
                           }`}
                         </i>
                       </Col>
                     ) : null}
-                    <Col lg={'12'}>
-                      <div className='d-flex align-items-center justify-content-between'>
+                    <Col lg={"12"}>
+                      <div className="d-flex align-items-center justify-content-between">
                         <Button
-                          className={'btn-save'}
-                          color='danger'
+                          className={"btn-save"}
+                          color="danger"
                           onClick={() =>
-                            onhandleDelete('careinstitution', appointmentId)
+                            onhandleDelete("careinstitution", appointmentId)
                           }
                           disabled={!appointmentId}
                         >
-                          {languageTranslation('DELETE')}
+                          {languageTranslation("DELETE")}
                         </Button>
                         <Button
-                          className='btn-save'
-                          color='primary'
+                          className="btn-save"
+                          color="primary"
                           onClick={handleSubmit}
                           disabled={
                             addCareinstLoading /*  ? true : appointmentId ? false : !dateCondition ? true : false */
                           }
                         >
                           {addCareinstLoading ? (
-                            <i className='fa fa-spinner fa-spin mr-2' />
+                            <i className="fa fa-spinner fa-spin mr-2" />
                           ) : (
-                            ''
+                            ""
                           )}
                           {appointmentId
-                            ? languageTranslation('UPDATE_BUTTON')
-                            : languageTranslation('SAVE_BUTTON')}
+                            ? languageTranslation("UPDATE_BUTTON")
+                            : languageTranslation("SAVE_BUTTON")}
                         </Button>
                       </div>
                     </Col>

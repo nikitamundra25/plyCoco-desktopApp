@@ -61,14 +61,17 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       caregiverLastTimeValues: '',
     };
   }
-  componentDidUpdate = ({ caregiverLastTimeValues }: any) => {
+  componentDidUpdate = ({ caregiverLastTimeData }: any) => {
     const {
       selectedCells,
-      caregiverLastTimeData,
       setSelectedCells,
     } = this.props;
+    const {caregiverLastTimeValues} = this.state;
+    console.log("caregiverLastTimeValues",caregiverLastTimeValues);
+    
     // push last time data into the caregiver field
-    if (caregiverLastTimeValues !== this.props.caregiverLastTimeValues) {
+    if (caregiverLastTimeData !== this.props.caregiverLastTimeData) {
+      console.log("this.props.caregiverLastTimeData",this.props.caregiverLastTimeData);
       const {
         distanceInKM = '',
         f = '',
@@ -82,10 +85,9 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       if (
         selectedCells &&
         selectedCells.length &&
-        caregiverLastTimeData &&
-        caregiverLastTimeData.getCareGiverAvabilityLastTimeById
+        this.props.caregiverLastTimeData
       ) {
-        const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
+        // const { getCareGiverAvabilityLastTimeById } = this.props.caregiverLastTimeData;
         let careGiverAvabilityInput: any[] = [];
         selectedCells.forEach(async (element: any) => {
           const {
@@ -103,8 +105,8 @@ class CaregiverFormView extends React.PureComponent<any, any> {
             nightFee = '',
             weekendAllowance = '',
             holidayAllowance = '',
-          } = getCareGiverAvabilityLastTimeById
-            ? getCareGiverAvabilityLastTimeById
+          } = this.props.caregiverLastTimeData
+            ? this.props.caregiverLastTimeData
             : {};
           let data: any = {
             id: selectedCaregiverId,
@@ -134,7 +136,9 @@ class CaregiverFormView extends React.PureComponent<any, any> {
           };
           careGiverAvabilityInput = [...careGiverAvabilityInput, data];
         });
-        setSelectedCells(careGiverAvabilityInput);
+        console.log("careGiverAvabilityInput",careGiverAvabilityInput);
+          this.props.updateDataLastTime(careGiverAvabilityInput)
+        //  setSelectedCells(careGiverAvabilityInput);
       }
     }
   };
@@ -381,8 +385,6 @@ class CaregiverFormView extends React.PureComponent<any, any> {
   };
   // fetch last time data for caregiver
   handleLastTimeData = (id: string, values: any) => {
-    console.log('handleLastTimeDatahandleLastTimeData', id, values);
-
     const { fetchCaregiverLastTimeData } = this.props;
     if (id) {
       fetchCaregiverLastTimeData({
@@ -398,7 +400,6 @@ class CaregiverFormView extends React.PureComponent<any, any> {
   };
 
   render() {
-    console.log('caregiverLastTimeValues', this.state.caregiverLastTimeValues);
     const {
       departmentList,
       qualificationList,
@@ -438,7 +439,6 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       selectedCells[0]
         ? selectedCells[0]
         : {};
-    console.log('item*************', item);
 
     const {
       id: Id = '',

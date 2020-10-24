@@ -260,7 +260,8 @@ class CareInstitutionList extends React.PureComponent<any, any> {
           deptId = "",
           divisions = [],
         } = careInstData ? careInstData : {};
-
+   console.log("careInstData",careInstData);
+   
         let qualification1: IReactSelectInterface[] = [];
         if (
           qualificationList &&
@@ -586,6 +587,8 @@ class CareInstitutionList extends React.PureComponent<any, any> {
                                 );
                               })[0]
                             : "";
+                            console.log("rowData",rowData);
+                            
                         return (
                           <SelectableCell
                             item={currentAvail || {}}

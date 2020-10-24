@@ -762,6 +762,7 @@ const DummyAppointment: FunctionComponent = () => {
     },
   });
 
+ 
   useEffect(() => {
     fetchCareGiversList(1);
     fetchCareInstituionList(1);
@@ -834,6 +835,10 @@ const DummyAppointment: FunctionComponent = () => {
   // Store careinst list state
   useEffect(() => {
     let temp: any[] = daysData ? [...daysData.daysArr] : [];
+    let careInstSelectedCell =
+    selectedCellsCareinstitution && selectedCellsCareinstitution.length
+      ? [...selectedCellsCareinstitution]
+      : [];
     if (careInstitutionList && careInstitutionList.getUserByQualifications) {
       const { getUserByQualifications } = careInstitutionList;
       const { result, totalCount } = getUserByQualifications;
@@ -869,26 +874,26 @@ const DummyAppointment: FunctionComponent = () => {
                 .sort((a: any, b: any) => b.id - a.id);
               for (let i = 0; i < records.length; i++) {
                 // To update the status of selected cell accordingly
-                // if (
-                //   records[i] &&
-                //   careInstSelectedCell &&
-                //   careInstSelectedCell.length &&
-                //   records[i].id
-                // ) {
-                //   let index = careInstSelectedCell.findIndex(
-                //     (cell: any) => cell.item && cell.item.id === records[i].id,
-                //   );
-                //   if (index > -1) {
-                //     careInstSelectedCell[index].item = {
-                //       ...records[i],
-                //       qualificationId: qualificationList.filter(
-                //         ({ value }: any) =>
-                //           records[i].qualificationId &&
-                //           records[i].qualificationId.includes(value),
-                //       ),
-                //     };
-                //   }
-                // }
+                if (
+                  records[i] &&
+                  careInstSelectedCell &&
+                  careInstSelectedCell.length &&
+                  records[i].id
+                ) {
+                  let index = careInstSelectedCell.findIndex(
+                    (cell: any) => cell.item && cell.item.id === records[i].id,
+                  );
+                  if (index > -1) {
+                    careInstSelectedCell[index].item = {
+                      ...records[i],
+                      qualificationId: qualificationList.filter(
+                        ({ value }: any) =>
+                          records[i].qualificationId &&
+                          records[i].qualificationId.includes(value),
+                      ),
+                    };
+                  }
+                }
 
                 user.availabilityData[i].push(records[i]);
               }
@@ -901,21 +906,21 @@ const DummyAppointment: FunctionComponent = () => {
         /*  */
       }
 
-      // if (careInstSelectedCell && careInstSelectedCell.length) {
-      //   setselectedCellsCareinstitution(careInstSelectedCell);
-      // }
+      if (careInstSelectedCell && careInstSelectedCell.length) {
+        setselectedCellsCareinstitution(careInstSelectedCell);
+      }
       // setcareinstitutionList(result);
       // To set solo state in case of search by care-institution
-      // if (
-      //   careinstitutionSoloFilter &&
-      //   careinstitutionSoloFilter.value &&
-      //   starCanstitution &&
-      //   result &&
-      //   result.length &&
-      //   (!starCanstitution.isStar || starCanstitution.id !== result[0].id)
-      // ) {
-      //   handleFirstStarCanstitution(result[0], 1);
-      // }
+      if (
+        filterState.careinstitutionSoloFilter &&
+        filterState.careinstitutionSoloFilter.value &&
+        starCanstitution &&
+        result &&
+        result.length &&
+        (!starCanstitution.isStar || starCanstitution.id !== result[0].id)
+      ) {
+        handleFirstStarCanstitution(result[0], 1);
+      }
     }
   }, [careInstitutionList]);
 
@@ -1025,6 +1030,8 @@ const DummyAppointment: FunctionComponent = () => {
 
   const handleSelection = async (selectedCellsData: any, name: string) => {
     setTimeSlotError("");
+    console.log("selectedCellsData",selectedCellsData);
+    
     const { item = {}, dept = {}, id = "", dateString = "" } =
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
         ? selectedCellsData[0]
@@ -1484,6 +1491,13 @@ const DummyAppointment: FunctionComponent = () => {
       });
     }
   };
+
+  const updateDataLastTime = async(data:any) =>{
+    console.log("datadatadatadata",data);
+    
+    // await setSelectedCells(data)
+  }
+
   return (
     <div className='common-detail-page'>
       <div className='common-detail-section'>
@@ -1576,7 +1590,8 @@ const DummyAppointment: FunctionComponent = () => {
                   }
                 </div>
               </div>
-
+{console.log("caregiverLastTimeData++++++++++++",caregiverLastTimeData)
+}
               <div
                 className='appointment-page-form-section'
                 id='appointment_form_section'>
@@ -1610,6 +1625,10 @@ const DummyAppointment: FunctionComponent = () => {
                       }
                       onhandleDelete={onhandleDelete}
                       setqualification={setqualification}
+                      updateDataLastTime={updateDataLastTime}
+                      setSelectedCells={(data:any)=> setSelectedCells(data)}
+                      caregiverLastTimeData={caregiverLastTimeData &&
+                        caregiverLastTimeData.getCareGiverAvabilityLastTimeById ? caregiverLastTimeData.getCareGiverAvabilityLastTimeById: {}}
                     />
                   </Col>
                   <Col lg={"6"} className='pl-lg-0'>

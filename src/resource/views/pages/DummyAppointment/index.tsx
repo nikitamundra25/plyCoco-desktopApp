@@ -24,6 +24,7 @@ import {
   IReactSelectInterface,
   IAddCargiverAppointmentRes,
   IStarInterface,
+  ICareinstitutionFormSubmitValue,
 } from "../../../../interfaces";
 import {
   germanNumberFormat,

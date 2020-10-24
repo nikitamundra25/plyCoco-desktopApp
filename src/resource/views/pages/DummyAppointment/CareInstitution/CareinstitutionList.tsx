@@ -372,7 +372,7 @@ class CareInstitutionList extends React.PureComponent<any, any> {
             <BaseTable
               data={listCareInst}
               width={1000}
-              height={300}
+              height={this.props.setHeight}
               fixed
               // render ={ ({ column: { listCareInst } })}
               footerHeight={loadingMore ? 50 : 0}

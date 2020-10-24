@@ -30,6 +30,7 @@ import {
   ICareinstitutionFormSubmitValue,
   ICareinstitutionFormValue,
   IReactSelectInterface,
+  IReactSelectTimeInterface,
 } from '../../../../../interfaces';
 import {
   ShiftTime,
@@ -44,211 +45,6 @@ import '../index.scss';
 import Loader from '../../../containers/Loader/Loader';
 import { CareInstitutionValidationSchema } from '../../../../validations/AppointmentsFormValidationSchema';
 import { toast } from 'react-toastify';
-
-// const CareinstitutionFormView: FunctionComponent<
-//   FormikProps<ICareinstitutionFormValue> & IAppointmentCareInstitutionForm & any
-// > = (
-//   props: FormikProps<ICareinstitutionFormValue> &
-//     IAppointmentCareInstitutionForm &
-//     any
-// ) => {
-// useEffect(() => {
-//   if (props.savingBoth && !timeSlotError) {
-//     handleSubmit();
-//   }
-// }, [props.savingBoth]);
-// const {
-//   values: {
-//     appointmentId,
-//     name,
-//     shift,
-//     startTime,
-//     endTime,
-//     qualificationId,
-//     qualificationForCharge,
-//     department,
-//     address,
-//     contactPerson,
-//     isWorkingProof,
-//     departmentBookingRemarks,
-//     departmentOfferRemarks,
-//     departmentRemarks,
-//     offerRemarks,
-//     bookingRemarks,
-//     comments,
-//     status,
-//     createdBy,
-//     createdAt,
-//     updatedAt
-//   },
-//   touched,
-//   errors,
-//   handleChange,
-//   handleBlur,
-//   handleSubmit,
-//   setFieldValue,
-//   activeDateCareinstitution,
-//   selectedCareinstitution,
-//   qualificationList,
-//   careInstitutionDepartment,
-//   setcareInstituionDept,
-//   careInstitutionTimesOptions,
-//   setcareInstituionShift,
-//   selctedRequirement,
-//   handleQualification,
-//   onhandleDelete,
-//   careInstitutionListArr,
-//   addCareinstLoading,
-//   timeSlotError,
-//   handleFirstStarCanstitution,
-//   starCanstitution,
-//   idSearchAppointmentLoading,
-//   selectedCellsCareinstitution
-// } = props;
-
-// let d = moment().format("L");
-// let dtStart: any = new Date(d + " " + startTime);
-// let dtEnd: any = new Date(d + " " + endTime);
-// let difference = dtEnd - dtStart;
-
-// // Custom function to handle react select fields
-// const handleSelect = (selectOption: IReactSelectInterface, name: string) => {
-
-//   setFieldValue(name, selectOption);
-//   if (name === "department") {
-//     setcareInstituionDept(selectOption, props.values);
-//   }
-//   if (name === "shift") {
-//     setcareInstituionShift(selectOption, props.values);
-//   }
-// };
-// let dateCondition: any;
-// let dateData: any;
-// if (
-//   activeDateCareinstitution &&
-//   activeDateCareinstitution.length &&
-//   activeDateCareinstitution[0]
-// ) {
-//   dateData = activeDateCareinstitution[0];
-//   let now = moment().format(dbAcceptableFormat);
-//   let input = moment(activeDateCareinstitution[0]).format(dbAcceptableFormat);
-//   dateCondition = now <= input;
-// }
-
-// let isFutureDate: boolean = false;
-// if (dateData) {
-//   let dateStr = moment(dateData).add(1, "days").format("YYYY/MM/DD");
-//   isFutureDate = moment(dateStr, "YYYY/MM/DD").isAfter();
-// }
-
-// let isRequirment: boolean = false,
-//   isMatching: boolean = false,
-//   isContract: boolean = false,
-//   isConfirm: boolean = false,
-//   isOffered: boolean = false,
-//   isOfferedFutureDate: boolean = false;
-// if (selctedRequirement || status) {
-//   if (
-//     (selctedRequirement && selctedRequirement.status === "default") ||
-//     status === "default"
-//   ) {
-//     isRequirment = true;
-//   } else if (
-//     (selctedRequirement && selctedRequirement.status === "linked") ||
-//     status === "linked"
-//   ) {
-//     isMatching = true;
-//   } else if (
-//     (selctedRequirement && selctedRequirement.status === "contract") ||
-//     status === "contract"
-//   ) {
-//     isContract = true;
-//   } else if (
-//     (selctedRequirement && selctedRequirement.status === "confirmed") ||
-//     status === "confirmed"
-//   ) {
-//     isConfirm = true;
-//   } else if (
-//     (selctedRequirement &&
-//       selctedRequirement.status === "offered" &&
-//       isFutureDate === false) ||
-//     (status === "offered" && isFutureDate === false)
-//   ) {
-//     isOffered = true;
-//   } else if (
-//     (selctedRequirement &&
-//       selctedRequirement.status === "offered" &&
-//       isFutureDate === true) ||
-//     (status === "offered" && isFutureDate === true)
-//   ) {
-//     isOfferedFutureDate = true;
-//   }
-// }
-
-// const handleUserList = (id: string, name: string) => {
-//   let data: any =
-//     careInstitutionListArr && careInstitutionListArr.result
-//       ? careInstitutionListArr.result
-//       : {};
-
-//   if (
-//     id &&
-//     careInstitutionListArr &&
-//     careInstitutionListArr.result &&
-//     careInstitutionListArr &&
-//     careInstitutionListArr.result.length
-//   ) {
-//     data = careInstitutionListArr.result.filter((x: any) => x.id === id)[0];
-//     let index = careInstitutionListArr.result.findIndex(
-//       (el: any) => el.id === id
-//     );
-//     handleFirstStarCanstitution({ id }, index);
-//   }
-// };
-
-// const DepartmentError: any = errors.department;
-// const qualificationError: any = errors.qualificationId;
-// const shiftOptions =
-//   careInstitutionTimesOptions && careInstitutionTimesOptions.length
-//     ? careInstitutionTimesOptions
-//     : ShiftTime;
-
-// let isLeasingAppointment = false;
-// let showQualification = false;
-
-// // To check appointment with leasing careInst or not
-// if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
-//   isLeasingAppointment =
-//     selectedCellsCareinstitution[0] &&
-//     selectedCellsCareinstitution[0].item &&
-//     selectedCellsCareinstitution[0].item.isLeasing
-//       ? true
-//       : false;
-
-//   // To check appointment with leasing careInst or not
-//   showQualification =
-//     selectedCellsCareinstitution &&
-//     selectedCellsCareinstitution[0] &&
-//     selectedCellsCareinstitution[0].isLeasing
-//       ? true
-//       : false;
-// }
-// let isCorrespondingAppointment: boolean = false;
-// if (
-//   selectedCellsCareinstitution &&
-//   selectedCellsCareinstitution.length &&
-//   selectedCellsCareinstitution[0] &&
-//   selectedCellsCareinstitution[0].item &&
-//   selectedCellsCareinstitution[0].item.appointments &&
-//   selectedCellsCareinstitution[0].item.appointments.length
-// ) {
-//   if (
-//     selectedCellsCareinstitution[0].item.appointments[0].requirementId ===
-//     appointmentId
-//   ) {
-//     isCorrespondingAppointment = true;
-//   }
-// }
 let toastId: any = null;
 class CareinstitutionFormView extends React.PureComponent<any, any> {
   constructor(props: any) {
@@ -260,9 +56,74 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       breakHoursToErrMsg: '',
       timeSlotError: '',
       savingBoth: false,
-      careInstituionShift: '',
+      // careInstituionShift: '',
     };
   }
+  componentDidUpdate = ({ careInstituionShift }: any) => {
+    // Change time shift option
+
+    const {
+      selectedCellsCareinstitution,
+      updateCanstitutionFormikValues,
+      setselectedCellsCareinstitution,
+    } = this.props;
+    let timeData: IReactSelectTimeInterface | undefined = careInstituionShift;
+    let values = updateCanstitutionFormikValues;
+    let time = timeData && !timeData.data ? timeData.value.split('-') : '';
+    const {
+      id = '',
+      firstName = '',
+      lastName = '',
+      name = '',
+      canstitution = {},
+      qualificationIds = [],
+      dateString = '',
+      isLeasing = '',
+      item = undefined,
+    } =
+      selectedCellsCareinstitution && selectedCellsCareinstitution.length
+        ? selectedCellsCareinstitution[0]
+        : {};
+
+    let data: any[] = [
+      {
+        id,
+        firstName,
+        lastName,
+        name,
+        canstitution,
+        qualificationIds,
+        dateString,
+        isLeasing,
+        item: {
+          ...values,
+          id: values && values.appointmentId ? values.appointmentId : '',
+          shift: careInstituionShift,
+          isLeasing: item && item.isLeasing ? item.isLeasing : false,
+          startTime: timeData
+            ? timeData.data && timeData.data.begin
+              ? timeData.data.begin
+              : time[0]
+            : '',
+          endTime: timeData
+            ? timeData.data && timeData.data.begin
+              ? timeData.data.end
+              : time[1]
+            : '',
+        },
+      },
+    ];
+
+    if (careInstituionShift && careInstituionShift.value) {
+      if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+        let temp = [...selectedCellsCareinstitution];
+        temp[0] = data[0];
+        setselectedCellsCareinstitution(temp);
+      } else {
+        setselectedCellsCareinstitution(data);
+      }
+    }
+  };
   // submit careinstitution form
   handleSubmitCareinstitutionForm = async (
     values: ICareinstitutionFormValue,
@@ -500,6 +361,28 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
     const { setqualification } = this.props;
     setqualification(selectedOption);
   };
+  handleUserList = (id: string, name: string) => {
+    const { careInstitutionListArr } = this.props;
+    let data: any =
+      careInstitutionListArr && careInstitutionListArr.result
+        ? careInstitutionListArr.result
+        : {};
+
+    if (
+      id &&
+      careInstitutionListArr &&
+      careInstitutionListArr.result &&
+      careInstitutionListArr &&
+      careInstitutionListArr.result.length
+    ) {
+      data = careInstitutionListArr.result.filter((x: any) => x.id === id)[0];
+      let index = careInstitutionListArr.result.findIndex(
+        (el: any) => el.id === id
+      );
+      // handleFirstStarCanstitution({ id }, index);
+    }
+  };
+
   render() {
     const {
       selectedCells,
@@ -510,6 +393,9 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       selctedRequirement,
       multipleRequirement,
       careInstitutionTimesOptions,
+      onhandleDelete,
+      addCareinstLoading,
+      idSearchAppointmentLoading,
     } = this.props;
     // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
     let {
@@ -620,13 +506,14 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
 
     let dateCondition: any;
     let dateData: any;
-    console.log('careInstitutiondateString',careInstitutiondateString);
-    
+    console.log('careInstitutiondateString', careInstitutiondateString);
+
     let activeDateCareinstitution: any = !multipleRequirement
       ? [careInstitutiondateString]
       : selectedCellsCareinstitution
       ? selectedCellsCareinstitution.map((cell: any) => cell.dateString)
       : [];
+    console.log('activeDateCareinstitution', activeDateCareinstitution);
     if (
       activeDateCareinstitution &&
       activeDateCareinstitution.length &&
@@ -678,6 +565,27 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       }
     }
 
+    let isLeasingAppointment = false;
+    let showQualification = false;
+
+    // To check appointment with leasing careInst or not
+    if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+      isLeasingAppointment =
+        selectedCellsCareinstitution[0] &&
+        selectedCellsCareinstitution[0].item &&
+        selectedCellsCareinstitution[0].item.isLeasing
+          ? true
+          : false;
+
+      // To check appointment with leasing careInst or not
+      showQualification =
+        selectedCellsCareinstitution &&
+        selectedCellsCareinstitution[0] &&
+        selectedCellsCareinstitution[0].isLeasing
+          ? true
+          : false;
+    }
+
     return (
       <Formik
         initialValues={valuesForCareIntituionForm}
@@ -722,26 +630,50 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
           let dtEnd: any = new Date(d + ' ' + endTime);
           let difference = dtEnd - dtStart;
 
-          // // Custom function to handle react select fields
+          // Custom function to handle react select fields
           const handleSelect = (
             selectOption: IReactSelectInterface,
             name: string
           ) => {
+            console.log('im in handle select', selectOption);
+
             setFieldValue(name, selectOption);
             if (name === 'department') {
-              // setcareInstituionDept(selectOption, props.values);
+              this.props.setcareInstituionDept(selectOption, values);
             }
             if (name === 'shift') {
-              this.setState({
-                careInstituionShift: props.values,
-              });
-              // setcareInstituionShift(selectOption, props.values);
+              console.log('setcareInstituionShift');
+
+              this.props.setcareInstituionShift(selectOption, values);
             }
           };
+          console.log('careInstituionShift@@@@@@@@@@',this.props.careInstituionShift);
+          
+          const DepartmentError: any = errors.department;
+          const qualificationError: any = errors.qualificationId;
+          const shiftOptions =
+            careInstitutionTimesOptions && careInstitutionTimesOptions.length
+              ? careInstitutionTimesOptions
+              : ShiftTime;
+          let isCorrespondingAppointment: boolean = false;
+          if (
+            selectedCellsCareinstitution &&
+            selectedCellsCareinstitution.length &&
+            selectedCellsCareinstitution[0] &&
+            selectedCellsCareinstitution[0].item &&
+            selectedCellsCareinstitution[0].item.appointments &&
+            selectedCellsCareinstitution[0].item.appointments.length
+          ) {
+            if (
+              selectedCellsCareinstitution[0].item.appointments[0]
+                .requirementId === appointmentId
+            ) {
+              isCorrespondingAppointment = true;
+            }
+          }
           return (
             <>
               <div className='form-section '>
-                {/* {idSearchAppointmentLoading ?  <Loader/> :  */}
                 <div
                   className={classnames({
                     'form-card custom-height custom-scrollbar': true,
@@ -755,47 +687,47 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                   <h5 className='content-title'>
                     {languageTranslation('MENU_INSTITUTION')}
                   </h5>
-                  {/* {idSearchAppointmentLoading && !isCorrespondingAppointment ? (
-            <div className="appointment-form-loader">
-              <Loader />
-            </div>
-          ) : null} */}
+                  {idSearchAppointmentLoading && !isCorrespondingAppointment ? (
+                    <div className='appointment-form-loader'>
+                      <Loader />
+                    </div>
+                  ) : null}
                   <Row>
-                    {/* {appointmentId ? ( */}
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('APPOINTMENT_ID')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                              <div className='required-input appointment-id-width'>
-                                <Input
-                                  value={appointmentId}
-                                  disabled
-                                  placeholder={languageTranslation(
-                                    'APPOINTMENT_ID'
-                                  )}
-                                />
+                    {appointmentId ? (
+                      <Col lg={'12'}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('APPOINTMENT_ID')}
+                              </Label>
+                            </Col>
+                            <Col sm='8'>
+                              <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                                <div className='required-input appointment-id-width'>
+                                  <Input
+                                    value={appointmentId}
+                                    disabled
+                                    placeholder={languageTranslation(
+                                      'APPOINTMENT_ID'
+                                    )}
+                                  />
+                                </div>
+                                {isLeasingAppointment ? (
+                                  <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                                    TIMyoCY
+                                  </div>
+                                ) : (
+                                  <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
+                                    Plycoco
+                                  </div>
+                                )}
                               </div>
-                              {/* {isLeasingAppointment ? (
-                          <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
-                            TIMyoCY
-                          </div>
-                        ) : (
-                          <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
-                            Plycoco
-                          </div>
-                        )} */}
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    {/* ) : null} */}
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                    ) : null}
                     <Col lg={'12'}>
                       <FormGroup>
                         <Row>
@@ -819,16 +751,14 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 <InputGroupAddon
                                   addonType='append'
                                   className='cursor-pointer'
-                                  // onClick={() =>
-                                  //   name
-                                  //     ? handleUserList(
-                                  //         selectedCareinstitution
-                                  //           ? selectedCareinstitution.id
-                                  //           : "",
-                                  //         "careinstitution"
-                                  //       )
-                                  //     : ""
-                                  // }
+                                  onClick={() =>
+                                    name
+                                      ? this.handleUserList(
+                                          Id ? Id : '',
+                                          'careinstitution'
+                                        )
+                                      : ''
+                                  }
                                 >
                                   <InputGroupText>
                                     <i
@@ -836,7 +766,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                       //   name &&
                                       //   starCanstitution.isStar &&
                                       //   parseInt(starCanstitution.id) ===
-                                      //     parseInt(selectedCareinstitution.id)
+                                      //     parseInt(Id)
                                       //     ? "fa fa-star theme-text"
                                       //     : "fa fa-star"
                                       // }
@@ -859,23 +789,27 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                             </Label>
                           </Col>
                           <Col sm='8'>
-                            {/* <div className="text-value one-line-text">
-                      {activeDateCareinstitution
-                        ? activeDateCareinstitution
-                            .map(
-                              (dateString: string | undefined, index: number) =>
-                                dateString
-                                  ? moment(dateString).format(
-                                      index !==
-                                        activeDateCareinstitution.length - 1
-                                        ? "dd DD"
-                                        : `${appointmentDayFormat} ${defaultDateFormat}`
+                            <div className='text-value one-line-text'>
+                              {activeDateCareinstitution
+                                ? activeDateCareinstitution
+                                    .map(
+                                      (
+                                        dateString: string | undefined,
+                                        index: number
+                                      ) =>
+                                        dateString
+                                          ? moment(dateString).format(
+                                              index !==
+                                                activeDateCareinstitution.length -
+                                                  1
+                                                ? 'dd DD'
+                                                : `${appointmentDayFormat} ${defaultDateFormat}`
+                                            )
+                                          : null
                                     )
-                                  : null
-                            )
-                            .join(", ")
-                        : null}
-                    </div> */}
+                                    .join(', ')
+                                : null}
+                            </div>
                           </Col>
                         </Row>
                       </FormGroup>
@@ -938,7 +872,8 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                           option: IReactSelectInterface,
                                           index: number
                                         ) => {
-                                          return (
+                                          console.log('option.value',option.value);
+                                          return (                                            
                                             <DropdownItem
                                               key={index}
                                               value={option.value}
@@ -1073,55 +1008,61 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                       : []
                                   }
                                 />
-                                {/* {errors.qualificationId && touched.qualificationId && (
-                          <div className="required-tooltip">
-                            {qualificationError}
-                          </div>
-                        )} */}
+                                {errors.qualificationId &&
+                                  touched.qualificationId && (
+                                    <div className='required-tooltip'>
+                                      {qualificationError}
+                                    </div>
+                                  )}
                               </div>
                             </div>
                           </Col>
                         </Row>
                       </FormGroup>
                     </Col>
-                    {/* {showQualification ? ( */}
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('QUALIFICATION_FOR_CHARGE')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='postion-relative'>
-                              <Select
-                                options={qualificationList}
-                                placeholder={languageTranslation(
+                    {showQualification ? (
+                      <Col lg={'12'}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation(
                                   'QUALIFICATION_FOR_CHARGE'
                                 )}
-                                className={
-                                  errors.qualificationForCharge &&
-                                  touched.qualificationForCharge
-                                    ? 'custom-reactselect error'
-                                    : 'custom-reactselect'
-                                }
-                                classNamePrefix='custom-inner-reactselect'
-                                onChange={(value: any) =>
-                                  handleSelect(value, 'qualificationForCharge')
-                                }
-                                value={
-                                  qualificationForCharge
-                                    ? qualificationForCharge
-                                    : null
-                                }
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    {/* ) : null} */}
+                              </Label>
+                            </Col>
+                            <Col sm='8'>
+                              <div className='postion-relative'>
+                                <Select
+                                  options={qualificationList}
+                                  placeholder={languageTranslation(
+                                    'QUALIFICATION_FOR_CHARGE'
+                                  )}
+                                  className={
+                                    errors.qualificationForCharge &&
+                                    touched.qualificationForCharge
+                                      ? 'custom-reactselect error'
+                                      : 'custom-reactselect'
+                                  }
+                                  classNamePrefix='custom-inner-reactselect'
+                                  onChange={(value: any) =>
+                                    handleSelect(
+                                      value,
+                                      'qualificationForCharge'
+                                    )
+                                  }
+                                  value={
+                                    qualificationForCharge
+                                      ? qualificationForCharge
+                                      : null
+                                  }
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                    ) : null}
 
                     <Col lg={'12'}>
                       <FormGroup>
@@ -1138,9 +1079,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                   'SELECT_DEPARTMENT'
                                 )}
                                 options={careInstitutionDepartment}
-                                // isDisabled={
-                                //   careInstitutionDepartment.length <= 0 ? true : false
-                                // }
+                                isDisabled={
+                                  careInstitutionDepartment.length <= 0
+                                    ? true
+                                    : false
+                                }
                                 classNamePrefix='custom-inner-reactselect'
                                 className={
                                   errors.department && touched.department
@@ -1156,11 +1099,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                     : null
                                 }
                               />
-                              {/* {errors.department && touched.department && (
-                        <div className="required-tooltip">
-                          {DepartmentError}
-                        </div>
-                      )} */}
+                              {errors.department && touched.department && (
+                                <div className='required-tooltip'>
+                                  {DepartmentError}
+                                </div>
+                              )}
                             </div>
                           </Col>
                         </Row>
@@ -1295,7 +1238,9 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 type='textarea'
                                 name='departmentRemarks'
                                 id='exampleText'
-                                // value={departmentRemarks ? departmentRemarks : ""}
+                                value={
+                                  departmentRemarks ? departmentRemarks : ''
+                                }
                                 maxLength={255}
                               />
                             </div>
@@ -1354,9 +1299,9 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                 type='textarea'
                                 name='offerRemarks'
                                 id='exampleText'
-                                // value={offerRemarks ? offerRemarks : ""}
-                                // onChange={handleChange}
-                                // onBlur={handleBlur}
+                                value={offerRemarks ? offerRemarks : ''}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
                                 maxLength={255}
                               />
                             </div>
@@ -1418,43 +1363,48 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                         </Row>
                       </FormGroup>
                     </Col>
-
-                    {/* {createdBy ? (
-              <Col lg={"12"} className="mb-2 text-right text-muted">
-                <i>{`${languageTranslation("CREATED_BY")} ${
-                  createdBy ? createdBy : ""
-                }`}</i>
-              </Col>
-            ) : null}
-
-            {createdAt ? (
-              <Col lg={"12"} className="mb-2 text-right text-muted">
-                <i>
-                  {`${languageTranslation("CREATED_AT")} ${
-                    createdAt ? moment(createdAt).format(defaultDateTimeFormatForDashboard) : ""
-                  }`}
-                </i>
-              </Col>
-            ) : null}
-            {updatedAt ? (
-              <Col lg={"12"} className="mb-2 text-right text-muted">
-                <i>
-                  {`${languageTranslation("UPDATED_AT")} ${
-                    updatedAt ? moment(updatedAt).format(defaultDateTimeFormatForDashboard) : ""
-                  }`}
-                </i>
-              </Col>
-            ) : null} */}
-
+                    {createdBy ? (
+                      <Col lg={'12'} className='mb-2 text-right text-muted'>
+                        <i>{`${languageTranslation('CREATED_BY')} ${
+                          createdBy ? createdBy : ''
+                        }`}</i>
+                      </Col>
+                    ) : null}
+                    {createdAt ? (
+                      <Col lg={'12'} className='mb-2 text-right text-muted'>
+                        <i>
+                          {`${languageTranslation('CREATED_AT')} ${
+                            createdAt
+                              ? moment(createdAt).format(
+                                  defaultDateTimeFormatForDashboard
+                                )
+                              : ''
+                          }`}
+                        </i>
+                      </Col>
+                    ) : null}
+                    {updatedAt ? (
+                      <Col lg={'12'} className='mb-2 text-right text-muted'>
+                        <i>
+                          {`${languageTranslation('UPDATED_AT')} ${
+                            updatedAt
+                              ? moment(updatedAt).format(
+                                  defaultDateTimeFormatForDashboard
+                                )
+                              : ''
+                          }`}
+                        </i>
+                      </Col>
+                    ) : null}
                     <Col lg={'12'}>
                       <div className='d-flex align-items-center justify-content-between'>
                         <Button
                           className={'btn-save'}
                           color='danger'
-                          // onClick={() =>
-                          //   onhandleDelete("careinstitution", appointmentId)
-                          // }
-                          // disabled={!appointmentId}
+                          onClick={() =>
+                            onhandleDelete('careinstitution', appointmentId)
+                          }
+                          disabled={!appointmentId}
                         >
                           {languageTranslation('DELETE')}
                         </Button>
@@ -1462,19 +1412,18 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                           className='btn-save'
                           color='primary'
                           onClick={handleSubmit}
-                          // disabled={
-                          //   addCareinstLoading /*  ? true : appointmentId ? false : !dateCondition ? true : false */
-                          // }
+                          disabled={
+                            addCareinstLoading /*  ? true : appointmentId ? false : !dateCondition ? true : false */
+                          }
                         >
-                          {/* {addCareinstLoading ? (
-                    <i className="fa fa-spinner fa-spin mr-2" />
-                  ) : (
-                    ""
-                  )}
-                  {appointmentId
-                    ? languageTranslation("UPDATE_BUTTON")
-                    :} */}
-                          {languageTranslation('SAVE_BUTTON')}
+                          {addCareinstLoading ? (
+                            <i className='fa fa-spinner fa-spin mr-2' />
+                          ) : (
+                            ''
+                          )}
+                          {appointmentId
+                            ? languageTranslation('UPDATE_BUTTON')
+                            : languageTranslation('SAVE_BUTTON')}
                         </Button>
                       </div>
                     </Col>

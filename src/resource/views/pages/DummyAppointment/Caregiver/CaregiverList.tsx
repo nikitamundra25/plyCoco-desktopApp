@@ -21,9 +21,14 @@ const staticHeader = ["caregiver", "H", "S", "U", "V"];
 
 export const SelectableCell = React.memo(
   createSelectable(
-    ({ selectableRef, isSelecting, isSelected, isWeekend, item, cellIndex }: any) => {
-
-
+    ({
+      selectableRef,
+      isSelecting,
+      isSelected,
+      isWeekend,
+      item,
+      cellIndex,
+    }: any) => {
       let isMatching: boolean = false,
         isConfirm: boolean = false,
         isContractCancel: boolean = false,
@@ -52,13 +57,14 @@ export const SelectableCell = React.memo(
 
       let isBlocked: boolean = false;
       if (item) {
-        isBlocked = item.f === "block" || item.s === "block" || item.n === "block";
+        isBlocked =
+          item.f === "block" || item.s === "block" || item.n === "block";
       }
 
       let caregiverCell: any =
-      item && item.appointments && item.appointments[0]
-        ? item.appointments[0].id
-        : "";
+        item && item.appointments && item.appointments[0]
+          ? item.appointments[0].id
+          : "";
       // Date condition to not display fsn if date is before today
       let isBeforedate = false;
       if (item && item.date) {
@@ -72,16 +78,16 @@ export const SelectableCell = React.memo(
               "text-center": true,
               "custom-appointment-col": true,
               "cursor-pointer": true,
-            //   "selecting-cell-bg": !isSelected
-            // ? isSelecting ||
-            //   selectedcareGiverIndexes.includes(cellIndex) ||
-            //   (selectedcareGiverApptId.length &&
-            //     selectedcareInstApptId.length &&
-            //     JSON.stringify(selectedcareGiverApptId) ===
-            //       JSON.stringify(selectedcareInstApptId) &&
-            //     selectedcareGiverApptId.includes(caregiverCell))
-            // : // (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
-            //   true,
+              //   "selecting-cell-bg": !isSelected
+              // ? isSelecting ||
+              //   selectedcareGiverIndexes.includes(cellIndex) ||
+              //   (selectedcareGiverApptId.length &&
+              //     selectedcareInstApptId.length &&
+              //     JSON.stringify(selectedcareGiverApptId) ===
+              //       JSON.stringify(selectedcareInstApptId) &&
+              //     selectedcareGiverApptId.includes(caregiverCell))
+              // : // (showAppointedCareGiver && canstitutionCell === caregiverCell) ||
+              //   true,
               "selecting-cell-bg": isSelecting || isSelected,
               weekend: isWeekend,
               "contact-initiate-bg":
@@ -91,17 +97,17 @@ export const SelectableCell = React.memo(
 
               "invoice-bg":
                 isInvoiceInitiated && !isSelected ? isInvoiceInitiated : false,
-                "cancel-contract-bg":
+              "cancel-contract-bg":
                 isContractCancel && !isSelected ? isContractCancel : false,
-                "block-bg": item ? (isBlocked ? true : false) : false,
+              "block-bg": item ? (isBlocked ? true : false) : false,
               "matching-bg": isMatching && !isSelected ? isMatching : false,
               "confirmation-bg":
                 isTimeSheetPending && !isSelected ? isTimeSheetPending : false,
               "contract-bg": isConfirm && !isSelected ? isConfirm : false,
               "accepted-bg":
-            isSingleButtonAccepted && !isSelected
-              ? isSingleButtonAccepted
-              : false,
+                isSingleButtonAccepted && !isSelected
+                  ? isSingleButtonAccepted
+                  : false,
               "availability-dark-bg": !isSelected
                 ? item
                   ? item.f === "available" ||
@@ -118,18 +124,17 @@ export const SelectableCell = React.memo(
                   ? true
                   : false,
             })}
-            ref={selectableRef}
-          >
+            ref={selectableRef}>
             {item.status === "timeSheetPending" ? (
-              <i className="fa fa-circle-o"></i>
+              <i className='fa fa-circle-o'></i>
             ) : item.status === "timeSheetUpdated" ? (
-              <i className="fa fa-check"></i>
+              <i className='fa fa-check'></i>
             ) : item.status === "invoiceInitiated" ? (
-              <i className="fa fa-euro"></i>
+              <i className='fa fa-euro'></i>
             ) : item.f === "block" ||
               item.s === "block" ||
               item.n === "block" ? (
-              <i className="fa fa-ban"></i>
+              <i className='fa fa-ban'></i>
             ) : item.status === "default" &&
               new Date(item.date).toTimeString() <
                 new Date().toTimeString() ? null : (
@@ -206,7 +211,7 @@ class CaregiverList extends React.PureComponent<any, any> {
     if (selectedCellsData && selectedCellsData.length) {
       selectedRows = selectedCellsData.map((selectedCell: any) => {
         const { props: cellProps } = selectedCell;
-        
+
         const { item, list: caregiverData, cellIndex, day } = cellProps;
         const {
           id = "",
@@ -238,9 +243,7 @@ class CaregiverList extends React.PureComponent<any, any> {
   };
 
   handleEndReached = (args: any) => {
-    // action('onEndReached')(args)
-    const { loading, loadingMore, loadedAll } = this.state;
-
+    console.log("onEndReached", args);
     // if (loading || loadingMore || loadedAll) return;
     this.loadMore();
   };
@@ -255,7 +258,7 @@ class CaregiverList extends React.PureComponent<any, any> {
     const { caregiverData, setcaregiversList } = this.props;
     if (name === "caregiver") {
       let temp: any = [...caregiverData];
-      if(temp[index]) {
+      if (temp[index]) {
         temp[index].availabilityData = temp[index].availabilityData
           ? [...temp[index].availabilityData, []]
           : [];
@@ -270,10 +273,14 @@ class CaregiverList extends React.PureComponent<any, any> {
       daysData,
       onhandleCaregiverStar,
       starCaregiver,
+      loadingCaregiver,
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
-    
+    const appointmentListSection = document.getElementById(
+      "appointment_list_section"
+    );
+
     return (
       <>
         <div
@@ -281,8 +288,7 @@ class CaregiverList extends React.PureComponent<any, any> {
             "right-manu-close": true,
             "d-none": !openToggleMenu,
           })}
-          onClick={this.handleToggleMenuItem}
-        ></div>
+          onClick={this.handleToggleMenuItem}></div>
         <CaregiverRightClickOptions
           isOpen={openToggleMenu}
           hide={() => this.setState({ openToggleMenu: false })}
@@ -291,43 +297,71 @@ class CaregiverList extends React.PureComponent<any, any> {
         {listCareGiver && listCareGiver.length ? (
           <SelectableGroup
             allowClickWithoutSelected
-            className="custom-row-selector new-base-table"
-            clickClassName="tick"
+            className='custom-row-selector new-base-table'
+            clickClassName='tick'
             resetOnStart={true}
             allowCtrlClick={false}
             onSelectionFinish={this.onSelectFinish}
-            ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
-          >
+            ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
             <BaseTable
               data={listCareGiver}
-              width={1000}
+              width={
+                appointmentListSection
+                  ? appointmentListSection.clientWidth - 40
+                  : 1000
+              }
               height={300}
               fixed
-              footerHeight={loadingMore ? 50 : 0}
               onEndReached={this.handleEndReached}
-              onEndReachedThreshold={20}
-              headerClassName="custom-appointment-row"
+              onEndReachedThreshold={100}
+              headerClassName='custom-appointment-row'
+              overlayRenderer={() =>
+                loadingCaregiver ? (
+                  <>
+                    <div
+                      style={{
+                        pointerEvents: "none",
+                        background: "rgba(32, 60, 94, 0.3)",
+                        position: "absolute",
+                        bottom: "30px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        padding: "5px 15px",
+                        borderRadius: "10px",
+                        display: "flex",
+                        alignItems: "center",
+                      }}>
+                      <span
+                        style={{
+                          color: "#fff",
+                          marginRight: "5px",
+                        }}>
+                        Loading More
+                      </span>
+                    </div>
+                  </>
+                ) : null
+              }
               headerRenderer={() =>
-                columns.map((d: any) =>
+                columns.map((d: any, index: number) =>
                   staticHeader.indexOf(d) > -1 ? (
-                    <React.Fragment key={d.id}>
+                    <React.Fragment key={`${d.id}-${index}`}>
                       <span
                         className={`custom-appointment-col  ${
                           d === "caregiver" ? "name-col" : ""
-                        }`}
-                      >
+                        }`}>
                         {d}
                         {d === "caregiver" ? (
                           <>
                             <span onClick={this.handleToggleMenuItem}>
-                              <i className="icon-options-vertical" />
+                              <i className='icon-options-vertical' />
                             </span>
                           </>
                         ) : null}
                       </span>
                     </React.Fragment>
                   ) : (
-                    <span key={d.date} className="custom-appointment-col  ">
+                    <span key={d.date} className='custom-appointment-col  '>
                       {d.day}
                       <br />
                       {d.date}
@@ -335,19 +369,19 @@ class CaregiverList extends React.PureComponent<any, any> {
                   )
                 )
               }
-              rowClassName="custom-appointment-row"
+              rowClassName='custom-appointment-row'
               rowRenderer={({ cells, rowData }: any) => (
                 <div
-                  className="d-flex frozen-row"
-                  title={[rowData.lastName, rowData.firstName].join(" ")}
-                >
+                  className='d-flex frozen-row'
+                  title={[rowData.lastName, rowData.firstName].join(" ")}>
                   {cells}
                 </div>
-              )}
-            >
+              )}>
               {columns.map((d: any, index: number) => (
                 <Column
-                  key={`col0-${typeof d === "string" ? d : d.dateString}`}
+                  key={`col0-${index}-${
+                    typeof d === "string" ? d : d.dateString
+                  }`}
                   width={index === 0 ? 140 : 28}
                   className={`custom-appointment-col   ${
                     d === "caregiver" ? "name-col" : ""
@@ -361,12 +395,11 @@ class CaregiverList extends React.PureComponent<any, any> {
                     let uIndex: number = result.findIndex(
                       (item: any) => item.id === list.id
                     );
-            
                     switch (d) {
                       case "caregiver":
                         return (
                           <div
-                            className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
+                            className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
                             style={{
                               backgroundColor: !list.isActive
                                 ? deactivatedListColor
@@ -383,16 +416,14 @@ class CaregiverList extends React.PureComponent<any, any> {
                                 : "",
                             }}
                             title={[list.lastName, list.firstName].join(" ")}
-                            id={`caregiver-${list.id}-${index}-${row}`}
-                          >
+                            id={`caregiver-${list.id}-${index}-${row}`}>
                             <Link
                               to={AppRoutes.CARE_GIVER_VIEW.replace(
                                 ":id",
                                 list.id
                               )}
-                              target="_blank"
-                              className="text-body"
-                            >
+                              target='_blank'
+                              className='text-body'>
                               {row === 0
                                 ? [list.lastName, list.firstName].join(" ")
                                 : ""}
@@ -404,49 +435,50 @@ class CaregiverList extends React.PureComponent<any, any> {
                       case "S":
                         return (
                           <span
-                            className="custom-appointment-col s-col text-center"
+                            className='custom-appointment-col s-col text-center'
                             onClick={() =>
-                              onhandleCaregiverStar(list.id, false, `${list.firstName + list.lastName}`)
-                            }
-                          >
+                              onhandleCaregiverStar(
+                                list.id,
+                                false,
+                                `${list.firstName + list.lastName}`
+                              )
+                            }>
                             {starCaregiver &&
                             starCaregiver.isStar &&
                             starCaregiver.id == list.id ? (
-                              <i className="fa fa-star theme-text" />
+                              <i className='fa fa-star theme-text' />
                             ) : (
-                              <i className="fa fa-star-o" />
+                              <i className='fa fa-star-o' />
                             )}
                           </span>
                         );
                       case "U":
                         return (
                           <span
-                            className="custom-appointment-col u-col text-center"
+                            className='custom-appointment-col u-col text-center'
                             onClick={() =>
                               onhandleCaregiverStar(
                                 list.id,
                                 starCaregiver && !starCaregiver.isSecondStar
                               )
-                            }
-                          >
+                            }>
                             {starCaregiver &&
                             starCaregiver.isSecondStar &&
                             starCaregiver.id === list.id ? (
-                              <i className="fa fa-star theme-text" />
+                              <i className='fa fa-star theme-text' />
                             ) : (
-                              <i className="fa fa-star-o" />
+                              <i className='fa fa-star-o' />
                             )}
                           </span>
                         );
                       case "V":
                         return (
                           <span
-                            className="custom-appointment-col v-col text-center"
+                            className='custom-appointment-col v-col text-center'
                             onClick={(
                               e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                            ) => this.onAddingRow(e, "caregiver", uIndex)}
-                          >
-                            <i className="fa fa-arrow-down" />
+                            ) => this.onAddingRow(e, "caregiver", uIndex)}>
+                            <i className='fa fa-arrow-down' />
                           </span>
                         );
                       default:

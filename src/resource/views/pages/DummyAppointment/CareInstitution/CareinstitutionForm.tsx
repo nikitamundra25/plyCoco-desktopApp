@@ -396,6 +396,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       onhandleDelete,
       addCareinstLoading,
       idSearchAppointmentLoading,
+      selectedCareinstitution,
     } = this.props;
     console.log("careInstitutionDepartment",careInstitutionDepartment);
     
@@ -649,10 +650,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
               this.props.setcareInstituionShift(selectOption, values);
             }
           };
-          console.log(
-            "careInstituionShift@@@@@@@@@@",
-            this.props.careInstituionShift
-          );
+      
 
           const DepartmentError: any = errors.department;
           const qualificationError: any = errors.qualificationId;
@@ -759,8 +757,10 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                   onClick={() =>
                                     name
                                       ? this.handleUserList(
-                                          Id ? Id : "",
-                                          "careinstitution"
+                                          selectedCareinstitution
+                                            ? selectedCareinstitution.id
+                                            : '',
+                                          'careinstitution'
                                         )
                                       : ""
                                   }
@@ -877,10 +877,6 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                           option: IReactSelectInterface,
                                           index: number
                                         ) => {
-                                          console.log(
-                                            "option.value",
-                                            option.value
-                                          );
                                           return (
                                             <DropdownItem
                                               key={index}

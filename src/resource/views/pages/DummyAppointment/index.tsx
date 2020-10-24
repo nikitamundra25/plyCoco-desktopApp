@@ -324,6 +324,10 @@ const DummyAppointment: FunctionComponent = () => {
           let index: number = temp.findIndex(
             (caregiver: any) => caregiver.id === availability.userId
           );
+          console.log(
+            'temp[index].availabilityData oncomplete',
+            temp[index].availabilityData
+          );
 
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
@@ -357,7 +361,7 @@ const DummyAppointment: FunctionComponent = () => {
         setSelectedCells(selectedCaregiverCells);
       }
       // setPage(1);
-      // fetchingCareGiverData();
+      fetchingCareGiverData();
       toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -1535,6 +1539,8 @@ const DummyAppointment: FunctionComponent = () => {
           careInstitutionList={careInstitutionList}
           fetchAppointmentFilterById={fetchAppointmentFilterById}
           setselectedCareinstitution={setselectedCareinstitution}
+          fetchCareGiversList={fetchCareGiversList}
+          fetchCareInstituionList={fetchCareInstituionList}
         />
         <div className='common-content flex-grow-1'>
           <div>
@@ -1652,6 +1658,12 @@ const DummyAppointment: FunctionComponent = () => {
                       setqualification={setqualification}
                       getLeasingContractPDF={getLeasingContractPDF}
                       selectedCareinstitution={selectedCareinstitution}
+                      careInstitutionListArr={
+                        careInstitutionList &&
+                        careInstitutionList.getUserByQualifications
+                          ? careInstitutionList.getUserByQualifications
+                          : []
+                      }
                     />
                   </Col>
                   <Col lg={'6'} className='pl-lg-0'>

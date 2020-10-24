@@ -396,6 +396,7 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       onhandleDelete,
       addCareinstLoading,
       idSearchAppointmentLoading,
+      selectedCareinstitution,
     } = this.props;
     // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
     let {
@@ -647,8 +648,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
               this.props.setcareInstituionShift(selectOption, values);
             }
           };
-          console.log('careInstituionShift@@@@@@@@@@',this.props.careInstituionShift);
-          
+          console.log(
+            'careInstituionShift@@@@@@@@@@',
+            this.props.careInstituionShift
+          );
+
           const DepartmentError: any = errors.department;
           const qualificationError: any = errors.qualificationId;
           const shiftOptions =
@@ -754,7 +758,9 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                   onClick={() =>
                                     name
                                       ? this.handleUserList(
-                                          Id ? Id : '',
+                                          selectedCareinstitution
+                                            ? selectedCareinstitution.id
+                                            : '',
                                           'careinstitution'
                                         )
                                       : ''
@@ -872,8 +878,11 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
                                           option: IReactSelectInterface,
                                           index: number
                                         ) => {
-                                          console.log('option.value',option.value);
-                                          return (                                            
+                                          console.log(
+                                            'option.value',
+                                            option.value
+                                          );
+                                          return (
                                             <DropdownItem
                                               key={index}
                                               value={option.value}

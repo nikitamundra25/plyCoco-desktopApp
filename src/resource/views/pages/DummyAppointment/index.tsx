@@ -937,19 +937,29 @@ const DummyAppointment: FunctionComponent = () => {
         ) {
           deptList = [...careInstituionDeptData];
         }
+        // else {
+        //   temp = [...careinstitutionList];
+        // }
         const selectedCareInstCells = selectedCellsCareinstitution
           ? [...selectedCellsCareinstitution]
           : [];
         addCareInstitutionRequirement.forEach((requirement: any) => {
           let index: number = temp.findIndex(
-            (careInst: any) => careInst.id === requirement.userId
+            (careInst: any) => careInst.id === requirement.userId,
           );
           let deptIndex: number = -1;
           if (starCanstitution && starCanstitution.isStar && deptList.length) {
             deptIndex = deptList.findIndex(
-              (careInst: any) => careInst.deptId === requirement.divisionId
+              (careInst: any) => careInst.deptId === requirement.divisionId,
             );
           }
+
+          // else {
+          //   index = temp.findIndex(
+          //     (careInst: any) => careInst.id === requirement.userId
+          //   );
+          // }
+
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
               let element: any[] = [...temp[index].availabilityData[i]];
@@ -958,12 +968,12 @@ const DummyAppointment: FunctionComponent = () => {
                 (cell: any) =>
                   moment(requirement.date).isSame(
                     moment(cell.dateString),
-                    'day'
-                  )
+                    'day',
+                  ),
               );
 
               let qualification = qualificationList.filter(({ value }: any) =>
-                requirement.qualificationId.includes(value)
+                requirement.qualificationId.includes(value),
               );
 
               let departmentData: any;
@@ -974,7 +984,7 @@ const DummyAppointment: FunctionComponent = () => {
                 requirement.divisionId
               ) {
                 departmentData = careInstitutionDepartment.filter(
-                  (dept: any) => dept.value === requirement.divisionId
+                  (dept: any) => dept.value === requirement.divisionId,
                 )[0];
               }
 
@@ -1000,13 +1010,13 @@ const DummyAppointment: FunctionComponent = () => {
               // To check this row have this date entry or not
               if (
                 element.filter((e: any) =>
-                  moment(e.date).isSame(moment(requirement.date), 'day')
+                  moment(e.date).isSame(moment(requirement.date), 'day'),
                 ).length === 0 ||
                 i === temp[index].availabilityData.length - 1
               ) {
                 if (
                   element.filter((e: any) =>
-                    moment(e.date).isSame(moment(requirement.date), 'day')
+                    moment(e.date).isSame(moment(requirement.date), 'day'),
                   ).length === 0
                 ) {
                   temp[index].availabilityData[i] = [...element, requirement];
@@ -1035,12 +1045,12 @@ const DummyAppointment: FunctionComponent = () => {
                 (cell: any) =>
                   moment(requirement.date).isSame(
                     moment(cell.dateString),
-                    'day'
-                  )
+                    'day',
+                  ),
               );
 
               let qualification = qualificationList.filter(({ value }: any) =>
-                requirement.qualificationId.includes(value)
+                requirement.qualificationId.includes(value),
               );
 
               if (selectedCareInstCells[cellIndex]) {
@@ -1058,7 +1068,7 @@ const DummyAppointment: FunctionComponent = () => {
               // To check this row have this date entry or not
               if (
                 element.filter((e: any) =>
-                  moment(e.date).isSame(moment(requirement.date), 'day')
+                  moment(e.date).isSame(moment(requirement.date), 'day'),
                 ).length === 0
               ) {
                 deptList[deptIndex].availabilityData[i] = [
@@ -1070,10 +1080,11 @@ const DummyAppointment: FunctionComponent = () => {
             }
           }
         });
-
+        setcareinstitutionList(temp)
         setselectedCellsCareinstitution(selectedCareInstCells);
       }
-      canstitutionRefetch();
+      // setPage(1);
+      // canstitutionRefetch();
     },
   });
 
@@ -1270,6 +1281,7 @@ const DummyAppointment: FunctionComponent = () => {
             }
           }
         }
+        setcareInstituionDeptData(deptList)
       }
       let cellIndex: number = selectedCareInstCells.findIndex(
         (cell: any) =>
@@ -1291,7 +1303,8 @@ const DummyAppointment: FunctionComponent = () => {
         };
       }
       setselectedCellsCareinstitution(selectedCareInstCells);
-      canstitutionRefetch();
+      setcareinstitutionList(temp)
+      
     },
   });
   // set field to update formik values
@@ -1346,6 +1359,7 @@ const DummyAppointment: FunctionComponent = () => {
             });
           });
         }
+        console.log("careInstitutionTimesOptions",careInstitutionTimesOptions)
         setshiftOption(careInstitutionTimesOptions);
         let temp: any[] = [
           {
@@ -2842,6 +2856,13 @@ const DummyAppointment: FunctionComponent = () => {
                         setcareInstituionShift(shiftData);
                         setupdateCanstitutionFormikValues(values);
                       }}
+                      careInstitutionTimesOptions={shiftOption}
+                      addCareinstitutionRequirment={addCareinstitutionRequirment}
+                      addCareinstLoading={
+                        addCareinstLoading ||
+                        updateCareinstitutionLoading
+                      }
+                      updateCareinstitutionRequirment={updateCareinstitutionRequirment}
                     />
                   </Col>
 

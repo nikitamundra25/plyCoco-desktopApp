@@ -61,92 +61,8 @@ class CaregiverFormView extends React.PureComponent<any, any> {
       caregiverLastTimeValues: '',
     };
   }
-  componentDidUpdate = ({ caregiverLastTimeData }: any) => {
-    const {
-      selectedCells,
-      setSelectedCells,
-    } = this.props;
-    const {caregiverLastTimeValues} = this.state;
-    console.log("caregiverLastTimeValues",caregiverLastTimeValues);
-    
-    // push last time data into the caregiver field
-    if (caregiverLastTimeData !== this.props.caregiverLastTimeData) {
-      console.log("this.props.caregiverLastTimeData",this.props.caregiverLastTimeData);
-      const {
-        distanceInKM = '',
-        f = '',
-        feePerKM = '',
-        n = '',
-        otherExpenses = '',
-        s = '',
-        travelAllowance = '',
-        workingProofRecieved = false,
-      } = caregiverLastTimeValues ? caregiverLastTimeValues : {};
-      if (
-        selectedCells &&
-        selectedCells.length &&
-        this.props.caregiverLastTimeData
-      ) {
-        // const { getCareGiverAvabilityLastTimeById } = this.props.caregiverLastTimeData;
-        let careGiverAvabilityInput: any[] = [];
-        selectedCells.forEach(async (element: any) => {
-          const {
-            firstName = '',
-            lastName = '',
-            email = '',
-            id: selectedCaregiverId = '',
-            dateString = '',
-            caregiver = undefined,
-            item = undefined,
-            qualificationIds = [],
-          } = element ? element : {};
-          const {
-            fee = '',
-            nightFee = '',
-            weekendAllowance = '',
-            holidayAllowance = '',
-          } = this.props.caregiverLastTimeData
-            ? this.props.caregiverLastTimeData
-            : {};
-          let data: any = {
-            id: selectedCaregiverId,
-            firstName,
-            lastName,
-            email,
-            caregiver: {
-              ...caregiver,
-            },
-            qualificationIds,
-            dateString,
-            item: {
-              ...item,
-              fee,
-              nightFee,
-              weekendAllowance,
-              holidayAllowance,
-              workingProofRecieved,
-              distanceInKM,
-              feePerKM,
-              travelAllowance,
-              otherExpenses,
-              f: f ? 'available' : 'default',
-              s: s ? 'available' : 'default',
-              n: n ? 'available' : 'default',
-            },
-          };
-          careGiverAvabilityInput = [...careGiverAvabilityInput, data];
-        });
-        console.log("careGiverAvabilityInput",careGiverAvabilityInput);
-          // this.updateDataLastTime(careGiverAvabilityInput)
-        // setSelectedCells(careGiverAvabilityInput);
-      }
-    }
-  };
-   updateDataLastTime = async(data:any) =>{
-    console.log("datadatadatadata",data);
-    
-    await this.props.setSelectedCells(data)
-  }
+
+
   // submit caregiver form
   handleSubmitCaregiverForm = async (
     values: ICaregiverFormValue,
@@ -390,16 +306,14 @@ class CaregiverFormView extends React.PureComponent<any, any> {
   };
   // fetch last time data for caregiver
   handleLastTimeData = (id: string, values: any) => {
-    const { fetchCaregiverLastTimeData } = this.props;
+    const { fetchCaregiverLastTimeData,setcaregiverLastTimeValues  } = this.props;
     if (id) {
       fetchCaregiverLastTimeData({
         variables: {
           userId: id ? parseInt(id) : null,
         },
       });
-      this.setState({
-        caregiverLastTimeValues: values,
-      });
+      setcaregiverLastTimeValues(values);
       // setcaregiverLastTimeValues(values);
     }
   };

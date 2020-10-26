@@ -154,6 +154,10 @@ const DummyAppointment: FunctionComponent = () => {
     id: '',
     isSecondStar: false,
   });
+
+    // store the previous entered value in state
+    const [caregiverLastTimeValues, setcaregiverLastTimeValues] = useState<any>();
+
   // To fetch caregivers by id filter
   const [
     fetchCaregiverList,
@@ -850,11 +854,6 @@ const DummyAppointment: FunctionComponent = () => {
           let index: number = temp.findIndex(
             (caregiver: any) => caregiver.id === availability.userId
           );
-          console.log(
-            'temp[index].availabilityData oncomplete',
-            temp[index].availabilityData
-          );
-
           if (temp[index].availabilityData) {
             for (let i = 0; i < temp[index].availabilityData.length; i++) {
               let element: any[] = [...temp[index].availabilityData[i]];
@@ -884,10 +883,11 @@ const DummyAppointment: FunctionComponent = () => {
             }
           }
         });
+        setcaregiversList(temp)
         setSelectedCells(selectedCaregiverCells);
       }
       // setPage(1);
-      fetchingCareGiverData();
+      // fetchingCareGiverData();
       toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -1311,6 +1311,86 @@ const DummyAppointment: FunctionComponent = () => {
     updateCanstitutionFormikValues,
     setupdateCanstitutionFormikValues,
   ] = useState<any>();
+
+ // push last time data into the caregiver field
+ useEffect(() => {
+  const {
+    distanceInKM = '',
+    f = '',
+    feePerKM = '',
+    n = '',
+    otherExpenses = '',
+    s = '',
+    travelAllowance = '',
+    workingProofRecieved = false,
+    remarksCareGiver='',
+    remarksInternal='',
+    nightAllowance=undefined
+  } = caregiverLastTimeValues ? caregiverLastTimeValues : {};
+
+  if (
+    selectedCells &&
+    selectedCells.length &&
+    caregiverLastTimeData &&
+    caregiverLastTimeData.getCareGiverAvabilityLastTimeById
+  ) {
+    const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
+    let careGiverAvabilityInput: any[] = [];
+
+    selectedCells.forEach(async (element: any) => {
+      const {
+        firstName = '',
+        lastName = '',
+        email = '',
+        id: selectedCaregiverId = '',
+        dateString = '',
+        caregiver = undefined,
+        item = undefined,
+        qualificationIds = [],
+      } = element ? element : {};
+      const {
+        fee = '',
+        nightFee = '',
+        weekendAllowance = '',
+        holidayAllowance = '',
+      } = getCareGiverAvabilityLastTimeById
+        ? getCareGiverAvabilityLastTimeById
+        : {};
+      let data: any = {
+        id: selectedCaregiverId,
+        firstName,
+        lastName,
+        email,
+        caregiver: {
+          ...caregiver,
+        },
+        qualificationIds,
+        dateString,
+        item: {
+          ...item,
+          fee,
+          nightFee,
+          weekendAllowance,
+          holidayAllowance,
+          workingProofRecieved,
+          remarksCareGiver,
+          remarksInternal,
+          nightAllowance: nightAllowance && nightAllowance.value? nightAllowance.value: undefined,
+          distanceInKM,
+          feePerKM,
+          travelAllowance,
+          otherExpenses,
+          f: f ? 'available' : 'default',
+          s: s ? 'available' : 'default',
+          n: n ? 'available' : 'default',
+        },
+      };
+      careGiverAvabilityInput = [...careGiverAvabilityInput, data];
+    });
+    setSelectedCells(careGiverAvabilityInput);
+  }
+}, [caregiverLastTimeData]);
+
   // change department
   useEffect(() => {
     let deptId = careInstituionDept ? careInstituionDept.value : '';
@@ -1358,7 +1438,6 @@ const DummyAppointment: FunctionComponent = () => {
             });
           });
         }
-        console.log('careInstitutionTimesOptions', careInstitutionTimesOptions);
         setshiftOption(careInstitutionTimesOptions);
         let temp: any[] = [
           {
@@ -2789,10 +2868,6 @@ const DummyAppointment: FunctionComponent = () => {
                   }
                 </div>
               </div>
-              {console.log(
-                'caregiverLastTimeData++++++++++++',
-                caregiverLastTimeData
-              )}
               <div
                 className='appointment-page-form-section'
                 id='appointment_form_section'
@@ -2836,6 +2911,7 @@ const DummyAppointment: FunctionComponent = () => {
                           ? caregiverLastTimeData.getCareGiverAvabilityLastTimeById
                           : {}
                       }
+                      setcaregiverLastTimeValues={setcaregiverLastTimeValues}
                     />
                   </Col>
                   <Col lg={'6'} className='pl-lg-0'>

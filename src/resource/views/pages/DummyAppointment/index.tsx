@@ -80,7 +80,9 @@ const DummyAppointment: FunctionComponent = () => {
     month: moment().month().toString(),
     year: moment().year().toString(),
   });
-
+  const [careInstituionShift, setcareInstituionShift] = useState<
+    IReactSelectTimeInterface
+  >();
   //  set page
   const [page, setPage] = useState<number>(1);
 
@@ -164,14 +166,7 @@ const DummyAppointment: FunctionComponent = () => {
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: 'no-cache',
   });
-  const [careInstituionShift, setcareInstituionShift] = useState<
-    IReactSelectTimeInterface
-  >();
-  // set field to update formik values
-  const [
-    updateCanstitutionFormikValues,
-    setupdateCanstitutionFormikValues,
-  ] = useState<any>();
+
   // To fetch careinstitution by qualification id
   const [
     fetchCareinstitutionList,
@@ -752,11 +747,7 @@ const DummyAppointment: FunctionComponent = () => {
       deleteCareInstitutionRequirement: any;
     },
     { id: number[] }
-  >(DELETE_CAREINSTITUTION_REQUIREMENT, {
-    onCompleted() {
-      canstitutionRefetch();
-    },
-  });
+  >(DELETE_CAREINSTITUTION_REQUIREMENT);
 
   // Mutation to delete caregiver
   const [deleteCaregiverAvailability, {}] = useMutation<
@@ -1303,7 +1294,11 @@ const DummyAppointment: FunctionComponent = () => {
       canstitutionRefetch();
     },
   });
-
+  // set field to update formik values
+  const [
+    updateCanstitutionFormikValues,
+    setupdateCanstitutionFormikValues,
+  ] = useState<any>();
   // change department
   useEffect(() => {
     let deptId = careInstituionDept ? careInstituionDept.value : '';
@@ -2833,17 +2828,6 @@ const DummyAppointment: FunctionComponent = () => {
                       qualificationList={qualificationList}
                       careInstitutionDepartment={careInstitutionDepartment}
                       multipleRequirement={multipleRequirement}
-                      onhandleDelete={onhandleDelete}
-                      addCareinstLoading={
-                        addCareinstLoading || updateCareinstitutionLoading
-                      }
-                      idSearchAppointmentLoading={idSearchAppointmentLoading}
-                      updateCanstitutionFormikValues={
-                        updateCanstitutionFormikValues
-                      }
-                      setselectedCellsCareinstitution={
-                        setselectedCellsCareinstitution
-                      }
                       setcareInstituionDept={(deptData: any, values: any) => {
                         setcareInstituionDept(deptData);
                         setupdateCanstitutionFormikValues(values);
@@ -2852,12 +2836,6 @@ const DummyAppointment: FunctionComponent = () => {
                         setcareInstituionShift(shiftData);
                         setupdateCanstitutionFormikValues(values);
                       }}
-                      updateCareinstitutionRequirment={
-                        updateCareinstitutionRequirment
-                      }
-                      addCareinstitutionRequirment={
-                        addCareinstitutionRequirment
-                      }
                     />
                   </Col>
 

@@ -280,6 +280,7 @@ class CaregiverList extends React.PureComponent<any, any> {
     const appointmentListSection = document.getElementById(
       "appointment_list_section"
     );
+    console.log('result of caregiverData isssss',result);
 
     return (
       <>

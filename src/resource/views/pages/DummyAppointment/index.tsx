@@ -1873,13 +1873,19 @@ const DummyAppointment: FunctionComponent = () => {
   if (daysData && daysData.daysArr && daysData.daysArr.length) {
     gte = daysData.daysArr[0].dateString || '';
     lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
+    console.log(
+      'inside gte and lte before fetchCareGiversList',
+      daysData.daysArr[0].dateString,
+      'lteeeeeenbhhdf ',
+      daysData.daysArr[daysData.daysArr.length - 1].dateString
+    );
   }
   const fetchCareGiversList = (
     page: number = 1,
     positiveAttr: number[] = [],
     negativeAttr: number[] = []
   ) => {
-    console.log('inside fetchCareGiversList api');
+    console.log('inside fetchCareGiversList api gte ', gte, 'lte val', lte);
     const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(
       moment().month(),
       moment().year()

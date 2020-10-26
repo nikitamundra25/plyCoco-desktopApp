@@ -276,7 +276,7 @@ class CaregiverList extends React.PureComponent<any, any> {
       starCaregiver,
       loadingCaregiver,
     } = this.props;
-    const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
+    const { days, openToggleMenu, loadingMore, listCareGiver,isLoading } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
     const appointmentListSection = document.getElementById(
       "appointment_list_section"
@@ -318,7 +318,7 @@ class CaregiverList extends React.PureComponent<any, any> {
               onEndReachedThreshold={100}
               headerClassName='custom-appointment-row'
               overlayRenderer={() =>
-                loadingCaregiver ? (
+                loadingCaregiver || isLoading ? (
                   <>
                     <div
                       style={{
@@ -338,7 +338,7 @@ class CaregiverList extends React.PureComponent<any, any> {
                           color: "#fff",
                           marginRight: "5px",
                         }}>
-                        Loading More
+                        Loading...
                       </span>
                     </div>
                   </>

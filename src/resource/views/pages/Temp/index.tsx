@@ -14,12 +14,15 @@ import { AppointmentsQueries } from "../../../../graphql/queries";
 import { getDaysArrayByMonth } from "../../../../helpers";
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const staticHeader = ["caregiver", "H", "S", "U", "V"];
-
+let allCaregivers: any[] = [];
 export const TempPage = () => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
   );
   const [caregivers, setCaregiverData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
   // To fetch caregivers by id filter
   const [
     fetchCaregiverList,
@@ -33,10 +36,10 @@ export const TempPage = () => {
     fetchPolicy: "no-cache",
   });
 
+  // Default value is start & end of month
+  let gte: string = moment().startOf("month").format(dbAcceptableFormat);
+  let lte: string = moment().endOf("month").format(dbAcceptableFormat);
   useEffect(() => {
-    // Default value is start & end of month
-    let gte: string = moment().startOf("month").format(dbAcceptableFormat);
-    let lte: string = moment().endOf("month").format(dbAcceptableFormat);
     fetchCaregiverList({
       variables: {
         qualificationId: [],
@@ -52,16 +55,17 @@ export const TempPage = () => {
       },
     });
   }, []);
-  const setCaregivers = () => {
-    const data =
-      ((careGiversList || {}).getUserByQualifications || {}).result || [];
-    const newData: any[] = [];
+  /**
+   *
+   * @param data
+   */
+  const formatCaregivers = (data: any[]) => {
     console.time("test");
+    const newData: any[] = [];
     _.forEach(data, (value) => {
       const availibility = _.mapValues(
         _.groupBy(value.caregiver_avabilities, "date")
       );
-      delete value.caregiver_avabilities;
       let max = 1;
       _.forEach(daysData.daysArr, (date) => {
         const arr = availibility[date.dateString || ""] || [];
@@ -82,6 +86,19 @@ export const TempPage = () => {
       }
     });
     console.timeEnd("test");
+    return newData;
+  };
+  /**
+   *
+   */
+  const setCaregivers = () => {
+    const data =
+      ((careGiversList || {}).getUserByQualifications || {}).result || [];
+    const count =
+      ((careGiversList || {}).getUserByQualifications || {}).totalCount || 0;
+    const newData = formatCaregivers(data);
+    allCaregivers = Object.assign([], newData);
+    setHasMore(data.length <= count);
     setCaregiverData(newData);
   };
   useEffect(() => {
@@ -91,14 +108,81 @@ export const TempPage = () => {
   }, [loadingCaregiver]);
 
   const columns = [...staticHeader, ...daysData.daysArr];
+  /**
+   *
+   * @param index
+   */
   const onAddNewRow = (index: number) => {
-    console.log(caregivers);
-    const newCaregivers = Object.assign([], caregivers);
-    newCaregivers.splice(index, 0, newCaregivers[index]);
-    console.log(newCaregivers);
-    // setCaregiverData(newCaregivers);
+    const newCaregivers = Object.assign([], allCaregivers);
+    newCaregivers.splice(index + 1, 0, {
+      ...allCaregivers[index],
+      firstName: "",
+      lastName: "",
+      key: allCaregivers[index].key + allCaregivers.length,
+    });
+    allCaregivers = newCaregivers;
+    setCaregiverData(newCaregivers);
   };
-  console.log(caregivers);
+  /**
+   *
+   * @param page
+   */
+  const getMoreCaregivers = (page: number = 1) => {
+    setIsLoading(true);
+    fetchMoreCareGiverList({
+      variables: {
+        qualificationId: [],
+        userRole: "caregiver",
+        negativeAttributeId: [],
+        limit: 30,
+        page,
+        showAppointments: "showWithAppointments",
+        positiveAttributeId: [],
+        gte,
+        lte,
+      },
+      updateQuery: (prev: any, { fetchMoreResult }: any) => {
+        if (!fetchMoreResult) {
+          return prev;
+        }
+        if (prev && prev.getUserByQualifications) {
+          console.log(
+            prev.getUserByQualifications.result,
+            fetchMoreResult.getUserByQualifications.result
+          );
+          const newData = formatCaregivers(
+            fetchMoreResult.getUserByQualifications.result
+          );
+          allCaregivers = [...allCaregivers, ...newData];
+          setCaregiverData(allCaregivers);
+          setIsLoading(false);
+          const result = [
+            ...prev.getUserByQualifications.result,
+            ...fetchMoreResult.getUserByQualifications.result,
+          ];
+          setHasMore(result.length <= prev.getUserByQualifications.totalCount);
+          return {
+            getUserByQualifications: {
+              ...prev.getUserByQualifications,
+              result,
+            },
+          };
+        }
+      },
+    });
+  };
+  /**
+   *
+   * @param arg
+   */
+  const handleEndReached = (arg: any) => {
+    if ((!loadingCaregiver && isLoading) || !hasMore) {
+      return;
+    }
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    getMoreCaregivers(nextPage);
+  };
   return (
     <>
       <BaseTable
@@ -107,6 +191,33 @@ export const TempPage = () => {
         width={800}
         height={300}
         rowKey='key'
+        overlayRenderer={() =>
+          loadingCaregiver || isLoading ? (
+            <>
+              <div
+                style={{
+                  pointerEvents: "none",
+                  background: "rgba(32, 60, 94, 0.3)",
+                  position: "absolute",
+                  bottom: "30px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  padding: "5px 15px",
+                  borderRadius: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                }}>
+                <span
+                  style={{
+                    color: "#fff",
+                    marginRight: "5px",
+                  }}>
+                  Loading...
+                </span>
+              </div>
+            </>
+          ) : null
+        }
         headerRenderer={() =>
           columns.map((d: any, index: number) =>
             staticHeader.indexOf(d) > -1 ? (
@@ -141,6 +252,8 @@ export const TempPage = () => {
             {cells}
           </div>
         )}
+        onEndReachedThreshold={300}
+        onEndReached={handleEndReached}
         headerClassName='custom-appointment-row'
         rowClassName='custom-appointment-row'>
         {columns.map((d: any, index: number) => (
@@ -177,7 +290,7 @@ export const TempPage = () => {
                   return (
                     <span
                       key={rowIndex}
-                      className='custom-appointment-col s-col text-center'>
+                      className='custom-appointment-col s-col text-center cursor-pointer'>
                       <i className='fa fa-star-o' />
                     </span>
                   );
@@ -185,7 +298,7 @@ export const TempPage = () => {
                   return (
                     <span
                       key={rowIndex}
-                      className='custom-appointment-col u-col text-center'>
+                      className='custom-appointment-col u-col text-center cursor-pointer'>
                       <i className='fa fa-star-o' />
                     </span>
                   );
@@ -193,7 +306,7 @@ export const TempPage = () => {
                   return (
                     <span
                       key={rowIndex}
-                      className='custom-appointment-col v-col text-center'
+                      className='custom-appointment-col v-col text-center cursor-pointer'
                       onClick={() => onAddNewRow(rowIndex)}>
                       <i className='fa fa-arrow-down' />
                     </span>

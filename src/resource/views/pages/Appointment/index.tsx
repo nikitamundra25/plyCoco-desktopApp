@@ -537,7 +537,7 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         });
-
+         
         setselectedCellsCareinstitution(selectedCareInstCells);
       }
       // setPage(1);
@@ -5036,12 +5036,6 @@ const Appointment: FunctionComponent = (props: any) => {
                                 setupdateCanstitutionFormikValues(values);
                               }}
                               selectedCareinstitution={{ id: Id }}
-                              addCareinstitutionRes={
-                                addCareinstitutionRes &&
-                                addCareinstitutionRes.addCareInstitutionRequirement
-                                  ? addCareinstitutionRes.addCareInstitutionRequirement
-                                  : ''
-                              }
                               qualificationList={qualificationList}
                               careInstitutionDepartment={
                                 careInstitutionDepartment

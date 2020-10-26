@@ -137,11 +137,16 @@ class CaregiverFormView extends React.PureComponent<any, any> {
           careGiverAvabilityInput = [...careGiverAvabilityInput, data];
         });
         console.log("careGiverAvabilityInput",careGiverAvabilityInput);
-          this.props.updateDataLastTime(careGiverAvabilityInput)
-        //  setSelectedCells(careGiverAvabilityInput);
+          // this.updateDataLastTime(careGiverAvabilityInput)
+        // setSelectedCells(careGiverAvabilityInput);
       }
     }
   };
+   updateDataLastTime = async(data:any) =>{
+    console.log("datadatadatadata",data);
+    
+    await this.props.setSelectedCells(data)
+  }
   // submit caregiver form
   handleSubmitCaregiverForm = async (
     values: ICaregiverFormValue,

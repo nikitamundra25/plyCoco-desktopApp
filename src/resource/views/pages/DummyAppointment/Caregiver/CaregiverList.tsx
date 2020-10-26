@@ -206,6 +206,7 @@ class CaregiverList extends React.PureComponent<any, any> {
 
   //Set data on select cell loaded
   onSelectFinish = (selectedCellsData: any[]) => {
+    console.log('selectedCellsDataselectedCellsData',selectedCellsData);    
     const { handleSelection } = this.props;
     let selectedRows: any[] = [];
     if (selectedCellsData && selectedCellsData.length) {
@@ -280,6 +281,7 @@ class CaregiverList extends React.PureComponent<any, any> {
     const appointmentListSection = document.getElementById(
       "appointment_list_section"
     );
+    console.log('result of caregiverData isssss',result);
 
     return (
       <>

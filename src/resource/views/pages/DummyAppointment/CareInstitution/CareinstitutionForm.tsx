@@ -334,7 +334,6 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
       idSearchAppointmentLoading,
       selectedCareinstitution,
     } = this.props;
-    console.log('careInstitutionDepartment', careInstitutionDepartment);
 
     // Fetch values in case of edit caregiver with condition predefined data or availability data by default it will be null or undefined
     let {

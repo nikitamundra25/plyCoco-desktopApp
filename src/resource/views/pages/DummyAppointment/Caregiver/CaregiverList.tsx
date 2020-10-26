@@ -124,17 +124,18 @@ export const SelectableCell = React.memo(
                   ? true
                   : false,
             })}
-            ref={selectableRef}>
+            ref={selectableRef}
+          >
             {item.status === "timeSheetPending" ? (
-              <i className='fa fa-circle-o'></i>
+              <i className="fa fa-circle-o"></i>
             ) : item.status === "timeSheetUpdated" ? (
-              <i className='fa fa-check'></i>
+              <i className="fa fa-check"></i>
             ) : item.status === "invoiceInitiated" ? (
-              <i className='fa fa-euro'></i>
+              <i className="fa fa-euro"></i>
             ) : item.f === "block" ||
               item.s === "block" ||
               item.n === "block" ? (
-              <i className='fa fa-ban'></i>
+              <i className="fa fa-ban"></i>
             ) : item.status === "default" &&
               new Date(item.date).toTimeString() <
                 new Date().toTimeString() ? null : (
@@ -158,43 +159,10 @@ class CaregiverList extends React.PureComponent<any, any> {
       days: getDaysArrayByMonth().daysArr,
       selectedCells: [],
       openToggleMenu: false,
-      loading: false,
-      loadingMore: false,
-      listCareGiver: [],
       totalCaregiver: this.props.totalCount,
       // loadedAll: this.props.result.length < 30,
     };
   }
-
-  componentDidMount = () => {
-    //props from index
-    const { caregiverData } = this.props;
-    const { totalCaregiver } = this.state;
-    let tempList: any = [];
-
-    caregiverData.forEach((element: any) => {
-      element.availabilityData.forEach((item: any, row: number) => {
-        return tempList.push({ ...element, new: item, row });
-      });
-    });
-    this.setState({
-      listCareGiver: tempList,
-    });
-  };
-
-  componentDidUpdate = ({ caregiverData }: any) => {
-    let tempList: any = [];
-    if (caregiverData !== this.props.caregiverData) {
-      this.props.caregiverData.forEach((element: any) => {
-        element.availabilityData.forEach((item: any, row: number) => {
-          return tempList.push({ ...element, new: item, row });
-        });
-      });
-      this.setState({
-        listCareGiver: tempList,
-      });
-    }
-  };
 
   //Mange right click options menu
   handleToggleMenuItem = () => {
@@ -206,7 +174,6 @@ class CaregiverList extends React.PureComponent<any, any> {
 
   //Set data on select cell loaded
   onSelectFinish = (selectedCellsData: any[]) => {
-    console.log('selectedCellsDataselectedCellsData',selectedCellsData);    
     const { handleSelection } = this.props;
     let selectedRows: any[] = [];
     if (selectedCellsData && selectedCellsData.length) {
@@ -238,35 +205,24 @@ class CaregiverList extends React.PureComponent<any, any> {
     }
   };
 
-  loadMore = async () => {
-    this.setState({ loadingMore: true });
-    await this.props.fetchMoreData("caregiver");
-  };
 
-  handleEndReached = (args: any) => {
-    console.log("onEndReached", args);
-    // if (loading || loadingMore || loadedAll) return;
-    this.loadMore();
-  };
+  
 
-  // Adding Row into table
-  onAddingRow = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    name: string,
-    index: number
-  ) => {
-    e.preventDefault();
-    const { caregiverData, setcaregiversList } = this.props;
-    if (name === "caregiver") {
-      let temp: any = [...caregiverData];
-      if (temp[index]) {
-        temp[index].availabilityData = temp[index].availabilityData
-          ? [...temp[index].availabilityData, []]
-          : [];
-      }
-      setcaregiversList(temp);
+  /**
+   *
+   * @param arg
+   */
+   handleEndReached = (arg: any) => {
+     const {hasMore,loadingCaregiver,page, setPage, isLoading,getMoreCaregivers} = this.props;
+    if ((!loadingCaregiver && isLoading) || !hasMore) {
+      return;
     }
+    const nextPage = page + 1;
+    setPage(nextPage);
+    getMoreCaregivers(nextPage);
   };
+
+
 
   render() {
     const {
@@ -275,13 +231,14 @@ class CaregiverList extends React.PureComponent<any, any> {
       onhandleCaregiverStar,
       starCaregiver,
       loadingCaregiver,
+      onAddNewRow,
+      isLoading
     } = this.props;
-    const { days, openToggleMenu, loadingMore, listCareGiver } = this.state;
+    const { days, openToggleMenu } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
     const appointmentListSection = document.getElementById(
       "appointment_list_section"
     );
-    console.log('result of caregiverData isssss',result);
 
     return (
       <>
@@ -290,23 +247,25 @@ class CaregiverList extends React.PureComponent<any, any> {
             "right-manu-close": true,
             "d-none": !openToggleMenu,
           })}
-          onClick={this.handleToggleMenuItem}></div>
+          onClick={this.handleToggleMenuItem}
+        ></div>
         <CaregiverRightClickOptions
           isOpen={openToggleMenu}
           hide={() => this.setState({ openToggleMenu: false })}
         />
 
-        {listCareGiver && listCareGiver.length ? (
+        {result && result.length ? (
           <SelectableGroup
             allowClickWithoutSelected
-            className='custom-row-selector new-base-table'
-            clickClassName='tick'
+            className="custom-row-selector new-base-table"
+            clickClassName="tick"
             resetOnStart={true}
             allowCtrlClick={false}
             onSelectionFinish={this.onSelectFinish}
-            ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
+            ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
+          >
             <BaseTable
-              data={listCareGiver}
+              data={result}
               width={
                 appointmentListSection
                   ? appointmentListSection.clientWidth - 40
@@ -314,33 +273,35 @@ class CaregiverList extends React.PureComponent<any, any> {
               }
               height={this.props.setHeight}
               fixed
+              onEndReachedThreshold={300}
               onEndReached={this.handleEndReached}
-              onEndReachedThreshold={100}
-              headerClassName='custom-appointment-row'
+              headerClassName="custom-appointment-row"
               overlayRenderer={() =>
-                loadingCaregiver ? (
+                loadingCaregiver || isLoading ? (
                   <>
-                    <div
-                      style={{
-                        pointerEvents: "none",
-                        background: "rgba(32, 60, 94, 0.3)",
-                        position: "absolute",
-                        bottom: "30px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        padding: "5px 15px",
-                        borderRadius: "10px",
-                        display: "flex",
-                        alignItems: "center",
-                      }}>
-                      <span
-                        style={{
-                          color: "#fff",
-                          marginRight: "5px",
-                        }}>
-                        Loading More
-                      </span>
-                    </div>
+                   <div
+                  style={{
+                    pointerEvents: "none",
+                    background: "rgba(32, 60, 94, 0.3)",
+                    position: "absolute",
+                    bottom: "30px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    padding: "5px 15px",
+                    borderRadius: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <span
+                    style={{
+                      color: "#fff",
+                      marginRight: "5px",
+                    }}
+                  >
+                    Loading...
+                  </span>
+                </div>
                   </>
                 ) : null
               }
@@ -351,19 +312,20 @@ class CaregiverList extends React.PureComponent<any, any> {
                       <span
                         className={`custom-appointment-col  ${
                           d === "caregiver" ? "name-col" : ""
-                        }`}>
+                        }`}
+                      >
                         {d}
                         {d === "caregiver" ? (
                           <>
                             <span onClick={this.handleToggleMenuItem}>
-                              <i className='icon-options-vertical' />
+                              <i className="icon-options-vertical" />
                             </span>
                           </>
                         ) : null}
                       </span>
                     </React.Fragment>
                   ) : (
-                    <span key={d.date} className='custom-appointment-col  '>
+                    <span key={d.date} className="custom-appointment-col  ">
                       {d.day}
                       <br />
                       {d.date}
@@ -371,14 +333,16 @@ class CaregiverList extends React.PureComponent<any, any> {
                   )
                 )
               }
-              rowClassName='custom-appointment-row'
+              rowClassName="custom-appointment-row"
               rowRenderer={({ cells, rowData }: any) => (
                 <div
-                  className='d-flex frozen-row'
-                  title={[rowData.lastName, rowData.firstName].join(" ")}>
+                  className="d-flex frozen-row"
+                  title={[rowData.lastName, rowData.firstName].join(" ")}
+                >
                   {cells}
                 </div>
-              )}>
+              )}
+            >
               {columns.map((d: any, index: number) => (
                 <Column
                   key={`col0-${index}-${
@@ -390,117 +354,125 @@ class CaregiverList extends React.PureComponent<any, any> {
                   }`}
                   frozen={typeof d === "string"}
                   cellRenderer={({ rowData, rowIndex }: any) => {
-                    let list = rowData;
-                    let item = list.new;
-                    let row = list.row;
-                    let cellIndex = `${list.id}-${rowIndex}-${row}-${rowData}`;
-                    let uIndex: number = result.findIndex(
-                      (item: any) => item.id === list.id
-                    );
                     switch (d) {
                       case "caregiver":
                         return (
                           <div
-                            className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
+                            key={rowIndex}
+                            className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
                             style={{
-                              backgroundColor: !list.isActive
+                              backgroundColor: !rowData.isActive
                                 ? deactivatedListColor
-                                : list.caregiver && list.caregiver.attributes
-                                ? list.caregiver.attributes.includes(
+                                : rowData.caregiver &&
+                                  rowData.caregiver.attributes
+                                ? rowData.caregiver.attributes.includes(
                                     CaregiverTIMyoCYAttrId
                                   )
                                   ? leasingListColor
-                                  : list.caregiver.attributes.includes(
+                                  : rowData.caregiver.attributes.includes(
                                       "Plycoco"
                                     )
                                   ? selfEmployesListColor
                                   : ""
                                 : "",
                             }}
-                            title={[list.lastName, list.firstName].join(" ")}
-                            id={`caregiver-${list.id}-${index}-${row}`}>
+                            title={[rowData.lastName, rowData.firstName].join(
+                              " "
+                            )}
+                            id={`caregiver-${rowData.id}-${index}-${rowData.row}`}
+                          >
                             <Link
                               to={AppRoutes.CARE_GIVER_VIEW.replace(
                                 ":id",
-                                list.id
+                                rowData.id
                               )}
-                              target='_blank'
-                              className='text-body'>
-                              {row === 0
-                                ? [list.lastName, list.firstName].join(" ")
-                                : ""}
+                              target="_blank"
+                              className="text-body"
+                            >
+                              {[rowData.lastName, rowData.firstName].join(" ")}
                             </Link>
                           </div>
                         );
                       case "H":
-                        return <span>H</span>;
+                        return <span key={rowIndex}>H</span>;
                       case "S":
                         return (
                           <span
-                            className='custom-appointment-col s-col text-center'
+                            key={rowIndex}
+                            className="custom-appointment-col s-col text-center"
                             onClick={() =>
                               onhandleCaregiverStar(
-                                list.id,
+                                rowData.id,
                                 false,
-                                `${list.firstName + list.lastName}`
+                                `${rowData.firstName + rowData.lastName}`
                               )
-                            }>
+                            }
+                          >
                             {starCaregiver &&
                             starCaregiver.isStar &&
-                            starCaregiver.id == list.id ? (
-                              <i className='fa fa-star theme-text' />
+                            starCaregiver.id == rowData.id ? (
+                              <i className="fa fa-star theme-text" />
                             ) : (
-                              <i className='fa fa-star-o' />
+                              <i className="fa fa-star-o" />
                             )}
                           </span>
                         );
                       case "U":
                         return (
                           <span
-                            className='custom-appointment-col u-col text-center'
+                            key={rowIndex}
+                            className="custom-appointment-col u-col text-center"
                             onClick={() =>
                               onhandleCaregiverStar(
-                                list.id,
+                                rowData.id,
                                 starCaregiver && !starCaregiver.isSecondStar
                               )
-                            }>
+                            }
+                          >
                             {starCaregiver &&
                             starCaregiver.isSecondStar &&
-                            starCaregiver.id === list.id ? (
-                              <i className='fa fa-star theme-text' />
+                            starCaregiver.id === rowData.id ? (
+                              <i className="fa fa-star theme-text" />
                             ) : (
-                              <i className='fa fa-star-o' />
+                              <i className="fa fa-star-o" />
                             )}
                           </span>
                         );
                       case "V":
                         return (
                           <span
-                            className='custom-appointment-col v-col text-center'
+                            key={rowIndex}
+                            className="custom-appointment-col v-col text-center"
                             onClick={(
                               e: React.MouseEvent<HTMLDivElement, MouseEvent>
-                            ) => this.onAddingRow(e, "caregiver", uIndex)}>
-                            <i className='fa fa-arrow-down' />
+                            ) => onAddNewRow( "caregiver", rowIndex)}
+                          >
+                            <i className="fa fa-arrow-down" />
                           </span>
                         );
                       default:
-                        const currentAvail = item.filter(
-                          (avabilityData: any) => {
-                            return (
-                              moment(d.isoString).format("DD.MM.YYYY") ===
-                              moment(avabilityData.date).format("DD.MM.YYYY")
-                            );
-                          }
-                        )[0];
+                        let currentAvail = "";
+                        if (rowData && rowData.availabilityData) {
+                          currentAvail = rowData.availabilityData.filter(
+                            (avabilityData: any) => {
+                              return (
+                                moment(d.isoString).format("DD.MM.YYYY") ===
+                                moment(avabilityData.date).format("DD.MM.YYYY")
+                              );
+                            }
+                          )[0];
+                        }
 
                         return (
-                          <SelectableCell
-                            item={currentAvail || {}}
-                            isWeekend={d.isWeekend}
-                            list={rowData}
-                            day={d}
-                            cellIndex={`${cellIndex}-${index}`}
-                          />
+                          <React.Fragment key={rowIndex}>
+                            <SelectableCell
+                              item={currentAvail || {}}
+                              isWeekend={d.isWeekend}
+                              list={rowData}
+                              day={d}
+                              // cellIndex={`${cellIndex}-${index}`}
+                            />
+                          </React.Fragment>
                         );
                     }
                   }}

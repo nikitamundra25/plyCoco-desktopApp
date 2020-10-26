@@ -20,6 +20,9 @@ export const TempPage = () => {
     getDaysArrayByMonth(moment().month(), moment().year())
   );
   const [caregivers, setCaregiverData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
   // To fetch caregivers by id filter
   const [
     fetchCaregiverList,
@@ -33,10 +36,10 @@ export const TempPage = () => {
     fetchPolicy: "no-cache",
   });
 
+  // Default value is start & end of month
+  let gte: string = moment().startOf("month").format(dbAcceptableFormat);
+  let lte: string = moment().endOf("month").format(dbAcceptableFormat);
   useEffect(() => {
-    // Default value is start & end of month
-    let gte: string = moment().startOf("month").format(dbAcceptableFormat);
-    let lte: string = moment().endOf("month").format(dbAcceptableFormat);
     fetchCaregiverList({
       variables: {
         qualificationId: [],
@@ -54,17 +57,15 @@ export const TempPage = () => {
   }, []);
   /**
    *
+   * @param data
    */
-  const setCaregivers = () => {
-    const data =
-      ((careGiversList || {}).getUserByQualifications || {}).result || [];
-    const newData: any[] = [];
+  const formatCaregivers = (data: any[]) => {
     console.time("test");
+    const newData: any[] = [];
     _.forEach(data, (value) => {
       const availibility = _.mapValues(
         _.groupBy(value.caregiver_avabilities, "date")
       );
-      delete value.caregiver_avabilities;
       let max = 1;
       _.forEach(daysData.daysArr, (date) => {
         const arr = availibility[date.dateString || ""] || [];
@@ -85,11 +86,22 @@ export const TempPage = () => {
       }
     });
     console.timeEnd("test");
+    return newData;
+  };
+  /**
+   *
+   */
+  const setCaregivers = () => {
+    const data =
+      ((careGiversList || {}).getUserByQualifications || {}).result || [];
+    const count =
+      ((careGiversList || {}).getUserByQualifications || {}).totalCount || 0;
+    const newData = formatCaregivers(data);
     allCaregivers = Object.assign([], newData);
+    setHasMore(data.length <= count);
     setCaregiverData(newData);
   };
   useEffect(() => {
-    console.log("fasdf");
     if (!loadingCaregiver) {
       setCaregivers();
     }
@@ -101,7 +113,6 @@ export const TempPage = () => {
    * @param index
    */
   const onAddNewRow = (index: number) => {
-    console.log(allCaregivers);
     const newCaregivers = Object.assign([], allCaregivers);
     newCaregivers.splice(index + 1, 0, {
       ...allCaregivers[index],
@@ -112,12 +123,66 @@ export const TempPage = () => {
     allCaregivers = newCaregivers;
     setCaregiverData(newCaregivers);
   };
-  const handleEndReached = (arg: any) => {
-    if (!loadingCaregiver) {
-      console.log(arg);
-    }
+  /**
+   *
+   * @param page
+   */
+  const getMoreCaregivers = (page: number = 1) => {
+    setIsLoading(true);
+    fetchMoreCareGiverList({
+      variables: {
+        qualificationId: [],
+        userRole: "caregiver",
+        negativeAttributeId: [],
+        limit: 30,
+        page,
+        showAppointments: "showWithAppointments",
+        positiveAttributeId: [],
+        gte,
+        lte,
+      },
+      updateQuery: (prev: any, { fetchMoreResult }: any) => {
+        if (!fetchMoreResult) {
+          return prev;
+        }
+        if (prev && prev.getUserByQualifications) {
+          console.log(
+            prev.getUserByQualifications.result,
+            fetchMoreResult.getUserByQualifications.result
+          );
+          const newData = formatCaregivers(
+            fetchMoreResult.getUserByQualifications.result
+          );
+          allCaregivers = [...allCaregivers, ...newData];
+          setCaregiverData(allCaregivers);
+          setIsLoading(false);
+          const result = [
+            ...prev.getUserByQualifications.result,
+            ...fetchMoreResult.getUserByQualifications.result,
+          ];
+          setHasMore(result.length <= prev.getUserByQualifications.totalCount);
+          return {
+            getUserByQualifications: {
+              ...prev.getUserByQualifications,
+              result,
+            },
+          };
+        }
+      },
+    });
   };
-  console.log(caregivers);
+  /**
+   *
+   * @param arg
+   */
+  const handleEndReached = (arg: any) => {
+    if ((!loadingCaregiver && isLoading) || !hasMore) {
+      return;
+    }
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    getMoreCaregivers(nextPage);
+  };
   return (
     <>
       <BaseTable
@@ -127,7 +192,7 @@ export const TempPage = () => {
         height={300}
         rowKey='key'
         overlayRenderer={() =>
-          loadingCaregiver ? (
+          loadingCaregiver || isLoading ? (
             <>
               <div
                 style={{

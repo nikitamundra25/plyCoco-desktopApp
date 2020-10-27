@@ -275,6 +275,13 @@ class CaregiverList extends React.PureComponent<any, any> {
       onhandleCaregiverStar,
       starCaregiver,
       loadingCaregiver,
+      selectedCells,
+      onNewAvailability,
+      onReserve,
+      onDeleteEntries,
+      qualificationList,
+      onCaregiverQualificationFilter,
+      onLinkAppointment
     } = this.props;
     const { days, openToggleMenu, loadingMore, listCareGiver,isLoading } = this.state;
     const columns = [...staticHeader, ...daysData.daysArr];
@@ -294,6 +301,14 @@ class CaregiverList extends React.PureComponent<any, any> {
         <CaregiverRightClickOptions
           isOpen={openToggleMenu}
           hide={() => this.setState({ openToggleMenu: false })}
+          selectedCells={selectedCells}
+          onNewAvailability={onNewAvailability}
+          onReserve={onReserve}
+          onDeleteEntries={onDeleteEntries}
+          qualificationList={qualificationList}
+          onCaregiverQualificationFilter={onCaregiverQualificationFilter}
+          onLinkAppointment={onLinkAppointment}
+          {...this.props}
         />
 
         {listCareGiver && listCareGiver.length ? (

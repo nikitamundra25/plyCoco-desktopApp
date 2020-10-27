@@ -18,8 +18,10 @@ import { getDaysArrayByMonth } from "../../../../helpers";
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const staticHeader = ["caregiver", "H", "S", "U", "V"];
 let allCaregivers: any[] = [];
-
-export const SelectableCell = React.memo(
+/**
+ *
+ */
+const SelectableCell = React.memo(
   createSelectable(
     ({ selectableRef, isSelecting, isSelected, isWeekend, item }: any) => {
       let isMatching: boolean = false,
@@ -129,7 +131,10 @@ export const SelectableCell = React.memo(
     }
   )
 );
-export const CaregiverList = () => {
+/**
+ *
+ */
+export const CaregiverList = React.memo(({ caregiverSelected }: any) => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
   );
@@ -189,13 +194,7 @@ export const CaregiverList = () => {
       });
       for (let i = 0; i < max; i++) {
         newData.push({
-          ...(i === 0
-            ? value
-            : {
-                ...value,
-                firstName: "",
-                lastName: "",
-              }),
+          ...value,
           row: i,
           key: `${value.id}-${i}`,
         });
@@ -262,10 +261,6 @@ export const CaregiverList = () => {
           return prev;
         }
         if (prev && prev.getUserByQualifications) {
-          console.log(
-            prev.getUserByQualifications.result,
-            fetchMoreResult.getUserByQualifications.result
-          );
           const newData = formatCaregivers(
             fetchMoreResult.getUserByQualifications.result
           );
@@ -299,10 +294,22 @@ export const CaregiverList = () => {
     setCurrentPage(nextPage);
     getMoreCaregivers(nextPage);
   };
+  /**
+   *
+   * @param selected
+   */
   const onSelectFinish = (selected: any) => {
-    console.log(selected);
+    if (selected[0]) {
+      caregiverSelected(selected[0].props);
+    }
   };
+  /**
+   *
+   */
   const element = document.getElementById("appointment_list_section");
+  /**
+   *
+   */
   return (
     <>
       <SelectableGroup
@@ -317,7 +324,7 @@ export const CaregiverList = () => {
           fixed
           data={caregivers}
           width={element ? element.clientWidth - 40 : 800}
-          height={element ? element.clientHeight / 2 : 300}
+          height={element ? window.innerHeight / 2 - 40 : 300}
           rowKey='key'
           overlayRenderer={() =>
             loadingCaregiver || isLoading ? (
@@ -408,7 +415,9 @@ export const CaregiverList = () => {
                           )}
                           target='_blank'
                           className='text-body'>
-                          {[rowData.lastName, rowData.firstName].join(" ")}
+                          {rowData.row === 0
+                            ? [rowData.lastName, rowData.firstName].join(" ")
+                            : null}
                         </Link>
                       </div>
                     );
@@ -448,7 +457,12 @@ export const CaregiverList = () => {
                       <React.Fragment key={rowIndex}>
                         <SelectableCell
                           isWeekend={d.isWeekend}
-                          item={currentAvail[rowData.row] || {}}
+                          item={
+                            currentAvail[rowData.row] || {
+                              date: d.dateString,
+                            }
+                          }
+                          caregiver={rowData}
                         />
                       </React.Fragment>
                     );
@@ -460,4 +474,4 @@ export const CaregiverList = () => {
       </SelectableGroup>
     </>
   );
-};
+});

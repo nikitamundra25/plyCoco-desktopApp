@@ -183,13 +183,14 @@ export const CaregiverList = () => {
     setCurrentPage(nextPage);
     getMoreCaregivers(nextPage);
   };
+  const element = document.getElementById("appointment_list_section");
   return (
     <>
       <BaseTable
         fixed
         data={caregivers}
-        width={800}
-        height={300}
+        width={element ? element.clientWidth - 40 : 800}
+        height={element ? element.clientHeight / 2 - 20 : 300}
         rowKey='key'
         overlayRenderer={() =>
           loadingCaregiver || isLoading ? (

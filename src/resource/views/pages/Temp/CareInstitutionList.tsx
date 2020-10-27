@@ -183,13 +183,15 @@ export const CareInstitutionList = () => {
     setCurrentPage(nextPage);
     getMoreCaregivers(nextPage);
   };
+  const element = document.getElementById("appointment_list_section");
+
   return (
     <>
       <BaseTable
         fixed
         data={caregivers}
-        width={800}
-        height={300}
+        width={element ? element.clientWidth - 40 : 800}
+        height={element ? element.clientHeight / 2 - 20 : 300}
         rowKey='key'
         overlayRenderer={() =>
           loadingCaregiver || isLoading ? (
@@ -261,12 +263,12 @@ export const CareInstitutionList = () => {
             key={`col0-${index}-${typeof d === "string" ? d : d.dateString}`}
             width={index === 0 ? 140 : 28}
             className={`custom-appointment-col   ${
-              d === "caregiver" ? "name-col" : ""
+              d === "careinstitution" ? "name-col" : ""
             }`}
             frozen={typeof d === "string"}
             cellRenderer={({ rowData, rowIndex }: any) => {
               switch (d) {
-                case "caregiver":
+                case "careinstitution":
                   return (
                     <div
                       key={rowIndex}

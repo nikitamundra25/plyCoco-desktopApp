@@ -769,7 +769,7 @@ const DummyAppointment: FunctionComponent = () => {
         if (starCanstitution && starCanstitution.isStar && deptList.length) {
           deptIndex = deptList.findIndex(
             (careInst: any) =>
-              parseInt(careInst.userId) === parseInt(careInst.userId),
+              parseInt(careInst.userId) === parseInt(careInst.userId)
           );
         }
 
@@ -781,7 +781,7 @@ const DummyAppointment: FunctionComponent = () => {
               let element: any[] = [...temp[index].availabilityData[i]];
               if (element.some((value: any) => value.id === careInst.id)) {
                 let cellIndex: number = element.findIndex(
-                  (ele: any) => ele.id === careInst.id,
+                  (ele: any) => ele.id === careInst.id
                 );
                 if (cellIndex > -1) {
                   element.splice(cellIndex, 1);
@@ -806,7 +806,7 @@ const DummyAppointment: FunctionComponent = () => {
               let element: any[] = [...deptList[deptIndex].availabilityData[i]];
               if (element.some((value: any) => value.id === careInst.id)) {
                 let cellIndex: number = element.findIndex(
-                  (ele: any) => ele.id === careInst.id,
+                  (ele: any) => ele.id === careInst.id
                 );
 
                 if (cellIndex > -1) {
@@ -816,10 +816,10 @@ const DummyAppointment: FunctionComponent = () => {
               }
             }
           }
-          setcareInstituionDeptData(deptList)
+          setcareInstituionDeptData(deptList);
         }
       });
-      setcareinstitutionList(temp)
+      setcareinstitutionList(temp);
       // canstitutionRefetch();
       setselectedCellsCareinstitution([]);
     },
@@ -1040,7 +1040,7 @@ const DummyAppointment: FunctionComponent = () => {
                 (cell: any) =>
                   moment(requirement.date).isSame(
                     moment(cell.dateString),
-                    'day'
+                    "day"
                   )
               );
 
@@ -1082,13 +1082,13 @@ const DummyAppointment: FunctionComponent = () => {
               // To check this row have this date entry or not
               if (
                 element.filter((e: any) =>
-                  moment(e.date).isSame(moment(requirement.date), 'day')
+                  moment(e.date).isSame(moment(requirement.date), "day")
                 ).length === 0 ||
                 i === temp[index].availabilityData.length - 1
               ) {
                 if (
                   element.filter((e: any) =>
-                    moment(e.date).isSame(moment(requirement.date), 'day')
+                    moment(e.date).isSame(moment(requirement.date), "day")
                   ).length === 0
                 ) {
                   temp[index].availabilityData[i] = [...element, requirement];
@@ -1117,7 +1117,7 @@ const DummyAppointment: FunctionComponent = () => {
                 (cell: any) =>
                   moment(requirement.date).isSame(
                     moment(cell.dateString),
-                    'day'
+                    "day"
                   )
               );
 
@@ -1140,7 +1140,7 @@ const DummyAppointment: FunctionComponent = () => {
               // To check this row have this date entry or not
               if (
                 element.filter((e: any) =>
-                  moment(e.date).isSame(moment(requirement.date), 'day')
+                  moment(e.date).isSame(moment(requirement.date), "day")
                 ).length === 0
               ) {
                 deptList[deptIndex].availabilityData[i] = [
@@ -2038,12 +2038,12 @@ const DummyAppointment: FunctionComponent = () => {
   let gte: string = moment().startOf("month").format(dbAcceptableFormat);
   let lte: string = moment().endOf("month").format(dbAcceptableFormat);
   if (daysData && daysData.daysArr && daysData.daysArr.length) {
-    gte = daysData.daysArr[0].dateString || '';
-    lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || '';
+    gte = daysData.daysArr[0].dateString || "";
+    lte = daysData.daysArr[daysData.daysArr.length - 1].dateString || "";
     console.log(
-      'inside gte and lte before fetchCareGiversList',
+      "inside gte and lte before fetchCareGiversList",
       daysData.daysArr[0].dateString,
-      'lteeeeeenbhhdf ',
+      "lteeeeeenbhhdf ",
       daysData.daysArr[daysData.daysArr.length - 1].dateString
     );
   }
@@ -2052,7 +2052,7 @@ const DummyAppointment: FunctionComponent = () => {
     positiveAttr: number[] = [],
     negativeAttr: number[] = []
   ) => {
-    console.log('inside fetchCareGiversList api gte ', gte, 'lte val', lte);
+    console.log("inside fetchCareGiversList api gte ", gte, "lte val", lte);
     const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(
       moment().month(),
       moment().year()
@@ -2155,8 +2155,8 @@ const DummyAppointment: FunctionComponent = () => {
       selectedCellsData && selectedCellsData.length && selectedCellsData[0]
         ? selectedCellsData[0]
         : {};
-    console.log('selectedCellsData', selectedCellsData);
-    console.log('selectedCellsData length', selectedCellsData.length);
+    console.log("selectedCellsData", selectedCellsData);
+    console.log("selectedCellsData length", selectedCellsData.length);
 
     const checkCondition: boolean =
       item && item.appointments && item.appointments.length;
@@ -2841,8 +2841,8 @@ const DummyAppointment: FunctionComponent = () => {
     isLinkable = false;
   }
   return (
-    <div className="common-detail-page">
-      <div className="common-detail-section">
+    <div className='common-detail-page'>
+      <div className='common-detail-section'>
         <AppointmentNav
           daysData={daysData}
           setDaysData={setDaysData}
@@ -2865,20 +2865,19 @@ const DummyAppointment: FunctionComponent = () => {
           fetchCareInstituionList={fetchCareInstituionList}
           setSelectedCells={setSelectedCells}
         />
-        <div className="common-content flex-grow-1">
+        <div className='common-content flex-grow-1'>
           <div>
-            <div className="appointment-page-row">
+            <div className='appointment-page-row'>
               <div
-                className="appointment-page-list-section"
-                id="appointment_list_section"
-              >
-                <div className="calender-section">
+                className='appointment-page-list-section'
+                id='appointment_list_section'>
+                <div className='calender-section'>
                   {
                     // caregiverLoading ? (
                     //   "Loading..."
                     // ) :
                     caregiversList && caregiversList.length ? (
-                      <div className="custom-appointment-calendar overflow-hidden">
+                      <div className='custom-appointment-calendar overflow-hidden'>
                         <CaregiverList
                           caregiverData={caregiversList}
                           fetchMoreData={fetchMoreData}
@@ -2905,7 +2904,7 @@ const DummyAppointment: FunctionComponent = () => {
                     //   "Loading..."
                     // ) :
                     careinstitutionList && careinstitutionList.length ? (
-                      <div className="custom-appointment-calendar overflow-hidden">
+                      <div className='custom-appointment-calendar overflow-hidden'>
                         <CareInstitutionList
                           careinstitutionData={careinstitutionList}
                           fetchMoreData={fetchMoreData}
@@ -2944,14 +2943,12 @@ const DummyAppointment: FunctionComponent = () => {
                 </div>
               </div>
               <div
-                className="appointment-page-form-section"
-                id="appointment_form_section"
-              >
-                <Row className="row-appointment">
+                className='appointment-page-form-section'
+                id='appointment_form_section'>
+                <Row className='row-appointment'>
                   <Col
                     lg={"6"}
-                    className="pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0"
-                  >
+                    className='pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
                     <CaregiverFormView
                       departmentList={departmentList}
                       data={data}
@@ -2989,7 +2986,7 @@ const DummyAppointment: FunctionComponent = () => {
                       setcaregiverLastTimeValues={setcaregiverLastTimeValues}
                     />
                   </Col>
-                  <Col lg={"6"} className="pl-lg-0">
+                  <Col lg={"6"} className='pl-lg-0'>
                     <CareinstitutionFormView
                       selectedCellsCareinstitution={
                         selectedCellsCareinstitution
@@ -3023,29 +3020,27 @@ const DummyAppointment: FunctionComponent = () => {
                   </Col>
 
                   <Col lg={"12"}>
-                    <div className="d-flex align-items-center justify-content-center">
+                    <div className='d-flex align-items-center justify-content-center'>
                       <Button
-                        className="btn-common  mt-0 mb-2 mx-2"
-                        color="primary"
-                      >
-                        <i className="fa fa-save mr-2" />
+                        className='btn-common  mt-0 mb-2 mx-2'
+                        color='primary'>
+                        <i className='fa fa-save mr-2' />
                         {languageTranslation("SAVE_BOTH")}
                       </Button>
                       <Button
-                        className="btn-common mt-0 mb-2 mx-2"
-                        color="secondary"
+                        className='btn-common mt-0 mb-2 mx-2'
+                        color='secondary'
                         // disabled={
                         //   isUnLinkable ? false : isLinkable ? false : true
                         // }
                         onClick={() =>
                           /* isUnLinkable ?  handleUnlinkBoth() :*/ handleLinkBoth()
-                        }
-                      >
+                        }>
                         {/* {linkLoading ? (
                             <i className='fa fa-spinner fa-spin mr-2' />
                           ) : (
                           )} */}
-                        <i className="fa fa-link mr-2" />
+                        <i className='fa fa-link mr-2' />
                         {
                           /* isUnLinkable
                             ? 'Unlink'

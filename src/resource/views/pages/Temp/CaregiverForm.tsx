@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import classnames from "classnames";
 import {
@@ -21,6 +21,7 @@ import {
 import Select from "react-select";
 import { FormikProps, Field, FormikHelpers, Formik, Form } from "formik";
 import {
+  AppConfig,
   appointmentDayFormat,
   DateMask,
   defaultDateFormat,
@@ -30,6 +31,8 @@ import {
 } from "../../../../config";
 import MaskedInput from "react-text-mask";
 import { ICaregiverFormValue } from "../../../../interfaces";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { DocumentQueries } from "../../../../graphql/queries";
 
 const validateWorkingHours = (
   type: string,
@@ -37,6 +40,8 @@ const validateWorkingHours = (
   endDateTime: any
 ) => {
   const current = moment().format(defaultDateFormat);
+  startDateTime = moment(startDateTime).format(defaultDateFormat);
+  endDateTime = moment(endDateTime).format(defaultDateFormat);
   let validate: boolean;
   let validDateData: any;
   validate = dateDiffernceValidator(startDateTime, current, endDateTime, name);
@@ -80,8 +85,17 @@ const validateWorkingHours = (
       return null;
   }
 };
-
+const [, , , , GET_WORKPROOF_PDF] = DocumentQueries;
 export const CaregiverForm = ({ selected }: any) => {
+  const [tempState, setTempState] = useState(false);
+  // Query to get Work Proof pdf
+  const [getWorkProofPDF, { data: workProofData }] = useLazyQuery<any>(
+    GET_WORKPROOF_PDF
+  );
+  const { getWorkProofPDF: workProof = {} } = workProofData || {};
+  const { document: finalWorkProofPDF = "" } = workProof;
+  const workingProofSubmitted = !!finalWorkProofPDF;
+
   let isBeforedate = false,
     item: any = {},
     caregiverDetails: any = {},
@@ -262,7 +276,26 @@ export const CaregiverForm = ({ selected }: any) => {
             handleSubmit,
             setFieldValue,
           } = props;
-
+          const workingHoursFromErrMsg = validateWorkingHours(
+            "workingHoursFromDate",
+            item.date,
+            workingHoursFromDate
+          );
+          const workingHoursToErrMsg = validateWorkingHours(
+            "workingHoursToDate",
+            workingHoursFromDate,
+            workingHoursToDate
+          );
+          const breakHoursFromErrMsg = validateWorkingHours(
+            "breakFromDate",
+            item.date,
+            breakFromDate
+          );
+          const breakHoursToErrMsg = validateWorkingHours(
+            "breakToDate",
+            breakFromDate,
+            breakToDate
+          );
           return (
             <Form>
               <div className='form-section'>
@@ -538,11 +571,11 @@ export const CaregiverForm = ({ selected }: any) => {
                                             aria-hidden='true'></i>
                                         </InputGroupText>
                                       </InputGroupAddon>
-                                      {/* {errors.fee && touched.fee && (
+                                      {errors.fee && touched.fee && (
                                         <div className='required-tooltip bottom-tooltip'>
                                           {errors.fee}
                                         </div>
-                                      )} */}
+                                      )}
                                     </InputGroup>
                                   </div>
                                   <span
@@ -895,18 +928,15 @@ export const CaregiverForm = ({ selected }: any) => {
                                               {...field}
                                               mask={DateMask}
                                               className={
-                                                /* workingHoursFromErrMsg &&
-                                              workingHoursFromErrMsg !== ''
-                                                ? 'text-input error form-control'
-                                                : */
-                                                "text-input form-control"
+                                                workingHoursFromErrMsg &&
+                                                workingHoursFromErrMsg !== ""
+                                                  ? "text-input error form-control"
+                                                  : "text-input form-control"
                                               }
                                               onChange={handleChange}
-                                              // onBlur={() =>
-                                              //   workingHourDateValidator(
-                                              //     'workingHoursFromDate'
-                                              //   )
-                                              // }
+                                              onBlur={() =>
+                                                setTempState(!tempState)
+                                              }
                                               placeholder={languageTranslation(
                                                 "HOLIDAY_DATE_PLACEHOLDER"
                                               )}
@@ -919,12 +949,11 @@ export const CaregiverForm = ({ selected }: any) => {
                                           )}
                                         </Field>
 
-                                        {/* {workingHoursFromErrMsg &&
-                                workingHoursFromErrMsg !== '' ? (
-                                  <div className='required-tooltip'>
-                                    {workingHoursFromErrMsg}
-                                  </div>
-                                ) : null} */}
+                                        {workingHoursFromErrMsg ? (
+                                          <div className='required-tooltip'>
+                                            {workingHoursFromErrMsg}
+                                          </div>
+                                        ) : null}
                                       </InputGroup>
                                     </Col>
                                     <Col sm={"6"}>
@@ -983,18 +1012,15 @@ export const CaregiverForm = ({ selected }: any) => {
                                               {...field}
                                               mask={DateMask}
                                               className={
-                                                /*  workingHoursToErrMsg &&
-                                              workingHoursToErrMsg !== ''
-                                                ? 'text-input error form-control'
-                                                :  */
-                                                "text-input form-control"
+                                                workingHoursToErrMsg &&
+                                                workingHoursToErrMsg !== ""
+                                                  ? "text-input error form-control"
+                                                  : "text-input form-control"
                                               }
                                               onChange={handleChange}
-                                              // onBlur={() =>
-                                              //   workingHourDateValidator(
-                                              //     'workingHoursToDate'
-                                              //   )
-                                              // }
+                                              onBlur={() =>
+                                                setTempState(!tempState)
+                                              }
                                               placeholder={languageTranslation(
                                                 "HOLIDAY_DATE_PLACEHOLDER"
                                               )}
@@ -1006,12 +1032,11 @@ export const CaregiverForm = ({ selected }: any) => {
                                             />
                                           )}
                                         </Field>
-                                        {/* {workingHoursToErrMsg &&
-                                workingHoursToErrMsg !== '' ? (
-                                  <div className='required-tooltip'>
-                                    {workingHoursToErrMsg}
-                                  </div>
-                                ) : null} */}
+                                        {workingHoursToErrMsg ? (
+                                          <div className='required-tooltip'>
+                                            {workingHoursToErrMsg}
+                                          </div>
+                                        ) : null}
                                       </InputGroup>
                                     </Col>
                                     <Col sm={"6"}>
@@ -1084,17 +1109,15 @@ export const CaregiverForm = ({ selected }: any) => {
                                               {...field}
                                               mask={DateMask}
                                               className={
-                                                /* breakHoursFromErrMsg &&
-                                              breakHoursFromErrMsg !== ''
-                                                ? 'text-input error form-control'
-                                                :  */ "text-input form-control"
+                                                breakHoursFromErrMsg &&
+                                                breakHoursFromErrMsg !== ""
+                                                  ? "text-input error form-control"
+                                                  : "text-input form-control"
                                               }
                                               onChange={handleChange}
-                                              // onBlur={() =>
-                                              //   workingHourDateValidator(
-                                              //     'breakFromDate'
-                                              //   )
-                                              // }
+                                              onBlur={() =>
+                                                setTempState(!tempState)
+                                              }
                                               placeholder={languageTranslation(
                                                 "HOLIDAY_DATE_PLACEHOLDER"
                                               )}
@@ -1106,12 +1129,12 @@ export const CaregiverForm = ({ selected }: any) => {
                                             />
                                           )}
                                         </Field>
-                                        {/* {breakHoursFromErrMsg &&
-                                breakHoursFromErrMsg !== '' ? (
-                                  <div className='required-tooltip'>
-                                    {breakHoursFromErrMsg}
-                                  </div>
-                                ) : null} */}
+                                        {breakHoursFromErrMsg &&
+                                        breakHoursFromErrMsg !== "" ? (
+                                          <div className='required-tooltip'>
+                                            {breakHoursFromErrMsg}
+                                          </div>
+                                        ) : null}
                                       </InputGroup>
                                     </Col>
 
@@ -1171,15 +1194,15 @@ export const CaregiverForm = ({ selected }: any) => {
                                               {...field}
                                               mask={DateMask}
                                               className={
-                                                /*  breakHoursToErrMsg &&
-                                              breakHoursToErrMsg !== ''
-                                                ? 'text-input error form-control'
-                                                :  */ "text-input form-control"
+                                                breakHoursToErrMsg &&
+                                                breakHoursToErrMsg !== ""
+                                                  ? "text-input error form-control"
+                                                  : "text-input form-control"
                                               }
                                               onChange={handleChange}
-                                              // onBlur={() =>
-                                              //   workingHourDateValidator('breakToDate')
-                                              // }
+                                              onBlur={() =>
+                                                setTempState(!tempState)
+                                              }
                                               placeholder={languageTranslation(
                                                 "HOLIDAY_DATE_PLACEHOLDER"
                                               )}
@@ -1189,12 +1212,12 @@ export const CaregiverForm = ({ selected }: any) => {
                                             />
                                           )}
                                         </Field>
-                                        {/* {breakHoursToErrMsg &&
-                                breakHoursToErrMsg !== '' ? (
-                                  <div className='required-tooltip'>
-                                    {breakHoursToErrMsg}
-                                  </div>
-                                ) : null} */}
+                                        {breakHoursToErrMsg &&
+                                        breakHoursToErrMsg !== "" ? (
+                                          <div className='required-tooltip'>
+                                            {breakHoursToErrMsg}
+                                          </div>
+                                        ) : null}
                                       </InputGroup>
                                     </Col>
                                     <Col sm={"6"}>
@@ -1265,78 +1288,73 @@ export const CaregiverForm = ({ selected }: any) => {
                                     id='workingProofSubmitted'
                                     className=''
                                     name={"workingProofSubmitted"}
-                                    // checked={workingProofSubmitted}
-                                    // onChange={(
-                                    //   e: React.ChangeEvent<HTMLInputElement>
-                                    // ) => {
-                                    //   const {
-                                    //     target: { checked },
-                                    //   } = e;
-                                    //   setFieldValue(
-                                    //     "workingProofSubmitted",
-                                    //     checked
-                                    //   );
-                                    // }}
+                                    checked={workingProofSubmitted}
+                                    onChange={(
+                                      e: React.ChangeEvent<HTMLInputElement>
+                                    ) => {
+                                      const {
+                                        target: { checked },
+                                      } = e;
+                                      setFieldValue(
+                                        "workingProofSubmitted",
+                                        checked
+                                      );
+                                    }}
                                   />
                                   <Label for='workingProofSubmitted'></Label>
                                 </div>
                               </FormGroup>
                             </div>
 
-                            {/* { getWorkProofPDF &&
-                      finalWorkProofPDF ? (
-                      <a
-                        href={`${AppConfig.FILES_ENDPOINT}${finalWorkProofPDF}`}
-                        target={'_blank'}
-                        className='view-more-link text-underline'
-                      >
-                        <i className='fa fa-file-o mr-2' />
-                        {languageTranslation('WORK_PROOF')}
-                      </a>
-                    ) : null} */}
+                            {getWorkProofPDF && finalWorkProofPDF ? (
+                              <a
+                                href={`${AppConfig.FILES_ENDPOINT}${finalWorkProofPDF}`}
+                                target={"_blank"}
+                                className='view-more-link text-underline'>
+                                <i className='fa fa-file-o mr-2' />
+                                {languageTranslation("WORK_PROOF")}
+                              </a>
+                            ) : null}
                             <br />
 
                             {/* {document &&
-                    leasingContract &&
-                    leasingContract.length &&
-                    leasingContract[0] &&
-                    leasingContract[0].avabilityId === appointmentId ? (
-                      <a
-                        href={`${AppConfig.FILES_ENDPOINT}${document}`}
-                        target={'_blank'}
-                        className='view-more-link text-underline'
-                      >
-                        <i className='fa fa-file-o mr-2' />
-                        {languageTranslation('CONTRACT')}
-                      </a>
-                    ) : getContractByAppointmentID &&
-                      getContractByAppointmentID.length &&
-                      selfEmploymentcontract ? (
-                      // && selectedCells && selectedCells.length && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length && selectedCells[0].item.appointments[0] && contractApptmentIds.includes(selectedCells[0].item.appointments[0].id
-                      // )
-                      <a
-                        href={`${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}`}
-                        target={'_blank'}
-                        className='view-more-link text-underline'
-                      >
-                        <i className='fa fa-file-o mr-2' />
-                        {languageTranslation('CONTRACT')}
-                      </a>
-                    ) : null} */}
+                            leasingContract &&
+                            leasingContract.length &&
+                            leasingContract[0] &&
+                            leasingContract[0].avabilityId === appointmentId ? (
+                              <a
+                                href={`${AppConfig.FILES_ENDPOINT}${document}`}
+                                target={"_blank"}
+                                className='view-more-link text-underline'>
+                                <i className='fa fa-file-o mr-2' />
+                                {languageTranslation("CONTRACT")}
+                              </a>
+                            ) : getContractByAppointmentID &&
+                              getContractByAppointmentID.length &&
+                              selfEmploymentcontract ? (
+                              // && selectedCells && selectedCells.length && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length && selectedCells[0].item.appointments[0] && contractApptmentIds.includes(selectedCells[0].item.appointments[0].id
+                              // )
+                              <a
+                                href={`${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}`}
+                                target={"_blank"}
+                                className='view-more-link text-underline'>
+                                <i className='fa fa-file-o mr-2' />
+                                {languageTranslation("CONTRACT")}
+                              </a>
+                            ) : null} */}
                             <br />
 
-                            {/* { getInvoiceByAppointmentId &&
-                      getInvoiceByAppointmentId.length &&
-                      finalInvoicePDF ? (
-                      <a
-                        href={`${AppConfig.FILES_ENDPOINT}/${finalInvoicePDF}`}
-                        target={'_blank'}
-                        className='view-more-link text-underline'
-                      >
-                        <i className='fa fa-file-o mr-2' />
-                        {languageTranslation('INVOICE')}
-                      </a>
-                    ) : null} */}
+                            {/* {getInvoiceByAppointmentId &&
+                            getInvoiceByAppointmentId.length &&
+                            finalInvoicePDF ? (
+                              <a
+                                href={`${AppConfig.FILES_ENDPOINT}/${finalInvoicePDF}`}
+                                target={"_blank"}
+                                className='view-more-link text-underline'>
+                                <i className='fa fa-file-o mr-2' />
+                                {languageTranslation("INVOICE")}
+                              </a>
+                            ) : null} */}
                           </Col>
                         </Row>
                       </FormGroup>

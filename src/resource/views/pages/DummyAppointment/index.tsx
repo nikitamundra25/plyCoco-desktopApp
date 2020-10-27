@@ -3151,13 +3151,14 @@ const DummyAppointment: FunctionComponent = () => {
                 className='appointment-page-list-section'
                 id='appointment_list_section'
               >
+                <div></div>
                 <div className='calender-section'>
                   {
                     // caregiverLoading ? (
                     //   "Loading..."
                     // ) :
                     caregiversList && caregiversList.length ? (
-                      <div className='custom-appointment-calendar overflow-hidden'>
+                      <div className='position-relative'>
                         <CaregiverList
                           caregiverData={caregiversList}
                           fetchMoreData={fetchMoreData}
@@ -3181,7 +3182,9 @@ const DummyAppointment: FunctionComponent = () => {
                           onReserve={onReserve}
                           onDeleteEntries={onDeleteEntries}
                           qualificationList={qualificationList}
-                          onCaregiverQualificationFilter={onCaregiverQualificationFilter}
+                          onCaregiverQualificationFilter={
+                            onCaregiverQualificationFilter
+                          }
                           onLinkAppointment={onLinkAppointment}
                         />
                       </div>
@@ -3194,7 +3197,7 @@ const DummyAppointment: FunctionComponent = () => {
                     //   "Loading..."
                     // ) :
                     careinstitutionList && careinstitutionList.length ? (
-                      <div className='custom-appointment-calendar overflow-hidden'>
+                      <div className='position-relative'>
                         <CareInstitutionList
                           careinstitutionData={careinstitutionList}
                           fetchMoreData={fetchMoreData}

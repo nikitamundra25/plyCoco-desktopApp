@@ -282,7 +282,9 @@ export const CaregiverForm = ({ selected }: any) => {
                     "confirmation-bg":
                       item.status === "timeSheetPending" ||
                       item.status === "timeSheetUpdated",
-                    "availability-bg": isBeforedate,
+                    "availability-bg":
+                      isBeforedate &&
+                      [item.f, item.s, item.n].indexOf("block") === -1,
                   })}>
                   <h5 className='content-title'>
                     {languageTranslation("MENU_CAREGIVER")}

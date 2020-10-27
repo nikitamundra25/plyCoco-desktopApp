@@ -34,14 +34,14 @@ export const CareinstitutionRightClickOptions = (props: any) => {
     setStatusTo,
     setSortBy,
     setConfirmAppointment,
-    onDeleteEntries,
+    onDeleteEntries,isOpen
   } = props;
   return (
     <div
       className={classnames({
         "rightclick-menu": true,
         "custom-scrollbar": true,
-        "d-none": !toggleMenuButton,
+        "d-none": !isOpen,
       })}
       id={"clickbox"}
     >

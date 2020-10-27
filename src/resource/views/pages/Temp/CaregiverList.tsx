@@ -1,10 +1,12 @@
 import { useLazyQuery } from "@apollo/react-hooks";
+import classnames from "classnames";
 import _ from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import BaseTable, { Column } from "react-base-table";
 import "react-base-table/styles.css";
 import { Link } from "react-router-dom";
+import { createSelectable, SelectableGroup } from "react-selectable-fast";
 import {
   APPOINTMENT_PAGE_LIMIT,
   AppRoutes,
@@ -12,9 +14,121 @@ import {
 } from "../../../../config";
 import { AppointmentsQueries } from "../../../../graphql/queries";
 import { getDaysArrayByMonth } from "../../../../helpers";
+
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const staticHeader = ["caregiver", "H", "S", "U", "V"];
 let allCaregivers: any[] = [];
+
+export const SelectableCell = React.memo(
+  createSelectable(
+    ({ selectableRef, isSelecting, isSelected, isWeekend, item }: any) => {
+      let isMatching: boolean = false,
+        isConfirm: boolean = false,
+        isContractCancel: boolean = false,
+        isContractInitiated: boolean = false,
+        isSingleButtonAccepted: boolean = false,
+        isTimeSheetPending: boolean = false,
+        isInvoiceInitiated: boolean = false;
+      if (item.status === "linked") {
+        isMatching = true;
+      } else if (item.status === "confirmed") {
+        isConfirm = true;
+      } else if (item.status === "contractCancelled") {
+        isContractCancel = true;
+      } else if (item.status === "contractInitiated") {
+        isContractInitiated = true;
+      } else if (item.status === "invoiceInitiated") {
+        isInvoiceInitiated = true;
+      } else if (item.status === "accepted") {
+        isSingleButtonAccepted = true;
+      } else if (
+        item.status === "timeSheetPending" ||
+        item.status === "timeSheetUpdated"
+      ) {
+        isTimeSheetPending = true;
+      }
+
+      let isBlocked: boolean = false;
+      if (item) {
+        isBlocked =
+          item.f === "block" || item.s === "block" || item.n === "block";
+      }
+
+      // Date condition to not display fsn if date is before today
+      let isBeforedate = false;
+      if (item && item.date) {
+        isBeforedate = moment(item.date).isBefore(moment(), "day");
+      }
+      return (
+        <>
+          <span
+            className={classnames({
+              "calender-col": true,
+              "text-center": true,
+              "custom-appointment-col": true,
+              "cursor-pointer": true,
+              "selecting-cell-bg": isSelecting || isSelected,
+              weekend: isWeekend,
+              "contact-initiate-bg":
+                isContractInitiated && !isSelected
+                  ? isContractInitiated
+                  : false,
+
+              "invoice-bg":
+                isInvoiceInitiated && !isSelected ? isInvoiceInitiated : false,
+              "cancel-contract-bg":
+                isContractCancel && !isSelected ? isContractCancel : false,
+              "block-bg": item ? (isBlocked ? true : false) : false,
+              "matching-bg": isMatching && !isSelected ? isMatching : false,
+              "confirmation-bg":
+                isTimeSheetPending && !isSelected ? isTimeSheetPending : false,
+              "contract-bg": isConfirm && !isSelected ? isConfirm : false,
+              "accepted-bg":
+                isSingleButtonAccepted && !isSelected
+                  ? isSingleButtonAccepted
+                  : false,
+              "availability-dark-bg": !isSelected
+                ? item
+                  ? item.f === "available" ||
+                    item.s === "available" ||
+                    item.n === "available"
+                    ? item && item.status === "default" && isBeforedate
+                      ? false
+                      : true
+                    : false
+                  : false
+                : false,
+              "availability-bg":
+                !isSelected && item && item.status === "default" && isBeforedate
+                  ? true
+                  : false,
+            })}
+            ref={selectableRef}>
+            {item.status === "timeSheetPending" ? (
+              <i className='fa fa-circle-o'></i>
+            ) : item.status === "timeSheetUpdated" ? (
+              <i className='fa fa-check'></i>
+            ) : item.status === "invoiceInitiated" ? (
+              <i className='fa fa-euro'></i>
+            ) : item.f === "block" ||
+              item.s === "block" ||
+              item.n === "block" ? (
+              <i className='fa fa-ban'></i>
+            ) : item.status === "default" &&
+              new Date(item.date).toTimeString() <
+                new Date().toTimeString() ? null : (
+              <>
+                {item.f === "available" ? "f" : null}
+                {item.s === "available" ? "s" : null}
+                {item.n === "available" ? "n" : null}
+              </>
+            )}
+          </span>
+        </>
+      );
+    }
+  )
+);
 export const CaregiverList = () => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
@@ -78,7 +192,9 @@ export const CaregiverList = () => {
           ...(i === 0
             ? value
             : {
-                id: value.id,
+                ...value,
+                firstName: "",
+                lastName: "",
               }),
           row: i,
           key: `${value.id}-${i}`,
@@ -183,146 +299,165 @@ export const CaregiverList = () => {
     setCurrentPage(nextPage);
     getMoreCaregivers(nextPage);
   };
+  const onSelectFinish = (selected: any) => {
+    console.log(selected);
+  };
   const element = document.getElementById("appointment_list_section");
   return (
     <>
-      <BaseTable
-        fixed
-        data={caregivers}
-        width={element ? element.clientWidth - 40 : 800}
-        height={element ? element.clientHeight / 2 - 20 : 300}
-        rowKey='key'
-        overlayRenderer={() =>
-          loadingCaregiver || isLoading ? (
-            <>
-              <div
-                style={{
-                  pointerEvents: "none",
-                  background: "rgba(32, 60, 94, 0.3)",
-                  position: "absolute",
-                  bottom: "30px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  padding: "5px 15px",
-                  borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                }}>
-                <span
+      <SelectableGroup
+        allowClickWithoutSelected
+        className='custom-row-selector new-base-table'
+        clickClassName='tick'
+        resetOnStart={true}
+        allowCtrlClick={false}
+        onSelectionFinish={onSelectFinish}
+        ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
+        <BaseTable
+          fixed
+          data={caregivers}
+          width={element ? element.clientWidth - 40 : 800}
+          height={element ? element.clientHeight / 2 : 300}
+          rowKey='key'
+          overlayRenderer={() =>
+            loadingCaregiver || isLoading ? (
+              <>
+                <div
                   style={{
-                    color: "#fff",
-                    marginRight: "5px",
+                    pointerEvents: "none",
+                    background: "rgba(32, 60, 94, 0.3)",
+                    position: "absolute",
+                    bottom: "30px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    padding: "5px 15px",
+                    borderRadius: "10px",
+                    display: "flex",
+                    alignItems: "center",
                   }}>
-                  Loading...
+                  <span
+                    style={{
+                      color: "#fff",
+                      marginRight: "5px",
+                    }}>
+                    Loading...
+                  </span>
+                </div>
+              </>
+            ) : null
+          }
+          headerRenderer={() =>
+            columns.map((d: any, index: number) =>
+              staticHeader.indexOf(d) > -1 ? (
+                <React.Fragment key={`${d.id}-${index}`}>
+                  <span
+                    className={`custom-appointment-col  ${
+                      d === "caregiver" ? "name-col" : ""
+                    }`}>
+                    {d}
+                    {d === "caregiver" ? (
+                      <>
+                        <span>
+                          <i className='icon-options-vertical' />
+                        </span>
+                      </>
+                    ) : null}
+                  </span>
+                </React.Fragment>
+              ) : (
+                <span key={d.date} className='custom-appointment-col  '>
+                  {d.day}
+                  <br />
+                  {d.date}
                 </span>
-              </div>
-            </>
-          ) : null
-        }
-        headerRenderer={() =>
-          columns.map((d: any, index: number) =>
-            staticHeader.indexOf(d) > -1 ? (
-              <React.Fragment key={`${d.id}-${index}`}>
-                <span
-                  className={`custom-appointment-col  ${
-                    d === "caregiver" ? "name-col" : ""
-                  }`}>
-                  {d}
-                  {d === "caregiver" ? (
-                    <>
-                      <span>
-                        <i className='icon-options-vertical' />
-                      </span>
-                    </>
-                  ) : null}
-                </span>
-              </React.Fragment>
-            ) : (
-              <span key={d.date} className='custom-appointment-col  '>
-                {d.day}
-                <br />
-                {d.date}
-              </span>
+              )
             )
-          )
-        }
-        rowRenderer={({ cells, rowData }) => (
-          <div
-            className='d-flex frozen-row'
-            title={[rowData.lastName, rowData.firstName].join(" ")}>
-            {cells}
-          </div>
-        )}
-        onEndReachedThreshold={300}
-        onEndReached={handleEndReached}
-        headerClassName='custom-appointment-row'
-        rowClassName='custom-appointment-row'>
-        {columns.map((d: any, index: number) => (
-          <Column
-            key={`col0-${index}-${typeof d === "string" ? d : d.dateString}`}
-            width={index === 0 ? 140 : 28}
-            className={`custom-appointment-col   ${
-              d === "caregiver" ? "name-col" : ""
-            }`}
-            frozen={typeof d === "string"}
-            cellRenderer={({ rowData, rowIndex }: any) => {
-              switch (d) {
-                case "caregiver":
-                  return (
-                    <div
-                      key={rowIndex}
-                      className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
-                      title={[rowData.lastName, rowData.firstName].join(" ")}
-                      id={`caregiver-${rowData.id}-${index}-${rowData.row}`}>
-                      <Link
-                        to={AppRoutes.CARE_GIVER_VIEW.replace(
-                          ":id",
-                          rowData.id
-                        )}
-                        target='_blank'
-                        className='text-body'>
-                        {[rowData.lastName, rowData.firstName].join(" ")}
-                      </Link>
-                    </div>
-                  );
-                case "H":
-                  return <span key={rowIndex}>H</span>;
-                case "S":
-                  return (
-                    <span
-                      key={rowIndex}
-                      className='custom-appointment-col s-col text-center cursor-pointer'>
-                      <i className='fa fa-star-o' />
-                    </span>
-                  );
-                case "U":
-                  return (
-                    <span
-                      key={rowIndex}
-                      className='custom-appointment-col u-col text-center cursor-pointer'>
-                      <i className='fa fa-star-o' />
-                    </span>
-                  );
-                case "V":
-                  return (
-                    <span
-                      key={rowIndex}
-                      className='custom-appointment-col v-col text-center cursor-pointer'
-                      onClick={() => onAddNewRow(rowIndex)}>
-                      <i className='fa fa-arrow-down' />
-                    </span>
-                  );
-                default:
-                  return (
-                    <React.Fragment key={rowIndex}>
-                      {rowData.firstName}
-                    </React.Fragment>
-                  );
-              }
-            }}
-          />
-        ))}
-      </BaseTable>
+          }
+          rowRenderer={({ cells, rowData }) => (
+            <div
+              className='d-flex frozen-row'
+              title={[rowData.lastName, rowData.firstName].join(" ")}>
+              {cells}
+            </div>
+          )}
+          onEndReachedThreshold={300}
+          onEndReached={handleEndReached}
+          headerClassName='custom-appointment-row'
+          rowClassName='custom-appointment-row'>
+          {columns.map((d: any, index: number) => (
+            <Column
+              key={`col0-${index}-${typeof d === "string" ? d : d.dateString}`}
+              width={index === 0 ? 140 : 28}
+              className={`custom-appointment-col   ${
+                d === "caregiver" ? "name-col" : ""
+              }`}
+              frozen={typeof d === "string"}
+              cellRenderer={({ rowData, rowIndex }: any) => {
+                switch (d) {
+                  case "caregiver":
+                    return (
+                      <div
+                        key={rowIndex}
+                        className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
+                        title={[rowData.lastName, rowData.firstName].join(" ")}
+                        id={`caregiver-${rowData.id}-${index}-${rowData.row}`}>
+                        <Link
+                          to={AppRoutes.CARE_GIVER_VIEW.replace(
+                            ":id",
+                            rowData.id
+                          )}
+                          target='_blank'
+                          className='text-body'>
+                          {[rowData.lastName, rowData.firstName].join(" ")}
+                        </Link>
+                      </div>
+                    );
+                  case "H":
+                    return <span key={rowIndex}>H</span>;
+                  case "S":
+                    return (
+                      <span
+                        key={rowIndex}
+                        className='custom-appointment-col s-col text-center cursor-pointer'>
+                        <i className='fa fa-star-o' />
+                      </span>
+                    );
+                  case "U":
+                    return (
+                      <span
+                        key={rowIndex}
+                        className='custom-appointment-col u-col text-center cursor-pointer'>
+                        <i className='fa fa-star-o' />
+                      </span>
+                    );
+                  case "V":
+                    return (
+                      <span
+                        key={rowIndex}
+                        className='custom-appointment-col v-col text-center cursor-pointer'
+                        onClick={() => onAddNewRow(rowIndex)}>
+                        <i className='fa fa-arrow-down' />
+                      </span>
+                    );
+                  default:
+                    const currentAvail = _.filter(
+                      rowData.caregiver_avabilities,
+                      (avail: any) => d.dateString === avail.date
+                    );
+                    return (
+                      <React.Fragment key={rowIndex}>
+                        <SelectableCell
+                          isWeekend={d.isWeekend}
+                          item={currentAvail[rowData.row] || {}}
+                        />
+                      </React.Fragment>
+                    );
+                }
+              }}
+            />
+          ))}
+        </BaseTable>
+      </SelectableGroup>
     </>
   );
 };

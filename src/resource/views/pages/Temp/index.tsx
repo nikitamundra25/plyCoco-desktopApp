@@ -1,7 +1,7 @@
 import React from "react";
 import { CaregiverList } from "./CaregiverList";
 import { CareInstitutionList } from "./CareInstitutionList";
-import "./../DummyAppointment/index.scss";
+import "./../Appointment/index.scss";
 
 export const TempPage = () => {
   return (

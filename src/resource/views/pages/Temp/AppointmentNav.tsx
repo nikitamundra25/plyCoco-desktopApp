@@ -22,6 +22,7 @@ import left_arrow from "../../../assets/img/leftarrow.svg";
 import right_arrow from "../../../assets/img/rightarrow.svg";
 import CaregiverCustomAsyncList from "../../components/DropdownList/CareGiverCustomAsyncSelect";
 import CareinstitutionCustomAsyncList from "../../components/DropdownList/CareInstitutionCustomAsyncSelect";
+import { AttributeFilterModal } from "./AttributeFilterModal";
 
 const AppointmentNav: FunctionComponent<any> = ({
   filterUpdated = () => {},
@@ -29,6 +30,7 @@ const AppointmentNav: FunctionComponent<any> = ({
   qualifications = [],
 }: any) => {
   const [dropdownOpen, setOpen] = useState<boolean>(false);
+  const [showAttributeModal, setShowAttributeModal] = useState(false);
   /**
    * toggle the filter by id dropdown
    */
@@ -181,12 +183,9 @@ const AppointmentNav: FunctionComponent<any> = ({
           </div>
           <div
             className='header-nav-item'
-            // onClick={() => {
-            //   setShowAttribute(true);
-            //   setAttributeFilter("caregiver");
-            //   // applyFilter('caregiver', [], []);
-            // }}
-          >
+            onClick={() => {
+              setShowAttributeModal(true);
+            }}>
             <span className='header-nav-icon'>
               <img src={filter} alt='' />
             </span>
@@ -291,22 +290,16 @@ const AppointmentNav: FunctionComponent<any> = ({
           <Input placeholder={""} type='input' name='text' />
         </div>
       </div>
-      {/* <AttributeFilter
-        show={attributeSearch ? true : false}
-        handleClose={() => {
-          setShowAttribute(false);
-          setAttributeFilter(null);
+      <AttributeFilterModal
+        isOpen={showAttributeModal}
+        onClose={() => setShowAttributeModal(false)}
+        onFilterUpdated={(attrFilter: any) => {
+          filterUpdated({
+            ...filters,
+            ...attrFilter,
+          });
         }}
-        setAttributeFilter={setAttributeFilter}
-        attributeFilter={attributeFilter}
-        applyFilter={applyFilter}
-        positive={positive}
-        negative={negative}
-        isPositive={isPositive}
-        setIsPositive={setIsPositive}
-        isNegative={isNegative}
-        setIsNegative={setIsNegative}
-      /> */}
+      />
     </>
   );
 };

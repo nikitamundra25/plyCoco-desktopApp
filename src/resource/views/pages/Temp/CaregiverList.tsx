@@ -228,13 +228,12 @@ export const CaregiverList = React.memo(({ caregiverSelected }: any) => {
    * @param index
    */
   const onAddNewRow = (index: number) => {
-    const newCaregivers = Object.assign([], allCaregivers);
+    const newCaregivers = Object.assign([], allCaregivers);  
     newCaregivers.splice(index + 1, 0, {
       ...allCaregivers[index],
-      firstName: "",
-      lastName: "",
       key: allCaregivers[index].key + allCaregivers.length,
-      caregiver_avabilities:[]
+      caregiver_avabilities:[],
+      row: allCaregivers[index].row + 1
     });
     
     allCaregivers = newCaregivers;
@@ -463,6 +462,7 @@ export const CaregiverList = React.memo(({ caregiverSelected }: any) => {
                       rowData.caregiver_avabilities,
                       (avail: any) => d.dateString === avail.date
                     );
+                    
                     return (
                       <React.Fragment key={rowIndex}>
                         <SelectableCell

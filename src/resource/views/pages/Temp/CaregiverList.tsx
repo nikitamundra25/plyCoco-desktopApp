@@ -253,10 +253,9 @@ export const CaregiverList = React.memo(
       const newCaregivers = Object.assign([], allCaregivers);
       newCaregivers.splice(index + 1, 0, {
         ...allCaregivers[index],
-        firstName: "",
-        lastName: "",
         key: allCaregivers[index].key + allCaregivers.length,
         caregiver_avabilities: [],
+        row: allCaregivers[index].row + 1
       });
 
       allCaregivers = newCaregivers;

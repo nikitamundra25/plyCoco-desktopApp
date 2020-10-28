@@ -30,6 +30,9 @@ const AppointmentNav: FunctionComponent<any> = ({
   qualifications = [],
 }: any) => {
   const [dropdownOpen, setOpen] = useState<boolean>(false);
+  const [showCaregiveAttributeModal, setShowCaregivettributeModal] = useState(
+    false
+  );
   const [showAttributeModal, setShowAttributeModal] = useState(false);
   /**
    * toggle the filter by id dropdown
@@ -184,7 +187,7 @@ const AppointmentNav: FunctionComponent<any> = ({
           <div
             className='header-nav-item'
             onClick={() => {
-              setShowAttributeModal(true);
+              setShowCaregivettributeModal(true);
             }}>
             <span className='header-nav-icon'>
               <img src={filter} alt='' />
@@ -212,12 +215,7 @@ const AppointmentNav: FunctionComponent<any> = ({
           </div>
           <div
             className='header-nav-item'
-            // onClick={() => {
-            //   setShowAttribute(true);
-            //   setAttributeFilter("careInstitution");
-            //   // applyFilter('careInstitution', [], []);
-            // }}
-          >
+            onClick={() => setShowAttributeModal(true)}>
             <span className='header-nav-icon'>
               <img src={filter} alt='' />
             </span>
@@ -291,12 +289,26 @@ const AppointmentNav: FunctionComponent<any> = ({
         </div>
       </div>
       <AttributeFilterModal
+        key={"caregiver"}
+        isOpen={showCaregiveAttributeModal}
+        onClose={() => setShowCaregivettributeModal(false)}
+        onFilterUpdated={(attrFilter: any) => {
+          filterUpdated({
+            ...filters,
+            ...attrFilter,
+            effects: "caregiver",
+          });
+        }}
+      />
+      <AttributeFilterModal
+        key={"careinstitution"}
         isOpen={showAttributeModal}
         onClose={() => setShowAttributeModal(false)}
         onFilterUpdated={(attrFilter: any) => {
           filterUpdated({
             ...filters,
             ...attrFilter,
+            effects: "careinstitution",
           });
         }}
       />

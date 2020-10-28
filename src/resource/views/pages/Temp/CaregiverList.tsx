@@ -255,7 +255,7 @@ export const CaregiverList = React.memo(
         ...allCaregivers[index],
         key: allCaregivers[index].key + allCaregivers.length,
         caregiver_avabilities: [],
-        row: allCaregivers[index].row + 1
+        row: allCaregivers[index].row + 1,
       });
 
       allCaregivers = newCaregivers;

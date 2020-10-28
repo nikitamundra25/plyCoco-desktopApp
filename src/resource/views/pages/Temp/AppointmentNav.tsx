@@ -184,22 +184,6 @@ const AppointmentNav: FunctionComponent<any> = ({
             </span>
           </div>
           <div className='user-select mx-1'>
-            {/* <Select
-              classNamePrefix="custom-inner-reactselect"
-              className={
-                "custom-reactselect custom-reactselect-menu-width-appointment"
-              }
-              placeholder={languageTranslation("SELECT_CAREGIVER")}
-              options={careGiversList}
-              value={
-                caregiverSoloFilter && caregiverSoloFilter.value !== ""
-                  ? caregiverSoloFilter
-                  : null
-              }
-              components={{ Option: CustomOption }}
-              onChange={(value: any) => handleUserList(value, "caregiver")}
-              isClearable={true}
-            /> */}
             <CaregiverCustomAsyncList
               placeholderLabel={languageTranslation("SELECT_CAREGIVER")}
               onChange={(caregiver: any) =>
@@ -242,25 +226,6 @@ const AppointmentNav: FunctionComponent<any> = ({
                 })
               }
             />
-            {/* <Select
-              classNamePrefix="custom-inner-reactselect"
-              className={
-                "custom-reactselect custom-reactselect-menu-width-careinstitution-appointment"
-              }
-              placeholder={languageTranslation("SELECT_CARE_INSTITUTION")}
-              value={
-                careinstitutionSoloFilter &&
-                  careinstitutionSoloFilter.value !== ""
-                  ? careinstitutionSoloFilter
-                  : null
-              }
-              options={careInstitutionList}
-              components={{ Option: CareInstCustomOption }}
-              onChange={(value: any) =>
-                handleUserList(value, "careinstitution")
-              }
-              isClearable={true}
-            /> */}
           </div>
           <div
             className={`header-nav-item pt-1`}

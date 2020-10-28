@@ -1,10 +1,17 @@
 import moment from "moment";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import Select from "react-select";
-import { Input } from "reactstrap";
+import {
+  Input,
+  UncontrolledTooltip,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 import { dbAcceptableFormat, Without_Appointments } from "../../../../config";
 import { languageTranslation } from "../../../../helpers";
 import caregiver from "../../../assets/img/caregiver.svg";
@@ -19,6 +26,12 @@ const AppointmentNav: FunctionComponent<any> = ({
   filterUpdated = () => {},
   filters = {},
 }: any) => {
+  const [dropdownOpen, setOpen] = useState<boolean>(false);
+  /**
+   *
+   */
+  const toggle = () => setOpen(!dropdownOpen);
+
   /**
    *
    */
@@ -36,6 +49,7 @@ const AppointmentNav: FunctionComponent<any> = ({
       effects: "both",
     });
   };
+
   /**
    *
    */
@@ -263,38 +277,32 @@ const AppointmentNav: FunctionComponent<any> = ({
             </span>
           </div>
           <div className='common-header-input  mx-1 header-dropdown-wrap'>
-            {/* <Select
-                classNamePrefix='custom-inner-reactselect'
-                className={'custom-reactselect '}
-                placeholder='Select User'
-                isClearable={true}
-                // value={user ? user : ''}
-                onChange={(value: any) => handleSelect(value, 'user')}
-              /> */}
-
-            {/* <ButtonDropdown
+            <ButtonDropdown
               isOpen={dropdownOpen}
               toggle={toggle}
               className='button-group-dropdown custom-dropdown text-capitalize'>
               <Input
                 placeholder={
-                  user
-                    ? user === "avability"
-                      ? languageTranslation("CAREGIVER_AVABILITY")
-                      : languageTranslation("CAREINST_REQUIREMENT")
-                    : languageTranslation("CAREGIVER_AVABILITY")
+                  // user
+                  //   ? user === "avability"
+                  //     ? languageTranslation("CAREGIVER_AVABILITY")
+                  //     : languageTranslation("CAREINST_REQUIREMENT")
+                  //   :
+                  languageTranslation("CAREGIVER_AVABILITY")
                 }
                 type='text'
                 name='id'
-                value={userId}
-                onChange={(e: any) => handleSelect(e, "text")}
-                onKeyPress={(e: any) => handleKeyPress(e)}
+                // value={userId}
+                // onChange={(e: any) => handleSelect(e, "text")}
+                // onKeyPress={(e: any) => handleKeyPress(e)}
               />
               <UncontrolledTooltip placement={"top"} target={"dropdown-1"}>
                 {languageTranslation("SELECT_USER")}
               </UncontrolledTooltip>
               <DropdownToggle caret color='primary' id={"dropdown-1"} />
-              <DropdownMenu onClick={(e: any) => handleSelect(e, "dropdown")}>
+              <DropdownMenu
+              // onClick={(e: any) => handleSelect(e, "dropdown")}
+              >
                 <DropdownItem value='avability'>
                   {languageTranslation("CAREGIVER_AVABILITY")}
                 </DropdownItem>
@@ -302,7 +310,7 @@ const AppointmentNav: FunctionComponent<any> = ({
                   {languageTranslation("CAREINST_REQUIREMENT")}
                 </DropdownItem>
               </DropdownMenu>
-            </ButtonDropdown> */}
+            </ButtonDropdown>
           </div>
           <Input placeholder={""} type='input' name='text' />
         </div>

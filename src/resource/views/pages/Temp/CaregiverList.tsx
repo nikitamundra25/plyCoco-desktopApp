@@ -234,7 +234,9 @@ export const CaregiverList = React.memo(({ caregiverSelected }: any) => {
       firstName: "",
       lastName: "",
       key: allCaregivers[index].key + allCaregivers.length,
+      caregiver_avabilities:[]
     });
+    
     allCaregivers = newCaregivers;
     setCaregiverData(newCaregivers);
   };

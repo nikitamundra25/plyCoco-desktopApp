@@ -1,3 +1,4 @@
+import { debounce, map } from "lodash";
 import moment from "moment";
 import React, { FunctionComponent, useState } from "react";
 import DayPickerInput from "react-day-picker/DayPickerInput";
@@ -25,15 +26,16 @@ import CareinstitutionCustomAsyncList from "../../components/DropdownList/CareIn
 const AppointmentNav: FunctionComponent<any> = ({
   filterUpdated = () => {},
   filters = {},
+  qualifications = [],
 }: any) => {
   const [dropdownOpen, setOpen] = useState<boolean>(false);
   /**
-   *
+   * toggle the filter by id dropdown
    */
   const toggle = () => setOpen(!dropdownOpen);
 
   /**
-   *
+   * fomatted date
    */
   const formatDate = moment().format("MMMM YYYY");
   /**
@@ -49,7 +51,16 @@ const AppointmentNav: FunctionComponent<any> = ({
       effects: "both",
     });
   };
-
+  /**
+   * debouce to prevent unwanted api calls to server
+   */
+  const handleQualificationChange = debounce((values: any[]) => {
+    filterUpdated({
+      ...filters,
+      qualificationId: map(values, ({ value }) => value),
+      effects: "both",
+    });
+  }, 500);
   /**
    *
    */
@@ -149,7 +160,7 @@ const AppointmentNav: FunctionComponent<any> = ({
                 placeholderButtonLabel={languageTranslation(
                   "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                 )}
-                // options={qualificationList}
+                options={qualifications}
                 placeholder={languageTranslation(
                   "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                 )}
@@ -158,7 +169,7 @@ const AppointmentNav: FunctionComponent<any> = ({
                   "custom-reactselect custom-reactselect-menu-width-appointment"
                 }
                 classNamePrefix='custom-inner-reactselect'
-                // onChange={handleQualification}
+                onChange={handleQualificationChange}
               />
             </div>
           </div>

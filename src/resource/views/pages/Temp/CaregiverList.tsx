@@ -390,7 +390,8 @@ export const CaregiverList = React.memo(({ caregiverSelected }: any) => {
           onEndReachedThreshold={300}
           onEndReached={handleEndReached}
           headerClassName='custom-appointment-row'
-          rowClassName='custom-appointment-row'>
+          rowClassName='custom-appointment-row'
+          rowHeight={30}>
           {columns.map((d: any, index: number) => (
             <Column
               key={`col0-${index}-${typeof d === "string" ? d : d.dateString}`}
@@ -416,7 +417,10 @@ export const CaregiverList = React.memo(({ caregiverSelected }: any) => {
                           target='_blank'
                           className='text-body'>
                           {rowData.row === 0
-                            ? [rowData.lastName, rowData.firstName].join(" ")
+                            ? [rowData.lastName, rowData.firstName]
+                                .filter(Boolean)
+                                .join(" ")
+                                .trim()
                             : null}
                         </Link>
                       </div>

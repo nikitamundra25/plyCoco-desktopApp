@@ -315,6 +315,7 @@ export const CareInstitutionList = React.memo(() => {
           width={element ? element.clientWidth - 40 : 800}
           height={element ? window.innerHeight / 2 - 40 : 300}
           rowKey='key'
+          rowHeight={30}
           overlayRenderer={() =>
             loadingCaregiver || isLoading ? (
               <>

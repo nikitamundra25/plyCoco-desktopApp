@@ -1018,9 +1018,7 @@ export const CaregiverForm = ({ selected }: any) => {
                                                   : "text-input form-control"
                                               }
                                               onChange={handleChange}
-                                              onBlur={() =>
-                                                setTempState(!tempState)
-                                              }
+                                              onBlur={handleBlur}
                                               placeholder={languageTranslation(
                                                 "HOLIDAY_DATE_PLACEHOLDER"
                                               )}

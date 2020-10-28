@@ -4,6 +4,7 @@ import { CareInstitutionList } from "./CareInstitutionList";
 import "./../Appointment/index.scss";
 import { CaregiverForm } from "./CaregiverForm";
 import { Row, Col } from "reactstrap";
+import AppointmentNav from "./AppointmentNav";
 
 export const TempPage = () => {
   const [selectedCaregiverData, setSelectedCaregiver] = useState<any>({});
@@ -18,6 +19,7 @@ export const TempPage = () => {
   return (
     <div className='common-detail-page'>
       <div className='common-detail-section'>
+        <AppointmentNav />
         <div className='common-content flex-grow-1'>
           <div className='appointment-page-row'>
             <div

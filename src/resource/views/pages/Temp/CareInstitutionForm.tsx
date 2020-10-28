@@ -36,9 +36,9 @@ import {
   TimeMask,
 } from "../../../../config";
 import MaskedInput from "react-text-mask";
-import { ICaregiverFormValue, ICareinstitutionFormValue, IReactSelectInterface } from "../../../../interfaces";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { DocumentQueries } from "../../../../graphql/queries";
+import { ICaregiverFormValue, ICareinstitutionFormValue, IQualifications, IReactSelectInterface } from "../../../../interfaces";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { DocumentQueries, GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
 import Loader from "../../containers/Loader/Loader";
 import { CareInstitutionValidationSchema } from "../../../validations/AppointmentsFormValidationSchema";
 
@@ -93,17 +93,22 @@ const validateWorkingHours = (
       return null;
   }
 };
-const [, , , , GET_WORKPROOF_PDF] = DocumentQueries;
 
  const CareinstitutionForm = ({ selected }: any) => {
-  const [tempState, setTempState] = useState(false);
-  // Query to get Work Proof pdf
-  const [getWorkProofPDF, { data: workProofData }] = useLazyQuery<any>(
-    GET_WORKPROOF_PDF
-  );
-  const { getWorkProofPDF: workProof = {} } = workProofData || {};
-  const { document: finalWorkProofPDF = "" } = workProof;
-  const workingProofSubmitted = !!finalWorkProofPDF;
+
+  // To fetch qualification attributes list
+  const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
+  let qualificationList: IReactSelectInterface[] = [];
+  if (data && data.getQualifications) {
+    const { getQualifications = [] } = data ? data : {};
+    if (getQualifications && getQualifications.length) {
+      qualificationList = getQualifications.map((quali: any) => ({
+        label: quali.name,
+        value: quali.id,
+      }));
+    }
+  }
+  
 
   let isFutureDate = false,
 
@@ -137,65 +142,98 @@ console.log("careInstDetails",careInstDetails);
 
  
 
-  const { firstName, lastName, fee, night, holiday } = careInstDetails;
+  const { canstitution } = careInstDetails;
   const {
-    nightFee,
-    holidayAllowance,
-    weekendAllowance,
-    workingProofRecieved,
-    distanceInKM,
-    feePerKM,
-    travelAllowance,
-    otherExpenses,
-    remarksCareGiver,
-    remarksInternal,
-    f,
-    s,
-    n,
+    name,
+    comments,
+    shift,
+    bookingRemarks,
+    offerRemarks,
+    isWorkingProof,
+    departmentRemarks,
+    departmentBookingRemarks,
+    departmentOfferRemarks,
+    contactPerson,
+    address,
+    qualificationId,
+    endTime,
+    startTime,
+    date,
     status,
     date: dateString,
     createdBy,
     createdAt,
     updatedAt,
   } = item;
+  let departmentData: any = item ? item.department : undefined;
+
+  // if (
+  //   careInstitutionDepartment &&
+  //   careInstitutionDepartment.length &&
+  //   selectedCellsCareinstitution &&
+  //   item &&
+  //   item.divisionId
+  // ) {
+  //   departmentData = careInstitutionDepartment.filter(
+  //     (dept: any) => dept.value === item.divisionId
+  //   );
+  // }
+  let qualificationfor: any;
+  if (
+    item &&
+    item.qualificationForCharge &&
+    !item.qualificationForCharge.value
+  ) {
+    qualificationfor =
+      qualificationList &&
+      qualificationList.filter((value: any) => {
+        return item && item.qualificationForCharge
+          ? item.qualificationForCharge === value.value
+          : // item.qualificationForCharge.includes(value.value)
+            null;
+      });
+  } else {
+    qualificationfor = [item.qualificationForCharge];
+  }
+
+  const {shortName='' } = canstitution ? canstitution : {}
   /**
    *
    */
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: item ? item.id : '',
     name:
-      item && item.name
-        ? item.name
-        : `${lastName}${' '}${firstName}` /* item.name : `${LastName}${' '}${FirstName}` */,
-    date: item ? item.date : '',
-    startTime: item ? item.startTime : '',
-    endTime: item ? item.endTime : '',
+      name
+        ? name
+        : shortName ,
+    date: date ? date : '',
+    startTime: startTime ? startTime : '',
+    endTime: endTime ? endTime : '',
     qualificationId:
-      item && item.qualificationId ? item.qualificationId : undefined,
+    qualificationId  ? qualificationId : undefined,
     qualificationForCharge:
-      // qualificationfor && qualificationfor[0]
-      //   ? qualificationfor[0]
-      //   :
-         undefined,
-    address: item ? item.address : '',
-    contactPerson: item ? item.contactPerson : '',
-    departmentOfferRemarks: item ? item.departmentOfferRemarks : '',
-    departmentBookingRemarks: item ? item.departmentBookingRemarks : '',
-    departmentRemarks: item ? item.departmentRemarks : '',
-    isWorkingProof: item ? item.isWorkingProof : false,
-    offerRemarks: item ? item.offerRemarks : '',
-    bookingRemarks: item ? item.bookingRemarks : '',
-    shift: item ? item.shift : undefined,
+      qualificationfor && qualificationfor[0]
+        ? qualificationfor[0]
+        :undefined,
+    address: address ? address : '',
+    contactPerson: contactPerson ? contactPerson : '',
+    departmentOfferRemarks: departmentOfferRemarks ? departmentOfferRemarks : '',
+    departmentBookingRemarks: departmentBookingRemarks ? departmentBookingRemarks : '',
+    departmentRemarks: departmentRemarks ? departmentRemarks : '',
+    isWorkingProof: isWorkingProof ? isWorkingProof : false,
+    offerRemarks: offerRemarks ? offerRemarks : '',
+    bookingRemarks: bookingRemarks ? bookingRemarks : '',
+    shift: shift ? shift : undefined,
     // department:
     //   departmentData && departmentData[0]
     //     ? departmentData[0]
     //     : departmentData,
-    comments: item ? item.comments : '',
-    status: item ? item.status : '',
+    comments: comments ? comments : '',
+    status: status ? status : '',
     // careInstitutionDepartment,
-    createdBy: item && item.createdBy ? item.createdBy : '',
-    createdAt: item && item.createdAt ? item.createdAt : '',
-    updatedAt: item && item.updatedAt ? item.updatedAt : '',
+    createdBy: createdBy ? createdBy : '',
+    createdAt: createdAt ? createdAt : '',
+    updatedAt: updatedAt ? updatedAt : '',
   };
  
 
@@ -604,7 +642,7 @@ console.log("careInstDetails",careInstDetails);
                                 }`}
                               >
                                 <ReactMultiSelectCheckboxes
-                                  // options={qualificationList}
+                                   options={qualificationList}
                                   placeholderButtonLabel={languageTranslation(
                                     'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                                   )}
@@ -653,7 +691,7 @@ console.log("careInstDetails",careInstDetails);
                             <Col sm='8'>
                               <div className='postion-relative'>
                                 <Select
-                                  // options={qualificationList}
+                                   options={qualificationList}
                                   placeholder={languageTranslation(
                                     'QUALIFICATION_FOR_CHARGE'
                                   )}

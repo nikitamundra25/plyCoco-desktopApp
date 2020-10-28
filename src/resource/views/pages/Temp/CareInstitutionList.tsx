@@ -304,6 +304,8 @@ export const CareInstitutionList = React.memo(({careinstitutionSelected}:any) =>
    * @param selected
    */
   const onSelectFinish = (selected: any) => {
+    console.log("selectedselected",selected);
+    
     if (selected[0]) {
       careinstitutionSelected(selected[0].props);
     }
@@ -459,7 +461,8 @@ export const CareInstitutionList = React.memo(({careinstitutionSelected}:any) =>
                       <React.Fragment key={rowIndex}>
                         <SelectableCell
                           isWeekend={d.isWeekend}
-                          item={currentAvail[rowData.row] || {}}
+                          item={currentAvail[rowData.row] ||  {date: d.dateString}}
+                          canstitution={rowData}
                         />
                       </React.Fragment>
                     );

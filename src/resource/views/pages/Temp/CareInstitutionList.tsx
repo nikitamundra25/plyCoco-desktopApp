@@ -127,7 +127,8 @@ const SelectableCell = React.memo(
     }
   )
 );
-export const CareInstitutionList = React.memo(() => {
+
+export const CareInstitutionList = React.memo(({careinstitutionSelected}:any) => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
   );
@@ -297,6 +298,22 @@ export const CareInstitutionList = React.memo(() => {
     setCurrentPage(nextPage);
     getMoreCaregivers(nextPage);
   };
+
+  /**
+   *
+   * @param selected
+   */
+  const onSelectFinish = (selected: any) => {
+    console.log("selectedselected",selected);
+    
+    if (selected[0]) {
+      careinstitutionSelected(selected[0].props);
+    }
+  };
+  /**
+   *
+   */
+
   const element = document.getElementById("appointment_list_section");
 
   return (
@@ -307,7 +324,7 @@ export const CareInstitutionList = React.memo(() => {
         clickClassName='tick'
         resetOnStart={true}
         allowCtrlClick={false}
-        onSelectionFinish={(arg: any) => console.log(arg)}
+        onSelectionFinish={onSelectFinish}
         ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
         <BaseTable
           fixed
@@ -445,7 +462,8 @@ export const CareInstitutionList = React.memo(() => {
                       <React.Fragment key={rowIndex}>
                         <SelectableCell
                           isWeekend={d.isWeekend}
-                          item={currentAvail[rowData.row] || {}}
+                          item={currentAvail[rowData.row] ||  {date: d.dateString}}
+                          canstitution={rowData}
                         />
                       </React.Fragment>
                     );

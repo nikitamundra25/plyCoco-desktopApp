@@ -5,15 +5,28 @@ import "./../Appointment/index.scss";
 import { CaregiverForm } from "./CaregiverForm";
 import { Row, Col } from "reactstrap";
 import AppointmentNav from "./AppointmentNav";
+import CareinstitutionForm from "./CareInstitutionForm";
 
 export const TempPage = () => {
   const [selectedCaregiverData, setSelectedCaregiver] = useState<any>({});
+  const [selectedCareinstitutionData, setSelectedCareinstitution] = useState<
+    any
+  >({});
+
   /**
    *
    * @param caregiverData
    */
   const caregiverSelected = (caregiverData: any) => {
     setSelectedCaregiver(caregiverData);
+  };
+
+  /**
+   *
+   * @param careInstData
+   */
+  const careinstitutionSelected = (careInstData: any) => {
+    setSelectedCareinstitution(careInstData);
   };
   console.log(selectedCaregiverData);
   return (
@@ -30,7 +43,9 @@ export const TempPage = () => {
                   <CaregiverList caregiverSelected={caregiverSelected} />
                 </div>
                 <div className='custom-appointment-calendar overflow-hidden'>
-                  <CareInstitutionList />
+                  <CareInstitutionList
+                    careinstitutionSelected={careinstitutionSelected}
+                  />
                 </div>
               </div>
             </div>
@@ -40,6 +55,9 @@ export const TempPage = () => {
               <Row className='row-appointment'>
                 <Col lg={"6"} className='pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
                   <CaregiverForm selected={selectedCaregiverData} />
+                </Col>
+                <Col lg={"6"} className='pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
+                  <CareinstitutionForm selected={selectedCareinstitutionData} />
                 </Col>
               </Row>
             </div>

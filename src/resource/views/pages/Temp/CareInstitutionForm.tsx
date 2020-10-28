@@ -117,7 +117,6 @@ const validateWorkingHours = (
     appointmentId = "",
     isLeasingAppointment = false,
     showQualification= false;
-    console.log("selectedselected",selected);
     
   // set item object
   if (selected && selected.item) {
@@ -138,7 +137,6 @@ const validateWorkingHours = (
         item[0].isLeasing
           ? true
           : false;
-console.log("careInstDetails",careInstDetails);
 
  
 

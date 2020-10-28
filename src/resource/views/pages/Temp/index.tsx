@@ -7,7 +7,7 @@ import { Row, Col } from "reactstrap";
 import CareinstitutionForm from "./CareInstitutionForm";
 
 export const TempPage = () => {
-  const [selectedCaregiverData, setSelectedCaregiver] = useState<any>({});
+  const [selectedCaregiverData, setSelectedCaregiver] = useState<any>([]);
   const [selectedCareinstitutionData, setSelectedCareinstitution] = useState<
     any
   >({});
@@ -54,7 +54,7 @@ export const TempPage = () => {
             >
               <Row className="row-appointment">
                 <Col lg={"6"} className="pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0">
-                  <CaregiverForm selected={selectedCaregiverData} />
+                  <CaregiverForm selected={selectedCaregiverData} setSelectedCaregiver={setSelectedCaregiver} />
                 </Col>
                 <Col lg={"6"} className="pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0">
                   <CareinstitutionForm selected={selectedCareinstitutionData} />

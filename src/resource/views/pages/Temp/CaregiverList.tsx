@@ -301,8 +301,12 @@ export const CaregiverList = React.memo(({ caregiverSelected }: any) => {
    * @param selected
    */
   const onSelectFinish = (selected: any) => {
-    if (selected[0]) {
-      caregiverSelected(selected[0].props);
+    if (selected && selected.length ) {
+      let data :any= []
+      selected.map((key:any)=>{
+        data.push(key.props)
+      })
+      caregiverSelected(data);
     }
   };
   /**
@@ -465,7 +469,7 @@ export const CaregiverList = React.memo(({ caregiverSelected }: any) => {
                           isWeekend={d.isWeekend}
                           item={
                             currentAvail[rowData.row] || {
-                              date: d.dateString,
+                              date: d.dateString
                             }
                           }
                           caregiver={rowData}

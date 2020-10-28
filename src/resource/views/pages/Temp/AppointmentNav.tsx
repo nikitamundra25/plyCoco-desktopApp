@@ -5,7 +5,7 @@ import "react-day-picker/lib/style.css";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import Select from "react-select";
 import { Input } from "reactstrap";
-import { Without_Appointments } from "../../../../config";
+import { dbAcceptableFormat, Without_Appointments } from "../../../../config";
 import { languageTranslation } from "../../../../helpers";
 import caregiver from "../../../assets/img/caregiver.svg";
 import careinstitution from "../../../assets/img/careinstitution.svg";
@@ -15,46 +15,93 @@ import right_arrow from "../../../assets/img/rightarrow.svg";
 import CaregiverCustomAsyncList from "../../components/DropdownList/CareGiverCustomAsyncSelect";
 import CareinstitutionCustomAsyncList from "../../components/DropdownList/CareInstitutionCustomAsyncSelect";
 
-const AppointmentNav: FunctionComponent<any> = (props: any) => {
-  const formatDate = () => {
-    return moment().format("mm YY");
+const AppointmentNav: FunctionComponent<any> = ({
+  filterUpdated = () => {},
+  filters = {},
+}: any) => {
+  /**
+   *
+   */
+  const formatDate = moment().format("MMMM YYYY");
+  /**
+   *
+   * @param startDate
+   * @param endDate
+   */
+  const onMonthChange = (startDate: any, endDate: any) => {
+    filterUpdated({
+      ...filters,
+      gte: startDate,
+      lte: endDate,
+      effects: "both",
+    });
   };
+  /**
+   *
+   */
   return (
     <>
       <div className='sticky-common-header'>
         <div className='common-topheader d-flex  align-items-center px-2 mb-1 appointment-commonheader'>
           <div
             className='common-label px-1 cursor-pointer'
-            // onClick={handleToday}
-          >
+            onClick={() =>
+              onMonthChange(
+                moment().startOf("month").format(dbAcceptableFormat),
+                moment().endOf("month").format(dbAcceptableFormat)
+              )
+            }>
             {languageTranslation("Today")}
           </div>
           <div
             className='header-nav-item'
-            // onClick={handlePrevious}
-          >
+            onClick={() =>
+              onMonthChange(
+                moment(filters.gte)
+                  .subtract(1, "month")
+                  .startOf("month")
+                  .format(dbAcceptableFormat),
+                moment(filters.gte)
+                  .subtract(1, "month")
+                  .endOf("month")
+                  .format(dbAcceptableFormat)
+              )
+            }>
             <span className='header-nav-icon pr-0'>
               <img src={left_arrow} alt='' />
             </span>
           </div>
           <div className='common-header-input pr-1'>
             <DayPickerInput
-              // onDayChange={handleDayClick}
-              formatDate={formatDate}
-              value={formatDate()}
+              /* onDayChange={(date: any) =>
+                onMonthChange(
+                  moment(date).startOf("month").format(dbAcceptableFormat),
+                  moment(date).endOf("month").format(dbAcceptableFormat)
+                )
+              } */
+              formatDate={() => formatDate}
+              value={formatDate}
               dayPickerProps={{
-                // month: setNewDate,
+                month: moment(filters.gte).toDate(),
                 canChangeMonth: false,
-                // disabledDays: {
-                //   daysOfWeek: [0, 1, 2, 3, 4, 5, 6]
-                // }
               }}
               inputProps={{ readOnly: true }}
             />
           </div>
           <div
-            className='header-nav-item' //onClick={handleNext}
-          >
+            className='header-nav-item'
+            onClick={() =>
+              onMonthChange(
+                moment(filters.gte)
+                  .add(1, "month")
+                  .startOf("month")
+                  .format(dbAcceptableFormat),
+                moment(filters.gte)
+                  .add(1, "month")
+                  .endOf("month")
+                  .format(dbAcceptableFormat)
+              )
+            }>
             <span className='header-nav-icon pr-0'>
               <img src={right_arrow} alt='' />
             </span>
@@ -65,8 +112,20 @@ const AppointmentNav: FunctionComponent<any> = (props: any) => {
               className={"custom-reactselect "}
               placeholder={languageTranslation("SELECT_APPOINTMENT_LABEL")}
               options={Without_Appointments}
-              // value={filterByAppointments ? filterByAppointments : null}
-              // onChange={(value: any) => handleSelectAppointment(value)}
+              value={
+                filters.showAppointments
+                  ? Without_Appointments.find(
+                      ({ value }) => value === filters.showAppointments
+                    )
+                  : { label: languageTranslation("SHOW_ALL"), value: "showAll" }
+              }
+              onChange={({ value }: any) =>
+                filterUpdated({
+                  ...filters,
+                  showAppointments: value === "showAll" ? null : value,
+                  effects: "both",
+                })
+              }
             />
           </div>
 
@@ -129,12 +188,13 @@ const AppointmentNav: FunctionComponent<any> = (props: any) => {
             /> */}
             <CaregiverCustomAsyncList
               placeholderLabel={languageTranslation("SELECT_CAREGIVER")}
-              // onChange={(value: any) => handleUserList(value, "caregiver")}
-              // value={
-              //   caregiverSoloFilter && caregiverSoloFilter.value !== ""
-              //     ? caregiverSoloFilter
-              //     : null
-              // }
+              onChange={(caregiver: any) =>
+                filterUpdated({
+                  ...filters,
+                  caregiverId: caregiver ? caregiver.value : null,
+                  effects: "caregiver",
+                })
+              }
             />
           </div>
           <div className='header-nav-item'>
@@ -160,15 +220,13 @@ const AppointmentNav: FunctionComponent<any> = (props: any) => {
           <div className='user-select mx-1'>
             <CareinstitutionCustomAsyncList
               placeholderLabel={languageTranslation("SELECT_CARE_INSTITUTION")}
-              // onChange={(value: any) =>
-              //   handleUserList(value, "careinstitution")
-              // }
-              // value={
-              //   careinstitutionSoloFilter &&
-              //   careinstitutionSoloFilter.value !== ""
-              //     ? careinstitutionSoloFilter
-              //     : null
-              // }
+              onChange={(careinstitution: any) =>
+                filterUpdated({
+                  ...filters,
+                  caregiverId: careinstitution ? careinstitution.value : null,
+                  effects: "careinstitution",
+                })
+              }
             />
             {/* <Select
               classNamePrefix="custom-inner-reactselect"
@@ -192,8 +250,11 @@ const AppointmentNav: FunctionComponent<any> = (props: any) => {
           </div>
           <div
             className={`header-nav-item pt-1`}
-            // onClick={handleAllResetFilters}
-          >
+            onClick={() =>
+              filterUpdated({
+                effects: "both",
+              })
+            }>
             <span className='header-nav-icon'>
               <i className='fa fa-refresh '></i>
             </span>

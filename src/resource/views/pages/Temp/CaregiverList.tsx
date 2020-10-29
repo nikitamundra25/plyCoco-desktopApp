@@ -147,6 +147,7 @@ export const CaregiverList = ({ caregiverSelected, filters }: any) => {
   const [hasMore, setHasMore] = useState(false);
   const [starredCaregiver, setStarredCaregiver] = useState(0);
   const [showRightClickOptions, setShowRightClickOptions] = useState(false);
+  const [selectedCells, setSelectedCells] = useState([]);
   // To fetch caregivers by id filter
   const [
     fetchCaregiverList,
@@ -333,6 +334,9 @@ export const CaregiverList = ({ caregiverSelected, filters }: any) => {
         data.push(key.props);
       });
       caregiverSelected(data);
+      setSelectedCells(data);
+    } else {
+      setSelectedCells([]);
     }
   };
   /**
@@ -352,7 +356,9 @@ export const CaregiverList = ({ caregiverSelected, filters }: any) => {
       setCaregiverData(caregiverItems);
     }
   };
-  const handleToggleMenuItem = () => {};
+  const handleToggleMenuItem = () => {
+    setShowRightClickOptions((prev) => !prev);
+  };
   /**
    *
    */
@@ -372,6 +378,7 @@ export const CaregiverList = ({ caregiverSelected, filters }: any) => {
       <CaregiverRightClickOptions
         isOpen={showRightClickOptions}
         hide={() => setShowRightClickOptions(false)}
+        selectedCells={selectedCells}
       />
       <div className='custom-appointment-calendar overflow-hidden mb-3'>
         <SelectableGroup

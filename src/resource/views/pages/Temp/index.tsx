@@ -75,19 +75,15 @@ export const TempPage = () => {
               className='appointment-page-list-section'
               id='appointment_list_section'>
               <div className='calender-section'>
-                <div className='custom-appointment-calendar overflow-hidden mb-3'>
-                  <CaregiverList
-                    caregiverSelected={caregiverSelected}
-                    filters={filterObject}
-                  />
-                </div>
-                <div className='custom-appointment-calendar overflow-hidden'>
-                  <CareInstitutionList
-                    careinstitutionSelected={careinstitutionSelected}
-                    filters={filterObject}
-                    setCareInstDeptList={setCareInstDeptList}
-                  />
-                </div>
+                <CaregiverList
+                  caregiverSelected={caregiverSelected}
+                  filters={filterObject}
+                />
+                <CareInstitutionList
+                  careinstitutionSelected={careinstitutionSelected}
+                  filters={filterObject}
+                  setCareInstDeptList={setCareInstDeptList}
+                />
               </div>
             </div>
             <div

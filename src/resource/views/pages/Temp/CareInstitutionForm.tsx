@@ -77,6 +77,8 @@ const CareinstitutionForm = ({
   departmentList,
   setSelectedCareinstitution,
   handleupdateData,
+  savingBoth,
+  setsavingBoth
 }: any) => {
   // Mutation to add careinstitution data
   const [
@@ -157,6 +159,8 @@ const CareinstitutionForm = ({
 
     setSelectedCareinstitution(temp);
   };
+
+  
 
   /**
    *
@@ -286,9 +290,7 @@ const CareinstitutionForm = ({
                 careInstitutionRequirementInput: stemp,
               },
             });
-            // this.setState({
-            //   savingBoth: false,
-            // });
+            setsavingBoth(false);
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
                 languageTranslation(
@@ -697,6 +699,13 @@ const CareinstitutionForm = ({
           let dtStart: any = new Date(d + " " + startTime);
           let dtEnd: any = new Date(d + " " + endTime);
           let difference = dtEnd - dtStart;
+
+          useEffect(() => {
+            if (savingBoth ) {
+            handleSubmit()
+            }
+          }, [savingBoth]);
+
 
           // Custom function to handle react select fields
           const handleSelect = (

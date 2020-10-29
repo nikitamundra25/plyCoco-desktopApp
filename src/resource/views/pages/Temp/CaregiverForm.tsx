@@ -38,7 +38,12 @@ import {
   IReactSelectInterface,
 } from "../../../../interfaces";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import { AppointmentsQueries, DocumentQueries, InvoiceQueries, LeasingContractQueries } from "../../../../graphql/queries";
+import {
+  AppointmentsQueries,
+  DocumentQueries,
+  InvoiceQueries,
+  LeasingContractQueries,
+} from "../../../../graphql/queries";
 
 import { toast } from "react-toastify";
 import { AppointmentMutations } from "../../../../graphql/Mutations";
@@ -118,13 +123,17 @@ const validateWorkingHours = (
   }
 };
 
-export const CaregiverForm = ({ selected,setSelectedCaregiver,handleupdateData }: any) => {
+export const CaregiverForm = ({
+  selected,
+  setSelectedCaregiver,
+  handleupdateData,
+  savingBoth,
+  setsavingBoth,
+}: any) => {
   const [tempState, setTempState] = useState(false);
   const [timeSlotError, setTimeSlotError] = useState<string>("");
   // store the previous entered value in state
   const [caregiverLastTimeValues, setcaregiverLastTimeValues] = useState<any>();
-
- 
 
   // Mutation to add careGiver data
   const [
@@ -139,8 +148,8 @@ export const CaregiverForm = ({ selected,setSelectedCaregiver,handleupdateData }
     }
   >(ADD_CAREGIVER_AVABILITY, {
     onCompleted({ addCareGiverAvability }) {
-      handleupdateData(addCareGiverAvability,"caregiver");
-      updateItemData(addCareGiverAvability)
+      handleupdateData(addCareGiverAvability, "caregiver");
+      updateItemData(addCareGiverAvability);
       toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -164,8 +173,8 @@ export const CaregiverForm = ({ selected,setSelectedCaregiver,handleupdateData }
     }
   >(UPDATE_CAREGIVER_AVABILITY, {
     onCompleted({ updateCareGiverAvability }) {
-      handleupdateData([updateCareGiverAvability],"caregiver");
-      updateItemData([updateCareGiverAvability])
+      handleupdateData([updateCareGiverAvability], "caregiver");
+      updateItemData([updateCareGiverAvability]);
     },
   });
 
@@ -177,235 +186,227 @@ export const CaregiverForm = ({ selected,setSelectedCaregiver,handleupdateData }
     { id: number[] }
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted({ deleteCareGiverAvability }: any) {
-      setSelectedCaregiver([])
-      handleupdateData(deleteCareGiverAvability,"caregiver");
+      setSelectedCaregiver([]);
+      handleupdateData(deleteCareGiverAvability, "caregiver");
     },
   });
 
-   // To fetch caregivers last time data by id getCareGiverAvabilityLastTimeById
-   const [
+  // To fetch caregivers last time data by id getCareGiverAvabilityLastTimeById
+  const [
     fetchCaregiverLastTimeData,
     { data: caregiverLastTimeData },
   ] = useLazyQuery<any, any>(GET_CAREGIVER_AVABILITY_LASTTIME_BY_ID, {
     fetchPolicy: "no-cache",
   });
 
-
-    // push last time data into the caregiver field
-    useEffect(() => {
-      const {
-        distanceInKM = "",
-        f = "",
-        feePerKM = "",
-        n = "",
-        otherExpenses = "",
-        s = "",
-        travelAllowance = "",
-        workingProofRecieved = false,
-        remarksCareGiver = "",
-        remarksInternal = "",
-        nightAllowance = undefined,
-      } = caregiverLastTimeValues ? caregiverLastTimeValues : {};
-  
-      if (
-        selected &&
-        selected.length &&
-        caregiverLastTimeData &&
-        caregiverLastTimeData.getCareGiverAvabilityLastTimeById
-      ) {
-        const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
-        let careGiverAvabilityInput: any[] = [];
-  
-        selected.forEach(async (element: any) => {
-          const {
-            isWeekend = "",
-            isSelected = "",
-            caregiver = undefined,
-            item = undefined,
-          } = element ? element : {};
-          const {
-            fee = "",
-            nightFee = "",
-            weekendAllowance = "",
-            holidayAllowance = "",
-          } = getCareGiverAvabilityLastTimeById
-            ? getCareGiverAvabilityLastTimeById
-            : {};
-          let data: any = {
-            isSelected,
-            isWeekend,
-            caregiver: {
-              ...caregiver,
-            },
-            item: {
-              ...item,
-              fee,
-              nightFee,
-              weekendAllowance,
-              holidayAllowance,
-              workingProofRecieved,
-              remarksCareGiver,
-              remarksInternal,
-              nightAllowance:
-                nightAllowance && nightAllowance.value
-                  ? nightAllowance.value
-                  : undefined,
-              distanceInKM,
-              feePerKM,
-              travelAllowance,
-              otherExpenses,
-              f: f ? "available" : "default",
-              s: s ? "available" : "default",
-              n: n ? "available" : "default",
-            },
-          };
-          careGiverAvabilityInput = [...careGiverAvabilityInput, data];
-        });
-        setSelectedCaregiver(careGiverAvabilityInput);
-      }
-    }, [caregiverLastTimeData]);
-
-
- // Query to get uploaded pdf
- const [getLeasingContractPDF, { data: pdfData, loading }] = useLazyQuery<any>(
-  GET_LEASING_CONTRACT
-);
-// query to get contract pdf
-const [getContractPDF, { data: contractData }] = useLazyQuery<any>(
-  GET_CONTRACT_BY_APPOINTMENT_ID
-);
-// Query to get Invoice pdf
-const [getInvoiceByAppointmentId, { data: invoicePDF }] = useLazyQuery<any>(
-  GET_INVOICE_BY_APPOINTMENT_ID
-);
- // Query to get Work Proof pdf
- const [getWorkProofPDF, { data: workProofData }] = useLazyQuery<any>(
-  GET_WORKPROOF_PDF
-);
-
-let isLeasingAppointment = false,
- isAppointment = false;
-
-// To check appointment with leasing careInst or not
-if (selected && selected.length) {
-  isLeasingAppointment = selected.filter(
-    (cell: any) =>
-      cell &&
-      cell.item &&
-      cell.item.appointments &&
-      cell.item.appointments.length &&
-      cell.item.appointments[0].cr &&
-      cell.item.appointments[0].cr.isLeasing
-  ).length
-    ? true
-    : false;
-  isAppointment = selected.filter(
-    (cell: any) =>
-      cell && cell.item && cell.item.appointments && cell.item.appointments
-  ).length
-    ? true
-    : false;
-}
-
-const updateItemData = (itemData: any) => {
-  let temp: any = [] ;
-  selected.forEach(async (element: any, index: number) => {
+  // push last time data into the caregiver field
+  useEffect(() => {
     const {
-      isWeekend = "",
-      item = undefined,
-      caregiver = {},
-    } = element ? element : {};
-    let data: any = 
-      {
+      distanceInKM = "",
+      f = "",
+      feePerKM = "",
+      n = "",
+      otherExpenses = "",
+      s = "",
+      travelAllowance = "",
+      workingProofRecieved = false,
+      remarksCareGiver = "",
+      remarksInternal = "",
+      nightAllowance = undefined,
+    } = caregiverLastTimeValues ? caregiverLastTimeValues : {};
+
+    if (
+      selected &&
+      selected.length &&
+      caregiverLastTimeData &&
+      caregiverLastTimeData.getCareGiverAvabilityLastTimeById
+    ) {
+      const { getCareGiverAvabilityLastTimeById } = caregiverLastTimeData;
+      let careGiverAvabilityInput: any[] = [];
+
+      selected.forEach(async (element: any) => {
+        const {
+          isWeekend = "",
+          isSelected = "",
+          caregiver = undefined,
+          item = undefined,
+        } = element ? element : {};
+        const {
+          fee = "",
+          nightFee = "",
+          weekendAllowance = "",
+          holidayAllowance = "",
+        } = getCareGiverAvabilityLastTimeById
+          ? getCareGiverAvabilityLastTimeById
+          : {};
+        let data: any = {
+          isSelected,
+          isWeekend,
+          caregiver: {
+            ...caregiver,
+          },
+          item: {
+            ...item,
+            fee,
+            nightFee,
+            weekendAllowance,
+            holidayAllowance,
+            workingProofRecieved,
+            remarksCareGiver,
+            remarksInternal,
+            nightAllowance:
+              nightAllowance && nightAllowance.value
+                ? nightAllowance.value
+                : undefined,
+            distanceInKM,
+            feePerKM,
+            travelAllowance,
+            otherExpenses,
+            f: f ? "available" : "default",
+            s: s ? "available" : "default",
+            n: n ? "available" : "default",
+          },
+        };
+        careGiverAvabilityInput = [...careGiverAvabilityInput, data];
+      });
+      setSelectedCaregiver(careGiverAvabilityInput);
+    }
+  }, [caregiverLastTimeData]);
+
+  // Query to get uploaded pdf
+  const [getLeasingContractPDF, { data: pdfData, loading }] = useLazyQuery<any>(
+    GET_LEASING_CONTRACT
+  );
+  // query to get contract pdf
+  const [getContractPDF, { data: contractData }] = useLazyQuery<any>(
+    GET_CONTRACT_BY_APPOINTMENT_ID
+  );
+  // Query to get Invoice pdf
+  const [getInvoiceByAppointmentId, { data: invoicePDF }] = useLazyQuery<any>(
+    GET_INVOICE_BY_APPOINTMENT_ID
+  );
+  // Query to get Work Proof pdf
+  const [getWorkProofPDF, { data: workProofData }] = useLazyQuery<any>(
+    GET_WORKPROOF_PDF
+  );
+
+  let isLeasingAppointment = false,
+    isAppointment = false;
+
+  // To check appointment with leasing careInst or not
+  if (selected && selected.length) {
+    isLeasingAppointment = selected.filter(
+      (cell: any) =>
+        cell &&
+        cell.item &&
+        cell.item.appointments &&
+        cell.item.appointments.length &&
+        cell.item.appointments[0].cr &&
+        cell.item.appointments[0].cr.isLeasing
+    ).length
+      ? true
+      : false;
+    isAppointment = selected.filter(
+      (cell: any) =>
+        cell && cell.item && cell.item.appointments && cell.item.appointments
+    ).length
+      ? true
+      : false;
+  }
+
+  const updateItemData = (itemData: any) => {
+    let temp: any = [];
+    selected.forEach(async (element: any, index: number) => {
+      const { isWeekend = "", item = undefined, caregiver = {} } = element
+        ? element
+        : {};
+      let data: any = {
         isWeekend,
         caregiver: {
           ...caregiver,
         },
         item: itemData[index],
+      };
+
+      temp.push(data);
+    });
+
+    setSelectedCaregiver(temp);
+  };
+
+  useEffect(() => {
+    if (selected && selected.length) {
+      if (isLeasingAppointment) {
+        const { caregiver = "", item = {} } = selected[0] ? selected[0] : {};
+        const { appointments = [] } = item ? item : {};
+        const { id = "" } = caregiver ? caregiver : {};
+
+        const { avabilityId = "", id: appointmentId = "", workProofId = "" } =
+          appointments && appointments.length && appointments[0]
+            ? appointments[0]
+            : {};
+        getLeasingContractPDF({
+          variables: {
+            userId: parseInt(id),
+            availabilityId: [parseInt(avabilityId)],
+            appointmentId: [parseInt(appointmentId)],
+            documentUploadType: "leasingContract",
+          },
+        });
+
+        getInvoiceByAppointmentId({
+          variables: {
+            appointmentId: [parseInt(appointmentId)],
+          },
+        });
+
+        getWorkProofPDF({
+          variables: {
+            id: parseInt(workProofId),
+            documentUploadType: "workingProof",
+          },
+        });
+        return;
       }
-    
-    temp.push(data)
-  });
+      if (isAppointment) {
+        // To get signed contract in case of booked appointment
+        const { item = {} } = selected[0] ? selected[0] : {};
+        const { appointments = [] } = item ? item : {};
+        const { id: appointmentId = "", workProofId = "" } =
+          appointments && appointments.length && appointments[0]
+            ? appointments[0]
+            : {};
+        getContractPDF({
+          variables: {
+            appointmentId: appointmentId,
+            // appointments && appointments[0] ? appointments[0].id : null,
+          },
+        });
 
-  setSelectedCaregiver(temp);
-};
+        getInvoiceByAppointmentId({
+          variables: {
+            appointmentId: [parseInt(appointmentId)],
+          },
+        });
 
-useEffect(() => {
-if(selected && selected.length){
-  if (isLeasingAppointment) {
-    const { caregiver = "", item = {} } = selected[0] ? selected[0] : {};
-    const { appointments = [] } = item ? item : {};
-    const {id= "" } = caregiver ? caregiver: {};
-
-    const { avabilityId = "", id: appointmentId = "", workProofId = "" } =
-      appointments && appointments.length && appointments[0]
-        ? appointments[0]
-        : {};
-    getLeasingContractPDF({
-      variables: {
-        userId: parseInt(id),
-        availabilityId: [parseInt(avabilityId)],
-        appointmentId: [parseInt(appointmentId)],
-        documentUploadType: "leasingContract",
-      },
-    });
-
-    getInvoiceByAppointmentId({
-      variables: {
-        appointmentId: [parseInt(appointmentId)],
-      },
-    });
-
-    getWorkProofPDF({
-      variables: {
-        id: parseInt(workProofId),
-        documentUploadType: "workingProof",
-      },
-    });
+        getWorkProofPDF({
+          variables: {
+            id: parseInt(workProofId),
+            documentUploadType: "workingProof",
+          },
+        });
+      }
+    }
     return;
-  }
-  if (isAppointment) {
-    // To get signed contract in case of booked appointment
-    const { item = {} } = selected[0] ? selected[0] : {};
-    const { appointments = [] } = item ? item : {};
-    const { id: appointmentId = "", workProofId = "" } =
-      appointments && appointments.length && appointments[0]
-        ? appointments[0]
-        : {};
-    getContractPDF({
-      variables: {
-        appointmentId: appointmentId,
-        // appointments && appointments[0] ? appointments[0].id : null,
-      },
-    });
+  }, [selected]);
 
-    getInvoiceByAppointmentId({
-      variables: {
-        appointmentId: [parseInt(appointmentId)],
-      },
-    });
+  // Get Invoice PDFs
+  const { getInvoiceByAppointmentId: invoiceDetails = [] } = invoicePDF
+    ? invoicePDF
+    : {};
 
-    getWorkProofPDF({
-      variables: {
-        id: parseInt(workProofId),
-        documentUploadType: "workingProof",
-      },
-    });
-  }
-}
-  return;
-}, [selected]);
-
-
- // Get Invoice PDFs
- const { getInvoiceByAppointmentId: invoiceDetails = [] } = invoicePDF
- ? invoicePDF
- : {};
-
-let invoiceData = invoiceDetails ? invoiceDetails.invoiceData : {};
-let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
-
- 
+  let invoiceData = invoiceDetails ? invoiceDetails.invoiceData : {};
+  let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
 
   const { getWorkProofPDF: workProof = {} } = workProofData || {};
   const { document: finalWorkProofPDF = "" } = workProof;
@@ -431,7 +432,11 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
     : null;
   const breakFromDateData = item.breakFrom ? item.breakFrom.split(",") : null;
   const breakToDateData = item.breakTo ? item.breakTo.split(",") : null;
-  const { firstName, lastName, id: selectedCaregiverId = "", } = caregiverDetails;
+  const {
+    firstName,
+    lastName,
+    id: selectedCaregiverId = "",
+  } = caregiverDetails;
 
   const {
     name,
@@ -558,11 +563,11 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
     ? user_document
     : {};
 
-
   let activeDateCaregiver =
     selected && selected.length
       ? selected.map((cell: any) => cell.item.date)
       : [];
+
   // submit caregiver form
   /**
    *
@@ -657,9 +662,7 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
             let careGiverAvabilityInput: any[] = [];
             // To add mulitple availabilty
             selected.forEach(async (element: any) => {
-              const {  caregiver = "", item = "" } = element
-                ? element
-                : {};
+              const { caregiver = "", item = "" } = element ? element : {};
               let temp: any = {
                 userId: caregiver && caregiver.id ? parseInt(caregiver.id) : "",
                 date: item && item.date ? item.date : "",
@@ -733,13 +736,12 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
                     )
                   );
                 }
-                // setsavingBoth(false);
+                setsavingBoth(false);
               } else {
                 toast.dismiss();
               }
             });
             if (!appointmentId) {
-
               await addCaregiverAvailability({
                 variables: {
                   careGiverAvabilityInput,
@@ -751,13 +753,11 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
             }
           }
         } else {
-
           setTimeSlotError(languageTranslation("WORKING_SHIFT_ERROR"));
           return;
         }
       }
     } catch (error) {
-
       const message = errorFormatter(error);
       if (!toast.isActive(toastId)) {
         toastId = toast.error(message);
@@ -797,13 +797,13 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
     }
   };
 
-   /**
+  /**
    *
    * @param id
    * @param values
    *
    */
-   // fetch last time data for caregiver
+  // fetch last time data for caregiver
   const handleLastTimeData = (id: string, values: any) => {
     if (id) {
       fetchCaregiverLastTimeData({
@@ -863,6 +863,19 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
             setFieldValue,
           } = props;
 
+          useEffect(() => {
+            if (savingBoth && !timeSlotError) {
+              handleSubmit();
+            }
+          }, [savingBoth]);
+
+          //For Seting false for saving both on error handling
+          useEffect(() => {
+            if (props.errors) {
+              setsavingBoth(false);
+            }
+          }, [props.errors]);
+
           // Custom function to handle react select fields
           const handleSelect = (
             selectOption: IReactSelectInterface,
@@ -918,9 +931,10 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
                       item.status === "timeSheetPending" ||
                       item.status === "timeSheetUpdated",
                     "availability-bg":
-                      item.status === undefined ? false :
-                      isBeforedate &&
-                      [item.f, item.s, item.n].indexOf("block") === -1,
+                      item.status === undefined
+                        ? false
+                        : isBeforedate &&
+                          [item.f, item.s, item.n].indexOf("block") === -1,
                   })}
                 >
                   <h5 className="content-title">
@@ -1018,10 +1032,10 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
                                   <InputGroupText>
                                     <i
                                       className={
-                                      //   name && starCaregiver && starCaregiver.isStar
-                                      //     ? 'fa fa-star theme-text'
-                                      //     : 
-                                      'fa fa-star'
+                                        //   name && starCaregiver && starCaregiver.isStar
+                                        //     ? 'fa fa-star theme-text'
+                                        //     :
+                                        "fa fa-star"
                                       }
                                       aria-hidden="true"
                                     ></i>
@@ -1953,8 +1967,9 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
                               <a
                                 href={`${AppConfig.FILES_ENDPOINT}${document}`}
                                 target={"_blank"}
-                                className='view-more-link text-underline'>
-                                <i className='fa fa-file-o mr-2' />
+                                className="view-more-link text-underline"
+                              >
+                                <i className="fa fa-file-o mr-2" />
                                 {languageTranslation("CONTRACT")}
                               </a>
                             ) : getContractByAppointmentID &&
@@ -1965,8 +1980,9 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
                               <a
                                 href={`${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}`}
                                 target={"_blank"}
-                                className='view-more-link text-underline'>
-                                <i className='fa fa-file-o mr-2' />
+                                className="view-more-link text-underline"
+                              >
+                                <i className="fa fa-file-o mr-2" />
                                 {languageTranslation("CONTRACT")}
                               </a>
                             ) : null}
@@ -1978,8 +1994,9 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
                               <a
                                 href={`${AppConfig.FILES_ENDPOINT}/${finalInvoicePDF}`}
                                 target={"_blank"}
-                                className='view-more-link text-underline'>
-                                <i className='fa fa-file-o mr-2' />
+                                className="view-more-link text-underline"
+                              >
+                                <i className="fa fa-file-o mr-2" />
                                 {languageTranslation("INVOICE")}
                               </a>
                             ) : null}

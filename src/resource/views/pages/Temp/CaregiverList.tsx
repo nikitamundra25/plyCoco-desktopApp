@@ -374,7 +374,7 @@ export const CaregiverList = React.memo(
                           color: "#fff",
                           marginRight: "5px",
                         }}>
-                        Loading More...
+                        <Spinner color='warning' size='sm' /> Loading More...
                       </span>
                     </div>
                   </>

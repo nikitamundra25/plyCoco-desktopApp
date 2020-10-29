@@ -21,6 +21,11 @@ export const AttributeFilterModal = ({
   const [selectedNegetiveAttributes, setSelectedNegetiveAttributes] = useState<
     any[]
   >([]);
+  /**
+   *
+   * @param type
+   * @param isChecked
+   */
   const selectAllAttributes = (type: string, isChecked: boolean) => {
     if (type === "positive") {
       if (isChecked) {
@@ -110,7 +115,10 @@ export const AttributeFilterModal = ({
           <div className='common-attribute-section'>
             <Row className='common-attribute-row'>
               <Col md={4}>
-                <AttributePresetLists />
+                <AttributePresetLists
+                  updatePositiveAttributes={setSelectedPositiveAttributes}
+                  updatedNegetiveAttributes={setSelectedNegetiveAttributes}
+                />
               </Col>
               <Col md={4}>
                 <AttributeList

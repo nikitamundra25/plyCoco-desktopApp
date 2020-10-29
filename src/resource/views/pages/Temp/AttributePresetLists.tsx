@@ -5,7 +5,10 @@ import { useLazyQuery } from "@apollo/react-hooks";
 import { AttributeFilterQueries } from "../../../../graphql/queries";
 import Spinner from "../../components/Spinner";
 const [_, GET_PRESETS_LIST] = AttributeFilterQueries;
-export const AttributePresetLists = () => {
+export const AttributePresetLists = ({
+  updatePositiveAttributes,
+  updatedNegetiveAttributes,
+}: any) => {
   const [selectedPreset, setSelectedPreset] = useState();
   // To get list of presets
   const [getPresetAttributeList, { data: presetList, loading }] = useLazyQuery<
@@ -19,7 +22,19 @@ export const AttributePresetLists = () => {
     });
   }, []);
   const presets = (presetList || {}).getPresetAttribute || [];
-
+  /**
+   *
+   * @param item
+   */
+  const updateSelectedAttributes = (item: any) => {
+    updatedNegetiveAttributes(
+      (item.negativeAttributeIds || []).map((i: string) => Number(i))
+    );
+    updatePositiveAttributes(
+      (item.positiveAttributeIds || []).map((i: string) => Number(i))
+    );
+    setSelectedPreset(item.id);
+  };
   return (
     <div className='common-list-wrap'>
       <div className='common-list-header d-flex align-items-cente justify-content-between'>
@@ -34,13 +49,13 @@ export const AttributePresetLists = () => {
           <ul className='common-list list-unstyled mb-0'>
             {presets.map((item: any, index: number) => (
               <li
-                className={`cursor-pointer list-item text-capitalize`}
-                // ${selectedPreset === item.id ? "active" : ""}
+                className={`cursor-pointer list-item text-capitalize ${
+                  selectedPreset === item.id ? "active" : ""
+                }`}
                 key={index}>
                 <div
                   className='list-item-text one-line-text'
-                  // onClick={() => OnPresetClick(item)}
-                >
+                  onClick={() => updateSelectedAttributes(item)}>
                   {item.name}
                 </div>
                 <div className='list-item-icon'>

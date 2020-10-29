@@ -14,8 +14,9 @@ import {
 } from "../../../../config";
 import { AppointmentsQueries } from "../../../../graphql/queries";
 import { getDaysArrayByMonth } from "../../../../helpers";
-
+import { Button } from "reactstrap";
 import Spinner, { MoreSpinner } from "../../components/Spinner";
+import { CaregiverRightClickOptions } from "./CaregiverRightClickOptions";
 
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const staticHeader = ["caregiver", "H", "S", "U", "V"];
@@ -136,247 +137,281 @@ const SelectableCell = React.memo(
 /**
  *
  */
-export const CaregiverList = React.memo(
-  ({ caregiverSelected, filters,updatedCaregiverItem }: any) => {
-    const [daysData, setDaysData] = useState(
-      getDaysArrayByMonth(moment().month(), moment().year())
+export const CaregiverList = ({ caregiverSelected, filters,updatedCaregiverItem }: any) => {
+  const [daysData, setDaysData] = useState(
+    getDaysArrayByMonth(moment().month(), moment().year())
+  );
+  const [caregivers, setCaregiverData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [starredCaregiver, setStarredCaregiver] = useState(0);
+  const [showRightClickOptions, setShowRightClickOptions] = useState(false);
+  const [selectedCells, setSelectedCells] = useState([]);
+  // To fetch caregivers by id filter
+  const [
+    fetchCaregiverList,
+    {
+      data: careGiversList,
+      refetch: fetchingCareGiverData,
+      fetchMore: fetchMoreCareGiverList,
+      loading: loadingCaregiver,
+    },
+  ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
+    fetchPolicy: "no-cache",
+  });
+
+  // Default value is start & end of month
+  let gte: string = moment().startOf("month").format(dbAcceptableFormat);
+  let lte: string = moment().endOf("month").format(dbAcceptableFormat);
+  const getCaregiverData = () => {
+    allCaregivers = [];
+    setCaregiverData(allCaregivers);
+    setCurrentPage(1);
+    const filterData = {
+      qualificationId: [],
+      userRole: "caregiver",
+      negativeAttributeId: [],
+      limit: APPOINTMENT_PAGE_LIMIT,
+      page: 1,
+      showAppointments: null,
+      positiveAttributeId: [],
+      caregiverId: null,
+      gte,
+      lte,
+      ...filters,
+    };
+    delete filterData.careInstitutionId;
+    setDaysData(
+      getDaysArrayByMonth(
+        moment(filters.gte || gte).month(),
+        moment(filters.gte || gte).year()
+      )
     );
-    const [caregivers, setCaregiverData] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [hasMore, setHasMore] = useState(false);
-    // To fetch caregivers by id filter
-    const [
-      fetchCaregiverList,
-      {
-        data: careGiversList,
-        refetch: fetchingCareGiverData,
-        fetchMore: fetchMoreCareGiverList,
-        loading: loadingCaregiver,
-      },
-    ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-      fetchPolicy: "no-cache",
+    fetchCaregiverList({
+      variables: filterData,
+    });
+  };
+  useEffect(() => {
+    if (
+      !filters.effects ||
+      ["both", "caregiver"].indexOf(filters.effects) > -1
+    ) {
+      getCaregiverData();
+    }
+  }, [filters]);
+  /**
+   *
+   * @param data
+   */
+  const formatCaregivers = (data: any[]) => {
+    console.time("test");
+    const newData: any[] = [];
+    _.forEach(data, (value) => {
+      const availibility = _.mapValues(
+        _.groupBy(value.caregiver_avabilities, "date")
+      );
+      let max = 1;
+      _.forEach(daysData.daysArr, (date) => {
+        const arr = availibility[date.dateString || ""] || [];
+        if (arr.length > max) {
+          max = arr.length;
+        }
+      });
+      for (let i = 0; i < max; i++) {
+        newData.push({
+          ...value,
+          row: i,
+          key: `${value.id}-${i}`,
+        });
+      }
+    });
+    console.timeEnd("test");
+    return newData;
+  };
+  /**
+   *
+   */
+  const setCaregivers = () => {
+    const data =
+      ((careGiversList || {}).getUserByQualifications || {}).result || [];
+    const count =
+      ((careGiversList || {}).getUserByQualifications || {}).totalCount || 0;
+    const newData = formatCaregivers(data);
+    allCaregivers = Object.assign([], newData);
+    setHasMore(data.length <= count);
+    setCaregiverData(newData);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    if (!loadingCaregiver) {
+      setCaregivers();
+    }
+  }, [loadingCaregiver]);
+
+  const columns = [...staticHeader, ...daysData.daysArr];
+  /**
+   *
+   * @param index
+   */
+  const onAddNewRow = (index: number) => {
+    const newCaregivers = Object.assign([], allCaregivers);
+    newCaregivers.splice(index + 1, 0, {
+      ...allCaregivers[index],
+      key: allCaregivers[index].key + allCaregivers.length,
+      caregiver_avabilities: [],
+      row: allCaregivers[index].row + 1,
     });
 
-    // Default value is start & end of month
-    let gte: string = moment().startOf("month").format(dbAcceptableFormat);
-    let lte: string = moment().endOf("month").format(dbAcceptableFormat);
-    const getCaregiverData = () => {
-      allCaregivers = [];
-      setCaregiverData(allCaregivers);
-      setCurrentPage(1);
-      const filterData = {
+    allCaregivers = newCaregivers;
+    setCaregiverData(newCaregivers);
+  };
+
+   // Update data in list after add/update/delete operation
+   useEffect(() => {
+    let temp: any = [...caregivers];
+    updatedCaregiverItem.forEach((availability: any) => {
+      let index: number = temp.findIndex(
+        (caregiver: any) => caregiver.id === availability.userId
+      );
+
+      if (temp[index]) {
+        const checkId = (obj: any) => obj.id === availability.id;
+        let existId = temp[index].caregiver_avabilities.findIndex(
+          checkId
+        );
+        if (existId > -1) {
+          if(availability.date){
+            // id exist so update data at particular index
+            temp[index].caregiver_avabilities[existId] = availability;
+          }else{
+            // delete if response doen't return date
+            temp[index].caregiver_avabilities[existId] = []
+          }
+         
+        } else {
+          temp[index].caregiver_avabilities.push(availability);
+        }
+      }
+    });
+
+    setCaregiverData(temp);
+  }, [updatedCaregiverItem]);
+  /**
+   *
+   * @param page
+   */
+  const getMoreCaregivers = (page: number = 1) => {
+    setIsLoading(true);
+    fetchMoreCareGiverList({
+      variables: {
         qualificationId: [],
         userRole: "caregiver",
         negativeAttributeId: [],
-        limit: APPOINTMENT_PAGE_LIMIT,
-        page: 1,
-        showAppointments: "showWithAppointments",
+        limit: 30,
+        page,
+        showAppointments: null,
         positiveAttributeId: [],
-        caregiverId: null,
         gte,
         lte,
         ...filters,
-      };
-      delete filterData.careInstitutionId;
-      setDaysData(
-        getDaysArrayByMonth(
-          moment(filters.gte || gte).month(),
-          moment(filters.gte || gte).year()
-        )
-      );
-      fetchCaregiverList({
-        variables: filterData,
-      });
-    };
-    useEffect(() => {
-      if (
-        !filters.effects ||
-        ["both", "caregiver"].indexOf(filters.effects) > -1
-      ) {
-        getCaregiverData();
-      }
-    }, [filters]);
-
-
-      // Update data in list after add/update/delete operation
-      useEffect(() => {
-        let temp: any = [...caregivers];
-        updatedCaregiverItem.forEach((availability: any) => {
-          let index: number = temp.findIndex(
-            (caregiver: any) => caregiver.id === availability.userId
-          );
-  
-          if (temp[index]) {
-            const checkId = (obj: any) => obj.id === availability.id;
-            let existId = temp[index].caregiver_avabilities.findIndex(
-              checkId
-            );
-            if (existId > -1) {
-              if(availability.date){
-                // id exist so update data at particular index
-                temp[index].caregiver_avabilities[existId] = availability;
-              }else{
-                // delete if response doen't return date
-                temp[index].caregiver_avabilities[existId] = []
-              }
-             
-            } else {
-              temp[index].caregiver_avabilities.push(availability);
-            }
-          }
-        });
-  
-        setCaregiverData(temp);
-      }, [updatedCaregiverItem]);
-    /**
-     *
-     * @param data
-     */
-    const formatCaregivers = (data: any[]) => {
-      console.time("test");
-      const newData: any[] = [];
-      _.forEach(data, (value) => {
-        const availibility = _.mapValues(
-          _.groupBy(value.caregiver_avabilities, "date")
-        );
-        let max = 1;
-        _.forEach(daysData.daysArr, (date) => {
-          const arr = availibility[date.dateString || ""] || [];
-          if (arr.length > max) {
-            max = arr.length;
-          }
-        });
-        for (let i = 0; i < max; i++) {
-          newData.push({
-            ...value,
-            row: i,
-            key: `${value.id}-${i}`,
-          });
+      },
+      updateQuery: (prev: any, { fetchMoreResult }: any) => {
+        if (!fetchMoreResult) {
+          return prev;
         }
+        if (prev && prev.getUserByQualifications) {
+          const newData = formatCaregivers(
+            fetchMoreResult.getUserByQualifications.result
+          );
+          allCaregivers = [...allCaregivers, ...newData];
+          setCaregiverData(allCaregivers);
+          setIsLoading(false);
+          const result = [
+            ...prev.getUserByQualifications.result,
+            ...fetchMoreResult.getUserByQualifications.result,
+          ];
+          setHasMore(result.length <= prev.getUserByQualifications.totalCount);
+          return {
+            getUserByQualifications: {
+              ...prev.getUserByQualifications,
+              result,
+            },
+          };
+        }
+      },
+    });
+  };
+  /**
+   *
+   * @param arg
+   */
+  const handleEndReached = (arg: any) => {
+    if ((!loadingCaregiver && isLoading) || !hasMore || starredCaregiver) {
+      return;
+    }
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    getMoreCaregivers(nextPage);
+  };
+  /**
+   *
+   * @param selected
+   */
+  const onSelectFinish = (selected: any) => {
+    if (selected && selected.length) {
+      let data: any = [];
+      selected.map((key: any) => {
+        data.push(key.props);
       });
-      console.timeEnd("test");
-      return newData;
-    };
-    /**
-     *
-     */
-    const setCaregivers = () => {
-      const data =
-        ((careGiversList || {}).getUserByQualifications || {}).result || [];
-      const count =
-        ((careGiversList || {}).getUserByQualifications || {}).totalCount || 0;
-      const newData = formatCaregivers(data);
-      allCaregivers = Object.assign([], newData);
-      setHasMore(data.length <= count);
-      setCaregiverData(newData);
-      setIsLoading(false);
-    };
-    useEffect(() => {
-      if (!loadingCaregiver) {
-        setCaregivers();
-      }
-    }, [loadingCaregiver]);
+      caregiverSelected(data);
+      setSelectedCells(data);
+    } else {
+      setSelectedCells([]);
+    }
+  };
+  /**
+   *
+   * @param caregiverId
+   */
+  const filterCaregiverWithStar = (caregiverId: number) => {
+    console.log(starredCaregiver);
+    if (caregiverId === starredCaregiver) {
+      setCaregiverData(allCaregivers);
+      // setStarredCaregiver(0);
+    } else {
+      const caregiverItems = allCaregivers.filter(
+        (caregiver: any) => caregiverId === caregiver.id
+      );
+      setStarredCaregiver(() => caregiverId);
+      setCaregiverData(caregiverItems);
+    }
+  };
+  const handleToggleMenuItem = () => {
+    setShowRightClickOptions((prev) => !prev);
+  };
+  /**
+   *
+   */
+  const element = document.getElementById("appointment_list_section");
+  /**
+   *
+   */
 
-    const columns = [...staticHeader, ...daysData.daysArr];
-    /**
-     *
-     * @param index
-     */
-    const onAddNewRow = (index: number) => {
-      const newCaregivers = Object.assign([], allCaregivers);
-      newCaregivers.splice(index + 1, 0, {
-        ...allCaregivers[index],
-        key: allCaregivers[index].key + allCaregivers.length,
-        caregiver_avabilities: [],
-        row: allCaregivers[index].row + 1,
-      });
-
-      allCaregivers = newCaregivers;
-      setCaregiverData(newCaregivers);
-    };
-    /**
-     *
-     * @param page
-     */
-    const getMoreCaregivers = (page: number = 1) => {
-      setIsLoading(true);
-      fetchMoreCareGiverList({
-        variables: {
-          qualificationId: [],
-          userRole: "caregiver",
-          negativeAttributeId: [],
-          limit: 30,
-          page,
-          showAppointments: "showWithAppointments",
-          positiveAttributeId: [],
-          gte,
-          lte,
-          ...filters,
-        },
-        updateQuery: (prev: any, { fetchMoreResult }: any) => {
-          if (!fetchMoreResult) {
-            return prev;
-          }
-          if (prev && prev.getUserByQualifications) {
-            const newData = formatCaregivers(
-              fetchMoreResult.getUserByQualifications.result
-            );
-            allCaregivers = [...allCaregivers, ...newData];
-            setCaregiverData(allCaregivers);
-            setIsLoading(false);
-            const result = [
-              ...prev.getUserByQualifications.result,
-              ...fetchMoreResult.getUserByQualifications.result,
-            ];
-            setHasMore(
-              result.length <= prev.getUserByQualifications.totalCount
-            );
-            return {
-              getUserByQualifications: {
-                ...prev.getUserByQualifications,
-                result,
-              },
-            };
-          }
-        },
-      });
-    };
-    /**
-     *
-     * @param arg
-     */
-    const handleEndReached = (arg: any) => {
-      if ((!loadingCaregiver && isLoading) || !hasMore) {
-        return;
-      }
-      const nextPage = currentPage + 1;
-      setCurrentPage(nextPage);
-      getMoreCaregivers(nextPage);
-    };
-    /**
-     *
-     * @param selected
-     */
-    const onSelectFinish = (selected: any) => {
-      if (selected && selected.length) {
-        let data: any = [];
-        selected.map((key: any) => {
-          data.push(key.props);
-        });
-        caregiverSelected(data);
-      }
-    };
-    /**
-     *
-     */
-    const element = document.getElementById("appointment_list_section");
-    /**
-     *
-     */
-
-    return (
-      <>
+  return (
+    <>
+      <div
+        className={classnames({
+          "right-manu-close": true,
+          "d-none": !showRightClickOptions,
+        })}
+        onClick={handleToggleMenuItem}></div>
+      <CaregiverRightClickOptions
+        isOpen={showRightClickOptions}
+        hide={() => setShowRightClickOptions(false)}
+        selectedCells={selectedCells}
+      />
+      <div className='custom-appointment-calendar overflow-hidden mb-3'>
         <SelectableGroup
           allowClickWithoutSelected
           className='custom-row-selector new-base-table'
@@ -389,7 +424,7 @@ export const CaregiverList = React.memo(
             fixed
             data={caregivers}
             width={element ? element.clientWidth - 40 : 800}
-            height={element ? window.innerHeight / 2 - 40 : 300}
+            height={element ? window.innerHeight / 2 - 80 : 300}
             rowKey='key'
             overlayRenderer={() =>
               loadingCaregiver || isLoading ? (
@@ -410,14 +445,16 @@ export const CaregiverList = React.memo(
                       className={`custom-appointment-col  ${
                         d === "caregiver" ? "name-col" : ""
                       }`}>
-                      {d}
-                      {d === "caregiver" ? (
-                        <>
-                          <span>
+                      <div className='position-relative  username-col align-self-center'>
+                        {d}
+                        {d === "caregiver" ? (
+                          <Button
+                            className='btn-more d-flex align-items-center justify-content-center'
+                            onClick={() => setShowRightClickOptions(true)}>
                             <i className='icon-options-vertical' />
-                          </span>
-                        </>
-                      ) : null}
+                          </Button>
+                        ) : null}
+                      </div>
                     </span>
                   </React.Fragment>
                 ) : (
@@ -457,7 +494,7 @@ export const CaregiverList = React.memo(
                       return (
                         <div
                           key={rowIndex}
-                          className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
+                          className='custom-appointment-col name-col appointment-color1 p-1 text-capitalize view-more-link one-line-text'
                           title={[rowData.lastName, rowData.firstName].join(
                             " "
                           )}
@@ -481,11 +518,17 @@ export const CaregiverList = React.memo(
                     case "H":
                       return <span key={rowIndex}>H</span>;
                     case "S":
+                      console.log(starredCaregiver);
                       return (
                         <span
                           key={rowIndex}
-                          className='custom-appointment-col s-col text-center cursor-pointer'>
-                          <i className='fa fa-star-o' />
+                          className='custom-appointment-col s-col text-center cursor-pointer'
+                          onClick={() => filterCaregiverWithStar(rowData.id)}>
+                          {starredCaregiver === rowData.id ? (
+                            <i className='fa fa-star theme-text' />
+                          ) : (
+                            <i className='fa fa-star-o' />
+                          )}
                         </span>
                       );
                     case "U":
@@ -529,7 +572,7 @@ export const CaregiverList = React.memo(
             ))}
           </BaseTable>
         </SelectableGroup>
-      </>
-    );
-  }
-);
+      </div>
+    </>
+  );
+};

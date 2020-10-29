@@ -73,6 +73,7 @@ export const AttributeList = ({
   isLoading: listLoading,
   updateSelectedAttributes,
   selectedAttributes,
+  selectAllAttributes,
 }: any) => {
   /**
    *
@@ -112,27 +113,16 @@ export const AttributeList = ({
                 <DropdownItem
                   className={selectedAttributes.length ? "" : "disabled-class"}
                   onClick={() => {
-                    // if (selectedAttributes.length) {
-                    //   setShowPreset(true);
-                    //   onAddingPreset(isPositive, isNegative);
-                    // } else {
-                    //   setShowPreset(false);
-                    // }
+                    // selectAllAttributes(type, true);
                   }}>
                   <i className='fa fa-plus mr-2' />
                   {languageTranslation("ADD_PRESET")}
                 </DropdownItem>
-                <DropdownItem
-                // onClick={() => handleCheckAllElements(type)}
-                >
+                <DropdownItem onClick={() => selectAllAttributes(type, true)}>
                   <i className='fa fa-check-square mr-2' />
                   {languageTranslation("SELECT_ALL")}
                 </DropdownItem>
-                <DropdownItem
-                // onClick={() =>
-                //   type === "positive" ? setIsPositive([]) : setIsNegative([])
-                // }
-                >
+                <DropdownItem onClick={() => selectAllAttributes(type, false)}>
                   <i className='fa fa-square-o mr-2' />
                   {languageTranslation("UNSELECT")}
                 </DropdownItem>

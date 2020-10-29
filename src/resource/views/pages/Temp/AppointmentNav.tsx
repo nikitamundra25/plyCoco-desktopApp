@@ -103,12 +103,6 @@ const AppointmentNav: FunctionComponent<any> = ({
           </div>
           <div className='common-header-input pr-1'>
             <DayPickerInput
-              /* onDayChange={(date: any) =>
-                onMonthChange(
-                  moment(date).startOf("month").format(dbAcceptableFormat),
-                  moment(date).endOf("month").format(dbAcceptableFormat)
-                )
-              } */
               formatDate={() => formatDate}
               value={formatDate}
               dayPickerProps={{
@@ -148,9 +142,9 @@ const AppointmentNav: FunctionComponent<any> = ({
                       ({ value }) => value === filters.showAppointments
                     )
                   : {
-                    value: "showWithAppointments",
-                    label: languageTranslation("SHOW_APPOINTMENT"),
-                  }
+                      value: "showAll",
+                      label: languageTranslation("SHOW_ALL"),
+                    }
               }
               onChange={({ value }: any) =>
                 filterUpdated({
@@ -172,7 +166,11 @@ const AppointmentNav: FunctionComponent<any> = ({
                 placeholder={languageTranslation(
                   "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                 )}
-                // value={qualification ? qualification : undefined}
+                value={qualifications.filter(
+                  (qualification: any) =>
+                    (filters.qualificationId || []).indexOf(qualification.id) >
+                    -1
+                )}
                 className={
                   "custom-reactselect custom-reactselect-menu-width-appointment"
                 }
@@ -232,7 +230,9 @@ const AppointmentNav: FunctionComponent<any> = ({
               onChange={(careinstitution: any) =>
                 filterUpdated({
                   ...filters,
-                  careInstitutionId: careinstitution ? parseInt(careinstitution.value) : null,
+                  careInstitutionId: careinstitution
+                    ? parseInt(careinstitution.value)
+                    : null,
                   effects: "careinstitution",
                 })
               }

@@ -1,13 +1,13 @@
 import { useLazyQuery } from "@apollo/react-hooks";
 import classnames from "classnames";
-import _ from "lodash";
+import _, { filter } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import BaseTable, { Column } from "react-base-table";
 import "react-base-table/styles.css";
 import { Link } from "react-router-dom";
 import { createSelectable, SelectableGroup } from "react-selectable-fast";
-
+import { Button } from "reactstrap";
 import {
   APPOINTMENT_PAGE_LIMIT,
   AppRoutes,
@@ -180,19 +180,21 @@ export const CareInstitutionList = React.memo(
       setCaregiverData(allCaregivers);
       setCurrentPage(1);
       setIsLoading(true);
+      const filterObject = {
+        qualificationId: [],
+        userRole: "canstitution",
+        negativeAttributeId: [],
+        limit: APPOINTMENT_PAGE_LIMIT,
+        page: 1,
+        showAppointments: null,
+        positiveAttributeId: [],
+        gte,
+        lte,
+        ...filters,
+      };
+      delete filterObject.caregiverId;
       fetchCaregiverList({
-        variables: {
-          qualificationId: [],
-          userRole: "canstitution",
-          negativeAttributeId: [],
-          limit: APPOINTMENT_PAGE_LIMIT,
-          page: 1,
-          showAppointments: "showWithAppointments",
-          positiveAttributeId: [],
-          gte,
-          lte,
-          ...filters,
-        },
+        variables: filterObject,
       });
       setDaysData(
         getDaysArrayByMonth(
@@ -327,18 +329,21 @@ export const CareInstitutionList = React.memo(
      */
     const getMoreCaregivers = (page: number = 1) => {
       setIsLoading(true);
+      const filterObject = {
+        qualificationId: [],
+        userRole: "caregiver",
+        negativeAttributeId: [],
+        limit: 30,
+        page,
+        showAppointments: null,
+        positiveAttributeId: [],
+        gte,
+        lte,
+        ...filters,
+      };
+      delete filterObject.caregiverId;
       fetchMoreCareGiverList({
-        variables: {
-          qualificationId: [],
-          userRole: "caregiver",
-          negativeAttributeId: [],
-          limit: 30,
-          page,
-          showAppointments: "showWithAppointments",
-          positiveAttributeId: [],
-          gte,
-          lte,
-        },
+        variables: filterObject,
         updateQuery: (prev: any, { fetchMoreResult }: any) => {
           if (!fetchMoreResult) {
             return prev;
@@ -416,176 +421,179 @@ export const CareInstitutionList = React.memo(
     const element = document.getElementById("appointment_list_section");
     return (
       <>
-        <SelectableGroup
-          allowClickWithoutSelected
-          className="custom-row-selector new-base-table"
-          clickClassName="tick"
-          resetOnStart={true}
-          allowCtrlClick={false}
-          onSelectionFinish={onSelectFinish}
-          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
-        >
-          <BaseTable
-            fixed
-            data={caregivers}
-            width={element ? element.clientWidth - 40 : 800}
-            height={element ? window.innerHeight / 2 - 40 : 300}
-            rowKey="key"
-            rowHeight={30}
-            overlayRenderer={() =>
-              loadingCaregiver || isLoading ? (
-                currentPage > 1 ? (
-                  <>
-                    <MoreSpinner />
-                  </>
-                ) : (
-                  <Spinner />
-                )
-              ) : null
-            }
-            headerRenderer={() =>
-              columns.map((d: any, index: number) =>
-                staticHeader.indexOf(d) > -1 ? (
-                  <React.Fragment key={`${d.id}-${index}`}>
-                    <span
-                      className={`custom-appointment-col  ${
-                        d === "careinstitution" ? "name-col" : ""
-                      }`}
-                    >
-                      {d}
+        <div className='custom-appointment-calendar overflow-hidden'>
+          <SelectableGroup
+            allowClickWithoutSelected
+            className='custom-row-selector new-base-table'
+            clickClassName='tick'
+            resetOnStart={true}
+            allowCtrlClick={false}
+            onSelectionFinish={onSelectFinish}
+            ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
+            <BaseTable
+              fixed
+              data={caregivers}
+              width={element ? element.clientWidth - 40 : 800}
+              height={element ? window.innerHeight / 2 - 80 : 300}
+              rowKey='key'
+              rowHeight={30}
+              overlayRenderer={() =>
+                loadingCaregiver || isLoading ? (
+                  currentPage > 1 ? (
+                    <>
+                      <MoreSpinner />
+                    </>
+                  ) : (
+                    <Spinner />
+                  )
+                ) : null
+              }
+              headerRenderer={() =>
+                columns.map((d: any, index: number) =>
+                  staticHeader.indexOf(d) > -1 ? (
+                    <React.Fragment key={`${d.id}-${index}`}>
+                      <span
+                        className={`custom-appointment-col  ${
+                          d === "careinstitution" ? "name-col" : ""
+                        }`}>
+                        {/* {d}
                       {d === "careinstitution" ? (
                         <>
                           <span>
                             <i className="icon-options-vertical" />
                           </span>
                         </>
-                      ) : null}
+                      ) : null} */}
+                        <div className='position-relative  username-col align-self-center'>
+                          {d}
+                          {d === "careinstitution" ? (
+                            <Button className='btn-more d-flex align-items-center justify-content-center'>
+                              <i className='icon-options-vertical' />
+                            </Button>
+                          ) : null}
+                        </div>
+                      </span>
+                    </React.Fragment>
+                  ) : (
+                    <span key={d.date} className='custom-appointment-col  '>
+                      {d.day}
+                      <br />
+                      {d.date}
                     </span>
-                  </React.Fragment>
-                ) : (
-                  <span key={d.date} className="custom-appointment-col  ">
-                    {d.day}
-                    <br />
-                    {d.date}
-                  </span>
+                  )
                 )
-              )
-            }
-            rowRenderer={({ cells, rowData }) => (
-              <div
-                className="d-flex frozen-row"
-                title={
-                  rowData.canstitution && rowData.canstitution.shortName
-                    ? rowData.canstitution.shortName
-                    : [rowData.lastName, rowData.firstName].join(" ")
-                }
-              >
-                {cells}
-              </div>
-            )}
-            onEndReachedThreshold={300}
-            onEndReached={handleEndReached}
-            headerClassName="custom-appointment-row"
-            rowClassName="custom-appointment-row"
-          >
-            {columns.map((d: any, index: number) => (
-              <Column
-                key={`col0-${index}-${
-                  typeof d === "string" ? d : d.dateString
-                }`}
-                width={index === 0 ? 140 : 28}
-                className={`custom-appointment-col   ${
-                  d === "careinstitution" ? "name-col" : ""
-                }`}
-                frozen={typeof d === "string"}
-                cellRenderer={({ rowData, rowIndex }: any) => {
-                  switch (d) {
-                    case "careinstitution":
-                      return (
-                        <div
-                          key={rowIndex}
-                          className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
-                          title={
-                            rowData.canstitution &&
-                            rowData.canstitution.shortName
-                              ? rowData.canstitution.shortName
-                              : [rowData.lastName, rowData.firstName].join(" ")
-                          }
-                          id={`caregiver-${rowData.id}-${index}-${rowData.row}`}
-                        >
-                          <Link
-                            to={AppRoutes.CARE_GIVER_VIEW.replace(
-                              ":id",
-                              rowData.id
-                            )}
-                            target="_blank"
-                            className="text-body"
-                          >
-                            {rowData.row === 0
-                              ? rowData.canstitution &&
-                                rowData.canstitution.shortName
+              }
+              rowRenderer={({ cells, rowData }) => (
+                <div
+                  className='d-flex frozen-row'
+                  title={
+                    rowData.canstitution && rowData.canstitution.shortName
+                      ? rowData.canstitution.shortName
+                      : [rowData.lastName, rowData.firstName].join(" ")
+                  }>
+                  {cells}
+                </div>
+              )}
+              onEndReachedThreshold={300}
+              onEndReached={handleEndReached}
+              headerClassName='custom-appointment-row'
+              rowClassName='custom-appointment-row'>
+              {columns.map((d: any, index: number) => (
+                <Column
+                  key={`col0-${index}-${
+                    typeof d === "string" ? d : d.dateString
+                  }`}
+                  width={index === 0 ? 140 : 28}
+                  className={`custom-appointment-col   ${
+                    d === "careinstitution" ? "name-col" : ""
+                  }`}
+                  frozen={typeof d === "string"}
+                  cellRenderer={({ rowData, rowIndex }: any) => {
+                    switch (d) {
+                      case "careinstitution":
+                        return (
+                          <div
+                            key={rowIndex}
+                            className='custom-appointment-col name-col appointment-color1 text-capitalize p-1 view-more-link one-line-text'
+                            title={
+                              rowData.canstitution &&
+                              rowData.canstitution.shortName
                                 ? rowData.canstitution.shortName
                                 : [rowData.lastName, rowData.firstName].join(
                                     " "
                                   )
-                              : null}
-                          </Link>
-                        </div>
-                      );
-                    case "H":
-                      return <span key={rowIndex}>H</span>;
-                    case "S":
-                      return (
-                        <span
-                          key={rowIndex}
-                          className="custom-appointment-col s-col text-center cursor-pointer"
-                        >
-                          <i className="fa fa-star-o" />
-                        </span>
-                      );
-                    case "U":
-                      return (
-                        <span
-                          key={rowIndex}
-                          className="custom-appointment-col u-col text-center cursor-pointer"
-                        >
-                          <i className="fa fa-star-o" />
-                        </span>
-                      );
-                    case "V":
-                      return (
-                        <span
-                          key={rowIndex}
-                          className="custom-appointment-col v-col text-center cursor-pointer"
-                          onClick={() => onAddNewRow(rowIndex)}
-                        >
-                          <i className="fa fa-arrow-down" />
-                        </span>
-                      );
-                    default:
-                      const currentAvail = _.filter(
-                        rowData.careinstitution_requirements,
-                        (avail: any) => d.dateString === avail.date
-                      );
-                      return (
-                        <React.Fragment key={rowIndex}>
-                          <SelectableCell
-                            isWeekend={d.isWeekend}
-                            item={
-                              currentAvail[rowData.row] || {
-                                date: d.dateString,
-                              }
                             }
-                            canstitution={rowData}
-                          />
-                        </React.Fragment>
-                      );
-                  }
-                }}
-              />
-            ))}
-          </BaseTable>
-        </SelectableGroup>
+                            id={`caregiver-${rowData.id}-${index}-${rowData.row}`}>
+                            <Link
+                              to={AppRoutes.CARE_GIVER_VIEW.replace(
+                                ":id",
+                                rowData.id
+                              )}
+                              target='_blank'
+                              className='text-body'>
+                              {rowData.row === 0
+                                ? rowData.canstitution &&
+                                  rowData.canstitution.shortName
+                                  ? rowData.canstitution.shortName
+                                  : [rowData.lastName, rowData.firstName].join(
+                                      " "
+                                    )
+                                : null}
+                            </Link>
+                          </div>
+                        );
+                      case "H":
+                        return <span key={rowIndex}>H</span>;
+                      case "S":
+                        return (
+                          <span
+                            key={rowIndex}
+                            className='custom-appointment-col s-col text-center cursor-pointer'>
+                            <i className='fa fa-star-o' />
+                          </span>
+                        );
+                      case "U":
+                        return (
+                          <span
+                            key={rowIndex}
+                            className='custom-appointment-col u-col text-center cursor-pointer'>
+                            <i className='fa fa-star-o' />
+                          </span>
+                        );
+                      case "V":
+                        return (
+                          <span
+                            key={rowIndex}
+                            className='custom-appointment-col v-col text-center cursor-pointer'
+                            onClick={() => onAddNewRow(rowIndex)}>
+                            <i className='fa fa-arrow-down' />
+                          </span>
+                        );
+                      default:
+                        const currentAvail = _.filter(
+                          rowData.careinstitution_requirements,
+                          (avail: any) => d.dateString === avail.date
+                        );
+                        return (
+                          <React.Fragment key={rowIndex}>
+                            <SelectableCell
+                              isWeekend={d.isWeekend}
+                              item={
+                                currentAvail[rowData.row] || {
+                                  date: d.dateString,
+                                }
+                              }
+                              canstitution={rowData}
+                            />
+                          </React.Fragment>
+                        );
+                    }
+                  }}
+                />
+              ))}
+            </BaseTable>
+          </SelectableGroup>
+        </div>
       </>
     );
   }

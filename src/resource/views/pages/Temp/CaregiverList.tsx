@@ -255,7 +255,7 @@ export const CaregiverList = React.memo(
         ...allCaregivers[index],
         key: allCaregivers[index].key + allCaregivers.length,
         caregiver_avabilities: [],
-        row: allCaregivers[index].row + 1
+        row: allCaregivers[index].row + 1,
       });
 
       allCaregivers = newCaregivers;
@@ -379,7 +379,7 @@ export const CaregiverList = React.memo(
                           color: "#fff",
                           marginRight: "5px",
                         }}>
-                        Loading More...
+                        <Spinner color='warning' size='sm' /> Loading More...
                       </span>
                     </div>
                   </>

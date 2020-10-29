@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, Suspense } from 'react';
+import React, { FunctionComponent, useState, Suspense } from "react";
 import {
   ButtonDropdown,
   Input,
@@ -6,30 +6,30 @@ import {
   DropdownItem,
   DropdownMenu,
   UncontrolledTooltip,
-} from 'reactstrap';
-import Select from 'react-select';
-import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import { languageTranslation } from '../../../../helpers';
+} from "reactstrap";
+import Select from "react-select";
+import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import { languageTranslation } from "../../../../helpers";
 import {
   Without_Appointments,
   appointmentMonthFormat,
-} from '../../../../config';
-import { IAppointmentNav } from '../../../../interfaces';
+} from "../../../../config";
+import { IAppointmentNav } from "../../../../interfaces";
 // import AttributeFilter from './AttributeFilter';
-import right_arrow from '../../../assets/img/rightarrow.svg';
-import left_arrow from '../../../assets/img/leftarrow.svg';
-import filter from '../../../assets/img/filter.svg';
-import caregiver from '../../../assets/img/caregiver.svg';
-import careinstitution from '../../../assets/img/careinstitution.svg';
-import 'react-day-picker/lib/style.css';
-import './index.scss';
-import moment from 'moment';
-import CareinstitutionCustomAsyncList from '../../components/DropdownList/CareInstitutionCustomAsyncSelect';
-import CaregiverCustomAsyncList from '../../components/DropdownList/CareGiverCustomAsyncSelect';
+import right_arrow from "../../../assets/img/rightarrow.svg";
+import left_arrow from "../../../assets/img/leftarrow.svg";
+import filter from "../../../assets/img/filter.svg";
+import caregiver from "../../../assets/img/caregiver.svg";
+import careinstitution from "../../../assets/img/careinstitution.svg";
+import "react-day-picker/lib/style.css";
+import "./index.scss";
+import moment from "moment";
+import CareinstitutionCustomAsyncList from "../../components/DropdownList/CareInstitutionCustomAsyncSelect";
+import CaregiverCustomAsyncList from "../../components/DropdownList/CareGiverCustomAsyncSelect";
 
 const AppointmentNav: FunctionComponent<IAppointmentNav> = (
-  props: IAppointmentNav,
+  props: IAppointmentNav
 ) => {
   const {
     handleNext,
@@ -55,12 +55,12 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
     positive,
     negative,
   } = props;
-  const { month = '', year = '' } = daysData ? daysData : {};
+  const { month = "", year = "" } = daysData ? daysData : {};
 
   const [attributeSearch, setShowAttribute] = useState<boolean>(false);
   const [attributeFilter, setAttributeFilter] = useState<string | null>(null);
-  const [user, setuser] = useState<string>('');
-  const [userId, setuserId] = useState<string>('');
+  const [user, setuser] = useState<string>("");
+  const [userId, setuserId] = useState<string>("");
   const [dropdownOpen, setOpen] = useState<boolean>(false);
 
   // To check whether any filter is set or not
@@ -76,9 +76,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
       ? true
       : false ||
         month !==
-          moment()
-            .month(moment().month())
-            .format(appointmentMonthFormat) ||
+          moment().month(moment().month()).format(appointmentMonthFormat) ||
         userId
       ? true
       : false;
@@ -86,9 +84,9 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
   const toggle = () => setOpen(!dropdownOpen);
 
   const handleSelect = (e: any, name: string) => {
-    if (name === 'dropdown') {
+    if (name === "dropdown") {
       setuser(e.target.value);
-      setuserId('');
+      setuserId("");
     } else {
       setuserId(e.target.value);
     }
@@ -104,7 +102,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
 
   const handleBlur = () => {
     if (userId) {
-      let userRole = user ? user : 'avability';
+      let userRole = user ? user : "avability";
       onFilterByUserId(userId, userRole);
     }
   };
@@ -117,25 +115,21 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
 
   let setMonthForDays: any = new Date(
     parseInt(year),
-    parseInt(
-      moment()
-        .month(month)
-        .format('M'),
-    ),
+    parseInt(moment().month(month).format("M"))
   );
 
   let setNewDate: any = new Date(
     setMonthForDays.getFullYear(),
     setMonthForDays.getMonth() - 1,
-    1,
+    1
   );
 
   const formatDate = () => {
-    return month ? `${month} ${year}` : '';
+    return month ? `${month} ${year}` : "";
   };
   const renderAttributeModal = () => {
     if (attributeSearch) {
-      const AttributeFilter = React.lazy(() => import('./AttributeFilter'));
+      const AttributeFilter = React.lazy(() => import("./AttributeFilter"));
       return (
         <Suspense fallback={null}>
           <AttributeFilter
@@ -165,9 +159,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
         <div className='common-topheader d-flex  align-items-center px-2 mb-1 appointment-commonheader'>
           <div
             className='common-label px-1 cursor-pointer'
-            onClick={handleToday}
-          >
-            {languageTranslation('Today')}
+            onClick={handleToday}>
+            {languageTranslation("Today")}
           </div>
           <div className='header-nav-item' onClick={handlePrevious}>
             <span className='header-nav-icon pr-0'>
@@ -178,7 +171,7 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <DayPickerInput
               onDayChange={handleDayClick}
               formatDate={formatDate}
-              value={month ? `${month} ${year}` : ''}
+              value={month ? `${month} ${year}` : ""}
               dayPickerProps={{
                 month: setNewDate,
                 canChangeMonth: false,
@@ -197,8 +190,8 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
           <div className='user-select mx-1'>
             <Select
               classNamePrefix='custom-inner-reactselect'
-              className={'custom-reactselect '}
-              placeholder={languageTranslation('SELECT_APPOINTMENT_LABEL')}
+              className={"custom-reactselect "}
+              placeholder={languageTranslation("SELECT_APPOINTMENT_LABEL")}
               options={Without_Appointments}
               value={filterByAppointments ? filterByAppointments : null}
               onChange={(value: any) => handleSelectAppointment(value)}
@@ -209,15 +202,15 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <div className='custom-select-checkbox'>
               <ReactMultiSelectCheckboxes
                 placeholderButtonLabel={languageTranslation(
-                  'CAREGIVER_QUALIFICATION_PLACEHOLDER',
+                  "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                 )}
                 options={qualificationList}
                 placeholder={languageTranslation(
-                  'CAREGIVER_QUALIFICATION_PLACEHOLDER',
+                  "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                 )}
                 value={qualification ? qualification : undefined}
                 className={
-                  'custom-reactselect custom-reactselect-menu-width-appointment'
+                  "custom-reactselect custom-reactselect-menu-width-appointment"
                 }
                 classNamePrefix='custom-inner-reactselect'
                 onChange={handleQualification}
@@ -234,15 +227,14 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             className='header-nav-item'
             onClick={() => {
               setShowAttribute(true);
-              setAttributeFilter('caregiver');
+              setAttributeFilter("caregiver");
               // applyFilter('caregiver', [], []);
-            }}
-          >
+            }}>
             <span className='header-nav-icon'>
               <img src={filter} alt='' />
             </span>
             <span className='header-nav-text'>
-              {languageTranslation('ATTRIBUTES')}
+              {languageTranslation("ATTRIBUTES")}
             </span>
           </div>
           <div className='user-select mx-1'>
@@ -263,10 +255,10 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
               isClearable={true}
             /> */}
             <CaregiverCustomAsyncList
-              placeholderLabel={languageTranslation('SELECT_CAREGIVER')}
-              onChange={(value: any) => handleUserList(value, 'caregiver')}
+              placeholderLabel={languageTranslation("SELECT_CAREGIVER")}
+              onChange={(value: any) => handleUserList(value, "caregiver")}
               value={
-                caregiverSoloFilter && caregiverSoloFilter.value !== ''
+                caregiverSoloFilter && caregiverSoloFilter.value !== ""
                   ? caregiverSoloFilter
                   : null
               }
@@ -281,26 +273,25 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             className='header-nav-item'
             onClick={() => {
               setShowAttribute(true);
-              setAttributeFilter('careInstitution');
+              setAttributeFilter("careInstitution");
               // applyFilter('careInstitution', [], []);
-            }}
-          >
+            }}>
             <span className='header-nav-icon'>
               <img src={filter} alt='' />
             </span>
             <span className='header-nav-text'>
-              {languageTranslation('ATTRIBUTES')}
+              {languageTranslation("ATTRIBUTES")}
             </span>
           </div>
           <div className='user-select mx-1'>
             <CareinstitutionCustomAsyncList
-              placeholderLabel={languageTranslation('SELECT_CARE_INSTITUTION')}
+              placeholderLabel={languageTranslation("SELECT_CARE_INSTITUTION")}
               onChange={(value: any) =>
-                handleUserList(value, 'careinstitution')
+                handleUserList(value, "careinstitution")
               }
               value={
                 careinstitutionSoloFilter &&
-                careinstitutionSoloFilter.value !== ''
+                careinstitutionSoloFilter.value !== ""
                   ? careinstitutionSoloFilter
                   : null
               }
@@ -326,14 +317,13 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             /> */}
           </div>
           <div
-            className={`header-nav-item pt-1 ${!isFilterSet ? 'disable' : ''}`}
-            onClick={handleAllResetFilters}
-          >
+            className={`header-nav-item pt-1 ${!isFilterSet ? "disable" : ""}`}
+            onClick={handleAllResetFilters}>
             <span className='header-nav-icon'>
               <i className='fa fa-refresh '></i>
             </span>
             <span className='header-nav-text'>
-              {languageTranslation('RESET_LABEL')}
+              {languageTranslation("RESET_LABEL")}
             </span>
           </div>
           <div className='common-header-input  mx-1 header-dropdown-wrap'>
@@ -349,32 +339,31 @@ const AppointmentNav: FunctionComponent<IAppointmentNav> = (
             <ButtonDropdown
               isOpen={dropdownOpen}
               toggle={toggle}
-              className='button-group-dropdown custom-dropdown text-capitalize'
-            >
+              className='button-group-dropdown custom-dropdown text-capitalize'>
               <Input
                 placeholder={
                   user
-                    ? user === 'avability'
-                      ? languageTranslation('CAREGIVER_AVABILITY')
-                      : languageTranslation('CAREINST_REQUIREMENT')
-                    : languageTranslation('CAREGIVER_AVABILITY')
+                    ? user === "avability"
+                      ? languageTranslation("CAREGIVER_AVABILITY")
+                      : languageTranslation("CAREINST_REQUIREMENT")
+                    : languageTranslation("CAREGIVER_AVABILITY")
                 }
                 type='text'
                 name='id'
                 value={userId}
-                onChange={(e: any) => handleSelect(e, 'text')}
+                onChange={(e: any) => handleSelect(e, "text")}
                 onKeyPress={(e: any) => handleKeyPress(e)}
               />
-              <UncontrolledTooltip placement={'top'} target={'dropdown-1'}>
-                {languageTranslation('SELECT_USER')}
+              <UncontrolledTooltip placement={"top"} target={"dropdown-1"}>
+                {languageTranslation("SELECT_USER")}
               </UncontrolledTooltip>
-              <DropdownToggle caret color='primary' id={'dropdown-1'} />
-              <DropdownMenu onClick={(e: any) => handleSelect(e, 'dropdown')}>
+              <DropdownToggle caret color='primary' id={"dropdown-1"} />
+              <DropdownMenu onClick={(e: any) => handleSelect(e, "dropdown")}>
                 <DropdownItem value='avability'>
-                  {languageTranslation('CAREGIVER_AVABILITY')}
+                  {languageTranslation("CAREGIVER_AVABILITY")}
                 </DropdownItem>
                 <DropdownItem value='requirement'>
-                  {languageTranslation('CAREINST_REQUIREMENT')}
+                  {languageTranslation("CAREINST_REQUIREMENT")}
                 </DropdownItem>
               </DropdownMenu>
             </ButtonDropdown>

@@ -81,19 +81,21 @@ export const TempPage = () => {
                 <div className='custom-appointment-calendar overflow-hidden'>
                   <CareInstitutionList
                     careinstitutionSelected={careinstitutionSelected}
-                    filterObject={filterObject}
+                    filters={filterObject}
                     setCareInstDeptList={setCareInstDeptList}
                   />
                 </div>
               </div>
             </div>
             <div
-              className="appointment-page-form-section"
-              id="appointment_form_section"
-            >
-              <Row className="row-appointment">
-                <Col lg={"6"} className="pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0">
-                  <CaregiverForm selected={selectedCaregiverData} setSelectedCaregiver={setSelectedCaregiver} />
+              className='appointment-page-form-section'
+              id='appointment_form_section'>
+              <Row className='row-appointment'>
+                <Col lg={"6"} className='pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
+                  <CaregiverForm
+                    selected={selectedCaregiverData}
+                    setSelectedCaregiver={setSelectedCaregiver}
+                  />
                 </Col>
                 <Col lg={"6"} className='pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
                   <CareinstitutionForm selected={selectedCareinstitutionData} qualificationList={qualifications}

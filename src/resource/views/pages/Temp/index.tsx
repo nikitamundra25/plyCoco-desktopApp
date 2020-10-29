@@ -3,13 +3,14 @@ import { CaregiverList } from "./CaregiverList";
 import { CareInstitutionList } from "./CareInstitutionList";
 import "./../Appointment/index.scss";
 import { CaregiverForm } from "./CaregiverForm";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Button } from "reactstrap";
 import AppointmentNav from "./AppointmentNav";
 import CareinstitutionForm from "./CareInstitutionForm";
 import { useQuery } from "@apollo/react-hooks";
 import { IQualifications } from "../../../../interfaces";
 import { GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
 import { map } from "lodash";
+import { languageTranslation } from "../../../../helpers";
 
 export const TempPage = () => {
   const [selectedCaregiverData, setSelectedCaregiver] = useState<any>([]);
@@ -74,7 +75,7 @@ export const TempPage = () => {
               className='appointment-page-list-section'
               id='appointment_list_section'>
               <div className='calender-section'>
-                <div className='custom-appointment-calendar overflow-hidden'>
+                <div className='custom-appointment-calendar overflow-hidden mb-3'>
                   <CaregiverList
                     caregiverSelected={caregiverSelected}
                     filters={filterObject}
@@ -106,6 +107,23 @@ export const TempPage = () => {
                     departmentList={careInstDeptList}
                     setSelectedCareinstitution={setSelectedCareinstitution}
                   />
+                </Col>
+                <Col lg={"12"}>
+                  <div className='d-flex align-items-center justify-content-center'>
+                    <Button
+                      className='btn-common  mt-0 mb-2 mx-2'
+                      color='primary'>
+                      <i className='fa fa-save mr-2' />
+                      {languageTranslation("SAVE_BOTH")}
+                    </Button>
+                    <Button
+                      className='btn-common mt-0 mb-2 mx-2'
+                      color='secondary'>
+                      <i className='fa fa-link mr-2' />
+
+                      {languageTranslation("LINK")}
+                    </Button>
+                  </div>
                 </Col>
               </Row>
             </div>

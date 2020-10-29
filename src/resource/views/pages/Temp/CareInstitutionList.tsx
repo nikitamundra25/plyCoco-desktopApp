@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/react-hooks";
 import classnames from "classnames";
-import _ from "lodash";
+import _, { filter } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import BaseTable, { Column } from "react-base-table";
@@ -168,24 +168,25 @@ export const CareInstitutionList = React.memo(
     let lte: string = moment().endOf("month").format(dbAcceptableFormat);
     const getCareinstitutionList = () => {
       console.log("careInstitutionId", filters);
-      delete filters.caregiverId;
       allCaregivers = [];
       setCaregiverData(allCaregivers);
       setCurrentPage(1);
       setIsLoading(true);
+      const filterObject = {
+        qualificationId: [],
+        userRole: "canstitution",
+        negativeAttributeId: [],
+        limit: APPOINTMENT_PAGE_LIMIT,
+        page: 1,
+        showAppointments: null,
+        positiveAttributeId: [],
+        gte,
+        lte,
+        ...filters,
+      };
+      delete filterObject.caregiverId;
       fetchCaregiverList({
-        variables: {
-          qualificationId: [],
-          userRole: "canstitution",
-          negativeAttributeId: [],
-          limit: APPOINTMENT_PAGE_LIMIT,
-          page: 1,
-          showAppointments: null,
-          positiveAttributeId: [],
-          gte,
-          lte,
-          ...filters,
-        },
+        variables: filterObject,
       });
       setDaysData(
         getDaysArrayByMonth(
@@ -284,19 +285,21 @@ export const CareInstitutionList = React.memo(
      */
     const getMoreCaregivers = (page: number = 1) => {
       setIsLoading(true);
+      const filterObject = {
+        qualificationId: [],
+        userRole: "caregiver",
+        negativeAttributeId: [],
+        limit: 30,
+        page,
+        showAppointments: null,
+        positiveAttributeId: [],
+        gte,
+        lte,
+        ...filters,
+      };
+      delete filterObject.caregiverId;
       fetchMoreCareGiverList({
-        variables: {
-          qualificationId: [],
-          userRole: "caregiver",
-          negativeAttributeId: [],
-          limit: 30,
-          page,
-          showAppointments: null,
-          positiveAttributeId: [],
-          gte,
-          lte,
-          ...filters,
-        },
+        variables: filterObject,
         updateQuery: (prev: any, { fetchMoreResult }: any) => {
           if (!fetchMoreResult) {
             return prev;

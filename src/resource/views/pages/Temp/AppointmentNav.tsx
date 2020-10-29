@@ -103,12 +103,6 @@ const AppointmentNav: FunctionComponent<any> = ({
           </div>
           <div className='common-header-input pr-1'>
             <DayPickerInput
-              /* onDayChange={(date: any) =>
-                onMonthChange(
-                  moment(date).startOf("month").format(dbAcceptableFormat),
-                  moment(date).endOf("month").format(dbAcceptableFormat)
-                )
-              } */
               formatDate={() => formatDate}
               value={formatDate}
               dayPickerProps={{
@@ -172,7 +166,11 @@ const AppointmentNav: FunctionComponent<any> = ({
                 placeholder={languageTranslation(
                   "CAREGIVER_QUALIFICATION_PLACEHOLDER"
                 )}
-                // value={qualification ? qualification : undefined}
+                value={qualifications.filter(
+                  (qualification: any) =>
+                    (filters.qualificationId || []).indexOf(qualification.id) >
+                    -1
+                )}
                 className={
                   "custom-reactselect custom-reactselect-menu-width-appointment"
                 }
@@ -293,7 +291,6 @@ const AppointmentNav: FunctionComponent<any> = ({
           <div className='common-header-input  mx-1 '>
             <Input placeholder={""} type='input' name='text' />
           </div>
-          
         </div>
       </div>
       <AttributeFilterModal

@@ -42,7 +42,7 @@ const AppointmentNav: FunctionComponent<any> = ({
   /**
    * fomatted date
    */
-  const formatDate = moment().format("MMMM YYYY");
+  const formatDate = moment(filters.gte).format("MMMM YYYY");
   /**
    *
    * @param startDate
@@ -147,7 +147,10 @@ const AppointmentNav: FunctionComponent<any> = ({
                   ? Without_Appointments.find(
                       ({ value }) => value === filters.showAppointments
                     )
-                  : { label: languageTranslation("SHOW_ALL"), value: "showAll" }
+                  : {
+                    value: "showWithAppointments",
+                    label: languageTranslation("SHOW_APPOINTMENT"),
+                  }
               }
               onChange={({ value }: any) =>
                 filterUpdated({
@@ -229,7 +232,7 @@ const AppointmentNav: FunctionComponent<any> = ({
               onChange={(careinstitution: any) =>
                 filterUpdated({
                   ...filters,
-                  caregiverId: careinstitution ? careinstitution.value : null,
+                  careInstitutionId: careinstitution ? parseInt(careinstitution.value) : null,
                   effects: "careinstitution",
                 })
               }

@@ -170,13 +170,14 @@ export const CaregiverList = React.memo(
         negativeAttributeId: [],
         limit: APPOINTMENT_PAGE_LIMIT,
         page: 1,
-        showAppointments: null,
+        showAppointments: "showWithAppointments",
         positiveAttributeId: [],
         caregiverId: null,
         gte,
         lte,
         ...filters,
       };
+      delete filterData.careInstitutionId
       setDaysData(
         getDaysArrayByMonth(
           moment(filters.gte || gte).month(),

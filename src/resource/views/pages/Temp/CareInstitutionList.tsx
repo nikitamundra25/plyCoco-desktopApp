@@ -166,6 +166,8 @@ export const CareInstitutionList = React.memo(
     let gte: string = moment().startOf("month").format(dbAcceptableFormat);
     let lte: string = moment().endOf("month").format(dbAcceptableFormat);
     const getCareinstitutionList = () => {
+      console.log("careInstitutionId",filters);
+      delete filters.caregiverId;
       allCaregivers = [];
       setCaregiverData(allCaregivers);
       setCurrentPage(1);
@@ -177,9 +179,8 @@ export const CareInstitutionList = React.memo(
           negativeAttributeId: [],
           limit: APPOINTMENT_PAGE_LIMIT,
           page: 1,
-          showAppointments: "showAll",
+          showAppointments: "showWithAppointments",
           positiveAttributeId: [],
-          caregiverId: null,
           gte,
           lte,
           ...filters,
@@ -458,7 +459,7 @@ export const CareInstitutionList = React.memo(
             rowRenderer={({ cells, rowData }) => (
               <div
                 className='d-flex frozen-row'
-                title={[rowData.lastName, rowData.firstName].join(" ")}>
+                title={rowData.canstitution && rowData.canstitution.shortName ?rowData.canstitution.shortName : [rowData.lastName, rowData.firstName].join(" ")}>
                 {cells}
               </div>
             )}
@@ -483,9 +484,7 @@ export const CareInstitutionList = React.memo(
                         <div
                           key={rowIndex}
                           className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
-                          title={[rowData.lastName, rowData.firstName].join(
-                            " "
-                          )}
+                          title={rowData.canstitution && rowData.canstitution.shortName ?rowData.canstitution.shortName : [rowData.lastName, rowData.firstName].join(" ")}
                           id={`caregiver-${rowData.id}-${index}-${rowData.row}`}>
                           <Link
                             to={AppRoutes.CARE_GIVER_VIEW.replace(
@@ -494,7 +493,8 @@ export const CareInstitutionList = React.memo(
                             )}
                             target='_blank'
                             className='text-body'>
-                            {[rowData.lastName, rowData.firstName].join(" ")}
+                              {rowData.canstitution && rowData.canstitution.shortName ?rowData.canstitution.shortName : [rowData.lastName, rowData.firstName].join(" ")}
+                            {/* {[rowData.lastName, rowData.firstName].join(" ")} */}
                           </Link>
                         </div>
                       );

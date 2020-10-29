@@ -7,7 +7,7 @@ import BaseTable, { Column } from "react-base-table";
 import "react-base-table/styles.css";
 import { Link } from "react-router-dom";
 import { createSelectable, SelectableGroup } from "react-selectable-fast";
-import { Spinner } from "reactstrap";
+
 import {
   APPOINTMENT_PAGE_LIMIT,
   AppRoutes,
@@ -18,6 +18,7 @@ import {
   CareInstitutionQueries,
 } from "../../../../graphql/queries";
 import { getDaysArrayByMonth } from "../../../../helpers";
+import Spinner, { MoreSpinner } from "../../components/Spinner";
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const [, , GET_DEPARTMENT_LIST, , , ,] = CareInstitutionQueries;
 
@@ -166,7 +167,7 @@ export const CareInstitutionList = React.memo(
     let gte: string = moment().startOf("month").format(dbAcceptableFormat);
     let lte: string = moment().endOf("month").format(dbAcceptableFormat);
     const getCareinstitutionList = () => {
-      console.log("careInstitutionId",filters);
+      console.log("careInstitutionId", filters);
       delete filters.caregiverId;
       allCaregivers = [];
       setCaregiverData(allCaregivers);
@@ -395,37 +396,10 @@ export const CareInstitutionList = React.memo(
               loadingCaregiver || isLoading ? (
                 currentPage > 1 ? (
                   <>
-                    <div
-                      style={{
-                        pointerEvents: "none",
-                        background: "rgba(32, 60, 94, 0.3)",
-                        position: "absolute",
-                        bottom: "30px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        padding: "5px 15px",
-                        borderRadius: "10px",
-                        display: "flex",
-                        alignItems: "center",
-                      }}>
-                      <span
-                        style={{
-                          color: "#fff",
-                          marginRight: "5px",
-                        }}>
-                        <Spinner color='warning' size='sm' /> Loading More...
-                      </span>
-                    </div>
+                    <MoreSpinner />
                   </>
                 ) : (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                    }}>
-                    <Spinner color='warning' />
-                  </div>
+                  <Spinner />
                 )
               ) : null
             }
@@ -459,7 +433,11 @@ export const CareInstitutionList = React.memo(
             rowRenderer={({ cells, rowData }) => (
               <div
                 className='d-flex frozen-row'
-                title={rowData.canstitution && rowData.canstitution.shortName ?rowData.canstitution.shortName : [rowData.lastName, rowData.firstName].join(" ")}>
+                title={
+                  rowData.canstitution && rowData.canstitution.shortName
+                    ? rowData.canstitution.shortName
+                    : [rowData.lastName, rowData.firstName].join(" ")
+                }>
                 {cells}
               </div>
             )}
@@ -484,7 +462,12 @@ export const CareInstitutionList = React.memo(
                         <div
                           key={rowIndex}
                           className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
-                          title={rowData.canstitution && rowData.canstitution.shortName ?rowData.canstitution.shortName : [rowData.lastName, rowData.firstName].join(" ")}
+                          title={
+                            rowData.canstitution &&
+                            rowData.canstitution.shortName
+                              ? rowData.canstitution.shortName
+                              : [rowData.lastName, rowData.firstName].join(" ")
+                          }
                           id={`caregiver-${rowData.id}-${index}-${rowData.row}`}>
                           <Link
                             to={AppRoutes.CARE_GIVER_VIEW.replace(
@@ -493,9 +476,14 @@ export const CareInstitutionList = React.memo(
                             )}
                             target='_blank'
                             className='text-body'>
-                              {rowData.row === 0
-                              ?rowData.canstitution && rowData.canstitution.shortName ?rowData.canstitution.shortName : [rowData.lastName, rowData.firstName].join(" ") : null}
-                            {/* {[rowData.lastName, rowData.firstName].join(" ")} */}
+                            {rowData.row === 0
+                              ? rowData.canstitution &&
+                                rowData.canstitution.shortName
+                                ? rowData.canstitution.shortName
+                                : [rowData.lastName, rowData.firstName].join(
+                                    " "
+                                  )
+                              : null}
                           </Link>
                         </div>
                       );

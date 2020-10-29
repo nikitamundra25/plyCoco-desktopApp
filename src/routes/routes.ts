@@ -409,7 +409,7 @@ const routes = [
   {
     path: AppRoutes.APPOINTMENT,
     name: languageTranslation("APPOINTMENT"),
-    component: Appointment,
+    component: TempPage, // Appointment,
     exact: true,
   },
   {

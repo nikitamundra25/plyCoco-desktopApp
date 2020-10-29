@@ -118,7 +118,7 @@ const validateWorkingHours = (
   }
 };
 
-export const CaregiverForm = ({ selected,setSelectedCaregiver }: any) => {
+export const CaregiverForm = ({ selected,setSelectedCaregiver,handleupdateData }: any) => {
   const [tempState, setTempState] = useState(false);
   const [timeSlotError, setTimeSlotError] = useState<string>("");
   // store the previous entered value in state
@@ -139,6 +139,8 @@ export const CaregiverForm = ({ selected,setSelectedCaregiver }: any) => {
     }
   >(ADD_CAREGIVER_AVABILITY, {
     onCompleted({ addCareGiverAvability }) {
+      handleupdateData(addCareGiverAvability,"caregiver");
+      updateItemData(addCareGiverAvability)
       toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -161,7 +163,10 @@ export const CaregiverForm = ({ selected,setSelectedCaregiver }: any) => {
       careGiverAvabilityInput: any;
     }
   >(UPDATE_CAREGIVER_AVABILITY, {
-    onCompleted({ updateCareGiverAvability }) {},
+    onCompleted({ updateCareGiverAvability }) {
+      handleupdateData([updateCareGiverAvability],"caregiver");
+      updateItemData([updateCareGiverAvability])
+    },
   });
 
   // Mutation to delete caregiver
@@ -171,7 +176,10 @@ export const CaregiverForm = ({ selected,setSelectedCaregiver }: any) => {
     },
     { id: number[] }
   >(DELETE_CAREGIVER_AVABILITY, {
-    onCompleted({ deleteCareGiverAvability }: any) {},
+    onCompleted({ deleteCareGiverAvability }: any) {
+      setSelectedCaregiver([])
+      handleupdateData(deleteCareGiverAvability,"caregiver");
+    },
   });
 
    // To fetch caregivers last time data by id getCareGiverAvabilityLastTimeById
@@ -298,7 +306,29 @@ if (selected && selected.length) {
     ? true
     : false;
 }
-console.log("selectedselected",selected);
+
+const updateItemData = (itemData: any) => {
+  let temp: any = [] ;
+  selected.forEach(async (element: any, index: number) => {
+    const {
+      isWeekend = "",
+      item = undefined,
+      caregiver = {},
+    } = element ? element : {};
+    let data: any = 
+      {
+        isWeekend,
+        caregiver: {
+          ...caregiver,
+        },
+        item: itemData[index],
+      }
+    
+    temp.push(data)
+  });
+
+  setSelectedCaregiver(temp);
+};
 
 useEffect(() => {
 if(selected && selected.length){
@@ -689,8 +719,6 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
                 createdAt: createdAt ? createdAt : "",
               };
               careGiverAvabilityInput = [...careGiverAvabilityInput, temp];
-              console.log("temptemptemp", temp);
-
               if (appointmentId) {
                 await updateCaregiver({
                   variables: {
@@ -711,7 +739,6 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
               }
             });
             if (!appointmentId) {
-              console.log("careGiverAvabilityInput", careGiverAvabilityInput);
 
               await addCaregiverAvailability({
                 variables: {
@@ -724,14 +751,12 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
             }
           }
         } else {
-          console.log("commentcommentcommentcomment");
 
           setTimeSlotError(languageTranslation("WORKING_SHIFT_ERROR"));
           return;
         }
       }
     } catch (error) {
-      console.log("hereeeeeeeeee");
 
       const message = errorFormatter(error);
       if (!toast.isActive(toastId)) {

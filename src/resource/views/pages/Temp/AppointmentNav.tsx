@@ -288,7 +288,6 @@ const AppointmentNav: FunctionComponent<any> = ({
               </DropdownMenu>
             </ButtonDropdown>
           </div>
-          <Input placeholder={""} type='input' name='text' />
         </div>
       </div>
       <AttributeFilterModal

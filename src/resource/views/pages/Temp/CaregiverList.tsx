@@ -137,7 +137,7 @@ const SelectableCell = React.memo(
  *
  */
 export const CaregiverList = React.memo(
-  ({ caregiverSelected, filters }: any) => {
+  ({ caregiverSelected, filters,updatedCaregiverItem }: any) => {
     const [daysData, setDaysData] = useState(
       getDaysArrayByMonth(moment().month(), moment().year())
     );
@@ -197,6 +197,38 @@ export const CaregiverList = React.memo(
         getCaregiverData();
       }
     }, [filters]);
+
+
+      // Update data in list after add/update/delete operation
+      useEffect(() => {
+        let temp: any = [...caregivers];
+        updatedCaregiverItem.forEach((availability: any) => {
+          let index: number = temp.findIndex(
+            (caregiver: any) => caregiver.id === availability.userId
+          );
+  
+          if (temp[index]) {
+            const checkId = (obj: any) => obj.id === availability.id;
+            let existId = temp[index].caregiver_avabilities.findIndex(
+              checkId
+            );
+            if (existId > -1) {
+              if(availability.date){
+                // id exist so update data at particular index
+                temp[index].caregiver_avabilities[existId] = availability;
+              }else{
+                // delete if response doen't return date
+                temp[index].caregiver_avabilities[existId] = []
+              }
+             
+            } else {
+              temp[index].caregiver_avabilities.push(availability);
+            }
+          }
+        });
+  
+        setCaregiverData(temp);
+      }, [updatedCaregiverItem]);
     /**
      *
      * @param data

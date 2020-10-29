@@ -16,6 +16,8 @@ export const TempPage = () => {
   const [selectedCareinstitutionData, setSelectedCareinstitution] = useState<
     any
   >([]);
+  const [updatedCareinstItem, setUpdatedCareinstItem] = useState<any>([]);
+  const [updatedCaregiverItem, setUpdatedCaregiverItem] = useState<any>([]);
   const [filterObject, setFilterObject] = useState<any>({});
   const [qualifications, setQualifications] = useState<any[]>([]);
   const [careInstDeptList, setCareInstDeptList] = useState<any>({});
@@ -58,6 +60,18 @@ export const TempPage = () => {
     setSelectedCareinstitution(careInstData);
   };
 
+  /**
+   *
+   * @param data
+   */
+  const handleupdateData = (data:any,name:string) => {
+  if(name === "careinstitution"){
+    setUpdatedCareinstItem(data)
+  }else{
+    setUpdatedCaregiverItem(data)
+  }
+  };
+
   return (
     <div className="common-detail-page">
       <div className="common-detail-section">
@@ -77,13 +91,17 @@ export const TempPage = () => {
                   <CaregiverList
                     caregiverSelected={caregiverSelected}
                     filters={filterObject}
+                    updatedCaregiverItem={updatedCaregiverItem}
                   />
                 </div>
                 <div className="custom-appointment-calendar overflow-hidden">
                   <CareInstitutionList
                     careinstitutionSelected={careinstitutionSelected}
                     filters={filterObject}
+                    qualificationList={qualifications}
                     setCareInstDeptList={setCareInstDeptList}
+                    updatedCareinstItem={updatedCareinstItem}
+                    selected={selectedCareinstitutionData}
                   />
                 </div>
               </div>
@@ -97,6 +115,7 @@ export const TempPage = () => {
                   <CaregiverForm
                     selected={selectedCaregiverData}
                     setSelectedCaregiver={setSelectedCaregiver}
+                    handleupdateData={handleupdateData}
                   />
                 </Col>
                 <Col lg={"6"} className="pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0">
@@ -105,6 +124,9 @@ export const TempPage = () => {
                     qualificationList={qualifications}
                     departmentList={careInstDeptList}
                     setSelectedCareinstitution={setSelectedCareinstitution}
+                    handleupdateData={
+                      handleupdateData
+                    }
                   />
                 </Col>
               </Row>

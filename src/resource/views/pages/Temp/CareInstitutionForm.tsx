@@ -76,6 +76,7 @@ const CareinstitutionForm = ({
   qualificationList,
   departmentList,
   setSelectedCareinstitution,
+  handleupdateData,
 }: any) => {
   // Mutation to add careinstitution data
   const [
@@ -85,7 +86,11 @@ const CareinstitutionForm = ({
     { addCareInstitutionRequirement: [IAddCargiverAppointmentRes] },
     { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue[] }
   >(ADD_INSTITUTION_REQUIREMENT, {
-    onCompleted({ addCareInstitutionRequirement }) {},
+    onCompleted({ addCareInstitutionRequirement }) {
+      updateItemData(addCareInstitutionRequirement);
+      // call a function
+      handleupdateData(addCareInstitutionRequirement,"careinstitution");
+    },
   });
 
   // update Careinstitution Requirment
@@ -102,7 +107,10 @@ const CareinstitutionForm = ({
       careInstitutionRequirementInput: any;
     }
   >(UPDATE_INSTITUTION_REQUIREMENT, {
-    onCompleted({ updateCareInstitutionRequirement }) {},
+    onCompleted({ updateCareInstitutionRequirement }) {
+       updateItemData([updateCareInstitutionRequirement])
+      handleupdateData([updateCareInstitutionRequirement],"careinstitution");
+    },
   });
 
   // Mutation to delete careinstitution requirement
@@ -112,7 +120,10 @@ const CareinstitutionForm = ({
     },
     { id: number[] }
   >(DELETE_CAREINSTITUTION_REQUIREMENT, {
-    onCompleted({ deleteCareInstitutionRequirement }) {},
+    onCompleted({ deleteCareInstitutionRequirement }) {
+      setSelectedCareinstitution([]);
+      handleupdateData(deleteCareInstitutionRequirement,"careinstitution");
+    },
   });
 
   const [careinstitutionFieldValues, setCareinstitutionFieldValues] = useState<
@@ -121,6 +132,32 @@ const CareinstitutionForm = ({
   const [shiftOption, setshiftOption] = useState<
     IReactSelectTimeInterface[] | undefined
   >([]);
+
+  const updateItemData = (itemData: any) => {
+    let temp: any = [] ;
+    selected.forEach(async (element: any, index: number) => {
+      const {
+        isWeekend = "",
+        item = undefined,
+        canstitution = {},
+        isLeasing = "",
+      } = element ? element : {};
+      let data: any = 
+        {
+          isWeekend,
+          canstitution: {
+            ...canstitution,
+          },
+          isLeasing,
+          item: itemData[index],
+        }
+      
+      temp.push(data)
+    });
+
+    setSelectedCareinstitution(temp);
+  };
+
   /**
    *
    * @param index
@@ -242,7 +279,6 @@ const CareinstitutionForm = ({
           ];
           setshiftOption([]);
           if (appointmentId) {
-            console.log("stempstemp", stemp);
 
             await updateCareinstitutionRequirment({
               variables: {
@@ -263,11 +299,7 @@ const CareinstitutionForm = ({
           }
         });
         if (!appointmentId) {
-          console.log(
-            "careInstitutionRequirementInput",
-            careInstitutionRequirementInput
-          );
-
+  
           await addCareinstitutionRequirment({
             variables: {
               careInstitutionRequirementInput,
@@ -319,14 +351,13 @@ const CareinstitutionForm = ({
   // Useeffect to set shift options according to dept.
   useEffect(() => {
     let deptId = selectedDept ? selectedDept.value : "";
-    let timeData: IReactSelectTimeInterface | undefined = selectedShift;
-    let time = timeData && !timeData.data ? timeData.value.split("-") : "";
     let departmentData: any = {};
     const careInstitutionTimesOptions:
       | IReactSelectTimeInterface[]
       | undefined = [];
     let values = careinstitutionFieldValues;
 
+  
     let startTime: string = "";
     let endTime: string = "";
     const {
@@ -356,6 +387,13 @@ const CareinstitutionForm = ({
           });
         }
         setshiftOption(careInstitutionTimesOptions);
+        let quali: number[] = [];
+        if (values && values.qualificationId) {
+          values.qualificationId.map((key: any, index: number) => {
+            quali.push(key.value);
+          });
+        }
+        
         let temp: any[] = [
           {
             isWeekend,
@@ -367,14 +405,8 @@ const CareinstitutionForm = ({
               ...values,
               id: values && values.appointmentId ? values.appointmentId : "",
               department: selectedDept,
-              qualificationId:
-                item &&
-                item !== undefined &&
-                item.qualificationId &&
-                item.qualificationId.length
-                  ? item.qualificationId
-                  : values && values.qualificationId
-                  ? values.qualificationId
+              qualificationId: values && values.qualificationId
+                  ? quali
                   : [],
               address: departmentData ? departmentData.address : "",
               contactPerson: departmentData ? departmentData.contactPerson : "",
@@ -423,7 +455,12 @@ const CareinstitutionForm = ({
       canstitution = {},
       isLeasing = "",
     } = selected && selected.length ? selected[0] : {};
-
+    let quali: number[] = [];
+    if (values && values.qualificationId) {
+      values.qualificationId.map((key: any, index: number) => {
+        quali.push(key.value);
+      });
+    }
     let data: any[] = [
       {
         isWeekend,
@@ -433,6 +470,9 @@ const CareinstitutionForm = ({
         isLeasing,
         item: {
           ...values,
+          qualificationId: values && values.qualificationId
+                  ? quali
+                  : [],
           id: values && values.appointmentId ? values.appointmentId : "",
           shift: selectedShift,
           isLeasing: item && item.isLeasing ? item.isLeasing : false,
@@ -482,8 +522,8 @@ const CareinstitutionForm = ({
   }
   // To check appointment with leasing careInst or not
   showQualification = item && item[0] && item[0].isLeasing ? true : false;
-
-  const { canstitution } = careInstDetails;
+   
+  const { canstitution ,qualificationId: mainQuali = [] } = careInstDetails;
   const {
     name,
     comments,
@@ -496,7 +536,7 @@ const CareinstitutionForm = ({
     departmentOfferRemarks,
     contactPerson,
     address,
-    qualificationId,
+    qualificationId=[],
     endTime,
     startTime,
     date,
@@ -552,7 +592,24 @@ const CareinstitutionForm = ({
     qualificationfor = [item.qualificationForCharge];
   }
 
-  const { shortName = "" } = canstitution ? canstitution : {};
+  const { shortName = "", } = canstitution
+    ? canstitution
+    : {};
+    
+    let mainQualification =
+    qualificationId && qualificationId.length ? qualificationId : mainQuali && mainQuali.length  ? mainQuali : [];
+    
+  let qualiData: IReactSelectInterface[] = [];
+  if (
+    qualificationList &&
+    qualificationList.length &&
+    mainQualification &&
+    mainQualification.length
+  ) {
+    qualiData = qualificationList.filter(({ value }: any) =>
+      mainQualification.includes(value)
+    );
+  }
   /**
    *
    */
@@ -563,7 +620,7 @@ const CareinstitutionForm = ({
     date: date ? date : "",
     startTime: startTime ? startTime : "",
     endTime: endTime ? endTime : "",
-    qualificationId: qualificationId ? qualificationId : undefined,
+    qualificationId: qualiData ? qualiData : undefined,
     qualificationForCharge:
       qualificationfor && qualificationfor[0] ? qualificationfor[0] : undefined,
     address: address ? address : "",
@@ -646,8 +703,6 @@ const CareinstitutionForm = ({
             selectOption: IReactSelectInterface,
             name: string
           ) => {
-            console.log("im in handle select", selectOption);
-
             setFieldValue(name, selectOption);
             if (name === "department") {
               setCareinstitutionFieldValues(values);

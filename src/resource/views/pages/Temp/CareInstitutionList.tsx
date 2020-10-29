@@ -18,6 +18,7 @@ import {
   CareInstitutionQueries,
 } from "../../../../graphql/queries";
 import { getDaysArrayByMonth } from "../../../../helpers";
+import { IReactSelectInterface } from "../../../../interfaces";
 import Spinner, { MoreSpinner } from "../../components/Spinner";
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const [, , GET_DEPARTMENT_LIST, , , ,] = CareInstitutionQueries;
@@ -136,7 +137,14 @@ const SelectableCell = React.memo(
 );
 
 export const CareInstitutionList = React.memo(
-  ({ careinstitutionSelected, filters = {}, setCareInstDeptList }: any) => {
+  ({
+    careinstitutionSelected,
+    filters = {},
+    setCareInstDeptList,
+    updatedCareinstItem = [],
+    qualificationList,
+    selected,
+  }: any) => {
     const [daysData, setDaysData] = useState(
       getDaysArrayByMonth(moment().month(), moment().year())
     );
@@ -167,7 +175,6 @@ export const CareInstitutionList = React.memo(
     let gte: string = moment().startOf("month").format(dbAcceptableFormat);
     let lte: string = moment().endOf("month").format(dbAcceptableFormat);
     const getCareinstitutionList = () => {
-      console.log("careInstitutionId", filters);
       delete filters.caregiverId;
       allCaregivers = [];
       setCaregiverData(allCaregivers);
@@ -207,6 +214,41 @@ export const CareInstitutionList = React.memo(
     useEffect(() => {
       setCareInstDeptList(departmentList);
     }, [departmentList]);
+
+
+
+    // Update data in list after add/update/delete operation
+    useEffect(() => {
+      let temp: any = [...caregivers];
+      updatedCareinstItem.forEach((requirement: any) => {
+        let index: number = temp.findIndex(
+          (careInst: any) => parseInt(careInst.id) === parseInt(requirement.userId)
+        );
+
+        if (temp[index]) {
+          const checkId = (obj: any) => obj.id === requirement.id;
+          let existId = temp[index].careinstitution_requirements.findIndex(
+            checkId
+          );
+            
+          if (existId > -1) {
+            if(requirement.date){
+              // id exist so update data at particular index
+              temp[index].careinstitution_requirements[existId] = requirement;
+            }else{
+              // delete if response doen't return date
+              temp[index].careinstitution_requirements[existId] = []
+            }
+          } else {
+            // id doen't exist so add data in array
+            temp[index].careinstitution_requirements.push(requirement);
+          }
+        }
+      });
+  
+      setCaregiverData(temp);
+    }, [updatedCareinstItem]);
+
     /**
      *
      * @param data
@@ -256,6 +298,7 @@ export const CareInstitutionList = React.memo(
       setCaregiverData(newData);
       setIsLoading(false);
     };
+
     useEffect(() => {
       if (!loadingCaregiver) {
         setCaregivers();
@@ -301,10 +344,6 @@ export const CareInstitutionList = React.memo(
             return prev;
           }
           if (prev && prev.getUserByQualifications) {
-            console.log(
-              prev.getUserByQualifications.result,
-              fetchMoreResult.getUserByQualifications.result
-            );
             const newData = formatCaregivers(
               fetchMoreResult.getUserByQualifications.result
             );
@@ -379,18 +418,19 @@ export const CareInstitutionList = React.memo(
       <>
         <SelectableGroup
           allowClickWithoutSelected
-          className='custom-row-selector new-base-table'
-          clickClassName='tick'
+          className="custom-row-selector new-base-table"
+          clickClassName="tick"
           resetOnStart={true}
           allowCtrlClick={false}
           onSelectionFinish={onSelectFinish}
-          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
+          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
+        >
           <BaseTable
             fixed
             data={caregivers}
             width={element ? element.clientWidth - 40 : 800}
             height={element ? window.innerHeight / 2 - 40 : 300}
-            rowKey='key'
+            rowKey="key"
             rowHeight={30}
             overlayRenderer={() =>
               loadingCaregiver || isLoading ? (
@@ -410,19 +450,20 @@ export const CareInstitutionList = React.memo(
                     <span
                       className={`custom-appointment-col  ${
                         d === "careinstitution" ? "name-col" : ""
-                      }`}>
+                      }`}
+                    >
                       {d}
                       {d === "careinstitution" ? (
                         <>
                           <span>
-                            <i className='icon-options-vertical' />
+                            <i className="icon-options-vertical" />
                           </span>
                         </>
                       ) : null}
                     </span>
                   </React.Fragment>
                 ) : (
-                  <span key={d.date} className='custom-appointment-col  '>
+                  <span key={d.date} className="custom-appointment-col  ">
                     {d.day}
                     <br />
                     {d.date}
@@ -432,19 +473,21 @@ export const CareInstitutionList = React.memo(
             }
             rowRenderer={({ cells, rowData }) => (
               <div
-                className='d-flex frozen-row'
+                className="d-flex frozen-row"
                 title={
                   rowData.canstitution && rowData.canstitution.shortName
                     ? rowData.canstitution.shortName
                     : [rowData.lastName, rowData.firstName].join(" ")
-                }>
+                }
+              >
                 {cells}
               </div>
             )}
             onEndReachedThreshold={300}
             onEndReached={handleEndReached}
-            headerClassName='custom-appointment-row'
-            rowClassName='custom-appointment-row'>
+            headerClassName="custom-appointment-row"
+            rowClassName="custom-appointment-row"
+          >
             {columns.map((d: any, index: number) => (
               <Column
                 key={`col0-${index}-${
@@ -461,21 +504,23 @@ export const CareInstitutionList = React.memo(
                       return (
                         <div
                           key={rowIndex}
-                          className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
+                          className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
                           title={
                             rowData.canstitution &&
                             rowData.canstitution.shortName
                               ? rowData.canstitution.shortName
                               : [rowData.lastName, rowData.firstName].join(" ")
                           }
-                          id={`caregiver-${rowData.id}-${index}-${rowData.row}`}>
+                          id={`caregiver-${rowData.id}-${index}-${rowData.row}`}
+                        >
                           <Link
                             to={AppRoutes.CARE_GIVER_VIEW.replace(
                               ":id",
                               rowData.id
                             )}
-                            target='_blank'
-                            className='text-body'>
+                            target="_blank"
+                            className="text-body"
+                          >
                             {rowData.row === 0
                               ? rowData.canstitution &&
                                 rowData.canstitution.shortName
@@ -493,25 +538,28 @@ export const CareInstitutionList = React.memo(
                       return (
                         <span
                           key={rowIndex}
-                          className='custom-appointment-col s-col text-center cursor-pointer'>
-                          <i className='fa fa-star-o' />
+                          className="custom-appointment-col s-col text-center cursor-pointer"
+                        >
+                          <i className="fa fa-star-o" />
                         </span>
                       );
                     case "U":
                       return (
                         <span
                           key={rowIndex}
-                          className='custom-appointment-col u-col text-center cursor-pointer'>
-                          <i className='fa fa-star-o' />
+                          className="custom-appointment-col u-col text-center cursor-pointer"
+                        >
+                          <i className="fa fa-star-o" />
                         </span>
                       );
                     case "V":
                       return (
                         <span
                           key={rowIndex}
-                          className='custom-appointment-col v-col text-center cursor-pointer'
-                          onClick={() => onAddNewRow(rowIndex)}>
-                          <i className='fa fa-arrow-down' />
+                          className="custom-appointment-col v-col text-center cursor-pointer"
+                          onClick={() => onAddNewRow(rowIndex)}
+                        >
+                          <i className="fa fa-arrow-down" />
                         </span>
                       );
                     default:

@@ -45,6 +45,7 @@ import {
   ICareinstitutionFormValue,
   IQualifications,
   IReactSelectInterface,
+  IReactSelectTimeInterface,
 } from "../../../../interfaces";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import {
@@ -54,16 +55,27 @@ import {
 import { CareInstitutionValidationSchema } from "../../../validations/AppointmentsFormValidationSchema";
 import { toast } from "react-toastify";
 
-let toastId: any = null
-const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any) => {
-  const [careinstitutionFieldValues, setCareinstitutionFieldValues] = useState<any>();
-
+let toastId: any = null;
+let selectedDept: any = {};
+let selectedShift: any = undefined
+const CareinstitutionForm = ({
+  selected,
+  qualificationList,
+  departmentList,
+  setSelectedCareinstitution,
+}: any) => {
+  const [careinstitutionFieldValues, setCareinstitutionFieldValues] = useState<
+    any
+  >();
+  const [shiftOption, setshiftOption] = useState<
+    IReactSelectTimeInterface[] | undefined
+  >([]);
   /**
-     *
-     * @param index
-     */
+   *
+   * @param index
+   */
   // submit careinstitution form
- const handleSubmitCareinstitutionForm = async (
+  const handleSubmitCareinstitutionForm = async (
     values: ICareinstitutionFormValue,
     { setSubmitting }: FormikHelpers<ICareinstitutionFormValue>
   ) => {
@@ -98,44 +110,43 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
 
     /*  Time slot condition for f,s, n
      */
-    let fvar: string = '';
-    let svar: string = '';
-    let nvar: string = '';
+    let fvar: string = "";
+    let svar: string = "";
+    let nvar: string = "";
     let difference: string = timeDiffernce(startTime, endTime);
     if (parseInt(startTime) >= 0 && parseInt(startTime) < 12) {
       if (parseInt(difference) > 8) {
         fvar = `f${parseInt(difference)}`;
       } else {
-        fvar = 'f';
+        fvar = "f";
       }
     } else if (parseInt(startTime) >= 12 && parseInt(startTime) < 18) {
       if (parseInt(difference) > 8) {
         svar = `s${parseInt(difference)}`;
       } else {
-        svar = 's';
+        svar = "s";
       }
     } else if (parseInt(startTime) >= 18) {
       if (parseInt(difference) > 8) {
         nvar = `n${parseInt(difference)}`;
       } else {
-        nvar = 'n';
+        nvar = "n";
       }
     }
     try {
       if (selected && selected.length) {
         // To add mulitple availabilty
-      
+
         let careInstitutionRequirementInput: any[] = [];
         selected.forEach(async (element: any) => {
-          const { item = '', canstitution = {} } = element
-            ? element
-            : {};
-          const { attributes = [], street = '', city = '' } = canstitution
+          const { item = "", canstitution = {} } = element ? element : {};
+          const { attributes = [], street = "", city = "" } = canstitution
             ? canstitution
             : {};
 
           let stemp: ICareinstitutionFormSubmitValue = {
-            userId: canstitution && canstitution.id ? parseInt(canstitution.id) : 0,
+            userId:
+              canstitution && canstitution.id ? parseInt(canstitution.id) : 0,
             date: item && item.date ? item.date : "",
             name: Name ? Name : name,
             startTime,
@@ -152,11 +163,11 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
 
             address: department
               ? address
-              : [street, city].filter(Boolean).join(', '),
+              : [street, city].filter(Boolean).join(", "),
             contactPerson,
             departmentOfferRemarks: departmentOfferRemarks
               ? departmentOfferRemarks
-              : '',
+              : "",
             departmentBookingRemarks,
             departmentRemarks,
             isWorkingProof,
@@ -166,22 +177,22 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
             f: fvar,
             s: svar,
             n: nvar,
-            status: status ? status : 'default',
+            status: status ? status : "default",
             isLeasing:
               attributes && attributes.length
                 ? attributes.includes(CareInstTIMyoCYAttrId)
                 : false,
             createdBy,
-            createdAt: createdAt ? createdAt : '',
+            createdAt: createdAt ? createdAt : "",
           };
           careInstitutionRequirementInput = [
             ...careInstitutionRequirementInput,
             stemp,
           ];
-
+          setshiftOption([]);
           if (appointmentId) {
-            console.log("stempstemp",stemp);
-            
+            console.log("stempstemp", stemp);
+
             // await updateCareinstitutionRequirment({
             //   variables: {
             //     id: parseInt(appointmentId),
@@ -194,14 +205,17 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
                 languageTranslation(
-                  'CARE_INSTITUTION_REQUIREMENT_UPDATE_SUCCESS_MSG'
+                  "CARE_INSTITUTION_REQUIREMENT_UPDATE_SUCCESS_MSG"
                 )
               );
             }
-          } 
+          }
         });
         if (!appointmentId) {
-          console.log("careInstitutionRequirementInput",careInstitutionRequirementInput);
+          console.log(
+            "careInstitutionRequirementInput",
+            careInstitutionRequirementInput
+          );
 
           // await addCareinstitutionRequirment({
           //   variables: {
@@ -212,7 +226,7 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation(
-                'CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG'
+                "CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG"
               )
             );
           }
@@ -227,6 +241,154 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
     setSubmitting(false);
   };
 
+  // Useeffect to set shift options according to dept.
+  useEffect(() => {
+    let deptId = selectedDept ? selectedDept.value : "";
+    let timeData: IReactSelectTimeInterface | undefined = selectedShift;
+    let time = timeData && !timeData.data ? timeData.value.split("-") : "";
+    let departmentData: any = {};
+    const careInstitutionTimesOptions:
+      | IReactSelectTimeInterface[]
+      | undefined = [];
+    let values = careinstitutionFieldValues;
+
+    let startTime: string = "";
+    let endTime: string = "";
+    const {
+      isWeekend = "",
+      item = undefined,
+      canstitution = {},
+      isLeasing = "",
+    } = selected && selected.length && selected[0] ? selected[0] : {};
+
+    if (deptId && (careinstitutionFieldValues || !(item && item.id))) {
+      if (departmentList && departmentList.getDivision.length) {
+        const { getDivision } = departmentList;
+        departmentData = getDivision.filter(
+          (dept: any) => dept.id === deptId
+        )[0];
+        if (departmentData && departmentData.times) {
+          startTime = departmentData.times[0]
+            ? departmentData.times[0].begin
+            : "";
+          endTime = departmentData.times[0] ? departmentData.times[0].end : "";
+          departmentData.times.map((list: any) => {
+            return careInstitutionTimesOptions.push({
+              label: `${list.begin} - ${list.end} `,
+              value: `${list.begin} - ${list.end} `,
+              data: list,
+            });
+          });
+        }
+        setshiftOption(careInstitutionTimesOptions);
+        let temp: any[] = [
+          {
+            isWeekend,
+            canstitution: {
+              ...canstitution,
+            },
+            isLeasing,
+            item: {
+              ...values,
+              id: values && values.appointmentId ? values.appointmentId : "",
+              department: selectedDept,
+              qualificationId:
+                item &&
+                item !== undefined &&
+                item.qualificationId &&
+                item.qualificationId.length
+                  ? item.qualificationId
+                  : values && values.qualificationId
+                  ? values.qualificationId
+                  : [],
+              address: departmentData ? departmentData.address : "",
+              contactPerson: departmentData ? departmentData.contactPerson : "",
+              departmentOfferRemarks: departmentData
+                ? departmentData.commentsOffer
+                : "",
+              departmentRemarks: departmentData
+                ? departmentData.commentsVisibleInternally
+                : "",
+              departmentBookingRemarks: departmentData
+                ? departmentData.commentsCareGiver
+                : "",
+              shift:
+                careInstitutionTimesOptions &&
+                careInstitutionTimesOptions.length
+                  ? careInstitutionTimesOptions[0]
+                  : values
+                  ? values.shift
+                  : "",
+              startTime: startTime ? startTime : values ? values.startTime : "",
+              endTime: endTime ? endTime : values ? values.endTime : "",
+              isLeasing: item && item.isLeasing ? item.isLeasing : false,
+            },
+          },
+        ];
+
+        if (selected && selected.length) {
+          let data = [...selected];
+          data[0] = temp[0];
+          setSelectedCareinstitution(data);
+        } else {
+          setSelectedCareinstitution(temp);
+        }
+      }
+    }
+  }, [selectedDept]);
+
+
+  // Set begin and end time according to shift selected
+    useEffect(() => {
+      let timeData: IReactSelectTimeInterface | undefined = selectedShift;
+      let values = careinstitutionFieldValues;
+      let time = timeData && !timeData.data ? timeData.value.split("-") : "";
+      const {
+        isWeekend = "",
+        item = undefined,
+        canstitution = {},
+        isLeasing = "",
+      } =
+        selected && selected.length
+          ? selected[0]
+          : {};
+  
+      let data: any[] = [
+        {
+          isWeekend,
+          canstitution: {
+            ...canstitution,
+          },
+          isLeasing,
+          item: {
+            ...values,
+            id: values && values.appointmentId ? values.appointmentId : "",
+            shift: selectedShift,
+            isLeasing: item && item.isLeasing ? item.isLeasing : false,
+            startTime: timeData
+              ? timeData.data && timeData.data.begin
+                ? timeData.data.begin
+                : time[0]
+              : "",
+            endTime: timeData
+              ? timeData.data && timeData.data.begin
+                ? timeData.data.end
+                : time[1]
+              : "",
+          },
+        },
+      ];
+  
+      if (selectedShift && selectedShift.value) {
+        if (selected && selected.length) {
+          let temp = [...selected];
+          temp[0] = data[0];
+          setSelectedCareinstitution(temp);
+        } else {
+          setSelectedCareinstitution(data);
+        }
+      }
+    }, [selectedShift]);
 
   let isFutureDate = false,
     item: any = {},
@@ -242,7 +404,7 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
     isFutureDate = moment(item.date, "YYYY/MM/DD").isAfter();
     appointmentId = item.id || "";
   }
- 
+
   // To check appointment with leasing careInst or not
   if (item && item.length) {
     isLeasingAppointment = item.isLeasing ? true : false;
@@ -275,20 +437,25 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
   } = item;
   let departmentData: any = item ? item.department : undefined;
 
- // Options to show department data
- let careInstitutionDepartment: IReactSelectInterface[] = [];
- if (departmentList && departmentList.getDivision && departmentList.getDivision.length) {
-   const { getDivision } = departmentList;
-   careInstitutionDepartment = getDivision.map((dept: any) => ({
-     label: dept.name,
-     value: dept && dept.id ? dept.id.toString() : "",
-   }));
- }
+  // Options to show department data
+  let careInstitutionDepartment: IReactSelectInterface[] = [];
+  if (
+    departmentList &&
+    departmentList.getDivision &&
+    departmentList.getDivision.length
+  ) {
+    const { getDivision } = departmentList;
+    careInstitutionDepartment = getDivision.map((dept: any) => ({
+      label: dept.name,
+      value: dept && dept.id ? dept.id.toString() : "",
+    }));
+  }
 
   if (
     careInstitutionDepartment &&
     careInstitutionDepartment.length &&
-    selected && selected.length &&
+    selected &&
+    selected.length &&
     item &&
     item.divisionId
   ) {
@@ -318,7 +485,7 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
   /**
    *
    */
-  
+
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
     appointmentId: item ? item.id : "",
     name: name ? name : shortName,
@@ -342,9 +509,7 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
     bookingRemarks: bookingRemarks ? bookingRemarks : "",
     shift: shift ? shift : undefined,
     department:
-      departmentData && departmentData[0]
-        ? departmentData[0]
-        : departmentData,
+      departmentData && departmentData[0] ? departmentData[0] : departmentData,
     comments: comments ? comments : "",
     status: status ? status : "",
     // careInstitutionDepartment,
@@ -354,9 +519,9 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
   };
 
   let activeDateCareinstitution =
-  selected && selected.length
-    ? selected.map((cell: any) => cell.item.date)
-    : [];
+    selected && selected.length
+      ? selected.map((cell: any) => cell.item.date)
+      : [];
   /**
    *
    */
@@ -414,24 +579,23 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
 
             setFieldValue(name, selectOption);
             if (name === "department") {
-
-              // props.setcareInstituionDept(selectOption, values);
+              setCareinstitutionFieldValues(values);
+              selectedDept = selectOption;
             }
             if (name === "shift") {
+              setCareinstitutionFieldValues(values);
+              selectedShift = selectOption
               // props.setcareInstituionShift(selectOption, values);
             }
           };
 
           const DepartmentError: any = errors.department;
           const qualificationError: any = errors.qualificationId;
-          // const shiftOptions =
-          //   careInstitutionTimesOptions && careInstitutionTimesOptions.length
-          //     ? careInstitutionTimesOptions
-          //     : ShiftTime;
-          const shiftOptions = ShiftTime;
+          const shiftOptions: any =
+            shiftOption && shiftOption.length ? shiftOption : ShiftTime;
           let isCorrespondingAppointment: boolean = false;
           // if (
-          //   selectedCellsCareinstitution &&
+          //   selected &&
           //   selectedCellsCareinstitution.length &&
           //   selectedCellsCareinstitution[0] &&
           //   selectedCellsCareinstitution[0].item &&
@@ -565,25 +729,25 @@ const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any
                             </Col>
                             <Col sm="8">
                               <div className="text-value one-line-text">
-                              {activeDateCareinstitution
-                                ? activeDateCareinstitution
-                                    .map(
-                                      (
-                                        dateString: string | undefined,
-                                        index: number
-                                      ) =>
-                                        dateString
-                                          ? moment(dateString).format(
-                                              index !==
-                                                activeDateCareinstitution.length -
-                                                  1
-                                                ? 'dd DD'
-                                                : `${appointmentDayFormat} ${defaultDateFormat}`
-                                            )
-                                          : null
-                                    )
-                                    .join(', ')
-                                : null}
+                                {activeDateCareinstitution
+                                  ? activeDateCareinstitution
+                                      .map(
+                                        (
+                                          dateString: string | undefined,
+                                          index: number
+                                        ) =>
+                                          dateString
+                                            ? moment(dateString).format(
+                                                index !==
+                                                  activeDateCareinstitution.length -
+                                                    1
+                                                  ? "dd DD"
+                                                  : `${appointmentDayFormat} ${defaultDateFormat}`
+                                              )
+                                            : null
+                                      )
+                                      .join(", ")
+                                  : null}
                                 {/* {item.date
                                   ? moment(item.date).format(
                                       `${appointmentDayFormat} ${defaultDateFormat}`

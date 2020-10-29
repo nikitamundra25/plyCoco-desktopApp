@@ -99,7 +99,7 @@ export const TempPage = () => {
                 </Col>
                 <Col lg={"6"} className='pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
                   <CareinstitutionForm selected={selectedCareinstitutionData} qualificationList={qualifications}
-                  departmentList={careInstDeptList} />
+                  departmentList={careInstDeptList} setSelectedCareinstitution={setSelectedCareinstitution} />
                 </Col>
               </Row>
             </div>

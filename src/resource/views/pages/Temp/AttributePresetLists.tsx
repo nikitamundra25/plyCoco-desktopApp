@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { languageTranslation } from "../../../../helpers";
-import { UncontrolledTooltip, Spinner } from "reactstrap";
+import { UncontrolledTooltip } from "reactstrap";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { AttributeFilterQueries } from "../../../../graphql/queries";
+import Spinner from "../../components/Spinner";
 const [_, GET_PRESETS_LIST] = AttributeFilterQueries;
 export const AttributePresetLists = () => {
   const [selectedPreset, setSelectedPreset] = useState();
@@ -28,7 +29,7 @@ export const AttributePresetLists = () => {
       </div>
       <div className='common-list-body custom-scrollbar'>
         {loading ? (
-          <Spinner color='warning' />
+          <Spinner />
         ) : (
           <ul className='common-list list-unstyled mb-0'>
             {presets.map((item: any, index: number) => (

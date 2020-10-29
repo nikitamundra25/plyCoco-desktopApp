@@ -12,9 +12,11 @@ import {
   AppRoutes,
   dbAcceptableFormat,
 } from "../../../../config";
-import { AppointmentsQueries } from "../../../../graphql/queries";
+import { AppointmentsQueries, CareInstitutionQueries } from "../../../../graphql/queries";
 import { getDaysArrayByMonth } from "../../../../helpers";
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
+const [, , GET_DEPARTMENT_LIST, , , ,] = CareInstitutionQueries;
+
 const staticHeader = ["careinstitution", "H", "S", "U", "V"];
 let allCaregivers: any[] = [];
 
@@ -128,7 +130,7 @@ const SelectableCell = React.memo(
   )
 );
 
-export const CareInstitutionList = React.memo(({careinstitutionSelected}:any) => {
+export const CareInstitutionList = React.memo(({careinstitutionSelected,setCareInstDeptList}:any) => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
   );
@@ -149,6 +151,12 @@ export const CareInstitutionList = React.memo(({careinstitutionSelected}:any) =>
     fetchPolicy: "no-cache",
   });
 
+    // To get department list
+    const [
+      getDepartmentList,
+      { data: departmentList, loading: deptLoading },
+    ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
+
   // Default value is start & end of month
   let gte: string = moment().startOf("month").format(dbAcceptableFormat);
   let lte: string = moment().endOf("month").format(dbAcceptableFormat);
@@ -168,6 +176,12 @@ export const CareInstitutionList = React.memo(({careinstitutionSelected}:any) =>
       },
     });
   }, []);
+
+  // Set department list according to careInstitution selected
+useEffect(()=>{
+  setCareInstDeptList(departmentList)
+},[departmentList])
+  
   /**
    *
    * @param data
@@ -231,9 +245,9 @@ export const CareInstitutionList = React.memo(({careinstitutionSelected}:any) =>
     const newCaregivers = Object.assign([], allCaregivers);
     newCaregivers.splice(index + 1, 0, {
       ...allCaregivers[index],
-      firstName: "",
-      lastName: "",
       key: allCaregivers[index].key + allCaregivers.length,
+      careinstitution_requirements: [],
+      row: allCaregivers[index].row + 1
     });
     allCaregivers = newCaregivers;
     setCaregiverData(newCaregivers);
@@ -304,10 +318,27 @@ export const CareInstitutionList = React.memo(({careinstitutionSelected}:any) =>
    * @param selected
    */
   const onSelectFinish = (selected: any) => {
-    console.log("selectedselected",selected);
-    
-    if (selected[0]) {
-      careinstitutionSelected(selected[0].props);
+    if (selected && selected.length ) {
+      let data:any = []
+      selected.map((key:any)=>{
+        data.push(key.props)
+      })
+      careinstitutionSelected(data);
+      
+      let userId: string =
+      selected && selected.length &&
+      selected[0].props.canstitution && selected[0].props.canstitution.id
+        ?  selected[0].props.canstitution.id 
+        : "";
+        
+    if (userId) {
+      getDepartmentList({
+        variables: {
+          userId: parseInt(userId),
+          locked: false,
+        },
+      });
+    }
     }
   };
   /**

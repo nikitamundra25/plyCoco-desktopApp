@@ -444,14 +444,12 @@ class CareinstitutionFormView extends React.PureComponent<any, any> {
 
     let dateCondition: any;
     let dateData: any;
-    console.log('careInstitutiondateString', careInstitutiondateString);
 
     let activeDateCareinstitution: any = !multipleRequirement
       ? [careInstitutiondateString]
       : selectedCellsCareinstitution
       ? selectedCellsCareinstitution.map((cell: any) => cell.dateString)
       : [];
-    console.log('activeDateCareinstitution', activeDateCareinstitution);
     if (
       activeDateCareinstitution &&
       activeDateCareinstitution.length &&

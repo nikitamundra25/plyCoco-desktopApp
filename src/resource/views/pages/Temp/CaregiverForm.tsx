@@ -614,8 +614,6 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
         ? true
         : false;
     try {
-      console.log("nightAllowance", nightAllowance);
-
       // To ignore availabilities in case of block appointment
       if (
         workingHoursFromErrMsg === "" &&
@@ -629,7 +627,7 @@ let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
             let careGiverAvabilityInput: any[] = [];
             // To add mulitple availabilty
             selected.forEach(async (element: any) => {
-              const { date = "", caregiver = "", item = "" } = element
+              const {  caregiver = "", item = "" } = element
                 ? element
                 : {};
               let temp: any = {

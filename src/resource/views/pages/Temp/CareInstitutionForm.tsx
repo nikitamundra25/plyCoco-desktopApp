@@ -4,10 +4,12 @@ import classnames from "classnames";
 import {
   dateDiffernceValidator,
   dateValidatorNorm,
+  errorFormatter,
   germanNumberFormat,
   languageTranslation,
+  timeDiffernce,
 } from "../../../../helpers";
-import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import {
   FormGroup,
   Label,
@@ -22,12 +24,13 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from 'reactstrap';
+} from "reactstrap";
 import Select from "react-select";
 import { FormikProps, Field, FormikHelpers, Formik, Form } from "formik";
 import {
   AppConfig,
   appointmentDayFormat,
+  CareInstTIMyoCYAttrId,
   DateMask,
   defaultDateFormat,
   defaultDateTimeFormatForDashboard,
@@ -36,109 +39,216 @@ import {
   TimeMask,
 } from "../../../../config";
 import MaskedInput from "react-text-mask";
-import { ICaregiverFormValue, ICareinstitutionFormValue, IQualifications, IReactSelectInterface } from "../../../../interfaces";
+import {
+  ICaregiverFormValue,
+  ICareinstitutionFormSubmitValue,
+  ICareinstitutionFormValue,
+  IQualifications,
+  IReactSelectInterface,
+} from "../../../../interfaces";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { DocumentQueries, GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
-import Loader from "../../containers/Loader/Loader";
+import {
+  DocumentQueries,
+  GET_QUALIFICATION_ATTRIBUTE,
+} from "../../../../graphql/queries";
 import { CareInstitutionValidationSchema } from "../../../validations/AppointmentsFormValidationSchema";
+import { toast } from "react-toastify";
 
-const validateWorkingHours = (
-  type: string,
-  startDateTime: any,
-  endDateTime: any
-) => {
-  const current = moment().format(defaultDateFormat);
-  startDateTime = moment(startDateTime).format(defaultDateFormat);
-  endDateTime = moment(endDateTime).format(defaultDateFormat);
-  let validate: boolean;
-  let validDateData: any;
-  validate = dateDiffernceValidator(startDateTime, current, endDateTime, name);
-  validDateData = dateValidatorNorm(endDateTime);
+let toastId: any = null
+const CareinstitutionForm = ({ selected, qualificationList,departmentList }: any) => {
+  const [careinstitutionFieldValues, setCareinstitutionFieldValues] = useState<any>();
 
-  switch (type) {
-    case "workingHoursFromDate":
-      if (!validate) {
-        return languageTranslation("DATE_VALIDATION_MESSAGE");
-      }
+  /**
+     *
+     * @param index
+     */
+  // submit careinstitution form
+ const handleSubmitCareinstitutionForm = async (
+    values: ICareinstitutionFormValue,
+    { setSubmitting }: FormikHelpers<ICareinstitutionFormValue>
+  ) => {
+    const {
+      appointmentId,
+      name: Name,
+      endTime,
+      startTime,
+      qualificationId,
+      qualificationForCharge,
+      department,
+      address,
+      contactPerson,
+      departmentOfferRemarks,
+      offerRemarks,
+      bookingRemarks,
+      isWorkingProof,
+      departmentBookingRemarks,
+      departmentRemarks,
+      comments,
+      status,
+      createdBy,
+      createdAt,
+    } = values;
 
-      if (!validDateData.isValid) {
-        return validDateData.message;
-      }
-      return null;
-    case "workingHoursToDate":
-      if (!validate) {
-        return languageTranslation("DATE_VALIDATION_MESSAGE");
-      }
-      if (!validDateData.isValid) {
-        return validDateData.message;
-      }
-      return null;
-    case "breakFromDate":
-      if (!validate) {
-        return languageTranslation("DATE_VALIDATION_MESSAGE");
-      }
-      if (!validDateData.isValid) {
-        return validDateData.message;
-      }
-      return null;
-    case "breakToDate":
-      if (!validate) {
-        return languageTranslation("DATE_VALIDATION_MESSAGE");
-      }
-      if (!validDateData.isValid) {
-        return validDateData.message;
-      }
-      return null;
-    default:
-      return null;
-  }
-};
-
- const CareinstitutionForm = ({ selected }: any) => {
-
-  // To fetch qualification attributes list
-  const { data } = useQuery<IQualifications>(GET_QUALIFICATION_ATTRIBUTE);
-  let qualificationList: IReactSelectInterface[] = [];
-  if (data && data.getQualifications) {
-    const { getQualifications = [] } = data ? data : {};
-    if (getQualifications && getQualifications.length) {
-      qualificationList = getQualifications.map((quali: any) => ({
-        label: quali.name,
-        value: quali.id,
-      }));
+    let quali: number[] = [];
+    if (qualificationId) {
+      qualificationId.map((key: any, index: number) => {
+        quali.push(parseInt(key.value));
+      });
     }
-  }
-  
+
+    /*  Time slot condition for f,s, n
+     */
+    let fvar: string = '';
+    let svar: string = '';
+    let nvar: string = '';
+    let difference: string = timeDiffernce(startTime, endTime);
+    if (parseInt(startTime) >= 0 && parseInt(startTime) < 12) {
+      if (parseInt(difference) > 8) {
+        fvar = `f${parseInt(difference)}`;
+      } else {
+        fvar = 'f';
+      }
+    } else if (parseInt(startTime) >= 12 && parseInt(startTime) < 18) {
+      if (parseInt(difference) > 8) {
+        svar = `s${parseInt(difference)}`;
+      } else {
+        svar = 's';
+      }
+    } else if (parseInt(startTime) >= 18) {
+      if (parseInt(difference) > 8) {
+        nvar = `n${parseInt(difference)}`;
+      } else {
+        nvar = 'n';
+      }
+    }
+    try {
+      if (selected && selected.length) {
+        // To add mulitple availabilty
+      
+        let careInstitutionRequirementInput: any[] = [];
+        selected.forEach(async (element: any) => {
+          const { item = '', canstitution = {} } = element
+            ? element
+            : {};
+          const { attributes = [], street = '', city = '' } = canstitution
+            ? canstitution
+            : {};
+
+          let stemp: ICareinstitutionFormSubmitValue = {
+            userId: canstitution && canstitution.id ? parseInt(canstitution.id) : 0,
+            date: item && item.date ? item.date : "",
+            name: Name ? Name : name,
+            startTime,
+            endTime,
+            divisionId:
+              department && department.value
+                ? parseInt(department.value)
+                : null,
+            qualificationId: quali,
+            qualificationForCharge:
+              qualificationForCharge && qualificationForCharge.value
+                ? parseInt(qualificationForCharge.value)
+                : null,
+
+            address: department
+              ? address
+              : [street, city].filter(Boolean).join(', '),
+            contactPerson,
+            departmentOfferRemarks: departmentOfferRemarks
+              ? departmentOfferRemarks
+              : '',
+            departmentBookingRemarks,
+            departmentRemarks,
+            isWorkingProof,
+            offerRemarks,
+            bookingRemarks,
+            comments,
+            f: fvar,
+            s: svar,
+            n: nvar,
+            status: status ? status : 'default',
+            isLeasing:
+              attributes && attributes.length
+                ? attributes.includes(CareInstTIMyoCYAttrId)
+                : false,
+            createdBy,
+            createdAt: createdAt ? createdAt : '',
+          };
+          careInstitutionRequirementInput = [
+            ...careInstitutionRequirementInput,
+            stemp,
+          ];
+
+          if (appointmentId) {
+            console.log("stempstemp",stemp);
+            
+            // await updateCareinstitutionRequirment({
+            //   variables: {
+            //     id: parseInt(appointmentId),
+            //     careInstitutionRequirementInput: stemp,
+            //   },
+            // });
+            // this.setState({
+            //   savingBoth: false,
+            // });
+            if (!toast.isActive(toastId)) {
+              toastId = toast.success(
+                languageTranslation(
+                  'CARE_INSTITUTION_REQUIREMENT_UPDATE_SUCCESS_MSG'
+                )
+              );
+            }
+          } 
+        });
+        if (!appointmentId) {
+          console.log("careInstitutionRequirementInput",careInstitutionRequirementInput);
+
+          // await addCareinstitutionRequirment({
+          //   variables: {
+          //     careInstitutionRequirementInput,
+          //   },
+          // });
+          // setMultipleRequirement(false);
+          if (!toast.isActive(toastId)) {
+            toastId = toast.success(
+              languageTranslation(
+                'CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG'
+              )
+            );
+          }
+        }
+      }
+    } catch (error) {
+      const message = errorFormatter(error);
+      if (!toast.isActive(toastId)) {
+        toastId = toast.error(message);
+      }
+    }
+    setSubmitting(false);
+  };
+
 
   let isFutureDate = false,
-
     item: any = {},
     careInstDetails: any = {},
     appointmentId = "",
     isLeasingAppointment = false,
-    showQualification= false;
-    
+    showQualification = false;
+
   // set item object
-  if (selected && selected.item) {
-    item = selected.item;
-    careInstDetails = selected.canstitution;
-    isFutureDate = moment(item.date, 'YYYY/MM/DD').isAfter();
+  if (selected && selected.length && selected[0] && selected[0].item) {
+    item = selected[0].item;
+    careInstDetails = selected[0].canstitution;
+    isFutureDate = moment(item.date, "YYYY/MM/DD").isAfter();
     appointmentId = item.id || "";
   }
-
+ 
   // To check appointment with leasing careInst or not
   if (item && item.length) {
     isLeasingAppointment = item.isLeasing ? true : false;
   }
-      // To check appointment with leasing careInst or not
-      showQualification =
-        item &&
-        item[0] &&
-        item[0].isLeasing
-          ? true
-          : false;
-
- 
+  // To check appointment with leasing careInst or not
+  showQualification = item && item[0] && item[0].isLeasing ? true : false;
 
   const { canstitution } = careInstDetails;
   const {
@@ -165,17 +275,27 @@ const validateWorkingHours = (
   } = item;
   let departmentData: any = item ? item.department : undefined;
 
-  // if (
-  //   careInstitutionDepartment &&
-  //   careInstitutionDepartment.length &&
-  //   selectedCellsCareinstitution &&
-  //   item &&
-  //   item.divisionId
-  // ) {
-  //   departmentData = careInstitutionDepartment.filter(
-  //     (dept: any) => dept.value === item.divisionId
-  //   );
-  // }
+ // Options to show department data
+ let careInstitutionDepartment: IReactSelectInterface[] = [];
+ if (departmentList && departmentList.getDivision && departmentList.getDivision.length) {
+   const { getDivision } = departmentList;
+   careInstitutionDepartment = getDivision.map((dept: any) => ({
+     label: dept.name,
+     value: dept && dept.id ? dept.id.toString() : "",
+   }));
+ }
+
+  if (
+    careInstitutionDepartment &&
+    careInstitutionDepartment.length &&
+    selected && selected.length &&
+    item &&
+    item.divisionId
+  ) {
+    departmentData = careInstitutionDepartment.filter(
+      (dept: any) => dept.value === item.divisionId
+    );
+  }
   let qualificationfor: any;
   if (
     item &&
@@ -194,56 +314,56 @@ const validateWorkingHours = (
     qualificationfor = [item.qualificationForCharge];
   }
 
-  const {shortName='' } = canstitution ? canstitution : {}
+  const { shortName = "" } = canstitution ? canstitution : {};
   /**
    *
    */
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
-    appointmentId: item ? item.id : '',
-    name:
-      name
-        ? name
-        : shortName ,
-    date: date ? date : '',
-    startTime: startTime ? startTime : '',
-    endTime: endTime ? endTime : '',
-    qualificationId:
-    qualificationId  ? qualificationId : undefined,
+    appointmentId: item ? item.id : "",
+    name: name ? name : shortName,
+    date: date ? date : "",
+    startTime: startTime ? startTime : "",
+    endTime: endTime ? endTime : "",
+    qualificationId: qualificationId ? qualificationId : undefined,
     qualificationForCharge:
-      qualificationfor && qualificationfor[0]
-        ? qualificationfor[0]
-        :undefined,
-    address: address ? address : '',
-    contactPerson: contactPerson ? contactPerson : '',
-    departmentOfferRemarks: departmentOfferRemarks ? departmentOfferRemarks : '',
-    departmentBookingRemarks: departmentBookingRemarks ? departmentBookingRemarks : '',
-    departmentRemarks: departmentRemarks ? departmentRemarks : '',
+      qualificationfor && qualificationfor[0] ? qualificationfor[0] : undefined,
+    address: address ? address : "",
+    contactPerson: contactPerson ? contactPerson : "",
+    departmentOfferRemarks: departmentOfferRemarks
+      ? departmentOfferRemarks
+      : "",
+    departmentBookingRemarks: departmentBookingRemarks
+      ? departmentBookingRemarks
+      : "",
+    departmentRemarks: departmentRemarks ? departmentRemarks : "",
     isWorkingProof: isWorkingProof ? isWorkingProof : false,
-    offerRemarks: offerRemarks ? offerRemarks : '',
-    bookingRemarks: bookingRemarks ? bookingRemarks : '',
+    offerRemarks: offerRemarks ? offerRemarks : "",
+    bookingRemarks: bookingRemarks ? bookingRemarks : "",
     shift: shift ? shift : undefined,
-    // department:
-    //   departmentData && departmentData[0]
-    //     ? departmentData[0]
-    //     : departmentData,
-    comments: comments ? comments : '',
-    status: status ? status : '',
+    department:
+      departmentData && departmentData[0]
+        ? departmentData[0]
+        : departmentData,
+    comments: comments ? comments : "",
+    status: status ? status : "",
     // careInstitutionDepartment,
-    createdBy: createdBy ? createdBy : '',
-    createdAt: createdAt ? createdAt : '',
-    updatedAt: updatedAt ? updatedAt : '',
+    createdBy: createdBy ? createdBy : "",
+    createdAt: createdAt ? createdAt : "",
+    updatedAt: updatedAt ? updatedAt : "",
   };
- 
 
+  let activeDateCareinstitution =
+  selected && selected.length
+    ? selected.map((cell: any) => cell.item.date)
+    : [];
   /**
    *
    */
   return (
     <>
-     <Formik
+      <Formik
         initialValues={valuesForCareIntituionForm}
-         onSubmit={/* handleSubmitCareinstitutionForm */(data:any)=> console.log("data")
-          }
+        onSubmit={handleSubmitCareinstitutionForm}
         enableReinitialize={true}
         validationSchema={CareInstitutionValidationSchema}
         children={(props: FormikProps<ICareinstitutionFormValue>) => {
@@ -279,9 +399,9 @@ const validateWorkingHours = (
             handleSubmit,
             setFieldValue,
           } = props;
-          let d = moment().format('L');
-          let dtStart: any = new Date(d + ' ' + startTime);
-          let dtEnd: any = new Date(d + ' ' + endTime);
+          let d = moment().format("L");
+          let dtStart: any = new Date(d + " " + startTime);
+          let dtEnd: any = new Date(d + " " + endTime);
           let difference = dtEnd - dtStart;
 
           // Custom function to handle react select fields
@@ -289,13 +409,14 @@ const validateWorkingHours = (
             selectOption: IReactSelectInterface,
             name: string
           ) => {
-            console.log('im in handle select', selectOption);
+            console.log("im in handle select", selectOption);
 
             setFieldValue(name, selectOption);
-            if (name === 'department') {
+            if (name === "department") {
+
               // props.setcareInstituionDept(selectOption, values);
             }
-            if (name === 'shift') {
+            if (name === "shift") {
               // props.setcareInstituionShift(selectOption, values);
             }
           };
@@ -306,7 +427,7 @@ const validateWorkingHours = (
           //   careInstitutionTimesOptions && careInstitutionTimesOptions.length
           //     ? careInstitutionTimesOptions
           //     : ShiftTime;
-          const shiftOptions = ShiftTime
+          const shiftOptions = ShiftTime;
           let isCorrespondingAppointment: boolean = false;
           // if (
           //   selectedCellsCareinstitution &&
@@ -325,123 +446,125 @@ const validateWorkingHours = (
           // }
           return (
             <>
-             <Form>
-              <div className='form-section '>
-                <div
-                  className={classnames({
-                    'form-card custom-height custom-scrollbar': true,
-                    'requirement-bg': item.status === "default",
-                    'matching-bg': item.status === "linked",
-                    'contract-bg': item.status === "confirmed",
-                    'availability-bg': item.status === 'offered' && !isFutureDate,
-                    'availability-dark-bg': item.status === 'offered' && isFutureDate,
-                  })}
-                >
-                  <h5 className='content-title'>
-                    {languageTranslation('MENU_INSTITUTION')}
-                  </h5>
-                  <Row>
-                    {appointmentId ? (
-                      <Col lg={'12'}>
+              <Form>
+                <div className="form-section ">
+                  <div
+                    className={classnames({
+                      "form-card custom-height custom-scrollbar": true,
+                      "requirement-bg": item.status === "default",
+                      "matching-bg": item.status === "linked",
+                      "contract-bg": item.status === "confirmed",
+                      "availability-bg":
+                        item.status === "offered" && !isFutureDate,
+                      "availability-dark-bg":
+                        item.status === "offered" && isFutureDate,
+                    })}
+                  >
+                    <h5 className="content-title">
+                      {languageTranslation("MENU_INSTITUTION")}
+                    </h5>
+                    <Row>
+                      {appointmentId ? (
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation("APPOINTMENT_ID")}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="d-flex align-items-center justify-content-between flex-wrap">
+                                  <div className="required-input appointment-id-width">
+                                    <Input
+                                      value={appointmentId}
+                                      disabled
+                                      placeholder={languageTranslation(
+                                        "APPOINTMENT_ID"
+                                      )}
+                                    />
+                                  </div>
+                                  {isLeasingAppointment ? (
+                                    <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
+                                      TIMyoCY
+                                    </div>
+                                  ) : (
+                                    <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
+                                      Plycoco
+                                    </div>
+                                  )}
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                      ) : null}
+                      <Col lg={"12"}>
                         <FormGroup>
                           <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation('APPOINTMENT_ID')}
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("NAME")}
                               </Label>
                             </Col>
-                            <Col sm='8'>
-                              <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                                <div className='required-input appointment-id-width'>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <InputGroup>
                                   <Input
-                                    value={appointmentId}
+                                    type="text"
+                                    name={"name"}
+                                    placeholder={languageTranslation("NAME")}
                                     disabled
-                                    placeholder={languageTranslation(
-                                      'APPOINTMENT_ID'
-                                    )}
+                                    value={
+                                      name ? name : languageTranslation("NAME")
+                                    }
                                   />
-                                </div>
-                                {isLeasingAppointment ? (
-                                  <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
-                                    TIMyoCY
-                                  </div>
-                                ) : (
-                                  <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
-                                    Plycoco
-                                  </div>
-                                )}
+                                  <InputGroupAddon
+                                    addonType="append"
+                                    className="cursor-pointer"
+                                    // onClick={() =>
+                                    //   name
+                                    //     ? this.handleUserList(
+                                    //         selectedCareinstitution
+                                    //           ? selectedCareinstitution.id
+                                    //           : '',
+                                    //         'careinstitution'
+                                    //       )
+                                    //     : ''
+                                    // }
+                                  >
+                                    <InputGroupText>
+                                      <i
+                                        className={
+                                          //   name &&
+                                          //   starCanstitution.isStar &&
+                                          //   parseInt(starCanstitution.id) ===
+                                          //     parseInt(Id)
+                                          //     ? "fa fa-star theme-text"
+                                          //     :
+                                          "fa fa-star"
+                                        }
+                                        aria-hidden="true"
+                                      ></i>
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                </InputGroup>
                               </div>
                             </Col>
                           </Row>
                         </FormGroup>
                       </Col>
-                    ) : null}
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('NAME')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <InputGroup>
-                                <Input
-                                  type='text'
-                                  name={'name'}
-                                  placeholder={languageTranslation('NAME')}
-                                  disabled
-                                  value={
-                                    name ? name : languageTranslation('NAME')
-                                  }
-                                />
-                                <InputGroupAddon
-                                  addonType='append'
-                                  className='cursor-pointer'
-                                  // onClick={() =>
-                                  //   name
-                                  //     ? this.handleUserList(
-                                  //         selectedCareinstitution
-                                  //           ? selectedCareinstitution.id
-                                  //           : '',
-                                  //         'careinstitution'
-                                  //       )
-                                  //     : ''
-                                  // }
-                                >
-                                  <InputGroupText>
-                                    <i
-                                      className={
-                                      //   name &&
-                                      //   starCanstitution.isStar &&
-                                      //   parseInt(starCanstitution.id) ===
-                                      //     parseInt(Id)
-                                      //     ? "fa fa-star theme-text"
-                                      //     : 
-                                      "fa fa-star"
-                                       }
-                                      aria-hidden='true'
-                                    ></i>
-                                  </InputGroupText>
-                                </InputGroupAddon>
-                              </InputGroup>
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('DATE')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='text-value one-line-text'>
-                              {/* {activeDateCareinstitution
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("DATE")}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="text-value one-line-text">
+                              {activeDateCareinstitution
                                 ? activeDateCareinstitution
                                     .map(
                                       (
@@ -459,633 +582,639 @@ const validateWorkingHours = (
                                           : null
                                     )
                                     .join(', ')
-                                : null} */}
-                                {item.date
-                                ? moment(item.date).format(
-                                    `${appointmentDayFormat} ${defaultDateFormat}`
-                                  )
                                 : null}
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
+                                {/* {item.date
+                                  ? moment(item.date).format(
+                                      `${appointmentDayFormat} ${defaultDateFormat}`
+                                    )
+                                  : null} */}
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
 
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('START_WORKING')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='d-flex align-items-center justify-content-between flex-wrap'>
-                              <div className='required-input clockshift-input'>
-                                <InputGroup className='flex-nowrap'>
-                                  <Field name={'startTime'}>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("START_WORKING")}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="d-flex align-items-center justify-content-between flex-wrap">
+                                <div className="required-input clockshift-input">
+                                  <InputGroup className="flex-nowrap">
+                                    <Field name={"startTime"}>
+                                      {({ field }: any) => (
+                                        <MaskedInput
+                                          {...field}
+                                          mask={TimeMask}
+                                          className={
+                                            errors.startTime &&
+                                            touched.startTime
+                                              ? "text-input error form-control"
+                                              : "text-input form-control"
+                                          }
+                                          onChange={handleChange}
+                                          onBlur={handleBlur}
+                                          value={startTime ? startTime : ""}
+                                        />
+                                      )}
+                                    </Field>
+                                    {errors.startTime && touched.startTime && (
+                                      <div className="required-tooltip">
+                                        {errors.startTime}
+                                      </div>
+                                    )}
+                                    <InputGroupAddon addonType="append">
+                                      <InputGroupText>
+                                        {languageTranslation("UHR")}
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                  </InputGroup>
+                                </div>
+                                <UncontrolledDropdown className="custom-dropdown">
+                                  <DropdownToggle
+                                    className={"add-new-btn"}
+                                    value={shift ? shift : undefined}
+                                  >
+                                    <i
+                                      className="fa fa-clock-o"
+                                      aria-hidden="true"
+                                    />
+                                  </DropdownToggle>
+                                  <DropdownMenu>
+                                    {shiftOptions && shiftOptions.length
+                                      ? shiftOptions.map(
+                                          (
+                                            option: IReactSelectInterface,
+                                            index: number
+                                          ) => {
+                                            return (
+                                              <DropdownItem
+                                                key={index}
+                                                value={option.value}
+                                                onClick={(e: any) =>
+                                                  handleSelect(option, "shift")
+                                                }
+                                              >
+                                                {option.label}
+                                              </DropdownItem>
+                                            );
+                                          }
+                                        )
+                                      : ""}
+                                  </DropdownMenu>
+                                </UncontrolledDropdown>
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("END_WORKING")}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input clockshift-input">
+                                <InputGroup className="flex-nowrap">
+                                  <Field name={"endTime"}>
                                     {({ field }: any) => (
                                       <MaskedInput
                                         {...field}
                                         mask={TimeMask}
                                         className={
-                                          errors.startTime && touched.startTime
-                                            ? 'text-input error form-control'
-                                            : 'text-input form-control'
+                                          errors.endTime && touched.endTime
+                                            ? "fee-width form-control error"
+                                            : "fee-width form-control"
                                         }
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={startTime ? startTime : ''}
+                                        value={endTime ? endTime : ""}
                                       />
                                     )}
                                   </Field>
-                                  {errors.startTime && touched.startTime && (
-                                    <div className='required-tooltip'>
-                                      {errors.startTime}
+                                  {errors.endTime ? (
+                                    errors.endTime &&
+                                    touched.endTime && (
+                                      <div className="required-tooltip">
+                                        {errors.endTime}
+                                      </div>
+                                    )
+                                  ) : touched.endTime && difference <= 0 ? (
+                                    <div className="required-tooltip">
+                                      {languageTranslation("VALID_TIME_RANGE")}
                                     </div>
-                                  )}
-                                  <InputGroupAddon addonType='append'>
+                                  ) : null}
+                                  <InputGroupAddon addonType="append">
                                     <InputGroupText>
-                                      {languageTranslation('UHR')}
+                                      {languageTranslation("UHR")}
                                     </InputGroupText>
                                   </InputGroupAddon>
                                 </InputGroup>
                               </div>
-                              <UncontrolledDropdown className='custom-dropdown'>
-                                <DropdownToggle
-                                  className={'add-new-btn'}
-                                  value={shift ? shift : undefined}
-                                >
-                                  <i
-                                    className='fa fa-clock-o'
-                                    aria-hidden='true'
-                                  />
-                                </DropdownToggle>
-                                <DropdownMenu>
-                                  {shiftOptions && shiftOptions.length
-                                    ? shiftOptions.map(
-                                        (
-                                          option: IReactSelectInterface,
-                                          index: number
-                                        ) => {
-                                          return (
-                                            <DropdownItem
-                                              key={index}
-                                              value={option.value}
-                                              onClick={(e: any) =>
-                                                handleSelect(option, 'shift')
-                                              }
-                                            >
-                                              {option.label}
-                                            </DropdownItem>
-                                          );
-                                        }
-                                      )
-                                    : ''}
-                                </DropdownMenu>
-                              </UncontrolledDropdown>
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('END_WORKING')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input clockshift-input'>
-                              <InputGroup className='flex-nowrap'>
-                                <Field name={'endTime'}>
-                                  {({ field }: any) => (
-                                    <MaskedInput
-                                      {...field}
-                                      mask={TimeMask}
-                                      className={
-                                        errors.endTime && touched.endTime
-                                          ? 'fee-width form-control error'
-                                          : 'fee-width form-control'
-                                      }
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={endTime ? endTime : ''}
-                                    />
-                                  )}
-                                </Field>
-                                {errors.endTime ? (
-                                  errors.endTime &&
-                                  touched.endTime && (
-                                    <div className='required-tooltip'>
-                                      {errors.endTime}
-                                    </div>
-                                  )
-                                ) : touched.endTime && difference <= 0 ? (
-                                  <div className='required-tooltip'>
-                                    {languageTranslation('VALID_TIME_RANGE')}
-                                  </div>
-                                ) : null}
-                                <InputGroupAddon addonType='append'>
-                                  <InputGroupText>
-                                    {languageTranslation('UHR')}
-                                  </InputGroupText>
-                                </InputGroupAddon>
-                              </InputGroup>
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('QUALIFICATION')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='postion-relative'>
-                              <Button
-                                className={
-                                  qualificationId && qualificationId.length
-                                    ? 'add-new-btn arrow-btn'
-                                    : 'add-new-btn arrow-btn disabled-class'
-                                }
-                                color=''
-                                onClick={() => {
-                                  if (
-                                    qualificationId &&
-                                    qualificationId.length
-                                  ) {
-                                    // handleQualification(qualificationId);
-                                  }
-                                }}
-                              >
-                                <i
-                                  className='fa fa-arrow-up'
-                                  aria-hidden='true'
-                                />
-                              </Button>
-
-                              <div
-                                className={`custom-select-checkbox select-right-bottom ${
-                                  errors.qualificationId &&
-                                  touched.qualificationId
-                                    ? 'error'
-                                    : ' '
-                                }`}
-                              >
-                                <ReactMultiSelectCheckboxes
-                                   options={qualificationList}
-                                  placeholderButtonLabel={languageTranslation(
-                                    'CAREGIVER_QUALIFICATION_PLACEHOLDER'
-                                  )}
-                                  placeholder={languageTranslation(
-                                    'CAREGIVER_QUALIFICATION_PLACEHOLDER'
-                                  )}
-                                  className={
-                                    errors.qualificationId &&
-                                    touched.qualificationId
-                                      ? 'custom-reactselect error'
-                                      : 'custom-reactselect'
-                                  }
-                                  classNamePrefix='custom-inner-reactselect'
-                                  onChange={(value: any) =>
-                                    handleSelect(value, 'qualificationId')
-                                  }
-                                  value={
-                                    qualificationId && qualificationId.length
-                                      ? qualificationId
-                                      : []
-                                  }
-                                />
-                                {errors.qualificationId &&
-                                  touched.qualificationId && (
-                                    <div className='required-tooltip'>
-                                      {qualificationError}
-                                    </div>
-                                  )}
-                              </div>
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    {showQualification ? (
-                      <Col lg={'12'}>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
                         <FormGroup>
                           <Row>
-                            <Col sm='4'>
-                              <Label className='form-label col-form-label'>
-                                {languageTranslation(
-                                  'QUALIFICATION_FOR_CHARGE'
-                                )}
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("QUALIFICATION")}
                               </Label>
                             </Col>
-                            <Col sm='8'>
-                              <div className='postion-relative'>
-                                <Select
-                                   options={qualificationList}
-                                  placeholder={languageTranslation(
-                                    'QUALIFICATION_FOR_CHARGE'
-                                  )}
+                            <Col sm="8">
+                              <div className="postion-relative">
+                                <Button
                                   className={
-                                    errors.qualificationForCharge &&
-                                    touched.qualificationForCharge
-                                      ? 'custom-reactselect error'
-                                      : 'custom-reactselect'
+                                    qualificationId && qualificationId.length
+                                      ? "add-new-btn arrow-btn"
+                                      : "add-new-btn arrow-btn disabled-class"
                                   }
-                                  classNamePrefix='custom-inner-reactselect'
+                                  color=""
+                                  onClick={() => {
+                                    if (
+                                      qualificationId &&
+                                      qualificationId.length
+                                    ) {
+                                      // handleQualification(qualificationId);
+                                    }
+                                  }}
+                                >
+                                  <i
+                                    className="fa fa-arrow-up"
+                                    aria-hidden="true"
+                                  />
+                                </Button>
+
+                                <div
+                                  className={`custom-select-checkbox select-right-bottom ${
+                                    errors.qualificationId &&
+                                    touched.qualificationId
+                                      ? "error"
+                                      : " "
+                                  }`}
+                                >
+                                  <ReactMultiSelectCheckboxes
+                                    options={qualificationList}
+                                    placeholderButtonLabel={languageTranslation(
+                                      "CAREGIVER_QUALIFICATION_PLACEHOLDER"
+                                    )}
+                                    placeholder={languageTranslation(
+                                      "CAREGIVER_QUALIFICATION_PLACEHOLDER"
+                                    )}
+                                    className={
+                                      errors.qualificationId &&
+                                      touched.qualificationId
+                                        ? "custom-reactselect error"
+                                        : "custom-reactselect"
+                                    }
+                                    classNamePrefix="custom-inner-reactselect"
+                                    onChange={(value: any) =>
+                                      handleSelect(value, "qualificationId")
+                                    }
+                                    value={
+                                      qualificationId && qualificationId.length
+                                        ? qualificationId
+                                        : []
+                                    }
+                                  />
+                                  {errors.qualificationId &&
+                                    touched.qualificationId && (
+                                      <div className="required-tooltip">
+                                        {qualificationError}
+                                      </div>
+                                    )}
+                                </div>
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      {showQualification ? (
+                        <Col lg={"12"}>
+                          <FormGroup>
+                            <Row>
+                              <Col sm="4">
+                                <Label className="form-label col-form-label">
+                                  {languageTranslation(
+                                    "QUALIFICATION_FOR_CHARGE"
+                                  )}
+                                </Label>
+                              </Col>
+                              <Col sm="8">
+                                <div className="postion-relative">
+                                  <Select
+                                    options={qualificationList}
+                                    placeholder={languageTranslation(
+                                      "QUALIFICATION_FOR_CHARGE"
+                                    )}
+                                    className={
+                                      errors.qualificationForCharge &&
+                                      touched.qualificationForCharge
+                                        ? "custom-reactselect error"
+                                        : "custom-reactselect"
+                                    }
+                                    classNamePrefix="custom-inner-reactselect"
+                                    onChange={(value: any) =>
+                                      handleSelect(
+                                        value,
+                                        "qualificationForCharge"
+                                      )
+                                    }
+                                    value={
+                                      qualificationForCharge
+                                        ? qualificationForCharge
+                                        : null
+                                    }
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
+                          </FormGroup>
+                        </Col>
+                      ) : null}
+
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("DEPARTMENT")}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <Select
+                                  placeholder={languageTranslation(
+                                    "SELECT_DEPARTMENT"
+                                  )}
+                                  options={careInstitutionDepartment}
+                                  isDisabled={
+                                    careInstitutionDepartment.length <= 0
+                                      ? true
+                                      : false
+                                  }
+                                  classNamePrefix="custom-inner-reactselect"
+                                  className={
+                                    errors.department && touched.department
+                                      ? "custom-reactselect error"
+                                      : "custom-reactselect"
+                                  }
                                   onChange={(value: any) =>
-                                    handleSelect(
-                                      value,
-                                      'qualificationForCharge'
-                                    )
+                                    handleSelect(value, "department")
                                   }
                                   value={
-                                    qualificationForCharge
-                                      ? qualificationForCharge
+                                    department && department.value
+                                      ? department
                                       : null
                                   }
+                                />
+                                {errors.department && touched.department && (
+                                  <div className="required-tooltip">
+                                    {DepartmentError}
+                                  </div>
+                                )}
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("ADDRESS")}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <Input
+                                  type="textarea"
+                                  name={"address"}
+                                  disabled={true}
+                                  placeholder={languageTranslation("ADDRESS")}
+                                  value={department ? address : ""}
+                                  className="textarea-custom form-control"
+                                  rows="2"
                                 />
                               </div>
                             </Col>
                           </Row>
                         </FormGroup>
                       </Col>
-                    ) : null}
-
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('DEPARTMENT')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <Select
-                                placeholder={languageTranslation(
-                                  'SELECT_DEPARTMENT'
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("CONTACT_PERSON")}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <Input
+                                  type="text"
+                                  disabled={true}
+                                  name={"contactPerson"}
+                                  placeholder={languageTranslation(
+                                    "CONTACT_PERSON"
+                                  )}
+                                  className="width-common"
+                                  value={contactPerson ? contactPerson : ""}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation(
+                                  "REMARKS_OFFER_DEPARTMENT"
                                 )}
-                                // options={careInstitutionDepartment}
-                                // isDisabled={
-                                //   careInstitutionDepartment.length <= 0
-                                //     ? true
-                                //     : false
-                                // }
-                                classNamePrefix='custom-inner-reactselect'
-                                className={
-                                  errors.department && touched.department
-                                    ? 'custom-reactselect error'
-                                    : 'custom-reactselect'
-                                }
-                                onChange={(value: any) =>
-                                  handleSelect(value, 'department')
-                                }
-                                value={
-                                  department && department.value
-                                    ? department
-                                    : null
-                                }
-                              />
-                              {errors.department && touched.department && (
-                                <div className='required-tooltip'>
-                                  {DepartmentError}
-                                </div>
-                              )}
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('ADDRESS')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <Input
-                                type='textarea'
-                                name={'address'}
-                                disabled={true}
-                                placeholder={languageTranslation('ADDRESS')}
-                                value={department ? address : ''}
-                                className='textarea-custom form-control'
-                                rows='2'
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('CONTACT_PERSON')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <Input
-                                type='text'
-                                disabled={true}
-                                name={'contactPerson'}
-                                placeholder={languageTranslation(
-                                  'CONTACT_PERSON'
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <Input
+                                  className="textarea-custom form-control"
+                                  rows="3"
+                                  disabled={true}
+                                  type="textarea"
+                                  name="departmentOfferRemarks"
+                                  id="exampleText"
+                                  value={
+                                    departmentOfferRemarks
+                                      ? departmentOfferRemarks
+                                      : ""
+                                  }
+                                  maxLength={255}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation(
+                                  "REMARKS_BOOKING_DEPARTEMENT"
                                 )}
-                                className='width-common'
-                                value={contactPerson ? contactPerson : ''}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('REMARKS_OFFER_DEPARTMENT')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <Input
-                                className='textarea-custom form-control'
-                                rows='3'
-                                disabled={true}
-                                type='textarea'
-                                name='departmentOfferRemarks'
-                                id='exampleText'
-                                value={
-                                  departmentOfferRemarks
-                                    ? departmentOfferRemarks
-                                    : ''
-                                }
-                                maxLength={255}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation(
-                                'REMARKS_BOOKING_DEPARTEMENT'
-                              )}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <Input
-                                className='textarea-custom form-control'
-                                rows='3'
-                                disabled={true}
-                                type='textarea'
-                                name='departmentBookingRemarks'
-                                id='exampleText'
-                                value={
-                                  departmentBookingRemarks
-                                    ? departmentBookingRemarks
-                                    : ''
-                                }
-                                maxLength={255}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation(
-                                'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
-                              )}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <Input
-                                className='textarea-custom form-control'
-                                rows='3'
-                                disabled={true}
-                                type='textarea'
-                                name='departmentRemarks'
-                                id='exampleText'
-                                value={
-                                  departmentRemarks ? departmentRemarks : ''
-                                }
-                                maxLength={255}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('WORKING_PROOF_NECESSARY')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <FormGroup check inline>
-                                <div className=' checkbox-custom mb-0'>
-                                  <input
-                                    type='checkbox'
-                                    id='isWorkingProof'
-                                    name={'isWorkingProof'}
-                                    className=''
-                                    checked={isWorkingProof}
-                                    onChange={(
-                                      e: React.ChangeEvent<HTMLInputElement>
-                                    ) => {
-                                      const {
-                                        target: { checked },
-                                      } = e;
-                                      setFieldValue('isWorkingProof', checked);
-                                    }}
-                                  />
-                                  <Label for='isWorkingProof'></Label>
-                                </div>
-                              </FormGroup>
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('REMARK_OFFER')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <Input
-                                className='textarea-custom form-control'
-                                rows='3'
-                                type='textarea'
-                                name='offerRemarks'
-                                id='exampleText'
-                                value={offerRemarks ? offerRemarks : ''}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                maxLength={255}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation('REMARK_BOOKING')}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <Input
-                                className='textarea-custom form-control'
-                                rows='3'
-                                type='textarea'
-                                name='bookingRemarks'
-                                id='exampleText'
-                                value={bookingRemarks ? bookingRemarks : ''}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                maxLength={255}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    <Col lg={'12'}>
-                      <FormGroup>
-                        <Row>
-                          <Col sm='4'>
-                            <Label className='form-label col-form-label'>
-                              {languageTranslation(
-                                'COMMENT_ONLY_VISIBLE_INTERNALLY'
-                              )}
-                            </Label>
-                          </Col>
-                          <Col sm='8'>
-                            <div className='required-input'>
-                              <Input
-                                className='textarea-custom form-control'
-                                rows='3'
-                                type='textarea'
-                                name='comments'
-                                id='exampleText'
-                                value={comments ? comments : ''}
-                                onChange={handleChange}
-                                maxLength={255}
-                                onBlur={handleBlur}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </FormGroup>
-                    </Col>
-                    {createdBy ? (
-                      <Col lg={'12'} className='mb-2 text-right text-muted'>
-                        <i>{`${languageTranslation('CREATED_BY')} ${
-                          createdBy ? createdBy : ''
-                        }`}</i>
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <Input
+                                  className="textarea-custom form-control"
+                                  rows="3"
+                                  disabled={true}
+                                  type="textarea"
+                                  name="departmentBookingRemarks"
+                                  id="exampleText"
+                                  value={
+                                    departmentBookingRemarks
+                                      ? departmentBookingRemarks
+                                      : ""
+                                  }
+                                  maxLength={255}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
                       </Col>
-                    ) : null}
-                    {createdAt ? (
-                      <Col lg={'12'} className='mb-2 text-right text-muted'>
-                        <i>
-                          {`${languageTranslation('CREATED_AT')} ${
-                            createdAt
-                              ? moment(createdAt).format(
-                                  defaultDateTimeFormatForDashboard
-                                )
-                              : ''
-                          }`}
-                        </i>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation(
+                                  "REMARK_DEPARTMENT_VISIBLE_INTERNALLY"
+                                )}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <Input
+                                  className="textarea-custom form-control"
+                                  rows="3"
+                                  disabled={true}
+                                  type="textarea"
+                                  name="departmentRemarks"
+                                  id="exampleText"
+                                  value={
+                                    departmentRemarks ? departmentRemarks : ""
+                                  }
+                                  maxLength={255}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
                       </Col>
-                    ) : null}
-                    {updatedAt ? (
-                      <Col lg={'12'} className='mb-2 text-right text-muted'>
-                        <i>
-                          {`${languageTranslation('UPDATED_AT')} ${
-                            updatedAt
-                              ? moment(updatedAt).format(
-                                  defaultDateTimeFormatForDashboard
-                                )
-                              : ''
-                          }`}
-                        </i>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("WORKING_PROOF_NECESSARY")}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <FormGroup check inline>
+                                  <div className=" checkbox-custom mb-0">
+                                    <input
+                                      type="checkbox"
+                                      id="isWorkingProof"
+                                      name={"isWorkingProof"}
+                                      className=""
+                                      checked={isWorkingProof}
+                                      onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>
+                                      ) => {
+                                        const {
+                                          target: { checked },
+                                        } = e;
+                                        setFieldValue(
+                                          "isWorkingProof",
+                                          checked
+                                        );
+                                      }}
+                                    />
+                                    <Label for="isWorkingProof"></Label>
+                                  </div>
+                                </FormGroup>
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
                       </Col>
-                    ) : null}
-                    <Col lg={'12'}>
-                      <div className='d-flex align-items-center justify-content-between'>
-                        <Button
-                          className={'btn-save'}
-                          color='danger'
-                          // onClick={() =>
-                          //   // onhandleDelete('careinstitution', appointmentId)
-                          // }
-                          disabled={!appointmentId}
-                        >
-                          {languageTranslation('DELETE')}
-                        </Button>
-                        <Button
-                          className='btn-save'
-                          color='primary'
-                          onClick={handleSubmit}
-                          // disabled={
-                          //   addCareinstLoading /*  ? true : appointmentId ? false : !dateCondition ? true : false */
-                          // }
-                        >
-                          {/* {addCareinstLoading ? (
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("REMARK_OFFER")}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <Input
+                                  className="textarea-custom form-control"
+                                  rows="3"
+                                  type="textarea"
+                                  name="offerRemarks"
+                                  id="exampleText"
+                                  value={offerRemarks ? offerRemarks : ""}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  maxLength={255}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation("REMARK_BOOKING")}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <Input
+                                  className="textarea-custom form-control"
+                                  rows="3"
+                                  type="textarea"
+                                  name="bookingRemarks"
+                                  id="exampleText"
+                                  value={bookingRemarks ? bookingRemarks : ""}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  maxLength={255}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      <Col lg={"12"}>
+                        <FormGroup>
+                          <Row>
+                            <Col sm="4">
+                              <Label className="form-label col-form-label">
+                                {languageTranslation(
+                                  "COMMENT_ONLY_VISIBLE_INTERNALLY"
+                                )}
+                              </Label>
+                            </Col>
+                            <Col sm="8">
+                              <div className="required-input">
+                                <Input
+                                  className="textarea-custom form-control"
+                                  rows="3"
+                                  type="textarea"
+                                  name="comments"
+                                  id="exampleText"
+                                  value={comments ? comments : ""}
+                                  onChange={handleChange}
+                                  maxLength={255}
+                                  onBlur={handleBlur}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </FormGroup>
+                      </Col>
+                      {createdBy ? (
+                        <Col lg={"12"} className="mb-2 text-right text-muted">
+                          <i>{`${languageTranslation("CREATED_BY")} ${
+                            createdBy ? createdBy : ""
+                          }`}</i>
+                        </Col>
+                      ) : null}
+                      {createdAt ? (
+                        <Col lg={"12"} className="mb-2 text-right text-muted">
+                          <i>
+                            {`${languageTranslation("CREATED_AT")} ${
+                              createdAt
+                                ? moment(createdAt).format(
+                                    defaultDateTimeFormatForDashboard
+                                  )
+                                : ""
+                            }`}
+                          </i>
+                        </Col>
+                      ) : null}
+                      {updatedAt ? (
+                        <Col lg={"12"} className="mb-2 text-right text-muted">
+                          <i>
+                            {`${languageTranslation("UPDATED_AT")} ${
+                              updatedAt
+                                ? moment(updatedAt).format(
+                                    defaultDateTimeFormatForDashboard
+                                  )
+                                : ""
+                            }`}
+                          </i>
+                        </Col>
+                      ) : null}
+                      <Col lg={"12"}>
+                        <div className="d-flex align-items-center justify-content-between">
+                          <Button
+                            className={"btn-save"}
+                            color="danger"
+                            // onClick={() =>
+                            //   // onhandleDelete('careinstitution', appointmentId)
+                            // }
+                            disabled={!appointmentId}
+                          >
+                            {languageTranslation("DELETE")}
+                          </Button>
+                          <Button
+                            className="btn-save"
+                            color="primary"
+                            onClick={handleSubmit}
+                            // disabled={
+                            //   addCareinstLoading /*  ? true : appointmentId ? false : !dateCondition ? true : false */
+                            // }
+                          >
+                            {/* {addCareinstLoading ? (
                             <i className='fa fa-spinner fa-spin mr-2' />
                           ) : (
                             ''
                           )} */}
-                          {appointmentId
-                            ? languageTranslation('UPDATE_BUTTON')
-                            : languageTranslation('SAVE_BUTTON')}
-                        </Button>
-                      </div>
-                    </Col>
-                  </Row>
+                            {appointmentId
+                              ? languageTranslation("UPDATE_BUTTON")
+                              : languageTranslation("SAVE_BUTTON")}
+                          </Button>
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
+                  {/* } */}
                 </div>
-                {/* } */}
-              </div>
               </Form>
             </>
           );
@@ -1095,4 +1224,4 @@ const validateWorkingHours = (
   );
 };
 
-export default CareinstitutionForm
+export default CareinstitutionForm;

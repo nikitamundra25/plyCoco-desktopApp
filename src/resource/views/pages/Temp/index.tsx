@@ -15,9 +15,11 @@ export const TempPage = () => {
   const [selectedCaregiverData, setSelectedCaregiver] = useState<any>([]);
   const [selectedCareinstitutionData, setSelectedCareinstitution] = useState<
     any
-  >({});
+  >([]);
   const [filterObject, setFilterObject] = useState<any>({});
   const [qualifications, setQualifications] = useState<any[]>([]);
+  const [careInstDeptList, setCareInstDeptList] = useState<any>({});
+
   // To fetch qualification attributes list
   const { data: qualificationData, loading } = useQuery<IQualifications>(
     GET_QUALIFICATION_ATTRIBUTE
@@ -80,6 +82,7 @@ export const TempPage = () => {
                   <CareInstitutionList
                     careinstitutionSelected={careinstitutionSelected}
                     filterObject={filterObject}
+                    setCareInstDeptList={setCareInstDeptList}
                   />
                 </div>
               </div>
@@ -93,7 +96,8 @@ export const TempPage = () => {
                   <CaregiverForm selected={selectedCaregiverData} setSelectedCaregiver={setSelectedCaregiver} />
                 </Col>
                 <Col lg={"6"} className='pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
-                  <CareinstitutionForm selected={selectedCareinstitutionData} />
+                  <CareinstitutionForm selected={selectedCareinstitutionData} qualificationList={qualifications}
+                  departmentList={careInstDeptList} />
                 </Col>
               </Row>
             </div>

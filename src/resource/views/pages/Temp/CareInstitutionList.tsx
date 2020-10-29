@@ -169,6 +169,7 @@ export const CareInstitutionList = React.memo(
       allCaregivers = [];
       setCaregiverData(allCaregivers);
       setCurrentPage(1);
+      setIsLoading(true);
       fetchCaregiverList({
         variables: {
           qualificationId: [],
@@ -251,6 +252,7 @@ export const CareInstitutionList = React.memo(
       allCaregivers = Object.assign([], newData);
       setHasMore(data.length <= count);
       setCaregiverData(newData);
+      setIsLoading(false);
     };
     useEffect(() => {
       if (!loadingCaregiver) {
@@ -375,19 +377,18 @@ export const CareInstitutionList = React.memo(
       <>
         <SelectableGroup
           allowClickWithoutSelected
-          className="custom-row-selector new-base-table"
-          clickClassName="tick"
+          className='custom-row-selector new-base-table'
+          clickClassName='tick'
           resetOnStart={true}
           allowCtrlClick={false}
           onSelectionFinish={onSelectFinish}
-          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
-        >
+          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
           <BaseTable
             fixed
             data={caregivers}
             width={element ? element.clientWidth - 40 : 800}
             height={element ? window.innerHeight / 2 - 40 : 300}
-            rowKey="key"
+            rowKey='key'
             rowHeight={30}
             overlayRenderer={() =>
               loadingCaregiver || isLoading ? (
@@ -405,15 +406,13 @@ export const CareInstitutionList = React.memo(
                         borderRadius: "10px",
                         display: "flex",
                         alignItems: "center",
-                      }}
-                    >
+                      }}>
                       <span
                         style={{
                           color: "#fff",
                           marginRight: "5px",
-                        }}
-                      >
-                        <Spinner color="warning" size="sm" /> Loading More...
+                        }}>
+                        <Spinner color='warning' size='sm' /> Loading More...
                       </span>
                     </div>
                   </>
@@ -423,9 +422,8 @@ export const CareInstitutionList = React.memo(
                       position: "absolute",
                       top: "50%",
                       left: "50%",
-                    }}
-                  >
-                    <Spinner color="warning" />
+                    }}>
+                    <Spinner color='warning' />
                   </div>
                 )
               ) : null
@@ -437,20 +435,19 @@ export const CareInstitutionList = React.memo(
                     <span
                       className={`custom-appointment-col  ${
                         d === "careinstitution" ? "name-col" : ""
-                      }`}
-                    >
+                      }`}>
                       {d}
                       {d === "careinstitution" ? (
                         <>
                           <span>
-                            <i className="icon-options-vertical" />
+                            <i className='icon-options-vertical' />
                           </span>
                         </>
                       ) : null}
                     </span>
                   </React.Fragment>
                 ) : (
-                  <span key={d.date} className="custom-appointment-col  ">
+                  <span key={d.date} className='custom-appointment-col  '>
                     {d.day}
                     <br />
                     {d.date}
@@ -460,17 +457,15 @@ export const CareInstitutionList = React.memo(
             }
             rowRenderer={({ cells, rowData }) => (
               <div
-                className="d-flex frozen-row"
-                title={[rowData.lastName, rowData.firstName].join(" ")}
-              >
+                className='d-flex frozen-row'
+                title={[rowData.lastName, rowData.firstName].join(" ")}>
                 {cells}
               </div>
             )}
             onEndReachedThreshold={300}
             onEndReached={handleEndReached}
-            headerClassName="custom-appointment-row"
-            rowClassName="custom-appointment-row"
-          >
+            headerClassName='custom-appointment-row'
+            rowClassName='custom-appointment-row'>
             {columns.map((d: any, index: number) => (
               <Column
                 key={`col0-${index}-${
@@ -487,20 +482,18 @@ export const CareInstitutionList = React.memo(
                       return (
                         <div
                           key={rowIndex}
-                          className="custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text"
+                          className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
                           title={[rowData.lastName, rowData.firstName].join(
                             " "
                           )}
-                          id={`caregiver-${rowData.id}-${index}-${rowData.row}`}
-                        >
+                          id={`caregiver-${rowData.id}-${index}-${rowData.row}`}>
                           <Link
                             to={AppRoutes.CARE_GIVER_VIEW.replace(
                               ":id",
                               rowData.id
                             )}
-                            target="_blank"
-                            className="text-body"
-                          >
+                            target='_blank'
+                            className='text-body'>
                             {[rowData.lastName, rowData.firstName].join(" ")}
                           </Link>
                         </div>
@@ -511,28 +504,25 @@ export const CareInstitutionList = React.memo(
                       return (
                         <span
                           key={rowIndex}
-                          className="custom-appointment-col s-col text-center cursor-pointer"
-                        >
-                          <i className="fa fa-star-o" />
+                          className='custom-appointment-col s-col text-center cursor-pointer'>
+                          <i className='fa fa-star-o' />
                         </span>
                       );
                     case "U":
                       return (
                         <span
                           key={rowIndex}
-                          className="custom-appointment-col u-col text-center cursor-pointer"
-                        >
-                          <i className="fa fa-star-o" />
+                          className='custom-appointment-col u-col text-center cursor-pointer'>
+                          <i className='fa fa-star-o' />
                         </span>
                       );
                     case "V":
                       return (
                         <span
                           key={rowIndex}
-                          className="custom-appointment-col v-col text-center cursor-pointer"
-                          onClick={() => onAddNewRow(rowIndex)}
-                        >
-                          <i className="fa fa-arrow-down" />
+                          className='custom-appointment-col v-col text-center cursor-pointer'
+                          onClick={() => onAddNewRow(rowIndex)}>
+                          <i className='fa fa-arrow-down' />
                         </span>
                       );
                     default:

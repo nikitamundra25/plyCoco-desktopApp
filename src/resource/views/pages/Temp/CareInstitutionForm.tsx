@@ -40,6 +40,7 @@ import {
 } from "../../../../config";
 import MaskedInput from "react-text-mask";
 import {
+  IAddCargiverAppointmentRes,
   ICaregiverFormValue,
   ICareinstitutionFormSubmitValue,
   ICareinstitutionFormValue,
@@ -47,23 +48,73 @@ import {
   IReactSelectInterface,
   IReactSelectTimeInterface,
 } from "../../../../interfaces";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
 import {
   DocumentQueries,
   GET_QUALIFICATION_ATTRIBUTE,
 } from "../../../../graphql/queries";
 import { CareInstitutionValidationSchema } from "../../../validations/AppointmentsFormValidationSchema";
 import { toast } from "react-toastify";
+import { AppointmentMutations } from "../../../../graphql/Mutations";
+import { ConfirmBox } from "../../components/ConfirmBox";
+const [
+  ,
+  ADD_INSTITUTION_REQUIREMENT,
+  ,
+  UPDATE_INSTITUTION_REQUIREMENT,
+  DELETE_CAREINSTITUTION_REQUIREMENT,
+  ,
+  ,
+  ,
+] = AppointmentMutations;
 
 let toastId: any = null;
 let selectedDept: any = {};
-let selectedShift: any = undefined
+let selectedShift: any = undefined;
 const CareinstitutionForm = ({
   selected,
   qualificationList,
   departmentList,
   setSelectedCareinstitution,
 }: any) => {
+  // Mutation to add careinstitution data
+  const [
+    addCareinstitutionRequirment,
+    { data: addCareinstitutionRes, loading: addCareinstLoading },
+  ] = useMutation<
+    { addCareInstitutionRequirement: [IAddCargiverAppointmentRes] },
+    { careInstitutionRequirementInput: ICareinstitutionFormSubmitValue[] }
+  >(ADD_INSTITUTION_REQUIREMENT, {
+    onCompleted({ addCareInstitutionRequirement }) {},
+  });
+
+  // update Careinstitution Requirment
+  const [
+    updateCareinstitutionRequirment,
+    { data: updateCareinstitutionRes, loading: updateCareinstitutionLoading },
+  ] = useMutation<
+    {
+      updateCareInstitutionRequirement: any;
+      // IAddCargiverAppointmentRes;
+    },
+    {
+      id: number;
+      careInstitutionRequirementInput: any;
+    }
+  >(UPDATE_INSTITUTION_REQUIREMENT, {
+    onCompleted({ updateCareInstitutionRequirement }) {},
+  });
+
+  // Mutation to delete careinstitution requirement
+  const [deleteCareinstitutionRequirement] = useMutation<
+    {
+      deleteCareInstitutionRequirement: any;
+    },
+    { id: number[] }
+  >(DELETE_CAREINSTITUTION_REQUIREMENT, {
+    onCompleted({ deleteCareInstitutionRequirement }) {},
+  });
+
   const [careinstitutionFieldValues, setCareinstitutionFieldValues] = useState<
     any
   >();
@@ -193,12 +244,12 @@ const CareinstitutionForm = ({
           if (appointmentId) {
             console.log("stempstemp", stemp);
 
-            // await updateCareinstitutionRequirment({
-            //   variables: {
-            //     id: parseInt(appointmentId),
-            //     careInstitutionRequirementInput: stemp,
-            //   },
-            // });
+            await updateCareinstitutionRequirment({
+              variables: {
+                id: parseInt(appointmentId),
+                careInstitutionRequirementInput: stemp,
+              },
+            });
             // this.setState({
             //   savingBoth: false,
             // });
@@ -217,11 +268,11 @@ const CareinstitutionForm = ({
             careInstitutionRequirementInput
           );
 
-          // await addCareinstitutionRequirment({
-          //   variables: {
-          //     careInstitutionRequirementInput,
-          //   },
-          // });
+          await addCareinstitutionRequirment({
+            variables: {
+              careInstitutionRequirementInput,
+            },
+          });
           // setMultipleRequirement(false);
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
@@ -239,6 +290,30 @@ const CareinstitutionForm = ({
       }
     }
     setSubmitting(false);
+  };
+
+  const onhandleDelete = async (id: string) => {
+    if (id) {
+      const { value } = await ConfirmBox({
+        title: languageTranslation("CONFIRM_LABEL"),
+        text: languageTranslation("CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT"),
+      });
+      if (!value) {
+        return;
+      } else {
+        await deleteCareinstitutionRequirement({
+          variables: {
+            id: [parseInt(id)],
+          },
+        });
+
+        if (!toast.isActive(toastId)) {
+          toastId = toast.success(
+            languageTranslation("DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS")
+          );
+        }
+      }
+    }
   };
 
   // Useeffect to set shift options according to dept.
@@ -337,58 +412,54 @@ const CareinstitutionForm = ({
     }
   }, [selectedDept]);
 
-
   // Set begin and end time according to shift selected
-    useEffect(() => {
-      let timeData: IReactSelectTimeInterface | undefined = selectedShift;
-      let values = careinstitutionFieldValues;
-      let time = timeData && !timeData.data ? timeData.value.split("-") : "";
-      const {
-        isWeekend = "",
-        item = undefined,
-        canstitution = {},
-        isLeasing = "",
-      } =
-        selected && selected.length
-          ? selected[0]
-          : {};
-  
-      let data: any[] = [
-        {
-          isWeekend,
-          canstitution: {
-            ...canstitution,
-          },
-          isLeasing,
-          item: {
-            ...values,
-            id: values && values.appointmentId ? values.appointmentId : "",
-            shift: selectedShift,
-            isLeasing: item && item.isLeasing ? item.isLeasing : false,
-            startTime: timeData
-              ? timeData.data && timeData.data.begin
-                ? timeData.data.begin
-                : time[0]
-              : "",
-            endTime: timeData
-              ? timeData.data && timeData.data.begin
-                ? timeData.data.end
-                : time[1]
-              : "",
-          },
+  useEffect(() => {
+    let timeData: IReactSelectTimeInterface | undefined = selectedShift;
+    let values = careinstitutionFieldValues;
+    let time = timeData && !timeData.data ? timeData.value.split("-") : "";
+    const {
+      isWeekend = "",
+      item = undefined,
+      canstitution = {},
+      isLeasing = "",
+    } = selected && selected.length ? selected[0] : {};
+
+    let data: any[] = [
+      {
+        isWeekend,
+        canstitution: {
+          ...canstitution,
         },
-      ];
-  
-      if (selectedShift && selectedShift.value) {
-        if (selected && selected.length) {
-          let temp = [...selected];
-          temp[0] = data[0];
-          setSelectedCareinstitution(temp);
-        } else {
-          setSelectedCareinstitution(data);
-        }
+        isLeasing,
+        item: {
+          ...values,
+          id: values && values.appointmentId ? values.appointmentId : "",
+          shift: selectedShift,
+          isLeasing: item && item.isLeasing ? item.isLeasing : false,
+          startTime: timeData
+            ? timeData.data && timeData.data.begin
+              ? timeData.data.begin
+              : time[0]
+            : "",
+          endTime: timeData
+            ? timeData.data && timeData.data.begin
+              ? timeData.data.end
+              : time[1]
+            : "",
+        },
+      },
+    ];
+
+    if (selectedShift && selectedShift.value) {
+      if (selected && selected.length) {
+        let temp = [...selected];
+        temp[0] = data[0];
+        setSelectedCareinstitution(temp);
+      } else {
+        setSelectedCareinstitution(data);
       }
-    }, [selectedShift]);
+    }
+  }, [selectedShift]);
 
   let isFutureDate = false,
     item: any = {},
@@ -584,7 +655,7 @@ const CareinstitutionForm = ({
             }
             if (name === "shift") {
               setCareinstitutionFieldValues(values);
-              selectedShift = selectOption
+              selectedShift = selectOption;
               // props.setcareInstituionShift(selectOption, values);
             }
           };
@@ -1350,9 +1421,7 @@ const CareinstitutionForm = ({
                           <Button
                             className={"btn-save"}
                             color="danger"
-                            // onClick={() =>
-                            //   // onhandleDelete('careinstitution', appointmentId)
-                            // }
+                            onClick={() => onhandleDelete(appointmentId)}
                             disabled={!appointmentId}
                           >
                             {languageTranslation("DELETE")}
@@ -1361,15 +1430,16 @@ const CareinstitutionForm = ({
                             className="btn-save"
                             color="primary"
                             onClick={handleSubmit}
-                            // disabled={
-                            //   addCareinstLoading /*  ? true : appointmentId ? false : !dateCondition ? true : false */
-                            // }
+                            disabled={
+                              addCareinstLoading || updateCareinstitutionLoading
+                            }
                           >
-                            {/* {addCareinstLoading ? (
-                            <i className='fa fa-spinner fa-spin mr-2' />
-                          ) : (
-                            ''
-                          )} */}
+                            {addCareinstLoading ||
+                            updateCareinstitutionLoading ? (
+                              <i className="fa fa-spinner fa-spin mr-2" />
+                            ) : (
+                              ""
+                            )}
                             {appointmentId
                               ? languageTranslation("UPDATE_BUTTON")
                               : languageTranslation("SAVE_BUTTON")}

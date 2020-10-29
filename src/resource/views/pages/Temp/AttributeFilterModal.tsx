@@ -15,12 +15,39 @@ export const AttributeFilterModal = ({
   onClose,
   onFilterUpdated,
 }: any) => {
-  const [selectedPositiveAttributes, setSelectedPositiveAttributes] = useState(
-    []
-  );
-  const [selectedNegetiveAttributes, setSelectedNegetiveAttributes] = useState(
-    []
-  );
+  const [selectedPositiveAttributes, setSelectedPositiveAttributes] = useState<
+    any[]
+  >([]);
+  const [selectedNegetiveAttributes, setSelectedNegetiveAttributes] = useState<
+    any[]
+  >([]);
+  const selectAllAttributes = (type: string, isChecked: boolean) => {
+    if (type === "positive") {
+      if (isChecked) {
+        const newAttr: any[] = [];
+        attributes.forEach((attr: any) => {
+          attr.attributes.forEach(({ id }: any) => {
+            newAttr.push(id);
+          });
+        });
+        setSelectedPositiveAttributes(newAttr);
+      } else {
+        setSelectedPositiveAttributes([]);
+      }
+    } else {
+      if (isChecked) {
+        const newAttr: any[] = [];
+        attributes.forEach((attr: any) => {
+          attr.attributes.forEach(({ id }: any) => {
+            newAttr.push(id);
+          });
+        });
+        setSelectedNegetiveAttributes(newAttr);
+      } else {
+        setSelectedNegetiveAttributes([]);
+      }
+    }
+  };
   // Fetch attribute list from db
   const [getAttributes, { data, loading }] = useLazyQuery<any>(
     GET_CAREGIVER_ATTRIBUTES_WITH_CATEGORY
@@ -93,6 +120,7 @@ export const AttributeFilterModal = ({
                   data={attributes}
                   selectedAttributes={selectedPositiveAttributes}
                   updateSelectedAttributes={setSelectedPositiveAttributes}
+                  selectAllAttributes={selectAllAttributes}
                 />
               </Col>
               <Col md={4}>
@@ -103,6 +131,7 @@ export const AttributeFilterModal = ({
                   data={attributes}
                   selectedAttributes={selectedNegetiveAttributes}
                   updateSelectedAttributes={setSelectedNegetiveAttributes}
+                  selectAllAttributes={selectAllAttributes}
                 />
               </Col>
             </Row>

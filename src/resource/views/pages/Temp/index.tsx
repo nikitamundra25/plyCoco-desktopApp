@@ -16,7 +16,9 @@ export const TempPage = () => {
   const [selectedCareinstitutionData, setSelectedCareinstitution] = useState<
     any
   >([]);
-  const [filterObject, setFilterObject] = useState<any>({});
+  const [filterObject, setFilterObject] = useState<any>({
+    showAppointments: "showWithAppointments",
+  });
   const [qualifications, setQualifications] = useState<any[]>([]);
   const [careInstDeptList, setCareInstDeptList] = useState<any>({});
 
@@ -98,8 +100,12 @@ export const TempPage = () => {
                   />
                 </Col>
                 <Col lg={"6"} className='pl-lg-0 mt-2 mt-xs-0 mt-lg-0 mt-xl-0'>
-                  <CareinstitutionForm selected={selectedCareinstitutionData} qualificationList={qualifications}
-                  departmentList={careInstDeptList} setSelectedCareinstitution={setSelectedCareinstitution} />
+                  <CareinstitutionForm
+                    selected={selectedCareinstitutionData}
+                    qualificationList={qualifications}
+                    departmentList={careInstDeptList}
+                    setSelectedCareinstitution={setSelectedCareinstitution}
+                  />
                 </Col>
               </Row>
             </div>

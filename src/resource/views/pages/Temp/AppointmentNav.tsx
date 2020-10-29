@@ -148,9 +148,9 @@ const AppointmentNav: FunctionComponent<any> = ({
                       ({ value }) => value === filters.showAppointments
                     )
                   : {
-                    value: "showWithAppointments",
-                    label: languageTranslation("SHOW_APPOINTMENT"),
-                  }
+                      value: "showAll",
+                      label: languageTranslation("SHOW_ALL"),
+                    }
               }
               onChange={({ value }: any) =>
                 filterUpdated({
@@ -232,7 +232,9 @@ const AppointmentNav: FunctionComponent<any> = ({
               onChange={(careinstitution: any) =>
                 filterUpdated({
                   ...filters,
-                  careInstitutionId: careinstitution ? parseInt(careinstitution.value) : null,
+                  careInstitutionId: careinstitution
+                    ? parseInt(careinstitution.value)
+                    : null,
                   effects: "careinstitution",
                 })
               }

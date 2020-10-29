@@ -180,7 +180,7 @@ export const CareInstitutionList = React.memo(
           negativeAttributeId: [],
           limit: APPOINTMENT_PAGE_LIMIT,
           page: 1,
-          showAppointments: "showWithAppointments",
+          showAppointments: null,
           positiveAttributeId: [],
           gte,
           lte,
@@ -291,10 +291,11 @@ export const CareInstitutionList = React.memo(
           negativeAttributeId: [],
           limit: 30,
           page,
-          showAppointments: "showWithAppointments",
+          showAppointments: null,
           positiveAttributeId: [],
           gte,
           lte,
+          ...filters,
         },
         updateQuery: (prev: any, { fetchMoreResult }: any) => {
           if (!fetchMoreResult) {
@@ -389,7 +390,7 @@ export const CareInstitutionList = React.memo(
             fixed
             data={caregivers}
             width={element ? element.clientWidth - 40 : 800}
-            height={element ? window.innerHeight / 2 - 40 : 300}
+            height={element ? window.innerHeight / 2 - 60 : 300}
             rowKey='key'
             rowHeight={30}
             overlayRenderer={() =>

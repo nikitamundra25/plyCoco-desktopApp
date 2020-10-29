@@ -4,10 +4,10 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Spinner,
   UncontrolledDropdown,
 } from "reactstrap";
 import { languageTranslation } from "../../../../helpers";
+import Spinner from "../../components/Spinner";
 /**
  *
  * @param param0
@@ -143,9 +143,7 @@ export const AttributeList = ({
 
         <div className='common-list-body custom-scrollbar'>
           {listLoading ? (
-            <div className='text-center' style={{ marginTop: 20 }}>
-              <Spinner color='warning' />
-            </div>
+            <Spinner />
           ) : data.length ? (
             data.map((category: any, index: number) => {
               return (

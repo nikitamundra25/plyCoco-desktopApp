@@ -14,7 +14,8 @@ import {
 } from "../../../../config";
 import { AppointmentsQueries } from "../../../../graphql/queries";
 import { getDaysArrayByMonth } from "../../../../helpers";
-import { Spinner, Button } from "reactstrap";
+import { Button } from "reactstrap";
+import Spinner, { MoreSpinner } from "../../components/Spinner";
 
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const staticHeader = ["caregiver", "H", "S", "U", "V"];
@@ -177,7 +178,7 @@ export const CaregiverList = React.memo(
         lte,
         ...filters,
       };
-      delete filterData.careInstitutionId
+      delete filterData.careInstitutionId;
       setDaysData(
         getDaysArrayByMonth(
           moment(filters.gte || gte).month(),
@@ -326,11 +327,11 @@ export const CaregiverList = React.memo(
      * @param selected
      */
     const onSelectFinish = (selected: any) => {
-      if (selected && selected.length ) {
-        let data:any = []
-        selected.map((key:any)=>{
-          data.push(key.props)
-        })
+      if (selected && selected.length) {
+        let data: any = [];
+        selected.map((key: any) => {
+          data.push(key.props);
+        });
         caregiverSelected(data);
       }
     };
@@ -341,7 +342,7 @@ export const CaregiverList = React.memo(
     /**
      *
      */
-    
+
     return (
       <>
         <SelectableGroup
@@ -362,37 +363,10 @@ export const CaregiverList = React.memo(
               loadingCaregiver || isLoading ? (
                 currentPage > 1 ? (
                   <>
-                    <div
-                      style={{
-                        pointerEvents: "none",
-                        background: "rgba(32, 60, 94, 0.3)",
-                        position: "absolute",
-                        bottom: "30px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        padding: "5px 15px",
-                        borderRadius: "10px",
-                        display: "flex",
-                        alignItems: "center",
-                      }}>
-                      <span
-                        style={{
-                          color: "#fff",
-                          marginRight: "5px",
-                        }}>
-                        <Spinner color='warning' size='sm' /> Loading More...
-                      </span>
-                    </div>
+                    <MoreSpinner />
                   </>
                 ) : (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                    }}>
-                    <Spinner color='warning' />
-                  </div>
+                  <Spinner />
                 )
               ) : null
             }

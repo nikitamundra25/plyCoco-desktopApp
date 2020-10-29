@@ -14,7 +14,7 @@ import {
 } from "../../../../config";
 import { AppointmentsQueries } from "../../../../graphql/queries";
 import { getDaysArrayByMonth } from "../../../../helpers";
-import { Spinner } from "reactstrap";
+import { Spinner, Button } from "reactstrap";
 
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const staticHeader = ["caregiver", "H", "S", "U", "V"];
@@ -356,7 +356,7 @@ export const CaregiverList = React.memo(
             fixed
             data={caregivers}
             width={element ? element.clientWidth - 40 : 800}
-            height={element ? window.innerHeight / 2 - 40 : 300}
+            height={element ? window.innerHeight / 2 - 80 : 300}
             rowKey='key'
             overlayRenderer={() =>
               loadingCaregiver || isLoading ? (
@@ -404,14 +404,25 @@ export const CaregiverList = React.memo(
                       className={`custom-appointment-col  ${
                         d === "caregiver" ? "name-col" : ""
                       }`}>
-                      {d}
+                      {/* {d}
                       {d === "caregiver" ? (
                         <>
                           <span>
                             <i className='icon-options-vertical' />
                           </span>
                         </>
-                      ) : null}
+                      ) : null} */}
+                      <div className='position-relative  username-col align-self-center'>
+                        {d}
+                        {d === "caregiver" ? (
+                        <Button
+                          
+                          className='btn-more d-flex align-items-center justify-content-center'
+                        >
+                          <i className='icon-options-vertical' />
+                        </Button>
+                        ) : null}
+                      </div>
                     </span>
                   </React.Fragment>
                 ) : (
@@ -451,7 +462,7 @@ export const CaregiverList = React.memo(
                       return (
                         <div
                           key={rowIndex}
-                          className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
+                          className='custom-appointment-col name-col appointment-color1 p-1 text-capitalize view-more-link one-line-text'
                           title={[rowData.lastName, rowData.firstName].join(
                             " "
                           )}

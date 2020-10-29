@@ -661,6 +661,7 @@ body {
         &.BaseTable__header-row {
           .custom-appointment-col {
             padding: 4px;
+            height: 50px;
           }
         }
         .custom-appointment-col {
@@ -672,6 +673,8 @@ body {
             height: 100%;
             padding: 4px;
             width: 100%;
+            align-items: center;
+            justify-content: center;
           }
         }
       }

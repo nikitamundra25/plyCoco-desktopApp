@@ -7,7 +7,7 @@ import BaseTable, { Column } from "react-base-table";
 import "react-base-table/styles.css";
 import { Link } from "react-router-dom";
 import { createSelectable, SelectableGroup } from "react-selectable-fast";
-import { Spinner } from "reactstrap";
+import { Spinner, Button } from "reactstrap";
 import {
   APPOINTMENT_PAGE_LIMIT,
   AppRoutes,
@@ -388,7 +388,7 @@ export const CareInstitutionList = React.memo(
             fixed
             data={caregivers}
             width={element ? element.clientWidth - 40 : 800}
-            height={element ? window.innerHeight / 2 - 40 : 300}
+            height={element ? window.innerHeight / 2 - 80 : 300}
             rowKey='key'
             rowHeight={30}
             overlayRenderer={() =>
@@ -437,14 +437,25 @@ export const CareInstitutionList = React.memo(
                       className={`custom-appointment-col  ${
                         d === "careinstitution" ? "name-col" : ""
                       }`}>
-                      {d}
+                      {/* {d}
                       {d === "careinstitution" ? (
                         <>
                           <span>
                             <i className='icon-options-vertical' />
                           </span>
                         </>
-                      ) : null}
+                      ) : null} */}
+                      <div className='position-relative  username-col align-self-center'>
+                        {d}
+                        {d === "careinstitution" ? (
+                        <Button
+                          
+                          className='btn-more d-flex align-items-center justify-content-center'
+                        >
+                          <i className='icon-options-vertical' />
+                        </Button>
+                        ) : null}
+                      </div>
                     </span>
                   </React.Fragment>
                 ) : (
@@ -483,7 +494,7 @@ export const CareInstitutionList = React.memo(
                       return (
                         <div
                           key={rowIndex}
-                          className='custom-appointment-col name-col appointment-color1 text-capitalize view-more-link one-line-text'
+                          className='custom-appointment-col name-col appointment-color1 text-capitalize p-1 view-more-link one-line-text'
                           title={rowData.canstitution && rowData.canstitution.shortName ?rowData.canstitution.shortName : [rowData.lastName, rowData.firstName].join(" ")}
                           id={`caregiver-${rowData.id}-${index}-${rowData.row}`}>
                           <Link

@@ -493,7 +493,8 @@ export const CareInstitutionList = React.memo(
                             )}
                             target='_blank'
                             className='text-body'>
-                              {rowData.canstitution && rowData.canstitution.shortName ?rowData.canstitution.shortName : [rowData.lastName, rowData.firstName].join(" ")}
+                              {rowData.row === 0
+                              ?rowData.canstitution && rowData.canstitution.shortName ?rowData.canstitution.shortName : [rowData.lastName, rowData.firstName].join(" ") : null}
                             {/* {[rowData.lastName, rowData.firstName].join(" ")} */}
                           </Link>
                         </div>

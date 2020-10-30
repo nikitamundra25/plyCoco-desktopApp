@@ -1,4 +1,4 @@
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import classnames from "classnames";
 import _, { filter } from "lodash";
 import moment from "moment";
@@ -142,6 +142,9 @@ export const CaregiverList = ({
   caregiverSelected,
   filters,
   updatedCaregiverItem,
+  setMultipleAvailability,
+  handleupdateData,
+  multipleAvailability
 }: any) => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
@@ -165,6 +168,8 @@ export const CaregiverList = ({
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: "no-cache",
   });
+
+  
 
   // Default value is start & end of month
   let gte: string = moment().startOf("month").format(dbAcceptableFormat);
@@ -210,6 +215,8 @@ export const CaregiverList = ({
    * @param data
    */
   const formatCaregivers = (data: any[]) => {
+    console.log("Hereeeeeeeeeeeeeeeeeeeee");
+    
     console.time("test");
     const newData: any[] = [];
     _.forEach(data, (value) => {
@@ -330,10 +337,15 @@ export const CaregiverList = ({
       return temp;
   }
 
-  // Update data in list after add/update/delete operation
+  // Update data in list after add/update/delete/link/unlink operation
   useEffect(() => {
+    if(updatedCaregiverItem && updatedCaregiverItem.length){
     let temp: any = [...caregivers];
+    console.log("temptemp",temp);
+    
     updatedCaregiverItem.forEach((availability: any) => {
+      
+      console.log("availability",availability);
       if (availability.unlinkedBy) {
         temp = handleUnlinkedList(availability, temp);
       } else if(availability.status === "appointment"){
@@ -343,10 +355,11 @@ export const CaregiverList = ({
         let index: number = temp.findIndex(
           (caregiver: any) => caregiver.id === availability.userId
         );
-
         if (temp[index]) {
-          const checkId = (obj: any) => obj.id === availability.id;
+          const checkId = (obj: any) => parseInt(obj.id) === parseInt(availability.id);
           let existId = temp[index].caregiver_avabilities.findIndex(checkId);
+          console.log("existId",existId);
+          
           if (existId > -1) {
             if (availability.date) {
               // id exist so update data at particular index
@@ -356,13 +369,16 @@ export const CaregiverList = ({
               temp[index].caregiver_avabilities[existId] = [];
             }
           } else {
+            //  add if id already not exist
             temp[index].caregiver_avabilities.push(availability);
           }
         }
       }
     });
-
+ console.log("temptemptemptemptemp",temp);
+ 
     setCaregiverData(temp);
+  }
   }, [updatedCaregiverItem]);
   /**
    *
@@ -426,6 +442,7 @@ export const CaregiverList = ({
    * @param selected
    */
   const onSelectFinish = (selected: any) => {
+    setMultipleAvailability(false)
     if (selected && selected.length) {
       let data: any = [];
       selected.map((key: any) => {
@@ -437,6 +454,15 @@ export const CaregiverList = ({
       setSelectedCells([]);
     }
   };
+
+  /**
+   *
+   * @param data
+   */
+  const onUpdateStatus = (data:any) =>{
+    caregiverSelected(data);
+    setSelectedCells(data);
+  }
   /**
    *
    * @param caregiverId
@@ -454,6 +480,9 @@ export const CaregiverList = ({
       setCaregiverData(caregiverItems);
     }
   };
+
+
+
   const handleToggleMenuItem = () => {
     setShowRightClickOptions((prev) => !prev);
   };
@@ -478,6 +507,12 @@ export const CaregiverList = ({
         isOpen={showRightClickOptions}
         hide={() => setShowRightClickOptions(false)}
         selectedCells={selectedCells}
+        onNewAvailability={() => setMultipleAvailability(true)}
+        onUpdateStatus={onUpdateStatus}
+        handleupdateData={handleupdateData}
+        multipleAvailability={multipleAvailability}
+        caregiversList={caregivers}
+        formatCaregivers={formatCaregivers}
       />
       <div className="custom-appointment-calendar overflow-hidden mb-3">
         <SelectableGroup

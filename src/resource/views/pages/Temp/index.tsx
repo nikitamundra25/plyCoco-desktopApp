@@ -27,6 +27,9 @@ export const TempPage = () => {
   const [qualifications, setQualifications] = useState<any[]>([]);
   const [careInstDeptList, setCareInstDeptList] = useState<any>({});
   const [savingBoth, setsavingBoth] = useState(false);
+  const [multipleAvailability, setMultipleAvailability] = useState<boolean>(
+    false,
+  );
   // To fetch qualification attributes list
   const { data: qualificationData, loading } = useQuery<IQualifications>(
     GET_QUALIFICATION_ATTRIBUTE
@@ -70,6 +73,7 @@ export const TempPage = () => {
    * @param data
    */
   const handleupdateData = (data: any, name: string) => {
+    console.log("Hereeeeeeeeeee");
     if (name === "careinstitution") {
       setUpdatedCareinstItem(data);
     } else if(name === "caregiver") {
@@ -109,6 +113,9 @@ export const TempPage = () => {
                     caregiverSelected={caregiverSelected}
                     filters={filterObject}
                     updatedCaregiverItem={updatedCaregiverItem}
+                    setMultipleAvailability={setMultipleAvailability}
+                    handleupdateData={handleupdateData}
+                    multipleAvailability={multipleAvailability}
                   />
                   <CareInstitutionList
                     careinstitutionSelected={careinstitutionSelected}
@@ -135,6 +142,7 @@ export const TempPage = () => {
                       handleupdateData={handleupdateData}
                       savingBoth={savingBoth}
                       setsavingBoth={setsavingBoth}
+                      multipleAvailability={multipleAvailability}
                     />
                   </Col>
                   <Col

@@ -129,6 +129,7 @@ export const CaregiverForm = ({
   handleupdateData,
   savingBoth,
   setsavingBoth,
+  multipleAvailability
 }: any) => {
   const [tempState, setTempState] = useState(false);
   const [timeSlotError, setTimeSlotError] = useState<string>("");
@@ -563,7 +564,10 @@ export const CaregiverForm = ({
     ? user_document
     : {};
 
+
+
   let activeDateCaregiver =
+  !multipleAvailability ? [item.date] :
     selected && selected.length
       ? selected.map((cell: any) => cell.item.date)
       : [];

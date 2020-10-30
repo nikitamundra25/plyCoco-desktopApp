@@ -195,7 +195,7 @@ const LINK_REQUIREMENT = gql`
       createdBy
       appointmentStatus
       workProofId
-      
+      linked
     }
   }
 `;

@@ -108,17 +108,18 @@ const SelectableCell = React.memo(
                   ? true
                   : false,
             })}
-            ref={selectableRef}>
+            ref={selectableRef}
+          >
             {item.status === "timeSheetPending" ? (
-              <i className='fa fa-circle-o'></i>
+              <i className="fa fa-circle-o"></i>
             ) : item.status === "timeSheetUpdated" ? (
-              <i className='fa fa-check'></i>
+              <i className="fa fa-check"></i>
             ) : item.status === "invoiceInitiated" ? (
-              <i className='fa fa-euro'></i>
+              <i className="fa fa-euro"></i>
             ) : item.f === "block" ||
               item.s === "block" ||
               item.n === "block" ? (
-              <i className='fa fa-ban'></i>
+              <i className="fa fa-ban"></i>
             ) : item.status === "default" &&
               new Date(item.date).toTimeString() <
                 new Date().toTimeString() ? null : (
@@ -137,7 +138,11 @@ const SelectableCell = React.memo(
 /**
  *
  */
-export const CaregiverList = ({ caregiverSelected, filters,updatedCaregiverItem }: any) => {
+export const CaregiverList = ({
+  caregiverSelected,
+  filters,
+  updatedCaregiverItem,
+}: any) => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
   );
@@ -267,30 +272,92 @@ export const CaregiverList = ({ caregiverSelected, filters,updatedCaregiverItem 
     setCaregiverData(newCaregivers);
   };
 
-   // Update data in list after add/update/delete operation
-   useEffect(() => {
+  const handleUnlinkedList = (availability: any, temp: any) => {
+    const {
+      unlinkedBy = "",
+      deleteAll = "",
+      id = "",
+      ca = {},
+      cr = {},
+    } = availability ? availability : {};
+    let index: number = temp.findIndex(
+      (caregiver: any) => caregiver.id === ca.userId
+    );
+    const checkId = (obj: any) => obj.id === ca.id;
+    let existId = temp[index].caregiver_avabilities.findIndex(checkId);
+    if (deleteAll) {
+      if (unlinkedBy !== "canstitution") {
+        temp[index].caregiver_avabilities[existId] = [];
+      } else {
+        temp[index].caregiver_avabilities[existId].appointments = [];
+        temp[index].caregiver_avabilities[existId].status = "default";
+      }
+    } else {
+      temp[index].caregiver_avabilities[existId].appointments = [];
+      temp[index].caregiver_avabilities[existId].status = "default";
+    }
+    return temp;
+  };
+
+  // Update status and appointment data onComplete
+  const handleLinkDataUpdate = (availability: any, temp: any) =>{
+    const {
+      avabilityId = "",
+      ca = {},
+      cr={},
+      createdBy = "",
+      date = "",
+      id = "",
+      requirementId = "",
+    } = availability ? availability : {};
+    let index: number = temp.findIndex(
+      (caregiver: any) => caregiver.id === ca.userId
+    );
+    const checkId = (obj: any) => obj.id === avabilityId;
+    let existId = temp[index].caregiver_avabilities.findIndex(checkId);
+    const caregiver = 
+      [{
+        avabilityId,
+        cr,
+        createdBy,
+        date,
+        id,
+        requirementId,
+      }]
+      
+      temp[index].caregiver_avabilities[existId].appointments = caregiver;
+      temp[index].caregiver_avabilities[existId].status = "linked";
+      return temp;
+  }
+
+  // Update data in list after add/update/delete operation
+  useEffect(() => {
     let temp: any = [...caregivers];
     updatedCaregiverItem.forEach((availability: any) => {
-      let index: number = temp.findIndex(
-        (caregiver: any) => caregiver.id === availability.userId
-      );
-
-      if (temp[index]) {
-        const checkId = (obj: any) => obj.id === availability.id;
-        let existId = temp[index].caregiver_avabilities.findIndex(
-          checkId
+      if (availability.unlinkedBy) {
+        temp = handleUnlinkedList(availability, temp);
+      } else if(availability.status === "appointment"){
+         temp = handleLinkDataUpdate(availability, temp)
+      }
+       else {
+        let index: number = temp.findIndex(
+          (caregiver: any) => caregiver.id === availability.userId
         );
-        if (existId > -1) {
-          if(availability.date){
-            // id exist so update data at particular index
-            temp[index].caregiver_avabilities[existId] = availability;
-          }else{
-            // delete if response doen't return date
-            temp[index].caregiver_avabilities[existId] = []
+
+        if (temp[index]) {
+          const checkId = (obj: any) => obj.id === availability.id;
+          let existId = temp[index].caregiver_avabilities.findIndex(checkId);
+          if (existId > -1) {
+            if (availability.date) {
+              // id exist so update data at particular index
+              temp[index].caregiver_avabilities[existId] = availability;
+            } else {
+              // delete if response doen't return date
+              temp[index].caregiver_avabilities[existId] = [];
+            }
+          } else {
+            temp[index].caregiver_avabilities.push(availability);
           }
-         
-        } else {
-          temp[index].caregiver_avabilities.push(availability);
         }
       }
     });
@@ -405,27 +472,29 @@ export const CaregiverList = ({ caregiverSelected, filters,updatedCaregiverItem 
           "right-manu-close": true,
           "d-none": !showRightClickOptions,
         })}
-        onClick={handleToggleMenuItem}></div>
+        onClick={handleToggleMenuItem}
+      ></div>
       <CaregiverRightClickOptions
         isOpen={showRightClickOptions}
         hide={() => setShowRightClickOptions(false)}
         selectedCells={selectedCells}
       />
-      <div className='custom-appointment-calendar overflow-hidden mb-3'>
+      <div className="custom-appointment-calendar overflow-hidden mb-3">
         <SelectableGroup
           allowClickWithoutSelected
-          className='custom-row-selector new-base-table'
-          clickClassName='tick'
+          className="custom-row-selector new-base-table"
+          clickClassName="tick"
           resetOnStart={true}
           allowCtrlClick={false}
           onSelectionFinish={onSelectFinish}
-          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
+          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
+        >
           <BaseTable
             fixed
             data={caregivers}
             width={element ? element.clientWidth - 40 : 800}
             height={element ? window.innerHeight / 2 - 80 : 300}
-            rowKey='key'
+            rowKey="key"
             overlayRenderer={() =>
               loadingCaregiver || isLoading ? (
                 currentPage > 1 ? (
@@ -444,21 +513,23 @@ export const CaregiverList = ({ caregiverSelected, filters,updatedCaregiverItem 
                     <span
                       className={`custom-appointment-col  ${
                         d === "caregiver" ? "name-col" : ""
-                      }`}>
-                      <div className='position-relative  username-col align-self-center'>
+                      }`}
+                    >
+                      <div className="position-relative  username-col align-self-center">
                         {d}
                         {d === "caregiver" ? (
                           <Button
-                            className='btn-more d-flex align-items-center justify-content-center'
-                            onClick={() => setShowRightClickOptions(true)}>
-                            <i className='icon-options-vertical' />
+                            className="btn-more d-flex align-items-center justify-content-center"
+                            onClick={() => setShowRightClickOptions(true)}
+                          >
+                            <i className="icon-options-vertical" />
                           </Button>
                         ) : null}
                       </div>
                     </span>
                   </React.Fragment>
                 ) : (
-                  <span key={d.date} className='custom-appointment-col  '>
+                  <span key={d.date} className="custom-appointment-col  ">
                     {d.day}
                     <br />
                     {d.date}
@@ -468,16 +539,18 @@ export const CaregiverList = ({ caregiverSelected, filters,updatedCaregiverItem 
             }
             rowRenderer={({ cells, rowData }) => (
               <div
-                className='d-flex frozen-row'
-                title={[rowData.lastName, rowData.firstName].join(" ")}>
+                className="d-flex frozen-row"
+                title={[rowData.lastName, rowData.firstName].join(" ")}
+              >
                 {cells}
               </div>
             )}
             onEndReachedThreshold={300}
             onEndReached={handleEndReached}
-            headerClassName='custom-appointment-row'
-            rowClassName='custom-appointment-row'
-            rowHeight={30}>
+            headerClassName="custom-appointment-row"
+            rowClassName="custom-appointment-row"
+            rowHeight={30}
+          >
             {columns.map((d: any, index: number) => (
               <Column
                 key={`col0-${index}-${
@@ -494,18 +567,20 @@ export const CaregiverList = ({ caregiverSelected, filters,updatedCaregiverItem 
                       return (
                         <div
                           key={rowIndex}
-                          className='custom-appointment-col name-col appointment-color1 p-1 text-capitalize view-more-link one-line-text'
+                          className="custom-appointment-col name-col appointment-color1 p-1 text-capitalize view-more-link one-line-text"
                           title={[rowData.lastName, rowData.firstName].join(
                             " "
                           )}
-                          id={`caregiver-${rowData.id}-${index}-${rowData.row}`}>
+                          id={`caregiver-${rowData.id}-${index}-${rowData.row}`}
+                        >
                           <Link
                             to={AppRoutes.CARE_GIVER_VIEW.replace(
                               ":id",
                               rowData.id
                             )}
-                            target='_blank'
-                            className='text-body'>
+                            target="_blank"
+                            className="text-body"
+                          >
                             {rowData.row === 0
                               ? [rowData.lastName, rowData.firstName]
                                   .filter(Boolean)
@@ -522,12 +597,13 @@ export const CaregiverList = ({ caregiverSelected, filters,updatedCaregiverItem 
                       return (
                         <span
                           key={rowIndex}
-                          className='custom-appointment-col s-col text-center cursor-pointer'
-                          onClick={() => filterCaregiverWithStar(rowData.id)}>
+                          className="custom-appointment-col s-col text-center cursor-pointer"
+                          onClick={() => filterCaregiverWithStar(rowData.id)}
+                        >
                           {starredCaregiver === rowData.id ? (
-                            <i className='fa fa-star theme-text' />
+                            <i className="fa fa-star theme-text" />
                           ) : (
-                            <i className='fa fa-star-o' />
+                            <i className="fa fa-star-o" />
                           )}
                         </span>
                       );
@@ -535,17 +611,19 @@ export const CaregiverList = ({ caregiverSelected, filters,updatedCaregiverItem 
                       return (
                         <span
                           key={rowIndex}
-                          className='custom-appointment-col u-col text-center cursor-pointer'>
-                          <i className='fa fa-star-o' />
+                          className="custom-appointment-col u-col text-center cursor-pointer"
+                        >
+                          <i className="fa fa-star-o" />
                         </span>
                       );
                     case "V":
                       return (
                         <span
                           key={rowIndex}
-                          className='custom-appointment-col v-col text-center cursor-pointer'
-                          onClick={() => onAddNewRow(rowIndex)}>
-                          <i className='fa fa-arrow-down' />
+                          className="custom-appointment-col v-col text-center cursor-pointer"
+                          onClick={() => onAddNewRow(rowIndex)}
+                        >
+                          <i className="fa fa-arrow-down" />
                         </span>
                       );
                     default:

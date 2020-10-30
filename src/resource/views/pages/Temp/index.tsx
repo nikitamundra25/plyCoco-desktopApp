@@ -12,6 +12,7 @@ import { GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
 import { map } from "lodash";
 import { languageTranslation } from "../../../../helpers";
 import { toast } from "react-toastify";
+import ConnectAppointment from "./ConnectAppointment";
 
 export const TempPage = () => {
   const [selectedCaregiverData, setSelectedCaregiver] = useState<any>([]);
@@ -25,7 +26,6 @@ export const TempPage = () => {
   });
   const [qualifications, setQualifications] = useState<any[]>([]);
   const [careInstDeptList, setCareInstDeptList] = useState<any>({});
-  const [showUnlinkModal, setshowUnlinkModal] = useState<boolean>(false);
   const [savingBoth, setsavingBoth] = useState(false);
   // To fetch qualification attributes list
   const { data: qualificationData, loading } = useQuery<IQualifications>(
@@ -72,87 +72,22 @@ export const TempPage = () => {
   const handleupdateData = (data: any, name: string) => {
     if (name === "careinstitution") {
       setUpdatedCareinstItem(data);
-    } else {
+    } else if(name === "caregiver") {
       setUpdatedCaregiverItem(data);
+    }else if(name==="both" ){
+      setUpdatedCareinstItem(data);
+      setUpdatedCaregiverItem(data);
+
     }
   };
+  
+  console.log("selectedCaregiverData",selectedCaregiverData);
+  console.log("selectedCareinstitutionData",selectedCareinstitutionData);
+  
 
   const handleSaveBoth = () => {
     setsavingBoth(true);
   };
-
-  const handleUnlinkData = (likedBy: string, check: boolean) => {
-    // setunlinkedBy(likedBy);
-    let appointmentId: any = [];
-    // if (selectedCareinstitutionData && selectedCareinstitutionData.length) {
-    //   selectedCareinstitutionData.map((key: any, index: number) => {
-    //     return appointmentId.push({
-    //       appointmentId: parseInt(
-    //         key.item.appointments ? key.item.appointments[0].id : '',
-    //       ),
-    //       unlinkedBy: likedBy,
-    //       deleteAll: check,
-    //     });
-    //   });
-    //   onLinkAppointment(appointmentId, 'unlink');
-    //   if (likedBy !== 'employee') {
-    //     setisFromUnlink(true);
-    //     setopenCareGiverBulkEmail(!openCareGiverBulkEmail);
-    //     setopenCareInstitutionBulkEmail(!openCareInstitutionBulkEmail);
-    //   }
-    // } else {
-    //   if (!toast.isActive(toastId)) {
-    //     toastId = toast.error(languageTranslation('SELECT_APPOINTMENT'));
-    //   }
-    // }
-  };
-
-  // Handle unlink both
-  const handleUnlinkBoth = () => {
-    setshowUnlinkModal(!showUnlinkModal);
-  };
-
-  // const renderUnlinkModal = () => {
-  //   if (showUnlinkModal) {
-  //     const UnlinkAppointment = React.lazy(() => import('./unLinkmodal'));
-  //     return (
-  //       <Suspense fallback={null}>
-  //         <UnlinkAppointment
-  //           show={showUnlinkModal}
-  //           handleClose={() => setshowUnlinkModal(false)}
-  //           handleUnlinkData={handleUnlinkData}
-  //         />
-  //       </Suspense>
-  //     );
-  //   }
-  // };
-
-  console.log("selectedCaregiverData", selectedCaregiverData);
-  console.log("selectedCareinstitutionData", selectedCareinstitutionData);
-
-  const { item = undefined } =
-    selectedCaregiverData && selectedCaregiverData.length
-      ? selectedCaregiverData[0]
-      : [];
-
-  const { item: careInstItem = undefined } =
-    selectedCareinstitutionData && selectedCareinstitutionData.length
-      ? selectedCareinstitutionData[0]
-      : [];
-
-  const isUnLinkable: boolean =
-    item &&
-    item.appointments &&
-    item.appointments.length &&
-    careInstItem &&
-    careInstItem.appointments &&
-    item.appointments[0] &&
-    item.appointments[0].id &&
-    careInstItem.appointments[0] &&
-    careInstItem.appointments[0].id &&
-    item.appointments[0].id === careInstItem.appointments[0].id
-      ? true
-      : false;
 
   return (
     <>
@@ -234,22 +169,15 @@ export const TempPage = () => {
                         <i className="fa fa-save mr-2" />
                         {languageTranslation("SAVE_BOTH")}
                       </Button>
-                      <Button
-                        className="btn-common mt-0 mb-2 mx-2"
-                        color="secondary"
-                        // disabled={
-                        //   isUnLinkable ? false : isLinkable ? false : true
-                        // }
-                        onClick={() =>
-                          isUnLinkable
-                            ? handleUnlinkBoth()
-                            : /* handleLinkBoth() */ null
-                        }
-                      >
-                        <i className="fa fa-link mr-2" />
-
-                        {languageTranslation("LINK")}
-                      </Button>
+                      <ConnectAppointment 
+                      selectedCaregiverData = {selectedCaregiverData}
+                      selectedCareinstitutionData = {selectedCareinstitutionData}
+                      qualifications = {qualifications}
+                      setSelectedCaregiver={setSelectedCaregiver}
+                      setSelectedCareinstitution={setSelectedCareinstitution}
+                      handleupdateData={handleupdateData}
+                      />
+                      
                     </div>
                   </Col>
                 </Row>
@@ -258,7 +186,6 @@ export const TempPage = () => {
           </div>
         </div>
       </div>
-      {/* {renderUnlinkModal()} */}
     </>
   );
 };

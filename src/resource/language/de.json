@@ -1774,5 +1774,6 @@
   "SELECT_ATTRIBUTE_OR_TYPE_NEW":"Bitte wähle ein Attribut aus oder gebe mit deiner Tastatur ein Neues ein.",
   "CAREGIVER_EMAIL_TEXT":"Pflegekraft wurde erfolgreich hinzugefügt, aber wegen Netzwerkproblemen konnte keine E-Mail versandt werden.",
   "ENTER_TOTAL_SELECTION":"Summe Auswahl",
-  "SEND_INVOICE_TO":"Versende die Rechnung an"
+  "SEND_INVOICE_TO":"Versende die Rechnung an",
+  "UNLINK" :"Unlink"
 }

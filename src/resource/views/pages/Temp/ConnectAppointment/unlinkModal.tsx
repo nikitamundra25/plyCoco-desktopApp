@@ -10,8 +10,8 @@ import {
 } from "reactstrap";
 import close from "../../../../assets/img/cancel.svg";
 import closehover from "../../../../assets/img/cancel-hover.svg";
-import { languageTranslation } from "../../../../helpers";
-import { IUnlinkInterface } from "../../../../interfaces";
+import { languageTranslation } from "../../../../../helpers";
+import { IUnlinkInterface } from "../../../../../interfaces";
 
 const UnlinkAppointment: FunctionComponent<any> = (props: IUnlinkInterface) => {
   const { show, handleClose, handleUnlinkData } = props;

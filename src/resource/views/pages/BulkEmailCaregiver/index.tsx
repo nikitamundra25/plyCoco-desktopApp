@@ -175,12 +175,14 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   //Get Data for selected cell
   useEffect(() => {
     if (selectedCells && selectedCells.length) {
-      let userId = selectedCells[0].id;
-      const { qualificationIds = [] } = selectedCells[0];
-      if (qualificationIds && qualificationIds.length && offerRequirements) {
+      let userId = selectedCells[0].caregiver.id;
+      const { qualificationId = [] } = selectedCells[0].caregiver;
+      console.log("qualificationId",qualificationId);
+      
+      if (qualificationId && qualificationId.length && offerRequirements) {
         fetchRequirmentFromQualification({
           variables: {
-            qualificationId: qualificationIds,
+            qualificationId: qualificationId,
           },
         });
       }
@@ -264,14 +266,16 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         },
       });
     } else {
+     console.log("Hereeeeeeeeeeeeeeeee");
      
       let temp: any = [];
       selectedCells &&
         selectedCells.length &&
         selectedCells.map((cell: any) => {
-          const { firstName = '', lastName = '', email = '', id = '' } = cell
+          const { caregiver = {} } = cell
             ? cell
             : {};
+            const {firstName = '', lastName = '', email = '', id = '', } = caregiver ? caregiver : {}
           if (temp.findIndex((item: any) => item.id === id) < 0) {
             temp.push({
               firstName,

@@ -1,8 +1,10 @@
 import { useMutation } from "@apollo/react-hooks";
 import React, { FunctionComponent, Suspense, useState } from "react";
 import { toast } from "react-toastify";
-import { Button } from "reactstrap";
+import { Button, NavLink } from "reactstrap";
 import moment from "moment";
+import connect from "../../../../assets/img/dropdown/connect.svg";
+import disconnect from "../../../../assets/img/dropdown/disconnect.svg";
 import { dbAcceptableFormat } from "../../../../../config";
 import { AppointmentMutations } from "../../../../../graphql/Mutations";
 import { languageTranslation } from "../../../../../helpers";
@@ -33,6 +35,8 @@ const ConnectAppointment: FunctionComponent<any> = ({
   setSelectedCaregiver,
   setSelectedCareinstitution,
   handleupdateData,
+  label,
+  hide,
 }: any) => {
   // Mutation to linkRequirement
   const [linkRequirement, { loading: linkLoading }] = useMutation<{
@@ -44,7 +48,6 @@ const ConnectAppointment: FunctionComponent<any> = ({
       }
       updateLinkItemData(addAppointment);
       handleupdateData(addAppointment, "both");
-
     },
   });
 
@@ -78,7 +81,7 @@ const ConnectAppointment: FunctionComponent<any> = ({
     setopenCareInstitutionBulkEmail,
   ] = useState<boolean>(false);
 
-  // Update data in form when unlink appointments 
+  // Update data in form when unlink appointments
   const updateUnlinkItemData = (itemData: any) => {
     if (itemData && itemData.length) {
       const {
@@ -104,7 +107,7 @@ const ConnectAppointment: FunctionComponent<any> = ({
     }
   };
 
-  // Update data in form when link appointments 
+  // Update data in form when link appointments
   const updateLinkItemData = (itemData: any) => {
     if (itemData && itemData.length) {
       const {
@@ -157,7 +160,7 @@ const ConnectAppointment: FunctionComponent<any> = ({
         item: {
           ...item,
           status: name === "unlink" ? "default" : "linked",
-          appointments
+          appointments,
         },
       },
     ];
@@ -171,8 +174,8 @@ const ConnectAppointment: FunctionComponent<any> = ({
       item: careInstItem = undefined,
       canstitution = {},
     } =
-      selectedCaregiverData && selectedCaregiverData.length
-        ? selectedCaregiverData[0]
+      selectedCareinstitutionData && selectedCareinstitutionData.length
+        ? selectedCareinstitutionData[0]
         : {};
     let datacareInst: any = [
       {
@@ -200,6 +203,9 @@ const ConnectAppointment: FunctionComponent<any> = ({
 
   // Link both forms
   const handleLinkBoth = async () => {
+    console.log("Hereeeeeeeeeeeeeeeeeee", selectedCareinstitutionData);
+    console.log("selectedCaregiverData", selectedCaregiverData);
+
     let selectedData: any = [],
       checkError: boolean = false;
     if (
@@ -287,7 +293,7 @@ const ConnectAppointment: FunctionComponent<any> = ({
                   avabilityId: parseInt(key.item.id),
                   requirementId: parseInt(element.item.id),
                   date: moment(element.dateString).format(dbAcceptableFormat),
-                  status: "appointment"
+                  status: "appointment",
                 });
               }
             }
@@ -394,24 +400,51 @@ const ConnectAppointment: FunctionComponent<any> = ({
 
   return (
     <>
-      <Button
-        className="btn-common mt-0 mb-2 mx-2"
-        color="secondary"
-        // disabled={
-        //   isUnLinkable ? false : isLinkable ? false : true
-        // }
-        onClick={() => (isUnLinkable ? handleUnlinkBoth() : handleLinkBoth())}
-      >
-        {linkLoading || unlinkLoading ? (
-          <i className="fa fa-spinner fa-spin mr-2" />
-        ) : (
-          <i className="fa fa-link mr-2" />
-        )}
+      {label === "link" ? (
+        <NavLink
+          onClick={() => {
+            handleLinkBoth();
+            hide();
+          }}
+        >
+          <img src={connect} className="mr-2" alt="" />
+          <span className="align-middle">
+            {languageTranslation("CONNECT_APPOINTMENT")}
+          </span>
+        </NavLink>
+      ) : label === "unlink" ? (
+        <NavLink
+          // disabled={selectedCells ? selectedCells.length === 0 : true}
+          onClick={() => {
+            hide();
+            handleUnlinkBoth();
+          }}
+        >
+          <img src={disconnect} className="mr-2" alt="" />
+          <span className="align-middle">
+            {languageTranslation("DISCONNECT_APPOINTMENT")}
+          </span>
+        </NavLink>
+      ) : (
+        <Button
+          className="btn-common mt-0 mb-2 mx-2"
+          color="secondary"
+          // disabled={
+          //   isUnLinkable ? false : isLinkable ? false : true
+          // }
+          onClick={() => (isUnLinkable ? handleUnlinkBoth() : handleLinkBoth())}
+        >
+          {linkLoading || unlinkLoading ? (
+            <i className="fa fa-spinner fa-spin mr-2" />
+          ) : (
+            <i className="fa fa-link mr-2" />
+          )}
 
-        {isUnLinkable
-          ? languageTranslation("UNLINK")
-          : languageTranslation("LINK")}
-      </Button>
+          {isUnLinkable
+            ? languageTranslation("UNLINK")
+            : languageTranslation("LINK")}
+        </Button>
+      )}
       {renderUnlinkModal()}
       <BulkEmailCareInstitutionModal
         openModal={openCareInstitutionBulkEmail}

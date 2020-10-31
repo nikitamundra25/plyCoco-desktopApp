@@ -111,11 +111,15 @@ export const TempPage = () => {
                 <div className="calender-section">
                   <CaregiverList
                     caregiverSelected={caregiverSelected}
+                    filterUpdated={setFilterObject}
                     filters={filterObject}
                     updatedCaregiverItem={updatedCaregiverItem}
                     setMultipleAvailability={setMultipleAvailability}
                     handleupdateData={handleupdateData}
                     multipleAvailability={multipleAvailability}
+                    qualificationList={qualifications}
+                    selectedCareinstitutionData={selectedCareinstitutionData}
+                    setSelectedCareinstitution={setSelectedCareinstitution}
                   />
                   <CareInstitutionList
                     careinstitutionSelected={careinstitutionSelected}
@@ -138,11 +142,13 @@ export const TempPage = () => {
                   >
                     <CaregiverForm
                       selected={selectedCaregiverData}
-                      setSelectedCaregiver={setSelectedCaregiver}
+                     setSelectedCaregiver ={setSelectedCaregiver}
+                      setSelectedCareinstitution={setSelectedCareinstitution}
                       handleupdateData={handleupdateData}
                       savingBoth={savingBoth}
                       setsavingBoth={setsavingBoth}
                       multipleAvailability={multipleAvailability}
+                      selectedCareinstitutionData={selectedCareinstitutionData}
                     />
                   </Col>
                   <Col

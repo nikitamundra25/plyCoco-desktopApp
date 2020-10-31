@@ -240,36 +240,39 @@ export const CareInstitutionList = React.memo(
       return temp;
     };
 
- // Update status and appointment data onComplete
- const handleLinkDataUpdate = (availability: any, temp: any) =>{
-  const {
-    avabilityId = "",
-    ca = {},
-    cr={},
-    createdBy = "",
-    date = "",
-    id = "",
-    requirementId = "",
-  } = availability ? availability : {};
-  let index: number = temp.findIndex(
-    (caregiver: any) => caregiver.id === cr.userId
-  );
-  const checkId = (obj: any) => obj.id === requirementId;
-  let existId = temp[index].careinstitution_requirements.findIndex(checkId);
-  const careinsti:any = 
-    [{
-      avabilityId,
-      ca,
-      createdBy,
-      date,
-      id,
-      requirementId,
-    }]
-    
-    temp[index].careinstitution_requirements[existId].appointments = careinsti;
-    temp[index].careinstitution_requirements[existId].status = "linked";
-    return temp;
-}
+    // Update status and appointment data onComplete
+    const handleLinkDataUpdate = (availability: any, temp: any) => {
+      const {
+        avabilityId = "",
+        ca = {},
+        cr = {},
+        createdBy = "",
+        date = "",
+        id = "",
+        requirementId = "",
+      } = availability ? availability : {};
+      let index: number = temp.findIndex(
+        (caregiver: any) => caregiver.id === cr.userId
+      );
+      const checkId = (obj: any) => obj.id === requirementId;
+      let existId = temp[index].careinstitution_requirements.findIndex(checkId);
+      const careinsti: any = [
+        {
+          avabilityId,
+          ca,
+          createdBy,
+          date,
+          id,
+          requirementId,
+        },
+      ];
+
+      temp[index].careinstitution_requirements[
+        existId
+      ].appointments = careinsti;
+      temp[index].careinstitution_requirements[existId].status = "linked";
+      return temp;
+    };
 
     // Update data in list after add/update/delete operation
     useEffect(() => {
@@ -277,9 +280,9 @@ export const CareInstitutionList = React.memo(
       updatedCareinstItem.forEach((requirement: any) => {
         if (requirement.unlinkedBy) {
           temp = handleUnlinkedList(requirement, temp);
-        }else if(requirement.status === "appointment"){
-          temp = handleLinkDataUpdate(requirement, temp)
-       } else {
+        } else if (requirement.status === "appointment") {
+          temp = handleLinkDataUpdate(requirement, temp);
+        } else {
           let index: number = temp.findIndex(
             (careInst: any) =>
               parseInt(careInst.id) === parseInt(requirement.userId)

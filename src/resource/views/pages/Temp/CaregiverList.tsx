@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import classnames from "classnames";
-import _, { filter } from "lodash";
+import _, { filter,map } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import BaseTable, { Column } from "react-base-table";
@@ -141,10 +141,14 @@ const SelectableCell = React.memo(
 export const CaregiverList = ({
   caregiverSelected,
   filters,
+  filterUpdated,
   updatedCaregiverItem,
   setMultipleAvailability,
   handleupdateData,
-  multipleAvailability
+  multipleAvailability,
+  qualificationList,
+  selectedCareinstitutionData,
+  setSelectedCareinstitution,
 }: any) => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
@@ -210,13 +214,13 @@ export const CaregiverList = ({
       getCaregiverData();
     }
   }, [filters]);
+
+
   /**
    *
    * @param data
    */
   const formatCaregivers = (data: any[]) => {
-    console.log("Hereeeeeeeeeeeeeeeeeeeee");
-    
     console.time("test");
     const newData: any[] = [];
     _.forEach(data, (value) => {
@@ -341,11 +345,7 @@ export const CaregiverList = ({
   useEffect(() => {
     if(updatedCaregiverItem && updatedCaregiverItem.length){
     let temp: any = [...caregivers];
-    console.log("temptemp",temp);
-    
     updatedCaregiverItem.forEach((availability: any) => {
-      
-      console.log("availability",availability);
       if (availability.unlinkedBy) {
         temp = handleUnlinkedList(availability, temp);
       } else if(availability.status === "appointment"){
@@ -358,8 +358,6 @@ export const CaregiverList = ({
         if (temp[index]) {
           const checkId = (obj: any) => parseInt(obj.id) === parseInt(availability.id);
           let existId = temp[index].caregiver_avabilities.findIndex(checkId);
-          console.log("existId",existId);
-          
           if (existId > -1) {
             if (availability.date) {
               // id exist so update data at particular index
@@ -375,8 +373,6 @@ export const CaregiverList = ({
         }
       }
     });
- console.log("temptemptemptemptemp",temp);
- 
     setCaregiverData(temp);
   }
   }, [updatedCaregiverItem]);
@@ -486,6 +482,19 @@ export const CaregiverList = ({
   const handleToggleMenuItem = () => {
     setShowRightClickOptions((prev) => !prev);
   };
+
+/**
+   *@param qualification
+   * 
+   */
+  const handleQualificationFilter = (qualification :any) =>{
+    setCurrentPage(1)
+    filterUpdated({
+      ...filters,
+      qualificationId: map(qualification, ({ value }) => value),
+      effects: "both",
+    });
+  }
   /**
    *
    */
@@ -507,12 +516,18 @@ export const CaregiverList = ({
         isOpen={showRightClickOptions}
         hide={() => setShowRightClickOptions(false)}
         selectedCells={selectedCells}
+        setSelectedCells={setSelectedCells}
         onNewAvailability={() => setMultipleAvailability(true)}
         onUpdateStatus={onUpdateStatus}
         handleupdateData={handleupdateData}
         multipleAvailability={multipleAvailability}
         caregiversList={caregivers}
         formatCaregivers={formatCaregivers}
+        qualificationList={qualificationList}
+        handleQualificationFilter={handleQualificationFilter}
+        selectedCareinstitutionData={selectedCareinstitutionData}
+        setSelectedCareinstitution={setSelectedCareinstitution}
+        filters={filters}
       />
       <div className="custom-appointment-calendar overflow-hidden mb-3">
         <SelectableGroup

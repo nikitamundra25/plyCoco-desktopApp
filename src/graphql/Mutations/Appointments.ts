@@ -185,6 +185,9 @@ const LINK_REQUIREMENT = gql`
         id
       }
       cr{
+        startTime
+        endTime
+        name
         userId
         id
         division {

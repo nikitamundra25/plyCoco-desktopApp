@@ -269,8 +269,6 @@ export const CaregiverRightClickOptions = ({
     let linkedEntries = temp.filter(
       (element: any) => element.item && element.item.status === "linked"
     );
-    console.log("linkedEntries", linkedEntries, temp);
-
     if (linkedEntries && linkedEntries.length) {
       const { value } = await ConfirmBox({
         title: languageTranslation("APPOINTMENT_CANT_BE_DELETED"),
@@ -441,6 +439,7 @@ export const CaregiverRightClickOptions = ({
       updateLeasingContractStatus(
         leasingContract ? "contractInitiated" : "contractCancelled"
       );
+      
     }
     setopenCareGiverBulkEmail(false);
     setconfirmApp(false);
@@ -450,7 +449,14 @@ export const CaregiverRightClickOptions = ({
   };
 
   // TO update the status of the cell & data because it's api is different
-  const updateLeasingContractStatus = (status: string) => {};
+  const updateLeasingContractStatus = (status: string) => {
+    const updateCareGiverAvability = {
+      ...item,
+      status 
+    }
+     handleupdateData([updateCareGiverAvability], "caregiver");
+     updateItemData([updateCareGiverAvability]);
+  };
 
   let sortedQualificationList: any = [];
   if (selectedCells && selectedCells.length) {
@@ -473,6 +479,59 @@ export const CaregiverRightClickOptions = ({
     });
   }
 
+  let offferAll: any = [];
+  if (selectedCells && selectedCells.length) {
+    offferAll = selectedCells.filter((x: any) => {
+      if (x.item) {
+        return (
+          x.item &&
+          x.item.f === 'block' &&
+          x.item.s === 'block' &&
+          x.item.n === 'block'
+        );
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+  let checkQuali: any = [];
+  if (selectedCells && selectedCells.length) {
+    checkQuali = selectedCells.filter((x: any) => {
+      if (x.item) {
+        return x.qualificationIds && x.qualificationIds.length;
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+
+    //to apply condition on disconnect appointments
+    let disconnectAppCond: any;
+    if (selectedCells && selectedCells.length) {
+      disconnectAppCond = selectedCells.filter((x: any) => {
+        if (x.item) {
+          return x.item && x.item.status !== 'linked';
+        } else {
+          return ['abc'];
+        }
+      });
+    }
+
+    // To check appointment with leasing careInst or not
+    let isLeasingAppointment = false;
+    if (selectedCells && selectedCells.length) {
+      isLeasingAppointment = selectedCells.filter(
+        (cell: any) =>
+          cell &&
+          cell.item &&
+          cell.item.appointments &&
+          cell.item.appointments.length &&
+          cell.item.appointments[0].cr &&
+          cell.item.appointments[0].cr.isLeasing,
+      ).length
+        ? true
+        : false;
+    }
   const renderDetailedList = () => {
     if (showList) {
       const DetaillistCaregiverPopup = React.lazy(
@@ -491,6 +550,7 @@ export const CaregiverRightClickOptions = ({
     }
   };
 
+  
   return (
     <>
       <div
@@ -516,6 +576,9 @@ export const CaregiverRightClickOptions = ({
           </NavItem>
           <NavItem>
             <NavLink
+             disabled={
+              selectedCells.some((list:any) => list.item.status === 'default') ? false: true
+            }
               onClick={() => {
                 hide();
                 onReserve();
@@ -529,6 +592,19 @@ export const CaregiverRightClickOptions = ({
           </NavItem>
           <NavItem>
             <NavLink
+             disabled={
+              selectedCells && selectedCells.length
+                ? selectedCells.filter(
+                    (availability: any) =>
+                      (availability && !availability.item) ||
+                      (availability.item &&
+                        availability.item.status === 'default') ||
+                      availability.item.status === 'linked',
+                  ).length
+                  ? false
+                  : true
+                : true
+            }
               onClick={() => {
                 hide();
                 onDeleteEntries();
@@ -576,13 +652,13 @@ export const CaregiverRightClickOptions = ({
           </NavItem>
           <NavItem>
             <NavLink
-              /* disabled={
+               disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
                     (offferAll && offferAll.length !== 0) ||
                     (checkQuali && checkQuali.length === 0)
                   : true
-              } */
+              }
               onClick={() => {
                 hide();
                 setOfferRequirements(true);
@@ -623,6 +699,13 @@ export const CaregiverRightClickOptions = ({
           <NavItem className="bordernav" />
           <NavItem>
             <NavLink
+             disabled={
+              selectedCells
+                ? selectedCells.length === 0 ||
+                  (disconnectAppCond && disconnectAppCond.length !== 0) ||
+                  isLeasingAppointment
+                : true
+            }
               onClick={() => {
                 hide();
                 updateCaregiverStatus("confirmed");
@@ -637,10 +720,20 @@ export const CaregiverRightClickOptions = ({
             </NavLink>{" "}
           </NavItem>
           <NavItem>
-            <NavLink>
+            <NavLink
+             disabled={
+              selectedCells
+                ? selectedCells.length === 0 ||
+                  (selectedCells[0].item &&
+                    selectedCells[0].item.status !== 'linked') ||
+                  isLeasingAppointment
+                : true
+            }
+            >
               <img src={set_confirm} className="mr-2" alt="" />
               <span
                 className="align-middle"
+                
                 onClick={() => {
                   hide();
                   updateCaregiverStatus("confirmed");
@@ -652,14 +745,14 @@ export const CaregiverRightClickOptions = ({
           </NavItem>
           <NavItem>
             <NavLink
-            // disabled={
-            //   selectedCells
-            //     ? selectedCells.length === 0 ||
-            //       (selectedCells[0].item &&
-            //         selectedCells[0].item.status !== "confirmed") ||
-            //       isLeasingAppointment
-            //     : true
-            // }
+            disabled={
+              selectedCells
+                ? selectedCells.length === 0 ||
+                  (selectedCells[0].item &&
+                    selectedCells[0].item.status !== 'confirmed') ||
+                  isLeasingAppointment
+                : true
+            }
             >
               <img src={unset_confirm} className="mr-2" alt="" />
               <span
@@ -675,6 +768,24 @@ export const CaregiverRightClickOptions = ({
           </NavItem>
           <NavItem>
             <NavLink
+            disabled={
+              selectedCells && selectedCells.length
+                ? selectedCells.filter(
+                    (availability: any) =>
+                      (availability && !availability.item) ||
+                      !isLeasingAppointment ||
+                      (availability.item &&
+                        availability.item.appointments &&
+                        availability.item.appointments.length &&
+                        availability.item.appointments[0] &&
+                        availability.item.appointments[0].cr &&
+                        availability.item.appointments[0].cr.status !==
+                          'confirmed'),
+                  ).length
+                  ? true
+                  : false
+                : true
+            }
               onClick={() => {
                 hide();
                 setleasingContract(true);
@@ -687,8 +798,13 @@ export const CaregiverRightClickOptions = ({
               </span>
             </NavLink>{" "}
           </NavItem>
-          <NavItem>
+          <NavItem >
             <NavLink
+            disabled={
+              selectedCells
+                ? selectedCells.length === 0 || !isLeasingAppointment
+                : true
+            }
               onClick={() => {
                 hide();
                 setTerminateAggrement(true);

@@ -203,9 +203,6 @@ const ConnectAppointment: FunctionComponent<any> = ({
 
   // Link both forms
   const handleLinkBoth = async () => {
-    console.log("Hereeeeeeeeeeeeeeeeeee", selectedCareinstitutionData);
-    console.log("selectedCaregiverData", selectedCaregiverData);
-
     let selectedData: any = [],
       checkError: boolean = false;
     if (
@@ -398,10 +395,36 @@ const ConnectAppointment: FunctionComponent<any> = ({
       ? true
       : false;
 
+  //to apply condition on connect appointments
+  let connectAppCondition: any;
+  if (selectedCaregiverData && selectedCaregiverData.length) {
+    connectAppCondition = selectedCaregiverData.filter((x: any) => {
+      if (x.item) {
+        if (
+          x.item.f !== 'block' ||
+          x.item.s !== 'block' ||
+          x.item.n !== 'block'
+        ) {
+          return x.item && x.item.status !== 'default';
+        } else {
+          return ['abc'];
+        }
+      } else {
+        return ['abc'];
+      }
+    });
+  }
+
   return (
     <>
       {label === "link" ? (
         <NavLink
+        disabled={
+          selectedCaregiverData
+            ? selectedCaregiverData.length === 0 ||
+              (connectAppCondition && connectAppCondition.length !== 0)
+            : true
+        }
           onClick={() => {
             handleLinkBoth();
             hide();

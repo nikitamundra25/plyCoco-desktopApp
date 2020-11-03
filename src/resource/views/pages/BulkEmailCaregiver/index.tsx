@@ -240,7 +240,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       !props.unlinkedBy
     ) {
       let temp: any = [];
-
+  console.log("props.qualification",props.qualification);
+  
       if (props.qualification && props.qualification.length) {
         props.qualification.map((key: any, index: number) => {
           if (key.value) {
@@ -673,8 +674,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         }
         let temp: any = [];
+        
         qualificationArray.map((i: any) => {
-          temp.push(i.label);
+          temp.push(i);
         });
         qualificationString = temp.join();
 
@@ -1547,10 +1549,13 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   const uploadDocument = (data: IEmailAttachmentData) => {
     setAttachments((prevArray: any) => [data, ...prevArray]);
   };
+
   let userId = "",
     appointmentIds: number[] = [],
     requirementIds: number[] = [],
     avabilityIds: number[] = [];
+    console.log("selectedCells",selectedCells);
+    
   if (selectedCells && selectedCells.length > 0) {
     let appointedCells = selectedCells.filter(
       (cell: any) =>
@@ -1615,10 +1620,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   }, [pdfAppointmentDetails]);
 
   useEffect(() => {
-    console.log("userIduserId",userId);
-    console.log("terminateAggrement",terminateAggrement);
-    console.log("pdfTerminateAppointment",pdfTerminateAppointment);
-    
+   
     if (
       userId &&
       terminateAggrement &&

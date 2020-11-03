@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import classnames from "classnames";
-import _, { filter,map } from "lodash";
+import _, { filter, map } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import BaseTable, { Column } from "react-base-table";
@@ -149,6 +149,7 @@ export const CaregiverList = ({
   qualificationList,
   selectedCareinstitutionData,
   setSelectedCareinstitution,
+  confirmLeasing,
 }: any) => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
@@ -172,8 +173,6 @@ export const CaregiverList = ({
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
     fetchPolicy: "no-cache",
   });
-
-  
 
   // Default value is start & end of month
   let gte: string = moment().startOf("month").format(dbAcceptableFormat);
@@ -214,7 +213,6 @@ export const CaregiverList = ({
       getCaregiverData();
     }
   }, [filters]);
-
 
   /**
    *
@@ -311,11 +309,11 @@ export const CaregiverList = ({
   };
 
   // Update status and appointment data onComplete
-  const handleLinkDataUpdate = (availability: any, temp: any) =>{
+  const handleLinkDataUpdate = (availability: any, temp: any) => {
     const {
       avabilityId = "",
       ca = {},
-      cr={},
+      cr = {},
       createdBy = "",
       date = "",
       id = "",
@@ -326,56 +324,107 @@ export const CaregiverList = ({
     );
     const checkId = (obj: any) => obj.id === avabilityId;
     let existId = temp[index].caregiver_avabilities.findIndex(checkId);
-    const caregiver = 
-      [{
+    const caregiver = [
+      {
         avabilityId,
         cr,
         createdBy,
         date,
         id,
         requirementId,
-      }]
-      
-      temp[index].caregiver_avabilities[existId].appointments = caregiver;
-      temp[index].caregiver_avabilities[existId].status = "linked";
-      return temp;
-  }
+      },
+    ];
+
+    temp[index].caregiver_avabilities[existId].appointments = caregiver;
+    temp[index].caregiver_avabilities[existId].status = "linked";
+    return temp;
+  };
 
   // Update data in list after add/update/delete/link/unlink operation
   useEffect(() => {
-    if(updatedCaregiverItem && updatedCaregiverItem.length){
-    let temp: any = [...caregivers];
-    updatedCaregiverItem.forEach((availability: any) => {
-      if (availability.unlinkedBy) {
-        temp = handleUnlinkedList(availability, temp);
-      } else if(availability.status === "appointment"){
-         temp = handleLinkDataUpdate(availability, temp)
-      }
-       else {
-        let index: number = temp.findIndex(
-          (caregiver: any) => caregiver.id === availability.userId
-        );
-        if (temp[index]) {
-          const checkId = (obj: any) => parseInt(obj.id) === parseInt(availability.id);
-          let existId = temp[index].caregiver_avabilities.findIndex(checkId);
-          if (existId > -1) {
-            if (availability.date) {
-              // id exist so update data at particular index
-              temp[index].caregiver_avabilities[existId] = availability;
+    if (updatedCaregiverItem && updatedCaregiverItem.length) {
+      let temp: any = [...caregivers];
+      updatedCaregiverItem.forEach((availability: any) => {
+        if (availability.unlinkedBy) {
+          temp = handleUnlinkedList(availability, temp);
+        } else if (availability.status === "appointment") {
+          temp = handleLinkDataUpdate(availability, temp);
+        } else {
+          let index: number = temp.findIndex(
+            (caregiver: any) => caregiver.id === availability.userId
+          );
+          if (temp[index]) {
+            const checkId = (obj: any) =>
+              parseInt(obj.id) === parseInt(availability.id);
+            let existId = temp[index].caregiver_avabilities.findIndex(checkId);
+            if (existId > -1) {
+              if (availability.date) {
+                // id exist so update data at particular index
+                temp[index].caregiver_avabilities[existId] = availability;
+              } else {
+                // delete if response doen't return date
+                temp[index].caregiver_avabilities[existId] = [];
+              }
             } else {
-              // delete if response doen't return date
-              temp[index].caregiver_avabilities[existId] = [];
+              //  add if id already not exist
+              temp[index].caregiver_avabilities.push(availability);
             }
-          } else {
-            //  add if id already not exist
-            temp[index].caregiver_avabilities.push(availability);
           }
         }
-      }
-    });
-    setCaregiverData(temp);
-  }
+      });
+      setCaregiverData(temp);
+    }
   }, [updatedCaregiverItem]);
+
+  useEffect(() => {
+    let caregivList: any = [...caregivers];
+    let caregiverIndex: number = caregivList.findIndex(
+      (caregiver: any) =>
+        confirmLeasing &&
+        confirmLeasing.ca &&
+        confirmLeasing.ca.userId &&
+        caregiver.id === confirmLeasing.ca.userId
+    );
+    if (caregiverIndex > -1) {
+      const checkId = (obj: any) =>
+        parseInt(obj.id) === parseInt(confirmLeasing.avabilityId);
+      let existId = caregivList[caregiverIndex].caregiver_avabilities.findIndex(
+        checkId
+      );
+      if (existId > -1) {
+        let itemData =
+          caregivList[caregiverIndex].caregiver_avabilities[existId];
+        const updateData = {
+          ...itemData,
+          appointments: [
+            {
+              ...itemData.appointments[0],
+              cr: {
+                ...itemData.appointments[0].cr,
+                status: "confirmed",
+              },
+            },
+          ],
+        };
+        caregivList[caregiverIndex].caregiver_avabilities[existId] = updateData;
+        setCaregiverData(caregivList);
+        if (selectedCells && selectedCells.length) {
+          const {
+            isWeekend = "",
+            caregiver = {},
+          } = selectedCells[0] ? selectedCells[0] : {};
+          let data: any = [{
+            isWeekend,
+            caregiver: {
+              ...caregiver,
+            },
+            item: updateData,
+          }];
+          onUpdateStatus(data);
+        }
+      }
+    }
+  }, [confirmLeasing]);
   /**
    *
    * @param page
@@ -438,7 +487,7 @@ export const CaregiverList = ({
    * @param selected
    */
   const onSelectFinish = (selected: any) => {
-    setMultipleAvailability(false)
+    setMultipleAvailability(false);
     if (selected && selected.length) {
       let data: any = [];
       selected.map((key: any) => {
@@ -455,10 +504,10 @@ export const CaregiverList = ({
    *
    * @param data
    */
-  const onUpdateStatus = (data:any) =>{
+  const onUpdateStatus = (data: any) => {
     caregiverSelected(data);
     setSelectedCells(data);
-  }
+  };
   /**
    *
    * @param caregiverId
@@ -477,24 +526,22 @@ export const CaregiverList = ({
     }
   };
 
-
-
   const handleToggleMenuItem = () => {
     setShowRightClickOptions((prev) => !prev);
   };
 
-/**
+  /**
    *@param qualification
-   * 
+   *
    */
-  const handleQualificationFilter = (qualification :any) =>{
-    setCurrentPage(1)
+  const handleQualificationFilter = (qualification: any) => {
+    setCurrentPage(1);
     filterUpdated({
       ...filters,
       qualificationId: map(qualification, ({ value }) => value),
       effects: "both",
     });
-  }
+  };
   /**
    *
    */

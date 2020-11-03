@@ -30,6 +30,11 @@ export const TempPage = () => {
   const [multipleAvailability, setMultipleAvailability] = useState<boolean>(
     false,
   );
+  const [ multipleRequirement, setMultipleRequirement] = useState<boolean>(false);
+
+  // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
+  const [ confirmLeasing, setConfirmLeasing] = useState<any>();
+
   // To fetch qualification attributes list
   const { data: qualificationData, loading } = useQuery<IQualifications>(
     GET_QUALIFICATION_ATTRIBUTE
@@ -87,7 +92,14 @@ export const TempPage = () => {
   
   console.log("selectedCaregiverData",selectedCaregiverData);
   console.log("selectedCareinstitutionData",selectedCareinstitutionData);
-  
+
+   /**
+   *
+   * @param data
+   */
+  const updateCaregiverDataLeasing = (list:any) =>{
+setConfirmLeasing(list)
+  }
 
   const handleSaveBoth = () => {
     setsavingBoth(true);
@@ -120,14 +132,20 @@ export const TempPage = () => {
                     qualificationList={qualifications}
                     selectedCareinstitutionData={selectedCareinstitutionData}
                     setSelectedCareinstitution={setSelectedCareinstitution}
+                    confirmLeasing={confirmLeasing}
                   />
                   <CareInstitutionList
+                  selectedCaregiverData={selectedCaregiverData}
                     careinstitutionSelected={careinstitutionSelected}
                     filters={filterObject}
                     setCareInstDeptList={setCareInstDeptList}
                     qualificationList={qualifications}
                     updatedCareinstItem={updatedCareinstItem}
                     selected={selectedCareinstitutionData}
+                    setMultipleRequirement={setMultipleRequirement}
+                    handleupdateData={handleupdateData}
+                    caregiverSelected={caregiverSelected}
+                    updateCaregiverDataLeasing={updateCaregiverDataLeasing}
                   />
                 </div>
               </div>
@@ -163,6 +181,7 @@ export const TempPage = () => {
                       handleupdateData={handleupdateData}
                       savingBoth={savingBoth}
                       setsavingBoth={setsavingBoth}
+                      multipleRequirement={multipleRequirement}
                     />
                   </Col>
                   <Col lg={"12"}>

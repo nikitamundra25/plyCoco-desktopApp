@@ -78,7 +78,8 @@ const CareinstitutionForm = ({
   setSelectedCareinstitution,
   handleupdateData,
   savingBoth,
-  setsavingBoth
+  setsavingBoth,
+  multipleRequirement
 }: any) => {
   // Mutation to add careinstitution data
   const [
@@ -232,10 +233,14 @@ const CareinstitutionForm = ({
         let careInstitutionRequirementInput: any[] = [];
         selected.forEach(async (element: any) => {
           const { item = "", canstitution = {} } = element ? element : {};
-          const { attributes = [], street = "", city = "" } = canstitution
+          const { canstitution:careinst={} } = canstitution
             ? canstitution
             : {};
-
+            console.log("canstitution111",canstitution);
+            
+            const { attributes = [], street = "", city = "" } = careinst
+            ? careinst
+            : {};
           let stemp: ICareinstitutionFormSubmitValue = {
             userId:
               canstitution && canstitution.id ? parseInt(canstitution.id) : 0,
@@ -648,7 +653,9 @@ const CareinstitutionForm = ({
     updatedAt: updatedAt ? updatedAt : "",
   };
 
+  // multipleRequirement
   let activeDateCareinstitution =
+  !multipleRequirement ? [item.date] :
     selected && selected.length
       ? selected.map((cell: any) => cell.item.date)
       : [];

@@ -66,6 +66,8 @@ const AppointmentNav: FunctionComponent<any> = ({
       effects: "both",
     });
   }, 500);
+
+  
   /**
    *
    */
@@ -168,7 +170,7 @@ const AppointmentNav: FunctionComponent<any> = ({
                 )}
                 value={qualifications.filter(
                   (qualification: any) =>
-                    (filters.qualificationId || []).indexOf(qualification.id) >
+                    (filters.qualificationId || []).indexOf(qualification.value) >
                     -1
                 )}
                 className={

@@ -18,7 +18,6 @@ import {
   CareInstitutionQueries,
 } from "../../../../graphql/queries";
 import { getDaysArrayByMonth } from "../../../../helpers";
-import { IReactSelectInterface } from "../../../../interfaces";
 import CareinstitutionRightClickOptions from "./CareinstitutionRightClickOptions";
 import Spinner, { MoreSpinner } from "../../components/Spinner";
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;

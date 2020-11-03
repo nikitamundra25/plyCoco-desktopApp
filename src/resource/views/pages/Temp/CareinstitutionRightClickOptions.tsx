@@ -68,14 +68,12 @@ const CareinstitutionRightClickOptions = (props: any) => {
     onCompleted({ updateCareInstitutionRequirement }) {
       updateItemData([updateCareInstitutionRequirement]);
       handleupdateData([updateCareInstitutionRequirement], "careinstitution");
-       // to get the appointment data from the care institution cell
-console.log("updateCareInstitutionRequirement",updateCareInstitutionRequirement);
+
   // to get the appointment data from the care institution cell
   let appointmentData = selectedCellsCareinstitution.filter(
     (cell: any) =>
       cell.item && cell.item.id === updateCareInstitutionRequirement.id,
   )[0];
-  console.log("appointmentData",appointmentData);
   
       appointmentData =
         appointmentData &&
@@ -239,15 +237,11 @@ console.log("updateCareInstitutionRequirement",updateCareInstitutionRequirement)
    *  Select all appointment of caregiver
    */
   const handleSelectedAppoitment = () => {
-    console.log("selectedCellsCareinstitution",selectedCellsCareinstitution);
-    
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       const { item } = selectedCellsCareinstitution[0];
       const { appointments = [] } = item ? item : {};
       const { ca = {} } =
-        appointments && appointments.length ? appointments[0] : [];
-       console.log("cacacacaca",ca);
-       
+        appointments && appointments.length ? appointments[0] : [];     
       setShowSelectedCaregiver({
         id: ca.userId,
         isShow: true,
@@ -743,20 +737,19 @@ console.log("updateCareInstitutionRequirement",updateCareInstitutionRequirement)
           </NavItem>
           <NavItem>
             <NavLink
-              className={
+              disabled={
                 selectedCellsCareinstitution &&
                 selectedCellsCareinstitution.length &&
-                ((selectedCellsCareinstitution.length &&
-                  selectedCellsCareinstitution[0].id === "") ||
-                  (selectedCellsCareinstitution[0] &&
-                    selectedCellsCareinstitution[0].item &&
-                    selectedCellsCareinstitution[0].item.status !==
-                      "confirmed") ||
-                  selectedCellsCareinstitution.filter(
-                    (cell: any) => cell.item && cell.item.isLeasing
-                  ).length > 0)
-                  ? "disabled-class"
-                  : ""
+                ((  selectedCellsCareinstitution[0].item &&
+                    selectedCellsCareinstitution[0].item.status ===
+                      "confirmed") 
+                  //     ||
+                  // selectedCellsCareinstitution.filter(
+                  //   (cell: any) => cell.item && cell.item.isLeasing
+                  // ).length > 0
+                  )
+                  ? false
+                  : true
               }
             >
               <img src={unset_confirm} className="mr-2" alt="" />
@@ -772,14 +765,6 @@ console.log("updateCareInstitutionRequirement",updateCareInstitutionRequirement)
           <NavItem className="bordernav" />
           <NavItem>
             <NavLink
-              className={
-                selectedCellsCareinstitution &&
-                selectedCellsCareinstitution.length &&
-                selectedCellsCareinstitution[0] &&
-                selectedCellsCareinstitution[0].id === ""
-                  ? "disabled-class"
-                  : ""
-              }
             >
               <img src={invoice} className="mr-2" alt="" />
               <span>{languageTranslation("CREATE_PAYMENT")}</span>

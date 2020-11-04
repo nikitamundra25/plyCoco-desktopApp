@@ -15,7 +15,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import { dbAcceptableFormat, Without_Appointments } from "../../../../config";
-import { AppointmentsQueries } from "../../../../graphql/queries";
+import { AppointmentsQueries ,CareInstitutionQueries} from "../../../../graphql/queries";
 import { languageTranslation } from "../../../../helpers";
 import caregiver from "../../../assets/img/caregiver.svg";
 import careinstitution from "../../../assets/img/careinstitution.svg";
@@ -30,13 +30,15 @@ const [
   ,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
 ] = AppointmentsQueries;
+const [, , GET_DEPARTMENT_LIST, , , ,] = CareInstitutionQueries;
 
 const AppointmentNav: FunctionComponent<any> = ({
   filterUpdated = () => {},
   filters = {},
   qualifications = [],
   setSelectedCareinstitution,
-  setSelectedCaregiver
+  setSelectedCaregiver,
+  setCareInstDeptList
 }: any) => {
    // To fetch avabality & requirement by id
    const [
@@ -44,7 +46,6 @@ const AppointmentNav: FunctionComponent<any> = ({
     { data: appointmentFilterById, loading: idSearchAppointmentLoading },
   ] = useLazyQuery<any, any>(GET_CAREINSTITUTION_REQUIREMENT_BY_ID, {
     fetchPolicy: 'no-cache', onCompleted: data => {
-      console.log('appointmentFilterById ', appointmentFilterById);
       if (
         appointmentFilterById &&
         appointmentFilterById.getRequirementAndAvabilityById
@@ -57,6 +58,16 @@ const AppointmentNav: FunctionComponent<any> = ({
       }
     }
   });
+
+     // To get department list
+     const [
+      getDepartmentList,
+      { data: departmentList, loading: deptLoading },
+    ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
+      onCompleted: (daata:any) => {
+        setCareInstDeptList(departmentList)
+      }
+    });
 
   const [dropdownOpen, setOpen] = useState<boolean>(false);
   const [showCaregiveAttributeModal, setShowCaregivettributeModal] = useState(
@@ -347,13 +358,24 @@ const AppointmentNav: FunctionComponent<any> = ({
             <CareinstitutionCustomAsyncList
               placeholderLabel={languageTranslation("SELECT_CARE_INSTITUTION")}
               onChange={(careinstitution: any) =>
-                filterUpdated({
+               { filterUpdated({
                   ...filters,
                   careInstitutionId: careinstitution
                     ? parseInt(careinstitution.value)
                     : null,
                   effects: "careinstitution",
                 })
+                if(careinstitution){
+                  getDepartmentList({
+                   variables: {
+                     userId: careinstitution
+                     ? parseInt(careinstitution.value)
+                     : null,
+                     locked: false,
+                   },
+                 });
+                }
+              }
               }
             />
           </div>

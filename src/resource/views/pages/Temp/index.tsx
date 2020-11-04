@@ -6,13 +6,14 @@ import { CaregiverForm } from "./CaregiverForm";
 import { Row, Col, Button } from "reactstrap";
 import AppointmentNav from "./AppointmentNav";
 import CareinstitutionForm from "./CareInstitutionForm";
-import { useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { IQualifications } from "../../../../interfaces";
-import { GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
+import { AppointmentsQueries, GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
 import { map } from "lodash";
 import { languageTranslation } from "../../../../helpers";
 import { toast } from "react-toastify";
 import ConnectAppointment from "./ConnectAppointment";
+
 
 export const TempPage = () => {
   const [selectedCaregiverData, setSelectedCaregiver] = useState<any>([]);
@@ -34,11 +35,13 @@ export const TempPage = () => {
 
   // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
   const [ confirmLeasing, setConfirmLeasing] = useState<any>();
-
+  
+ 
   // To fetch qualification attributes list
   const { data: qualificationData, loading } = useQuery<IQualifications>(
     GET_QUALIFICATION_ATTRIBUTE
   );
+  
   const setQualificationData = () => {
     if (qualificationData && qualificationData.getQualifications) {
       console.log(qualificationData.getQualifications);
@@ -113,6 +116,8 @@ setConfirmLeasing(list)
             filterUpdated={setFilterObject}
             filters={filterObject}
             qualifications={qualifications}
+            setSelectedCareinstitution={setSelectedCareinstitution}
+            setSelectedCaregiver={setSelectedCaregiver}
           />
           <div className="common-content flex-grow-1">
             <div className="appointment-page-row">
@@ -182,6 +187,13 @@ setConfirmLeasing(list)
                       savingBoth={savingBoth}
                       setsavingBoth={setsavingBoth}
                       multipleRequirement={multipleRequirement}
+                      handleQualification={(values:any)=>
+                        setFilterObject({
+                          ...filterObject,
+                          qualificationId: map(values, ({ value }) => value),
+                          effects: "both",
+                        })
+                      }
                     />
                   </Col>
                   <Col lg={"12"}>

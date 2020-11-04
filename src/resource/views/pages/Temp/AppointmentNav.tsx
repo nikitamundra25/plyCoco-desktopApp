@@ -1,3 +1,4 @@
+import { useLazyQuery } from "@apollo/react-hooks";
 import { debounce, map } from "lodash";
 import moment from "moment";
 import React, { FunctionComponent, useState } from "react";
@@ -14,6 +15,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import { dbAcceptableFormat, Without_Appointments } from "../../../../config";
+import { AppointmentsQueries } from "../../../../graphql/queries";
 import { languageTranslation } from "../../../../helpers";
 import caregiver from "../../../assets/img/caregiver.svg";
 import careinstitution from "../../../assets/img/careinstitution.svg";
@@ -23,17 +25,46 @@ import right_arrow from "../../../assets/img/rightarrow.svg";
 import CaregiverCustomAsyncList from "../../components/DropdownList/CareGiverCustomAsyncSelect";
 import CareinstitutionCustomAsyncList from "../../components/DropdownList/CareInstitutionCustomAsyncSelect";
 import { AttributeFilterModal } from "./AttributeFilterModal";
+const [
+  ,
+  ,
+  GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
+] = AppointmentsQueries;
 
 const AppointmentNav: FunctionComponent<any> = ({
   filterUpdated = () => {},
   filters = {},
   qualifications = [],
+  setSelectedCareinstitution,
+  setSelectedCaregiver
 }: any) => {
+   // To fetch avabality & requirement by id
+   const [
+    fetchAppointmentFilterById,
+    { data: appointmentFilterById, loading: idSearchAppointmentLoading },
+  ] = useLazyQuery<any, any>(GET_CAREINSTITUTION_REQUIREMENT_BY_ID, {
+    fetchPolicy: 'no-cache', onCompleted: data => {
+      console.log('appointmentFilterById ', appointmentFilterById);
+      if (
+        appointmentFilterById &&
+        appointmentFilterById.getRequirementAndAvabilityById
+      ) {
+        const { getRequirementAndAvabilityById } = appointmentFilterById;
+        const { requirementData, avabilityData } = getRequirementAndAvabilityById;
+        updateRequirementData(requirementData);
+        updateAvabilityData(avabilityData);
+
+      }
+    }
+  });
+
   const [dropdownOpen, setOpen] = useState<boolean>(false);
   const [showCaregiveAttributeModal, setShowCaregivettributeModal] = useState(
     false
   );
   const [showAttributeModal, setShowAttributeModal] = useState(false);
+  const [user, setuser] = useState<string>("avability");
+  const [userId, setuserId] = useState<string>("");
   /**
    * toggle the filter by id dropdown
    */
@@ -56,6 +87,49 @@ const AppointmentNav: FunctionComponent<any> = ({
       effects: "both",
     });
   };
+
+  /**
+   *
+   * @param requirementData
+   */
+  const updateRequirementData = (requirementData: any) => {
+    const {
+      user= {},
+    } = requirementData ? requirementData : {}
+    let temp = requirementData ? requirementData : {}
+    delete temp.user
+      let data: any = 
+        [{
+          isWeekend: '',
+          canstitution: {
+            ...user,
+          },
+          item: temp,
+        }]
+      setSelectedCareinstitution(data);
+  };
+
+  /**
+   *
+   * @param avabilityData
+   */
+  const updateAvabilityData = (avabilityData: any) => {
+    const {
+      user= {},
+    } = avabilityData ? avabilityData : {}
+    let temp = avabilityData ? avabilityData : {}
+    delete temp.user
+      let data: any = 
+        [{
+          isWeekend: '',
+          caregiver: {
+            ...user,
+          },
+          item: temp,
+        }]
+      setSelectedCaregiver(data);
+  };
+
   /**
    * debouce to prevent unwanted api calls to server
    */
@@ -67,6 +141,49 @@ const AppointmentNav: FunctionComponent<any> = ({
     });
   }, 500);
 
+/**
+   *
+   * @param e
+   * @param name
+   */
+  const handleSelect = (e: any, name: string) => {
+    if (name === "dropdown") {
+      setuser(e.target.value);
+      setuserId("");
+    } else {
+      setuserId(e.target.value);
+    }
+  };
+
+  /**
+   *
+   * @param e
+   */
+  const handleKeyPress = (e: any) => {
+    if (e.which === 13 || e.keyCode === 13) {
+      handleBlur();
+    } else {
+      return;
+    }
+  };
+
+  const handleBlur = () => {
+    if (userId) {
+      let userRole = user ? user : "avability";
+      onFilterByUserId(userId, userRole);
+    }
+  };
+
+  const onFilterByUserId = (userId: string, userRole: string) => {
+    if(userId){
+      fetchAppointmentFilterById({
+        variables: {
+          id: parseInt(userId),
+          searchIn: userRole
+        },
+      });
+    }
+  };
   
   /**
    *
@@ -261,25 +378,24 @@ const AppointmentNav: FunctionComponent<any> = ({
               className='button-group-dropdown custom-dropdown text-capitalize'>
               <Input
                 placeholder={
-                  // user
-                  //   ? user === "avability"
-                  //     ? languageTranslation("CAREGIVER_AVABILITY")
-                  //     : languageTranslation("CAREINST_REQUIREMENT")
-                  //   :
-                  languageTranslation("CAREGIVER_AVABILITY")
+                  user
+                    ? user === "avability"
+                      ? languageTranslation("CAREGIVER_AVABILITY")
+                      : languageTranslation("CAREINST_REQUIREMENT")
+                      :""
                 }
                 type='text'
                 name='id'
-                // value={userId}
-                // onChange={(e: any) => handleSelect(e, "text")}
-                // onKeyPress={(e: any) => handleKeyPress(e)}
+                value={userId}
+                onChange={(e: any) => handleSelect(e, "text")}
+                onKeyPress={(e: any) => handleKeyPress(e)}
               />
               <UncontrolledTooltip placement={"top"} target={"dropdown-1"}>
                 {languageTranslation("SELECT_USER")}
               </UncontrolledTooltip>
               <DropdownToggle caret color='primary' id={"dropdown-1"} />
               <DropdownMenu
-              // onClick={(e: any) => handleSelect(e, "dropdown")}
+              onClick={(e: any) => handleSelect(e, "dropdown")}
               >
                 <DropdownItem value='avability'>
                   {languageTranslation("CAREGIVER_AVABILITY")}

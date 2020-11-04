@@ -48,7 +48,7 @@ import {
   IReactSelectInterface,
   IReactSelectTimeInterface,
 } from "../../../../interfaces";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import {
   DocumentQueries,
   GET_QUALIFICATION_ATTRIBUTE,
@@ -79,7 +79,8 @@ const CareinstitutionForm = ({
   handleupdateData,
   savingBoth,
   setsavingBoth,
-  multipleRequirement
+  multipleRequirement,
+  handleQualification
 }: any) => {
   // Mutation to add careinstitution data
   const [
@@ -890,11 +891,6 @@ const CareinstitutionForm = ({
                                       )
                                       .join(", ")
                                   : null}
-                                {/* {item.date
-                                  ? moment(item.date).format(
-                                      `${appointmentDayFormat} ${defaultDateFormat}`
-                                    )
-                                  : null} */}
                               </div>
                             </Col>
                           </Row>
@@ -1052,7 +1048,7 @@ const CareinstitutionForm = ({
                                       qualificationId &&
                                       qualificationId.length
                                     ) {
-                                      // handleQualification(qualificationId);
+                                      handleQualification(qualificationId);
                                     }
                                   }}
                                 >

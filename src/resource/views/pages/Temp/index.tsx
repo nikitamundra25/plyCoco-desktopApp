@@ -118,6 +118,7 @@ setConfirmLeasing(list)
             qualifications={qualifications}
             setSelectedCareinstitution={setSelectedCareinstitution}
             setSelectedCaregiver={setSelectedCaregiver}
+            setCareInstDeptList={setCareInstDeptList}
           />
           <div className="common-content flex-grow-1">
             <div className="appointment-page-row">
@@ -144,6 +145,7 @@ setConfirmLeasing(list)
                     careinstitutionSelected={careinstitutionSelected}
                     filters={filterObject}
                     setCareInstDeptList={setCareInstDeptList}
+                    careInstDeptList={careInstDeptList}
                     qualificationList={qualifications}
                     updatedCareinstItem={updatedCareinstItem}
                     selected={selectedCareinstitutionData}
@@ -151,6 +153,7 @@ setConfirmLeasing(list)
                     handleupdateData={handleupdateData}
                     caregiverSelected={caregiverSelected}
                     updateCaregiverDataLeasing={updateCaregiverDataLeasing}
+                    filterUpdated={setFilterObject}
                   />
                 </div>
               </div>

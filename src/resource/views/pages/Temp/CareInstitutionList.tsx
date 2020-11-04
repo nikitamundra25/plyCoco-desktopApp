@@ -20,6 +20,7 @@ import {
 import { getDaysArrayByMonth } from "../../../../helpers";
 import CareinstitutionRightClickOptions from "./CareinstitutionRightClickOptions";
 import Spinner, { MoreSpinner } from "../../components/Spinner";
+import { IStarInterface } from "../../../../interfaces";
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
 const [, , GET_DEPARTMENT_LIST, , , ,] = CareInstitutionQueries;
 
@@ -28,7 +29,16 @@ let allCaregivers: any[] = [];
 
 const SelectableCell = React.memo(
   createSelectable(
-    ({ selectableRef, isSelected, isSelecting, item, key, isWeekend,showSelectedCaregiver,canstitution }: any) => {
+    ({
+      selectableRef,
+      isSelected,
+      isSelecting,
+      item,
+      key,
+      isWeekend,
+      showSelectedCaregiver,
+      canstitution,
+    }: any) => {
       let isRequirment: boolean = false,
         isMatching: boolean = false,
         isContract: boolean = false,
@@ -43,7 +53,7 @@ const SelectableCell = React.memo(
           appointments && appointments.length ? appointments[0] : {};
         caregiverId = ca ? ca.userId : "";
       }
-      
+
       if (caregiverId) {
         if (caregiverId === showSelectedCaregiver.id) {
           showAppointedCareGiver = true;
@@ -103,7 +113,7 @@ const SelectableCell = React.memo(
             "cursor-pointer": true,
             "requirement-bg":
               isRequirment && !isSelected ? isRequirment : false,
-              'matching-bg':
+            "matching-bg":
               isMatching &&
               !isSelected &&
               !showAppointedCareGiver &&
@@ -148,7 +158,9 @@ export const CareInstitutionList = React.memo(
     handleupdateData,
     selectedCaregiverData,
     caregiverSelected,
-    updateCaregiverDataLeasing
+    updateCaregiverDataLeasing,
+    filterUpdated,
+    careInstDeptList
   }: any) => {
     const [daysData, setDaysData] = useState(
       getDaysArrayByMonth(moment().month(), moment().year())
@@ -157,11 +169,30 @@ export const CareInstitutionList = React.memo(
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [hasMore, setHasMore] = useState(false);
-  const [showRightClickOptions, setShowRightClickOptions] = useState(false);
-  const [showSelectedCaregiver, setShowSelectedCaregiver] = useState<any>({
-    id: '',
-    isShow: false,
-  });
+    const [showRightClickOptions, setShowRightClickOptions] = useState(false);
+    const [showSelectedCaregiver, setShowSelectedCaregiver] = useState<any>({
+      id: "",
+      isShow: false,
+    });
+    const [isDeptListLoaded, setIsDeptListLoaded] = useState(false);
+
+    // maintain solo careinstitution
+    const [starCanstitution, setstarCanstitution] = useState<IStarInterface>({
+      isStar: false,
+      setIndex: -1,
+      id: "",
+    });
+    // To manage solo department of careinstitution
+    const [secondStarCanstitution, setsecondStarCanstitution] = useState<
+      IStarInterface
+    >({
+      isStar: false,
+      setIndex: -1,
+      id: "",
+    });
+    const [careInstituionDeptData, setcareInstituionDeptData] = useState<any>(
+      []
+    );
     // To fetch caregivers by id filter
     const [
       fetchCaregiverList,
@@ -179,7 +210,13 @@ export const CareInstitutionList = React.memo(
     const [
       getDepartmentList,
       { data: departmentList, loading: deptLoading },
-    ] = useLazyQuery<any>(GET_DEPARTMENT_LIST);
+    ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
+      onCompleted: (daata:any) => {
+        if(starCanstitution && starCanstitution.isStar){
+          // handleDepartmentList(daata)
+        }
+      }
+    });
 
     // Default value is start & end of month
     let gte: string = moment().startOf("month").format(dbAcceptableFormat);
@@ -213,6 +250,7 @@ export const CareInstitutionList = React.memo(
         )
       );
     };
+
     useEffect(() => {
       if (
         !filters.effects ||
@@ -220,7 +258,10 @@ export const CareInstitutionList = React.memo(
       ) {
         getCareinstitutionList();
       }
+
     }, [filters]);
+
+ 
 
     // Set department list according to careInstitution selected
     useEffect(() => {
@@ -371,6 +412,9 @@ export const CareInstitutionList = React.memo(
       setHasMore(data.length <= count);
       setCaregiverData(newData);
       setIsLoading(false);
+      if(filters.careInstitutionId){
+      setIsDeptListLoaded(true)
+      }
     };
 
     useEffect(() => {
@@ -488,40 +532,144 @@ export const CareInstitutionList = React.memo(
       }
     };
 
+
+    /**
+     *
+     * @param list
+     * @param index
+     *
+     */
+    const handleFirstStarCanstitution = async (list: any, index: number) => {
+      console.log("listlistlist", list);
+      setstarCanstitution({
+        isStar: true,
+        setIndex: index,
+        id:
+          list && list.id ? list.id : "",
+      });
+        filterUpdated({
+            ...filters,
+            careInstitutionId: list && list.id ? parseInt(list.id) : null,
+            effects: "careinstitution",
+          })
+      
+      if (list ) {
+        if (list.id && !starCanstitution.isStar) {
+          await getDepartmentList({
+            variables: {
+              userId: parseInt(list.id),
+              locked: false,
+            },
+          });
+        
+        } else {
+          setcareInstituionDeptData([]);
+        }
+      }
+    };
+
+    useEffect(()=>{
+      if(filters.careInstitutionId && isDeptListLoaded){
+        handleDepartmentList(careInstDeptList)
+      }
+    },[caregivers])
+
+      /**
+     *
+     * @param departmentList
+     *
+     */
+    const handleDepartmentList = (departmentList:any) =>{
+      setIsDeptListLoaded(false)
+      
+      if (
+        departmentList &&
+        departmentList.getDivision.length 
+      ) {
+        console.log("caregivers",caregivers);
+        console.log("starCanstitution",starCanstitution);
+        let careInstData: any 
+        const { getDivision } = departmentList;
+        if(starCanstitution.isStar){
+           careInstData = caregivers.filter(
+            (item: any) => item.id === starCanstitution.id,
+          )[0];
+        }else{
+          careInstData= caregivers && caregivers.length ? caregivers[0] : {}
+        }
+        console.log("careInstData",careInstData);
+        if(careInstData){
+          let tempData:any = []
+          let requirements: any[] = [].concat.apply(
+            [],
+            careInstData.careinstitution_requirements,
+          );
+          getDivision
+          .filter((division: any) => !division.locked)
+          .forEach((division: any,index:number) => {
+            division.careinstitution_requirements = [];
+            division.canstitution = careInstData.canstitution;
+            division.qualificationId = careInstData.qualificationId;
+            division.careInstId = careInstData.id;
+            division.isActive = careInstData.isActive;
+            division.deptId = division.id;
+            // To group availabilities by division
+            let deptRequirement = requirements.filter(
+              (req: any) => req.divisionId === division.id,
+            );
+            let temp = {
+              ...careInstData,
+              name: division.name,
+              careinstitution_requirements: deptRequirement,
+              key: `${careInstData.id}-${index}`,
+            }
+            tempData.push(temp)
+          })
+          allCaregivers = tempData;
+          setCaregiverData(tempData);
+        }
+        }else{
+          console.log("Nothinggggggg");
+          
+        }
+      }  
+  
+
     const handleToggleMenuItem = () => {
       setShowRightClickOptions((prev) => !prev);
     };
+
     /**
      *
      */
     const element = document.getElementById("appointment_list_section");
-    
+
     return (
       <>
-       <div
-        className={classnames({
-          "right-manu-close": true,
-          "d-none": !showRightClickOptions,
-        })}
-        onClick={handleToggleMenuItem}
-      ></div>
-      <CareinstitutionRightClickOptions
-       isOpen={showRightClickOptions}
-       hide={() => setShowRightClickOptions(false)}
-       onNewRequirement={() => setMultipleRequirement(true)}
-       selectedCellsCareinstitution={selected}
-       careinstitutionList={caregivers}
-       careinstitutionSelected={careinstitutionSelected}
-       handleupdateData={handleupdateData}
-       qualificationList={qualificationList}
-       filters={filters}
-       selectedCells={selectedCaregiverData}
-       caregiverSelected={caregiverSelected}
-       setShowSelectedCaregiver={(data:any)=> {
-         setShowSelectedCaregiver(data)
-      }}
-      updateCaregiverDataLeasing={updateCaregiverDataLeasing}
-      />
+        <div
+          className={classnames({
+            "right-manu-close": true,
+            "d-none": !showRightClickOptions,
+          })}
+          onClick={handleToggleMenuItem}
+        ></div>
+        <CareinstitutionRightClickOptions
+          isOpen={showRightClickOptions}
+          hide={() => setShowRightClickOptions(false)}
+          onNewRequirement={() => setMultipleRequirement(true)}
+          selectedCellsCareinstitution={selected}
+          careinstitutionList={caregivers}
+          careinstitutionSelected={careinstitutionSelected}
+          handleupdateData={handleupdateData}
+          qualificationList={qualificationList}
+          filters={filters}
+          selectedCells={selectedCaregiverData}
+          caregiverSelected={caregiverSelected}
+          setShowSelectedCaregiver={(data: any) => {
+            setShowSelectedCaregiver(data);
+          }}
+          updateCaregiverDataLeasing={updateCaregiverDataLeasing}
+        />
         <div className="custom-appointment-calendar overflow-hidden">
           <SelectableGroup
             allowClickWithoutSelected
@@ -570,8 +718,9 @@ export const CareInstitutionList = React.memo(
                         <div className="position-relative  username-col align-self-center">
                           {d}
                           {d === "careinstitution" ? (
-                            <Button className="btn-more d-flex align-items-center justify-content-center"
-                            onClick={() => setShowRightClickOptions(true)}
+                            <Button
+                              className="btn-more d-flex align-items-center justify-content-center"
+                              onClick={() => setShowRightClickOptions(true)}
                             >
                               <i className="icon-options-vertical" />
                             </Button>
@@ -623,6 +772,7 @@ export const CareInstitutionList = React.memo(
                             key={rowIndex}
                             className="custom-appointment-col name-col appointment-color1 text-capitalize p-1 view-more-link one-line-text"
                             title={
+                              rowData.name ? rowData.name :
                               rowData.canstitution &&
                               rowData.canstitution.shortName
                                 ? rowData.canstitution.shortName
@@ -641,7 +791,8 @@ export const CareInstitutionList = React.memo(
                               className="text-body"
                             >
                               {rowData.row === 0
-                                ? rowData.canstitution &&
+                                ? rowData.name ? rowData.name :
+                                 rowData.canstitution &&
                                   rowData.canstitution.shortName
                                   ? rowData.canstitution.shortName
                                   : [rowData.lastName, rowData.firstName].join(
@@ -652,14 +803,22 @@ export const CareInstitutionList = React.memo(
                           </div>
                         );
                       case "H":
-                        return <span key={rowIndex}>H</span>;
+                        return <span key={rowIndex}></span>;
                       case "S":
                         return (
                           <span
                             key={rowIndex}
                             className="custom-appointment-col s-col text-center cursor-pointer"
+                            onClick={() =>
+                              handleFirstStarCanstitution(rowData, rowIndex)
+                            }
                           >
-                            <i className="fa fa-star-o" />
+                            {starCanstitution.setIndex === rowIndex ||
+                            starCanstitution.isStar ? (
+                              <i className="fa fa-star theme-text" />
+                            ) : (
+                              <i className="fa fa-star-o" />
+                            )}
                           </span>
                         );
                       case "U":
@@ -686,7 +845,7 @@ export const CareInstitutionList = React.memo(
                           rowData.careinstitution_requirements,
                           (avail: any) => d.dateString === avail.date
                         );
-                        
+
                         return (
                           <React.Fragment key={rowIndex}>
                             <SelectableCell

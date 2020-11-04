@@ -25,10 +25,19 @@ const [, , GET_DEPARTMENT_LIST, , , ,] = CareInstitutionQueries;
 
 const staticHeader = ["careinstitution", "H", "S", "U", "V"];
 let allCaregivers: any[] = [];
-
+let selectedCaregiver: any = {};
 const SelectableCell = React.memo(
   createSelectable(
-    ({ selectableRef, isSelected, isSelecting, item, key, isWeekend,showSelectedCaregiver,canstitution }: any) => {
+    ({
+      selectableRef,
+      isSelected,
+      isSelecting,
+      item,
+      key,
+      isWeekend,
+      showSelectedCaregiver,
+      canstitution,
+    }: any) => {
       let isRequirment: boolean = false,
         isMatching: boolean = false,
         isContract: boolean = false,
@@ -43,7 +52,7 @@ const SelectableCell = React.memo(
           appointments && appointments.length ? appointments[0] : {};
         caregiverId = ca ? ca.userId : "";
       }
-      
+
       if (caregiverId) {
         if (caregiverId === showSelectedCaregiver.id) {
           showAppointedCareGiver = true;
@@ -103,7 +112,7 @@ const SelectableCell = React.memo(
             "cursor-pointer": true,
             "requirement-bg":
               isRequirment && !isSelected ? isRequirment : false,
-              'matching-bg':
+            "matching-bg":
               isMatching &&
               !isSelected &&
               !showAppointedCareGiver &&
@@ -148,7 +157,7 @@ export const CareInstitutionList = React.memo(
     handleupdateData,
     selectedCaregiverData,
     caregiverSelected,
-    updateCaregiverDataLeasing
+    updateCaregiverDataLeasing,
   }: any) => {
     const [daysData, setDaysData] = useState(
       getDaysArrayByMonth(moment().month(), moment().year())
@@ -157,11 +166,11 @@ export const CareInstitutionList = React.memo(
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [hasMore, setHasMore] = useState(false);
-  const [showRightClickOptions, setShowRightClickOptions] = useState(false);
-  const [showSelectedCaregiver, setShowSelectedCaregiver] = useState<any>({
-    id: '',
-    isShow: false,
-  });
+    const [showRightClickOptions, setShowRightClickOptions] = useState(false);
+    const [showSelectedCaregiver, setShowSelectedCaregiver] = useState<any>({
+      id: "",
+      isShow: false,
+    });
     // To fetch caregivers by id filter
     const [
       fetchCaregiverList,
@@ -495,49 +504,47 @@ export const CareInstitutionList = React.memo(
      *
      */
     const element = document.getElementById("appointment_list_section");
-    
     return (
       <>
-       <div
-        className={classnames({
-          "right-manu-close": true,
-          "d-none": !showRightClickOptions,
-        })}
-        onClick={handleToggleMenuItem}
-      ></div>
-      <CareinstitutionRightClickOptions
-       isOpen={showRightClickOptions}
-       hide={() => setShowRightClickOptions(false)}
-       onNewRequirement={() => setMultipleRequirement(true)}
-       selectedCellsCareinstitution={selected}
-       careinstitutionList={caregivers}
-       careinstitutionSelected={careinstitutionSelected}
-       handleupdateData={handleupdateData}
-       qualificationList={qualificationList}
-       filters={filters}
-       selectedCells={selectedCaregiverData}
-       caregiverSelected={caregiverSelected}
-       setShowSelectedCaregiver={(data:any)=> {
-         setShowSelectedCaregiver(data)
-      }}
-      updateCaregiverDataLeasing={updateCaregiverDataLeasing}
-      />
-        <div className="custom-appointment-calendar overflow-hidden">
+        <div
+          className={classnames({
+            "right-manu-close": true,
+            "d-none": !showRightClickOptions,
+          })}
+          onClick={handleToggleMenuItem}></div>
+        <CareinstitutionRightClickOptions
+          isOpen={showRightClickOptions}
+          hide={() => setShowRightClickOptions(false)}
+          onNewRequirement={() => setMultipleRequirement(true)}
+          selectedCellsCareinstitution={selected}
+          careinstitutionList={caregivers}
+          careinstitutionSelected={careinstitutionSelected}
+          handleupdateData={handleupdateData}
+          qualificationList={qualificationList}
+          filters={filters}
+          selectedCells={selectedCaregiverData}
+          caregiverSelected={caregiverSelected}
+          setShowSelectedCaregiver={(data: any) => {
+            setShowSelectedCaregiver(data);
+            selectedCaregiver = data;
+          }}
+          updateCaregiverDataLeasing={updateCaregiverDataLeasing}
+        />
+        <div className='custom-appointment-calendar overflow-hidden'>
           <SelectableGroup
             allowClickWithoutSelected
-            className="custom-row-selector new-base-table"
-            clickClassName="tick"
+            className='custom-row-selector new-base-table'
+            clickClassName='tick'
             resetOnStart={true}
             allowCtrlClick={false}
             onSelectionFinish={onSelectFinish}
-            ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
-          >
+            ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}>
             <BaseTable
               fixed
               data={caregivers}
               width={element ? element.clientWidth - 40 : 800}
               height={element ? window.innerHeight / 2 - 80 : 300}
-              rowKey="key"
+              rowKey='key'
               rowHeight={30}
               overlayRenderer={() =>
                 loadingCaregiver || isLoading ? (
@@ -557,30 +564,21 @@ export const CareInstitutionList = React.memo(
                       <span
                         className={`custom-appointment-col  ${
                           d === "careinstitution" ? "name-col" : ""
-                        }`}
-                      >
-                        {/* {d}
-                      {d === "careinstitution" ? (
-                        <>
-                          <span>
-                            <i className="icon-options-vertical" />
-                          </span>
-                        </>
-                      ) : null} */}
-                        <div className="position-relative  username-col align-self-center">
+                        }`}>
+                        <div className='position-relative  username-col align-self-center'>
                           {d}
                           {d === "careinstitution" ? (
-                            <Button className="btn-more d-flex align-items-center justify-content-center"
-                            onClick={() => setShowRightClickOptions(true)}
-                            >
-                              <i className="icon-options-vertical" />
+                            <Button
+                              className='btn-more d-flex align-items-center justify-content-center'
+                              onClick={() => setShowRightClickOptions(true)}>
+                              <i className='icon-options-vertical' />
                             </Button>
                           ) : null}
                         </div>
                       </span>
                     </React.Fragment>
                   ) : (
-                    <span key={d.date} className="custom-appointment-col  ">
+                    <span key={d.date} className='custom-appointment-col  '>
                       {d.day}
                       <br />
                       {d.date}
@@ -590,21 +588,19 @@ export const CareInstitutionList = React.memo(
               }
               rowRenderer={({ cells, rowData }) => (
                 <div
-                  className="d-flex frozen-row"
+                  className='d-flex frozen-row'
                   title={
                     rowData.canstitution && rowData.canstitution.shortName
                       ? rowData.canstitution.shortName
                       : [rowData.lastName, rowData.firstName].join(" ")
-                  }
-                >
+                  }>
                   {cells}
                 </div>
               )}
               onEndReachedThreshold={300}
               onEndReached={handleEndReached}
-              headerClassName="custom-appointment-row"
-              rowClassName="custom-appointment-row"
-            >
+              headerClassName='custom-appointment-row'
+              rowClassName='custom-appointment-row'>
               {columns.map((d: any, index: number) => (
                 <Column
                   key={`col0-${index}-${
@@ -621,7 +617,7 @@ export const CareInstitutionList = React.memo(
                         return (
                           <div
                             key={rowIndex}
-                            className="custom-appointment-col name-col appointment-color1 text-capitalize p-1 view-more-link one-line-text"
+                            className='custom-appointment-col name-col appointment-color1 text-capitalize p-1 view-more-link one-line-text'
                             title={
                               rowData.canstitution &&
                               rowData.canstitution.shortName
@@ -630,16 +626,14 @@ export const CareInstitutionList = React.memo(
                                     " "
                                   )
                             }
-                            id={`caregiver-${rowData.id}-${index}-${rowData.row}`}
-                          >
+                            id={`caregiver-${rowData.id}-${index}-${rowData.row}`}>
                             <Link
                               to={AppRoutes.CARE_GIVER_VIEW.replace(
                                 ":id",
                                 rowData.id
                               )}
-                              target="_blank"
-                              className="text-body"
-                            >
+                              target='_blank'
+                              className='text-body'>
                               {rowData.row === 0
                                 ? rowData.canstitution &&
                                   rowData.canstitution.shortName
@@ -657,28 +651,25 @@ export const CareInstitutionList = React.memo(
                         return (
                           <span
                             key={rowIndex}
-                            className="custom-appointment-col s-col text-center cursor-pointer"
-                          >
-                            <i className="fa fa-star-o" />
+                            className='custom-appointment-col s-col text-center cursor-pointer'>
+                            <i className='fa fa-star-o' />
                           </span>
                         );
                       case "U":
                         return (
                           <span
                             key={rowIndex}
-                            className="custom-appointment-col u-col text-center cursor-pointer"
-                          >
-                            <i className="fa fa-star-o" />
+                            className='custom-appointment-col u-col text-center cursor-pointer'>
+                            <i className='fa fa-star-o' />
                           </span>
                         );
                       case "V":
                         return (
                           <span
                             key={rowIndex}
-                            className="custom-appointment-col v-col text-center cursor-pointer"
-                            onClick={() => onAddNewRow(rowIndex)}
-                          >
-                            <i className="fa fa-arrow-down" />
+                            className='custom-appointment-col v-col text-center cursor-pointer'
+                            onClick={() => onAddNewRow(rowIndex)}>
+                            <i className='fa fa-arrow-down' />
                           </span>
                         );
                       default:
@@ -686,7 +677,7 @@ export const CareInstitutionList = React.memo(
                           rowData.careinstitution_requirements,
                           (avail: any) => d.dateString === avail.date
                         );
-                        
+
                         return (
                           <React.Fragment key={rowIndex}>
                             <SelectableCell
@@ -697,7 +688,7 @@ export const CareInstitutionList = React.memo(
                                 }
                               }
                               canstitution={rowData}
-                              showSelectedCaregiver={showSelectedCaregiver}
+                              showSelectedCaregiver={selectedCaregiver}
                             />
                           </React.Fragment>
                         );

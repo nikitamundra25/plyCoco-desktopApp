@@ -649,7 +649,7 @@ const [
 
     // call function to manage star functionality in form
     useEffect(() => {
-      handleStarCareinst(starCanstitution);
+      handleStarCareinst(starCareInstitution);
     }, [starCanstitution]);
 
     /**
@@ -677,8 +677,6 @@ const [
         const id = list && list.id ? parseInt(list.id) : null;
         let { companyName = "", shortName = "" } =
           list && list.canstitution ? list.canstitution : {};
-        console.log("listlist", list);
-
         filterUpdated({
           ...filters,
           careInstitutionId: id,

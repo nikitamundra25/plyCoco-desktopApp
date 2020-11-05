@@ -334,9 +334,15 @@ const AppointmentNav: FunctionComponent<any> = ({
                 filterUpdated({
                   ...filters,
                   caregiverId: caregiver ? caregiver.value : null,
+                  // soloCaregiver: caregiver,
                   effects: "caregiver",
                 })
               }
+              // value={
+              //   filters && filters.soloCaregiver.value !== ""
+              //     ? filters.soloCaregiver
+              //     : null
+              // }
             />
           </div>
           <div className='header-nav-item'>
@@ -357,12 +363,18 @@ const AppointmentNav: FunctionComponent<any> = ({
           <div className='user-select mx-1'>
             <CareinstitutionCustomAsyncList
               placeholderLabel={languageTranslation("SELECT_CARE_INSTITUTION")}
+              value={
+                filters && filters.soloCareinstitution && filters.soloCareinstitution.value !== ""
+                  ? filters.soloCareinstitution
+                  : null
+              }
               onChange={(careinstitution: any) =>
                { filterUpdated({
                   ...filters,
                   careInstitutionId: careinstitution
                     ? parseInt(careinstitution.value)
                     : null,
+                  soloCareinstitution: careinstitution,
                   effects: "careinstitution",
                 })
                 if(careinstitution){

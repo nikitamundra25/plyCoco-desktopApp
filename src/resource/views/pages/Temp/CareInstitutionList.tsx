@@ -31,6 +31,8 @@ let starCareInstitution: any = {
   isStar: false,
   setIndex: -1,
   id: "",
+  isSecondStar: false,
+  divisionId: -1,
 };
 const SelectableCell = React.memo(
   createSelectable(
@@ -167,6 +169,8 @@ export const CareInstitutionList = React.memo(
     updateCaregiverDataLeasing,
     filterUpdated,
     careInstDeptList,
+    handleStarCareinst,
+    starMarkCanstitution,
   }: any) => {
     const [daysData, setDaysData] = useState(
       getDaysArrayByMonth(moment().month(), moment().year())
@@ -187,14 +191,8 @@ export const CareInstitutionList = React.memo(
       isStar: false,
       setIndex: -1,
       id: "",
-    });
-    // To manage solo department of careinstitution
-    const [secondStarCanstitution, setsecondStarCanstitution] = useState<
-      IStarInterface
-    >({
-      isStar: false,
-      setIndex: -1,
-      id: "",
+      isSecondStar: false,
+      divisionId: -1,
     });
 
     // To fetch caregivers by id filter
@@ -215,9 +213,10 @@ export const CareInstitutionList = React.memo(
       getDepartmentList,
       { data: departmentList, loading: deptLoading },
     ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
+      fetchPolicy: "no-cache",
       onCompleted: (daata: any) => {
-        if (starCanstitution && starCanstitution.isStar) {
-          // handleDepartmentList(daata)
+        if (starCareInstitution.isStar && !starCareInstitution.isSecondStar) {
+          handleDepartmentList(daata);
         }
       },
     });
@@ -261,6 +260,22 @@ export const CareInstitutionList = React.memo(
         ["both", "careinstitution"].indexOf(filters.effects) > -1
       ) {
         getCareinstitutionList();
+      }
+      if (!filters.careInstitutionId || filters.careInstitutionId === null) {
+        starCareInstitution = {
+          isStar: false,
+          setIndex: -1,
+          id: "",
+          isSecondStar: false,
+          divisionId: -1,
+        };
+        setstarCanstitution({
+          isStar: false,
+          setIndex: -1,
+          id: "",
+          isSecondStar: false,
+          divisionId: -1,
+        });
       }
     }, [filters]);
 
@@ -413,8 +428,6 @@ export const CareInstitutionList = React.memo(
       setHasMore(data.length <= count);
       setCaregiverData(newData);
       setIsLoading(false);
-      console.log("filters", filters);
-
       if (filters.careInstitutionId) {
         setIsDeptListLoaded(true);
       }
@@ -450,7 +463,7 @@ export const CareInstitutionList = React.memo(
       setIsLoading(true);
       const filterObject = {
         qualificationId: [],
-        userRole: "caregiver",
+        userRole: "canstitution",
         negativeAttributeId: [],
         limit: 30,
         page,
@@ -533,15 +546,36 @@ export const CareInstitutionList = React.memo(
             : "";
 
         if (userId) {
-          getDepartmentList({
-            variables: {
-              userId: parseInt(userId),
-              locked: false,
-            },
-          });
+          fetchDepartmentList(userId);
         }
       }
     };
+
+    /**
+     *
+     * @param userId
+     *
+     */
+    const fetchDepartmentList = (userId: any) => {
+      if (userId) {
+        getDepartmentList({
+          variables: {
+            userId: parseInt(userId),
+            locked: false,
+          },
+        });
+      }
+    };
+
+    useEffect(() => {
+      starCareInstitution = starMarkCanstitution;
+      // setstarCanstitution(starMarkCanstitution);
+    },[starMarkCanstitution]);
+
+    // call function to manage star functionality in form
+    useEffect(() => {
+      handleStarCareinst(starCanstitution);
+    },[starCanstitution]);
 
     /**
      *
@@ -555,11 +589,15 @@ export const CareInstitutionList = React.memo(
           isStar: true,
           setIndex: index,
           id: list && list.id ? list.id : "",
+          isSecondStar: false,
+          divisionId: -1,
         };
         setstarCanstitution({
           isStar: true,
           setIndex: index,
           id: list && list.id ? list.id : "",
+          isSecondStar: false,
+          divisionId: -1,
         });
         filterUpdated({
           ...filters,
@@ -582,14 +620,16 @@ export const CareInstitutionList = React.memo(
           isStar: false,
           setIndex: -1,
           id: "",
+          isSecondStar: false,
+          divisionId: -1,
         };
         setstarCanstitution({
           isStar: false,
           setIndex: -1,
           id: "",
+          isSecondStar: false,
+          divisionId: -1,
         });
-        console.log(".......................");
-
         filterUpdated({
           ...filters,
           careInstitutionId: null,
@@ -602,12 +642,41 @@ export const CareInstitutionList = React.memo(
      *
      * @param list
      */
-    const handleSecondStarCanstitution = (list: any) => {
-      let temp = allCaregivers.filter(
-        (item: any) => item.divisionId === list.divisionId
-      );
-      allCaregivers = temp;
-      setCaregiverData(temp);
+    const handleSecondStarCanstitution = async (list: any) => {
+      if (starCareInstitution.isStar) {
+        if (!starCareInstitution.isSecondStar) {
+          starCareInstitution = {
+            ...starCareInstitution,
+            isSecondStar: true,
+            divisionId: list.divisionId,
+          };
+          setstarCanstitution({
+            ...starCanstitution,
+            isSecondStar: true,
+            divisionId: list.divisionId,
+          });
+
+          let temp = allCaregivers.filter(
+            (item: any) => item.divisionId === list.divisionId
+          );
+          allCaregivers = temp;
+          setCaregiverData(temp);
+        } else {
+          await fetchDepartmentList(list.id);
+          starCareInstitution = {
+            ...starCareInstitution,
+            isSecondStar: false,
+            divisionId: -1,
+          };
+          setstarCanstitution({
+            ...starCanstitution,
+            isSecondStar: false,
+            divisionId: -1,
+          });
+        }
+      } else {
+        handleFirstStarCanstitution(list, 1);
+      }
     };
 
     useEffect(() => {
@@ -665,6 +734,14 @@ export const CareInstitutionList = React.memo(
           allCaregivers = tempData;
           setCaregiverData(tempData);
         }
+      } else {
+
+        const caregiverItems = allCaregivers.filter(
+          (caregiver: any) => starCareInstitution.id === caregiver.id
+        );
+
+        allCaregivers = caregiverItems;
+        setCaregiverData(caregiverItems);
       }
     };
 
@@ -857,7 +934,13 @@ export const CareInstitutionList = React.memo(
                               handleSecondStarCanstitution(rowData)
                             }
                           >
-                            <i className="fa fa-star-o" />
+                            {starCareInstitution.divisionId ===
+                              rowData.divisionId ||
+                            starCareInstitution.isSecondStar ? (
+                              <i className="fa fa-star theme-text" />
+                            ) : (
+                              <i className="fa fa-star-o" />
+                            )}
                           </span>
                         );
                       case "V":

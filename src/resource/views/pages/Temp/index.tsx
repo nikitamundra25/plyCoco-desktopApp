@@ -7,13 +7,15 @@ import { Row, Col, Button } from "reactstrap";
 import AppointmentNav from "./AppointmentNav";
 import CareinstitutionForm from "./CareInstitutionForm";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { IQualifications } from "../../../../interfaces";
-import { AppointmentsQueries, GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
+import { IQualifications, IStarInterface } from "../../../../interfaces";
+import {
+  AppointmentsQueries,
+  GET_QUALIFICATION_ATTRIBUTE,
+} from "../../../../graphql/queries";
 import { map } from "lodash";
 import { languageTranslation } from "../../../../helpers";
 import { toast } from "react-toastify";
 import ConnectAppointment from "./ConnectAppointment";
-
 
 export const TempPage = () => {
   const [selectedCaregiverData, setSelectedCaregiver] = useState<any>([]);
@@ -29,19 +31,27 @@ export const TempPage = () => {
   const [careInstDeptList, setCareInstDeptList] = useState<any>({});
   const [savingBoth, setsavingBoth] = useState(false);
   const [multipleAvailability, setMultipleAvailability] = useState<boolean>(
-    false,
+    false
   );
-  const [ multipleRequirement, setMultipleRequirement] = useState<boolean>(false);
+  const [multipleRequirement, setMultipleRequirement] = useState<boolean>(
+    false
+  );
+  const [starMarkCanstitution, setstarMarkCanstitution] = useState<IStarInterface>({
+    isStar: false,
+    setIndex: -1,
+    id: "",
+    isSecondStar: false,
+    divisionId: -1,
+  });
 
   // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
-  const [ confirmLeasing, setConfirmLeasing] = useState<any>();
-  
- 
+  const [confirmLeasing, setConfirmLeasing] = useState<any>();
+
   // To fetch qualification attributes list
   const { data: qualificationData, loading } = useQuery<IQualifications>(
     GET_QUALIFICATION_ATTRIBUTE
   );
-  
+
   const setQualificationData = () => {
     if (qualificationData && qualificationData.getQualifications) {
       console.log(qualificationData.getQualifications);
@@ -81,32 +91,38 @@ export const TempPage = () => {
    * @param data
    */
   const handleupdateData = (data: any, name: string) => {
-    console.log("Hereeeeeeeeeee");
     if (name === "careinstitution") {
       setUpdatedCareinstItem(data);
-    } else if(name === "caregiver") {
+    } else if (name === "caregiver") {
       setUpdatedCaregiverItem(data);
-    }else if(name==="both" ){
+    } else if (name === "both") {
       setUpdatedCareinstItem(data);
       setUpdatedCaregiverItem(data);
-
     }
   };
-  
-  console.log("selectedCaregiverData",selectedCaregiverData);
-  console.log("selectedCareinstitutionData",selectedCareinstitutionData);
 
-   /**
+  console.log("selectedCaregiverData", selectedCaregiverData);
+  console.log("selectedCareinstitutionData", selectedCareinstitutionData);
+
+  /**
    *
    * @param data
    */
-  const updateCaregiverDataLeasing = (list:any) =>{
-setConfirmLeasing(list)
-  }
+  const updateCaregiverDataLeasing = (list: any) => {
+    setConfirmLeasing(list);
+  };
 
   const handleSaveBoth = () => {
     setsavingBoth(true);
   };
+
+/**
+   *
+   * @param starredItem
+   */
+const handleStarCareinst = (starredItem:any) =>{
+  setstarMarkCanstitution(starredItem)
+}
 
   return (
     <>
@@ -141,7 +157,7 @@ setConfirmLeasing(list)
                     confirmLeasing={confirmLeasing}
                   />
                   <CareInstitutionList
-                  selectedCaregiverData={selectedCaregiverData}
+                    selectedCaregiverData={selectedCaregiverData}
                     careinstitutionSelected={careinstitutionSelected}
                     filters={filterObject}
                     setCareInstDeptList={setCareInstDeptList}
@@ -154,6 +170,8 @@ setConfirmLeasing(list)
                     caregiverSelected={caregiverSelected}
                     updateCaregiverDataLeasing={updateCaregiverDataLeasing}
                     filterUpdated={setFilterObject}
+                    handleStarCareinst={handleStarCareinst}
+                    starMarkCanstitution={starMarkCanstitution}
                   />
                 </div>
               </div>
@@ -168,7 +186,7 @@ setConfirmLeasing(list)
                   >
                     <CaregiverForm
                       selected={selectedCaregiverData}
-                     setSelectedCaregiver ={setSelectedCaregiver}
+                      setSelectedCaregiver={setSelectedCaregiver}
                       setSelectedCareinstitution={setSelectedCareinstitution}
                       handleupdateData={handleupdateData}
                       savingBoth={savingBoth}
@@ -185,18 +203,23 @@ setConfirmLeasing(list)
                       selected={selectedCareinstitutionData}
                       qualificationList={qualifications}
                       departmentList={careInstDeptList}
+                      setCareInstDeptList={setCareInstDeptList}
                       setSelectedCareinstitution={setSelectedCareinstitution}
                       handleupdateData={handleupdateData}
                       savingBoth={savingBoth}
                       setsavingBoth={setsavingBoth}
                       multipleRequirement={multipleRequirement}
-                      handleQualification={(values:any)=>
+                      handleQualification={(values: any) =>
                         setFilterObject({
                           ...filterObject,
                           qualificationId: map(values, ({ value }) => value),
                           effects: "both",
                         })
                       }
+                      starMarkCanstitution={starMarkCanstitution}
+                      setstarMarkCanstitution={setstarMarkCanstitution}
+                      filterUpdated={setFilterObject}
+                      filters={filterObject}
                     />
                   </Col>
                   <Col lg={"12"}>
@@ -209,7 +232,7 @@ setConfirmLeasing(list)
                           selectedCareinstitutionData.length === 1 &&
                           selectedCaregiverData &&
                           selectedCaregiverData.length === 1
-                            ?  false
+                            ? false
                             : true
                         }
                         onClick={() => handleSaveBoth()}
@@ -217,15 +240,16 @@ setConfirmLeasing(list)
                         <i className="fa fa-save mr-2" />
                         {languageTranslation("SAVE_BOTH")}
                       </Button>
-                      <ConnectAppointment 
-                      selectedCaregiverData = {selectedCaregiverData}
-                      selectedCareinstitutionData = {selectedCareinstitutionData}
-                      qualifications = {qualifications}
-                      setSelectedCaregiver={setSelectedCaregiver}
-                      setSelectedCareinstitution={setSelectedCareinstitution}
-                      handleupdateData={handleupdateData}
+                      <ConnectAppointment
+                        selectedCaregiverData={selectedCaregiverData}
+                        selectedCareinstitutionData={
+                          selectedCareinstitutionData
+                        }
+                        qualifications={qualifications}
+                        setSelectedCaregiver={setSelectedCaregiver}
+                        setSelectedCareinstitution={setSelectedCareinstitution}
+                        handleupdateData={handleupdateData}
                       />
-                      
                     </div>
                   </Col>
                 </Row>

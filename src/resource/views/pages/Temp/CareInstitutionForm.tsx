@@ -48,8 +48,9 @@ import {
   IReactSelectInterface,
   IReactSelectTimeInterface,
 } from "../../../../interfaces";
-import { useMutation } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import {
+  CareInstitutionQueries,
   DocumentQueries,
   GET_QUALIFICATION_ATTRIBUTE,
 } from "../../../../graphql/queries";
@@ -67,6 +68,7 @@ const [
   ,
   ,
 ] = AppointmentMutations;
+const [, , GET_DEPARTMENT_LIST, , , ,] = CareInstitutionQueries;
 
 let toastId: any = null;
 let selectedDept: any = {};
@@ -80,8 +82,24 @@ const CareinstitutionForm = ({
   savingBoth,
   setsavingBoth,
   multipleRequirement,
-  handleQualification
+  handleQualification,
+  starMarkCanstitution,
+  setstarMarkCanstitution,
+  filterUpdated,
+  filters,
+  setCareInstDeptList
 }: any) => {
+    // To get department list
+    const [
+      getDepartmentList,
+      { data, loading: deptLoading },
+    ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
+      fetchPolicy: "no-cache",
+      onCompleted: (daata: any) => {
+        setCareInstDeptList(daata)
+      },
+    });
+
   // Mutation to add careinstitution data
   const [
     addCareinstitutionRequirment,
@@ -237,7 +255,6 @@ const CareinstitutionForm = ({
           const { canstitution:careinst={} } = canstitution
             ? canstitution
             : {};
-            console.log("canstitution111",canstitution);
             
             const { attributes = [], street = "", city = "" } = careinst
             ? careinst
@@ -531,7 +548,7 @@ const CareinstitutionForm = ({
   // To check appointment with leasing careInst or not
   showQualification = item && item[0] && item[0].isLeasing ? true : false;
    
-  const { canstitution ,qualificationId: mainQuali = [] } = careInstDetails;
+  const { canstitution ,qualificationId: mainQuali = [],id: userCanstId=''  } = careInstDetails;
   const {
     name,
     comments,
@@ -600,7 +617,7 @@ const CareinstitutionForm = ({
     qualificationfor = [item.qualificationForCharge];
   }
 
-  const { shortName = "", } = canstitution
+  const { shortName = "",  } = canstitution
     ? canstitution
     : {};
     
@@ -660,6 +677,45 @@ const CareinstitutionForm = ({
     selected && selected.length
       ? selected.map((cell: any) => cell.item.date)
       : [];
+
+
+      const handleStarMark = (id:any) =>{
+        if(starMarkCanstitution.isStar){
+          filterUpdated({
+            ...filters,
+            careInstitutionId:  null,
+            effects: "careinstitution",
+          });
+          setstarMarkCanstitution({
+            isStar: false,
+            setIndex: -1,
+            id: "",
+            isSecondStar: false,
+            divisionId: -1,
+          })
+        }else{
+          filterUpdated({
+            ...filters,
+            careInstitutionId: id ? parseInt(id) : null,
+            effects: "careinstitution",
+          });
+          setstarMarkCanstitution({
+            isStar: true,
+            setIndex: 1,
+            id: id,
+            isSecondStar: false,
+            divisionId: -1,
+          })
+          if (id) {
+            getDepartmentList({
+              variables: {
+                userId: parseInt(id),
+                locked: false,
+              },
+            });
+          }
+        }
+      }
   /**
    *
    */
@@ -752,6 +808,7 @@ const CareinstitutionForm = ({
           //     isCorrespondingAppointment = true;
           //   }
           // }
+          
           return (
             <>
               <Form>
@@ -830,27 +887,21 @@ const CareinstitutionForm = ({
                                   <InputGroupAddon
                                     addonType="append"
                                     className="cursor-pointer"
-                                    // onClick={() =>
-                                    //   name
-                                    //     ? this.handleUserList(
-                                    //         selectedCareinstitution
-                                    //           ? selectedCareinstitution.id
-                                    //           : '',
-                                    //         'careinstitution'
-                                    //       )
-                                    //     : ''
-                                    // }
+                                    onClick={() =>
+                                      name
+                                        ? handleStarMark(userCanstId)
+                                        : ''
+                                    }
                                   >
                                     <InputGroupText>
                                       <i
                                         className={
-                                          //   name &&
-                                          //   starCanstitution.isStar &&
-                                          //   parseInt(starCanstitution.id) ===
-                                          //     parseInt(Id)
-                                          //     ? "fa fa-star theme-text"
-                                          //     :
-                                          "fa fa-star"
+                                            name &&
+                                            starMarkCanstitution.isStar &&
+                                            parseInt(starMarkCanstitution.id) ===
+                                              parseInt(userCanstId)
+                                              ? "fa fa-star theme-text"
+                                              : "fa fa-star"
                                         }
                                         aria-hidden="true"
                                       ></i>

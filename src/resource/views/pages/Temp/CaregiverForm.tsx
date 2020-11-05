@@ -352,7 +352,7 @@ export const CaregiverForm = ({
             : {};
         getLeasingContractPDF({
           variables: {
-            userId: parseInt(id),
+            userId: /* parseInt(id)  */46716,
             availabilityId: [parseInt(avabilityId)],
             appointmentId: [parseInt(appointmentId)],
             documentUploadType: "leasingContract",
@@ -1994,6 +1994,10 @@ export const CaregiverForm = ({
                               </a>
                             ) : null}
                             <br />
+{console.log('document',document)}
+{console.log('leasingContract',leasingContract)}
+{console.log('getContractByAppointmentID',getContractByAppointmentID)}
+{console.log('selfEmploymentcontract',selfEmploymentcontract)}
 
                             {document &&
                             leasingContract &&

@@ -709,8 +709,8 @@ const CareinstitutionForm = ({
             isStar: true,
             setIndex: 1,
             id: id,
-            isSecondStar: false,
-            divisionId: -1,
+            isSecondStar: starMarkCanstitution.isSecondStar,
+            divisionId: starMarkCanstitution.divisionId,
           })
           if (id) {
             getDepartmentList({

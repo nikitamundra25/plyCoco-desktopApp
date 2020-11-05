@@ -79,7 +79,7 @@ export const TempPage = () => {
    * @param caregiverData
    */
   const caregiverSelected = (caregiverData: any) => {
-    setSelectedCaregiver(caregiverData);
+    setSelectedCaregiver(caregiverData);     
   };
 
   /**
@@ -89,6 +89,9 @@ export const TempPage = () => {
   const careinstitutionSelected = (careInstData: any) => {
     setSelectedCareinstitution(careInstData);
   };
+
+  
+
 
   /**
    *
@@ -166,6 +169,8 @@ const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
                     setSelectedCareinstitution={setSelectedCareinstitution}
                     confirmLeasing={confirmLeasing}
                     handleStarCaregiverValue={handleStarCaregiverValue}
+                    selectedCaregiverData={selectedCaregiverData}
+
                   />
                   <CareInstitutionList
                     selectedCaregiverData={selectedCaregiverData}

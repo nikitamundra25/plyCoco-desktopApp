@@ -7,7 +7,7 @@ import { Row, Col, Button } from "reactstrap";
 import AppointmentNav from "./AppointmentNav";
 import CareinstitutionForm from "./CareInstitutionForm";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { IQualifications } from "../../../../interfaces";
+import { IQualifications, IStarInterface } from "../../../../interfaces";
 import { AppointmentsQueries, GET_QUALIFICATION_ATTRIBUTE } from "../../../../graphql/queries";
 import { map } from "lodash";
 import { languageTranslation } from "../../../../helpers";
@@ -32,6 +32,11 @@ export const TempPage = () => {
     false,
   );
   const [ multipleRequirement, setMultipleRequirement] = useState<boolean>(false);
+  const [ caregiverStarData, setcaregiverStarData] = useState<IStarInterface>({
+    isStar: false,
+    id: '',
+    isSecondStar: false
+  });
 
   // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
   const [ confirmLeasing, setConfirmLeasing] = useState<any>();
@@ -108,6 +113,11 @@ setConfirmLeasing(list)
     setsavingBoth(true);
   };
 
+  const handleStarCaregiverValue=(starCaregiver:IStarInterface)=>{
+    console.log('caregiverStarData in index',starCaregiver);    
+    setcaregiverStarData(starCaregiver)
+  }
+
   return (
     <>
       <div className="common-detail-page">
@@ -139,6 +149,7 @@ setConfirmLeasing(list)
                     selectedCareinstitutionData={selectedCareinstitutionData}
                     setSelectedCareinstitution={setSelectedCareinstitution}
                     confirmLeasing={confirmLeasing}
+                    handleStarCaregiverValue={handleStarCaregiverValue}
                   />
                   <CareInstitutionList
                   selectedCaregiverData={selectedCaregiverData}
@@ -175,6 +186,7 @@ setConfirmLeasing(list)
                       setsavingBoth={setsavingBoth}
                       multipleAvailability={multipleAvailability}
                       selectedCareinstitutionData={selectedCareinstitutionData}
+                      caregiverStarData={caregiverStarData}
                     />
                   </Col>
                   <Col

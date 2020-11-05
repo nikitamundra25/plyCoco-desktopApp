@@ -129,7 +129,9 @@ export const CaregiverForm = ({
   handleupdateData,
   savingBoth,
   setsavingBoth,
-  multipleAvailability
+  multipleAvailability,
+  caregiverStarData,
+  handleStarCaregiverValue
 }: any) => {
   const [tempState, setTempState] = useState(false);
   const [timeSlotError, setTimeSlotError] = useState<string>("");
@@ -1013,33 +1015,33 @@ export const CaregiverForm = ({
                                 <InputGroupAddon
                                   addonType="append"
                                   className="cursor-pointer"
-                                  // onClick={() =>
-                                  //   name
-                                  //     ? onhandleCaregiverStar(
-                                  //         selectedCareGiver ? selectedCareGiver.id : '',
-                                  //         false,
-                                  //         careGiversListArr &&
-                                  //           careGiversListArr.result &&
-                                  //           careGiversListArr.result.length
-                                  //           ? careGiversListArr.result.findIndex(
-                                  //               (cg: any) =>
-                                  //                 selectedCareGiver &&
-                                  //                 cg.id === selectedCareGiver.id
-                                  //             ) < 0
-                                  //             ? true
-                                  //             : false
-                                  //           : false
-                                  //       )
-                                  //     : ''
-                                  // }
+                                  onClick={() =>
+                                    appointmentId
+                                     /*  ? onhandleCaregiverStar(
+                                          selectedCareGiver ? selectedCareGiver.id : '',
+                                          false,
+                                          careGiversListArr &&
+                                            careGiversListArr.result &&
+                                            careGiversListArr.result.length
+                                            ? careGiversListArr.result.findIndex(
+                                                (cg: any) =>
+                                                  selectedCareGiver &&
+                                                  cg.id === selectedCareGiver.id
+                                              ) < 0
+                                              ? true
+                                              : false
+                                            : false
+                                        )
+                                      : '' */
+                                  }
                                 >
                                   <InputGroupText>
                                     <i
+                                    //caregiverStarData
                                       className={
-                                        //   name && starCaregiver && starCaregiver.isStar
-                                        //     ? 'fa fa-star theme-text'
-                                        //     :
-                                        "fa fa-star"
+                                        appointmentId&&  caregiverStarData && caregiverStarData.isStar
+                                  ? "fa fa-star theme-text"
+                                  : "fa fa-star"
                                       }
                                       aria-hidden="true"
                                     ></i>

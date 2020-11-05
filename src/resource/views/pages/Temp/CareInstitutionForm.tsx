@@ -617,7 +617,7 @@ const CareinstitutionForm = ({
     qualificationfor = [item.qualificationForCharge];
   }
 
-  const { shortName = "",  } = canstitution
+  const { shortName = "",companyName=''  } = canstitution
     ? canstitution
     : {};
     
@@ -684,6 +684,7 @@ const CareinstitutionForm = ({
           filterUpdated({
             ...filters,
             careInstitutionId:  null,
+            soloCareinstitution: undefined,
             effects: "careinstitution",
           });
           setstarMarkCanstitution({
@@ -697,6 +698,11 @@ const CareinstitutionForm = ({
           filterUpdated({
             ...filters,
             careInstitutionId: id ? parseInt(id) : null,
+            soloCareinstitution: {
+              label: shortName ? shortName : id,
+              value: id,
+              companyName: companyName,
+            },
             effects: "careinstitution",
           });
           setstarMarkCanstitution({

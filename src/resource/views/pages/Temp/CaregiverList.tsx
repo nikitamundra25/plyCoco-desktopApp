@@ -214,6 +214,8 @@ export const CaregiverList = ({
       ...filters,
     };
     delete filterData.careInstitutionId;
+    delete filterData.soloCaregiver;
+    delete filterData.soloCareinstitution;
     setDaysData(
       getDaysArrayByMonth(
         moment(filters.gte || gte).month(),
@@ -463,19 +465,23 @@ export const CaregiverList = ({
    */
   const getMoreCaregivers = (page: number = 1) => {
     setIsLoading(true);
+    const filterData = {
+      qualificationId: [],
+      userRole: 'caregiver',
+      negativeAttributeId: [],
+      limit: 30,
+      page,
+      showAppointments: null,
+      positiveAttributeId: [],
+      gte,
+      lte,
+      ...filters,
+    }
+    delete filterData.caregiverId;
+    delete filterData.soloCareinstitution;
+    delete filterData.soloCaregiver
     fetchMoreCareGiverList({
-      variables: {
-        qualificationId: [],
-        userRole: 'caregiver',
-        negativeAttributeId: [],
-        limit: 30,
-        page,
-        showAppointments: null,
-        positiveAttributeId: [],
-        gte,
-        lte,
-        ...filters,
-      },
+      variables: filterData,
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
         if (!fetchMoreResult) {
           return prev;
@@ -572,9 +578,13 @@ export const CaregiverList = ({
       });
       setStarredCaregiver(() => caregiverId);
       setCaregiverData(caregiverItems);
+      const {lastName = '',firstName = ''} = caregiverItems && caregiverItems.length ? caregiverItems[0] : {}
       filterUpdated({
         ...filters,
         caregiverId: caregiverId,
+        soloCaregiver: { label: `${lastName}${" "}${firstName}`,
+        value: caregiverId
+      },
         effects: 'caregiver',
       });
     } else {
@@ -591,6 +601,7 @@ export const CaregiverList = ({
       filterUpdated({
         ...filters,
         caregiverId: null,
+        soloCaregiver: undefined,
         effects: 'caregiver',
       });
     }

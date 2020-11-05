@@ -225,7 +225,6 @@ export const CareInstitutionList = React.memo(
     let gte: string = moment().startOf("month").format(dbAcceptableFormat);
     let lte: string = moment().endOf("month").format(dbAcceptableFormat);
     const getCareinstitutionList = () => {
-      delete filters.caregiverId;
       allCaregivers = [];
       setCaregiverData(allCaregivers);
       setCurrentPage(1);
@@ -243,6 +242,8 @@ export const CareInstitutionList = React.memo(
         ...filters,
       };
       delete filterObject.caregiverId;
+      delete filterObject.soloCareinstitution;
+
       fetchCaregiverList({
         variables: filterObject,
       });
@@ -474,6 +475,7 @@ export const CareInstitutionList = React.memo(
         ...filters,
       };
       delete filterObject.caregiverId;
+      delete filterObject.soloCareinstitution;
       fetchMoreCareGiverList({
         variables: filterObject,
         updateQuery: (prev: any, { fetchMoreResult }: any) => {
@@ -599,9 +601,21 @@ export const CareInstitutionList = React.memo(
           isSecondStar: false,
           divisionId: -1,
         });
+        const id = list && list.id ? parseInt(list.id) : null
+        let {
+          companyName = "",
+          shortName = "",
+        } = list && list.canstitution ? list.canstitution : {};
+        console.log("listlist",list);
+        
         filterUpdated({
           ...filters,
-          careInstitutionId: list && list.id ? parseInt(list.id) : null,
+          careInstitutionId: id,
+          soloCareinstitution: {
+            label: shortName ? shortName : id,
+            value: id,
+            companyName: companyName,
+          },
           effects: "careinstitution",
         });
 
@@ -633,6 +647,7 @@ export const CareInstitutionList = React.memo(
         filterUpdated({
           ...filters,
           careInstitutionId: null,
+          soloCareinstitution: undefined,
           effects: "careinstitution",
         });
       }

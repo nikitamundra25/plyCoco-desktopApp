@@ -166,6 +166,8 @@ const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
                     setSelectedCareinstitution={setSelectedCareinstitution}
                     confirmLeasing={confirmLeasing}
                     handleStarCaregiverValue={handleStarCaregiverValue}
+                    setcaregiverStarData={setcaregiverStarData}
+                    caregiverStarData={caregiverStarData}
                   />
                   <CareInstitutionList
                     selectedCaregiverData={selectedCaregiverData}

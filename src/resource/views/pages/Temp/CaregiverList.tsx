@@ -156,7 +156,8 @@ export const CaregiverList = ({
   selectedCareinstitutionData,
   setSelectedCareinstitution,
   confirmLeasing,
-  handleStarCaregiverValue
+  handleStarCaregiverValue,
+  caregiverStarData
 }: any) => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
@@ -233,20 +234,37 @@ export const CaregiverList = ({
     ) {
       getCaregiverData();
     }
-    if (!filters.caregiverId || filters.caregiverId === null) {
-      starCaregiverVar = {
-        isStar: false,
-        id: "",
-        isSecondStar: false,
-      };
-      setstarCaregiver({
-        isStar: false,
-        id: "",
-        isSecondStar: false,
-      });
-    }
+    // if (!filters.caregiverId || filters.caregiverId === null) {
+    //   starCaregiverVar = {
+    //     isStar: false,
+    //     id: '',
+    //     isSecondStar: false,
+    //   };
+    //   setstarCaregiver({
+    //     isStar: false,
+    //     id: '',
+    //     isSecondStar: false,
+    //   });
+    // } 
+    // else {
+    //   starCaregiverVar = {
+    //     isStar: true,
+    //     id: filters.caregiverId,
+    //     isSecondStar: starCaregiverVar && !starCaregiverVar.isSecondStar,
+    //   };
+    //   setstarCaregiver({
+    //     isStar: true,
+    //     id: filters.caregiverId,
+    //     isSecondStar: starCaregiverVar && !starCaregiverVar.isSecondStar,
+    //   });
+    // }
   }, [filters]);
 
+
+  useEffect(() => {
+    starCaregiverVar = caregiverStarData;
+  },[caregiverStarData]);
+  
   /**
    *
    * @param data
@@ -476,10 +494,10 @@ export const CaregiverList = ({
       gte,
       lte,
       ...filters,
-    }
+    };
     delete filterData.caregiverId;
     delete filterData.soloCareinstitution;
-    delete filterData.soloCaregiver
+    delete filterData.soloCaregiver;
     fetchMoreCareGiverList({
       variables: filterData,
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
@@ -578,13 +596,15 @@ export const CaregiverList = ({
       });
       setStarredCaregiver(() => caregiverId);
       setCaregiverData(caregiverItems);
-      const {lastName = '',firstName = ''} = caregiverItems && caregiverItems.length ? caregiverItems[0] : {}
+      const { lastName = '', firstName = '' } =
+        caregiverItems && caregiverItems.length ? caregiverItems[0] : {};
       filterUpdated({
         ...filters,
         caregiverId: caregiverId,
-        soloCaregiver: { label: `${lastName}${" "}${firstName}`,
-        value: caregiverId
-      },
+        soloCaregiver: {
+          label: `${lastName}${' '}${firstName}`,
+          value: caregiverId,
+        },
         effects: 'caregiver',
       });
     } else {
@@ -605,10 +625,8 @@ export const CaregiverList = ({
         effects: 'caregiver',
       });
     }
-    handleStarCaregiverValue(starCaregiverVar)
+    handleStarCaregiverValue(starCaregiverVar);
   };
-
-  
 
   const handleToggleMenuItem = () => {
     setShowRightClickOptions((prev) => !prev);

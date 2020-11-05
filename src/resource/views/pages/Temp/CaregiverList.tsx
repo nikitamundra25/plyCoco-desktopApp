@@ -220,6 +220,8 @@ export const CaregiverList = ({
       ...filters,
     };
     delete filterData.careInstitutionId;
+    delete filterData.soloCaregiver;
+    delete filterData.soloCareinstitution;
     setDaysData(
       getDaysArrayByMonth(
         moment(filters.gte || gte).month(),
@@ -457,19 +459,23 @@ export const CaregiverList = ({
    */
   const getMoreCaregivers = (page: number = 1) => {
     setIsLoading(true);
+    const filterData = {
+      qualificationId: [],
+      userRole: 'caregiver',
+      negativeAttributeId: [],
+      limit: 30,
+      page,
+      showAppointments: null,
+      positiveAttributeId: [],
+      gte,
+      lte,
+      ...filters,
+    }
+    delete filterData.caregiverId;
+    delete filterData.soloCareinstitution;
+    delete filterData.soloCaregiver
     fetchMoreCareGiverList({
-      variables: {
-        qualificationId: [],
-        userRole: 'caregiver',
-        negativeAttributeId: [],
-        limit: 30,
-        page,
-        showAppointments: null,
-        positiveAttributeId: [],
-        gte,
-        lte,
-        ...filters,
-      },
+      variables: filterData,
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
         if (!fetchMoreResult) {
           return prev;
@@ -551,7 +557,6 @@ export const CaregiverList = ({
       starCaregiver &&
       (!starCaregiverVar.isStar || isSecondStar)
     ) {
-      console.log('inside elseeeeee iffffffffffff');
       const caregiverItems = allCaregivers.filter(
         (caregiver: any) => caregiverId === caregiver.id
       );
@@ -573,7 +578,6 @@ export const CaregiverList = ({
         effects: 'caregiver',
       });
     } else {
-      console.log('inside elseeeeeeeeeeeeeeeeeeeeee');
       starCaregiverVar = {
         isStar: false,
         id: '',

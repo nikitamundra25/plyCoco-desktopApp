@@ -182,6 +182,7 @@ export const CareInstitutionList = React.memo(
     careInstDeptList,
     handleStarCareinst,
     starMarkCanstitution,
+    correspondingData
   }: any) => {
     const [daysData, setDaysData] = useState(
       getDaysArrayByMonth(moment().month(), moment().year())
@@ -833,28 +834,14 @@ const [
       setShowRightClickOptions((prev) => !prev);
     };
 
-    useEffect(() => {
-      if (selectedCaregiverData && selectedCaregiverData.length) {
-        const { item = undefined } = selectedCaregiverData[0]
-          ? selectedCaregiverData[0]
-          : {};
-        const checkCondition: boolean =
-          item && item.appointments && item.appointments.length;
-        let appointmentsData: number[] = selectedCaregiverData
-          .map((cell: any) =>
-            cell.item && cell.item.appointments && cell.item.appointments.length
-              ? cell.item.appointments[0]
-              : {}
-          )
-          .filter(Boolean);
-        if (checkCondition) {
-          getCorrespondingconnectedcell(appointmentsData);
+    useEffect(() => { 
+        if (correspondingData && correspondingData.length) {
+           getCorrespondingconnectedcell(correspondingData);
         }
-      }
-    }, [selectedCaregiverData]);
+    }, [correspondingData]);
 
     /**
-     * @param
+     * @param appointmentsData
      *
      */
     // Function to get corresponding connected cell

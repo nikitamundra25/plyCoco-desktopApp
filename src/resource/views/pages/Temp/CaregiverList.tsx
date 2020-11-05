@@ -1,29 +1,41 @@
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
-import classnames from "classnames";
-import _, { filter, map } from "lodash";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import BaseTable, { Column } from "react-base-table";
-import "react-base-table/styles.css";
-import { Link } from "react-router-dom";
-import { createSelectable, SelectableGroup } from "react-selectable-fast";
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import classnames from 'classnames';
+import _, { filter, map } from 'lodash';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import BaseTable, { Column } from 'react-base-table';
+import 'react-base-table/styles.css';
+import { Link } from 'react-router-dom';
+import { createSelectable, SelectableGroup } from 'react-selectable-fast';
 import {
   APPOINTMENT_PAGE_LIMIT,
   AppRoutes,
   dbAcceptableFormat,
-} from "../../../../config";
-import { AppointmentsQueries } from "../../../../graphql/queries";
-import { getDaysArrayByMonth } from "../../../../helpers";
-import { Button } from "reactstrap";
-import Spinner, { MoreSpinner } from "../../components/Spinner";
-import { CaregiverRightClickOptions } from "./CaregiverRightClickOptions";
+} from '../../../../config';
+import { AppointmentsQueries } from '../../../../graphql/queries';
+import { getDaysArrayByMonth } from '../../../../helpers';
+import { Button } from 'reactstrap';
+import Spinner, { MoreSpinner } from '../../components/Spinner';
+import { CaregiverRightClickOptions } from './CaregiverRightClickOptions';
+import { IStarInterface } from '../../../../interfaces';
 
 const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
-const staticHeader = ["caregiver", "H", "S", "U", "V"];
+const staticHeader = ['caregiver', 'H', 'S', 'U', 'V'];
 let allCaregivers: any[] = [];
 /**
  *
  */
+let starCaregiverVar: any = {
+  isStar: false,
+  setIndex: -1,
+  id: '',
+};
+let starCareInstVar: any = {
+  isStar: false,
+  setIndex: -1,
+  id: '',
+  isSecondStar: false,
+};
 const SelectableCell = React.memo(
   createSelectable(
     ({ selectableRef, isSelecting, isSelected, isWeekend, item }: any) => {
@@ -34,21 +46,21 @@ const SelectableCell = React.memo(
         isSingleButtonAccepted: boolean = false,
         isTimeSheetPending: boolean = false,
         isInvoiceInitiated: boolean = false;
-      if (item.status === "linked") {
+      if (item.status === 'linked') {
         isMatching = true;
-      } else if (item.status === "confirmed") {
+      } else if (item.status === 'confirmed') {
         isConfirm = true;
-      } else if (item.status === "contractCancelled") {
+      } else if (item.status === 'contractCancelled') {
         isContractCancel = true;
-      } else if (item.status === "contractInitiated") {
+      } else if (item.status === 'contractInitiated') {
         isContractInitiated = true;
-      } else if (item.status === "invoiceInitiated") {
+      } else if (item.status === 'invoiceInitiated') {
         isInvoiceInitiated = true;
-      } else if (item.status === "accepted") {
+      } else if (item.status === 'accepted') {
         isSingleButtonAccepted = true;
       } else if (
-        item.status === "timeSheetPending" ||
-        item.status === "timeSheetUpdated"
+        item.status === 'timeSheetPending' ||
+        item.status === 'timeSheetUpdated'
       ) {
         isTimeSheetPending = true;
       }
@@ -56,77 +68,77 @@ const SelectableCell = React.memo(
       let isBlocked: boolean = false;
       if (item) {
         isBlocked =
-          item.f === "block" || item.s === "block" || item.n === "block";
+          item.f === 'block' || item.s === 'block' || item.n === 'block';
       }
 
       // Date condition to not display fsn if date is before today
       let isBeforedate = false;
       if (item && item.date) {
-        isBeforedate = moment(item.date).isBefore(moment(), "day");
+        isBeforedate = moment(item.date).isBefore(moment(), 'day');
       }
       return (
         <>
           <span
             className={classnames({
-              "calender-col": true,
-              "text-center": true,
-              "custom-appointment-col": true,
-              "cursor-pointer": true,
-              "selecting-cell-bg": isSelecting || isSelected,
+              'calender-col': true,
+              'text-center': true,
+              'custom-appointment-col': true,
+              'cursor-pointer': true,
+              'selecting-cell-bg': isSelecting || isSelected,
               weekend: isWeekend,
-              "contact-initiate-bg":
+              'contact-initiate-bg':
                 isContractInitiated && !isSelected
                   ? isContractInitiated
                   : false,
 
-              "invoice-bg":
+              'invoice-bg':
                 isInvoiceInitiated && !isSelected ? isInvoiceInitiated : false,
-              "cancel-contract-bg":
+              'cancel-contract-bg':
                 isContractCancel && !isSelected ? isContractCancel : false,
-              "block-bg": item ? (isBlocked ? true : false) : false,
-              "matching-bg": isMatching && !isSelected ? isMatching : false,
-              "confirmation-bg":
+              'block-bg': item ? (isBlocked ? true : false) : false,
+              'matching-bg': isMatching && !isSelected ? isMatching : false,
+              'confirmation-bg':
                 isTimeSheetPending && !isSelected ? isTimeSheetPending : false,
-              "contract-bg": isConfirm && !isSelected ? isConfirm : false,
-              "accepted-bg":
+              'contract-bg': isConfirm && !isSelected ? isConfirm : false,
+              'accepted-bg':
                 isSingleButtonAccepted && !isSelected
                   ? isSingleButtonAccepted
                   : false,
-              "availability-dark-bg": !isSelected
+              'availability-dark-bg': !isSelected
                 ? item
-                  ? item.f === "available" ||
-                    item.s === "available" ||
-                    item.n === "available"
-                    ? item && item.status === "default" && isBeforedate
+                  ? item.f === 'available' ||
+                    item.s === 'available' ||
+                    item.n === 'available'
+                    ? item && item.status === 'default' && isBeforedate
                       ? false
                       : true
                     : false
                   : false
                 : false,
-              "availability-bg":
-                !isSelected && item && item.status === "default" && isBeforedate
+              'availability-bg':
+                !isSelected && item && item.status === 'default' && isBeforedate
                   ? true
                   : false,
             })}
             ref={selectableRef}
           >
-            {item.status === "timeSheetPending" ? (
-              <i className="fa fa-circle-o"></i>
-            ) : item.status === "timeSheetUpdated" ? (
-              <i className="fa fa-check"></i>
-            ) : item.status === "invoiceInitiated" ? (
-              <i className="fa fa-euro"></i>
-            ) : item.f === "block" ||
-              item.s === "block" ||
-              item.n === "block" ? (
-              <i className="fa fa-ban"></i>
-            ) : item.status === "default" &&
+            {item.status === 'timeSheetPending' ? (
+              <i className='fa fa-circle-o'></i>
+            ) : item.status === 'timeSheetUpdated' ? (
+              <i className='fa fa-check'></i>
+            ) : item.status === 'invoiceInitiated' ? (
+              <i className='fa fa-euro'></i>
+            ) : item.f === 'block' ||
+              item.s === 'block' ||
+              item.n === 'block' ? (
+              <i className='fa fa-ban'></i>
+            ) : item.status === 'default' &&
               new Date(item.date).toTimeString() <
                 new Date().toTimeString() ? null : (
               <>
-                {item.f === "available" ? "f" : null}
-                {item.s === "available" ? "s" : null}
-                {item.n === "available" ? "n" : null}
+                {item.f === 'available' ? 'f' : null}
+                {item.s === 'available' ? 's' : null}
+                {item.n === 'available' ? 'n' : null}
               </>
             )}
           </span>
@@ -150,6 +162,7 @@ export const CaregiverList = ({
   selectedCareinstitutionData,
   setSelectedCareinstitution,
   confirmLeasing,
+  handleStarCaregiverValue
 }: any) => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
@@ -161,6 +174,18 @@ export const CaregiverList = ({
   const [starredCaregiver, setStarredCaregiver] = useState(0);
   const [showRightClickOptions, setShowRightClickOptions] = useState(false);
   const [selectedCells, setSelectedCells] = useState([]);
+  const [starCaregiver, setstarCaregiver] = useState<IStarInterface>({
+    isStar: false,
+    id: '',
+    isSecondStar: false,
+  });
+  const [secondStarCaregiver, setsecondStarCaregiver] = useState<
+    IStarInterface
+  >({
+    isStar: false,
+    setIndex: -1,
+    id: '',
+  });
   // To fetch caregivers by id filter
   const [
     fetchCaregiverList,
@@ -171,19 +196,19 @@ export const CaregiverList = ({
       loading: loadingCaregiver,
     },
   ] = useLazyQuery<any, any>(GET_USERS_BY_QUALIFICATION_ID, {
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
   });
 
   // Default value is start & end of month
-  let gte: string = moment().startOf("month").format(dbAcceptableFormat);
-  let lte: string = moment().endOf("month").format(dbAcceptableFormat);
+  let gte: string = moment().startOf('month').format(dbAcceptableFormat);
+  let lte: string = moment().endOf('month').format(dbAcceptableFormat);
   const getCaregiverData = () => {
     allCaregivers = [];
     setCaregiverData(allCaregivers);
     setCurrentPage(1);
     const filterData = {
       qualificationId: [],
-      userRole: "caregiver",
+      userRole: 'caregiver',
       negativeAttributeId: [],
       limit: APPOINTMENT_PAGE_LIMIT,
       page: 1,
@@ -208,7 +233,7 @@ export const CaregiverList = ({
   useEffect(() => {
     if (
       !filters.effects ||
-      ["both", "caregiver"].indexOf(filters.effects) > -1
+      ['both', 'caregiver'].indexOf(filters.effects) > -1
     ) {
       getCaregiverData();
     }
@@ -219,15 +244,15 @@ export const CaregiverList = ({
    * @param data
    */
   const formatCaregivers = (data: any[]) => {
-    console.time("test");
+    console.time('test');
     const newData: any[] = [];
     _.forEach(data, (value) => {
       const availibility = _.mapValues(
-        _.groupBy(value.caregiver_avabilities, "date")
+        _.groupBy(value.caregiver_avabilities, 'date')
       );
       let max = 1;
       _.forEach(daysData.daysArr, (date) => {
-        const arr = availibility[date.dateString || ""] || [];
+        const arr = availibility[date.dateString || ''] || [];
         if (arr.length > max) {
           max = arr.length;
         }
@@ -240,7 +265,7 @@ export const CaregiverList = ({
         });
       }
     });
-    console.timeEnd("test");
+    console.timeEnd('test');
     return newData;
   };
   /**
@@ -283,9 +308,9 @@ export const CaregiverList = ({
 
   const handleUnlinkedList = (availability: any, temp: any) => {
     const {
-      unlinkedBy = "",
-      deleteAll = "",
-      id = "",
+      unlinkedBy = '',
+      deleteAll = '',
+      id = '',
       ca = {},
       cr = {},
     } = availability ? availability : {};
@@ -295,15 +320,15 @@ export const CaregiverList = ({
     const checkId = (obj: any) => obj.id === ca.id;
     let existId = temp[index].caregiver_avabilities.findIndex(checkId);
     if (deleteAll) {
-      if (unlinkedBy !== "canstitution") {
+      if (unlinkedBy !== 'canstitution') {
         temp[index].caregiver_avabilities[existId] = [];
       } else {
         temp[index].caregiver_avabilities[existId].appointments = [];
-        temp[index].caregiver_avabilities[existId].status = "default";
+        temp[index].caregiver_avabilities[existId].status = 'default';
       }
     } else {
       temp[index].caregiver_avabilities[existId].appointments = [];
-      temp[index].caregiver_avabilities[existId].status = "default";
+      temp[index].caregiver_avabilities[existId].status = 'default';
     }
     return temp;
   };
@@ -311,13 +336,13 @@ export const CaregiverList = ({
   // Update status and appointment data onComplete
   const handleLinkDataUpdate = (availability: any, temp: any) => {
     const {
-      avabilityId = "",
+      avabilityId = '',
       ca = {},
       cr = {},
-      createdBy = "",
-      date = "",
-      id = "",
-      requirementId = "",
+      createdBy = '',
+      date = '',
+      id = '',
+      requirementId = '',
     } = availability ? availability : {};
     let index: number = temp.findIndex(
       (caregiver: any) => caregiver.id === ca.userId
@@ -336,7 +361,7 @@ export const CaregiverList = ({
     ];
 
     temp[index].caregiver_avabilities[existId].appointments = caregiver;
-    temp[index].caregiver_avabilities[existId].status = "linked";
+    temp[index].caregiver_avabilities[existId].status = 'linked';
     return temp;
   };
 
@@ -347,7 +372,7 @@ export const CaregiverList = ({
       updatedCaregiverItem.forEach((availability: any) => {
         if (availability.unlinkedBy) {
           temp = handleUnlinkedList(availability, temp);
-        } else if (availability.status === "appointment") {
+        } else if (availability.status === 'appointment') {
           temp = handleLinkDataUpdate(availability, temp);
         } else {
           let index: number = temp.findIndex(
@@ -401,7 +426,7 @@ export const CaregiverList = ({
               ...itemData.appointments[0],
               cr: {
                 ...itemData.appointments[0].cr,
-                status: "confirmed",
+                status: 'confirmed',
               },
             },
           ],
@@ -409,17 +434,18 @@ export const CaregiverList = ({
         caregivList[caregiverIndex].caregiver_avabilities[existId] = updateData;
         setCaregiverData(caregivList);
         if (selectedCells && selectedCells.length) {
-          const {
-            isWeekend = "",
-            caregiver = {},
-          } = selectedCells[0] ? selectedCells[0] : {};
-          let data: any = [{
-            isWeekend,
-            caregiver: {
-              ...caregiver,
+          const { isWeekend = '', caregiver = {} } = selectedCells[0]
+            ? selectedCells[0]
+            : {};
+          let data: any = [
+            {
+              isWeekend,
+              caregiver: {
+                ...caregiver,
+              },
+              item: updateData,
             },
-            item: updateData,
-          }];
+          ];
           onUpdateStatus(data);
         }
       }
@@ -434,7 +460,7 @@ export const CaregiverList = ({
     fetchMoreCareGiverList({
       variables: {
         qualificationId: [],
-        userRole: "caregiver",
+        userRole: 'caregiver',
         negativeAttributeId: [],
         limit: 30,
         page,
@@ -511,19 +537,61 @@ export const CaregiverList = ({
   /**
    *
    * @param caregiverId
+   * @param index
    */
-  const filterCaregiverWithStar = (caregiverId: number) => {
-    console.log(starredCaregiver);
-    if (caregiverId === starredCaregiver) {
+  // to filter caregiver data by clicking on first star
+  const filterCaregiverWithFirstStar = (
+    caregiverId: number,
+    isSecondStar: boolean
+  ) => {
+    /* if (caregiverId === starredCaregiver) {
       setCaregiverData(allCaregivers);
       // setStarredCaregiver(0);
-    } else {
+    } else */ if (
+      starCaregiver &&
+      (!starCaregiverVar.isStar || isSecondStar)
+    ) {
+      console.log('inside elseeeeee iffffffffffff');
       const caregiverItems = allCaregivers.filter(
         (caregiver: any) => caregiverId === caregiver.id
       );
+      starCaregiverVar = {
+        isStar: true,
+        id: caregiverId ? caregiverId : '',
+        isSecondStar,
+      };
+      setstarCaregiver({
+        isStar: true,
+        id: caregiverId ? caregiverId.toString() : '',
+        isSecondStar,
+      });
       setStarredCaregiver(() => caregiverId);
       setCaregiverData(caregiverItems);
+      filterUpdated({
+        ...filters,
+        caregiverId: caregiverId,
+        effects: 'caregiver',
+      });
+    } else {
+      console.log('inside elseeeeeeeeeeeeeeeeeeeeee');
+      starCaregiverVar = {
+        isStar: false,
+        id: '',
+        isSecondStar,
+      };
+      setstarCaregiver({
+        isStar: false,
+        id: '',
+        isSecondStar,
+      });
+      filterUpdated({
+        ...filters,
+        caregiverId: null,
+        effects: 'caregiver',
+      });
     }
+    console.log('++++++++++++++++++++++',starCaregiverVar);    
+    handleStarCaregiverValue(starCaregiverVar)
   };
 
   
@@ -541,13 +609,13 @@ export const CaregiverList = ({
     filterUpdated({
       ...filters,
       qualificationId: map(qualification, ({ value }) => value),
-      effects: "both",
+      effects: 'both',
     });
   };
   /**
    *
    */
-  const element = document.getElementById("appointment_list_section");
+  const element = document.getElementById('appointment_list_section');
   /**
    *
    */
@@ -556,8 +624,8 @@ export const CaregiverList = ({
     <>
       <div
         className={classnames({
-          "right-manu-close": true,
-          "d-none": !showRightClickOptions,
+          'right-manu-close': true,
+          'd-none': !showRightClickOptions,
         })}
         onClick={handleToggleMenuItem}
       ></div>
@@ -578,22 +646,22 @@ export const CaregiverList = ({
         setSelectedCareinstitution={setSelectedCareinstitution}
         filters={filters}
       />
-      <div className="custom-appointment-calendar overflow-hidden mb-3">
+      <div className='custom-appointment-calendar overflow-hidden mb-3'>
         <SelectableGroup
           allowClickWithoutSelected
-          className="custom-row-selector new-base-table"
-          clickClassName="tick"
+          className='custom-row-selector new-base-table'
+          clickClassName='tick'
           resetOnStart={true}
           allowCtrlClick={false}
           onSelectionFinish={onSelectFinish}
-          ignoreList={[".name-col", ".h-col", ".s-col", ".u-col", ".v-col"]}
+          ignoreList={['.name-col', '.h-col', '.s-col', '.u-col', '.v-col']}
         >
           <BaseTable
             fixed
             data={caregivers}
             width={element ? element.clientWidth - 40 : 800}
             height={element ? window.innerHeight / 2 - 80 : 300}
-            rowKey="key"
+            rowKey='key'
             overlayRenderer={() =>
               loadingCaregiver || isLoading ? (
                 currentPage > 1 ? (
@@ -611,24 +679,24 @@ export const CaregiverList = ({
                   <React.Fragment key={`${d.id}-${index}`}>
                     <span
                       className={`custom-appointment-col  ${
-                        d === "caregiver" ? "name-col" : ""
+                        d === 'caregiver' ? 'name-col' : ''
                       }`}
                     >
-                      <div className="position-relative  username-col align-self-center">
+                      <div className='position-relative  username-col align-self-center'>
                         {d}
-                        {d === "caregiver" ? (
+                        {d === 'caregiver' ? (
                           <Button
-                            className="btn-more d-flex align-items-center justify-content-center"
+                            className='btn-more d-flex align-items-center justify-content-center'
                             onClick={() => setShowRightClickOptions(true)}
                           >
-                            <i className="icon-options-vertical" />
+                            <i className='icon-options-vertical' />
                           </Button>
                         ) : null}
                       </div>
                     </span>
                   </React.Fragment>
                 ) : (
-                  <span key={d.date} className="custom-appointment-col  ">
+                  <span key={d.date} className='custom-appointment-col  '>
                     {d.day}
                     <br />
                     {d.date}
@@ -638,91 +706,106 @@ export const CaregiverList = ({
             }
             rowRenderer={({ cells, rowData }) => (
               <div
-                className="d-flex frozen-row"
-                title={[rowData.lastName, rowData.firstName].join(" ")}
+                className='d-flex frozen-row'
+                title={[rowData.lastName, rowData.firstName].join(' ')}
               >
                 {cells}
               </div>
             )}
             onEndReachedThreshold={300}
             onEndReached={handleEndReached}
-            headerClassName="custom-appointment-row"
-            rowClassName="custom-appointment-row"
+            headerClassName='custom-appointment-row'
+            rowClassName='custom-appointment-row'
             rowHeight={30}
           >
             {columns.map((d: any, index: number) => (
               <Column
                 key={`col0-${index}-${
-                  typeof d === "string" ? d : d.dateString
+                  typeof d === 'string' ? d : d.dateString
                 }`}
                 width={index === 0 ? 140 : 28}
                 className={`custom-appointment-col   ${
-                  d === "caregiver" ? "name-col" : ""
+                  d === 'caregiver' ? 'name-col' : ''
                 }`}
-                frozen={typeof d === "string"}
+                frozen={typeof d === 'string'}
                 cellRenderer={({ rowData, rowIndex }: any) => {
                   switch (d) {
-                    case "caregiver":
+                    case 'caregiver':
                       return (
                         <div
                           key={rowIndex}
-                          className="custom-appointment-col name-col appointment-color1 p-1 text-capitalize view-more-link one-line-text"
+                          className='custom-appointment-col name-col appointment-color1 p-1 text-capitalize view-more-link one-line-text'
                           title={[rowData.lastName, rowData.firstName].join(
-                            " "
+                            ' '
                           )}
                           id={`caregiver-${rowData.id}-${index}-${rowData.row}`}
                         >
                           <Link
                             to={AppRoutes.CARE_GIVER_VIEW.replace(
-                              ":id",
+                              ':id',
                               rowData.id
                             )}
-                            target="_blank"
-                            className="text-body"
+                            target='_blank'
+                            className='text-body'
                           >
                             {rowData.row === 0
                               ? [rowData.lastName, rowData.firstName]
                                   .filter(Boolean)
-                                  .join(" ")
+                                  .join(' ')
                                   .trim()
                               : null}
                           </Link>
                         </div>
                       );
-                    case "H":
+                    case 'H':
                       return <span key={rowIndex}>H</span>;
-                    case "S":
+                    case 'S':
                       console.log(starredCaregiver);
                       return (
                         <span
                           key={rowIndex}
-                          className="custom-appointment-col s-col text-center cursor-pointer"
-                          onClick={() => filterCaregiverWithStar(rowData.id)}
+                          className='custom-appointment-col s-col text-center cursor-pointer'
+                          onClick={() =>
+                            filterCaregiverWithFirstStar(rowData.id, false)
+                          }
                         >
-                          {starredCaregiver === rowData.id ? (
-                            <i className="fa fa-star theme-text" />
+                          {starCaregiverVar.id === rowData.id ||
+                          starCaregiverVar.isStar ? (
+                            <i className='fa fa-star theme-text' />
                           ) : (
-                            <i className="fa fa-star-o" />
+                            <i className='fa fa-star-o' />
                           )}
                         </span>
                       );
-                    case "U":
+                    case 'U':
                       return (
                         <span
                           key={rowIndex}
-                          className="custom-appointment-col u-col text-center cursor-pointer"
+                          className='custom-appointment-col u-col text-center cursor-pointer'
+                          onClick={() =>
+                            filterCaregiverWithFirstStar(
+                              rowData.id,
+                              starCaregiverVar && !starCaregiverVar.isSecondStar
+                            )
+                          }
                         >
-                          <i className="fa fa-star-o" />
+                          {starCaregiverVar &&
+                          starCaregiverVar.isSecondStar &&
+                          starCaregiverVar.id === rowData.id ? (
+                            <i className='fa fa-star theme-text' />
+                          ) : (
+                            <i className='fa fa-star-o' />
+                          )}
                         </span>
                       );
-                    case "V":
+                    case 'V':
                       return (
                         <span
                           key={rowIndex}
-                          className="custom-appointment-col v-col text-center cursor-pointer"
+                          className='custom-appointment-col v-col text-center cursor-pointer'
                           onClick={() => onAddNewRow(rowIndex)}
                         >
-                          <i className="fa fa-arrow-down" />
+                          <i className='fa fa-arrow-down' />
                         </span>
                       );
                     default:

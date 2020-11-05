@@ -43,7 +43,11 @@ export const TempPage = () => {
     isSecondStar: false,
     divisionId: -1,
   });
-
+  const [ caregiverStarData, setcaregiverStarData] = useState<IStarInterface>({
+    isStar: false,
+    id: '',
+    isSecondStar: false
+  });
   // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
   const [confirmLeasing, setConfirmLeasing] = useState<any>();
 
@@ -123,7 +127,13 @@ export const TempPage = () => {
 const handleStarCareinst = (starredItem:any) =>{
   setstarMarkCanstitution(starredItem)
 }
-
+/**
+   *
+   * @param starCaregiver
+   */
+const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
+  setcaregiverStarData(starCaregiver)
+} 
   return (
     <>
       <div className="common-detail-page">
@@ -155,6 +165,7 @@ const handleStarCareinst = (starredItem:any) =>{
                     selectedCareinstitutionData={selectedCareinstitutionData}
                     setSelectedCareinstitution={setSelectedCareinstitution}
                     confirmLeasing={confirmLeasing}
+                    handleStarCaregiverValue={handleStarCaregiverValue}
                   />
                   <CareInstitutionList
                     selectedCaregiverData={selectedCaregiverData}
@@ -193,6 +204,7 @@ const handleStarCareinst = (starredItem:any) =>{
                       setsavingBoth={setsavingBoth}
                       multipleAvailability={multipleAvailability}
                       selectedCareinstitutionData={selectedCareinstitutionData}
+                      caregiverStarData={caregiverStarData}
                     />
                   </Col>
                   <Col

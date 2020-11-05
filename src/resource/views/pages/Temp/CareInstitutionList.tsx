@@ -244,11 +244,8 @@ const [
       getDepartmentList,
       { data: departmentList, loading: deptLoading },
     ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
-      fetchPolicy: "no-cache",
+      // fetchPolicy: "no-cache",
       onCompleted: (daata: any) => {
-        if (starCareInstitution.isStar && !starCareInstitution.isSecondStar) {
-          handleDepartmentList(daata);
-        }
       },
     });
 
@@ -644,7 +641,6 @@ const [
 
     useEffect(() => {
       starCareInstitution = starMarkCanstitution;
-      // setstarCanstitution(starMarkCanstitution);
     }, [starMarkCanstitution]);
 
     // call function to manage star functionality in form
@@ -746,7 +742,9 @@ const [
           allCaregivers = temp;
           setCaregiverData(temp);
         } else {
-          await fetchDepartmentList(list.id);
+        //   call handle handleDepartmentList function here
+        // handleDepartmentList([]);
+
           starCareInstitution = {
             ...starCareInstitution,
             isSecondStar: false,
@@ -776,7 +774,8 @@ const [
      */
     const handleDepartmentList = (departmentList: any) => {
       setIsDeptListLoaded(false);
-
+  console.log("careInstDeptList",careInstDeptList);
+  
       if (departmentList && departmentList.getDivision.length) {
         let careInstData: any;
         const { getDivision } = departmentList;

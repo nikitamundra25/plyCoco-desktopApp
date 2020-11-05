@@ -234,37 +234,25 @@ export const CaregiverList = ({
     ) {
       getCaregiverData();
     }
-    // if (!filters.caregiverId || filters.caregiverId === null) {
-    //   starCaregiverVar = {
-    //     isStar: false,
-    //     id: '',
-    //     isSecondStar: false,
-    //   };
-    //   setstarCaregiver({
-    //     isStar: false,
-    //     id: '',
-    //     isSecondStar: false,
-    //   });
-    // } 
-    // else {
-    //   starCaregiverVar = {
-    //     isStar: true,
-    //     id: filters.caregiverId,
-    //     isSecondStar: starCaregiverVar && !starCaregiverVar.isSecondStar,
-    //   };
-    //   setstarCaregiver({
-    //     isStar: true,
-    //     id: filters.caregiverId,
-    //     isSecondStar: starCaregiverVar && !starCaregiverVar.isSecondStar,
-    //   });
-    // }
+    if (!filters.caregiverId || filters.caregiverId === null) {
+      starCaregiverVar = {
+        isStar: false,
+        id: '',
+        isSecondStar: false,
+      };
+      setstarCaregiver({
+        isStar: false,
+        id: '',
+        isSecondStar: false,
+      });
+    }     
   }, [filters]);
 
 
   useEffect(() => {
     starCaregiverVar = caregiverStarData;
   },[caregiverStarData]);
-  
+
   /**
    *
    * @param data

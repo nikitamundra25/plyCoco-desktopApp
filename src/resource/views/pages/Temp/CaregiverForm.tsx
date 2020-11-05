@@ -131,7 +131,9 @@ export const CaregiverForm = ({
   setsavingBoth,
   multipleAvailability,
   caregiverStarData,
-  handleStarCaregiverValue
+  filterUpdated,
+  filters,
+  setcaregiverStarData
 }: any) => {
   const [tempState, setTempState] = useState(false);
   const [timeSlotError, setTimeSlotError] = useState<string>("");
@@ -441,6 +443,34 @@ export const CaregiverForm = ({
     id: selectedCaregiverId = "",
   } = caregiverDetails;
 
+ const handleStar= (caregiverId:number)=>{
+   if(caregiverStarData.isStar){
+    filterUpdated({
+      ...filters,
+      caregiverId: null,
+      effects: 'caregiver',
+    })
+    setcaregiverStarData({
+     isStar: false,
+     id: "",
+     isSecondStar:false,
+    })
+   }
+   else{
+     filterUpdated({
+       ...filters,
+       caregiverId: caregiverId,
+       effects: 'caregiver',
+     })
+     setcaregiverStarData({
+      isStar: true,
+      id: caregiverId,
+      isSecondStar:true,
+     })
+
+   }
+ }
+  
   const {
     name,
     nightFee,
@@ -1016,7 +1046,7 @@ export const CaregiverForm = ({
                                   addonType="append"
                                   className="cursor-pointer"
                                   onClick={() =>
-                                    appointmentId
+                                    appointmentId ? handleStar(caregiverDetails.id):null
                                      /*  ? onhandleCaregiverStar(
                                           selectedCareGiver ? selectedCareGiver.id : '',
                                           false,

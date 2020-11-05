@@ -169,8 +169,9 @@ const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
                     setSelectedCareinstitution={setSelectedCareinstitution}
                     confirmLeasing={confirmLeasing}
                     handleStarCaregiverValue={handleStarCaregiverValue}
+                    setcaregiverStarData={setcaregiverStarData}
+                    caregiverStarData={caregiverStarData}
                     selectedCaregiverData={selectedCaregiverData}
-
                   />
                   <CareInstitutionList
                     selectedCaregiverData={selectedCaregiverData}
@@ -210,6 +211,9 @@ const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
                       multipleAvailability={multipleAvailability}
                       selectedCareinstitutionData={selectedCareinstitutionData}
                       caregiverStarData={caregiverStarData}
+                      filterUpdated={setFilterObject}
+                      filters={filterObject}
+                      setcaregiverStarData={setcaregiverStarData}
                     />
                   </Col>
                   <Col

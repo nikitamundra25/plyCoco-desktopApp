@@ -384,6 +384,7 @@ const AppointmentNav: FunctionComponent<any> = ({
             onClick={() =>
               filterUpdated({
                 effects: "both",
+                  showAppointments: "showWithAppointments"
               })
             }>
             <span className='header-nav-icon'>

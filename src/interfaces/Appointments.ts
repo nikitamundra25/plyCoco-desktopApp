@@ -141,6 +141,7 @@ export interface IStarInterface {
   setIndex?: number;
   id: string;
   isSecondStar?: boolean;
+  divisionId?: any
 }
 
 export interface ICaregiverFormValue {

@@ -594,6 +594,8 @@ export const CaregiverList = ({
     handleStarCaregiverValue(starCaregiverVar)
   };
 
+  
+
   const handleToggleMenuItem = () => {
     setShowRightClickOptions((prev) => !prev);
   };

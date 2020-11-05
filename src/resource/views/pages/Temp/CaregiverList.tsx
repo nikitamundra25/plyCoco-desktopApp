@@ -30,12 +30,6 @@ let starCaregiverVar: any = {
   setIndex: -1,
   id: '',
 };
-let starCareInstVar: any = {
-  isStar: false,
-  setIndex: -1,
-  id: '',
-  isSecondStar: false,
-};
 const SelectableCell = React.memo(
   createSelectable(
     ({ selectableRef, isSelecting, isSelected, isWeekend, item }: any) => {
@@ -236,6 +230,18 @@ export const CaregiverList = ({
       ['both', 'caregiver'].indexOf(filters.effects) > -1
     ) {
       getCaregiverData();
+    }
+    if (!filters.caregiverId || filters.caregiverId === null) {
+      starCaregiverVar = {
+        isStar: false,
+        id: "",
+        isSecondStar: false,
+      };
+      setstarCaregiver({
+        isStar: false,
+        id: "",
+        isSecondStar: false,
+      });
     }
   }, [filters]);
 
@@ -539,7 +545,7 @@ export const CaregiverList = ({
    * @param caregiverId
    * @param index
    */
-  // to filter caregiver data by clicking on first star
+  // to filter caregiver data by clicking on first and second star
   const filterCaregiverWithFirstStar = (
     caregiverId: number,
     isSecondStar: boolean
@@ -551,7 +557,6 @@ export const CaregiverList = ({
       starCaregiver &&
       (!starCaregiverVar.isStar || isSecondStar)
     ) {
-      console.log('inside elseeeeee iffffffffffff');
       const caregiverItems = allCaregivers.filter(
         (caregiver: any) => caregiverId === caregiver.id
       );
@@ -573,7 +578,6 @@ export const CaregiverList = ({
         effects: 'caregiver',
       });
     } else {
-      console.log('inside elseeeeeeeeeeeeeeeeeeeeee');
       starCaregiverVar = {
         isStar: false,
         id: '',
@@ -590,7 +594,6 @@ export const CaregiverList = ({
         effects: 'caregiver',
       });
     }
-    console.log('++++++++++++++++++++++',starCaregiverVar);    
     handleStarCaregiverValue(starCaregiverVar)
   };
 

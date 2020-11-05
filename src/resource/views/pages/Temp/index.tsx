@@ -205,6 +205,9 @@ const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
                       multipleAvailability={multipleAvailability}
                       selectedCareinstitutionData={selectedCareinstitutionData}
                       caregiverStarData={caregiverStarData}
+                      filterUpdated={setFilterObject}
+                      filters={filterObject}
+                      setcaregiverStarData={setcaregiverStarData}
                     />
                   </Col>
                   <Col

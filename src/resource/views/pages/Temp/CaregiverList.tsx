@@ -572,9 +572,13 @@ export const CaregiverList = ({
       });
       setStarredCaregiver(() => caregiverId);
       setCaregiverData(caregiverItems);
+      const {lastName = '',firstName = ''} = caregiverItems && caregiverItems.length ? caregiverItems[0] : {}
       filterUpdated({
         ...filters,
         caregiverId: caregiverId,
+        soloCaregiver: { label: `${lastName}${" "}${firstName}`,
+        value: caregiverId
+      },
         effects: 'caregiver',
       });
     } else {
@@ -591,6 +595,7 @@ export const CaregiverList = ({
       filterUpdated({
         ...filters,
         caregiverId: null,
+        soloCaregiver: undefined,
         effects: 'caregiver',
       });
     }

@@ -334,15 +334,15 @@ const AppointmentNav: FunctionComponent<any> = ({
                 filterUpdated({
                   ...filters,
                   caregiverId: caregiver ? caregiver.value : null,
-                  // soloCaregiver: caregiver,
+                  soloCaregiver: caregiver,
                   effects: "caregiver",
                 })
               }
-              // value={
-              //   filters && filters.soloCaregiver.value !== ""
-              //     ? filters.soloCaregiver
-              //     : null
-              // }
+              value={
+                filters && filters.soloCaregiver && filters.soloCaregiver.value !== ""
+                  ? filters.soloCaregiver
+                  : null
+              }
             />
           </div>
           <div className='header-nav-item'>

@@ -50,7 +50,8 @@ export const TempPage = () => {
   });
   // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
   const [confirmLeasing, setConfirmLeasing] = useState<any>();
-
+  const [correspondingData, setCorrespondingData] = useState<any>([]);
+const [correspondingDataCaregiver, setcorrespondingDataCaregiver] = useState<any>()
   // To fetch qualification attributes list
   const { data: qualificationData, loading } = useQuery<IQualifications>(
     GET_QUALIFICATION_ATTRIBUTE
@@ -79,7 +80,27 @@ export const TempPage = () => {
    * @param caregiverData
    */
   const caregiverSelected = (caregiverData: any) => {
-    setSelectedCaregiver(caregiverData);
+    setSelectedCaregiver(caregiverData);   
+    if (caregiverData && caregiverData.length) {
+      const { item = undefined } = caregiverData[0]
+        ? caregiverData[0]
+        : {};
+      const checkCondition: boolean =
+        item && item.appointments && item.appointments.length;
+      let appointmentsData: number[] = caregiverData
+        .map((cell: any) =>
+          cell.item && cell.item.appointments && cell.item.appointments.length
+            ? cell.item.appointments[0]
+            : {}
+        )
+        .filter(Boolean);
+      if (checkCondition) {
+        
+        setCorrespondingData(appointmentsData);
+      }else{
+        setCorrespondingData([]);
+      }
+    }  
   };
 
   /**
@@ -88,7 +109,30 @@ export const TempPage = () => {
    */
   const careinstitutionSelected = (careInstData: any) => {
     setSelectedCareinstitution(careInstData);
+    if (careInstData && careInstData.length) {
+      const { item = undefined } = careInstData[0]
+        ? careInstData[0]
+        : {};
+      const checkCondition: boolean =
+        item && item.appointments && item.appointments.length;
+      let appointmentsData: number[] = careInstData
+        .map((cell: any) =>
+          cell.item && cell.item.appointments && cell.item.appointments.length
+            ? cell.item.appointments[0]
+            : {}
+        ).filter(Boolean);
+      if (checkCondition) {
+          console.log("appointmentsData",appointmentsData);
+          
+        setcorrespondingDataCaregiver(appointmentsData);
+      }else{
+        setcorrespondingDataCaregiver([]);
+      }
+    }  
   };
+
+  
+
 
   /**
    *
@@ -126,7 +170,10 @@ export const TempPage = () => {
    */
 const handleStarCareinst = (starredItem:any) =>{
   setstarMarkCanstitution(starredItem)
+
 }
+
+
 /**
    *
    * @param starCaregiver
@@ -168,6 +215,9 @@ const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
                     handleStarCaregiverValue={handleStarCaregiverValue}
                     setcaregiverStarData={setcaregiverStarData}
                     caregiverStarData={caregiverStarData}
+                    selectedCaregiverData={selectedCaregiverData}
+                    correspondingDataCaregiver={correspondingDataCaregiver}
+                    setSelectedCaregiver={setSelectedCaregiver}
                   />
                   <CareInstitutionList
                     selectedCaregiverData={selectedCaregiverData}
@@ -185,6 +235,7 @@ const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
                     filterUpdated={setFilterObject}
                     handleStarCareinst={handleStarCareinst}
                     starMarkCanstitution={starMarkCanstitution}
+                    correspondingData={correspondingData}
                   />
                 </div>
               </div>

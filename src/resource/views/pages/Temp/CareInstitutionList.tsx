@@ -11,6 +11,7 @@ import { Button } from "reactstrap";
 import {
   APPOINTMENT_PAGE_LIMIT,
   AppRoutes,
+  CareInstTIMyoCYAttrId,
   dbAcceptableFormat,
 } from "../../../../config";
 import {
@@ -21,7 +22,17 @@ import { getDaysArrayByMonth } from "../../../../helpers";
 import CareinstitutionRightClickOptions from "./CareinstitutionRightClickOptions";
 import Spinner, { MoreSpinner } from "../../components/Spinner";
 import { IStarInterface } from "../../../../interfaces";
-const [GET_USERS_BY_QUALIFICATION_ID] = AppointmentsQueries;
+
+ const [GET_USERS_BY_QUALIFICATION_ID,
+  ,
+  GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
+  ,
+  ,
+  ,
+  ,
+  ,
+]= AppointmentsQueries
+
 const [, , GET_DEPARTMENT_LIST, , , ,] = CareInstitutionQueries;
 
 const staticHeader = ["careinstitution", "H", "S", "U", "V"];
@@ -171,6 +182,7 @@ export const CareInstitutionList = React.memo(
     careInstDeptList,
     handleStarCareinst,
     starMarkCanstitution,
+    correspondingData
   }: any) => {
     const [daysData, setDaysData] = useState(
       getDaysArrayByMonth(moment().month(), moment().year())
@@ -194,6 +206,25 @@ export const CareInstitutionList = React.memo(
       isSecondStar: false,
       divisionId: -1,
     });
+
+// To fetch avabality & requirement by id
+const [
+  fetchAppointmentFilterById,
+  { data: appointmentFilterById, loading: idSearchAppointmentLoading },
+] = useLazyQuery<any, any>(GET_CAREINSTITUTION_REQUIREMENT_BY_ID, {
+  fetchPolicy: 'no-cache', onCompleted: data => {
+    if (
+      appointmentFilterById &&
+      appointmentFilterById.getRequirementAndAvabilityById
+    ) {
+      const { getRequirementAndAvabilityById } = appointmentFilterById;
+      const { requirementData, avabilityData } = getRequirementAndAvabilityById;
+      updateRequirementData(requirementData);
+      updateAvabilityData(avabilityData);
+
+    }
+  }
+});
 
     // To fetch caregivers by id filter
     const [
@@ -220,6 +251,48 @@ export const CareInstitutionList = React.memo(
         }
       },
     });
+
+     /**
+   *
+   * @param requirementData
+   */
+  const updateRequirementData = (requirementData: any) => {
+    const {
+      user= {},
+    } = requirementData ? requirementData : {}
+    let temp = requirementData ? requirementData : {}
+    delete temp.user
+      let data: any = 
+        [{
+          isWeekend: '',
+          canstitution: {
+            ...user,
+          },
+          item: temp,
+        }]
+        careinstitutionSelected(data);
+  };
+
+  /**
+   *
+   * @param avabilityData
+   */
+  const updateAvabilityData = (avabilityData: any) => {
+    const {
+      user= {},
+    } = avabilityData ? avabilityData : {}
+    let temp = avabilityData ? avabilityData : {}
+    delete temp.user
+      let data: any = 
+        [{
+          isWeekend: '',
+          caregiver: {
+            ...user,
+          },
+          item: temp,
+        }]
+        caregiverSelected(data);
+  };
 
     // Default value is start & end of month
     let gte: string = moment().startOf("month").format(dbAcceptableFormat);
@@ -572,12 +645,12 @@ export const CareInstitutionList = React.memo(
     useEffect(() => {
       starCareInstitution = starMarkCanstitution;
       // setstarCanstitution(starMarkCanstitution);
-    },[starMarkCanstitution]);
+    }, [starMarkCanstitution]);
 
     // call function to manage star functionality in form
     useEffect(() => {
       handleStarCareinst(starCanstitution);
-    },[starCanstitution]);
+    }, [starCanstitution]);
 
     /**
      *
@@ -601,13 +674,11 @@ export const CareInstitutionList = React.memo(
           isSecondStar: false,
           divisionId: -1,
         });
-        const id = list && list.id ? parseInt(list.id) : null
-        let {
-          companyName = "",
-          shortName = "",
-        } = list && list.canstitution ? list.canstitution : {};
-        console.log("listlist",list);
-        
+        const id = list && list.id ? parseInt(list.id) : null;
+        let { companyName = "", shortName = "" } =
+          list && list.canstitution ? list.canstitution : {};
+        console.log("listlist", list);
+
         filterUpdated({
           ...filters,
           careInstitutionId: id,
@@ -750,7 +821,6 @@ export const CareInstitutionList = React.memo(
           setCaregiverData(tempData);
         }
       } else {
-
         const caregiverItems = allCaregivers.filter(
           (caregiver: any) => starCareInstitution.id === caregiver.id
         );
@@ -762,6 +832,57 @@ export const CareInstitutionList = React.memo(
 
     const handleToggleMenuItem = () => {
       setShowRightClickOptions((prev) => !prev);
+    };
+
+    useEffect(() => { 
+        if (correspondingData && correspondingData.length) {
+           getCorrespondingconnectedcell(correspondingData);
+        }
+    }, [correspondingData]);
+
+    /**
+     * @param appointmentsData
+     *
+     */
+    // Function to get corresponding connected cell
+    const getCorrespondingconnectedcell = (appointmentsData: any) => {
+      let connectedCells: any[] = [];
+      allCaregivers.forEach((element: any) => {
+        element.careinstitution_requirements.forEach((row: any) => {
+          const { canstitution = {} } = element ? element : {};
+
+          let filteredCells: any =
+            row.appointments &&
+            row.appointments.length &&
+            appointmentsData
+              .map((cell: any) => cell.id)
+              .includes(row.appointments[0].id);
+          if (filteredCells) {
+            connectedCells.push({
+              isWeekend: false,
+              canstitution,
+              isLeasing:
+                canstitution &&
+                canstitution.attributes &&
+                canstitution.attributes.length
+                  ? canstitution.attributes.includes(CareInstTIMyoCYAttrId)
+                  : false,
+              item: row,
+            });
+          }
+        });
+      });
+      if (connectedCells && connectedCells.length) {
+        let Cells = connectedCells[0] ? [connectedCells[0]] : [];
+        careinstitutionSelected(Cells);
+      } else {
+        fetchAppointmentFilterById({
+          variables: {
+            id: parseInt(appointmentsData[0].avabilityId),
+            searchIn:  "avability" ,
+          },
+        });
+      }
     };
 
     /**

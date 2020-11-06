@@ -408,14 +408,11 @@ const CareinstitutionRightClickOptions = (props: any) => {
   let isAppointment = false;
   if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
     isAppointment = selectedCellsCareinstitution.filter((element: any) => {
-      console.log('element', element);
-      return (
         (element.item && element.item.status === 'default') ||
         element.item.status === 'linked' ||
         element.item.status === 'confirmed' ||
         element.item.status === 'timeSheetPending' ||
-        element.item.status === 'timeSheetUpdated'
-      );
+        element.item.status === 'timeSheetUpdated'      
     }).length
       ? true
       : false;

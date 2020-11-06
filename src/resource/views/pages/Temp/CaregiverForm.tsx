@@ -645,14 +645,16 @@ export const CaregiverForm = ({
       createdBy,
       createdAt,
     } = values;
+
     let workingHoursFromErrMsg = "",
       workingHoursToErrMsg = "",
       breakHoursFromErrMsg = "",
       breakHoursToErrMsg = "";
     if (
-      item.status === "confirmed" ||
+     ( item.status === "confirmed" ||
       item.status === "timeSheetPending" ||
-      item.status === "timeSheetUpdated"
+      item.status === "timeSheetUpdated") &&
+       new Date(item.date) <= new Date()
     ) {
       workingHoursFromErrMsg = validateWorkingHours(
         "workingHoursFromDate",

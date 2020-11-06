@@ -146,7 +146,6 @@ export const CaregiverRightClickOptions = ({
    *
    *
    */
-  console.log("selectedCells", selectedCells);
   const onReserve = async () => {
     if (selectedCells && selectedCells.length) {
       let temp = [...selectedCells];

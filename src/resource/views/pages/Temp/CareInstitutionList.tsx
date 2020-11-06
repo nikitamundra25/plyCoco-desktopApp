@@ -1043,7 +1043,7 @@ export const CareInstitutionList = React.memo(
                             id={`caregiver-${rowData.id}-${index}-${rowData.row}`}
                           >
                             <Link
-                              to={AppRoutes.CARE_GIVER_VIEW.replace(
+                              to={AppRoutes.CARE_INSTITUION_VIEW.replace(
                                 ":id",
                                 rowData.id
                               )}

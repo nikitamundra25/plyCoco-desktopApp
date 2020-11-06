@@ -195,13 +195,7 @@ export const CaregiverList = ({
     id: "",
     isSecondStar: false,
   });
-  const [secondStarCaregiver, setsecondStarCaregiver] = useState<
-    IStarInterface
-  >({
-    isStar: false,
-    setIndex: -1,
-    id: "",
-  });
+
 
   // To fetch avabality & requirement by id
   const [
@@ -446,7 +440,7 @@ export const CaregiverList = ({
     );
     const checkId = (obj: any) => obj.id === avabilityId;
     let existId = temp[index].caregiver_avabilities.findIndex(checkId);
-    const caregiver = [
+    const caregi = [
       {
         avabilityId,
         cr,
@@ -456,8 +450,8 @@ export const CaregiverList = ({
         requirementId,
       },
     ];
-
-    temp[index].caregiver_avabilities[existId].appointments = caregiver;
+    
+    temp[index].caregiver_avabilities[existId].appointments = caregi;
     temp[index].caregiver_avabilities[existId].status = "linked";
     return temp;
   };
@@ -494,10 +488,12 @@ export const CaregiverList = ({
           }
         }
       });
+      
       setCaregiverData(temp);
     }
   }, [updatedCaregiverItem]);
 
+  
   useEffect(() => {
     let caregivList: any = [...caregivers];
     let caregiverIndex: number = caregivList.findIndex(
@@ -741,7 +737,7 @@ export const CaregiverList = ({
         if (filteredCells) {
           connectedCells.push({
             isWeekend: false,
-            caregiver,
+            caregiver:element,
             item: row,
           });
         }
@@ -749,6 +745,7 @@ export const CaregiverList = ({
     });
     if (connectedCells && connectedCells.length) {
       let Cells = connectedCells[0] ? [connectedCells[0]] : [];
+      
       setSelectedCaregiver(Cells);
     } else {
       fetchAppointmentFilterById({
@@ -875,7 +872,7 @@ export const CaregiverList = ({
             rowClassName="custom-appointment-row"
             rowHeight={30}
           >
-            {columns.map((d: any, index: number) => (
+            {  columns.map((d: any, index: number) => (
               <Column
                 key={`col0-${index}-${
                   typeof d === "string" ? d : d.dateString
@@ -915,9 +912,8 @@ export const CaregiverList = ({
                         </div>
                       );
                     case "H":
-                      return <span key={rowIndex}>H</span>;
+                      return <span key={rowIndex}></span>;
                     case "S":
-                      console.log(starredCaregiver);
                       return (
                         <span
                           key={rowIndex}

@@ -59,7 +59,6 @@ const [correspondingDataCaregiver, setcorrespondingDataCaregiver] = useState<any
 
   const setQualificationData = () => {
     if (qualificationData && qualificationData.getQualifications) {
-      console.log(qualificationData.getQualifications);
       const list = map(qualificationData.getQualifications, (quali: any) => ({
         label: quali.name,
         value: quali.id,
@@ -122,8 +121,6 @@ const [correspondingDataCaregiver, setcorrespondingDataCaregiver] = useState<any
             : {}
         ).filter(Boolean);
       if (checkCondition) {
-          console.log("appointmentsData",appointmentsData);
-          
         setcorrespondingDataCaregiver(appointmentsData);
       }else{
         setcorrespondingDataCaregiver([]);

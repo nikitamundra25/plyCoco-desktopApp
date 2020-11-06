@@ -353,7 +353,7 @@ const ViewCareGiver: FunctionComponent<RouteComponentProps> = (
                       className="header-nav-item"
                       onClick={() =>
                         history.push({
-                          pathname: AppRoutes.APPOINTMENT,
+                          pathname: '/temp',
                           state: { caregiver: Id, name:  data &&
                             data.getCaregiver && 
                             data.getCaregiver.firstName &&  data.getCaregiver.lastName ? `${data.getCaregiver.lastName}${" "}${data.getCaregiver.firstName}` : data.getCaregiver.firstName ? data.getCaregiver.firstName : "" },

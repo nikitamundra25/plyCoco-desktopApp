@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import ConnectAppointment from "./ConnectAppointment";
 
 export const TempPage = () => {
+   
   const [selectedCaregiverData, setSelectedCaregiver] = useState<any>([]);
   const [selectedCareinstitutionData, setSelectedCareinstitution] = useState<
     any
@@ -74,6 +75,9 @@ const [correspondingDataCaregiver, setcorrespondingDataCaregiver] = useState<any
       setQualificationData();
     }
   }, [loading]);
+
+
+  
   /**
    *
    * @param caregiverData
@@ -177,6 +181,7 @@ const handleStarCareinst = (starredItem:any) =>{
 const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
   setcaregiverStarData(starCaregiver)
 } 
+
   return (
     <>
       <div className="common-detail-page">
@@ -284,6 +289,7 @@ const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
                       setstarMarkCanstitution={setstarMarkCanstitution}
                       filterUpdated={setFilterObject}
                       filters={filterObject}
+                      setMultipleRequirement={setMultipleRequirement}
                     />
                   </Col>
                   <Col lg={"12"}>

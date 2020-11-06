@@ -83,6 +83,7 @@ const GET_USERS_BY_QUALIFICATION_ID = gql`
             requirementId
             avabilityId
             createdBy
+            workProofId
             cr {
               id
               name

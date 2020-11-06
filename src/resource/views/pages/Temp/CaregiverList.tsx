@@ -10,7 +10,11 @@ import { createSelectable, SelectableGroup } from "react-selectable-fast";
 import {
   APPOINTMENT_PAGE_LIMIT,
   AppRoutes,
+  CaregiverTIMyoCYAttrId,
   dbAcceptableFormat,
+  deactivatedListColor,
+  leasingListColor,
+  selfEmployesListColor,
 } from "../../../../config";
 import { AppointmentsQueries } from "../../../../graphql/queries";
 import { getDaysArrayByMonth } from "../../../../helpers";
@@ -179,6 +183,7 @@ export const CaregiverList = ({
   caregiverStarData,
   correspondingDataCaregiver,
   setSelectedCaregiver,
+  selectedCaregiverData
 }: any) => {
   const [daysData, setDaysData] = useState(
     getDaysArrayByMonth(moment().month(), moment().year())
@@ -329,6 +334,11 @@ export const CaregiverList = ({
   useEffect(() => {
     starCaregiverVar = caregiverStarData;
   },[caregiverStarData]);
+
+//  to update the state for runtime reflection
+useEffect(()=>{
+  setSelectedCells(selectedCaregiverData)
+},[selectedCaregiverData])
 
   /**
    *
@@ -836,7 +846,7 @@ export const CaregiverList = ({
                         d === "caregiver" ? "name-col" : ""
                       }`}
                     >
-                      <div className="position-relative  username-col align-self-center">
+                      <div className="position-relative  username-col align-self-center text-capitalize">
                         {d}
                         {d === "caregiver" ? (
                           <Button
@@ -888,6 +898,22 @@ export const CaregiverList = ({
                       return (
                         <div
                           key={rowIndex}
+                          style={{
+                            backgroundColor: !rowData.isActive
+                              ? deactivatedListColor
+                              : rowData.caregiver &&
+                                rowData.caregiver.attributes
+                              ? rowData.caregiver.attributes.includes(
+                                  CaregiverTIMyoCYAttrId,
+                                )
+                                ? leasingListColor
+                                : rowData.caregiver.attributes.includes(
+                                    'Plycoco',
+                                  )
+                                ? selfEmployesListColor
+                                : ''
+                              : '',
+                          }}
                           className="custom-appointment-col name-col appointment-color1 p-1 text-capitalize view-more-link one-line-text"
                           title={[rowData.lastName, rowData.firstName].join(
                             " "

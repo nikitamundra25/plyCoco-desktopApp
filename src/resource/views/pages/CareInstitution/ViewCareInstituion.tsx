@@ -372,7 +372,7 @@ const ViewCareInstitution: FunctionComponent<
                       className="header-nav-item"
                       onClick={() =>
                         history.push({
-                          pathname: AppRoutes.APPOINTMENT,
+                          pathname: '/temp',
                           state: { canstitution: Id, name: selectUser.label },
                         })
                       }

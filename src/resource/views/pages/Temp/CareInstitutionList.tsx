@@ -11,8 +11,13 @@ import { Button } from "reactstrap";
 import {
   APPOINTMENT_PAGE_LIMIT,
   AppRoutes,
+  CareInstInActiveAttrId,
+  CareInstPlycocoAttrId,
   CareInstTIMyoCYAttrId,
   dbAcceptableFormat,
+  deactivatedListColor,
+  leasingListColor,
+  selfEmployesListColor,
 } from "../../../../config";
 import {
   AppointmentsQueries,
@@ -860,7 +865,6 @@ export const CareInstitutionList = React.memo(
       allCaregivers.forEach((element: any) => {
         element.careinstitution_requirements.forEach((row: any) => {
           const { canstitution = {} } = element ? element : {};
-
           let filteredCells: any =
             row.appointments &&
             row.appointments.length &&
@@ -870,7 +874,7 @@ export const CareInstitutionList = React.memo(
           if (filteredCells) {
             connectedCells.push({
               isWeekend: false,
-              canstitution,
+              canstitution:element,
               isLeasing:
                 canstitution &&
                 canstitution.attributes &&
@@ -974,7 +978,7 @@ export const CareInstitutionList = React.memo(
                           d === "careinstitution" ? "name-col" : ""
                         }`}
                       >
-                        <div className="position-relative  username-col align-self-center">
+                        <div className="position-relative  username-col align-self-center text-capitalize">
                           {d}
                           {d === "careinstitution" ? (
                             <Button
@@ -999,6 +1003,7 @@ export const CareInstitutionList = React.memo(
               rowRenderer={({ cells, rowData }) => (
                 <div
                   className="d-flex frozen-row"
+                  
                   title={
                     rowData.canstitution && rowData.canstitution.shortName
                       ? rowData.canstitution.shortName
@@ -1030,6 +1035,24 @@ export const CareInstitutionList = React.memo(
                           <div
                             key={rowIndex}
                             className="custom-appointment-col name-col appointment-color1 text-capitalize p-1 view-more-link one-line-text"
+                            style={{
+                              backgroundColor:
+                                rowData.canstitution && rowData.canstitution.attributes
+                                  ? rowData.canstitution.attributes.includes(
+                                      CareInstInActiveAttrId,
+                                    )
+                                    ? deactivatedListColor
+                                    : rowData.canstitution.attributes.includes(
+                                        CareInstTIMyoCYAttrId,
+                                      )
+                                    ? leasingListColor
+                                    : rowData.canstitution.attributes.includes(
+                                        CareInstPlycocoAttrId,
+                                      )
+                                    ? selfEmployesListColor
+                                    : ''
+                                  : '',
+                            }}
                             title={
                               rowData.name
                                 ? rowData.name

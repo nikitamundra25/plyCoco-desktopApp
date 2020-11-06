@@ -11,6 +11,7 @@ export const ssn: number = 12;
 export const userNameReplaceRegex: RegExp = /[`~!@#$%^&*()|+\=?;:'",<>\{\}\[\]\\\/]/gi;
 export const PAGE_LIMIT: number = 10;
 export const TODO_PAGE_LIMIT: number = 14;
+export const Negative_Entry_In_Good_Conduct: number = 10060;
 export const ARCHIVE_PAGE_LIMIT: number = 20;
 export const APPOINTMENT_PAGE_LIMIT: number = 30;
 export const ASYNC_LIST_LIMIT: number = 50;
@@ -387,7 +388,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'ALTE_OLDENBURGER_Krankenversicherung_von_1927_Versicherungsverein',
+      'ALTE_OLDENBURGER_Krankenversicherung_von_1927_Versicherungsverein'
     ),
     value:
       'ALTEOLDENBURGERKrankenversicherungvon1927VersicherungsvereinAufGegenseitigkeit',
@@ -528,7 +529,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'BAYERISCHE_BEATENKRANKENKASSE_AKTIENGESELLCHAFT',
+      'BAYERISCHE_BEATENKRANKENKASSE_AKTIENGESELLCHAFT'
     ),
     value: 'BayerischeBeamtenkrankenkasseAktiengesellschaft',
   },
@@ -769,13 +770,13 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'CENTRAL_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+      'CENTRAL_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'
     ),
     value: 'CentralKrankenversicherungAktiengesellschaft',
   },
   {
     label: languageTranslation(
-      'CONCORDIA_KRANKENVERSICHERUNGS-AKTIENGESELLSCHAFT',
+      'CONCORDIA_KRANKENVERSICHERUNGS-AKTIENGESELLSCHAFT'
     ),
     value: 'ConcordiaKrankenversicherungs-Aktiengesellschaft',
   },
@@ -788,14 +789,14 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   { label: languageTranslation('DAK-GESUNDHEIT'), value: 'DAK-Gesundheit' },
   {
     label: languageTranslation(
-      'DEBEKA_KRANKENVERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT_SITZ_KOBLENZ_AM_RHEIN',
+      'DEBEKA_KRANKENVERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT_SITZ_KOBLENZ_AM_RHEIN'
     ),
     value:
       'DebekaKrankenversicherungsvereinAufGegenseitigkeitSitzKoblenzAmRhein',
   },
   {
     label: languageTranslation(
-      'DEUTSCHER_RING_KRANKENVERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT',
+      'DEUTSCHER_RING_KRANKENVERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT'
     ),
     value: 'DEUTSCHERRINGKrankenversicherungsvereinAufGegenseitigkeit',
   },
@@ -805,7 +806,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'DKV_DEUTSCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+      'DKV_DEUTSCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'
     ),
     value: 'DKVDeutscheKrankenversicherungAktiengesellschaft',
   },
@@ -813,32 +814,32 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   { label: languageTranslation('ENERGIE-BKK(NBL)'), value: 'Energie-BKK(NBL)' },
   {
     label: languageTranslation(
-      'ENVIVAS_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+      'ENVIVAS_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'
     ),
     value: 'ENVIVASKrankenversicherungAktiengesellschaft',
   },
   {
     label: languageTranslation(
-      'ERGO_DIREKT_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+      'ERGO_DIREKT_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'
     ),
     value: 'ERGODirektKrankenversicherungAktiengesellschaft',
   },
   {
     label: languageTranslation(
-      'FREIE_ARZT-UND_MEDIZINKASSE_DER_ANGEHÖRIGEN_DER_BERUFSFEUERWEHR_UND_DER_POLIZEI_VVAG',
+      'FREIE_ARZT-UND_MEDIZINKASSE_DER_ANGEHÖRIGEN_DER_BERUFSFEUERWEHR_UND_DER_POLIZEI_VVAG'
     ),
     value:
       'FreieArzt-undMedizinkasseDerAngehörigenDerBerufsfeuerwehrUndDerPolizeiVVaG',
   },
   {
     label: languageTranslation(
-      'GOTHAER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+      'GOTHAER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'
     ),
     value: 'GothaerKrankenversicherungAktiengesellschaft',
   },
   {
     label: languageTranslation(
-      'HALLESCHE_KRANKENVERSICHERUNG_AUF_GEGENSEITIGKEIT',
+      'HALLESCHE_KRANKENVERSICHERUNG_AUF_GEGENSEITIGKEIT'
     ),
     value: 'HALLESCHEKrankenversicherungaufGegenseitigkeit',
   },
@@ -848,7 +849,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'HANSEMERKUR_KRANKENVERSICHERUNG_AUF_GEGENSEITIGKEIT',
+      'HANSEMERKUR_KRANKENVERSICHERUNG_AUF_GEGENSEITIGKEIT'
     ),
     value: 'HanseMerkurKrankenversicherungaufGegenseitigkeit',
   },
@@ -933,7 +934,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'KRANKENUNTERSTÜTZUNGSKASSE_DER_BERUFSFEUERWEHR_HANNOVER',
+      'KRANKENUNTERSTÜTZUNGSKASSE_DER_BERUFSFEUERWEHR_HANNOVER'
     ),
     value: 'KrankenunterstützungskasseDerBerufsfeuerwehrHannover',
   },
@@ -943,7 +944,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'LIGA_KRANKENVERSICHERUNG_KATHOLISCHER_PRIESTER_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT_REGENSBURG',
+      'LIGA_KRANKENVERSICHERUNG_KATHOLISCHER_PRIESTER_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT_REGENSBURG'
     ),
     value:
       'LIGAKrankenversicherungkatholischerPriesterVersicherungsvereinaufGegenseitigkeitRegensburg',
@@ -966,13 +967,13 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'MANNHEIMER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+      'MANNHEIMER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'
     ),
     value: 'MannheimerKrankenversicherungAktiengesellschaft',
   },
   {
     label: languageTranslation(
-      'MECKLENBURGISCHE_KRANKENVERSICHERUNGS-AKTIENGESELLSCHAFT',
+      'MECKLENBURGISCHE_KRANKENVERSICHERUNGS-AKTIENGESELLSCHAFT'
     ),
     value: 'MecklenburgischeKrankenversicherungs-Aktiengesellschaft',
   },
@@ -988,7 +989,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'NÜRNBERGER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+      'NÜRNBERGER_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'
     ),
     value: 'NÜRNBERGERKrankenversicherungAktiengesellschaft',
   },
@@ -998,7 +999,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'PRAENATURA_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT(VVAG)',
+      'PRAENATURA_VERSICHERUNGSVEREIN_AUF_GEGENSEITIGKEIT(VVAG)'
     ),
     value: 'praenaturaVersicherungsvereinaufGegenseitigkeit(VVaG)',
   },
@@ -1046,7 +1047,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'St._Martinus_Priesterverein_d._Diözese Rottenburg-…d_Sterbekasse-(KSK)_Vers.Verein_auf_Gegenseitigk.',
+      'St._Martinus_Priesterverein_d._Diözese Rottenburg-…d_Sterbekasse-(KSK)_Vers.Verein_auf_Gegenseitigk.'
     ),
     value:
       'St.MartinusPriestervereind.DiözeseRottenburg-…dSterbekasse-(KSK)Vers.VereinAufGegenseitigk.',
@@ -1203,7 +1204,7 @@ export const HealthInsuranceProvider: IReactSelectInterface[] = [
   },
   {
     label: languageTranslation(
-      'WÜRTTEMBERGISCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT',
+      'WÜRTTEMBERGISCHE_KRANKENVERSICHERUNG_AKTIENGESELLSCHAFT'
     ),
     value: 'WürttembergischeKrankenversicherungAktiengesellschaft',
   },

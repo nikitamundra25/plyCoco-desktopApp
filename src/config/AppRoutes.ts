@@ -50,8 +50,9 @@ export const AppRoutes: IAppRoutes = {
   INVOICESOLONA: "/invoice-menu/invoice-leasing",
   // DROWINVOICE: "/drow-invoice",
   CREATEINVOICES: "/invoice-menu/create-invoice",
-  LEASINGCREATEINVOICE:"/invoice-menu/create-leasing-invoice",
+  LEASINGCREATEINVOICE: "/invoice-menu/create-leasing-invoice",
   PRINTINVOICES: "/invoice-menu/print-invoice",
   PAYSLIPFORM: "/invoice-menu/pay-slip-form",
-  HEALTHINSURANCEFORM: "/invoice-menu/health-insurance-form"
+  HEALTHINSURANCEFORM: "/invoice-menu/health-insurance-form",
+  NEW_APPOINTMENTS: "/new-appointments",
 };

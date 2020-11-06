@@ -28,11 +28,6 @@ const RegistrationList: FunctionComponent<RouteComponentProps> = (
           </span>
         </CardTitle>
       </CardHeader>
-      {/* {registrationListLoading ? (
-        <div>
-          <Loader />
-        </div>
-      ) : null} */}
       <CardBody className="custom-scrollbar">
         <div>
           <Table hover className="mb-0">

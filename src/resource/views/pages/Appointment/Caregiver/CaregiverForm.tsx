@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import Select from 'react-select';
-import { FormikProps, Field } from 'formik';
-import moment from 'moment';
-import classnames from 'classnames';
+import React, { FunctionComponent, useState, useEffect } from "react";
+import Select from "react-select";
+import { FormikProps, Field } from "formik";
+import moment from "moment";
+import classnames from "classnames";
 import {
   FormGroup,
   Label,
@@ -13,17 +13,17 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-} from 'reactstrap';
+} from "reactstrap";
 import {
   IAppointmentCareGiverForm,
   ICaregiverFormValue,
   IReactSelectInterface,
-} from '../../../../../interfaces';
+} from "../../../../../interfaces";
 import {
   languageTranslation,
   dateDiffernceValidator,
   dateValidatorNorm,
-} from '../../../../../helpers';
+} from "../../../../../helpers";
 import {
   NightAllowancePerHour,
   defaultDateFormat,
@@ -33,45 +33,45 @@ import {
   DateMask,
   TimeMask,
   defaultDateTimeFormatForDashboard,
-} from '../../../../../config';
-import '../index.scss';
+} from "../../../../../config";
+import "../index.scss";
 import {
   LeasingContractQueries,
   AppointmentsQueries,
   InvoiceQueries,
-  DocumentQueries
-} from '../../../../../graphql/queries';
-import { useLazyQuery } from '@apollo/react-hooks';
-import MaskedInput from 'react-text-mask';
-import Loader from '../../../containers/Loader/Loader';
+  DocumentQueries,
+} from "../../../../../graphql/queries";
+import { useLazyQuery } from "@apollo/react-hooks";
+import MaskedInput from "react-text-mask";
+import Loader from "../../../containers/Loader/Loader";
 
 const [GET_LEASING_CONTRACT] = LeasingContractQueries;
-const [ , , GET_INVOICE_BY_APPOINTMENT_ID ] = InvoiceQueries;
+const [, , GET_INVOICE_BY_APPOINTMENT_ID] = InvoiceQueries;
 const [, , , , , , , GET_CONTRACT_BY_APPOINTMENT_ID] = AppointmentsQueries;
-const [, , , , GET_WORKPROOF_PDF] = DocumentQueries
-const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
-  IAppointmentCareGiverForm &
-  any> = (
-  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any,
+const [, , , , GET_WORKPROOF_PDF] = DocumentQueries;
+const CaregiverFormView: FunctionComponent<
+  FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
+> = (
+  props: FormikProps<ICaregiverFormValue> & IAppointmentCareGiverForm & any
 ) => {
   const { addCaregiverLoading } = props;
   // Query to get uploaded pdf
   const [getLeasingContractPDF, { data: pdfData, loading }] = useLazyQuery<any>(
-    GET_LEASING_CONTRACT,
+    GET_LEASING_CONTRACT
   );
   // query to get contract pdf
   const [getContractPDF, { data: contractData }] = useLazyQuery<any>(
-    GET_CONTRACT_BY_APPOINTMENT_ID,
+    GET_CONTRACT_BY_APPOINTMENT_ID
   );
   // Query to get Invoice pdf
   const [getInvoiceByAppointmentId, { data: invoicePDF }] = useLazyQuery<any>(
-    GET_INVOICE_BY_APPOINTMENT_ID,
+    GET_INVOICE_BY_APPOINTMENT_ID
   );
 
-    // Query to get Work Proof pdf
-    const [getWorkProofPDF, { data: workProofData }] = useLazyQuery<any>(
-      GET_WORKPROOF_PDF,
-    );
+  // Query to get Work Proof pdf
+  const [getWorkProofPDF, { data: workProofData }] = useLazyQuery<any>(
+    GET_WORKPROOF_PDF
+  );
 
   //For saving both
   useEffect(() => {
@@ -151,15 +151,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       : null;
 
   // Find difference in workingHours time
-  let d = moment().format('L');
-  let dtStart: any = new Date(d + ' ' + workingHoursFromTime);
-  let dtEnd: any = new Date(d + ' ' + workingHoursToTime);
+  let d = moment().format("L");
+  let dtStart: any = new Date(d + " " + workingHoursFromTime);
+  let dtEnd: any = new Date(d + " " + workingHoursToTime);
   let workingHoursdifference = dtEnd - dtStart;
 
   // Find difference in break time
-  let dt = moment().format('L');
-  let dtStart1: any = new Date(dt + ' ' + breakFromTime);
-  let dtEnd1: any = new Date(dt + ' ' + breakToTime);
+  let dt = moment().format("L");
+  let dtStart1: any = new Date(dt + " " + breakFromTime);
+  let dtEnd1: any = new Date(dt + " " + breakToTime);
   let breakdifference = dtEnd1 - dtStart1;
 
   let current = moment().format(defaultDateFormat);
@@ -168,76 +168,75 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
   const workingHourDateValidator = (name: string) => {
     let validate: boolean = false;
-    if (name === 'workingHoursFromDate') {
+    if (name === "workingHoursFromDate") {
       validate = dateDiffernceValidator(
         dateData,
         current,
         workingHoursFromDate,
-        name,
+        name
       );
       if (!validate) {
         setworkingHoursFromErrMsg(
-          languageTranslation('DATE_VALIDATION_MESSAGE'),
+          languageTranslation("DATE_VALIDATION_MESSAGE")
         );
       } else {
         let validDateData = dateValidatorNorm(workingHoursFromDate);
         if (!validDateData.isValid) {
           setworkingHoursFromErrMsg(validDateData.message);
         } else {
-          setworkingHoursFromErrMsg('');
+          setworkingHoursFromErrMsg("");
         }
       }
-    } else if (name === 'workingHoursToDate') {
+    } else if (name === "workingHoursToDate") {
       validate = dateDiffernceValidator(
         workingHoursFromDate,
         current,
         workingHoursToDate,
-        name,
+        name
       );
       if (!validate) {
-        setworkingHoursToErrMsg(languageTranslation('DATE_VALIDATION_MESSAGE'));
+        setworkingHoursToErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(workingHoursToDate);
         if (!validDateData.isValid) {
           setworkingHoursToErrMsg(validDateData.message);
         } else {
-          setworkingHoursToErrMsg('');
+          setworkingHoursToErrMsg("");
         }
       }
-    } else if (name === 'breakFromDate') {
+    } else if (name === "breakFromDate") {
       validate = dateDiffernceValidator(dateData, current, breakFromDate, name);
       if (!validate) {
-        setbreakHoursFromErrMsg(languageTranslation('DATE_VALIDATION_MESSAGE'));
+        setbreakHoursFromErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(breakFromDate);
         if (!validDateData.isValid) {
           setbreakHoursFromErrMsg(validDateData.message);
         } else {
-          setbreakHoursFromErrMsg('');
+          setbreakHoursFromErrMsg("");
         }
       }
-    } else if (name === 'breakToDate') {
+    } else if (name === "breakToDate") {
       validate = dateDiffernceValidator(
         breakFromDate,
         current,
         breakToDate,
-        name,
+        name
       );
       if (!validate) {
-        setbreakHoursToErrMsg(languageTranslation('DATE_VALIDATION_MESSAGE'));
+        setbreakHoursToErrMsg(languageTranslation("DATE_VALIDATION_MESSAGE"));
       } else {
         let validDateData = dateValidatorNorm(breakToDate);
         if (!validDateData.isValid) {
           setbreakHoursToErrMsg(validDateData.message);
         } else {
-          setbreakHoursToErrMsg('');
+          setbreakHoursToErrMsg("");
         }
       }
     }
   };
   let isLeasingAppointment = false;
   let isAppointment = false;
-
 
   // To check appointment with leasing careInst or not
   if (selectedCells && selectedCells.length) {
@@ -248,13 +247,13 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
         cell.item.appointments &&
         cell.item.appointments.length &&
         cell.item.appointments[0].cr &&
-        cell.item.appointments[0].cr.isLeasing,
+        cell.item.appointments[0].cr.isLeasing
     ).length
       ? true
       : false;
     isAppointment = selectedCells.filter(
       (cell: any) =>
-        cell && cell.item && cell.item.appointments && cell.item.appointments,
+        cell && cell.item && cell.item.appointments && cell.item.appointments
     ).length
       ? true
       : false;
@@ -262,10 +261,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
   useEffect(() => {
     if (isLeasingAppointment) {
-      const { id = '', item = {} } = selectedCells[0] ? selectedCells[0] : {};
+      const { id = "", item = {} } = selectedCells[0] ? selectedCells[0] : {};
       const { appointments = [] } = item ? item : {};
-      
-      const { avabilityId = '', id: appointmentId = '', workProofId = '' } =
+
+      const { avabilityId = "", id: appointmentId = "", workProofId = "" } =
         appointments && appointments.length && appointments[0]
           ? appointments[0]
           : {};
@@ -274,32 +273,32 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
           userId: parseInt(id),
           availabilityId: [parseInt(avabilityId)],
           appointmentId: [parseInt(appointmentId)],
-          documentUploadType: 'leasingContract',
+          documentUploadType: "leasingContract",
         },
       });
-      
+
       getInvoiceByAppointmentId({
         variables: {
-          appointmentId: [parseInt(appointmentId)]
+          appointmentId: [parseInt(appointmentId)],
         },
       });
 
       getWorkProofPDF({
         variables: {
           id: parseInt(workProofId),
-          documentUploadType: 'workingProof',
+          documentUploadType: "workingProof",
         },
       });
       return;
     }
     if (isAppointment) {
-
       // To get signed contract in case of booked appointment
-      const { id = '',item = {} } = selectedCells[0] ? selectedCells[0] : {};
+      const { id = "", item = {} } = selectedCells[0] ? selectedCells[0] : {};
       const { appointments = [] } = item ? item : {};
-      const { avabilityId = '', id: appointmentId = '', workProofId = '' } =
-          appointments && appointments.length && appointments[0]
-            ? appointments[0] : {};
+      const { avabilityId = "", id: appointmentId = "", workProofId = "" } =
+        appointments && appointments.length && appointments[0]
+          ? appointments[0]
+          : {};
       getContractPDF({
         variables: {
           appointmentId: appointmentId,
@@ -309,18 +308,18 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
       getInvoiceByAppointmentId({
         variables: {
-          appointmentId: [parseInt(appointmentId)]
+          appointmentId: [parseInt(appointmentId)],
         },
       });
 
       getWorkProofPDF({
         variables: {
           id: parseInt(workProofId),
-          documentUploadType: 'workingProof',
+          documentUploadType: "workingProof",
         },
       });
     }
-    return
+    return;
   }, [selectedCells]);
 
   // Custom function to handle react select fields
@@ -353,21 +352,21 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
   if (selctedAvailability || status) {
     if (
       (selctedAvailability &&
-        selctedAvailability.status === 'default' &&
-        (selctedAvailability.f !== 'block' ||
-          selctedAvailability.s !== 'block' ||
-          selctedAvailability.n !== 'block')) ||
-      (status === 'default' &&
+        selctedAvailability.status === "default" &&
+        (selctedAvailability.f !== "block" ||
+          selctedAvailability.s !== "block" ||
+          selctedAvailability.n !== "block")) ||
+      (status === "default" &&
         selctedAvailability &&
-        (selctedAvailability.f !== 'block' ||
-          selctedAvailability.s !== 'block' ||
-          selctedAvailability.n !== 'block'))
+        (selctedAvailability.f !== "block" ||
+          selctedAvailability.s !== "block" ||
+          selctedAvailability.n !== "block"))
     ) {
       if (
         (selctedAvailability &&
-          selctedAvailability.status === 'default' &&
+          selctedAvailability.status === "default" &&
           isBeforedate) ||
-        (status === 'default' && isBeforedate)
+        (status === "default" && isBeforedate)
       ) {
         isAvailability = false;
         isBeforeDate = true;
@@ -376,48 +375,49 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
         isBeforeDate = false;
       }
     } else if (
-      (selctedAvailability && selctedAvailability.status === 'linked') ||
-      status === 'linked'
+      (selctedAvailability && selctedAvailability.status === "linked") ||
+      status === "linked"
     ) {
       isMatching = true;
     } else if (
-      (selctedAvailability && selctedAvailability.status === 'contract') ||
-      status === 'contract'
+      (selctedAvailability && selctedAvailability.status === "contract") ||
+      status === "contract"
     ) {
       isContract = true;
     } else if (
-      (selctedAvailability && selctedAvailability.status === 'confirmed') ||
-      status === 'confirmed'
+      (selctedAvailability && selctedAvailability.status === "confirmed") ||
+      status === "confirmed"
     ) {
       isConfirm = true;
     } else if (
       (selctedAvailability &&
-        selctedAvailability.status === 'contractCancelled') ||
-      status === 'contractCancelled'
+        selctedAvailability.status === "contractCancelled") ||
+      status === "contractCancelled"
     ) {
       isContractCancel = true;
     } else if (
-      (selctedAvailability && selctedAvailability.status === 'accepted') ||
-      status === 'accepted'
+      (selctedAvailability && selctedAvailability.status === "accepted") ||
+      status === "accepted"
     ) {
       isSingleButtonAccepted = true;
     } else if (
       (selctedAvailability &&
-        selctedAvailability.status === 'contractInitiated') ||
-      status === 'contractInitiated'
+        selctedAvailability.status === "contractInitiated") ||
+      status === "contractInitiated"
     ) {
       isContractInitiated = true;
     } else if (
       (selctedAvailability &&
-        selctedAvailability.status === 'invoiceInitiated') ||
-      status === 'invoiceInitiated'
+        selctedAvailability.status === "invoiceInitiated") ||
+      status === "invoiceInitiated"
     ) {
       isInvoiceInitiated = true;
-    }  else if (
+    } else if (
       (selctedAvailability &&
-        (selctedAvailability.status === 'timeSheetPending' ||
-          selctedAvailability.status === 'timeSheetUpdated')) ||
-      status === 'timeSheetPending' || status === 'timeSheetUpdated'
+        (selctedAvailability.status === "timeSheetPending" ||
+          selctedAvailability.status === "timeSheetUpdated")) ||
+      status === "timeSheetPending" ||
+      status === "timeSheetUpdated"
     ) {
       isTimeSheetPending = true;
     }
@@ -425,10 +425,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
   const handleTravelAllowance = () => {
     let total = distanceInKM * feePerKM;
-    setFieldValue('travelAllowance', total);
+    setFieldValue("travelAllowance", total);
   };
-
-
 
   let dateCondition: any;
   if (
@@ -443,7 +441,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
 
   // Signed contract link
   const { getLeasingContractPDF: pdfDetails = [] } = pdfData ? pdfData : {};
-  const { document = '', leasingContract = {} } =
+  const { document = "", leasingContract = {} } =
     pdfDetails && pdfDetails.length ? pdfDetails[0] : {};
 
   // signed self employmentt contract
@@ -452,21 +450,28 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
     getContractByAppointmentID && getContractByAppointmentID.length
       ? getContractByAppointmentID[0]
       : [];
-  const { document: selfEmploymentcontract = '' } = user_document
+  const { document: selfEmploymentcontract = "" } = user_document
     ? user_document
     : {};
 
   // Get Invoice PDFs
-  const { getInvoiceByAppointmentId: invoiceDetails = [] } = invoicePDF ? invoicePDF : {};
+  const { getInvoiceByAppointmentId: invoiceDetails = [] } = invoicePDF
+    ? invoicePDF
+    : {};
 
   let invoiceData = invoiceDetails ? invoiceDetails.invoiceData : {};
-  let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : ''
- 
-// Get WorkProof
-  
-  const { getWorkProofPDF: workProof = [] } = workProofData ? workProofData : {};
-  const {  id: finalWorkProofId = '' ,document: finalWorkProofPDF = '' } = workProof ? workProof : {};
-  const workingProofSubmitted =  finalWorkProofPDF ? true : false;
+  let finalInvoicePDF = invoiceData ? invoiceData.plycocoPdf : "";
+
+  // Get WorkProof
+
+  const { getWorkProofPDF: workProof = [] } = workProofData
+    ? workProofData
+    : {};
+  const {
+    id: finalWorkProofId = "",
+    document: finalWorkProofPDF = "",
+  } = workProof ? workProof : {};
+  const workingProofSubmitted = finalWorkProofPDF ? true : false;
 
   let isCorrespondingAppointment: boolean = false;
   if (
@@ -487,20 +492,19 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
       <div className='form-section'>
         <div
           className={classnames({
-            'form-card custom-height custom-scrollbar': true,
-            'availability-dark-bg': isAvailability,
-            'matching-bg': isMatching,
-            'contract-bg': isConfirm,
-            'cancel-contract-bg': isContractCancel,
-            'accepted-bg': isSingleButtonAccepted,
-            'contact-initiate-bg': isContractInitiated,
-            'invoice-bg': isInvoiceInitiated,
-            'confirmation-bg': isTimeSheetPending,
-            'availability-bg': isBeforeDate,
-          })}
-        >
+            "form-card custom-height custom-scrollbar": true,
+            "availability-dark-bg": isAvailability,
+            "matching-bg": isMatching,
+            "contract-bg": isConfirm,
+            "cancel-contract-bg": isContractCancel,
+            "accepted-bg": isSingleButtonAccepted,
+            "contact-initiate-bg": isContractInitiated,
+            "invoice-bg": isInvoiceInitiated,
+            "confirmation-bg": isTimeSheetPending,
+            "availability-bg": isBeforeDate,
+          })}>
           <h5 className='content-title'>
-            {languageTranslation('MENU_CAREGIVER')}
+            {languageTranslation("MENU_CAREGIVER")}
           </h5>
           {idSearchAppointmentLoading && !isCorrespondingAppointment ? (
             <div className='appointment-form-loader'>
@@ -509,12 +513,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
           ) : null}
           <Row>
             {appointmentId ? (
-              <Col lg={'12'}>
+              <Col lg={"12"}>
                 <FormGroup>
                   <Row>
                     <Col sm='4'>
                       <Label className='form-label col-form-label'>
-                        {languageTranslation('APPOINTMENT_ID')}
+                        {languageTranslation("APPOINTMENT_ID")}
                       </Label>
                     </Col>
                     <Col sm='8'>
@@ -523,9 +527,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           <Input
                             type='text'
                             disabled={true}
-                            name={'appointmentId'}
+                            name={"appointmentId"}
                             value={appointmentId ? appointmentId : null}
-                            placeholder={languageTranslation('APPOINTMENT_ID')}
+                            placeholder={languageTranslation("APPOINTMENT_ID")}
                             className='width-common'
                           />
                         </div>
@@ -544,12 +548,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </FormGroup>
               </Col>
             ) : null}
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
-                      {languageTranslation('NAME')}
+                      {languageTranslation("NAME")}
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -558,8 +562,8 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         <Input
                           type='text'
                           disabled={true}
-                          placeholder={languageTranslation('NAME')}
-                          value={name ? name : ''}
+                          placeholder={languageTranslation("NAME")}
+                          value={name ? name : ""}
                         />
                         <InputGroupAddon
                           addonType='append'
@@ -567,7 +571,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           onClick={() =>
                             name
                               ? onhandleCaregiverStar(
-                                  selectedCareGiver ? selectedCareGiver.id : '',
+                                  selectedCareGiver ? selectedCareGiver.id : "",
                                   false,
                                   careGiversListArr &&
                                     careGiversListArr.result &&
@@ -575,24 +579,22 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                     ? careGiversListArr.result.findIndex(
                                         (cg: any) =>
                                           selectedCareGiver &&
-                                          cg.id === selectedCareGiver.id,
+                                          cg.id === selectedCareGiver.id
                                       ) < 0
                                       ? true
                                       : false
-                                    : false,
+                                    : false
                                 )
-                              : ''
-                          }
-                        >
+                              : ""
+                          }>
                           <InputGroupText>
                             <i
                               className={
                                 name && starCaregiver && starCaregiver.isStar
-                                  ? 'fa fa-star theme-text'
-                                  : 'fa fa-star'
+                                  ? "fa fa-star theme-text"
+                                  : "fa fa-star"
                               }
-                              aria-hidden='true'
-                            ></i>
+                              aria-hidden='true'></i>
                           </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
@@ -601,12 +603,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
-                      {languageTranslation('DATE')}
+                      {languageTranslation("DATE")}
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -618,12 +620,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                 dateString
                                   ? moment(dateString).format(
                                       index !== activeDateCaregiver.length - 1
-                                        ? 'dd DD'
-                                        : `${appointmentDayFormat} ${defaultDateFormat}`,
+                                        ? "dd DD"
+                                        : `${appointmentDayFormat} ${defaultDateFormat}`
                                     )
-                                  : null,
+                                  : null
                             )
-                            .join(', ')
+                            .join(", ")
                         : null}
                     </div>
                   </Col>
@@ -632,18 +634,18 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             </Col>
 
             {selctedAvailability &&
-            (selctedAvailability.f === 'block' ||
-              selctedAvailability.s === 'block' ||
-              selctedAvailability.n === 'block') ? (
+            (selctedAvailability.f === "block" ||
+              selctedAvailability.s === "block" ||
+              selctedAvailability.n === "block") ? (
               <div className='blocked-minheight'></div>
             ) : (
               <>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup className='mb-2'>
                     <Row>
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
-                          {languageTranslation('SHIFT')}
+                          {languageTranslation("SHIFT")}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -654,19 +656,19 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                 type='checkbox'
                                 id='early'
                                 className=''
-                                name={'f'}
+                                name={"f"}
                                 checked={f ? true : false}
                                 onChange={(
-                                  e: React.ChangeEvent<HTMLInputElement>,
+                                  e: React.ChangeEvent<HTMLInputElement>
                                 ) => {
                                   const {
                                     target: { checked },
                                   } = e;
-                                  setFieldValue('f', checked);
+                                  setFieldValue("f", checked);
                                 }}
                               />
                               <Label for='early'>
-                                {languageTranslation('EARLY')}
+                                {languageTranslation("EARLY")}
                               </Label>
                             </div>
                           </FormGroup>
@@ -676,19 +678,19 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                 type='checkbox'
                                 id='late'
                                 className=''
-                                name={'s'}
+                                name={"s"}
                                 checked={s}
                                 onChange={(
-                                  e: React.ChangeEvent<HTMLInputElement>,
+                                  e: React.ChangeEvent<HTMLInputElement>
                                 ) => {
                                   const {
                                     target: { checked },
                                   } = e;
-                                  setFieldValue('s', checked);
+                                  setFieldValue("s", checked);
                                 }}
                               />
                               <Label for='late'>
-                                {languageTranslation('LATE')}
+                                {languageTranslation("LATE")}
                               </Label>
                             </div>
                           </FormGroup>
@@ -698,19 +700,19 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                 type='checkbox'
                                 id='night'
                                 className=''
-                                name={'n'}
+                                name={"n"}
                                 checked={n}
                                 onChange={(
-                                  e: React.ChangeEvent<HTMLInputElement>,
+                                  e: React.ChangeEvent<HTMLInputElement>
                                 ) => {
                                   const {
                                     target: { checked },
                                   } = e;
-                                  setFieldValue('n', checked);
+                                  setFieldValue("n", checked);
                                 }}
                               />
                               <Label for='night'>
-                                {languageTranslation('NIGHT')}
+                                {languageTranslation("NIGHT")}
                               </Label>
                             </div>
                           </FormGroup>
@@ -724,12 +726,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
-                          {languageTranslation('FEE')}
+                          {languageTranslation("FEE")}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -738,22 +740,21 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             <InputGroup className='flex-nowrap'>
                               <Input
                                 type='text'
-                                name={'fee'}
+                                name={"fee"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={fee ? fee : ''}
+                                value={fee ? fee : ""}
                                 className={
                                   errors.fee && touched.fee
-                                    ? 'fee-width error'
-                                    : 'fee-width'
+                                    ? "fee-width error"
+                                    : "fee-width"
                                 }
                               />
                               <InputGroupAddon addonType='append'>
                                 <InputGroupText>
                                   <i
                                     className='fa fa-euro'
-                                    aria-hidden='true'
-                                  ></i>
+                                    aria-hidden='true'></i>
                                 </InputGroupText>
                               </InputGroupAddon>
                               {errors.fee && touched.fee && (
@@ -767,12 +768,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             className='d-flex align-items-center edit-remark whitespace-nowrap mb-1'
                             onClick={() =>
                               handleLastTimeData(
-                                selectedCareGiver ? selectedCareGiver.id : '',
-                                props.values,
+                                selectedCareGiver ? selectedCareGiver.id : "",
+                                props.values
                               )
-                            }
-                          >
-                            {languageTranslation('LAST_TIME')}
+                            }>
+                            {languageTranslation("LAST_TIME")}
                           </span>
                         </div>
                       </Col>
@@ -780,12 +780,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   </FormGroup>
                 </Col>
 
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
-                          {languageTranslation('NIGHT_FEE')}
+                          {languageTranslation("NIGHT_FEE")}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -794,22 +794,21 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             <InputGroup className='flex-nowrap'>
                               <Input
                                 type='text'
-                                name={'nightFee'}
-                                value={nightFee ? nightFee : ''}
+                                name={"nightFee"}
+                                value={nightFee ? nightFee : ""}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 className={
                                   errors.nightFee && touched.nightFee
-                                    ? 'fee-width error'
-                                    : 'fee-width'
+                                    ? "fee-width error"
+                                    : "fee-width"
                                 }
                               />
                               <InputGroupAddon addonType='append'>
                                 <InputGroupText>
                                   <i
                                     className='fa fa-euro'
-                                    aria-hidden='true'
-                                  ></i>
+                                    aria-hidden='true'></i>
                                 </InputGroupText>
                               </InputGroupAddon>
                               {errors.nightFee && touched.nightFee && (
@@ -822,11 +821,11 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           <div className='flex-grow-1 nightallowance-input mb-1'>
                             <Select
                               placeholder={languageTranslation(
-                                'NIGHT_ALLOWANCE',
+                                "NIGHT_ALLOWANCE"
                               )}
                               options={NightAllowancePerHour}
                               onChange={(value: any) =>
-                                handleSelect(value, 'nightAllowance')
+                                handleSelect(value, "nightAllowance")
                               }
                               value={
                                 nightAllowance
@@ -834,7 +833,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                   : NightAllowancePerHour[0]
                               }
                               classNamePrefix='custom-inner-reactselect'
-                              className={'custom-reactselect'}
+                              className={"custom-reactselect"}
                             />
                           </div>
                         </div>
@@ -843,12 +842,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   </FormGroup>
                 </Col>
 
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
-                          {languageTranslation('WEEKEND_FEE')}
+                          {languageTranslation("WEEKEND_FEE")}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -856,23 +855,22 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           <InputGroup>
                             <Input
                               type='text'
-                              name={'weekendAllowance'}
-                              value={weekendAllowance ? weekendAllowance : ''}
+                              name={"weekendAllowance"}
+                              value={weekendAllowance ? weekendAllowance : ""}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               className={
                                 errors.weekendAllowance &&
                                 touched.weekendAllowance
-                                  ? 'fee-width error'
-                                  : 'fee-width'
+                                  ? "fee-width error"
+                                  : "fee-width"
                               }
                             />
                             <InputGroupAddon addonType='append'>
                               <InputGroupText>
                                 <i
                                   className='fa fa-euro'
-                                  aria-hidden='true'
-                                ></i>
+                                  aria-hidden='true'></i>
                               </InputGroupText>
                             </InputGroupAddon>
                             {errors.weekendAllowance &&
@@ -887,12 +885,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
-                          {languageTranslation('HOLIDAY_FEE')}
+                          {languageTranslation("HOLIDAY_FEE")}
                         </Label>
                       </Col>
                       <Col sm='8'>
@@ -900,23 +898,22 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                           <InputGroup>
                             <Input
                               type='text'
-                              name={'holidayAllowance'}
-                              value={holidayAllowance ? holidayAllowance : ''}
+                              name={"holidayAllowance"}
+                              value={holidayAllowance ? holidayAllowance : ""}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               className={
                                 errors.holidayAllowance &&
                                 touched.holidayAllowance
-                                  ? 'fee-width error'
-                                  : 'fee-width'
+                                  ? "fee-width error"
+                                  : "fee-width"
                               }
                             />
                             <InputGroupAddon addonType='append'>
                               <InputGroupText>
                                 <i
                                   className='fa fa-euro'
-                                  aria-hidden='true'
-                                ></i>
+                                  aria-hidden='true'></i>
                               </InputGroupText>
                             </InputGroupAddon>
                             {errors.holidayAllowance &&
@@ -931,32 +928,32 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     </Row>
                   </FormGroup>
                 </Col>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <div className='d-flex align-items-center flex-wrap distance-section'>
                     <FormGroup className='fee-input'>
                       <Label className='form-label col-form-label'>
-                        {languageTranslation('FEE_PER_KM')}
+                        {languageTranslation("FEE_PER_KM")}
                       </Label>
 
                       <div className='required-input'>
                         <InputGroup>
                           <Input
                             type='text'
-                            name={'distanceInKM'}
-                            value={distanceInKM ? distanceInKM : ''}
-                            placeholder={languageTranslation('FEE_PER_KM')}
+                            name={"distanceInKM"}
+                            value={distanceInKM ? distanceInKM : ""}
+                            placeholder={languageTranslation("FEE_PER_KM")}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className={
                               errors.distanceInKM && touched.distanceInKM
-                                ? 'fee-width error'
-                                : 'fee-width'
+                                ? "fee-width error"
+                                : "fee-width"
                             }
                             disabled={
                               selctedAvailability &&
-                              (selctedAvailability.f === 'block' ||
-                                selctedAvailability.s === 'block' ||
-                                selctedAvailability.n === 'block')
+                              (selctedAvailability.f === "block" ||
+                                selctedAvailability.s === "block" ||
+                                selctedAvailability.n === "block")
                             }
                           />
                           <InputGroupAddon addonType='append'>
@@ -972,28 +969,28 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     </FormGroup>
                     <FormGroup className='a-input'>
                       <Label className='form-label col-form-label'>
-                        {languageTranslation('a')}
+                        {languageTranslation("a")}
                       </Label>
 
                       <div className='required-input'>
                         <InputGroup>
                           <Input
                             type='text'
-                            name={'feePerKM'}
-                            value={feePerKM ? feePerKM : ''}
-                            placeholder={languageTranslation('a')}
+                            name={"feePerKM"}
+                            value={feePerKM ? feePerKM : ""}
+                            placeholder={languageTranslation("a")}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className={
                               errors.feePerKM && touched.feePerKM
-                                ? 'fee-width error'
-                                : 'fee-width'
+                                ? "fee-width error"
+                                : "fee-width"
                             }
                             disabled={
                               selctedAvailability &&
-                              (selctedAvailability.f === 'block' ||
-                                selctedAvailability.s === 'block' ||
-                                selctedAvailability.n === 'block')
+                              (selctedAvailability.f === "block" ||
+                                selctedAvailability.s === "block" ||
+                                selctedAvailability.n === "block")
                             }
                           />
                           <InputGroupAddon addonType='append'>
@@ -1015,49 +1012,48 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       <Button
                         className='add-new-btn'
                         color=''
-                        onClick={handleTravelAllowance}
-                      >
+                        onClick={handleTravelAllowance}>
                         <i className='fa fa-arrow-right' aria-hidden='true' />
                       </Button>
                     </FormGroup>
                     <FormGroup className='total-input flex-grow-1'>
                       <Label className='form-label col-form-label'>
-                        {languageTranslation('TOTAL')}{' '}
+                        {languageTranslation("TOTAL")}{" "}
                       </Label>
                       <div className='required-input'>
                         <Input
                           type='text'
                           disabled={true}
-                          name={'travelAllowance'}
+                          name={"travelAllowance"}
                           className='width-common'
-                          value={travelAllowance ? travelAllowance : ''}
+                          value={travelAllowance ? travelAllowance : ""}
                         />
                       </div>
                     </FormGroup>
                   </div>
                 </Col>
 
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
                       <Col sm='4'>
                         <Label className='form-label col-form-label'>
-                          {languageTranslation('EXPENSES')}
+                          {languageTranslation("EXPENSES")}
                         </Label>
                       </Col>
                       <Col sm='8'>
                         <div className='required-input'>
                           <Input
                             type='text'
-                            name={'otherExpenses'}
-                            value={otherExpenses ? otherExpenses : ''}
+                            name={"otherExpenses"}
+                            value={otherExpenses ? otherExpenses : ""}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            placeholder={languageTranslation('EXPENSES')}
+                            placeholder={languageTranslation("EXPENSES")}
                             className={
                               errors.otherExpenses && touched.otherExpenses
-                                ? 'width-common error'
-                                : 'width-common'
+                                ? "width-common error"
+                                : "width-common"
                             }
                           />
                           {errors.otherExpenses && touched.otherExpenses && (
@@ -1073,63 +1069,63 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
               </>
             )}
             {selctedAvailability &&
-            (selctedAvailability.status === 'confirmed' ||
-              selctedAvailability.status === 'timeSheetPending' ||
-              selctedAvailability.status === 'timeSheetUpdated') &&
+            (selctedAvailability.status === "confirmed" ||
+              selctedAvailability.status === "timeSheetPending" ||
+              selctedAvailability.status === "timeSheetUpdated") &&
             new Date(activeDateCaregiver[0]) <= new Date() ? (
               <>
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm={'4'}>
+                      <Col sm={"4"}>
                         <Label className='form-label col-form-label'>
-                          {languageTranslation('WORKING_HOURS')}
+                          {languageTranslation("WORKING_HOURS")}
                         </Label>
                       </Col>
-                      <Col sm={'8'}>
+                      <Col sm={"8"}>
                         <div className='required-input'>
                           <div className='custom-col inner-no-padding-col row'>
-                            <Col sm={'6'}>
+                            <Col sm={"6"}>
                               <InputGroup className='flex-nowrap position-relative'>
-                                <Field name={'workingHoursFromDate'}>
+                                <Field name={"workingHoursFromDate"}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
                                       mask={DateMask}
                                       className={
                                         workingHoursFromErrMsg &&
-                                        workingHoursFromErrMsg !== ''
-                                          ? 'text-input error form-control'
-                                          : 'text-input form-control'
+                                        workingHoursFromErrMsg !== ""
+                                          ? "text-input error form-control"
+                                          : "text-input form-control"
                                       }
                                       onChange={handleChange}
                                       onBlur={() =>
                                         workingHourDateValidator(
-                                          'workingHoursFromDate',
+                                          "workingHoursFromDate"
                                         )
                                       }
                                       placeholder={languageTranslation(
-                                        'HOLIDAY_DATE_PLACEHOLDER',
+                                        "HOLIDAY_DATE_PLACEHOLDER"
                                       )}
                                       value={
                                         workingHoursFromDate
                                           ? workingHoursFromDate
-                                          : ''
+                                          : ""
                                       }
                                     />
                                   )}
                                 </Field>
                                 {workingHoursFromErrMsg &&
-                                workingHoursFromErrMsg !== '' ? (
+                                workingHoursFromErrMsg !== "" ? (
                                   <div className='required-tooltip'>
                                     {workingHoursFromErrMsg}
                                   </div>
                                 ) : null}
                               </InputGroup>
                             </Col>
-                            <Col sm={'6'}>
+                            <Col sm={"6"}>
                               <InputGroup className='flex-nowrap'>
-                                <Field name={'workingHoursFromTime'}>
+                                <Field name={"workingHoursFromTime"}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
@@ -1137,18 +1133,18 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                       className={
                                         errors.workingHoursFromTime &&
                                         touched.workingHoursFromTime
-                                          ? 'text-input error form-control'
-                                          : 'text-input form-control'
+                                          ? "text-input error form-control"
+                                          : "text-input form-control"
                                       }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       placeholder={languageTranslation(
-                                        'TIME_FORMAT',
+                                        "TIME_FORMAT"
                                       )}
                                       value={
                                         workingHoursFromTime
                                           ? workingHoursFromTime
-                                          : ''
+                                          : ""
                                       }
                                     />
                                   )}
@@ -1168,54 +1164,54 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   </FormGroup>
                 </Col>
 
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm={'4'}></Col>
-                      <Col sm={'8'}>
+                      <Col sm={"4"}></Col>
+                      <Col sm={"8"}>
                         <div className='required-input'>
                           <div className='custom-col inner-no-padding-col row'>
-                            <Col sm={'6'}>
+                            <Col sm={"6"}>
                               <InputGroup className='flex-nowrap'>
-                                <Field name={'workingHoursToDate'}>
+                                <Field name={"workingHoursToDate"}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
                                       mask={DateMask}
                                       className={
                                         workingHoursToErrMsg &&
-                                        workingHoursToErrMsg !== ''
-                                          ? 'text-input error form-control'
-                                          : 'text-input form-control'
+                                        workingHoursToErrMsg !== ""
+                                          ? "text-input error form-control"
+                                          : "text-input form-control"
                                       }
                                       onChange={handleChange}
                                       onBlur={() =>
                                         workingHourDateValidator(
-                                          'workingHoursToDate',
+                                          "workingHoursToDate"
                                         )
                                       }
                                       placeholder={languageTranslation(
-                                        'HOLIDAY_DATE_PLACEHOLDER',
+                                        "HOLIDAY_DATE_PLACEHOLDER"
                                       )}
                                       value={
                                         workingHoursToDate
                                           ? workingHoursToDate
-                                          : ''
+                                          : ""
                                       }
                                     />
                                   )}
                                 </Field>
                                 {workingHoursToErrMsg &&
-                                workingHoursToErrMsg !== '' ? (
+                                workingHoursToErrMsg !== "" ? (
                                   <div className='required-tooltip'>
                                     {workingHoursToErrMsg}
                                   </div>
                                 ) : null}
                               </InputGroup>
                             </Col>
-                            <Col sm={'6'}>
+                            <Col sm={"6"}>
                               <InputGroup className='flex-nowrap'>
-                                <Field name={'workingHoursToTime'}>
+                                <Field name={"workingHoursToTime"}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
@@ -1223,18 +1219,18 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                       className={
                                         errors.workingHoursToTime &&
                                         touched.workingHoursToTime
-                                          ? 'text-input error form-control'
-                                          : 'text-input form-control'
+                                          ? "text-input error form-control"
+                                          : "text-input form-control"
                                       }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       placeholder={languageTranslation(
-                                        'TIME_FORMAT',
+                                        "TIME_FORMAT"
                                       )}
                                       value={
                                         workingHoursToTime
                                           ? workingHoursToTime
-                                          : ''
+                                          : ""
                                       }
                                     />
                                   )}
@@ -1249,7 +1245,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                 ) : touched.workingHoursToTime &&
                                   workingHoursdifference <= 0 ? (
                                   <div className='required-tooltip'>
-                                    {languageTranslation('VALID_TIME_RANGE')}
+                                    {languageTranslation("VALID_TIME_RANGE")}
                                   </div>
                                 ) : null}
                               </InputGroup>
@@ -1261,46 +1257,46 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   </FormGroup>
                 </Col>
 
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm={'4'}>
+                      <Col sm={"4"}>
                         <Label className='form-label col-form-label'>
-                          {languageTranslation('BREAK')}
+                          {languageTranslation("BREAK")}
                         </Label>
                       </Col>
 
-                      <Col sm={'8'}>
+                      <Col sm={"8"}>
                         <div className='required-input'>
                           <div className='custom-col inner-no-padding-col row'>
-                            <Col sm={'6'}>
+                            <Col sm={"6"}>
                               <InputGroup className='flex-nowrap'>
-                                <Field name={'breakFromDate'}>
+                                <Field name={"breakFromDate"}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
                                       mask={DateMask}
                                       className={
                                         breakHoursFromErrMsg &&
-                                        breakHoursFromErrMsg !== ''
-                                          ? 'text-input error form-control'
-                                          : 'text-input form-control'
+                                        breakHoursFromErrMsg !== ""
+                                          ? "text-input error form-control"
+                                          : "text-input form-control"
                                       }
                                       onChange={handleChange}
                                       onBlur={() =>
                                         workingHourDateValidator(
-                                          'breakFromDate',
+                                          "breakFromDate"
                                         )
                                       }
                                       placeholder={languageTranslation(
-                                        'HOLIDAY_DATE_PLACEHOLDER',
+                                        "HOLIDAY_DATE_PLACEHOLDER"
                                       )}
-                                      value={breakFromDate ? breakFromDate : ''}
+                                      value={breakFromDate ? breakFromDate : ""}
                                     />
                                   )}
                                 </Field>
                                 {breakHoursFromErrMsg &&
-                                breakHoursFromErrMsg !== '' ? (
+                                breakHoursFromErrMsg !== "" ? (
                                   <div className='required-tooltip'>
                                     {breakHoursFromErrMsg}
                                   </div>
@@ -1308,9 +1304,9 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                               </InputGroup>
                             </Col>
 
-                            <Col sm={'6'}>
+                            <Col sm={"6"}>
                               <InputGroup className='flex-nowrap'>
-                                <Field name={'breakFromTime'}>
+                                <Field name={"breakFromTime"}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
@@ -1318,15 +1314,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                       className={
                                         errors.breakFromTime &&
                                         touched.breakFromTime
-                                          ? 'text-input error form-control'
-                                          : 'text-input form-control'
+                                          ? "text-input error form-control"
+                                          : "text-input form-control"
                                       }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       placeholder={languageTranslation(
-                                        'TIME_FORMAT',
+                                        "TIME_FORMAT"
                                       )}
-                                      value={breakFromTime ? breakFromTime : ''}
+                                      value={breakFromTime ? breakFromTime : ""}
                                     />
                                   )}
                                 </Field>
@@ -1345,48 +1341,48 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   </FormGroup>
                 </Col>
 
-                <Col lg={'12'}>
+                <Col lg={"12"}>
                   <FormGroup>
                     <Row>
-                      <Col sm={'4'}></Col>
-                      <Col sm={'8'}>
+                      <Col sm={"4"}></Col>
+                      <Col sm={"8"}>
                         <div className='required-input'>
                           <div className='custom-col inner-no-padding-col row'>
-                            <Col sm={'6'}>
+                            <Col sm={"6"}>
                               <InputGroup className='flex-nowrap'>
-                                <Field name={'breakToDate'}>
+                                <Field name={"breakToDate"}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
                                       mask={DateMask}
                                       className={
                                         breakHoursToErrMsg &&
-                                        breakHoursToErrMsg !== ''
-                                          ? 'text-input error form-control'
-                                          : 'text-input form-control'
+                                        breakHoursToErrMsg !== ""
+                                          ? "text-input error form-control"
+                                          : "text-input form-control"
                                       }
                                       onChange={handleChange}
                                       onBlur={() =>
-                                        workingHourDateValidator('breakToDate')
+                                        workingHourDateValidator("breakToDate")
                                       }
                                       placeholder={languageTranslation(
-                                        'HOLIDAY_DATE_PLACEHOLDER',
+                                        "HOLIDAY_DATE_PLACEHOLDER"
                                       )}
-                                      value={breakToDate ? breakToDate : ''}
+                                      value={breakToDate ? breakToDate : ""}
                                     />
                                   )}
                                 </Field>
                                 {breakHoursToErrMsg &&
-                                breakHoursToErrMsg !== '' ? (
+                                breakHoursToErrMsg !== "" ? (
                                   <div className='required-tooltip'>
                                     {breakHoursToErrMsg}
                                   </div>
                                 ) : null}
                               </InputGroup>
                             </Col>
-                            <Col sm={'6'}>
+                            <Col sm={"6"}>
                               <InputGroup className='flex-nowrap'>
-                                <Field name={'breakToTime'}>
+                                <Field name={"breakToTime"}>
                                   {({ field }: any) => (
                                     <MaskedInput
                                       {...field}
@@ -1394,15 +1390,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                       className={
                                         errors.breakToTime &&
                                         touched.breakToTime
-                                          ? 'text-input error form-control'
-                                          : 'text-input form-control'
+                                          ? "text-input error form-control"
+                                          : "text-input form-control"
                                       }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       placeholder={languageTranslation(
-                                        'TIME_FORMAT',
+                                        "TIME_FORMAT"
                                       )}
-                                      value={breakToTime ? breakToTime : ''}
+                                      value={breakToTime ? breakToTime : ""}
                                     />
                                   )}
                                 </Field>
@@ -1416,7 +1412,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                                 ) : touched.breakToTime &&
                                   breakdifference <= 0 ? (
                                   <div className='required-tooltip'>
-                                    {languageTranslation('VALID_TIME_RANGE')}
+                                    {languageTranslation("VALID_TIME_RANGE")}
                                   </div>
                                 ) : null}
                               </InputGroup>
@@ -1429,15 +1425,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Col>
               </>
             ) : (
-              ''
+              ""
             )}
 
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
-                      {languageTranslation('WORKING_PROOF_NECESSARY')}
+                      {languageTranslation("WORKING_PROOF_NECESSARY")}
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -1448,15 +1444,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                             type='checkbox'
                             id='workingProofSubmitted'
                             className=''
-                            name={'workingProofSubmitted'}
+                            name={"workingProofSubmitted"}
                             checked={workingProofSubmitted}
                             onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const {
                                 target: { checked },
                               } = e;
-                              setFieldValue('workingProofSubmitted', checked);
+                              setFieldValue("workingProofSubmitted", checked);
                             }}
                           />
                           <Label for='workingProofSubmitted'></Label>
@@ -1464,18 +1460,16 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       </FormGroup>
                     </div>
 
-                    { getWorkProofPDF &&
-                      finalWorkProofPDF ? (
+                    {getWorkProofPDF && finalWorkProofPDF ? (
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${finalWorkProofPDF}`}
-                        target={'_blank'}
-                        className='view-more-link text-underline'
-                      >
+                        target={"_blank"}
+                        className='view-more-link text-underline'>
                         <i className='fa fa-file-o mr-2' />
-                        {languageTranslation('WORK_PROOF')}
+                        {languageTranslation("WORK_PROOF")}
                       </a>
                     ) : null}
-                     <br/>
+                    <br />
 
                     {document &&
                     leasingContract &&
@@ -1484,11 +1478,10 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                     leasingContract[0].avabilityId === appointmentId ? (
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${document}`}
-                        target={'_blank'}
-                        className='view-more-link text-underline'
-                      >
+                        target={"_blank"}
+                        className='view-more-link text-underline'>
                         <i className='fa fa-file-o mr-2' />
-                        {languageTranslation('CONTRACT')}
+                        {languageTranslation("CONTRACT")}
                       </a>
                     ) : getContractByAppointmentID &&
                       getContractByAppointmentID.length &&
@@ -1497,42 +1490,36 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                       // )
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}`}
-                        target={'_blank'}
-                        className='view-more-link text-underline'
-                      >
+                        target={"_blank"}
+                        className='view-more-link text-underline'>
                         <i className='fa fa-file-o mr-2' />
-                        {languageTranslation('CONTRACT')}
+                        {languageTranslation("CONTRACT")}
                       </a>
                     ) : null}
-                    <br/>
+                    <br />
 
-                { getInvoiceByAppointmentId &&
-                      getInvoiceByAppointmentId.length &&
-                      finalInvoicePDF ? (
+                    {getInvoiceByAppointmentId &&
+                    getInvoiceByAppointmentId.length &&
+                    finalInvoicePDF ? (
                       <a
                         href={`${AppConfig.FILES_ENDPOINT}/${finalInvoicePDF}`}
-                        target={'_blank'}
-                        className='view-more-link text-underline'
-                      >
+                        target={"_blank"}
+                        className='view-more-link text-underline'>
                         <i className='fa fa-file-o mr-2' />
-                        {languageTranslation('INVOICE')}
+                        {languageTranslation("INVOICE")}
                       </a>
                     ) : null}
-
-
                   </Col>
                 </Row>
               </FormGroup>
             </Col>
 
-  
-
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARKS_VISIBLE_FOR_CAREGIVER')}
+                      {languageTranslation("REMARKS_VISIBLE_FOR_CAREGIVER")}
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -1542,7 +1529,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         rows='3'
                         type='textarea'
                         name='remarksCareGiver'
-                        value={remarksCareGiver ? remarksCareGiver : ''}
+                        value={remarksCareGiver ? remarksCareGiver : ""}
                         onChange={handleChange}
                         id='exampleText1'
                         maxLength={255}
@@ -1552,12 +1539,12 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                 </Row>
               </FormGroup>
             </Col>
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <FormGroup>
                 <Row>
                   <Col sm='4'>
                     <Label className='form-label col-form-label'>
-                      {languageTranslation('REMARKS_VISIBLE_INTERNALLY')}
+                      {languageTranslation("REMARKS_VISIBLE_INTERNALLY")}
                     </Label>
                   </Col>
                   <Col sm='8'>
@@ -1567,7 +1554,7 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                         rows='3'
                         type='textarea'
                         name='remarksInternal'
-                        value={remarksInternal ? remarksInternal : ''}
+                        value={remarksInternal ? remarksInternal : ""}
                         onChange={handleChange}
                         maxLength={255}
                         id='exampleText2'
@@ -1579,49 +1566,48 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
             </Col>
 
             {createdBy ? (
-              <Col lg={'12'} className='mb-2 text-right text-muted'>
+              <Col lg={"12"} className='mb-2 text-right text-muted'>
                 <i>
-                  {`${languageTranslation('CREATED_BY')} ${
-                    createdBy ? createdBy : ''
+                  {`${languageTranslation("CREATED_BY")} ${
+                    createdBy ? createdBy : ""
                   }`}
                 </i>
               </Col>
             ) : null}
             {createdAt ? (
-              <Col lg={'12'} className='mb-2 text-right text-muted'>
+              <Col lg={"12"} className='mb-2 text-right text-muted'>
                 <i>
-                  {`${languageTranslation('CREATED_AT')} ${
+                  {`${languageTranslation("CREATED_AT")} ${
                     createdAt
                       ? moment(createdAt).format(
-                          defaultDateTimeFormatForDashboard,
+                          defaultDateTimeFormatForDashboard
                         )
-                      : ''
+                      : ""
                   }`}
                 </i>
               </Col>
             ) : null}
             {updatedAt ? (
-              <Col lg={'12'} className='mb-2 text-right text-muted'>
+              <Col lg={"12"} className='mb-2 text-right text-muted'>
                 <i>
-                  {`${languageTranslation('UPDATED_AT')} ${
+                  {`${languageTranslation("UPDATED_AT")} ${
                     updatedAt
                       ? moment(updatedAt).format(
-                          defaultDateTimeFormatForDashboard,
+                          defaultDateTimeFormatForDashboard
                         )
-                      : ''
+                      : ""
                   }`}
                 </i>
               </Col>
             ) : null}
-            <Col lg={'12'}>
+            <Col lg={"12"}>
               <div className='d-flex align-items-center justify-content-between'>
                 <Button
                   className='btn-save'
                   color='danger'
-                  onClick={() => onhandleDelete('caregiver', appointmentId)}
-                  disabled={!appointmentId}
-                >
-                  {languageTranslation('DELETE')}
+                  onClick={() => onhandleDelete("caregiver", appointmentId)}
+                  disabled={!appointmentId}>
+                  {languageTranslation("DELETE")}
                 </Button>
                 <Button
                   className='btn-save'
@@ -1630,16 +1616,15 @@ const CaregiverFormView: FunctionComponent<FormikProps<ICaregiverFormValue> &
                   disabled={
                     addCaregiverLoading
                     // ? true : appointmentId ? false : !dateCondition ? true : false
-                  }
-                >
+                  }>
                   {addCaregiverLoading ? (
                     <i className='fa fa-spinner fa-spin mr-2' />
                   ) : (
-                    ''
+                    ""
                   )}
                   {appointmentId
-                    ? languageTranslation('UPDATE_BUTTON')
-                    : languageTranslation('SAVE_BUTTON')}
+                    ? languageTranslation("UPDATE_BUTTON")
+                    : languageTranslation("SAVE_BUTTON")}
                 </Button>
               </div>
             </Col>

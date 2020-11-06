@@ -61,6 +61,7 @@ export const CareGiverListComponent: FunctionComponent<
             props.unlinkedBy ||
             props.isFromUnlink ||
             props.offerRequirements ||
+             props.leasingContract ||
             terminateAggrement
               ? false
               : props.label !== "appointment"

@@ -478,6 +478,7 @@ const LeasingList: FunctionComponent<IInvoiceList & any> = (
           totalRecords={totalCount}
           currentPage={currentPage}
           onPageChanged={onPageChanged}
+          pageLimit = {ARCHIVE_PAGE_LIMIT}
         />
       ) : null}
     </>

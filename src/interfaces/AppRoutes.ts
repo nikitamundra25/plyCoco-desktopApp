@@ -51,4 +51,5 @@ export interface IAppRoutes {
   PAYSLIPFORM: string;
   HEALTHINSURANCEFORM: string;
   LEASINGCREATEINVOICE: string;
+  NEW_APPOINTMENTS?: string;
 }

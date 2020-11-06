@@ -315,7 +315,7 @@ const Documents = () => {
         }
       });
     } else {
-      setUnsupportedFile(languageTranslation('UNSUPPORTED_FILE_FORMAT'));
+      setUnsupportedFile(languageTranslation('SELECT_SINGLE_DOCUMENT'));
     }
   }, []);
 

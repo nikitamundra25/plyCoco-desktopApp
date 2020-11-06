@@ -88,7 +88,6 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
     ] = useLazyQuery<any>(GET_DASHBOARD_APPOINTMENT_LIST);
 
   useEffect(() => {
-    // call queries
     getDashboardRegistrations({
       variables: {
         days: daysValue ? daysValue.value : 1
@@ -185,7 +184,6 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
     <Helmet>
         <title>{languageTranslation("DASHBOARD")} </title>
     </Helmet>
-    
     <Card>
       <CardHeader>
         <AppBreadcrumb appRoutes={routes} className="flex-grow-1 mr-sm-3" />
@@ -254,4 +252,5 @@ const Dashboard: FunctionComponent<RouteComponentProps> = (props: any) => {
  </>
   );
 };
+
 export default Dashboard;

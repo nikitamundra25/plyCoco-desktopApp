@@ -152,7 +152,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
   useEffect(() => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       let careInstIds: string = selectedCellsCareinstitution.map(
-        (careInst: any) => careInst.id
+        (careInst: any) => careInst.canstitution.id
       );
       fetchCareInstDetails({
         variables: {
@@ -177,7 +177,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
       ) {
         for (let i = 0; i < props.selectedCellsCareinstitution.length; i++) {
           let value = props.selectedCellsCareinstitution[i];
-          userId.push(parseInt(value.id));
+          userId.push(parseInt(value.canstitution.id));
         }
       }
     }

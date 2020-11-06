@@ -609,11 +609,14 @@ const InvoiceList: FunctionComponent<IInvoiceList & any> = (
           </tbody>
         </Table>
       </div>
+      {console.log("totalCount",totalCount)
+      }
       {totalCount ? (
         <PaginationComponent
           totalRecords={totalCount}
           currentPage={currentPage}
           onPageChanged={onPageChanged}
+          pageLimit = {ARCHIVE_PAGE_LIMIT}
         />
       ) : null}
     </>

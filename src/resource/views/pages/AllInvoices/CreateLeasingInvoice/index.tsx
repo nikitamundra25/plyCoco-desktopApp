@@ -100,12 +100,15 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   });
 
   // Default value is start & end of month
-  let gte: string = moment()
-    .startOf('month')
-    .format(dbAcceptableFormat);
-  let lte: string = moment()
-    .endOf('month')
-    .format(dbAcceptableFormat);
+  // let gte: string = moment()
+  //   .startOf('month')
+  //   .format(dbAcceptableFormat);
+  // let lte: string = moment()
+  //   .endOf('month')
+  //   .format(dbAcceptableFormat);
+
+  let monthSummary: string = "";
+
   // To get caregiver list from db
   const [
     getDepartmentList,
@@ -140,10 +143,10 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
       },
     });
   };
-  useEffect(() => {
-    let activeDate = moment().format(dbAcceptableFormat);
-    setDateFilter(activeDate);
-  }, []);
+  // useEffect(() => {
+  //   let activeDate = moment().format(dbAcceptableFormat);
+  //   setDateFilter(activeDate);
+  // }, []);
   useEffect(() => {
     if (
       invoiceList &&
@@ -175,12 +178,13 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
           departmentFilter && departmentFilter.value
             ? parseInt(departmentFilter.value)
             : null,
-        startDate: gte ? gte : null,
-        endDate: lte ? lte : null,
+            startDate: dateFilter ? dateFilter : null,
+            endDate: null,
         limit: ARCHIVE_PAGE_LIMIT,
         page: query.page ? parseInt(query.page as string) : 1,
         // attributeId: CaregiverTIMyoCYAttrId,
         isLeasing: true,
+        monthSummary: monthSummary ? monthSummary : ''
       },
     });
   };
@@ -197,35 +201,18 @@ const CreateLeasingInvoice: FunctionComponent<RouteComponentProps> & any = (
   useEffect(() => {
     if (monthFilter && monthFilter.value) {
       const { value } = monthFilter;
-      if (value === 'weekly') {
-        gte = moment()
-          .startOf('week')
-          .format(dbAcceptableFormat);
-        lte = moment()
-          .endOf('week')
-          .format(dbAcceptableFormat);
-      } else if (value === 'everySixMonths') {
-        gte = moment()
-          .startOf('month')
-          .format(dbAcceptableFormat);
-        lte = moment(gte)
-          .add(6, 'M')
-          .endOf('month')
-          .format(dbAcceptableFormat);
-      } else if (value === 'perMonth') {
-        gte = moment()
-          .startOf('month')
-          .format(dbAcceptableFormat);
-        lte = moment()
-          .endOf('month')
-          .format(dbAcceptableFormat);
-      } else if (value === 'all') {
-        gte = '';
-        lte = '';
+      if (value === "weekly") {
+        monthSummary = value;
+      } else if (value === "everySixMonths") {
+        monthSummary = "sixMonth";
+      } else if (value === "perMonth") {
+        monthSummary = "monthly ";
+      } else if (value === "all") {
+        monthSummary = "";
       }
     }
     getInvoiceListData();
-  }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter]);
+  }, [careinstitutionFilter, departmentFilter, caregiverFilter, monthFilter,dateFilter]);
 
 
   // to reset all the filters

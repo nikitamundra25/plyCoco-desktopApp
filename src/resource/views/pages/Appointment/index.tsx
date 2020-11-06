@@ -176,7 +176,7 @@ const Appointment: FunctionComponent = (props: any) => {
   // }>(GET_CAREGIVER_ATTRIBUTES);
   //For selected Availability
   const [selctedAvailability, setselctedAvailability] = useState<any>({});
-  const [selectedCells, setSelectedCells] = useState<any[]>();
+  const [selectedCells, setSelectedCells] = useState<any[]>();  
   const [fetchingCaregivers, setFetchingCaregivers] = useState<boolean>(false);
   const [fetchingCareInstitutions, setFetchingCareInstitutions] = useState<
     boolean
@@ -279,7 +279,7 @@ const Appointment: FunctionComponent = (props: any) => {
         setSelectedCells(selectedCaregiverCells);
       }
       // setPage(1);
-      // fetchingCareGiverData();
+      fetchingCareGiverData();
       toast.dismiss();
       if (!toast.isActive(toastId)) {
         toastId = toast.success(
@@ -339,7 +339,7 @@ const Appointment: FunctionComponent = (props: any) => {
         setSelectedCells(selectedCaregiverCells);
       }
       // setPage(1);
-      // fetchingCareGiverData();
+      fetchingCareGiverData();
     },
   });
 
@@ -369,7 +369,7 @@ const Appointment: FunctionComponent = (props: any) => {
         }
       });
       // setPage(1);
-      // fetchingCareGiverData();
+      fetchingCareGiverData();
       setselctedAvailability({});
       setSelectedCells([]);
     },
@@ -537,7 +537,7 @@ const Appointment: FunctionComponent = (props: any) => {
             }
           }
         });
-
+         
         setselectedCellsCareinstitution(selectedCareInstCells);
       }
       // setPage(1);
@@ -2313,18 +2313,21 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //To set locationstate data into filter
   useEffect(() => {
+    
     if (locationState && locationState.caregiver && action === 'PUSH') {
       setcaregiverSoloFilter({
         label: locationState.name,
         value: locationState.caregiver,
       });
-    } else if (
+    } 
+     if (
       locationState &&
       locationState.canstitution &&
       action === 'PUSH'
     ) {
+      
       setcareinstitutionSoloFilter({
-        label: locationState.name,
+        label: locationState.canstitutionName ? locationState.canstitutionName :  locationState.name,
         value: locationState.canstitution,
       });
     }
@@ -2399,9 +2402,10 @@ const Appointment: FunctionComponent = (props: any) => {
   // On previous month click
   const handlePrevious = async () => {
     setPage(1);
+    
     let month: number = activeMonth - 1;
     let year: number = activeYear;
-
+    
     // To check if active month is january than set month to december & year to previous year
     if (activeMonth === 0) {
       month = 11;
@@ -2423,7 +2427,10 @@ const Appointment: FunctionComponent = (props: any) => {
       month = 0;
       year = activeYear + 1;
     }
+    console.log("activeMonthactiveMonth",month);
+
     const res: IGetDaysArrayByMonthRes = getDaysArrayByMonth(month, year);
+    console.log("resres",res);
     setActiveMonth(month);
     setActiveYear(year);
     setDaysData(res);
@@ -4977,6 +4984,7 @@ const Appointment: FunctionComponent = (props: any) => {
                               selectedCellsCareinstitution={
                                 selectedCellsCareinstitution
                               }
+                              
                             />
                           );
                         }}
@@ -5028,12 +5036,6 @@ const Appointment: FunctionComponent = (props: any) => {
                                 setupdateCanstitutionFormikValues(values);
                               }}
                               selectedCareinstitution={{ id: Id }}
-                              addCareinstitutionRes={
-                                addCareinstitutionRes &&
-                                addCareinstitutionRes.addCareInstitutionRequirement
-                                  ? addCareinstitutionRes.addCareInstitutionRequirement
-                                  : ''
-                              }
                               qualificationList={qualificationList}
                               careInstitutionDepartment={
                                 careInstitutionDepartment

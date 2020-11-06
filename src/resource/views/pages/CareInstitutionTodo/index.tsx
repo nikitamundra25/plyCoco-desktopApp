@@ -58,6 +58,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
   const [searchValues, setSearchValues] = useState<ISearchToDoValues | null>();
 
   const path = pathname.split('/');
+  
   const userRole: string =
     path[1] === 'caregiver-todo' ? 'caregiver' : 'canstitution';
 
@@ -563,6 +564,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
             ) : null}
           </Col>
         </Row>
+     
         <CreateTodo
           show={showToDo ? true : false}
           handleClose={() => setShowToDo(false)}
@@ -574,7 +576,7 @@ const CareInstitutionTodo: FunctionComponent = () => {
           editToDo={true}
           userData={selectUser}
           userRole={
-            path[1] === AppRoutes.CAREGIVER_TODO
+            path[1] ==='caregiver-todo'
               ? 'caregiver'
               : 'careInstitution'
           }

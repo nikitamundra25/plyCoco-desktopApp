@@ -379,7 +379,7 @@ const AppointmentNav: FunctionComponent<any> = ({
                   soloCareinstitution: careinstitution,
                   effects: "careinstitution",
                 })
-                if(careinstitution){
+                if(careinstitution && careinstitution.value&& careinstitution.value !==null){
                   getDepartmentList({
                    variables: {
                      userId: careinstitution

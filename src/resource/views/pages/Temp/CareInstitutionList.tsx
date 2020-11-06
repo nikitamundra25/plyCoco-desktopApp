@@ -38,6 +38,7 @@ const [, , GET_DEPARTMENT_LIST, , , ,] = CareInstitutionQueries;
 const staticHeader = ["careinstitution", "H", "S", "U", "V"];
 let allCaregivers: any[] = [];
 let selectedCaregiver: any = {};
+let starredFilterDeptList:any = []
 let starCareInstitution: any = {
   isStar: false,
   setIndex: -1,
@@ -197,7 +198,6 @@ export const CareInstitutionList = React.memo(
       isShow: false,
     });
     const [isDeptListLoaded, setIsDeptListLoaded] = useState(false);
-
     // maintain solo careinstitution
     const [starCanstitution, setstarCanstitution] = useState<IStarInterface>({
       isStar: false,
@@ -244,11 +244,8 @@ const [
       getDepartmentList,
       { data: departmentList, loading: deptLoading },
     ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
-      fetchPolicy: "no-cache",
+      // fetchPolicy: "no-cache",
       onCompleted: (daata: any) => {
-        if (starCareInstitution.isStar && !starCareInstitution.isSecondStar) {
-          handleDepartmentList(daata);
-        }
       },
     });
 
@@ -643,13 +640,14 @@ const [
     };
 
     useEffect(() => {
+      console.log("starMarkCanstitution",starMarkCanstitution);
+      
       starCareInstitution = starMarkCanstitution;
-      // setstarCanstitution(starMarkCanstitution);
     }, [starMarkCanstitution]);
 
     // call function to manage star functionality in form
     useEffect(() => {
-      handleStarCareinst(starCanstitution);
+      handleStarCareinst(starCareInstitution);
     }, [starCanstitution]);
 
     /**
@@ -677,8 +675,6 @@ const [
         const id = list && list.id ? parseInt(list.id) : null;
         let { companyName = "", shortName = "" } =
           list && list.canstitution ? list.canstitution : {};
-        console.log("listlist", list);
-
         filterUpdated({
           ...filters,
           careInstitutionId: id,
@@ -728,9 +724,12 @@ const [
      *
      * @param list
      */
+    
     const handleSecondStarCanstitution = async (list: any) => {
       if (starCareInstitution.isStar) {
+        // if first star is already marked 
         if (!starCareInstitution.isSecondStar) {
+          // mark second star and filter according to selected department
           starCareInstitution = {
             ...starCareInstitution,
             isSecondStar: true,
@@ -748,7 +747,7 @@ const [
           allCaregivers = temp;
           setCaregiverData(temp);
         } else {
-          await fetchDepartmentList(list.id);
+          // reset department list when unstar
           starCareInstitution = {
             ...starCareInstitution,
             isSecondStar: false,
@@ -759,6 +758,9 @@ const [
             isSecondStar: false,
             divisionId: -1,
           });
+          //  reset department list on unstar 
+          allCaregivers = starredFilterDeptList
+          setCaregiverData(starredFilterDeptList);
         }
       } else {
         handleFirstStarCanstitution(list, 1);
@@ -778,10 +780,10 @@ const [
      */
     const handleDepartmentList = (departmentList: any) => {
       setIsDeptListLoaded(false);
-
       if (departmentList && departmentList.getDivision.length) {
         let careInstData: any;
-        const { getDivision } = departmentList;
+        let temp :any= {...departmentList}
+        const { getDivision } = temp;
         if (starCanstitution.isStar) {
           careInstData = caregivers.filter(
             (item: any) => item.id === starCanstitution.id
@@ -796,7 +798,7 @@ const [
             careInstData.careinstitution_requirements
           );
           getDivision
-            .filter((division: any) => !division.locked)
+            // .filter((division: any) => !division.locked)
             .forEach((division: any, index: number) => {
               division.careinstitution_requirements = [];
               division.canstitution = careInstData.canstitution;
@@ -817,6 +819,7 @@ const [
               };
               tempData.push(temp);
             });
+            starredFilterDeptList = tempData
           allCaregivers = tempData;
           setCaregiverData(tempData);
         }
@@ -1067,7 +1070,7 @@ const [
                             key={rowIndex}
                             className="custom-appointment-col u-col text-center cursor-pointer"
                             onClick={() =>
-                              handleSecondStarCanstitution(rowData)
+                                handleSecondStarCanstitution(rowData)
                             }
                           >
                             {starCareInstitution.divisionId ===

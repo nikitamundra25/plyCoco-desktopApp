@@ -548,7 +548,7 @@ const CareinstitutionForm = ({
   // To check appointment with leasing careInst or not
   showQualification = item && item[0] && item[0].isLeasing ? true : false;
    
-  const { canstitution ,qualificationId: mainQuali = [],id: userCanstId=''  } = careInstDetails;
+  const { canstitution ,qualificationId: mainQuali = [],id: userCanstId='', divisionId=''  } = careInstDetails;
   const {
     name,
     comments,
@@ -598,6 +598,12 @@ const CareinstitutionForm = ({
     departmentData = careInstitutionDepartment.filter(
       (dept: any) => dept.value === item.divisionId
     );
+  }else{
+    if(divisionId){
+      departmentData = careInstitutionDepartment.filter(
+        (dept: any) => dept.value === divisionId
+      );
+    }
   }
   let qualificationfor: any;
   if (
@@ -709,8 +715,8 @@ const CareinstitutionForm = ({
             isStar: true,
             setIndex: 1,
             id: id,
-            isSecondStar: false,
-            divisionId: -1,
+            isSecondStar: starMarkCanstitution.isSecondStar,
+            divisionId: starMarkCanstitution.divisionId,
           })
           if (id) {
             getDepartmentList({

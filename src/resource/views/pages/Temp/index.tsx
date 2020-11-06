@@ -170,7 +170,6 @@ const [correspondingDataCaregiver, setcorrespondingDataCaregiver] = useState<any
    */
 const handleStarCareinst = (starredItem:any) =>{
   setstarMarkCanstitution(starredItem)
-
 }
 
 

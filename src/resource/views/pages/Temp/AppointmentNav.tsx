@@ -233,6 +233,14 @@ const AppointmentNav: FunctionComponent<any> = ({
         soloCareinstitution: stemp,
         effects: "careinstitution",
       })
+      getDepartmentList({
+        variables: {
+          userId: careinstitution
+          ? parseInt(locationState.canstitution)
+          : null,
+          locked: false,
+        },
+      });
     }
     if (locationState && locationState.avabilityId) {
       onFilterByUserId(locationState.avabilityId, 'avability');

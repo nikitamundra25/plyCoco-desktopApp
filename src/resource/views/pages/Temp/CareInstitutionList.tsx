@@ -23,7 +23,7 @@ import {
   AppointmentsQueries,
   CareInstitutionQueries,
 } from "../../../../graphql/queries";
-import { getDaysArrayByMonth } from "../../../../helpers";
+import { getDaysArrayByMonth, languageTranslation } from "../../../../helpers";
 import CareinstitutionRightClickOptions from "./CareinstitutionRightClickOptions";
 import Spinner, { MoreSpinner } from "../../components/Spinner";
 import { IStarInterface } from "../../../../interfaces";
@@ -910,6 +910,20 @@ export const CareInstitutionList = React.memo(
         .filter(Boolean);
     }
 
+    const renderEmpty = () => {
+      if(!loadingCaregiver && !isLoading){
+      if (!allCaregivers.length || allCaregivers.length === 0 ){
+        return  <div className='no-data-section pt-5 pb-5 bg-white text-center'>
+        <div className='no-data-icon'>
+          <i className='icon-ban' />
+        </div>
+        <h4 className='mb-1'>
+          {languageTranslation('NO_CAREINSTITUTION_ADDED')}{' '}
+        </h4>
+      </div>
+      } 
+    }
+    }
     /**
      *
      */
@@ -1015,6 +1029,7 @@ export const CareInstitutionList = React.memo(
               )}
               onEndReachedThreshold={300}
               onEndReached={handleEndReached}
+              emptyRenderer={renderEmpty}
               headerClassName="custom-appointment-row"
               rowClassName="custom-appointment-row"
             >

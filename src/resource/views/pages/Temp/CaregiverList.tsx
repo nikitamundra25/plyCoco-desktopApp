@@ -17,7 +17,7 @@ import {
   selfEmployesListColor,
 } from "../../../../config";
 import { AppointmentsQueries } from "../../../../graphql/queries";
-import { getDaysArrayByMonth } from "../../../../helpers";
+import { getDaysArrayByMonth, languageTranslation } from "../../../../helpers";
 import { Button } from "reactstrap";
 import Spinner, { MoreSpinner } from "../../components/Spinner";
 import { CaregiverRightClickOptions } from "./CaregiverRightClickOptions";
@@ -784,6 +784,21 @@ useEffect(()=>{
    *
    */
 
+ const renderEmpty = () => {
+  if(!loadingCaregiver && !isLoading){
+    if (!allCaregivers.length || allCaregivers.length === 0){
+      return  <div className='no-data-section pt-5 pb-5 bg-white text-center'>
+      <div className='no-data-icon'>
+        <i className='icon-ban' />
+      </div>
+      <h4 className='mb-1'>
+        {languageTranslation('NO_CAREGIVER_ADDED')}{' '}
+      </h4>
+    </div>
+    } 
+  }
+  }
+
   return (
     <>
       <div
@@ -878,6 +893,7 @@ useEffect(()=>{
             )}
             onEndReachedThreshold={300}
             onEndReached={handleEndReached}
+            emptyRenderer={renderEmpty}
             headerClassName="custom-appointment-row"
             rowClassName="custom-appointment-row"
             rowHeight={30}

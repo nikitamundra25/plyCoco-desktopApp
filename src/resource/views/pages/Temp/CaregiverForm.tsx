@@ -448,6 +448,7 @@ export const CaregiverForm = ({
     filterUpdated({
       ...filters,
       caregiverId: null,
+      soloCaregiver:undefined,
       effects: 'caregiver',
     })
     setcaregiverStarData({
@@ -460,6 +461,7 @@ export const CaregiverForm = ({
      filterUpdated({
        ...filters,
        caregiverId: caregiverId,
+       soloCaregiver: `${lastName}${" "}${firstName}`,
        effects: 'caregiver',
      })
      setcaregiverStarData({

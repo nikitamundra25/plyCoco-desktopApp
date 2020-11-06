@@ -350,7 +350,6 @@ export const CaregiverForm = ({
           appointments && appointments.length && appointments[0]
             ? appointments[0]
             : {};
-            console.log('appointments work proof',appointments);
             
         getLeasingContractPDF({
           variables: {
@@ -1997,10 +1996,7 @@ export const CaregiverForm = ({
                               </a>
                             ) : null}
                             <br />
-{/* {console.log('attachment',attachment)}
-{console.log('leasingContract',leasingContract)}
-{console.log('getContractByAppointmentID',getContractByAppointmentID)}
-{console.log('selfEmploymentcontract',selfEmploymentcontract)} */}
+
 
                             {attachment 
                             /* leasingContract &&

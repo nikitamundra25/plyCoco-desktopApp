@@ -2313,7 +2313,6 @@ const Appointment: FunctionComponent = (props: any) => {
 
   //To set locationstate data into filter
   useEffect(() => {
-    console.log("actionaction",action);
     
     if (locationState && locationState.caregiver && action === 'PUSH') {
       setcaregiverSoloFilter({

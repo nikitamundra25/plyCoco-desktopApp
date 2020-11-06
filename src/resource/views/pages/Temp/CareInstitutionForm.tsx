@@ -87,7 +87,8 @@ const CareinstitutionForm = ({
   setstarMarkCanstitution,
   filterUpdated,
   filters,
-  setCareInstDeptList
+  setCareInstDeptList,
+  setMultipleRequirement
 }: any) => {
     // To get department list
     const [
@@ -330,7 +331,7 @@ const CareinstitutionForm = ({
               careInstitutionRequirementInput,
             },
           });
-          // setMultipleRequirement(false);
+           setMultipleRequirement(false);
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation(

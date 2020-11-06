@@ -978,7 +978,7 @@ export const CareInstitutionList = React.memo(
                           d === "careinstitution" ? "name-col" : ""
                         }`}
                       >
-                        <div className="position-relative  username-col align-self-center">
+                        <div className="position-relative  username-col align-self-center text-capitalize">
                           {d}
                           {d === "careinstitution" ? (
                             <Button

@@ -326,6 +326,7 @@ const ConnectAppointment: FunctionComponent<any> = ({
           deleteAll: check,
         });
       });
+      
       onLinkAppointment(appointmentId, "unlink");
       if (likedBy !== "employee") {
         setisFromUnlink(true);

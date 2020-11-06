@@ -1,7 +1,8 @@
 import { useLazyQuery } from "@apollo/react-hooks";
 import { debounce, map } from "lodash";
 import moment from "moment";
-import React, { FunctionComponent, useState } from "react";
+import { useLocation, useHistory } from 'react-router';
+import React, { FunctionComponent, useState, useEffect } from "react";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
@@ -40,6 +41,10 @@ const AppointmentNav: FunctionComponent<any> = ({
   setSelectedCaregiver,
   setCareInstDeptList
 }: any) => {
+   // To fetch id from display appointments
+   const { state: locationState }: any = useLocation();
+ // To check whether it comes from caregiver or careInstitution page or not
+ const { action } = useHistory();
    // To fetch avabality & requirement by id
    const [
     fetchAppointmentFilterById,
@@ -195,6 +200,44 @@ const AppointmentNav: FunctionComponent<any> = ({
       });
     }
   };
+
+
+   //To set locationstate data into filter
+   useEffect(() => {
+    if (locationState && locationState.caregiver && action === 'PUSH') {
+      let temp = {
+        label: locationState.name,
+        value: locationState.caregiver,
+      }
+      filterUpdated({
+        ...filters,
+        caregiverId: locationState && locationState.caregiver ? locationState.caregiver : null,
+        soloCaregiver: temp,
+        effects: "caregiver",
+      })
+    } 
+     if (
+      locationState &&
+      locationState.canstitution &&
+      action === 'PUSH'
+    ) {      
+      let stemp = {
+        label: locationState.canstitutionName ? locationState.canstitutionName :  locationState.name,
+        value: locationState.canstitution,
+      }
+      filterUpdated({
+        ...filters,
+        careInstitutionId: locationState && locationState.canstitution
+          ? locationState.canstitution
+          : null,
+        soloCareinstitution: stemp,
+        effects: "careinstitution",
+      })
+    }
+    if (locationState && locationState.avabilityId) {
+      onFilterByUserId(locationState.avabilityId, 'avability');
+    }
+  }, [locationState]);
   
   /**
    *

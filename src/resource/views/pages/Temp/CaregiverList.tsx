@@ -846,7 +846,7 @@ useEffect(()=>{
                         d === "caregiver" ? "name-col" : ""
                       }`}
                     >
-                      <div className="position-relative  username-col align-self-center">
+                      <div className="position-relative  username-col align-self-center text-capitalize">
                         {d}
                         {d === "caregiver" ? (
                           <Button

@@ -350,12 +350,14 @@ export const CaregiverForm = ({
           appointments && appointments.length && appointments[0]
             ? appointments[0]
             : {};
+            console.log('appointments work proof',appointments);
+            
         getLeasingContractPDF({
           variables: {
-            userId: /* parseInt(id)  */46716,
-            availabilityId: [parseInt(avabilityId)],
-            appointmentId: [parseInt(appointmentId)],
-            documentUploadType: "leasingContract",
+            userId: parseInt(id) /* 48734 */,
+            // availabilityId: [parseInt(avabilityId)],
+            appointmentId: [parseInt(appointmentId)] /* 3935822 */,
+            // documentUploadType: "leasingContract",
           },
         });
 
@@ -583,9 +585,8 @@ export const CaregiverForm = ({
 
   // Signed contract link
   const { getLeasingContractPDF: pdfDetails = [] } = pdfData ? pdfData : {};
-  const { document = "", leasingContract = {} } =
-    pdfDetails && pdfDetails.length ? pdfDetails[0] : {};
-
+  const { attachment='' } =
+    pdfDetails && pdfDetails ? pdfDetails : {};
   // signed self employmentt contract
   const { getContractByAppointmentID = [] } = contractData ? contractData : {};
   const { user_document = {}, appointmentId: contractApptmentIds = [] } =
@@ -1994,18 +1995,18 @@ export const CaregiverForm = ({
                               </a>
                             ) : null}
                             <br />
-{console.log('document',document)}
+{/* {console.log('attachment',attachment)}
 {console.log('leasingContract',leasingContract)}
 {console.log('getContractByAppointmentID',getContractByAppointmentID)}
-{console.log('selfEmploymentcontract',selfEmploymentcontract)}
+{console.log('selfEmploymentcontract',selfEmploymentcontract)} */}
 
-                            {document &&
-                            leasingContract &&
+                            {attachment 
+                            /* leasingContract &&
                             leasingContract.length &&
                             leasingContract[0] &&
-                            leasingContract[0].avabilityId === appointmentId ? (
+                            leasingContract[0].avabilityId === appointmentId */ ? (
                               <a
-                                href={`${AppConfig.FILES_ENDPOINT}${document}`}
+                                href={`${AppConfig.FILES_ENDPOINT}${attachment}`}
                                 target={"_blank"}
                                 className="view-more-link text-underline"
                               >

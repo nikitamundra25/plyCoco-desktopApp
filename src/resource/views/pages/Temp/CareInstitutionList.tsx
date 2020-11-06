@@ -23,7 +23,8 @@ import CareinstitutionRightClickOptions from "./CareinstitutionRightClickOptions
 import Spinner, { MoreSpinner } from "../../components/Spinner";
 import { IStarInterface } from "../../../../interfaces";
 
- const [GET_USERS_BY_QUALIFICATION_ID,
+const [
+  GET_USERS_BY_QUALIFICATION_ID,
   ,
   GET_CAREINSTITUTION_REQUIREMENT_BY_ID,
   ,
@@ -31,14 +32,14 @@ import { IStarInterface } from "../../../../interfaces";
   ,
   ,
   ,
-]= AppointmentsQueries
+] = AppointmentsQueries;
 
 const [, , GET_DEPARTMENT_LIST, , , ,] = CareInstitutionQueries;
 
 const staticHeader = ["careinstitution", "H", "S", "U", "V"];
 let allCaregivers: any[] = [];
 let selectedCaregiver: any = {};
-let starredFilterDeptList:any = []
+let starredFilterDeptList: any = [];
 let starCareInstitution: any = {
   isStar: false,
   setIndex: -1,
@@ -46,6 +47,7 @@ let starCareInstitution: any = {
   isSecondStar: false,
   divisionId: -1,
 };
+let selectedcareGiverApptId: number[] = [];
 const SelectableCell = React.memo(
   createSelectable(
     ({
@@ -56,7 +58,7 @@ const SelectableCell = React.memo(
       key,
       isWeekend,
       showSelectedCaregiver,
-      canstitution,
+      selectedcareGiverApptId,
     }: any) => {
       let isRequirment: boolean = false,
         isMatching: boolean = false,
@@ -64,13 +66,16 @@ const SelectableCell = React.memo(
         isConfirm: boolean = false,
         isOffered: boolean = false,
         isOfferedFutureDate: boolean = false,
-        showAppointedCareGiver: boolean = false;
+        showAppointedCareGiver: boolean = false,
+        careinstitutionCell:any = -1;
+
       let caregiverId: string = "";
       if (item && item.appointments) {
         const { appointments = [] } = item;
-        const { ca = {} } =
+        const { ca = {}, id = "" } =
           appointments && appointments.length ? appointments[0] : {};
         caregiverId = ca ? ca.userId : "";
+        careinstitutionCell = id
       }
 
       if (caregiverId) {
@@ -78,11 +83,6 @@ const SelectableCell = React.memo(
           showAppointedCareGiver = true;
         }
       }
-
-      let careinstitutionCell: any =
-        item && item.appointments && item.appointments[0]
-          ? item.appointments[0].id
-          : "";
 
       let isFutureDate: boolean = false;
       if (item && item.date) {
@@ -121,7 +121,10 @@ const SelectableCell = React.memo(
             "text-center": true,
             // weekend: daysArr,
             "selecting-cell-bg":
-              isSelecting || isSelected || showAppointedCareGiver,
+              isSelecting ||
+              isSelected ||
+              showAppointedCareGiver ||
+              selectedcareGiverApptId.includes(careinstitutionCell),
             weekend: isWeekend,
             "availability-bg":
               isOffered && !isSelected && !isOfferedFutureDate
@@ -183,7 +186,7 @@ export const CareInstitutionList = React.memo(
     careInstDeptList,
     handleStarCareinst,
     starMarkCanstitution,
-    correspondingData
+    correspondingData,
   }: any) => {
     const [daysData, setDaysData] = useState(
       getDaysArrayByMonth(moment().month(), moment().year())
@@ -207,24 +210,27 @@ export const CareInstitutionList = React.memo(
       divisionId: -1,
     });
 
-// To fetch avabality & requirement by id
-const [
-  fetchAppointmentFilterById,
-  { data: appointmentFilterById, loading: idSearchAppointmentLoading },
-] = useLazyQuery<any, any>(GET_CAREINSTITUTION_REQUIREMENT_BY_ID, {
-  fetchPolicy: 'no-cache', onCompleted: data => {
-    if (
-      appointmentFilterById &&
-      appointmentFilterById.getRequirementAndAvabilityById
-    ) {
-      const { getRequirementAndAvabilityById } = appointmentFilterById;
-      const { requirementData, avabilityData } = getRequirementAndAvabilityById;
-      updateRequirementData(requirementData);
-      updateAvabilityData(avabilityData);
-
-    }
-  }
-});
+    // To fetch avabality & requirement by id
+    const [
+      fetchAppointmentFilterById,
+      { data: appointmentFilterById, loading: idSearchAppointmentLoading },
+    ] = useLazyQuery<any, any>(GET_CAREINSTITUTION_REQUIREMENT_BY_ID, {
+      fetchPolicy: "no-cache",
+      onCompleted: (data) => {
+        if (
+          appointmentFilterById &&
+          appointmentFilterById.getRequirementAndAvabilityById
+        ) {
+          const { getRequirementAndAvabilityById } = appointmentFilterById;
+          const {
+            requirementData,
+            avabilityData,
+          } = getRequirementAndAvabilityById;
+          updateRequirementData(requirementData);
+          updateAvabilityData(avabilityData);
+        }
+      },
+    });
 
     // To fetch caregivers by id filter
     const [
@@ -245,51 +251,48 @@ const [
       { data: departmentList, loading: deptLoading },
     ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
       // fetchPolicy: "no-cache",
-      onCompleted: (daata: any) => {
-      },
+      onCompleted: (daata: any) => {},
     });
 
-     /**
-   *
-   * @param requirementData
-   */
-  const updateRequirementData = (requirementData: any) => {
-    const {
-      user= {},
-    } = requirementData ? requirementData : {}
-    let temp = requirementData ? requirementData : {}
-    delete temp.user
-      let data: any = 
-        [{
-          isWeekend: '',
+    /**
+     *
+     * @param requirementData
+     */
+    const updateRequirementData = (requirementData: any) => {
+      const { user = {} } = requirementData ? requirementData : {};
+      let temp = requirementData ? requirementData : {};
+      delete temp.user;
+      let data: any = [
+        {
+          isWeekend: "",
           canstitution: {
             ...user,
           },
           item: temp,
-        }]
-        careinstitutionSelected(data);
-  };
+        },
+      ];
+      careinstitutionSelected(data);
+    };
 
-  /**
-   *
-   * @param avabilityData
-   */
-  const updateAvabilityData = (avabilityData: any) => {
-    const {
-      user= {},
-    } = avabilityData ? avabilityData : {}
-    let temp = avabilityData ? avabilityData : {}
-    delete temp.user
-      let data: any = 
-        [{
-          isWeekend: '',
+    /**
+     *
+     * @param avabilityData
+     */
+    const updateAvabilityData = (avabilityData: any) => {
+      const { user = {} } = avabilityData ? avabilityData : {};
+      let temp = avabilityData ? avabilityData : {};
+      delete temp.user;
+      let data: any = [
+        {
+          isWeekend: "",
           caregiver: {
             ...user,
           },
           item: temp,
-        }]
-        caregiverSelected(data);
-  };
+        },
+      ];
+      caregiverSelected(data);
+    };
 
     // Default value is start & end of month
     let gte: string = moment().startOf("month").format(dbAcceptableFormat);
@@ -605,7 +608,13 @@ const [
       if (selected && selected.length) {
         let data: any = [];
         selected.map((key: any) => {
-          data.push(key.props);
+          const {canstitution, isWeekend,item } = key.props;
+          let temp = {
+            canstitution,
+            isWeekend,
+            item
+          }
+          data.push(temp);
         });
         careinstitutionSelected(data);
 
@@ -640,8 +649,6 @@ const [
     };
 
     useEffect(() => {
-      console.log("starMarkCanstitution",starMarkCanstitution);
-      
       starCareInstitution = starMarkCanstitution;
     }, [starMarkCanstitution]);
 
@@ -724,10 +731,10 @@ const [
      *
      * @param list
      */
-    
+
     const handleSecondStarCanstitution = async (list: any) => {
       if (starCareInstitution.isStar) {
-        // if first star is already marked 
+        // if first star is already marked
         if (!starCareInstitution.isSecondStar) {
           // mark second star and filter according to selected department
           starCareInstitution = {
@@ -758,8 +765,8 @@ const [
             isSecondStar: false,
             divisionId: -1,
           });
-          //  reset department list on unstar 
-          allCaregivers = starredFilterDeptList
+          //  reset department list on unstar
+          allCaregivers = starredFilterDeptList;
           setCaregiverData(starredFilterDeptList);
         }
       } else {
@@ -782,7 +789,7 @@ const [
       setIsDeptListLoaded(false);
       if (departmentList && departmentList.getDivision.length) {
         let careInstData: any;
-        let temp :any= {...departmentList}
+        let temp: any = { ...departmentList };
         const { getDivision } = temp;
         if (starCanstitution.isStar) {
           careInstData = caregivers.filter(
@@ -819,7 +826,7 @@ const [
               };
               tempData.push(temp);
             });
-            starredFilterDeptList = tempData
+          starredFilterDeptList = tempData;
           allCaregivers = tempData;
           setCaregiverData(tempData);
         }
@@ -837,10 +844,10 @@ const [
       setShowRightClickOptions((prev) => !prev);
     };
 
-    useEffect(() => { 
-        if (correspondingData && correspondingData.length) {
-           getCorrespondingconnectedcell(correspondingData);
-        }
+    useEffect(() => {
+      if (correspondingData && correspondingData.length) {
+        getCorrespondingconnectedcell(correspondingData);
+      }
     }, [correspondingData]);
 
     /**
@@ -882,11 +889,22 @@ const [
         fetchAppointmentFilterById({
           variables: {
             id: parseInt(appointmentsData[0].avabilityId),
-            searchIn:  "avability" ,
+            searchIn: "avability",
           },
         });
       }
     };
+
+    
+    if (selectedCaregiverData && selectedCaregiverData.length) {
+      selectedcareGiverApptId = selectedCaregiverData
+        .map((cell: any) =>
+          cell.item && cell.item.appointments && cell.item.appointments.length
+            ? cell.item.appointments[0].id
+            : 0
+        )
+        .filter(Boolean);
+    }
 
     /**
      *
@@ -1070,7 +1088,7 @@ const [
                             key={rowIndex}
                             className="custom-appointment-col u-col text-center cursor-pointer"
                             onClick={() =>
-                                handleSecondStarCanstitution(rowData)
+                              handleSecondStarCanstitution(rowData)
                             }
                           >
                             {starCareInstitution.divisionId ===
@@ -1097,7 +1115,7 @@ const [
                           rowData.careinstitution_requirements,
                           (avail: any) => d.dateString === avail.date
                         );
-
+                       
                         return (
                           <React.Fragment key={rowIndex}>
                             <SelectableCell
@@ -1109,6 +1127,7 @@ const [
                               }
                               canstitution={rowData}
                               showSelectedCaregiver={selectedCaregiver}
+                              selectedcareGiverApptId={selectedcareGiverApptId}
                             />
                           </React.Fragment>
                         );

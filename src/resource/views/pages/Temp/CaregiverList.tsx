@@ -39,16 +39,19 @@ let starCaregiverVar: any = {
   setIndex: -1,
   id: "",
 };
+let selectedcareInstApptId: number[] = [];
+
 const SelectableCell = React.memo(
   createSelectable(
-    ({ selectableRef, isSelecting, isSelected, isWeekend, item }: any) => {
+    ({ selectableRef, isSelecting, isSelected, isWeekend, item,selectedcareInstApptId }: any) => {
       let isMatching: boolean = false,
         isConfirm: boolean = false,
         isContractCancel: boolean = false,
         isContractInitiated: boolean = false,
         isSingleButtonAccepted: boolean = false,
         isTimeSheetPending: boolean = false,
-        isInvoiceInitiated: boolean = false;
+        isInvoiceInitiated: boolean = false,
+        caregiverCell:any = -1;
       if (item.status === "linked") {
         isMatching = true;
       } else if (item.status === "confirmed") {
@@ -66,6 +69,13 @@ const SelectableCell = React.memo(
         item.status === "timeSheetUpdated"
       ) {
         isTimeSheetPending = true;
+      }
+
+      if (item && item.appointments) {
+        const { appointments = [] } = item;
+        const {  id = "" } =
+          appointments && appointments.length ? appointments[0] : {};
+        caregiverCell = id
       }
 
       let isBlocked: boolean = false;
@@ -87,7 +97,7 @@ const SelectableCell = React.memo(
               "text-center": true,
               "custom-appointment-col": true,
               "cursor-pointer": true,
-              "selecting-cell-bg": isSelecting || isSelected,
+              "selecting-cell-bg": isSelecting || isSelected ||  selectedcareInstApptId.includes(caregiverCell),
               weekend: isWeekend,
               "contact-initiate-bg":
                 isContractInitiated && !isSelected
@@ -750,6 +760,15 @@ export const CaregiverList = ({
     }
   };
 
+  if (selectedCareinstitutionData && selectedCareinstitutionData.length) {
+    selectedcareInstApptId = selectedCareinstitutionData
+      .map((cell: any) =>
+        cell.item && cell.item.appointments && cell.item.appointments.length
+          ? cell.item.appointments[0].id
+          : 0,
+      )
+      .filter(Boolean);
+  }
   /**
    *
    */
@@ -961,6 +980,7 @@ export const CaregiverList = ({
                               }
                             }
                             caregiver={rowData}
+                            selectedcareInstApptId={selectedcareInstApptId}
                           />
                         </React.Fragment>
                       );

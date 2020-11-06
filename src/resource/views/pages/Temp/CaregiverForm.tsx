@@ -367,12 +367,12 @@ export const CaregiverForm = ({
           },
         });
 
-        getWorkProofPDF({
-          variables: {
-            id: parseInt(workProofId),
-            documentUploadType: "workingProof",
-          },
-        });
+        // getWorkProofPDF({
+        //   variables: {
+        //     id: parseInt(workProofId),
+        //     documentUploadType: "workingProof",
+        //   },
+        // });
         return;
       }
       if (isAppointment) {

@@ -708,7 +708,8 @@ const CareinstitutionRightClickOptions = (props: any) => {
             </NavLink>{" "}
           </NavItem>
           <NavItem>
-            <NavLink
+            {console.log('selectedCellsCareinstitution',selectedCellsCareinstitution)}
+            <NavLink            
               disabled={
                 selectedCellsCareinstitution &&
                 selectedCellsCareinstitution.length &&
@@ -717,10 +718,10 @@ const CareinstitutionRightClickOptions = (props: any) => {
                   selectedCellsCareinstitution[0].id === "") ||
                   (selectedCellsCareinstitution[0] &&
                     selectedCellsCareinstitution[0].item &&
-                    selectedCellsCareinstitution[0].item.status !== "linked") ||
+                    selectedCellsCareinstitution[0].item.status !== "linked") /* ||
                   selectedCellsCareinstitution.filter(
                     (cell: any) => cell.item && cell.item.isLeasing
-                  ).length > 0)
+                  ).length > 0 */)
                   ? true
                   : false
               }

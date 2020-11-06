@@ -1,32 +1,32 @@
-import React, { Suspense, useState } from "react";
-import classnames from "classnames";
-import { languageTranslation } from "../../../../helpers";
-import { Nav, NavItem, NavLink, Button } from "reactstrap";
-import reserve from "../../../assets/img/dropdown/block.svg";
-import new_appointment from "../../../assets/img/dropdown/new_appointment.svg";
-import delete_appointment from "../../../assets/img/dropdown/delete.svg";
-import detail_list from "../../../assets/img/dropdown/detail_list.svg";
-import filter from "../../../assets/img/filter.svg";
-import offer_sent from "../../../assets/img/dropdown/offer_sent.svg";
-import confirm_appointment from "../../../assets/img/dropdown/confirm_appointment.svg";
-import set_confirm from "../../../assets/img/dropdown/confirm.svg";
-import unset_confirm from "../../../assets/img/dropdown/not_confirm.svg";
-import leasing_contact from "../../../assets/img/dropdown/leasing.svg";
-import termination from "../../../assets/img/dropdown/aggrement.svg";
-import { toast } from "react-toastify";
-import moment from "moment";
+import React, { Suspense, useState } from 'react';
+import classnames from 'classnames';
+import { languageTranslation } from '../../../../helpers';
+import { Nav, NavItem, NavLink, Button } from 'reactstrap';
+import reserve from '../../../assets/img/dropdown/block.svg';
+import new_appointment from '../../../assets/img/dropdown/new_appointment.svg';
+import delete_appointment from '../../../assets/img/dropdown/delete.svg';
+import detail_list from '../../../assets/img/dropdown/detail_list.svg';
+import filter from '../../../assets/img/filter.svg';
+import offer_sent from '../../../assets/img/dropdown/offer_sent.svg';
+import confirm_appointment from '../../../assets/img/dropdown/confirm_appointment.svg';
+import set_confirm from '../../../assets/img/dropdown/confirm.svg';
+import unset_confirm from '../../../assets/img/dropdown/not_confirm.svg';
+import leasing_contact from '../../../assets/img/dropdown/leasing.svg';
+import termination from '../../../assets/img/dropdown/aggrement.svg';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 import {
   IAddCargiverAppointmentRes,
   IReactSelectInterface,
-} from "../../../../interfaces";
-import { AppointmentMutations } from "../../../../graphql/Mutations";
-import { useMutation } from "@apollo/react-hooks";
-import { dbAcceptableFormat } from "../../../../config";
-import { ConfirmBox } from "../../components/ConfirmBox";
-import ConnectAppointment from "./ConnectAppointment";
-import BulkEmailCareGiverModal from "../Appointment/BulkEmailCareGiver";
-import BulkEmailCareInstitutionModal from "../Appointment/BulkEmailCareInstitution";
-import _ from "lodash";
+} from '../../../../interfaces';
+import { AppointmentMutations } from '../../../../graphql/Mutations';
+import { useMutation } from '@apollo/react-hooks';
+import { dbAcceptableFormat } from '../../../../config';
+import { ConfirmBox } from '../../components/ConfirmBox';
+import ConnectAppointment from './ConnectAppointment';
+import BulkEmailCareGiverModal from '../Appointment/BulkEmailCareGiver';
+import BulkEmailCareInstitutionModal from '../Appointment/BulkEmailCareInstitution';
+import _ from 'lodash';
 const [
   ADD_CAREGIVER_AVABILITY,
   ,
@@ -66,7 +66,7 @@ export const CaregiverRightClickOptions = ({
     }
   >(ADD_CAREGIVER_AVABILITY, {
     onCompleted({ addCareGiverAvability }) {
-      handleupdateData(addCareGiverAvability, "caregiver");
+      handleupdateData(addCareGiverAvability, 'caregiver');
       updateItemData(addCareGiverAvability);
       toast.dismiss();
     },
@@ -86,7 +86,7 @@ export const CaregiverRightClickOptions = ({
     }
   >(UPDATE_CAREGIVER_AVABILITY, {
     onCompleted({ updateCareGiverAvability }) {
-      handleupdateData([updateCareGiverAvability], "caregiver");
+      handleupdateData([updateCareGiverAvability], 'caregiver');
       updateItemData([updateCareGiverAvability]);
     },
   });
@@ -100,7 +100,7 @@ export const CaregiverRightClickOptions = ({
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted({ deleteCareGiverAvability }: any) {
       onUpdateStatus([]);
-      handleupdateData(deleteCareGiverAvability, "caregiver");
+      handleupdateData(deleteCareGiverAvability, 'caregiver');
     },
   });
 
@@ -127,7 +127,7 @@ export const CaregiverRightClickOptions = ({
   const updateItemData = (itemData: any) => {
     let temp: any = [];
     selectedCells.forEach(async (element: any, index: number) => {
-      const { isWeekend = "", item = undefined, caregiver = {} } = element
+      const { isWeekend = '', item = undefined, caregiver = {} } = element
         ? element
         : {};
       let data: any = {
@@ -151,7 +151,7 @@ export const CaregiverRightClickOptions = ({
       let temp = [...selectedCells];
       let careGiverAvabilityInput: any = [];
       temp.forEach(async (element: any) => {
-        const { isWeekend = "", item = {}, caregiver = {} } = element
+        const { isWeekend = '', item = {}, caregiver = {} } = element
           ? element
           : {};
         if (item && item.id) {
@@ -170,14 +170,14 @@ export const CaregiverRightClickOptions = ({
             variables: {
               id: availabilityId,
               careGiverAvabilityInput: {
-                f: "block",
-                s: "block",
-                n: "block",
+                f: 'block',
+                s: 'block',
+                n: 'block',
                 userId: caregiver.id,
                 name:
                   caregiver && caregiver.firstName
                     ? `${caregiver.lastName} ${caregiver.firstName}`
-                    : "",
+                    : '',
                 breakFrom: null,
                 breakTo: item.breakTo,
                 createdAt: item.createdAt,
@@ -204,17 +204,17 @@ export const CaregiverRightClickOptions = ({
           toast.dismiss();
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
-              languageTranslation("CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG")
+              languageTranslation('CARE_GIVER_REQUIREMENT_UPDATE_SUCCESS_MSG')
             );
           }
         } else {
           careGiverAvabilityInput.push({
-            userId: caregiver && caregiver.id ? parseInt(caregiver.id) : "",
+            userId: caregiver && caregiver.id ? parseInt(caregiver.id) : '',
             name:
               caregiver && caregiver.firstName
                 ? `${caregiver.lastName} ${caregiver.firstName}`
-                : "",
-            date: item.date ? moment(item.date).format(dbAcceptableFormat) : "",
+                : '',
+            date: item.date ? moment(item.date).format(dbAcceptableFormat) : '',
             fee: null,
             weekendAllowance: null,
             holidayAllowance: null,
@@ -227,10 +227,10 @@ export const CaregiverRightClickOptions = ({
             otherExpenses: null,
             remarksCareGiver: null,
             remarksInternal: null,
-            f: "block",
-            s: "block",
-            n: "block",
-            status: "default",
+            f: 'block',
+            s: 'block',
+            n: 'block',
+            status: 'default',
           });
         }
       });
@@ -266,14 +266,14 @@ export const CaregiverRightClickOptions = ({
   const onDeleteEntries = async () => {
     let temp: any = selectedCells ? [...selectedCells] : [];
     let linkedEntries = temp.filter(
-      (element: any) => element.item && element.item.status === "linked"
+      (element: any) => element.item && element.item.status === 'linked'
     );
     if (linkedEntries && linkedEntries.length) {
       const { value } = await ConfirmBox({
-        title: languageTranslation("APPOINTMENT_CANT_BE_DELETED"),
-        text: languageTranslation("UNLINK_AND_DELETE"),
+        title: languageTranslation('APPOINTMENT_CANT_BE_DELETED'),
+        text: languageTranslation('UNLINK_AND_DELETE'),
         showCancelButton: false,
-        confirmButtonText: languageTranslation("OKAY_LABEL"),
+        confirmButtonText: languageTranslation('OKAY_LABEL'),
       });
       if (!value) {
         return;
@@ -286,7 +286,7 @@ export const CaregiverRightClickOptions = ({
         );
 
         let reservedEntries = temp.filter(
-          (element: any) => element.item && element.item.status === "default"
+          (element: any) => element.item && element.item.status === 'default'
         );
 
         freeEntries.forEach(async (element: any) => {
@@ -305,8 +305,8 @@ export const CaregiverRightClickOptions = ({
         });
         if (reservedEntries && reservedEntries.length) {
           const { value } = await ConfirmBox({
-            title: languageTranslation("CONFIRM_LABEL"),
-            text: languageTranslation("CONFIRM_DELETE_CAREGIVER_AVABILITY"),
+            title: languageTranslation('CONFIRM_LABEL'),
+            text: languageTranslation('CONFIRM_DELETE_CAREGIVER_AVABILITY'),
           });
           if (value) {
             await deleteCaregiverAvailability({
@@ -320,7 +320,7 @@ export const CaregiverRightClickOptions = ({
 
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
-                languageTranslation("DELETE_CAREGIVER_AVABILITY_SUCCESS")
+                languageTranslation('DELETE_CAREGIVER_AVABILITY_SUCCESS')
               );
             }
           } else {
@@ -362,9 +362,9 @@ export const CaregiverRightClickOptions = ({
         const Item = { ...item };
         if (Item && Item.id) {
           if (
-            name === "confirmed"
-              ? Item.status === "linked"
-              : Item.status === "confirmed"
+            name === 'confirmed'
+              ? Item.status === 'linked'
+              : Item.status === 'confirmed'
           ) {
             let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
             delete Item.id;
@@ -380,26 +380,26 @@ export const CaregiverRightClickOptions = ({
                 careGiverAvabilityInput: {
                   ...Item,
                   userId: caregiver.id,
-                  status: name === "confirmed" ? "confirmed" : "linked",
+                  status: name === 'confirmed' ? 'confirmed' : 'linked',
                 },
               },
             });
             // updateLinkedStatus(name);
             if (!toast.isActive(toastId)) {
-              if (name === "confirmed") {
+              if (name === 'confirmed') {
                 toastId = toast.success(
-                  languageTranslation("CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG")
+                  languageTranslation('CARE_GIVER_SET_CONFIRMED_SUCCESS_MSG')
                 );
               } else {
                 toastId = toast.success(
                   languageTranslation(
-                    "CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG"
+                    'CARE_GIVER_SET_NOT_CONFIRMED_SUCCESS_MSG'
                   )
                 );
               }
             }
-          } else if (name === "terminate") {
-            if (item && item.id && item.status === "contractInitiated") {
+          } else if (name === 'terminate') {
+            if (item && item.id && item.status === 'contractInitiated') {
               let availabilityId: number = item.id ? parseInt(item.id) : 0;
               delete item.id;
               delete item.__typename;
@@ -411,7 +411,7 @@ export const CaregiverRightClickOptions = ({
                   id: availabilityId,
                   careGiverAvabilityInput: {
                     ...item,
-                    status: "contractCancelled",
+                    status: 'contractCancelled',
                   },
                 },
               });
@@ -436,9 +436,8 @@ export const CaregiverRightClickOptions = ({
   const handleClose = () => {
     if (leasingContract || terminateAggrement) {
       updateLeasingContractStatus(
-        leasingContract ? "contractInitiated" : "contractCancelled"
+        leasingContract ? 'contractInitiated' : 'contractCancelled'
       );
-      
     }
     setopenCareGiverBulkEmail(false);
     setconfirmApp(false);
@@ -451,10 +450,10 @@ export const CaregiverRightClickOptions = ({
   const updateLeasingContractStatus = (status: string) => {
     const updateCareGiverAvability = {
       ...item,
-      status 
-    }
-     handleupdateData([updateCareGiverAvability], "caregiver");
-     updateItemData([updateCareGiverAvability]);
+      status,
+    };
+    handleupdateData([updateCareGiverAvability], 'caregiver');
+    updateItemData([updateCareGiverAvability]);
   };
 
   let sortedQualificationList: any = [];
@@ -504,37 +503,54 @@ export const CaregiverRightClickOptions = ({
     });
   }
 
-    //to apply condition on disconnect appointments
-    let disconnectAppCond: any;
-    if (selectedCells && selectedCells.length) {
-      disconnectAppCond = selectedCells.filter((x: any) => {
-        if (x.item) {
-          return x.item && x.item.status !== 'linked';
-        } else {
-          return ['abc'];
-        }
-      });
-    }
+  //to apply condition on disconnect appointments
+  let disconnectAppCond: any;
+  if (selectedCells && selectedCells.length) {
+    disconnectAppCond = selectedCells.filter((x: any) => {
+      if (x.item) {
+        return x.item && x.item.status !== 'linked';
+      } else {
+        return ['abc'];
+      }
+    });
+  }
 
-    // To check appointment with leasing careInst or not
-    let isLeasingAppointment = false;
-    if (selectedCells && selectedCells.length) {
-      isLeasingAppointment = selectedCells.filter(
-        (cell: any) =>
-          cell &&
-          cell.item &&
-          cell.item.appointments &&
-          cell.item.appointments.length &&
-          cell.item.appointments[0].cr &&
-          cell.item.appointments[0].cr.isLeasing,
-      ).length
-        ? true
-        : false;
-    }
+  // To check appointment with leasing careInst or not
+  let isLeasingAppointment = false;
+  if (selectedCells && selectedCells.length) {
+    isLeasingAppointment = selectedCells.filter(
+      (cell: any) =>
+        cell &&
+        cell.item &&
+        cell.item.appointments &&
+        cell.item.appointments.length &&
+        cell.item.appointments[0].cr &&
+        cell.item.appointments[0].cr.isLeasing
+    ).length
+      ? true
+      : false;
+  }
+
+  let isAppointment = false;
+  if (selectedCells && selectedCells.length) {
+    isAppointment = selectedCells.filter((element: any) => {
+      console.log('element', element);
+      return (
+        (element.item && element.item.status === 'default') ||
+        element.item.status === 'linked' ||
+        element.item.status === 'confirmed' ||
+        element.item.status === 'timeSheetPending' ||
+        element.item.status === 'timeSheetUpdated'
+      );
+    }).length
+      ? true
+      : false;
+  }
+  console.log('isAppointment', isAppointment);
   const renderDetailedList = () => {
     if (showList) {
       const DetaillistCaregiverPopup = React.lazy(
-        () => import("./DetailListCaregiver")
+        () => import('./DetailListCaregiver')
       );
       return (
         <Suspense fallback={null}>
@@ -549,73 +565,77 @@ export const CaregiverRightClickOptions = ({
     }
   };
 
-  
   return (
     <>
       <div
         className={classnames({
-          "rightclick-menu top-open": true,
-          "d-none": !isOpen,
+          'rightclick-menu top-open': true,
+          'd-none': !isOpen,
         })}
       >
+        {console.log('selectedCells 7677676767676', selectedCells)}
         <Nav vertical>
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={selectedCells ? selectedCells.length === 0 || isAppointment : true}
               onClick={() => {
                 hide();
                 onNewAvailability ? onNewAvailability() : undefined;
               }}
             >
-              <img src={new_appointment} className="mr-2" alt="" />
-              <span className="align-middle">
-                {languageTranslation("NEW_APPOINTMENT")}
+              <img src={new_appointment} className='mr-2' alt='' />
+              <span className='align-middle'>
+                {languageTranslation('NEW_APPOINTMENT')}
               </span>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-             disabled={
-              selectedCells.some((list:any) => list.item.status === 'default') ? false: true
-            }
+              disabled={
+                selectedCells.some(
+                  (list: any) => list.item.status === 'default'
+                )
+                  ? false
+                  : true
+              }
               onClick={() => {
                 hide();
                 onReserve();
               }}
             >
-              <img src={reserve} className="mr-2" alt="" />
-              <span className="align-middle">
-                {languageTranslation("RESERVE")}
+              <img src={reserve} className='mr-2' alt='' />
+              <span className='align-middle'>
+                {languageTranslation('RESERVE')}
               </span>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-             disabled={
-              selectedCells && selectedCells.length
-                ? selectedCells.filter(
-                    (availability: any) =>
-                      (availability && !availability.item) ||
-                      (availability.item &&
-                        availability.item.status === 'default') ||
-                      availability.item.status === 'linked',
-                  ).length
-                  ? false
+              disabled={
+                selectedCells && selectedCells.length
+                  ? selectedCells.filter(
+                      (availability: any) =>
+                        (availability && !availability.item) ||
+                        (availability.item &&
+                          availability.item.status === 'default') ||
+                        availability.item.status === 'linked'
+                    ).length
+                    ? false
+                    : true
                   : true
-                : true
-            }
+              }
               onClick={() => {
                 hide();
                 onDeleteEntries();
               }}
             >
-              <img src={delete_appointment} className="mr-2" alt="" />
-              <span className="align-middle">
-                {languageTranslation("DELETE_FREE_CALENDER")}
+              <img src={delete_appointment} className='mr-2' alt='' />
+              <span className='align-middle'>
+                {languageTranslation('DELETE_FREE_CALENDER')}
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
-          <NavItem className="bordernav" />
+          <NavItem className='bordernav' />
           <NavItem>
             <NavLink
               disabled={selectedCells ? selectedCells.length === 0 : true}
@@ -624,13 +644,13 @@ export const CaregiverRightClickOptions = ({
                 setShowList(true);
               }}
             >
-              <img src={detail_list} className="mr-2" alt="" />
-              <span className="align-middle">
-                {languageTranslation("DETAILED_LIST")}
+              <img src={detail_list} className='mr-2' alt='' />
+              <span className='align-middle'>
+                {languageTranslation('DETAILED_LIST')}
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
-          <NavItem className="bordernav" />
+          <NavItem className='bordernav' />
           <NavItem
             disabled={selectedCells ? selectedCells.length === 0 : true}
             onClick={() => {
@@ -643,15 +663,15 @@ export const CaregiverRightClickOptions = ({
             <NavLink
               disabled={selectedCells ? selectedCells.length === 0 : true}
             >
-              <img src={filter} className="mr-2" alt="" />
-              <span className="align-middle">
-                {languageTranslation("FILTER_BY_QUALI")}
+              <img src={filter} className='mr-2' alt='' />
+              <span className='align-middle'>
+                {languageTranslation('FILTER_BY_QUALI')}
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
           <NavItem>
             <NavLink
-               disabled={
+              disabled={
                 selectedCells
                   ? selectedCells.length === 0 ||
                     (offferAll && offferAll.length !== 0) ||
@@ -664,13 +684,13 @@ export const CaregiverRightClickOptions = ({
                 setopenCareGiverBulkEmail(true);
               }}
             >
-              <img src={offer_sent} className="mr-2" alt="" />
-              <span className="align-middle">
-                {languageTranslation("OFFER_ALL_CALENDER")}
+              <img src={offer_sent} className='mr-2' alt='' />
+              <span className='align-middle'>
+                {languageTranslation('OFFER_ALL_CALENDER')}
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
-          <NavItem className="bordernav" />
+          <NavItem className='bordernav' />
           <NavItem>
             <ConnectAppointment
               selectedCaregiverData={selectedCells}
@@ -679,7 +699,7 @@ export const CaregiverRightClickOptions = ({
               setSelectedCaregiver={onUpdateStatus}
               setSelectedCareinstitution={setSelectedCareinstitution}
               handleupdateData={handleupdateData}
-              label="link"
+              label='link'
               hide={hide}
             />
           </NavItem>
@@ -691,130 +711,129 @@ export const CaregiverRightClickOptions = ({
               setSelectedCaregiver={onUpdateStatus}
               setSelectedCareinstitution={setSelectedCareinstitution}
               handleupdateData={handleupdateData}
-              label="unlink"
+              label='unlink'
               hide={hide}
             />
           </NavItem>
-          <NavItem className="bordernav" />
+          <NavItem className='bordernav' />
           <NavItem>
             <NavLink
-             disabled={
-              selectedCells
-                ? selectedCells.length === 0 ||
-                  (disconnectAppCond && disconnectAppCond.length !== 0) ||
-                  isLeasingAppointment
-                : true
-            }
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (disconnectAppCond && disconnectAppCond.length !== 0) ||
+                    isLeasingAppointment
+                  : true
+              }
               onClick={() => {
                 hide();
-                updateCaregiverStatus("confirmed");
+                updateCaregiverStatus('confirmed');
                 setconfirmApp(true);
                 handleCareGiverBulkEmail();
               }}
             >
-              <img src={confirm_appointment} className="mr-2" alt="" />
-              <span className="align-middle">
-                {languageTranslation("CONFIRM_APPOINTMENT")}
+              <img src={confirm_appointment} className='mr-2' alt='' />
+              <span className='align-middle'>
+                {languageTranslation('CONFIRM_APPOINTMENT')}
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
           <NavItem>
             <NavLink
-             disabled={
-              selectedCells
-                ? selectedCells.length === 0 ||
-                  (selectedCells[0].item &&
-                    selectedCells[0].item.status !== 'linked') ||
-                  isLeasingAppointment
-                : true
-            }
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (selectedCells[0].item &&
+                      selectedCells[0].item.status !== 'linked') ||
+                    isLeasingAppointment
+                  : true
+              }
             >
-              <img src={set_confirm} className="mr-2" alt="" />
+              <img src={set_confirm} className='mr-2' alt='' />
               <span
-                className="align-middle"
-                
+                className='align-middle'
                 onClick={() => {
                   hide();
-                  updateCaregiverStatus("confirmed");
+                  updateCaregiverStatus('confirmed');
                 }}
               >
-                {languageTranslation("SET_ON_CONF")}
+                {languageTranslation('SET_ON_CONF')}
               </span>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-            disabled={
-              selectedCells
-                ? selectedCells.length === 0 ||
-                  (selectedCells[0].item &&
-                    selectedCells[0].item.status !== 'confirmed') ||
-                  isLeasingAppointment
-                : true
-            }
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 ||
+                    (selectedCells[0].item &&
+                      selectedCells[0].item.status !== 'confirmed') ||
+                    isLeasingAppointment
+                  : true
+              }
             >
-              <img src={unset_confirm} className="mr-2" alt="" />
+              <img src={unset_confirm} className='mr-2' alt='' />
               <span
-                className="align-middle"
+                className='align-middle'
                 onClick={() => {
                   hide();
-                  updateCaregiverStatus("notconfirmed");
+                  updateCaregiverStatus('notconfirmed');
                 }}
               >
-                {languageTranslation("SET_ON_NOT_CONF")}
+                {languageTranslation('SET_ON_NOT_CONF')}
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
           <NavItem>
             <NavLink
-            disabled={
-              selectedCells && selectedCells.length
-                ? selectedCells.filter(
-                    (availability: any) =>
-                      (availability && !availability.item) ||
-                      !isLeasingAppointment ||
-                      (availability.item &&
-                        availability.item.appointments &&
-                        availability.item.appointments.length &&
-                        availability.item.appointments[0] &&
-                        availability.item.appointments[0].cr &&
-                        availability.item.appointments[0].cr.status !==
-                          'confirmed'),
-                  ).length
-                  ? true
-                  : false
-                : true
-            }
+              disabled={
+                selectedCells && selectedCells.length
+                  ? selectedCells.filter(
+                      (availability: any) =>
+                        (availability && !availability.item) ||
+                        !isLeasingAppointment ||
+                        (availability.item &&
+                          availability.item.appointments &&
+                          availability.item.appointments.length &&
+                          availability.item.appointments[0] &&
+                          availability.item.appointments[0].cr &&
+                          availability.item.appointments[0].cr.status !==
+                            'confirmed')
+                    ).length
+                    ? true
+                    : false
+                  : true
+              }
               onClick={() => {
                 hide();
                 setleasingContract(true);
                 handleCareGiverBulkEmail();
               }}
             >
-              <img src={leasing_contact} className="mr-2" alt="" />
-              <span className="align-middle">
-                {languageTranslation("REQUEST_TEMP_LEASING")}
+              <img src={leasing_contact} className='mr-2' alt='' />
+              <span className='align-middle'>
+                {languageTranslation('REQUEST_TEMP_LEASING')}
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
-          <NavItem >
+          <NavItem>
             <NavLink
-            disabled={
-              selectedCells
-                ? selectedCells.length === 0 || !isLeasingAppointment
-                : true
-            }
+              disabled={
+                selectedCells
+                  ? selectedCells.length === 0 || !isLeasingAppointment
+                  : true
+              }
               onClick={() => {
                 hide();
                 setTerminateAggrement(true);
                 handleCareGiverBulkEmail();
               }}
             >
-              <img src={termination} className="mr-2" alt="" />
-              <span className="align-middle">
-                {languageTranslation("CREATE_TERMINATION_AGREEMENT")}
+              <img src={termination} className='mr-2' alt='' />
+              <span className='align-middle'>
+                {languageTranslation('CREATE_TERMINATION_AGREEMENT')}
               </span>
-            </NavLink>{" "}
+            </NavLink>{' '}
           </NavItem>
         </Nav>
       </div>
@@ -831,12 +850,12 @@ export const CaregiverRightClickOptions = ({
           gte={
             filters && filters.gte
               ? filters.gte
-              : moment().startOf("month").format(dbAcceptableFormat)
+              : moment().startOf('month').format(dbAcceptableFormat)
           }
           lte={
             filters && filters.lte
               ? filters.lte
-              : moment().endOf("month").format(dbAcceptableFormat)
+              : moment().endOf('month').format(dbAcceptableFormat)
           }
           selectedCells={selectedCells}
           confirmApp={confirmApp}
@@ -859,12 +878,12 @@ export const CaregiverRightClickOptions = ({
         gte={
           filters && filters.gte
             ? filters.gte
-            : moment().startOf("month").format(dbAcceptableFormat)
+            : moment().startOf('month').format(dbAcceptableFormat)
         }
         lte={
           filters && filters.lte
             ? filters.lte
-            : moment().endOf("month").format(dbAcceptableFormat)
+            : moment().endOf('month').format(dbAcceptableFormat)
         }
       />
     </>

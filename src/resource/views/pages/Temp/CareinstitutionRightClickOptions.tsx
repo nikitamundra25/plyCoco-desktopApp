@@ -405,7 +405,21 @@ const CareinstitutionRightClickOptions = (props: any) => {
       }
     });
   }
-
+  let isAppointment = false;
+  if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
+    isAppointment = selectedCellsCareinstitution.filter((element: any) => {
+      console.log('element', element);
+      return (
+        (element.item && element.item.status === 'default') ||
+        element.item.status === 'linked' ||
+        element.item.status === 'confirmed' ||
+        element.item.status === 'timeSheetPending' ||
+        element.item.status === 'timeSheetUpdated'
+      );
+    }).length
+      ? true
+      : false;
+  }
   return (
     <>
       <div
@@ -419,7 +433,7 @@ const CareinstitutionRightClickOptions = (props: any) => {
             <NavLink
               disabled={
                 selectedCellsCareinstitution
-                  ? selectedCellsCareinstitution.length === 0
+                  ? selectedCellsCareinstitution.length === 0 ||isAppointment
                   : true
               }
               onClick={() => {

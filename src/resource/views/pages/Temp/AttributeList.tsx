@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Collapse,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   UncontrolledDropdown,
-} from "reactstrap";
-import { languageTranslation } from "../../../../helpers";
-import Spinner from "../../components/Spinner";
+} from 'reactstrap';
+import { languageTranslation } from '../../../../helpers';
+import Spinner from '../../components/Spinner';
+import AddPreset from '../DummyAppointment/AttributeFilter/AddPreset';
 /**
  *
  * @param param0
@@ -23,7 +24,8 @@ const CategoryItem = ({
     <>
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className='attribute-title cursor-pointer'>
+        className='attribute-title cursor-pointer'
+      >
         <span className='align-middle'>
           {isOpen ? (
             <i className='fa fa-minus mr-2' />
@@ -68,12 +70,24 @@ const CategoryItem = ({
   );
 };
 export const AttributeList = ({
-  type = "positive",
+  type = 'positive',
   data = [],
   isLoading: listLoading,
   updateSelectedAttributes,
   selectedAttributes,
   selectAllAttributes,
+  isNegative,
+  isPositive,
+  setShowPreset,
+  onAddingPreset,
+  showPreset,
+  preset,
+  setPresetNames,
+  onSavingPreset,
+  handleChange,
+  addPresetLoading,
+  presetNames,
+  setPreset,
 }: any) => {
   /**
    *
@@ -101,36 +115,44 @@ export const AttributeList = ({
         <div className='common-list-header d-flex align-items-cente justify-content-between'>
           <div className='common-list-title align-middle'>
             {languageTranslation(
-              type === "positive" ? "POSITIVE_ATTRIBUTE" : "NEGATIVE_ATTRIBUTE"
+              type === 'positive' ? 'POSITIVE_ATTRIBUTE' : 'NEGATIVE_ATTRIBUTE'
             )}
           </div>
           <div>
             <UncontrolledDropdown className='custom-dropdown'>
-              <DropdownToggle className={"text-capitalize btn-more"} size='sm'>
+              <DropdownToggle className={'text-capitalize btn-more'} size='sm'>
                 <i className='icon-options-vertical' />
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem
-                  className={selectedAttributes.length ? "" : "disabled-class"}
+                  className={selectedAttributes.length ? '' : 'disabled-class'}
                   onClick={() => {
-                    // selectAllAttributes(type, true);
-                  }}>
+                    if (
+                      (isNegative && isNegative.length) ||
+                      (isPositive && isPositive.length)
+                    ) {
+                      setShowPreset(true);
+                      onAddingPreset(isPositive, isNegative);
+                    } else {
+                      setShowPreset(false);
+                    }
+                  }}
+                >
                   <i className='fa fa-plus mr-2' />
-                  {languageTranslation("ADD_PRESET")}
+                  {languageTranslation('ADD_PRESET')}
                 </DropdownItem>
                 <DropdownItem onClick={() => selectAllAttributes(type, true)}>
                   <i className='fa fa-check-square mr-2' />
-                  {languageTranslation("SELECT_ALL")}
+                  {languageTranslation('SELECT_ALL')}
                 </DropdownItem>
                 <DropdownItem onClick={() => selectAllAttributes(type, false)}>
                   <i className='fa fa-square-o mr-2' />
-                  {languageTranslation("UNSELECT")}
+                  {languageTranslation('UNSELECT')}
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
         </div>
-
         <div className='common-list-body custom-scrollbar'>
           {listLoading ? (
             <Spinner />
@@ -149,6 +171,19 @@ export const AttributeList = ({
             })
           ) : null}
         </div>
+        <AddPreset
+          show={showPreset ? true : false}
+          preset={preset}
+          handleClose={() => {
+            setShowPreset(false);
+            setPreset(null);
+          }}
+          presetNames={presetNames}
+          setPresetNames={setPresetNames}
+          onSavingPreset={onSavingPreset}
+          handleChange={handleChange}
+          addPresetLoading={addPresetLoading}
+        />
       </div>
     </>
   );

@@ -1,26 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { languageTranslation } from "../../../../helpers";
 import { UncontrolledTooltip } from "reactstrap";
-import { useLazyQuery } from "@apollo/react-hooks";
-import { AttributeFilterQueries } from "../../../../graphql/queries";
 import Spinner from "../../components/Spinner";
-const [_, GET_PRESETS_LIST] = AttributeFilterQueries;
 export const AttributePresetLists = ({
   updatePositiveAttributes,
   updatedNegetiveAttributes,
+  presetList,
+  loading,
+  onDeletingPreset
 }: any) => {
   const [selectedPreset, setSelectedPreset] = useState();
-  // To get list of presets
-  const [getPresetAttributeList, { data: presetList, loading }] = useLazyQuery<
-    any
-  >(GET_PRESETS_LIST);
-  useEffect(() => {
-    getPresetAttributeList({
-      variables: {
-        userRole: "caregiver",
-      },
-    });
-  }, []);
   const presets = (presetList || {}).getPresetAttribute || [];
   /**
    *
@@ -62,7 +51,7 @@ export const AttributePresetLists = ({
                   <span
                     id={`delete${index}`}
                     className={`btn-icon `}
-                    // onClick={() => onDeletingPreset(item.id)}
+                    onClick={() => onDeletingPreset(item.id)}
                   >
                     <UncontrolledTooltip
                       placement={"top"}

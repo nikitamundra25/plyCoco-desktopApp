@@ -315,6 +315,7 @@ const AppointmentNav: FunctionComponent<any> = ({
               <img src={caregiver} alt='' />
             </span>
           </div>
+          {/* caregiver */}
           <div
             className='header-nav-item'
             onClick={() => {
@@ -350,6 +351,7 @@ const AppointmentNav: FunctionComponent<any> = ({
               <img src={careinstitution} alt='' />
             </span>
           </div>
+            {/* careinstitution */}
           <div
             className='header-nav-item'
             onClick={() => setShowAttributeModal(true)}>
@@ -444,28 +446,26 @@ const AppointmentNav: FunctionComponent<any> = ({
         </div>
       </div>
       <AttributeFilterModal
-        key={"caregiver"}
         isOpen={showCaregiveAttributeModal}
         onClose={() => setShowCaregivettributeModal(false)}
         onFilterUpdated={(attrFilter: any) => {
           filterUpdated({
             ...filters,
             ...attrFilter,
-            effects: "caregiver",
           });
         }}
+        filter='caregiver'
       />
       <AttributeFilterModal
-        key={"careinstitution"}
         isOpen={showAttributeModal}
         onClose={() => setShowAttributeModal(false)}
         onFilterUpdated={(attrFilter: any) => {
           filterUpdated({
             ...filters,
             ...attrFilter,
-            effects: "careinstitution",
           });
         }}
+        filter='careInstitution'
       />
     </>
   );

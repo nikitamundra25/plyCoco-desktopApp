@@ -1775,5 +1775,6 @@
   "CAREGIVER_EMAIL_TEXT":"Pflegekraft wurde erfolgreich hinzugefügt, aber wegen Netzwerkproblemen konnte keine E-Mail versandt werden.",
   "ENTER_TOTAL_SELECTION":"Summe Auswahl",
   "SEND_INVOICE_TO":"Versende die Rechnung an",
-  "UNLINK" :"Unlink"
+  "UNLINK" :"Unlink",
+  "LOADING_MORE":"Loading More..."
 }

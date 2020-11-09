@@ -223,6 +223,7 @@ const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
                   <CareInstitutionList
                     selectedCaregiverData={selectedCaregiverData}
                     careinstitutionSelected={careinstitutionSelected}
+                    setSelectedCareinstitution={setSelectedCareinstitution}
                     filters={filterObject}
                     setCareInstDeptList={setCareInstDeptList}
                     careInstDeptList={careInstDeptList}

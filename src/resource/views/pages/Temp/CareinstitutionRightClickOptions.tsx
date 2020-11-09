@@ -39,7 +39,6 @@ const CareinstitutionRightClickOptions = (props: any) => {
     hide,
     selectedCellsCareinstitution,
     onNewRequirement,
-    handleUnLinkAppointments,
     filters,
     isOpen,
     selectedCells,
@@ -48,7 +47,7 @@ const CareinstitutionRightClickOptions = (props: any) => {
     handleupdateData,
     qualificationList,
     setShowSelectedCaregiver,
-    updateCaregiverDataLeasing
+    updateCaregiverDataLeasing,
   } = props;
 
   // update Careinstitution Requirment
@@ -69,12 +68,12 @@ const CareinstitutionRightClickOptions = (props: any) => {
       updateItemData([updateCareInstitutionRequirement]);
       handleupdateData([updateCareInstitutionRequirement], "careinstitution");
 
-  // to get the appointment data from the care institution cell
-  let appointmentData = selectedCellsCareinstitution.filter(
-    (cell: any) =>
-      cell.item && cell.item.id === updateCareInstitutionRequirement.id,
-  )[0];
-  
+      // to get the appointment data from the care institution cell
+      let appointmentData = selectedCellsCareinstitution.filter(
+        (cell: any) =>
+          cell.item && cell.item.id === updateCareInstitutionRequirement.id
+      )[0];
+
       appointmentData =
         appointmentData &&
         appointmentData.item.appointments &&
@@ -82,14 +81,14 @@ const CareinstitutionRightClickOptions = (props: any) => {
         appointmentData.item.appointments[0]
           ? appointmentData.item.appointments[0]
           : {};
-           // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
-          if (
-            updateCareInstitutionRequirement.status === 'confirmed' &&
-            updateCareInstitutionRequirement.isLeasing &&
-            appointmentData
-          ) {
-             updateCaregiverDataLeasing(appointmentData)
-          }
+      // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
+      if (
+        updateCareInstitutionRequirement.status === "confirmed" &&
+        updateCareInstitutionRequirement.isLeasing &&
+        appointmentData
+      ) {
+        updateCaregiverDataLeasing(appointmentData);
+      }
     },
   });
 
@@ -140,13 +139,17 @@ const CareinstitutionRightClickOptions = (props: any) => {
           canstitution = {},
           isLeasing = "",
         } = element ? element : {};
+        let stem = itemData[index]
         let data: any = {
           isWeekend,
           canstitution: {
             ...canstitution,
           },
           isLeasing,
-          item: itemData[index],
+          item:{ 
+            ...item,
+            stem
+          },
         };
         temp.push(data);
       }
@@ -241,7 +244,7 @@ const CareinstitutionRightClickOptions = (props: any) => {
       const { item } = selectedCellsCareinstitution[0];
       const { appointments = [] } = item ? item : {};
       const { ca = {} } =
-        appointments && appointments.length ? appointments[0] : [];     
+        appointments && appointments.length ? appointments[0] : [];
       setShowSelectedCaregiver({
         id: ca.userId,
         isShow: true,
@@ -276,8 +279,7 @@ const CareinstitutionRightClickOptions = (props: any) => {
   const updateCareInstitutionStatus = async (name: string) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async (element: any) => {
-        const { item, canstitution = {} } = element;
-        const Item = { ...item };
+        const { item: Item, canstitution = {} } = element;
         if (Item && Item.id) {
           if (
             (name === "confirmed" && Item.status === "linked") ||
@@ -287,35 +289,33 @@ const CareinstitutionRightClickOptions = (props: any) => {
             (name === "notoffered" && Item.status === "offered")
           ) {
             let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
-
-            delete Item.id;
-            delete Item.__typename;
-            delete Item.appointments;
-            delete Item.division;
-            delete Item.updatedAt;
-            delete Item.appointmentId;
-            delete Item.department;
-            delete Item.shift;
-            delete Item.careInstitutionDepartment;
-
+            const updateData = {
+              ...Item,
+              userId:
+                canstitution && canstitution.id ? parseInt(canstitution.id) : 0,
+              status:
+                name === "confirmed"
+                  ? "confirmed"
+                  : name === "notconfirm"
+                  ? "linked"
+                  : name === "offered"
+                  ? "offered"
+                  : "default",
+            };
+            delete updateData.id;
+            delete updateData.__typename;
+            delete updateData.appointments;
+            delete updateData.division;
+            delete updateData.updatedAt;
+            delete updateData.appointmentId;
+            delete updateData.department;
+            delete updateData.shift;
+            delete updateData.careInstitutionDepartment;
+  
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
-                careInstitutionRequirementInput: {
-                  ...Item,
-                  userId:
-                    canstitution && canstitution.id
-                      ? parseInt(canstitution.id)
-                      : 0,
-                  status:
-                    name === "confirmed"
-                      ? "confirmed"
-                      : name === "notconfirm"
-                      ? "linked"
-                      : name === "offered"
-                      ? "offered"
-                      : "default",
-                },
+                careInstitutionRequirementInput: updateData,
               },
             });
             if (!toast.isActive(toastId)) {
@@ -417,6 +417,7 @@ const CareinstitutionRightClickOptions = (props: any) => {
       ? true
       : false;
   }
+
   return (
     <>
       <div
@@ -430,7 +431,7 @@ const CareinstitutionRightClickOptions = (props: any) => {
             <NavLink
               disabled={
                 selectedCellsCareinstitution
-                  ? selectedCellsCareinstitution.length === 0 ||isAppointment
+                  ? selectedCellsCareinstitution.length === 0 || isAppointment
                   : true
               }
               onClick={() => {
@@ -504,8 +505,12 @@ const CareinstitutionRightClickOptions = (props: any) => {
           <NavItem>
             <NavLink
               disabled={
-                selectedCellsCareinstitution
-                  ? selectedCellsCareinstitution.length === 0
+                selectedCellsCareinstitution &&
+                selectedCellsCareinstitution.length &&
+                selectedCellsCareinstitution[0] &&
+                selectedCellsCareinstitution[0].item &&
+                selectedCellsCareinstitution[0].item.id
+                  ? false
                   : true
               }
               onClick={() => {
@@ -522,8 +527,12 @@ const CareinstitutionRightClickOptions = (props: any) => {
           <NavItem>
             <NavLink
               disabled={
-                selectedCellsCareinstitution
-                  ? selectedCellsCareinstitution.length === 0
+                selectedCellsCareinstitution &&
+                selectedCellsCareinstitution.length &&
+                selectedCellsCareinstitution[0] &&
+                selectedCellsCareinstitution[0].item &&
+                selectedCellsCareinstitution[0].item.id
+                  ? false
                   : true
               }
               onClick={() => {
@@ -540,8 +549,12 @@ const CareinstitutionRightClickOptions = (props: any) => {
           <NavItem>
             <NavLink
               disabled={
-                selectedCellsCareinstitution
-                  ? selectedCellsCareinstitution.length === 0
+                selectedCellsCareinstitution &&
+                selectedCellsCareinstitution.length &&
+                selectedCellsCareinstitution[0] &&
+                selectedCellsCareinstitution[0].item &&
+                selectedCellsCareinstitution[0].item.id
+                  ? false
                   : true
               }
               onClick={() => {
@@ -558,8 +571,12 @@ const CareinstitutionRightClickOptions = (props: any) => {
           <NavItem>
             <NavLink
               disabled={
-                selectedCellsCareinstitution
-                  ? selectedCellsCareinstitution.length === 0
+                selectedCellsCareinstitution &&
+                selectedCellsCareinstitution.length &&
+                selectedCellsCareinstitution[0] &&
+                selectedCellsCareinstitution[0].item &&
+                selectedCellsCareinstitution[0].item.id
+                  ? false
                   : true
               }
               onClick={() => {
@@ -576,8 +593,12 @@ const CareinstitutionRightClickOptions = (props: any) => {
           <NavItem>
             <NavLink
               disabled={
-                selectedCellsCareinstitution
-                  ? selectedCellsCareinstitution.length === 0
+                selectedCellsCareinstitution &&
+                selectedCellsCareinstitution.length &&
+                selectedCellsCareinstitution[0] &&
+                selectedCellsCareinstitution[0].item &&
+                selectedCellsCareinstitution[0].item.id
+                  ? false
                   : true
               }
             >
@@ -595,8 +616,12 @@ const CareinstitutionRightClickOptions = (props: any) => {
           <NavItem>
             <NavLink
               disabled={
-                selectedCellsCareinstitution
-                  ? selectedCellsCareinstitution.length === 0
+                selectedCellsCareinstitution &&
+                selectedCellsCareinstitution.length &&
+                selectedCellsCareinstitution[0] &&
+                selectedCellsCareinstitution[0].item &&
+                selectedCellsCareinstitution[0].item.id
+                  ? false
                   : true
               }
             >
@@ -719,8 +744,11 @@ const CareinstitutionRightClickOptions = (props: any) => {
             </NavLink>{" "}
           </NavItem>
           <NavItem>
-            {console.log('selectedCellsCareinstitution',selectedCellsCareinstitution)}
-            <NavLink            
+            {console.log(
+              "selectedCellsCareinstitution",
+              selectedCellsCareinstitution
+            )}
+            <NavLink
               disabled={
                 selectedCellsCareinstitution &&
                 selectedCellsCareinstitution.length &&
@@ -729,10 +757,11 @@ const CareinstitutionRightClickOptions = (props: any) => {
                   selectedCellsCareinstitution[0].id === "") ||
                   (selectedCellsCareinstitution[0] &&
                     selectedCellsCareinstitution[0].item &&
-                    selectedCellsCareinstitution[0].item.status !== "linked") /* ||
+                    selectedCellsCareinstitution[0].item.status !==
+                      "linked")) /* ||
                   selectedCellsCareinstitution.filter(
                     (cell: any) => cell.item && cell.item.isLeasing
-                  ).length > 0 */)
+                  ).length > 0 */
                   ? true
                   : false
               }
@@ -752,15 +781,13 @@ const CareinstitutionRightClickOptions = (props: any) => {
               disabled={
                 selectedCellsCareinstitution &&
                 selectedCellsCareinstitution.length &&
-                ((  selectedCellsCareinstitution[0].item &&
-                    selectedCellsCareinstitution[0].item.status ===
-                      "confirmed") 
-                  //     ||
-                  // selectedCellsCareinstitution.filter(
-                  //   (cell: any) => cell.item && cell.item.isLeasing
-                  // ).length > 0
-                  )
-                  ? false
+                selectedCellsCareinstitution[0].item &&
+                selectedCellsCareinstitution[0].item.status === "confirmed"
+                  ? //     ||
+                    // selectedCellsCareinstitution.filter(
+                    //   (cell: any) => cell.item && cell.item.isLeasing
+                    // ).length > 0
+                    false
                   : true
               }
             >
@@ -776,8 +803,7 @@ const CareinstitutionRightClickOptions = (props: any) => {
           </NavItem>
           <NavItem className="bordernav" />
           <NavItem>
-            <NavLink
-            >
+            <NavLink>
               <img src={invoice} className="mr-2" alt="" />
               <span>{languageTranslation("CREATE_PAYMENT")}</span>
             </NavLink>

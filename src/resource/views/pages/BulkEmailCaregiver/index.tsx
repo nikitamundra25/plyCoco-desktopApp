@@ -240,8 +240,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
       !props.unlinkedBy
     ) {
       let temp: any = [];
-  console.log("props.qualification",props.qualification);
-  
+
       if (props.qualification && props.qualification.length) {
         props.qualification.map((key: any, index: number) => {
           if (key.value) {
@@ -267,7 +266,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         },
       });
     } else {
-
       let temp: any = [];
       selectedCells &&
         selectedCells.length &&
@@ -674,7 +672,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
           }
         }
         let temp: any = [];
-        
+
         qualificationArray.map((i: any) => {
           temp.push(i);
         });
@@ -860,8 +858,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
         if (selectedCells && selectedCells.length) {
           selectedCells.forEach((element: any) => {
-            const { item = {}, dateString = "", name = "" } = element;
-            const { appointments = [] } = item;
+            const { item = {},  caregiver = "" } = element;
+            const {firstName="", lastName = ""}  = caregiver;
+            const { appointments = [], date="", name= `${lastName } ${firstName}`} = item;
             const { cr = {} } =
               appointments && appointments.length ? appointments[0] : [];
             const { division = {} } = cr ? cr : {};
@@ -870,7 +869,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
               let divisionData: string = division ? division.name : `${name}`;
 
               apointedCareGiver.push({
-                date: dateString,
+                date: date,
                 division: divisionData,
               });
             }
@@ -1279,10 +1278,9 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   useEffect(() => {
     if (terminateAggrement && selectedCells && selectedCells.length) {
-      const {
-        item = {},
-        caregiver = {},
-      } = selectedCells[0] ? selectedCells[0] : {};
+      const { item = {}, caregiver = {} } = selectedCells[0]
+        ? selectedCells[0]
+        : {};
       const {
         firstName = "",
         lastName = "",
@@ -1554,8 +1552,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     appointmentIds: number[] = [],
     requirementIds: number[] = [],
     avabilityIds: number[] = [];
-    console.log("selectedCells",selectedCells);
-    
+  console.log("selectedCells", selectedCells);
+
   if (selectedCells && selectedCells.length > 0) {
     let appointedCells = selectedCells.filter(
       (cell: any) =>
@@ -1620,7 +1618,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
   }, [pdfAppointmentDetails]);
 
   useEffect(() => {
-   
     if (
       userId &&
       terminateAggrement &&

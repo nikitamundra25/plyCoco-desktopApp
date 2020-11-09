@@ -522,6 +522,8 @@ useEffect(()=>{
       if (existId > -1) {
         let itemData =
           caregivList[caregiverIndex].caregiver_avabilities[existId];
+          console.log("itemDataitemData",itemData);
+          
         const updateData = {
           ...itemData,
           appointments: [
@@ -724,7 +726,7 @@ useEffect(()=>{
 
   useEffect(() => {
     if (correspondingDataCaregiver && correspondingDataCaregiver.length) {
-      getCorrespondingconnectedcell(correspondingDataCaregiver);
+       getCorrespondingconnectedcell(correspondingDataCaregiver);
     }
   }, [correspondingDataCaregiver]);
 
@@ -862,15 +864,18 @@ useEffect(()=>{
                       }`}
                     >
                       <div className="position-relative  username-col align-self-center text-capitalize">
-                        {d}
+                       
                         {d === "caregiver" ? (
+                          <>
+                        {languageTranslation("MENU_CAREGIVER")}
                           <Button
                             className="btn-more d-flex align-items-center justify-content-center"
                             onClick={() => setShowRightClickOptions(true)}
                           >
                             <i className="icon-options-vertical" />
                           </Button>
-                        ) : null}
+                          </>
+                        ) : d}
                       </div>
                     </span>
                   </React.Fragment>

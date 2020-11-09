@@ -325,12 +325,17 @@ export const CaregiverForm = ({
       const { isWeekend = "", item = undefined, caregiver = {} } = element
         ? element
         : {};
+      let stem = itemData[index]
+
       let data: any = {
         isWeekend,
         caregiver: {
           ...caregiver,
         },
-        item: itemData[index],
+        item:{ 
+          ...item,
+          stem
+        },
       };
 
       temp.push(data);
@@ -1073,7 +1078,7 @@ export const CaregiverForm = ({
                                     <i
                                     //caregiverStarData
                                       className={
-                                        appointmentId&&  caregiverStarData && caregiverStarData.isStar
+                                        caregiverDetails && caregiverDetails.firstName &&  caregiverStarData && caregiverStarData.isStar
                                   ? "fa fa-star theme-text"
                                   : "fa fa-star"
                                       }

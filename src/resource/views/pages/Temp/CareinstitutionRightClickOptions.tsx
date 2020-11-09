@@ -131,6 +131,7 @@ const CareinstitutionRightClickOptions = (props: any) => {
    */
   const updateItemData = (itemData: any) => {
     let temp: any = [];
+    
     selectedCellsCareinstitution.forEach(
       async (element: any, index: number) => {
         const {
@@ -146,10 +147,7 @@ const CareinstitutionRightClickOptions = (props: any) => {
             ...canstitution,
           },
           isLeasing,
-          item:{ 
-            ...item,
-            stem
-          },
+          item: itemData[index],
         };
         temp.push(data);
       }

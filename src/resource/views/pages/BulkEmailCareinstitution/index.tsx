@@ -407,10 +407,10 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
           ) {
             selectedCellsCareinstitution.forEach(
               (element: any, index: number) => {
-                const { item = {}, name = "" } = element;
+                const { item = {} } = element;
                 isLeasing = element.isLeasing;
 
-                const { appointments = [], division = {} } = item;
+                const { appointments = [], division = {}, name = '' } = item;
                 if (appointments && appointments.length) {
                   const { ca = {}, date = "" } =
                     appointments && appointments.length ? appointments[0] : {};
@@ -419,7 +419,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                     moment(date).format(index == 0 ? "MMMM DD" : "DD"),
                   ];
                   if (ca) {
-                    let divisionData: string = division && division.name ? division.name : name;
+                    let divisionData: string = division && division.name ? division.name : name ;
                     apointedCareGiver.push({
                       caregivername: ca && ca.name ? ca.name : "caregiver",
                       date: date,

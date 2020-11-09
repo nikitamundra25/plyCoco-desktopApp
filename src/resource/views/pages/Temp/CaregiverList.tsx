@@ -274,7 +274,7 @@ export const CaregiverList = ({
         item: temp,
       },
     ];
-    caregiverSelected(data);
+    setSelectedCaregiver(data);
   };
 
   // Default value is start & end of month
@@ -639,7 +639,7 @@ useEffect(()=>{
    * @param data
    */
   const onUpdateStatus = (data: any) => {
-    caregiverSelected(data);
+    setSelectedCaregiver(data);
     setSelectedCells(data);
   };
   /**
@@ -724,6 +724,7 @@ useEffect(()=>{
   };
 
   useEffect(() => {
+    
     if (correspondingDataCaregiver && correspondingDataCaregiver.length) {
        getCorrespondingconnectedcell(correspondingDataCaregiver);
     }
@@ -756,7 +757,6 @@ useEffect(()=>{
     });
     if (connectedCells && connectedCells.length) {
       let Cells = connectedCells[0] ? [connectedCells[0]] : [];
-      
       setSelectedCaregiver(Cells);
     } else {
       fetchAppointmentFilterById({

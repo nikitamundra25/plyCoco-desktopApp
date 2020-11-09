@@ -861,8 +861,7 @@ export const CareInstitutionList = React.memo(
      *
      */
     // Function to get corresponding connected cell
-    const getCorrespondingconnectedcell = (appointmentsData: any) => {
-      console.log('getCorrespondingconnectedcell funccccc');      
+    const getCorrespondingconnectedcell = (appointmentsData: any) => {   
       let connectedCells: any[] = [];
       allCaregivers.forEach((element: any) => {
         element.careinstitution_requirements.forEach((row: any) => {
@@ -873,8 +872,7 @@ export const CareInstitutionList = React.memo(
             appointmentsData
               .map((cell: any) => cell.id)
               .includes(row.appointments[0].id);
-          if (filteredCells) {
-      console.log('getCorrespondingconnectedcell idddddddd');      
+          if (filteredCells) {    
       connectedCells.push({
               isWeekend: false,
               canstitution:element,
@@ -892,8 +890,7 @@ export const CareInstitutionList = React.memo(
       if (connectedCells && connectedCells.length) {
         let Cells = connectedCells[0] ? [connectedCells[0]] : [];
         setSelectedCareinstitution(Cells);
-      } else {
-      console.log('getCorrespondingconnectedcell elseeeee');      
+      } else {   
       fetchAppointmentFilterById({
           variables: {
             id: parseInt(appointmentsData[0].avabilityId),

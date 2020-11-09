@@ -531,7 +531,6 @@ const CareinstitutionForm = ({
     item: any = {},
     careInstDetails: any = {},
     appointmentId = "",
-    isLeasingAppointment = false,
     showQualification = false;
 
   // set item object
@@ -543,9 +542,10 @@ const CareinstitutionForm = ({
   }
 
   // To check appointment with leasing careInst or not
-  if (item && item.length) {
-    isLeasingAppointment = item.isLeasing ? true : false;
-  }
+  let isLeasingAppointment = false
+  if (item) {
+    isLeasingAppointment = item.isLeasing;
+  }  
   // To check appointment with leasing careInst or not
   showQualification = item && item[0] && item[0].isLeasing ? true : false;
    

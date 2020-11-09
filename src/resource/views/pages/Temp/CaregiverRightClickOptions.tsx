@@ -388,7 +388,6 @@ export const CaregiverRightClickOptions = ({
                 },
               },
             });
-            // updateLinkedStatus(name);
             if (!toast.isActive(toastId)) {
               if (name === 'confirmed') {
                 toastId = toast.success(

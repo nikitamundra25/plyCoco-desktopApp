@@ -588,7 +588,7 @@ export const CaregiverForm = ({
 
   // Signed contract link
   const { getLeasingContractPDF: pdfDetails = [] } = pdfData ? pdfData : {};
-  const { attachment='' } =
+  const { attachment='',leasingContract = {} } =
     pdfDetails && pdfDetails ? pdfDetails : {};
   // signed self employmentt contract
   const { getContractByAppointmentID = [] } = contractData ? contractData : {};
@@ -2003,10 +2003,10 @@ export const CaregiverForm = ({
 
 
                             {attachment 
-                            /* leasingContract &&
+                            && leasingContract &&
                             leasingContract.length &&
                             leasingContract[0] &&
-                            leasingContract[0].avabilityId === appointmentId */ ? (
+                            leasingContract[0].avabilityId === appointmentId ? (
                               <a
                                 href={`${AppConfig.FILES_ENDPOINT}${attachment}`}
                                 target={"_blank"}

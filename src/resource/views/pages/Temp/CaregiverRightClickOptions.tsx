@@ -537,11 +537,13 @@ export const CaregiverRightClickOptions = ({
   let isAppointment = false;
   if (selectedCells && selectedCells.length) {
     isAppointment = selectedCells.filter((element: any) => {
-        (element.item && element.item.status === 'default') ||
+      element.item &&
+      element.item.status &&
+      (element.item.status === 'default' ||
         element.item.status === 'linked' ||
         element.item.status === 'confirmed' ||
         element.item.status === 'timeSheetPending' ||
-        element.item.status === 'timeSheetUpdated'      
+        element.item.status === 'timeSheetUpdated')     
     }).length
       ? true
       : false;

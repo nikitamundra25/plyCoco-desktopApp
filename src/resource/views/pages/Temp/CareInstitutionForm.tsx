@@ -165,6 +165,7 @@ const CareinstitutionForm = ({
         canstitution = {},
         isLeasing = "",
       } = element ? element : {};
+      let stem = itemData[index]
       let data: any = 
         {
           isWeekend,
@@ -172,7 +173,10 @@ const CareinstitutionForm = ({
             ...canstitution,
           },
           isLeasing,
-          item: itemData[index],
+          item:{ 
+            ...item,
+            stem
+          },
         }
       
       temp.push(data)
@@ -672,7 +676,7 @@ const CareinstitutionForm = ({
       departmentData && departmentData[0] ? departmentData[0] : departmentData,
     comments: comments ? comments : "",
     status: status ? status : "",
-    // careInstitutionDepartment,
+    careInstitutionDepartment,
     createdBy: createdBy ? createdBy : "",
     createdAt: createdAt ? createdAt : "",
     updatedAt: updatedAt ? updatedAt : "",

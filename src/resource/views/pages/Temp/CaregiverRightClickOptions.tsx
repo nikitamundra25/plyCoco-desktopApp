@@ -130,12 +130,16 @@ export const CaregiverRightClickOptions = ({
       const { isWeekend = '', item = undefined, caregiver = {} } = element
         ? element
         : {};
+      let stem = itemData[index]
       let data: any = {
         isWeekend,
         caregiver: {
           ...caregiver,
         },
-        item: itemData[index],
+        item:{ 
+          ...item,
+          stem
+        },
       };
 
       temp.push(data);
@@ -495,8 +499,8 @@ export const CaregiverRightClickOptions = ({
   let checkQuali: any = [];
   if (selectedCells && selectedCells.length) {
     checkQuali = selectedCells.filter((x: any) => {
-      if (x.item) {
-        return x.qualificationIds && x.qualificationIds.length;
+      if (x.caregiver) {
+        return x.caregiver.qualificationId;
       } else {
         return ['abc'];
       }
@@ -534,7 +538,6 @@ export const CaregiverRightClickOptions = ({
   let isAppointment = false;
   if (selectedCells && selectedCells.length) {
     isAppointment = selectedCells.filter((element: any) => {
-      console.log('element', element);
       return (
         (element.item && element.item.status === 'default') ||
         element.item.status === 'linked' ||
@@ -546,7 +549,6 @@ export const CaregiverRightClickOptions = ({
       ? true
       : false;
   }
-  console.log('isAppointment', isAppointment);
   const renderDetailedList = () => {
     if (showList) {
       const DetaillistCaregiverPopup = React.lazy(
@@ -573,7 +575,6 @@ export const CaregiverRightClickOptions = ({
           'd-none': !isOpen,
         })}
       >
-        {console.log('selectedCells 7677676767676', selectedCells)}
         <Nav vertical>
           <NavItem>
             <NavLink
@@ -638,7 +639,15 @@ export const CaregiverRightClickOptions = ({
           <NavItem className='bordernav' />
           <NavItem>
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+              disabled={
+                selectedCells &&
+                selectedCells.length&&
+                selectedCells[0] &&
+                selectedCells[0].item &&
+                selectedCells[0].item.id
+                  ? false
+                  : true
+              }
               onClick={() => {
                 hide();
                 setShowList(true);
@@ -652,7 +661,15 @@ export const CaregiverRightClickOptions = ({
           </NavItem>
           <NavItem className='bordernav' />
           <NavItem
-            disabled={selectedCells ? selectedCells.length === 0 : true}
+           disabled={
+                selectedCells &&
+                selectedCells.length&&
+                selectedCells[0] &&
+                selectedCells[0].item &&
+                selectedCells[0].item.id
+                  ? false
+                  : true
+              }
             onClick={() => {
               hide();
               onCaregiverQualificationFilter
@@ -661,7 +678,15 @@ export const CaregiverRightClickOptions = ({
             }}
           >
             <NavLink
-              disabled={selectedCells ? selectedCells.length === 0 : true}
+             disabled={
+                selectedCells &&
+                selectedCells.length&&
+                selectedCells[0] &&
+                selectedCells[0].item &&
+                selectedCells[0].item.id
+                  ? false
+                  : true
+              }
             >
               <img src={filter} className='mr-2' alt='' />
               <span className='align-middle'>
@@ -673,7 +698,11 @@ export const CaregiverRightClickOptions = ({
             <NavLink
               disabled={
                 selectedCells
-                  ? selectedCells.length === 0 ||
+                  ?  selectedCells &&
+                  selectedCells.length&&
+                  selectedCells[0] &&
+                  selectedCells[0].item &&
+                  selectedCells[0].item.id ||
                     (offferAll && offferAll.length !== 0) ||
                     (checkQuali && checkQuali.length === 0)
                   : true
@@ -720,7 +749,11 @@ export const CaregiverRightClickOptions = ({
             <NavLink
               disabled={
                 selectedCells
-                  ? selectedCells.length === 0 ||
+                  ? 
+                  selectedCells.length&&
+                  selectedCells[0] &&
+                  selectedCells[0].item &&
+                  selectedCells[0].item.id ||
                     (disconnectAppCond && disconnectAppCond.length !== 0) ||
                     isLeasingAppointment
                   : true

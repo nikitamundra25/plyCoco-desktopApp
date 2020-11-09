@@ -1,5 +1,6 @@
 import React from "react";
 import { Spinner as BSSpinner } from "reactstrap";
+import { languageTranslation } from "../../../../helpers";
 const Spinner = () => (
   <div
     style={{
@@ -30,7 +31,7 @@ export const MoreSpinner = () => (
         color: "#fff",
         marginRight: "5px",
       }}>
-      <BSSpinner color='warning' size='sm' /> Loading More...
+      <BSSpinner color='warning' size='sm' /> {languageTranslation("LOADING_MORE")}
     </span>
   </div>
 );

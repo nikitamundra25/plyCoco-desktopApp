@@ -1791,5 +1791,6 @@
   "ENTER_TOTAL_SELECTION":"Enter total selection",
   "SEND_INVOICE_TO":"Send Invoice To",
   "SELECT_SINGLE_DOCUMENT":"You can only upload single document",
-  "UNLINK" :"Unlink"
+  "UNLINK" :"Unlink",
+  "LOADING_MORE":"Loading More..."
 }

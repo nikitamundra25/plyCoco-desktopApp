@@ -192,6 +192,7 @@ export const CareInstitutionList = React.memo(
     handleStarCareinst,
     starMarkCanstitution,
     correspondingData,
+    setSelectedCareinstitution
   }: any) => {
     const [daysData, setDaysData] = useState(
       getDaysArrayByMonth(moment().month(), moment().year())
@@ -276,7 +277,7 @@ export const CareInstitutionList = React.memo(
           item: temp,
         },
       ];
-      careinstitutionSelected(data);
+      setSelectedCareinstitution(data);
     };
 
     /**
@@ -416,7 +417,7 @@ export const CareInstitutionList = React.memo(
       temp[index].careinstitution_requirements[
         existId
       ].appointments = careinsti;
-      temp[index].careinstitution_requirements[existId].status = "linked";
+      temp[index].careinstitution_requirements[existId].status = "linked";    
       return temp;
     };
 
@@ -851,7 +852,7 @@ export const CareInstitutionList = React.memo(
 
     useEffect(() => {
       if (correspondingData && correspondingData.length) {
-        getCorrespondingconnectedcell(correspondingData);
+         getCorrespondingconnectedcell(correspondingData);
       }
     }, [correspondingData]);
 
@@ -888,7 +889,7 @@ export const CareInstitutionList = React.memo(
       });
       if (connectedCells && connectedCells.length) {
         let Cells = connectedCells[0] ? [connectedCells[0]] : [];
-        careinstitutionSelected(Cells);
+        setSelectedCareinstitution(Cells);
       } else {
         fetchAppointmentFilterById({
           variables: {
@@ -943,7 +944,7 @@ export const CareInstitutionList = React.memo(
           onNewRequirement={() => setMultipleRequirement(true)}
           selectedCellsCareinstitution={selected}
           careinstitutionList={caregivers}
-          careinstitutionSelected={careinstitutionSelected}
+          careinstitutionSelected={setSelectedCareinstitution}
           handleupdateData={handleupdateData}
           qualificationList={qualificationList}
           filters={filters}
@@ -954,6 +955,7 @@ export const CareInstitutionList = React.memo(
             selectedCaregiver = data;
           }}
           updateCaregiverDataLeasing={updateCaregiverDataLeasing}
+          
         />
         <div className="custom-appointment-calendar overflow-hidden">
           <SelectableGroup
@@ -993,15 +995,18 @@ export const CareInstitutionList = React.memo(
                         }`}
                       >
                         <div className="position-relative  username-col align-self-center text-capitalize">
-                          {d}
+                        
                           {d === "careinstitution" ? (
+                            <>
+                            {languageTranslation("DOCUMENT_TYPE_CAREINST")}
                             <Button
                               className="btn-more d-flex align-items-center justify-content-center"
                               onClick={() => setShowRightClickOptions(true)}
                             >
                               <i className="icon-options-vertical" />
                             </Button>
-                          ) : null}
+                            </>
+                          ) : d}
                         </div>
                       </span>
                     </React.Fragment>

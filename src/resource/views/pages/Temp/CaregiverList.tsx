@@ -345,7 +345,6 @@ useEffect(()=>{
    * @param data
    */
   const formatCaregivers = (data: any[]) => {
-    console.time("test");
     const newData: any[] = [];
     _.forEach(data, (value) => {
       const availibility = _.mapValues(

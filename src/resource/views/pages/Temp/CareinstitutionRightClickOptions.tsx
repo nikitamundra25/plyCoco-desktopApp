@@ -279,7 +279,8 @@ const CareinstitutionRightClickOptions = (props: any) => {
   const updateCareInstitutionStatus = async (name: string) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length) {
       selectedCellsCareinstitution.forEach(async (element: any) => {
-        const { item: Item, canstitution = {} } = element;
+        const { item = {}, canstitution = {} } = element;
+        const Item  = Object.assign({}, item)
         if (Item && Item.id) {
           if (
             (name === "confirmed" && Item.status === "linked") ||
@@ -289,33 +290,32 @@ const CareinstitutionRightClickOptions = (props: any) => {
             (name === "notoffered" && Item.status === "offered")
           ) {
             let availabilityId: number = Item.id ? parseInt(Item.id) : 0;
-            const updateData = {
-              ...Item,
-              userId:
-                canstitution && canstitution.id ? parseInt(canstitution.id) : 0,
-              status:
-                name === "confirmed"
-                  ? "confirmed"
-                  : name === "notconfirm"
-                  ? "linked"
-                  : name === "offered"
-                  ? "offered"
-                  : "default",
-            };
-            delete updateData.id;
-            delete updateData.__typename;
-            delete updateData.appointments;
-            delete updateData.division;
-            delete updateData.updatedAt;
-            delete updateData.appointmentId;
-            delete updateData.department;
-            delete updateData.shift;
-            delete updateData.careInstitutionDepartment;
+            delete Item.id;
+            delete Item.__typename;
+            delete Item.appointments;
+            delete Item.division;
+            delete Item.updatedAt;
+            delete Item.appointmentId;
+            delete Item.department;
+            delete Item.shift;
+            delete Item.careInstitutionDepartment;
   
             await updateCareinstitutionRequirment({
               variables: {
                 id: availabilityId,
-                careInstitutionRequirementInput: updateData,
+                careInstitutionRequirementInput: {
+                  ...Item,
+                  userId:
+                    canstitution && canstitution.id ? parseInt(canstitution.id) : 0,
+                  status:
+                    name === "confirmed"
+                      ? "confirmed"
+                      : name === "notconfirm"
+                      ? "linked"
+                      : name === "offered"
+                      ? "offered"
+                      : "default",
+                },
               },
             });
             if (!toast.isActive(toastId)) {
@@ -744,10 +744,6 @@ const CareinstitutionRightClickOptions = (props: any) => {
             </NavLink>{" "}
           </NavItem>
           <NavItem>
-            {console.log(
-              "selectedCellsCareinstitution",
-              selectedCellsCareinstitution
-            )}
             <NavLink
               disabled={
                 selectedCellsCareinstitution &&

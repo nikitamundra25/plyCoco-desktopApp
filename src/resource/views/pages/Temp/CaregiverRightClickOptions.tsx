@@ -363,7 +363,7 @@ export const CaregiverRightClickOptions = ({
     if (selectedCells && selectedCells.length) {
       selectedCells.forEach(async (element: any) => {
         const { item, caregiver } = element;
-        const Item = { ...item };
+        const Item  = Object.assign({}, item)
         if (Item && Item.id) {
           if (
             name === 'confirmed'
@@ -695,14 +695,12 @@ export const CaregiverRightClickOptions = ({
           <NavItem>
             <NavLink
               disabled={
-                selectedCells
-                  ?  selectedCells &&
-                  selectedCells.length&&
-                  selectedCells[0] &&
-                  selectedCells[0].item &&
-                  selectedCells[0].item.id ||
-                    (offferAll && offferAll.length !== 0) ||
-                    (checkQuali && checkQuali.length === 0)
+                selectedCells &&
+                selectedCells.length&&
+                selectedCells[0] &&
+                selectedCells[0].item &&
+                selectedCells[0].item.id
+                  ? false
                   : true
               }
               onClick={() => {

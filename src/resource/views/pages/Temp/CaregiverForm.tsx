@@ -332,10 +332,7 @@ export const CaregiverForm = ({
         caregiver: {
           ...caregiver,
         },
-        item:{ 
-          ...item,
-          stem
-        },
+        item:itemData[index],
       };
 
       temp.push(data);

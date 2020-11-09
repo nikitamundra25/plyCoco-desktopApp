@@ -173,10 +173,7 @@ const CareinstitutionForm = ({
             ...canstitution,
           },
           isLeasing,
-          item:{ 
-            ...item,
-            stem
-          },
+          item:itemData[index],
         }
       
       temp.push(data)

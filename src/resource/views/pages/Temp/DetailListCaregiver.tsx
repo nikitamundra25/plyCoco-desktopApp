@@ -41,7 +41,6 @@ const DetailListCaregiver = (props: any) => {
     setIsExpand(activeRow === index || activeRow === -1 ? !isExpand : isExpand);
     setActiveRow(activeRow === index ? -1 : index);
   };
-  console.log("selectedCells",selectedCells);
   
   return (
     <div>

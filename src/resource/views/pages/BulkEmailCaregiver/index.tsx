@@ -663,10 +663,12 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             if (object.item.departmentOfferRemarks) {
               remarkRow += `<p>${object.item.departmentOfferRemarks}</p>`;
             }
-            for (let j = 0; j < object.item.qualificationId.length; j++) {
-              let q = object.item.qualificationId[j];
-              if (!qualificationArray.includes(q)) {
-                qualificationArray.push(q);
+            if(object && object.item &&object.item.qualificationId && object.item.qualificationId.length){
+              for (let j = 0; j < object.item.qualificationId.length; j++) {
+                let q = object.item.qualificationId[j];
+                if (!qualificationArray.includes(q)) {
+                  qualificationArray.push(q);
+                }
               }
             }
           }

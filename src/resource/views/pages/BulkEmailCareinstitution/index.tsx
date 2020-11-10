@@ -277,7 +277,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
         cell.item.appointments.length &&
         cell.item.appointments[0].id
     );
-    userId = selectedCellsCareinstitution[0].id;
+    userId = selectedCellsCareinstitution[0].canstitution.id;
     if (appointedCells && appointedCells.length) {
       appointmentIds = appointedCells.map((cell: any) =>
         parseInt(cell.item.appointments[0].id)
@@ -312,6 +312,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
     if (selectedCellsCareinstitution && selectedCellsCareinstitution.length)
       setPdfAppointmentDetails(selectedCellsCareinstitution);
   }, [selectedCellsCareinstitution]);
+
   useEffect(() => {
     if (documentRes) {
       const { addUserDocuments = {} } = documentRes ? documentRes : {};
@@ -346,9 +347,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             selectedCellsCareinstitution.forEach((element: any) => {
               const {
                 item = {},
-                name = "",
               } = element;
-              const { appointments = [], division = {} } = item;
+              const { appointments = [], division = {}, name='' } = item;
               if (appointments && appointments.length) {
                 const { ca = {}, date = "" } =
                   appointments && appointments.length ? appointments[0] : {};
@@ -408,8 +408,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
             selectedCellsCareinstitution.forEach(
               (element: any, index: number) => {
                 const { item = {} } = element;
-                isLeasing = element.isLeasing;
-
+                isLeasing = item.isLeasing ? item.isLeasing : false;
                 const { appointments = [], division = {}, name = '' } = item;
                 if (appointments && appointments.length) {
                   const { ca = {}, date = "" } =
@@ -481,7 +480,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
               selectedCellsCareinstitution.length
             ) {
               selectedCellsCareinstitution.forEach((element: any) => {
-                const { item = {}, firstName = "", lastName = "" } = element;
+                const { item = {},canstitution = {}  } = element;
+                const {firstName = "", lastName = "" } = canstitution ? canstitution : {}
                 const { appointments = [], division = {} } = item;
                 if (appointments && appointments.length) {
                   const { ca = {}, date = "" } =
@@ -542,7 +542,8 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
               selectedCellsCareinstitution.length
             ) {
               selectedCellsCareinstitution.forEach((element: any) => {
-                const { item = {}, firstName = "", lastName = "" } = element;
+                const { item = {}, canstitution = {} } = element;
+                const { firstName = "", lastName = "" } = canstitution ?canstitution : {}
                 const { appointments = [], division = {} } = item;
                 if (appointments && appointments.length) {
                   const { ca = {}, date = "" } =
@@ -1003,7 +1004,15 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
               </div>
             </div>
           </div>
+ {console.log("isLeasingRequirement",isLeasingRequirement)
 
+ }
+ {console.log("temporaryWorkerPdf",temporaryWorkerPdf)
+ }
+ {console.log("confirmAppointment",confirmAppointment)
+ }
+ {console.log("pdfAppointmentDetails",pdfAppointmentDetails)
+ }
           <div className="common-content flex-grow-1">
             <div className="bulk-email-section">
               <Row>
@@ -1012,6 +1021,9 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                 confirmAppointment &&
                 pdfAppointmentDetails &&
                 pdfAppointmentDetails.length > 0 ? (
+                  <>
+                  {console.log("hereeeeeeeeeeeeeeeee")}
+                  
                   <PDFDownloadLink
                     document={
                       <ConfirmAppointmentPdf
@@ -1024,6 +1036,7 @@ const BulkEmailCareInstitution: FunctionComponent<any> = (props: any) => {
                       !loading ? setTemporaryWorkerPdf(blob) : null
                     }
                   </PDFDownloadLink>
+                  </>
                 ) : null}
                 <CareInstitutionListComponent
                   careInstData={props.label === "appointment" && careInstData && careInstData.getCareInstitution ? [careInstData.getCareInstitution] : careInstitutionData}

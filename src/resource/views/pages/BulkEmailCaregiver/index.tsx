@@ -912,7 +912,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             selectedCellsCareinstitution.length
           ) {
             selectedCellsCareinstitution.forEach((element: any) => {
-              const { item = {}, firstName = "", lastName = "" } = element;
+              const { item = {},canstitution = {}, } = element;
+              const {  firstName = "", lastName = ""} = canstitution? canstitution : {}
               const { appointments = [], division = {} } = item;
               if (appointments && appointments.length) {
                 const { ca = {}, date = "" } =
@@ -966,7 +967,8 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             selectedCellsCareinstitution.length
           ) {
             selectedCellsCareinstitution.forEach((element: any) => {
-              const { item = {}, firstName = "", lastName = "" } = element;
+              const { item = {}, canstitution = {} } = element;
+              const {  firstName = "", lastName = ""} = canstitution? canstitution : {}
               const { appointments = [], division = {} } = item;
               if (appointments && appointments.length) {
                 const { ca = {}, date = "" } =
@@ -1307,9 +1309,10 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
 
   useEffect(() => {
     if (selectedCells && selectedCells.length) {
-      const { qualificationIds = [] } = selectedCells[0]
+      const { caregiver = {} } = selectedCells[0] 
         ? selectedCells[0]
         : {};
+        const { qualificationId:qualificationIds = [] } = caregiver ? caregiver : {};
       const { getQualificationMatching = [] } = requirmentList
         ? requirmentList
         : {};
@@ -1554,7 +1557,6 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
     appointmentIds: number[] = [],
     requirementIds: number[] = [],
     avabilityIds: number[] = [];
-  console.log("selectedCells", selectedCells);
 
   if (selectedCells && selectedCells.length > 0) {
     let appointedCells = selectedCells.filter(
@@ -1758,7 +1760,7 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
         let condition: boolean =
           selectedCellsCareinstitution &&
           selectedCellsCareinstitution.length &&
-          selectedCellsCareinstitution[0]
+          selectedCellsCareinstitution[0] 
             ? true
             : false;
 
@@ -1774,11 +1776,12 @@ const BulkEmailCaregiver: FunctionComponent<any> = (props: any) => {
             requirementId:
               condition &&
               selectedCellsCareinstitution[0].item &&
-              selectedCellsCareinstitution[0].item.id
+              selectedCellsCareinstitution[0].item.id 
                 ? parseInt(selectedCellsCareinstitution[0].item.id)
                 : null,
-            date: condition
-              ? moment(selectedCellsCareinstitution[0].dateString).format(
+            date: condition && 
+          selectedCellsCareinstitution[0].item.date
+              ? moment(selectedCellsCareinstitution[0].item.date).format(
                   dbAcceptableFormat
                 )
               : "",

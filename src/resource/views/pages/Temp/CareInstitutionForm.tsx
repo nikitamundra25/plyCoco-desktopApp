@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import moment from "moment";
-import classnames from "classnames";
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import classnames from 'classnames';
 import {
   dateDiffernceValidator,
   dateValidatorNorm,
@@ -8,8 +8,8 @@ import {
   germanNumberFormat,
   languageTranslation,
   timeDiffernce,
-} from "../../../../helpers";
-import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
+} from '../../../../helpers';
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import {
   FormGroup,
   Label,
@@ -24,9 +24,9 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap";
-import Select from "react-select";
-import { FormikProps, Field, FormikHelpers, Formik, Form } from "formik";
+} from 'reactstrap';
+import Select from 'react-select';
+import { FormikProps, Field, FormikHelpers, Formik, Form } from 'formik';
 import {
   AppConfig,
   appointmentDayFormat,
@@ -37,8 +37,8 @@ import {
   NightAllowancePerHour,
   ShiftTime,
   TimeMask,
-} from "../../../../config";
-import MaskedInput from "react-text-mask";
+} from '../../../../config';
+import MaskedInput from 'react-text-mask';
 import {
   IAddCargiverAppointmentRes,
   ICaregiverFormValue,
@@ -47,17 +47,17 @@ import {
   IQualifications,
   IReactSelectInterface,
   IReactSelectTimeInterface,
-} from "../../../../interfaces";
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+} from '../../../../interfaces';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import {
   CareInstitutionQueries,
   DocumentQueries,
   GET_QUALIFICATION_ATTRIBUTE,
-} from "../../../../graphql/queries";
-import { CareInstitutionValidationSchema } from "../../../validations/AppointmentsFormValidationSchema";
-import { toast } from "react-toastify";
-import { AppointmentMutations } from "../../../../graphql/Mutations";
-import { ConfirmBox } from "../../components/ConfirmBox";
+} from '../../../../graphql/queries';
+import { CareInstitutionValidationSchema } from '../../../validations/AppointmentsFormValidationSchema';
+import { toast } from 'react-toastify';
+import { AppointmentMutations } from '../../../../graphql/Mutations';
+import { ConfirmBox } from '../../components/ConfirmBox';
 const [
   ,
   ADD_INSTITUTION_REQUIREMENT,
@@ -88,18 +88,18 @@ const CareinstitutionForm = ({
   filterUpdated,
   filters,
   setCareInstDeptList,
-  setMultipleRequirement
+  setMultipleRequirement,
 }: any) => {
-    // To get department list
-    const [
-      getDepartmentList,
-      { data, loading: deptLoading },
-    ] = useLazyQuery<any>(GET_DEPARTMENT_LIST, {
-      fetchPolicy: "no-cache",
+  // To get department list
+  const [getDepartmentList, { data, loading: deptLoading }] = useLazyQuery<any>(
+    GET_DEPARTMENT_LIST,
+    {
+      fetchPolicy: 'no-cache',
       onCompleted: (daata: any) => {
-        setCareInstDeptList(daata)
+        setCareInstDeptList(daata);
       },
-    });
+    }
+  );
 
   // Mutation to add careinstitution data
   const [
@@ -112,7 +112,7 @@ const CareinstitutionForm = ({
     onCompleted({ addCareInstitutionRequirement }) {
       updateItemData(addCareInstitutionRequirement);
       // call a function
-      handleupdateData(addCareInstitutionRequirement,"careinstitution");
+      handleupdateData(addCareInstitutionRequirement, 'careinstitution');
     },
   });
 
@@ -131,8 +131,8 @@ const CareinstitutionForm = ({
     }
   >(UPDATE_INSTITUTION_REQUIREMENT, {
     onCompleted({ updateCareInstitutionRequirement }) {
-       updateItemData([updateCareInstitutionRequirement])
-      handleupdateData([updateCareInstitutionRequirement],"careinstitution");
+      updateItemData([updateCareInstitutionRequirement]);
+      handleupdateData([updateCareInstitutionRequirement], 'careinstitution');
     },
   });
 
@@ -145,7 +145,7 @@ const CareinstitutionForm = ({
   >(DELETE_CAREINSTITUTION_REQUIREMENT, {
     onCompleted({ deleteCareInstitutionRequirement }) {
       setSelectedCareinstitution([]);
-      handleupdateData(deleteCareInstitutionRequirement,"careinstitution");
+      handleupdateData(deleteCareInstitutionRequirement, 'careinstitution');
     },
   });
 
@@ -157,32 +157,29 @@ const CareinstitutionForm = ({
   >([]);
 
   const updateItemData = (itemData: any) => {
-    let temp: any = [] ;
+    let temp: any = [];
     selected.forEach(async (element: any, index: number) => {
       const {
-        isWeekend = "",
+        isWeekend = '',
         item = undefined,
         canstitution = {},
-        isLeasing = "",
+        isLeasing = '',
       } = element ? element : {};
-      let stem = itemData[index]
-      let data: any = 
-        {
-          isWeekend,
-          canstitution: {
-            ...canstitution,
-          },
-          isLeasing,
-          item:itemData[index],
-        }
-      
-      temp.push(data)
+      let stem = itemData[index];
+      let data: any = {
+        isWeekend,
+        canstitution: {
+          ...canstitution,
+        },
+        isLeasing,
+        item: itemData[index],
+      };
+
+      temp.push(data);
     });
 
     setSelectedCareinstitution(temp);
   };
-
-  
 
   /**
    *
@@ -224,27 +221,27 @@ const CareinstitutionForm = ({
 
     /*  Time slot condition for f,s, n
      */
-    let fvar: string = "";
-    let svar: string = "";
-    let nvar: string = "";
+    let fvar: string = '';
+    let svar: string = '';
+    let nvar: string = '';
     let difference: string = timeDiffernce(startTime, endTime);
     if (parseInt(startTime) >= 0 && parseInt(startTime) < 12) {
       if (parseInt(difference) > 8) {
         fvar = `f${parseInt(difference)}`;
       } else {
-        fvar = "f";
+        fvar = 'f';
       }
     } else if (parseInt(startTime) >= 12 && parseInt(startTime) < 18) {
       if (parseInt(difference) > 8) {
         svar = `s${parseInt(difference)}`;
       } else {
-        svar = "s";
+        svar = 's';
       }
     } else if (parseInt(startTime) >= 18) {
       if (parseInt(difference) > 8) {
         nvar = `n${parseInt(difference)}`;
       } else {
-        nvar = "n";
+        nvar = 'n';
       }
     }
     try {
@@ -253,18 +250,18 @@ const CareinstitutionForm = ({
 
         let careInstitutionRequirementInput: any[] = [];
         selected.forEach(async (element: any) => {
-          const { item = "", canstitution = {} } = element ? element : {};
-          const { canstitution:careinst={} } = canstitution
+          const { item = '', canstitution = {} } = element ? element : {};
+          const { canstitution: careinst = {} } = canstitution
             ? canstitution
             : {};
-            
-            const { attributes = [], street = "", city = "" } = careinst
+
+          const { attributes = [], street = '', city = '' } = careinst
             ? careinst
             : {};
           let stemp: ICareinstitutionFormSubmitValue = {
             userId:
               canstitution && canstitution.id ? parseInt(canstitution.id) : 0,
-            date: item && item.date ? item.date : "",
+            date: item && item.date ? item.date : '',
             name: Name ? Name : name,
             startTime,
             endTime,
@@ -280,11 +277,11 @@ const CareinstitutionForm = ({
 
             address: department
               ? address
-              : [street, city].filter(Boolean).join(", "),
+              : [street, city].filter(Boolean).join(', '),
             contactPerson,
             departmentOfferRemarks: departmentOfferRemarks
               ? departmentOfferRemarks
-              : "",
+              : '',
             departmentBookingRemarks,
             departmentRemarks,
             isWorkingProof,
@@ -294,13 +291,13 @@ const CareinstitutionForm = ({
             f: fvar,
             s: svar,
             n: nvar,
-            status: status ? status : "default",
+            status: status ? status : 'default',
             isLeasing:
               attributes && attributes.length
                 ? attributes.includes(CareInstTIMyoCYAttrId)
                 : false,
             createdBy,
-            createdAt: createdAt ? createdAt : "",
+            createdAt: createdAt ? createdAt : '',
           };
           careInstitutionRequirementInput = [
             ...careInstitutionRequirementInput,
@@ -308,7 +305,6 @@ const CareinstitutionForm = ({
           ];
           setshiftOption([]);
           if (appointmentId) {
-
             await updateCareinstitutionRequirment({
               variables: {
                 id: parseInt(appointmentId),
@@ -319,24 +315,23 @@ const CareinstitutionForm = ({
             if (!toast.isActive(toastId)) {
               toastId = toast.success(
                 languageTranslation(
-                  "CARE_INSTITUTION_REQUIREMENT_UPDATE_SUCCESS_MSG"
+                  'CARE_INSTITUTION_REQUIREMENT_UPDATE_SUCCESS_MSG'
                 )
               );
             }
           }
         });
         if (!appointmentId) {
-  
           await addCareinstitutionRequirment({
             variables: {
               careInstitutionRequirementInput,
             },
           });
-           setMultipleRequirement(false);
+          setMultipleRequirement(false);
           if (!toast.isActive(toastId)) {
             toastId = toast.success(
               languageTranslation(
-                "CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG"
+                'CARE_INSTITUTION_REQUIREMENT_ADD_SUCCESS_MSG'
               )
             );
           }
@@ -354,8 +349,8 @@ const CareinstitutionForm = ({
   const onhandleDelete = async (id: string) => {
     if (id) {
       const { value } = await ConfirmBox({
-        title: languageTranslation("CONFIRM_LABEL"),
-        text: languageTranslation("CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT"),
+        title: languageTranslation('CONFIRM_LABEL'),
+        text: languageTranslation('CONFIRM_DELETE_CAREINSTITUTION_REQUIREMENT'),
       });
       if (!value) {
         return;
@@ -368,7 +363,7 @@ const CareinstitutionForm = ({
 
         if (!toast.isActive(toastId)) {
           toastId = toast.success(
-            languageTranslation("DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS")
+            languageTranslation('DELETE_CAREINSTITUTION_REQUIREMENT_SUCCESS')
           );
         }
       }
@@ -377,21 +372,20 @@ const CareinstitutionForm = ({
 
   // Useeffect to set shift options according to dept.
   useEffect(() => {
-    let deptId = selectedDept ? selectedDept.value : "";
+    let deptId = selectedDept ? selectedDept.value : '';
     let departmentData: any = {};
     const careInstitutionTimesOptions:
       | IReactSelectTimeInterface[]
       | undefined = [];
     let values = careinstitutionFieldValues;
 
-  
-    let startTime: string = "";
-    let endTime: string = "";
+    let startTime: string = '';
+    let endTime: string = '';
     const {
-      isWeekend = "",
+      isWeekend = '',
       item = undefined,
       canstitution = {},
-      isLeasing = "",
+      isLeasing = '',
     } = selected && selected.length && selected[0] ? selected[0] : {};
 
     if (deptId && (careinstitutionFieldValues || !(item && item.id))) {
@@ -403,8 +397,8 @@ const CareinstitutionForm = ({
         if (departmentData && departmentData.times) {
           startTime = departmentData.times[0]
             ? departmentData.times[0].begin
-            : "";
-          endTime = departmentData.times[0] ? departmentData.times[0].end : "";
+            : '';
+          endTime = departmentData.times[0] ? departmentData.times[0].end : '';
           departmentData.times.map((list: any) => {
             return careInstitutionTimesOptions.push({
               label: `${list.begin} - ${list.end} `,
@@ -420,7 +414,7 @@ const CareinstitutionForm = ({
             quali.push(key.value);
           });
         }
-        
+
         let temp: any[] = [
           {
             isWeekend,
@@ -430,31 +424,29 @@ const CareinstitutionForm = ({
             isLeasing,
             item: {
               ...values,
-              id: values && values.appointmentId ? values.appointmentId : "",
+              id: values && values.appointmentId ? values.appointmentId : '',
               department: selectedDept,
-              qualificationId: values && values.qualificationId
-                  ? quali
-                  : [],
-              address: departmentData ? departmentData.address : "",
-              contactPerson: departmentData ? departmentData.contactPerson : "",
+              qualificationId: values && values.qualificationId ? quali : [],
+              address: departmentData ? departmentData.address : '',
+              contactPerson: departmentData ? departmentData.contactPerson : '',
               departmentOfferRemarks: departmentData
                 ? departmentData.commentsOffer
-                : "",
+                : '',
               departmentRemarks: departmentData
                 ? departmentData.commentsVisibleInternally
-                : "",
+                : '',
               departmentBookingRemarks: departmentData
                 ? departmentData.commentsCareGiver
-                : "",
+                : '',
               shift:
                 careInstitutionTimesOptions &&
                 careInstitutionTimesOptions.length
                   ? careInstitutionTimesOptions[0]
                   : values
                   ? values.shift
-                  : "",
-              startTime: startTime ? startTime : values ? values.startTime : "",
-              endTime: endTime ? endTime : values ? values.endTime : "",
+                  : '',
+              startTime: startTime ? startTime : values ? values.startTime : '',
+              endTime: endTime ? endTime : values ? values.endTime : '',
               isLeasing: item && item.isLeasing ? item.isLeasing : false,
             },
           },
@@ -475,12 +467,12 @@ const CareinstitutionForm = ({
   useEffect(() => {
     let timeData: IReactSelectTimeInterface | undefined = selectedShift;
     let values = careinstitutionFieldValues;
-    let time = timeData && !timeData.data ? timeData.value.split("-") : "";
+    let time = timeData && !timeData.data ? timeData.value.split('-') : '';
     const {
-      isWeekend = "",
+      isWeekend = '',
       item = undefined,
       canstitution = {},
-      isLeasing = "",
+      isLeasing = '',
     } = selected && selected.length ? selected[0] : {};
     let quali: number[] = [];
     if (values && values.qualificationId) {
@@ -497,22 +489,20 @@ const CareinstitutionForm = ({
         isLeasing,
         item: {
           ...values,
-          qualificationId: values && values.qualificationId
-                  ? quali
-                  : [],
-          id: values && values.appointmentId ? values.appointmentId : "",
+          qualificationId: values && values.qualificationId ? quali : [],
+          id: values && values.appointmentId ? values.appointmentId : '',
           shift: selectedShift,
           isLeasing: item && item.isLeasing ? item.isLeasing : false,
           startTime: timeData
             ? timeData.data && timeData.data.begin
               ? timeData.data.begin
               : time[0]
-            : "",
+            : '',
           endTime: timeData
             ? timeData.data && timeData.data.begin
               ? timeData.data.end
               : time[1]
-            : "",
+            : '',
         },
       },
     ];
@@ -531,26 +521,41 @@ const CareinstitutionForm = ({
   let isFutureDate = false,
     item: any = {},
     careInstDetails: any = {},
-    appointmentId = "",
+    appointmentId = '',
     showQualification = false;
 
   // set item object
   if (selected && selected.length && selected[0] && selected[0].item) {
     item = selected[0].item;
     careInstDetails = selected[0].canstitution;
-    isFutureDate = moment(item.date, "YYYY/MM/DD").isAfter();
-    appointmentId = item.id || "";
+    isFutureDate = moment(item.date, 'YYYY/MM/DD').isAfter();
+    appointmentId = item.id || '';
   }
 
   // To check appointment with leasing careInst or not
-  let isLeasingAppointment = false
+  let isLeasingAppointment = false;
   if (item) {
     isLeasingAppointment = item.isLeasing;
-  }  
+  }
   // To check appointment with leasing careInst or not
-  showQualification = item && item.isLeasing ? true : false;
-   
-  const { canstitution ,qualificationId: mainQuali = [],id: userCanstId='', divisionId=''  } = careInstDetails;
+  showQualification =
+    /* item && item.isLeasing ? true : false */
+    selected &&
+    selected.length &&
+    selected[0] &&
+    selected[0].canstitution &&
+    selected[0].canstitution.canstitution &&
+    selected[0].canstitution.canstitution.attributes
+      ? selected[0].canstitution.canstitution.attributes.includes(
+          CareInstTIMyoCYAttrId
+        )
+      : false;
+  const {
+    canstitution,
+    qualificationId: mainQuali = [],
+    id: userCanstId = '',
+    divisionId = '',
+  } = careInstDetails;
   const {
     name,
     comments,
@@ -563,7 +568,7 @@ const CareinstitutionForm = ({
     departmentOfferRemarks,
     contactPerson,
     address,
-    qualificationId=[],
+    qualificationId = [],
     endTime,
     startTime,
     date,
@@ -585,7 +590,7 @@ const CareinstitutionForm = ({
     const { getDivision } = departmentList;
     careInstitutionDepartment = getDivision.map((dept: any) => ({
       label: dept.name,
-      value: dept && dept.id ? dept.id.toString() : "",
+      value: dept && dept.id ? dept.id.toString() : '',
     }));
   }
 
@@ -600,8 +605,8 @@ const CareinstitutionForm = ({
     departmentData = careInstitutionDepartment.filter(
       (dept: any) => dept.value === item.divisionId
     );
-  }else{
-    if(divisionId){
+  } else {
+    if (divisionId) {
       departmentData = careInstitutionDepartment.filter(
         (dept: any) => dept.value === divisionId
       );
@@ -625,13 +630,15 @@ const CareinstitutionForm = ({
     qualificationfor = [item.qualificationForCharge];
   }
 
-  const { shortName = "",companyName=''  } = canstitution
-    ? canstitution
-    : {};
-    
-    let mainQualification =
-    qualificationId && qualificationId.length ? qualificationId : mainQuali && mainQuali.length  ? mainQuali : [];
-    
+  const { shortName = '', companyName = '' } = canstitution ? canstitution : {};
+
+  let mainQualification =
+    qualificationId && qualificationId.length
+      ? qualificationId
+      : mainQuali && mainQuali.length
+      ? mainQuali
+      : [];
+
   let qualiData: IReactSelectInterface[] = [];
   if (
     qualificationList &&
@@ -648,88 +655,87 @@ const CareinstitutionForm = ({
    */
 
   const valuesForCareIntituionForm: ICareinstitutionFormValue = {
-    appointmentId: item ? item.id : "",
+    appointmentId: item ? item.id : '',
     name: name ? name : shortName,
-    date: date ? date : "",
-    startTime: startTime ? startTime : "",
-    endTime: endTime ? endTime : "",
+    date: date ? date : '',
+    startTime: startTime ? startTime : '',
+    endTime: endTime ? endTime : '',
     qualificationId: qualiData ? qualiData : undefined,
     qualificationForCharge:
       qualificationfor && qualificationfor[0] ? qualificationfor[0] : undefined,
-    address: address ? address : "",
-    contactPerson: contactPerson ? contactPerson : "",
+    address: address ? address : '',
+    contactPerson: contactPerson ? contactPerson : '',
     departmentOfferRemarks: departmentOfferRemarks
       ? departmentOfferRemarks
-      : "",
+      : '',
     departmentBookingRemarks: departmentBookingRemarks
       ? departmentBookingRemarks
-      : "",
-    departmentRemarks: departmentRemarks ? departmentRemarks : "",
+      : '',
+    departmentRemarks: departmentRemarks ? departmentRemarks : '',
     isWorkingProof: isWorkingProof ? isWorkingProof : false,
-    offerRemarks: offerRemarks ? offerRemarks : "",
-    bookingRemarks: bookingRemarks ? bookingRemarks : "",
+    offerRemarks: offerRemarks ? offerRemarks : '',
+    bookingRemarks: bookingRemarks ? bookingRemarks : '',
     shift: shift ? shift : undefined,
     department:
       departmentData && departmentData[0] ? departmentData[0] : departmentData,
-    comments: comments ? comments : "",
-    status: status ? status : "",
+    comments: comments ? comments : '',
+    status: status ? status : '',
     careInstitutionDepartment,
-    createdBy: createdBy ? createdBy : "",
-    createdAt: createdAt ? createdAt : "",
-    updatedAt: updatedAt ? updatedAt : "",
+    createdBy: createdBy ? createdBy : '',
+    createdAt: createdAt ? createdAt : '',
+    updatedAt: updatedAt ? updatedAt : '',
   };
 
   // multipleRequirement
-  let activeDateCareinstitution =
-  !multipleRequirement ? [item.date] :
-    selected && selected.length
-      ? selected.map((cell: any) => cell.item.date)
-      : [];
+  let activeDateCareinstitution = !multipleRequirement
+    ? [item.date]
+    : selected && selected.length
+    ? selected.map((cell: any) => cell.item.date)
+    : [];
 
-
-      const handleStarMark = (id:any) =>{
-        if(starMarkCanstitution.isStar){
-          filterUpdated({
-            ...filters,
-            careInstitutionId:  null,
-            soloCareinstitution: undefined,
-            effects: "careinstitution",
-          });
-          setstarMarkCanstitution({
-            isStar: false,
-            setIndex: -1,
-            id: "",
-            isSecondStar: false,
-            divisionId: -1,
-          })
-        }else{
-          filterUpdated({
-            ...filters,
-            careInstitutionId: id ? parseInt(id) : null,
-            soloCareinstitution: {
-              label: shortName ? shortName : id,
-              value: id,
-              companyName: companyName,
-            },
-            effects: "careinstitution",
-          });
-          setstarMarkCanstitution({
-            isStar: true,
-            setIndex: 1,
-            id: id,
-            isSecondStar: starMarkCanstitution.isSecondStar,
-            divisionId: starMarkCanstitution.divisionId,
-          })
-          if (id) {
-            getDepartmentList({
-              variables: {
-                userId: parseInt(id),
-                locked: false,
-              },
-            });
-          }
-        }
+  const handleStarMark = (id: any) => {
+    if (starMarkCanstitution.isStar) {
+      filterUpdated({
+        ...filters,
+        careInstitutionId: null,
+        soloCareinstitution: undefined,
+        effects: 'careinstitution',
+      });
+      setstarMarkCanstitution({
+        isStar: false,
+        setIndex: -1,
+        id: '',
+        isSecondStar: false,
+        divisionId: -1,
+      });
+    } else {
+      filterUpdated({
+        ...filters,
+        careInstitutionId: id ? parseInt(id) : null,
+        soloCareinstitution: {
+          label: shortName ? shortName : id,
+          value: id,
+          companyName: companyName,
+        },
+        effects: 'careinstitution',
+      });
+      setstarMarkCanstitution({
+        isStar: true,
+        setIndex: 1,
+        id: id,
+        isSecondStar: starMarkCanstitution.isSecondStar,
+        divisionId: starMarkCanstitution.divisionId,
+      });
+      if (id) {
+        getDepartmentList({
+          variables: {
+            userId: parseInt(id),
+            locked: false,
+          },
+        });
       }
+    }
+  };
   /**
    *
    */
@@ -773,17 +779,16 @@ const CareinstitutionForm = ({
             handleSubmit,
             setFieldValue,
           } = props;
-          let d = moment().format("L");
-          let dtStart: any = new Date(d + " " + startTime);
-          let dtEnd: any = new Date(d + " " + endTime);
+          let d = moment().format('L');
+          let dtStart: any = new Date(d + ' ' + startTime);
+          let dtEnd: any = new Date(d + ' ' + endTime);
           let difference = dtEnd - dtStart;
 
           useEffect(() => {
-            if (savingBoth ) {
-            handleSubmit()
+            if (savingBoth) {
+              handleSubmit();
             }
           }, [savingBoth]);
-
 
           // Custom function to handle react select fields
           const handleSelect = (
@@ -791,11 +796,11 @@ const CareinstitutionForm = ({
             name: string
           ) => {
             setFieldValue(name, selectOption);
-            if (name === "department") {
+            if (name === 'department') {
               setCareinstitutionFieldValues(values);
               selectedDept = selectOption;
             }
-            if (name === "shift") {
+            if (name === 'shift') {
               setCareinstitutionFieldValues(values);
               selectedShift = selectOption;
               // props.setcareInstituionShift(selectOption, values);
@@ -822,53 +827,53 @@ const CareinstitutionForm = ({
           //     isCorrespondingAppointment = true;
           //   }
           // }
-          
+
           return (
             <>
               <Form>
-                <div className="form-section ">
+                <div className='form-section '>
                   <div
                     className={classnames({
-                      "form-card custom-height custom-scrollbar": true,
-                      "requirement-bg": item.status === "default",
-                      "matching-bg": item.status === "linked",
-                      "contract-bg": item.status === "confirmed",
-                      "availability-bg":
-                        item.status === "offered" && !isFutureDate,
-                      "availability-dark-bg":
-                        item.status === "offered" && isFutureDate,
+                      'form-card custom-height custom-scrollbar': true,
+                      'requirement-bg': item.status === 'default',
+                      'matching-bg': item.status === 'linked',
+                      'contract-bg': item.status === 'confirmed',
+                      'availability-bg':
+                        item.status === 'offered' && !isFutureDate,
+                      'availability-dark-bg':
+                        item.status === 'offered' && isFutureDate,
                     })}
                   >
-                    <h5 className="content-title">
-                      {languageTranslation("MENU_INSTITUTION")}
+                    <h5 className='content-title'>
+                      {languageTranslation('MENU_INSTITUTION')}
                     </h5>
                     <Row>
                       {appointmentId ? (
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
-                                  {languageTranslation("APPOINTMENT_ID")}
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
+                                  {languageTranslation('APPOINTMENT_ID')}
                                 </Label>
                               </Col>
-                              <Col sm="8">
-                                <div className="d-flex align-items-center justify-content-between flex-wrap">
-                                  <div className="required-input appointment-id-width">
+                              <Col sm='8'>
+                                <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                                  <div className='required-input appointment-id-width'>
                                     <Input
                                       value={appointmentId}
                                       disabled
                                       placeholder={languageTranslation(
-                                        "APPOINTMENT_ID"
+                                        'APPOINTMENT_ID'
                                       )}
                                     />
                                   </div>
                                   {isLeasingAppointment ? (
-                                    <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
+                                    <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
                                       TIMyoCY
                                     </div>
                                   ) : (
-                                    <div className="d-flex align-items-center uber-solona whitespace-nowrap mb-1">
+                                    <div className='d-flex align-items-center uber-solona whitespace-nowrap mb-1'>
                                       Plycoco
                                     </div>
                                   )}
@@ -878,46 +883,44 @@ const CareinstitutionForm = ({
                           </FormGroup>
                         </Col>
                       ) : null}
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("NAME")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('NAME')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <InputGroup>
                                   <Input
-                                    type="text"
-                                    name={"name"}
-                                    placeholder={languageTranslation("NAME")}
+                                    type='text'
+                                    name={'name'}
+                                    placeholder={languageTranslation('NAME')}
                                     disabled
                                     value={
-                                      name ? name : languageTranslation("NAME")
+                                      name ? name : languageTranslation('NAME')
                                     }
                                   />
                                   <InputGroupAddon
-                                    addonType="append"
-                                    className="cursor-pointer"
+                                    addonType='append'
+                                    className='cursor-pointer'
                                     onClick={() =>
-                                      name
-                                        ? handleStarMark(userCanstId)
-                                        : ''
+                                      name ? handleStarMark(userCanstId) : ''
                                     }
                                   >
                                     <InputGroupText>
                                       <i
                                         className={
-                                            name &&
-                                            starMarkCanstitution.isStar &&
-                                            parseInt(starMarkCanstitution.id) ===
-                                              parseInt(userCanstId)
-                                              ? "fa fa-star theme-text"
-                                              : "fa fa-star"
+                                          name &&
+                                          starMarkCanstitution.isStar &&
+                                          parseInt(starMarkCanstitution.id) ===
+                                            parseInt(userCanstId)
+                                            ? 'fa fa-star theme-text'
+                                            : 'fa fa-star'
                                         }
-                                        aria-hidden="true"
+                                        aria-hidden='true'
                                       ></i>
                                     </InputGroupText>
                                   </InputGroupAddon>
@@ -927,16 +930,16 @@ const CareinstitutionForm = ({
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("DATE")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('DATE')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="text-value one-line-text">
+                            <Col sm='8'>
+                              <div className='text-value one-line-text'>
                                 {activeDateCareinstitution
                                   ? activeDateCareinstitution
                                       .map(
@@ -949,12 +952,12 @@ const CareinstitutionForm = ({
                                                 index !==
                                                   activeDateCareinstitution.length -
                                                     1
-                                                  ? "dd DD"
+                                                  ? 'dd DD'
                                                   : `${appointmentDayFormat} ${defaultDateFormat}`
                                               )
                                             : null
                                       )
-                                      .join(", ")
+                                      .join(', ')
                                   : null}
                               </div>
                             </Col>
@@ -962,19 +965,19 @@ const CareinstitutionForm = ({
                         </FormGroup>
                       </Col>
 
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("START_WORKING")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('START_WORKING')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="d-flex align-items-center justify-content-between flex-wrap">
-                                <div className="required-input clockshift-input">
-                                  <InputGroup className="flex-nowrap">
-                                    <Field name={"startTime"}>
+                            <Col sm='8'>
+                              <div className='d-flex align-items-center justify-content-between flex-wrap'>
+                                <div className='required-input clockshift-input'>
+                                  <InputGroup className='flex-nowrap'>
+                                    <Field name={'startTime'}>
                                       {({ field }: any) => (
                                         <MaskedInput
                                           {...field}
@@ -982,35 +985,35 @@ const CareinstitutionForm = ({
                                           className={
                                             errors.startTime &&
                                             touched.startTime
-                                              ? "text-input error form-control"
-                                              : "text-input form-control"
+                                              ? 'text-input error form-control'
+                                              : 'text-input form-control'
                                           }
                                           onChange={handleChange}
                                           onBlur={handleBlur}
-                                          value={startTime ? startTime : ""}
+                                          value={startTime ? startTime : ''}
                                         />
                                       )}
                                     </Field>
                                     {errors.startTime && touched.startTime && (
-                                      <div className="required-tooltip">
+                                      <div className='required-tooltip'>
                                         {errors.startTime}
                                       </div>
                                     )}
-                                    <InputGroupAddon addonType="append">
+                                    <InputGroupAddon addonType='append'>
                                       <InputGroupText>
-                                        {languageTranslation("UHR")}
+                                        {languageTranslation('UHR')}
                                       </InputGroupText>
                                     </InputGroupAddon>
                                   </InputGroup>
                                 </div>
-                                <UncontrolledDropdown className="custom-dropdown">
+                                <UncontrolledDropdown className='custom-dropdown'>
                                   <DropdownToggle
-                                    className={"add-new-btn"}
+                                    className={'add-new-btn'}
                                     value={shift ? shift : undefined}
                                   >
                                     <i
-                                      className="fa fa-clock-o"
-                                      aria-hidden="true"
+                                      className='fa fa-clock-o'
+                                      aria-hidden='true'
                                     />
                                   </DropdownToggle>
                                   <DropdownMenu>
@@ -1025,7 +1028,7 @@ const CareinstitutionForm = ({
                                                 key={index}
                                                 value={option.value}
                                                 onClick={(e: any) =>
-                                                  handleSelect(option, "shift")
+                                                  handleSelect(option, 'shift')
                                                 }
                                               >
                                                 {option.label}
@@ -1033,7 +1036,7 @@ const CareinstitutionForm = ({
                                             );
                                           }
                                         )
-                                      : ""}
+                                      : ''}
                                   </DropdownMenu>
                                 </UncontrolledDropdown>
                               </div>
@@ -1041,48 +1044,48 @@ const CareinstitutionForm = ({
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("END_WORKING")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('END_WORKING')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input clockshift-input">
-                                <InputGroup className="flex-nowrap">
-                                  <Field name={"endTime"}>
+                            <Col sm='8'>
+                              <div className='required-input clockshift-input'>
+                                <InputGroup className='flex-nowrap'>
+                                  <Field name={'endTime'}>
                                     {({ field }: any) => (
                                       <MaskedInput
                                         {...field}
                                         mask={TimeMask}
                                         className={
                                           errors.endTime && touched.endTime
-                                            ? "fee-width form-control error"
-                                            : "fee-width form-control"
+                                            ? 'fee-width form-control error'
+                                            : 'fee-width form-control'
                                         }
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={endTime ? endTime : ""}
+                                        value={endTime ? endTime : ''}
                                       />
                                     )}
                                   </Field>
                                   {errors.endTime ? (
                                     errors.endTime &&
                                     touched.endTime && (
-                                      <div className="required-tooltip">
+                                      <div className='required-tooltip'>
                                         {errors.endTime}
                                       </div>
                                     )
                                   ) : touched.endTime && difference <= 0 ? (
-                                    <div className="required-tooltip">
-                                      {languageTranslation("VALID_TIME_RANGE")}
+                                    <div className='required-tooltip'>
+                                      {languageTranslation('VALID_TIME_RANGE')}
                                     </div>
                                   ) : null}
-                                  <InputGroupAddon addonType="append">
+                                  <InputGroupAddon addonType='append'>
                                     <InputGroupText>
-                                      {languageTranslation("UHR")}
+                                      {languageTranslation('UHR')}
                                     </InputGroupText>
                                   </InputGroupAddon>
                                 </InputGroup>
@@ -1091,23 +1094,23 @@ const CareinstitutionForm = ({
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("QUALIFICATION")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('QUALIFICATION')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="postion-relative">
+                            <Col sm='8'>
+                              <div className='postion-relative'>
                                 <Button
                                   className={
                                     qualificationId && qualificationId.length
-                                      ? "add-new-btn arrow-btn"
-                                      : "add-new-btn arrow-btn disabled-class"
+                                      ? 'add-new-btn arrow-btn'
+                                      : 'add-new-btn arrow-btn disabled-class'
                                   }
-                                  color=""
+                                  color=''
                                   onClick={() => {
                                     if (
                                       qualificationId &&
@@ -1118,8 +1121,8 @@ const CareinstitutionForm = ({
                                   }}
                                 >
                                   <i
-                                    className="fa fa-arrow-up"
-                                    aria-hidden="true"
+                                    className='fa fa-arrow-up'
+                                    aria-hidden='true'
                                   />
                                 </Button>
 
@@ -1127,27 +1130,27 @@ const CareinstitutionForm = ({
                                   className={`custom-select-checkbox select-right-bottom ${
                                     errors.qualificationId &&
                                     touched.qualificationId
-                                      ? "error"
-                                      : " "
+                                      ? 'error'
+                                      : ' '
                                   }`}
                                 >
                                   <ReactMultiSelectCheckboxes
                                     options={qualificationList}
                                     placeholderButtonLabel={languageTranslation(
-                                      "CAREGIVER_QUALIFICATION_PLACEHOLDER"
+                                      'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                                     )}
                                     placeholder={languageTranslation(
-                                      "CAREGIVER_QUALIFICATION_PLACEHOLDER"
+                                      'CAREGIVER_QUALIFICATION_PLACEHOLDER'
                                     )}
                                     className={
                                       errors.qualificationId &&
                                       touched.qualificationId
-                                        ? "custom-reactselect error"
-                                        : "custom-reactselect"
+                                        ? 'custom-reactselect error'
+                                        : 'custom-reactselect'
                                     }
-                                    classNamePrefix="custom-inner-reactselect"
+                                    classNamePrefix='custom-inner-reactselect'
                                     onChange={(value: any) =>
-                                      handleSelect(value, "qualificationId")
+                                      handleSelect(value, 'qualificationId')
                                     }
                                     value={
                                       qualificationId && qualificationId.length
@@ -1157,7 +1160,7 @@ const CareinstitutionForm = ({
                                   />
                                   {errors.qualificationId &&
                                     touched.qualificationId && (
-                                      <div className="required-tooltip">
+                                      <div className='required-tooltip'>
                                         {qualificationError}
                                       </div>
                                     )}
@@ -1168,34 +1171,34 @@ const CareinstitutionForm = ({
                         </FormGroup>
                       </Col>
                       {showQualification ? (
-                        <Col lg={"12"}>
+                        <Col lg={'12'}>
                           <FormGroup>
                             <Row>
-                              <Col sm="4">
-                                <Label className="form-label col-form-label">
+                              <Col sm='4'>
+                                <Label className='form-label col-form-label'>
                                   {languageTranslation(
-                                    "QUALIFICATION_FOR_CHARGE"
+                                    'QUALIFICATION_FOR_CHARGE'
                                   )}
                                 </Label>
                               </Col>
-                              <Col sm="8">
-                                <div className="postion-relative">
+                              <Col sm='8'>
+                                <div className='postion-relative'>
                                   <Select
                                     options={qualificationList}
                                     placeholder={languageTranslation(
-                                      "QUALIFICATION_FOR_CHARGE"
+                                      'QUALIFICATION_FOR_CHARGE'
                                     )}
                                     className={
                                       errors.qualificationForCharge &&
                                       touched.qualificationForCharge
-                                        ? "custom-reactselect error"
-                                        : "custom-reactselect"
+                                        ? 'custom-reactselect error'
+                                        : 'custom-reactselect'
                                     }
-                                    classNamePrefix="custom-inner-reactselect"
+                                    classNamePrefix='custom-inner-reactselect'
                                     onChange={(value: any) =>
                                       handleSelect(
                                         value,
-                                        "qualificationForCharge"
+                                        'qualificationForCharge'
                                       )
                                     }
                                     value={
@@ -1211,19 +1214,19 @@ const CareinstitutionForm = ({
                         </Col>
                       ) : null}
 
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("DEPARTMENT")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('DEPARTMENT')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <Select
                                   placeholder={languageTranslation(
-                                    "SELECT_DEPARTMENT"
+                                    'SELECT_DEPARTMENT'
                                   )}
                                   options={careInstitutionDepartment}
                                   isDisabled={
@@ -1231,14 +1234,14 @@ const CareinstitutionForm = ({
                                       ? true
                                       : false
                                   }
-                                  classNamePrefix="custom-inner-reactselect"
+                                  classNamePrefix='custom-inner-reactselect'
                                   className={
                                     errors.department && touched.department
-                                      ? "custom-reactselect error"
-                                      : "custom-reactselect"
+                                      ? 'custom-reactselect error'
+                                      : 'custom-reactselect'
                                   }
                                   onChange={(value: any) =>
-                                    handleSelect(value, "department")
+                                    handleSelect(value, 'department')
                                   }
                                   value={
                                     department && department.value
@@ -1247,7 +1250,7 @@ const CareinstitutionForm = ({
                                   }
                                 />
                                 {errors.department && touched.department && (
-                                  <div className="required-tooltip">
+                                  <div className='required-tooltip'>
                                     {DepartmentError}
                                   </div>
                                 )}
@@ -1257,78 +1260,78 @@ const CareinstitutionForm = ({
                         </FormGroup>
                       </Col>
 
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("ADDRESS")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('ADDRESS')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <Input
-                                  type="textarea"
-                                  name={"address"}
+                                  type='textarea'
+                                  name={'address'}
                                   disabled={true}
-                                  placeholder={languageTranslation("ADDRESS")}
-                                  value={department ? address : ""}
-                                  className="textarea-custom form-control"
-                                  rows="2"
+                                  placeholder={languageTranslation('ADDRESS')}
+                                  value={department ? address : ''}
+                                  className='textarea-custom form-control'
+                                  rows='2'
                                 />
                               </div>
                             </Col>
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("CONTACT_PERSON")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('CONTACT_PERSON')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <Input
-                                  type="text"
+                                  type='text'
                                   disabled={true}
-                                  name={"contactPerson"}
+                                  name={'contactPerson'}
                                   placeholder={languageTranslation(
-                                    "CONTACT_PERSON"
+                                    'CONTACT_PERSON'
                                   )}
-                                  className="width-common"
-                                  value={contactPerson ? contactPerson : ""}
+                                  className='width-common'
+                                  value={contactPerson ? contactPerson : ''}
                                 />
                               </div>
                             </Col>
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
                                 {languageTranslation(
-                                  "REMARKS_OFFER_DEPARTMENT"
+                                  'REMARKS_OFFER_DEPARTMENT'
                                 )}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
+                                  className='textarea-custom form-control'
+                                  rows='3'
                                   disabled={true}
-                                  type="textarea"
-                                  name="departmentOfferRemarks"
-                                  id="exampleText"
+                                  type='textarea'
+                                  name='departmentOfferRemarks'
+                                  id='exampleText'
                                   value={
                                     departmentOfferRemarks
                                       ? departmentOfferRemarks
-                                      : ""
+                                      : ''
                                   }
                                   maxLength={255}
                                 />
@@ -1337,29 +1340,29 @@ const CareinstitutionForm = ({
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
                                 {languageTranslation(
-                                  "REMARKS_BOOKING_DEPARTEMENT"
+                                  'REMARKS_BOOKING_DEPARTEMENT'
                                 )}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
+                                  className='textarea-custom form-control'
+                                  rows='3'
                                   disabled={true}
-                                  type="textarea"
-                                  name="departmentBookingRemarks"
-                                  id="exampleText"
+                                  type='textarea'
+                                  name='departmentBookingRemarks'
+                                  id='exampleText'
                                   value={
                                     departmentBookingRemarks
                                       ? departmentBookingRemarks
-                                      : ""
+                                      : ''
                                   }
                                   maxLength={255}
                                 />
@@ -1368,27 +1371,27 @@ const CareinstitutionForm = ({
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
                                 {languageTranslation(
-                                  "REMARK_DEPARTMENT_VISIBLE_INTERNALLY"
+                                  'REMARK_DEPARTMENT_VISIBLE_INTERNALLY'
                                 )}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
+                                  className='textarea-custom form-control'
+                                  rows='3'
                                   disabled={true}
-                                  type="textarea"
-                                  name="departmentRemarks"
-                                  id="exampleText"
+                                  type='textarea'
+                                  name='departmentRemarks'
+                                  id='exampleText'
                                   value={
-                                    departmentRemarks ? departmentRemarks : ""
+                                    departmentRemarks ? departmentRemarks : ''
                                   }
                                   maxLength={255}
                                 />
@@ -1397,23 +1400,23 @@ const CareinstitutionForm = ({
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("WORKING_PROOF_NECESSARY")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('WORKING_PROOF_NECESSARY')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <FormGroup check inline>
-                                  <div className=" checkbox-custom mb-0">
+                                  <div className=' checkbox-custom mb-0'>
                                     <input
-                                      type="checkbox"
-                                      id="isWorkingProof"
-                                      name={"isWorkingProof"}
-                                      className=""
+                                      type='checkbox'
+                                      id='isWorkingProof'
+                                      name={'isWorkingProof'}
+                                      className=''
                                       checked={isWorkingProof}
                                       onChange={(
                                         e: React.ChangeEvent<HTMLInputElement>
@@ -1422,12 +1425,12 @@ const CareinstitutionForm = ({
                                           target: { checked },
                                         } = e;
                                         setFieldValue(
-                                          "isWorkingProof",
+                                          'isWorkingProof',
                                           checked
                                         );
                                       }}
                                     />
-                                    <Label for="isWorkingProof"></Label>
+                                    <Label for='isWorkingProof'></Label>
                                   </div>
                                 </FormGroup>
                               </div>
@@ -1435,23 +1438,23 @@ const CareinstitutionForm = ({
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("REMARK_OFFER")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('REMARK_OFFER')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
-                                  type="textarea"
-                                  name="offerRemarks"
-                                  id="exampleText"
-                                  value={offerRemarks ? offerRemarks : ""}
+                                  className='textarea-custom form-control'
+                                  rows='3'
+                                  type='textarea'
+                                  name='offerRemarks'
+                                  id='exampleText'
+                                  value={offerRemarks ? offerRemarks : ''}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   maxLength={255}
@@ -1461,23 +1464,23 @@ const CareinstitutionForm = ({
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
-                                {languageTranslation("REMARK_BOOKING")}
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
+                                {languageTranslation('REMARK_BOOKING')}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
-                                  type="textarea"
-                                  name="bookingRemarks"
-                                  id="exampleText"
-                                  value={bookingRemarks ? bookingRemarks : ""}
+                                  className='textarea-custom form-control'
+                                  rows='3'
+                                  type='textarea'
+                                  name='bookingRemarks'
+                                  id='exampleText'
+                                  value={bookingRemarks ? bookingRemarks : ''}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   maxLength={255}
@@ -1487,25 +1490,25 @@ const CareinstitutionForm = ({
                           </Row>
                         </FormGroup>
                       </Col>
-                      <Col lg={"12"}>
+                      <Col lg={'12'}>
                         <FormGroup>
                           <Row>
-                            <Col sm="4">
-                              <Label className="form-label col-form-label">
+                            <Col sm='4'>
+                              <Label className='form-label col-form-label'>
                                 {languageTranslation(
-                                  "COMMENT_ONLY_VISIBLE_INTERNALLY"
+                                  'COMMENT_ONLY_VISIBLE_INTERNALLY'
                                 )}
                               </Label>
                             </Col>
-                            <Col sm="8">
-                              <div className="required-input">
+                            <Col sm='8'>
+                              <div className='required-input'>
                                 <Input
-                                  className="textarea-custom form-control"
-                                  rows="3"
-                                  type="textarea"
-                                  name="comments"
-                                  id="exampleText"
-                                  value={comments ? comments : ""}
+                                  className='textarea-custom form-control'
+                                  rows='3'
+                                  type='textarea'
+                                  name='comments'
+                                  id='exampleText'
+                                  value={comments ? comments : ''}
                                   onChange={handleChange}
                                   maxLength={255}
                                   onBlur={handleBlur}
@@ -1516,51 +1519,51 @@ const CareinstitutionForm = ({
                         </FormGroup>
                       </Col>
                       {createdBy ? (
-                        <Col lg={"12"} className="mb-2 text-right text-muted">
-                          <i>{`${languageTranslation("CREATED_BY")} ${
-                            createdBy ? createdBy : ""
+                        <Col lg={'12'} className='mb-2 text-right text-muted'>
+                          <i>{`${languageTranslation('CREATED_BY')} ${
+                            createdBy ? createdBy : ''
                           }`}</i>
                         </Col>
                       ) : null}
                       {createdAt ? (
-                        <Col lg={"12"} className="mb-2 text-right text-muted">
+                        <Col lg={'12'} className='mb-2 text-right text-muted'>
                           <i>
-                            {`${languageTranslation("CREATED_AT")} ${
+                            {`${languageTranslation('CREATED_AT')} ${
                               createdAt
                                 ? moment(createdAt).format(
                                     defaultDateTimeFormatForDashboard
                                   )
-                                : ""
+                                : ''
                             }`}
                           </i>
                         </Col>
                       ) : null}
                       {updatedAt ? (
-                        <Col lg={"12"} className="mb-2 text-right text-muted">
+                        <Col lg={'12'} className='mb-2 text-right text-muted'>
                           <i>
-                            {`${languageTranslation("UPDATED_AT")} ${
+                            {`${languageTranslation('UPDATED_AT')} ${
                               updatedAt
                                 ? moment(updatedAt).format(
                                     defaultDateTimeFormatForDashboard
                                   )
-                                : ""
+                                : ''
                             }`}
                           </i>
                         </Col>
                       ) : null}
-                      <Col lg={"12"}>
-                        <div className="d-flex align-items-center justify-content-between">
+                      <Col lg={'12'}>
+                        <div className='d-flex align-items-center justify-content-between'>
                           <Button
-                            className={"btn-save"}
-                            color="danger"
+                            className={'btn-save'}
+                            color='danger'
                             onClick={() => onhandleDelete(appointmentId)}
                             disabled={!appointmentId}
                           >
-                            {languageTranslation("DELETE")}
+                            {languageTranslation('DELETE')}
                           </Button>
                           <Button
-                            className="btn-save"
-                            color="primary"
+                            className='btn-save'
+                            color='primary'
                             onClick={handleSubmit}
                             disabled={
                               addCareinstLoading || updateCareinstitutionLoading
@@ -1568,13 +1571,13 @@ const CareinstitutionForm = ({
                           >
                             {addCareinstLoading ||
                             updateCareinstitutionLoading ? (
-                              <i className="fa fa-spinner fa-spin mr-2" />
+                              <i className='fa fa-spinner fa-spin mr-2' />
                             ) : (
-                              ""
+                              ''
                             )}
                             {appointmentId
-                              ? languageTranslation("UPDATE_BUTTON")
-                              : languageTranslation("SAVE_BUTTON")}
+                              ? languageTranslation('UPDATE_BUTTON')
+                              : languageTranslation('SAVE_BUTTON')}
                           </Button>
                         </div>
                       </Col>

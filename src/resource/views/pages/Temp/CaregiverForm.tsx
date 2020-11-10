@@ -164,6 +164,7 @@ export const CaregiverForm = ({
       }
     },
   });
+console.log('hiiiiii nikku');
 
   // Mutation to update careGiver data
   const [

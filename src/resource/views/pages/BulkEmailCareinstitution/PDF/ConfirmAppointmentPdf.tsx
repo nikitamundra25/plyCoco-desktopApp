@@ -137,17 +137,18 @@ const ConfirmAppointmentPdf: FunctionComponent<
           </Link>
           {selectedCellsCareinstitution &&
           selectedCellsCareinstitution.length &&
-          selectedCellsCareinstitution[0].canstitution ? (
+          selectedCellsCareinstitution[0].canstitution &&
+          selectedCellsCareinstitution[0].canstitution.canstitution ? (
             <>
               <Text style={styles.subtext}>
-                {selectedCellsCareinstitution[0].canstitution.companyName || ""}
+                {selectedCellsCareinstitution[0].canstitution.canstitution.companyName || ""}
               </Text>
               <Text style={styles.subtext}>
-                {selectedCellsCareinstitution[0].canstitution.street || "-"}
+                {selectedCellsCareinstitution[0].canstitution.canstitution.street || "-"}
               </Text>
               <Text style={styles.subtext}>
-                {selectedCellsCareinstitution[0].canstitution.zipCode || ""}{" "}
-                {selectedCellsCareinstitution[0].canstitution.city || ""}
+                {selectedCellsCareinstitution[0].canstitution.canstitution.zipCode || ""}{" "}
+                {selectedCellsCareinstitution[0].canstitution.canstitution.city || ""}
               </Text>
             </>
           ) : null}

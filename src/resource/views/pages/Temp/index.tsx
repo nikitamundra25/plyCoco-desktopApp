@@ -52,8 +52,10 @@ export const TempPage = () => {
   // If appointment is confirmed by care-institution need to update caregiver cell in case of leasing
   const [confirmLeasing, setConfirmLeasing] = useState<any>();
   const [correspondingData, setCorrespondingData] = useState<any>([]);
-const [correspondingDataCaregiver, setcorrespondingDataCaregiver] = useState<any>()
-  // To fetch qualification attributes list
+  const [correspondingDataCaregiver, setcorrespondingDataCaregiver] = useState<any>()
+  const [removeContract, setRemoveConract]=useState<boolean>(true)
+  
+// To fetch qualification attributes list
   const { data: qualificationData, loading } = useQuery<IQualifications>(
     GET_QUALIFICATION_ATTRIBUTE
   );
@@ -83,6 +85,7 @@ const [correspondingDataCaregiver, setcorrespondingDataCaregiver] = useState<any
    * @param caregiverData
    */
   const caregiverSelected = (caregiverData: any) => {
+    setRemoveConract(true)
     setSelectedCaregiver(caregiverData);   
     if (caregiverData && caregiverData.length) {
       const { item = undefined } = caregiverData[0]
@@ -263,6 +266,8 @@ const handleStarCaregiverValue= (starCaregiver:IStarInterface) =>{
                       filterUpdated={setFilterObject}
                       filters={filterObject}
                       setcaregiverStarData={setcaregiverStarData}
+                      removeContract={removeContract} 
+                      setRemoveConract={setRemoveConract}
                     />
                   </Col>
                   <Col

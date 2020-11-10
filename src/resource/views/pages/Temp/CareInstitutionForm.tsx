@@ -548,7 +548,7 @@ const CareinstitutionForm = ({
     isLeasingAppointment = item.isLeasing;
   }  
   // To check appointment with leasing careInst or not
-  showQualification = item && item[0] && item[0].isLeasing ? true : false;
+  showQualification = item && item.isLeasing ? true : false;
    
   const { canstitution ,qualificationId: mainQuali = [],id: userCanstId='', divisionId=''  } = careInstDetails;
   const {

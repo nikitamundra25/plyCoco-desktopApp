@@ -133,13 +133,14 @@ export const CaregiverForm = ({
   caregiverStarData,
   filterUpdated,
   filters,
-  setcaregiverStarData
+  setcaregiverStarData,
+  setRemoveConract,
+  removeContract
 }: any) => {
   const [tempState, setTempState] = useState(false);
   const [timeSlotError, setTimeSlotError] = useState<string>("");
   // store the previous entered value in state
   const [caregiverLastTimeValues, setcaregiverLastTimeValues] = useState<any>();
-
   // Mutation to add careGiver data
   const [
     addCaregiverAvailability,
@@ -183,7 +184,7 @@ export const CaregiverForm = ({
     },
   });
 
-  // Mutation to delete caregiver
+  // Mutation to delete caregiver here
   const [deleteCaregiverAvailability, {}] = useMutation<
     {
       deleteCaregiverAvailability: any;
@@ -192,6 +193,7 @@ export const CaregiverForm = ({
   >(DELETE_CAREGIVER_AVABILITY, {
     onCompleted({ deleteCareGiverAvability }: any) {
       setSelectedCaregiver([]);
+      setRemoveConract(false)
       handleupdateData(deleteCareGiverAvability, "caregiver");
     },
   });
@@ -2000,13 +2002,11 @@ export const CaregiverForm = ({
                               </a>
                             ) : null}
                             <br />
-
-
-                            {attachment 
-                            && leasingContract &&
+                            {attachment && removeContract
+                           /*  && leasingContract &&
                             leasingContract.length &&
                             leasingContract[0] &&
-                            leasingContract[0].avabilityId === appointmentId ? (
+                            leasingContract[0].avabilityId === appointmentId */ ? (
                               <a
                                 href={`${AppConfig.FILES_ENDPOINT}${attachment}`}
                                 target={"_blank"}
@@ -2018,8 +2018,6 @@ export const CaregiverForm = ({
                             ) : getContractByAppointmentID &&
                               getContractByAppointmentID.length &&
                               selfEmploymentcontract ? (
-                              // && selectedCells && selectedCells.length && selectedCells[0].item && selectedCells[0].item.appointments && selectedCells[0].item.appointments.length && selectedCells[0].item.appointments[0] && contractApptmentIds.includes(selectedCells[0].item.appointments[0].id
-                              // )
                               <a
                                 href={`${AppConfig.FILES_ENDPOINT}${selfEmploymentcontract}`}
                                 target={"_blank"}

@@ -147,11 +147,15 @@ const CareinstitutionRightClickOptions = (props: any) => {
             ...canstitution,
           },
           isLeasing,
-          item: itemData[index],
+          item: {
+            ...item,
+            stem
+          },
         };
         temp.push(data);
       }
     );
+    console.log("temptemp",temp);
     careinstitutionSelected(temp);
   };
 

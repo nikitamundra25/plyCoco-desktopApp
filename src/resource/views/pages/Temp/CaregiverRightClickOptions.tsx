@@ -144,6 +144,8 @@ export const CaregiverRightClickOptions = ({
 
       temp.push(data);
     });
+  
+    
     onUpdateStatus(temp);
   };
   /**
